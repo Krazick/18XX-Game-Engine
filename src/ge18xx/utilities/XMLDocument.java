@@ -99,7 +99,7 @@ public class XMLDocument {
 		}
 	}
 
-	public XMLDocument ParseXMLString (String aXMLString) {
+	public XMLDocument parseXMLString (String aXMLString) {
 		DocumentBuilderFactory tDocBuilderFac;
 		DocumentBuilder tDocBuilder;
 

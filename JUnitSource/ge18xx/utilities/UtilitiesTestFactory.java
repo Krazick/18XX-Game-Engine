@@ -12,7 +12,7 @@ public class UtilitiesTestFactory {
 	public XMLDocument buildXMLDocument (String aXMLText) {
 		XMLDocument tXMLDocument;
 
-		tXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
+		tXMLDocument = theXMLDocument.parseXMLString (aXMLText);
 
 		return tXMLDocument;
 	}

@@ -2484,7 +2484,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tActionIndex;
 
 		tXMLNetworkAction = new XMLDocument ();
-		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
+		tXMLNetworkAction = tXMLNetworkAction.parseXMLString (aNetworkAction);
 		tGSResponseNode = tXMLNetworkAction.getDocumentNode ();
 		if (tGSResponseNode != XMLNode.NO_NODE) {
 			tGSRNodeName = tGSResponseNode.getNodeName ();
@@ -2528,7 +2528,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tPlayerOrder;
 
 		tXMLGameActivity = new XMLDocument ();
-		tXMLGameActivity = tXMLGameActivity.ParseXMLString (aGameActivity);
+		tXMLGameActivity = tXMLGameActivity.parseXMLString (aGameActivity);
 		tXMLGameActivityNode = tXMLGameActivity.getDocumentNode ();
 		tGANodeName = tXMLGameActivityNode.getNodeName ();
 		if (JGameClient.EN_GAME_ACTIVITY.equals (tGANodeName)) {
