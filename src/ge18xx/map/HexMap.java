@@ -1666,6 +1666,18 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tCompanyAbbrev;
 	}
 	
+	public MapCell getMapCellByInfo (String aHomeMapCellInfo) {
+		MapCell tMapCell;
+		String tMapCellID;
+		String tMapCellInfo [];
+		
+		tMapCellInfo = aHomeMapCellInfo.split (":");
+		tMapCellID = tMapCellInfo [2];
+		tMapCell = this.getMapCellForID (tMapCellID);
+		
+		return tMapCell;
+	}
+
 	public void replaceMapToken (String aMapCellID, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 			ReplaceTokenAction aReplaceTokenAction) {
 		MapCell tMapCell;
