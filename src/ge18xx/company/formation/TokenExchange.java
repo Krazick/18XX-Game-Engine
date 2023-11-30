@@ -2,6 +2,8 @@ package ge18xx.company.formation;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
+import ge18xx.map.MapCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.round.RoundManager;
@@ -28,21 +31,17 @@ import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TokenExchangeFinishedAction;
 import ge18xx.utilities.GUI;
 
-// Actions:
-// 1. Collect a list of Revenue Centers that are home Centers for companies folding in
-// 2. Collect a list of Revenue Centers (scan whole map) that have Tokens for Companies foleded in, without Home
-// 3. Display a list of all Home Centers that MUST be upgraded to CGR with "DO IT" button
-// 4. Display a list of non-home Center Revenue Centers
-//     A. With Checkbox for each one (if selected - highlight on Map - change Revenue Center to have a SELECTED State
-//     B. with one "DO IT" BUtton
-// 5. When both DO IT buttons applied, then have "DONE" Button enabled
-// 6. Each DO IT Button will replaced the appropriate Token with CGR Tokens
-// 7. When DONE button is selected, remove Tokens not replaced from no-Home Center list
-// 8. Clear all Revenue Center States and redraw map
+// TODO:
+// 
+// 1. Identify who is the President of the Forming Company, and adjust the payer to that Player
+// 2. When the Player is DONE, find any Destination and Remove it from the Game Map
+// 3. Confirm that after DONE, we shift to the Asset Collection Phase
+// 4. Verify full Functionality from Loan Repayment through all of Token Exchange
+// 5. Repeat the Verification for Network Based Game
+// 6. Remove Debug Output
+//
 
-// New Action: "Remove Token from Map"
-
-public class TokenExchange extends PlayerFormationPhase {
+public class TokenExchange extends PlayerFormationPhase implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
 	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
@@ -52,8 +51,9 @@ public class TokenExchange extends PlayerFormationPhase {
 	JLabel homeTokensLabel;
 	JLabel nonHomeTokensLabel;
 
-	List<String> homeMapCellIDs;
-	List<String> nonHomeMapCellIDs;
+	List<JCheckBox> nonHomeMapCellIDCheckbox;
+	List<String> homeMapCellsInfo;
+	List<String> nonHomeMapCellsInfo;
 	ReplaceTokenAction replaceTokenAction;
 	
 	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
@@ -109,8 +109,9 @@ public class TokenExchange extends PlayerFormationPhase {
 		
 		tShareCompanyJPanel = new JPanel ();
 		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.Y_AXIS));	
-		homeMapCellIDs = new LinkedList<String> ();
-		nonHomeMapCellIDs = new LinkedList<String> ();
+		homeMapCellsInfo = new LinkedList<String> ();
+		nonHomeMapCellsInfo = new LinkedList<String> ();
+		nonHomeMapCellIDCheckbox = new LinkedList<JCheckBox> ();
 		// NOTE:   
 		// Exchange Home Tokens of (ABC, DEF, GHI...) for XXX Tokens   
 		tCorporateColorBorder = aFormingShareCompany.setupBorder ();
@@ -153,12 +154,12 @@ public class TokenExchange extends PlayerFormationPhase {
 		}
 		tShareCompanyJPanel.add (nonHomeTokensLabel);
 		nonHomeTokensLabel.setAlignmentX (Component.LEFT_ALIGNMENT);
-		tNonHomeStations = nonHomeMapCellIDs.toString ();
+		tNonHomeStations = nonHomeMapCellsInfo.toString ();
 		System.out.println (tNonHomeStations);
 		
 		// Add Checkbox for each Non-Home Token
 		
-		buildNonHomeCheckboxes ();
+		buildNonHomeCheckboxes (aFormingShareCompany);
 		tShareCompanyJPanel.add (nonHomeCheckboxesPanel);
 		nonHomeCheckboxesPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tShareCompanyJPanel.add (nonHomeTokensExchange);
@@ -167,20 +168,87 @@ public class TokenExchange extends PlayerFormationPhase {
 		return tShareCompanyJPanel;
 	}
 	
-	public void buildNonHomeCheckboxes () {
+	public void buildNonHomeCheckboxes (ShareCompany aFormingShareCompany) {
 		JCheckBox tMapCellIDCheckbox;
 		String tSimpleTokenInfo;
+		String tToolTip;
+		MapCell tMapCell;
+		HexMap tHexMap;
 	
 		nonHomeCheckboxesPanel = new JPanel ();
 		nonHomeCheckboxesPanel.setLayout (new BoxLayout (nonHomeCheckboxesPanel, BoxLayout.X_AXIS));
-		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
-			tSimpleTokenInfo = getSimpleTokenInfo (tNonHomeMapCellID);
+		tHexMap = gameManager.getGameMap ();
+		tToolTip = "Map Cell already has a token for " + aFormingShareCompany.getAbbrev () + ".";
+		for (String tNonHomeMapCellInfo : nonHomeMapCellsInfo) {
+			tSimpleTokenInfo = getSimpleTokenInfo (tNonHomeMapCellInfo);
+			tMapCell = tHexMap.getMapCellByInfo (tNonHomeMapCellInfo);
 			tMapCellIDCheckbox = new JCheckBox (tSimpleTokenInfo);
-			
+			tMapCellIDCheckbox.setSelected (true);
+			tMapCellIDCheckbox.addItemListener (this);
+			if (alreadyInHomeCells (tNonHomeMapCellInfo)) {
+				tMapCellIDCheckbox.setEnabled (false);
+				tMapCellIDCheckbox.setSelected (false);
+				tMapCellIDCheckbox.setToolTipText (tToolTip);
+			} else if (tMapCell.hasStation (aFormingShareCompany.getID ())) {
+				tMapCellIDCheckbox.setEnabled (false);
+				tMapCellIDCheckbox.setSelected (false);
+				tMapCellIDCheckbox.setToolTipText (tToolTip);
+			}
+			nonHomeMapCellIDCheckbox.add (tMapCellIDCheckbox);
 			nonHomeCheckboxesPanel.add (tMapCellIDCheckbox);
 		}
 	}
+	
+	@Override
+	public void itemStateChanged (ItemEvent aItemEvent) {
+	    Object tSource;
+	    JCheckBox tCheckbox;
+	    String tTitle;
+	    String tNonHomeSimpleInfo;
+	    String tNonHomeMapCellInfo;
+	    int tLength;
+	    int tInfoCount;
+	    int tInfoIndex;
+	    
+	    tSource = aItemEvent.getItemSelectable ();
+	    tTitle = GUI.EMPTY_STRING;
+	    if (tSource instanceof JCheckBox) {
+	    		tCheckbox = (JCheckBox) tSource;
+	    		tTitle = tCheckbox.getText ();
+	    		tInfoCount = nonHomeMapCellsInfo.size ();
+	    		for (tInfoIndex = 0; tInfoIndex < tInfoCount; tInfoIndex++) {
+	    			tNonHomeMapCellInfo = nonHomeMapCellsInfo.get (tInfoIndex);
+		    		tNonHomeSimpleInfo = getSimpleTokenInfo (tNonHomeMapCellInfo);
+		    		if (tNonHomeSimpleInfo.equals (tTitle)) {
+		    			if (tCheckbox.isSelected ()) {
+		    				tLength = tNonHomeMapCellInfo.length ();
+		    				tNonHomeMapCellInfo = tNonHomeMapCellInfo.substring (0, tLength - 2);
+		    			} else {
+		    				tNonHomeMapCellInfo += ":X";
+		    			}
+		    			nonHomeMapCellsInfo.set (tInfoIndex, tNonHomeMapCellInfo);
+		    		}
+		    }
+	    }
+	}
 
+	public boolean alreadyInHomeCells (String aMapCellInfo) {
+		boolean tAlreadyInHomeCells;
+		String [] tMapCellInfo;
+		String [] tHomeMapCellInfo;
+		
+		tAlreadyInHomeCells = false;
+		tMapCellInfo = aMapCellInfo.split (":");
+		for (String tHomeMapCellID : homeMapCellsInfo) {
+			tHomeMapCellInfo = tHomeMapCellID.split (":");
+			if (tMapCellInfo [2].equals (tHomeMapCellInfo [2])) {
+				tAlreadyInHomeCells = true;
+			}
+		}
+		
+		return tAlreadyInHomeCells;
+	}
+	
 	public String getSimpleTokenInfo (String aMapCellInfo) {
 		String [] tMapCellInfo;
 		String tSimpleTokenInfo;
@@ -213,16 +281,16 @@ public class TokenExchange extends PlayerFormationPhase {
 		tHomeMapCell1 = aTokenCompany.getCorpHome1MapID ();
 		tCorpID = aTokenCompany.getID ();
 		tTokenLocation = tHexMap.getTokenLocation (tHomeMapCell1, tAbbrev, tCorpID);
-		homeMapCellIDs.add (tTokenLocation);
+		homeMapCellsInfo.add (tTokenLocation);
 
 		tHomeTokenInfo = "[" + tTokenLocation + "]";
 		
 		tHomeMapCell2 = aTokenCompany.getCorpHome2MapID ();
 		if (! GUI.EMPTY_STRING.equals (tHomeMapCell2)) {
 			tTokenLocation = tHexMap.getTokenLocation (tHomeMapCell2, tAbbrev, tCorpID);
-			if (! homeMapCellIDs.contains (tTokenLocation)) {
+			if (! homeMapCellsInfo.contains (tTokenLocation)) {
 				tHomeTokenInfo += " & [" + tTokenLocation + "]";
-				homeMapCellIDs.add (tTokenLocation);
+				homeMapCellsInfo.add (tTokenLocation);
 			}
 		}
 		
@@ -251,7 +319,7 @@ public class TokenExchange extends PlayerFormationPhase {
 				if (tTokenCompany.willFold ()) {
 					tCorpID = tTokenCompany.getID ();
 					tAbbrev = tTokenCompany.getAbbrev ();
-					tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellIDs, nonHomeMapCellIDs);
+					tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellsInfo, nonHomeMapCellsInfo);
 				}
 			}
 		}
@@ -264,7 +332,7 @@ public class TokenExchange extends PlayerFormationPhase {
 					if (tTokenCompany.willFold ()) {
 						tCorpID = tTokenCompany.getID ();
 						tAbbrev = tTokenCompany.getAbbrev ();
-						tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellIDs, nonHomeMapCellIDs);
+						tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellsInfo, nonHomeMapCellsInfo);
 					}
 				}
 			}
@@ -462,15 +530,15 @@ public class TokenExchange extends PlayerFormationPhase {
 	}
 	
 	public void exchangeHomeTokens () {
-		exchangeTokens (homeMapCellIDs, true);
+		exchangeTokens (homeMapCellsInfo, true);
 	}
 		
 	public void exchangeNonHomeTokens () {
 		System.out.println ("Ready to Exchange all Non-Homes Tokens");
-		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
+		for (String tNonHomeMapCellID : nonHomeMapCellsInfo) {
 			System.out.println ("Swap out Token on MapCellID " + tNonHomeMapCellID);
 		}
-		exchangeTokens (nonHomeMapCellIDs, false);
+		exchangeTokens (nonHomeMapCellsInfo, false);
 	}
 	
 	@Override
