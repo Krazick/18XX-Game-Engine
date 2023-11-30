@@ -37,6 +37,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected GameManager gameManager;
 	protected FormationPhase formationPhase;
 	protected List<String> shareCompaniesHandled;
+
 	JPanel buttonsPanel;
 	JButton continueButton;
 	JButton doneButton;
@@ -139,7 +140,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		
 		add (buttonsPanel);
 	}
-
+	
 	public void updateSpecialButtons (boolean aActingPlayer) {
 		
 	}
