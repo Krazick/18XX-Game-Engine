@@ -810,11 +810,19 @@ public class Centers implements Cloneable {
 		int tTokenCompanyID;
 		int tRevenueCenterCount;
 		int tRevenueCenterIndex;
+		boolean tReplaceToken;
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		
 		tTokenCompanyID = aFoldingCompany.getID ();
 		tRevenueCenterCount = centers.size ();
+		tReplaceToken = true;
+		if (aMapCellInfo.length > 4) {
+			if (aMapCellInfo [4].equals ("X")) {
+				tReplaceToken = false;
+			}
+		}
+
 		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
 			tRevenueCenter = centers.get (tRevenueCenterIndex);
 			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
@@ -822,8 +830,9 @@ public class Centers implements Cloneable {
 				if (tCity.cityHasStation (tTokenCompanyID)) {
 					removeMapToken (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
 					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
-					layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,
-								tRevenueCenterIndex, tCity);
+					if (tReplaceToken) {
+						layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
+					}
 				}
 			}
 		}
