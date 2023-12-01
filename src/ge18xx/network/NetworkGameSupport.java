@@ -17,63 +17,39 @@ public interface NetworkGameSupport {
 	public final static int WAIT_TIME = 10;
 
 	public void updatePlayerCountLabel ();
-
 	public void addNetworkPlayer (String aPlayerName);
-
 	public void removeNetworkPlayer (String aPlayerName);
-
 	public void removeAllNetworkPlayers ();
-
 	public void handleGameActivity (String aGameActivity);
-
-	public JGameClient getNetworkJGameClient ();
-
-	public int getSelectedGameIndex ();
-
-	public void setSelectedGameIndex (int aGameIndex);
-
 	public String getPlayersInOrder ();
-
 	public void randomizePlayerOrder ();
-
 	public void initiateNetworkGame ();
-
 	public boolean gameStarted ();
-
 	public Point getOffsetGEFrame ();
-
-	public String getGameID ();
-
-	public void resetGameID (String aGameID);
-
-	public String getXMLBaseDirectory ();
-
-	public void parseNetworkSavedGames (String aResponse);
-
 	public String getClientUserName ();
-
+	public void parseNetworkSavedGames (String aResponse);
 	public void loadAutoSavedGame (String aAutoSaveFileName);
-
-	public String getGEVersion ();
-
 	public void updateDisconnectButton ();
-	
 	public FileUtils getFileUtils ();
-
-	// Needs specific ge18xx XMLFrame Imports
+	
+	public int getSelectedGameIndex ();
+	public void setSelectedGameIndex (int aGameIndex);
 
 	public void addNewFrame (XMLFrame aJGameClient);
 
 	// Needs Log4J Imports
 	public Logger getLogger ();
-
+	public String getXMLBaseDirectory ();
 	public XMLElement getGameVariantsXMLElement ();
-
 	public GameInfo getSelectedGame ();
 	
+	public void setGameID (String aGameID);
+	public String getGameID ();
+	public void resetGameID (String aGameID);
+
+	public String getGEVersion ();
 	public String getEnvironmentVersionInfo ();
 
-	public void setGameID (String aGameID);
-	
+	public JGameClient getNetworkJGameClient ();
 	public PlayerInputFrame getPlayerInputFrame ();
 }
