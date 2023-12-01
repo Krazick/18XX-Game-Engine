@@ -38,6 +38,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
 	List <UserPreference> userPreferences;
+
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
