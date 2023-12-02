@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.game.GameInfo;
+import ge18xx.game.GameSet;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.FileUtils;
@@ -52,4 +53,5 @@ public interface NetworkGameSupport {
 
 	public JGameClient getNetworkJGameClient ();
 	public PlayerInputFrame getPlayerInputFrame ();
+	public GameSet getGameSet ();
 }

@@ -52,7 +52,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
-import ge18xx.utilities.Validators;
+//import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -197,7 +197,11 @@ public class JGameClient extends XMLFrame {
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aVersionMismatch, 
 			String aServerIP, int aServerPort) {
 		super (aTitle, (GameManager) aGameManager);
+		
+		GameSet tGameSet;
 		Point tNewPoint;
+		String tServerIP;
+		int tServerPort;
 
 		StyleConstants.setBold (errorStyle, true);
 		StyleConstants.setFontSize (errorStyle, 16);
@@ -208,8 +212,14 @@ public class JGameClient extends XMLFrame {
 		networkMessage = new NetworkMessages ();
 		setupJFrame ();
 		setupActions ();
-		setServerIP (aServerIP);
-		setServerPort (aServerPort);
+		
+		tGameSet = gameManager.getGameSet ();
+		tServerIP = tGameSet.getRemoteServerIP ();
+		tServerPort = tGameSet.getServerPort ();
+		setServerIP (tServerIP);
+		setServerPort (tServerPort);
+		serverIPField.setText (tServerIP);
+		
 		if (gameManager != GameManager.NO_GAME_MANAGER) {
 			gameManager.addNewFrame (this);
 			tNewPoint = gameManager.getOffsetGEFrame ();
@@ -238,23 +248,24 @@ public class JGameClient extends XMLFrame {
 		updateFrameTitle (BASE_TITLE);
 	}
 
-	private boolean setupServerInfo () {
-		String tServerIPEntered;
-		boolean tGoodServer;
+//	private boolean setupServerInfo () {
+////		String tServerIPEntered;
+//		boolean tGoodServer;
 
-		tServerIPEntered = serverIPField.getText ();
-		if (Validators.isValidIP (tServerIPEntered)) {
-			setServerIP (tServerIPEntered);
-			tGoodServer = true;
-		} else {
-			tServerIPEntered = "BAD " + tServerIPEntered;
-			serverIPField.setText (tServerIPEntered);
-			tGoodServer = false;
-		}
-		setServerPort (DEFAULT_SERVER_PORT);
-
-		return tGoodServer;
-	}
+//		tGoodServer = true;
+//		tServerIPEntered = serverIPField.getText ();
+//		if (Validators.isValidIP (tServerIPEntered)) {
+//			setServerIP (tServerIPEntered);
+//			tGoodServer = true;
+//		} else {
+//			tServerIPEntered = "BAD " + tServerIPEntered;
+//			serverIPField.setText (tServerIPEntered);
+//			tGoodServer = false;
+//		}
+//		setServerPort (DEFAULT_SERVER_PORT);
+		
+//		return tGoodServer;
+//	}
 
 	private boolean setupNewPlayer (String aAction) {
 		boolean tValidNewPlayer = false;
@@ -277,16 +288,18 @@ public class JGameClient extends XMLFrame {
 	}
 
 	private void setupServerAndPlayer (String aAction) {
-		if (setupServerInfo ()) {
+//		if (setupServerInfo ()) {
 			setupNewPlayer (aAction);
-		}
+//		}
 	}
 
 	private void setupActions () {
 		connectButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction = aActionEvent.getActionCommand ();
+				String tAction;
+				
+				tAction = aActionEvent.getActionCommand ();
 				setupServerAndPlayer (tAction);
 			}
 		});
@@ -798,6 +811,7 @@ public class JGameClient extends XMLFrame {
 		ChatServerHandler tChatServerHandler;
 
 		try {
+			System.out.println ("Tring to connect to " + serverIP + " on Port " + serverPort);
 			tChatServerHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
 			if (tChatServerHandler != ServerHandler.NO_SERVER_HANDLER) {
 				setServerHandler (tChatServerHandler);
