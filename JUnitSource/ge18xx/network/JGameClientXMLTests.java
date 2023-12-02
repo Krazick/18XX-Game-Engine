@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("JGameClient XML Tests")
 public class JGameClientXMLTests {
@@ -16,12 +17,15 @@ public class JGameClientXMLTests {
 
 	@BeforeEach
 	public void setUp () {
+		PlayerInputFrame mPlayerInputFrame;
 		GameManager tGameManager;
 		String tClientName;
 
 		testFactory = new GameTestFactory ();
 		tClientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (tClientName);
+		mPlayerInputFrame = testFactory.buildPIFMockWithGameSet ();
+		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
 	}
 
