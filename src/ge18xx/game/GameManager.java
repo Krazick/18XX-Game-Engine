@@ -1761,6 +1761,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		activeGame.loadVariantEffects (aGameInfoNode);
 	}
 
+	@Override
+	public GameSet getGameSet () {
+		GameSet tGameSet;
+		
+		tGameSet = playerInputFrame.getGameSet ();
+		
+		return tGameSet;
+	}
+	
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
 		FormationPhase tFormationPhase;
 		
