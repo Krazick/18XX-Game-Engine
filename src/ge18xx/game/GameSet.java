@@ -43,6 +43,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_GAMES = new ElementName ("Games");
 	final ElementName EN_NETWORK = new ElementName ("Network");
 	final AttributeName AN_GE_VERSION = new AttributeName ("ge18XXVersion");
+	final AttributeName AN_LOCAL_SERVER_IP = new AttributeName ("localServerIP");
+	final AttributeName AN_REMOTE_SERVER_IP = new AttributeName ("remoteServerIP");
+	final AttributeName AN_SERVER_PORT = new AttributeName ("serverPort");
 	public static final int NO_GAME_SELECTED = -1;
 	public static final GameSet NO_GAME_SET = null;
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
@@ -70,6 +73,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	int selectedGameIndex;
 	int gameIndex;
 	String geVersion;
+	String localServerIP;
+	String remoteServerIP;
+	int serverPort;
 
 	public GameSet (PlayerInputFrame aPlayerInputFrame) {
 		setGEVersion (GUI.NULL_STRING);
@@ -332,6 +338,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		int tChildrenCount;
 		int tIndex;
 		int tGameCount;
+		int tServerPort;
+		String tLocalServerIP;
+		String tRemoteServerIP;
 
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -348,6 +357,14 @@ public class GameSet implements LoadableXMLI, ActionListener {
 				gameIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, GameInfo.EN_GAME_INFO);
 			}
+			if (EN_NETWORK.equals (tChildName)) {
+				tLocalServerIP = tChildNode.getThisAttribute (AN_LOCAL_SERVER_IP);
+				tRemoteServerIP = tChildNode.getThisAttribute (AN_REMOTE_SERVER_IP);
+				tServerPort = tChildNode.getThisIntAttribute (AN_SERVER_PORT);
+				setLocalServerIP (tLocalServerIP);
+				setRemoteServerIP (tRemoteServerIP);
+				setServerPort (tServerPort);
+			}
 		}
 	}
 
@@ -363,6 +380,30 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 	}
 
+	public void setLocalServerIP (String aLocalServerIP) {
+		localServerIP = aLocalServerIP;
+	}
+	
+	public void setRemoteServerIP (String aRemoteServerIP) {
+		remoteServerIP = aRemoteServerIP;
+	}
+	
+	public String getLocalServerIP () {
+		return localServerIP;
+	}
+	
+	public String getRemoteServerIP () {
+		return remoteServerIP;
+	}
+	
+	public void setServerPort (int aServerPort) {
+		serverPort = aServerPort;
+	}
+	
+	public int getServerPort () {
+		return serverPort;
+	}
+	
 	public void handleGameVariants (XMLNode aVariantEffectsNode) {
 		int tSelectedGameIndex;
 
