@@ -54,7 +54,8 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 		tGameManager = aRoundManager.getGameManager ();
 		tFormationPhase = (FormationPhase) tGameManager.getTriggerClass ();
 		tFormationPhase.setHomeTokensExchanged (getBooleanFlag ());
-
+		tEffectApplied = true;
+		
 		return tEffectApplied;
 	}
 

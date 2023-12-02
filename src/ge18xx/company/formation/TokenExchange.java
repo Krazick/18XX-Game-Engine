@@ -99,7 +99,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		Border tCorporateColorBorder;
 		String tExchangeHomeTokens;
 		String tTokenLocations;
-		String tNonHomeStations;
+
 		String tSimpleTokenInfo;
 		String tTokenLocation;
 		ShareCompany tShareCompany;
@@ -154,8 +154,6 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		}
 		tShareCompanyJPanel.add (nonHomeTokensLabel);
 		nonHomeTokensLabel.setAlignmentX (Component.LEFT_ALIGNMENT);
-		tNonHomeStations = nonHomeMapCellsInfo.toString ();
-		System.out.println (tNonHomeStations);
 		
 		// Add Checkbox for each Non-Home Token
 		
@@ -185,14 +183,20 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 			tMapCellIDCheckbox = new JCheckBox (tSimpleTokenInfo);
 			tMapCellIDCheckbox.setSelected (true);
 			tMapCellIDCheckbox.addItemListener (this);
-			if (alreadyInHomeCells (tNonHomeMapCellInfo)) {
+			if (actingPlayer) {
+				if (alreadyInHomeCells (tNonHomeMapCellInfo)) {
+					tMapCellIDCheckbox.setEnabled (false);
+					tMapCellIDCheckbox.setSelected (false);
+					tMapCellIDCheckbox.setToolTipText (tToolTip);
+				} else if (tMapCell.hasStation (aFormingShareCompany.getID ())) {
+					tMapCellIDCheckbox.setEnabled (false);
+					tMapCellIDCheckbox.setSelected (false);
+					tMapCellIDCheckbox.setToolTipText (tToolTip);
+				}
+			} else {
 				tMapCellIDCheckbox.setEnabled (false);
 				tMapCellIDCheckbox.setSelected (false);
-				tMapCellIDCheckbox.setToolTipText (tToolTip);
-			} else if (tMapCell.hasStation (aFormingShareCompany.getID ())) {
-				tMapCellIDCheckbox.setEnabled (false);
-				tMapCellIDCheckbox.setSelected (false);
-				tMapCellIDCheckbox.setToolTipText (tToolTip);
+				tMapCellIDCheckbox.setToolTipText (NOT_ACTING_PRESIDENT);
 			}
 			nonHomeMapCellIDCheckbox.add (tMapCellIDCheckbox);
 			nonHomeCheckboxesPanel.add (tMapCellIDCheckbox);
@@ -369,9 +373,9 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		tActionCommand = aEvent.getActionCommand ();
 		
 		if (tActionCommand.equals (EXCHANGE_HOME_TOKEN)) {
-			exchangeHomeTokens ();
+			exchangeTokens (homeMapCellsInfo, true);
 		} else if (tActionCommand.equals (EXCHANGE_NON_HOME_TOKEN)) {
-			exchangeNonHomeTokens ();
+			exchangeTokens (nonHomeMapCellsInfo, false);
 		} else if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
 		} else if (tActionCommand.equals (FormationPhase.ASSET_COLLECTION)) {
@@ -527,18 +531,6 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		tRoundType = tRoundManager.getCurrentRoundType ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
-	}
-	
-	public void exchangeHomeTokens () {
-		exchangeTokens (homeMapCellsInfo, true);
-	}
-		
-	public void exchangeNonHomeTokens () {
-		System.out.println ("Ready to Exchange all Non-Homes Tokens");
-		for (String tNonHomeMapCellID : nonHomeMapCellsInfo) {
-			System.out.println ("Swap out Token on MapCellID " + tNonHomeMapCellID);
-		}
-		exchangeTokens (nonHomeMapCellsInfo, false);
 	}
 	
 	@Override
