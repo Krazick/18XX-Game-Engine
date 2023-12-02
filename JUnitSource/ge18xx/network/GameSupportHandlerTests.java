@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Game Support Handler Tests")
 @ExtendWith (MockitoExtension.class)
@@ -19,6 +20,7 @@ class GameSupportHandlerTests {
 	GameSupportHandler gameSupportHandler;
 	GameTestFactory testFactory;
 	NetworkTestFactory networkTestFactory;
+	PlayerInputFrame mPlayerInputFrame;
 	JGameClient jGameClient;
 	String clientName;
 	ChatServerHandler mChatServerHandler;
@@ -30,6 +32,8 @@ class GameSupportHandlerTests {
 		testFactory = new GameTestFactory ();
 		clientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (clientName);
+		mPlayerInputFrame = testFactory.buildPIFMockWithGameSet ();
+		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
 
 		gameSupportHandler = new GameSupportHandler (jGameClient);
@@ -57,9 +61,15 @@ class GameSupportHandlerTests {
 		String tBadResponse = "<GSResponse><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tFoundGameID;
 
+		System.out.println ("Start Retrieving Good Game ID");
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tGoodResponse);
+		System.out.println ("Found First ID " + tFoundGameID);
 		assertEquals ("2021-07-31-2005", tFoundGameID);
+		
+		System.out.println ("Start Retrieving Bad Game ID");
+		
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tBadResponse);
+		System.out.println ("Found NO Bad ID " + tFoundGameID);
 		assertEquals ("NOID", tFoundGameID);
 	}
 

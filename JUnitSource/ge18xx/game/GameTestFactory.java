@@ -28,16 +28,29 @@ public class GameTestFactory {
 	}
 
 	public PlayerInputFrame buildPIFMock () {
-		String tClientName, tPlayer2Name;
+		String tClientName;
+		String tPlayer2Name;
 
 		tClientName = CLIENT_NAME;
 		tPlayer2Name = "TFPlayer2";
-
+		
 		PlayerInputFrame mPlayerInputFrame = Mockito.mock (PlayerInputFrame.class);
 		Mockito.when (mPlayerInputFrame.getPlayerCount ()).thenReturn (2);
 		Mockito.when (mPlayerInputFrame.getPlayerName (0)).thenReturn (tClientName);
 		Mockito.when (mPlayerInputFrame.getPlayerName (1)).thenReturn (tPlayer2Name);
+				
+		return mPlayerInputFrame;
+	}
+	
+	public PlayerInputFrame buildPIFMockWithGameSet () {
+		GameSet tGameSet;
 
+		PlayerInputFrame mPlayerInputFrame = Mockito.mock (PlayerInputFrame.class);
+		
+		tGameSet = new GameSet (mPlayerInputFrame);
+
+		Mockito.when (mPlayerInputFrame.getGameSet ()).thenReturn (tGameSet);
+		
 		return mPlayerInputFrame;
 	}
 
