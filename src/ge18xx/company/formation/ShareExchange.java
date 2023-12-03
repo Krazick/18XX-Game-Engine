@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,13 +23,14 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ShareExchangeFinishedAction;
 import ge18xx.round.action.TransferOwnershipAction;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class ShareExchange extends PlayerFormationPhase {
 	public static final String EXCHANGE = "Exchange Shares";
 	private static final long serialVersionUID = 1L;
 	boolean oneShareToBankPool;
-	JButton exchange;
+	KButton exchange;
 	int foldingCompanyCount;
 	int totalExchangeCount;
 

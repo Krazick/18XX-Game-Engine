@@ -36,9 +36,10 @@ import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import ge18xx.toplevel.XMLFrame;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -17,7 +16,9 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentHandledAction;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class LoanRepayment extends PlayerFormationPhase {
 	public static final String PAY_FROM_TREASURY = "Pay From Treasury";
@@ -183,9 +184,9 @@ public class LoanRepayment extends PlayerFormationPhase {
 	}
 
 	public void buildSpecialButtons (ShareCompany aShareCompany, JPanel aShareCompanyJPanel, boolean aActingPlayer) {
-		JButton tPayFromTreasury;
-		JButton tPayFromPresident;
-		JButton tConfirm;
+		KButton tPayFromTreasury;
+		KButton tPayFromPresident;
+		KButton tConfirm;
 		String tToolTip;
 		
 		if (aActingPlayer) {
@@ -223,7 +224,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 		
 		String tActionCommand;
 		ShareCompany tShareCompany;
-		JButton tActivatedButton;
+		KButton tActivatedButton;
 		
 		tActionCommand = aEvent.getActionCommand ();
 		tActivatedButton = getActivatedButton (aEvent);

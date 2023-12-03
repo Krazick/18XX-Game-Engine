@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -24,7 +23,9 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.train.TrainPortfolio;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class PlayerFormationPhase extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -39,9 +40,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected List<String> shareCompaniesHandled;
 
 	JPanel buttonsPanel;
-	JButton continueButton;
-	JButton doneButton;
-	JButton undoButton;
+	KButton continueButton;
+	KButton doneButton;
+	KButton undoButton;
 	JLabel presidentNameLabel;
 	boolean actingPlayer;
 
@@ -312,13 +313,13 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		}
 	}
 	
-	public JButton getActivatedButton (ActionEvent aEvent) {
-		JButton tActivatedButton;
+	public KButton getActivatedButton (ActionEvent aEvent) {
+		KButton tActivatedButton;
 		Object tSource;
 		
 		tSource = aEvent.getSource ();
-		if (tSource instanceof JButton) {
-			tActivatedButton = (JButton) tSource;
+		if (tSource instanceof KButton) {
+			tActivatedButton = (KButton) tSource;
 		} else {
 			tActivatedButton = GUI.NO_BUTTON;
 		}
@@ -326,7 +327,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		return tActivatedButton;
 	}
 	
-	public ShareCompany findShareCompany (JButton aActivatedButton) {
+	public ShareCompany findShareCompany (KButton aActivatedButton) {
 		ShareCompany tFoundShareCompany;
 		CorporationList tShareCompanies;
 		

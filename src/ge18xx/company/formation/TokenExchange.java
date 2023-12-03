@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,7 +28,9 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TokenExchangeFinishedAction;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 // TODO:
 // 
@@ -46,8 +47,8 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
 	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
 	JPanel nonHomeCheckboxesPanel;
-	JButton homeTokensExchange;
-	JButton nonHomeTokensExchange;
+	KButton homeTokensExchange;
+	KButton nonHomeTokensExchange;
 	JLabel homeTokensLabel;
 	JLabel nonHomeTokensLabel;
 

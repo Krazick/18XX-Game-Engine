@@ -3,12 +3,13 @@ package ge18xx.company.formation;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
-
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+
+import swingDelays.KButton;
 
 public class TriggerClass {
 	public static final TriggerClass NO_TRIGGER_CLASS = null;
@@ -45,13 +46,13 @@ public class TriggerClass {
 		return GUI.EMPTY_STRING;
 	}
 	
-	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip, 
+	public KButton buildSpecialButton (String aText, String aActionCommand, String aToolTip, 
 						ActionListener aActionListener) {
-		JButton tSpecialButton;
+		KButton tSpecialButton;
 		boolean tEnabled;
 		
 		tEnabled = getEnabled (aToolTip);
-		tSpecialButton = new JButton (aTitle);
+		tSpecialButton = new KButton (aText);
 		tSpecialButton.setActionCommand (aActionCommand);
 		tSpecialButton.setEnabled (tEnabled);
 		tSpecialButton.setToolTipText (aToolTip);
