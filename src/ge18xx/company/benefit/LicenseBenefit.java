@@ -19,8 +19,9 @@ import ge18xx.round.action.BuyLicenseAction;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
+
 import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {

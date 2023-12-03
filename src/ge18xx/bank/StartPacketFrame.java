@@ -23,7 +23,7 @@ import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.XMLFrame;
 
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;

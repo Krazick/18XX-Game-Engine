@@ -27,7 +27,8 @@ import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileType;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;

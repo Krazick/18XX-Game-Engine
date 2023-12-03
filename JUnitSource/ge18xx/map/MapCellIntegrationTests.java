@@ -22,7 +22,8 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TilesTestFactory;
 import ge18xx.tiles.Upgrade;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
 
 class MapCellIntegrationTests {
 	MapCell mapCell;

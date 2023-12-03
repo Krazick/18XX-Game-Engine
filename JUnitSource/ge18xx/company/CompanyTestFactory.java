@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 

@@ -2,7 +2,7 @@ package ge18xx.company.benefit;
 
 import javax.swing.JLabel;
 
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class RiverDiscountBenefit extends Benefit {

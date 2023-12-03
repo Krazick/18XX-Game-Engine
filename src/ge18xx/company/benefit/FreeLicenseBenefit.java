@@ -10,7 +10,8 @@ import ge18xx.company.ShareCompany;
 import ge18xx.map.Location;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.effects.BenefitUsedEffect;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class FreeLicenseBenefit extends PassiveEffectBenefit {

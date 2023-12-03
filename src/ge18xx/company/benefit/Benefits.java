@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
