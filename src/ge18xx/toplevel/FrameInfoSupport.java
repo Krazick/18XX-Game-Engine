@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,6 +13,7 @@ import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
 
 import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class FrameInfoSupport implements ActionListener {
 	ArrayList<XMLFrame> configFrames;
@@ -85,7 +85,7 @@ public class FrameInfoSupport implements ActionListener {
 	
 	public JPanel buildOneFrameJPanel (XMLFrame aXMLFrame) {
 		FrameInfo tFrameInfo;
-		JButton tResetButton;
+		KButton tResetButton;
 		JLabel tLabel;
 		JPanel tOneFrameJPanel = null;
 		String tFrameName;
@@ -106,7 +106,7 @@ public class FrameInfoSupport implements ActionListener {
 			addOneLabel (tFrameInfo.getHeightString (), tOneFrameJPanel);
 			addOneLabel (tFrameInfo.getWidthString (), tOneFrameJPanel);
 
-			tResetButton = new JButton (RESET);
+			tResetButton = new KButton (RESET);
 			tResetButton.setActionCommand (RESET + " " + tFrameName);
 			tResetButton.addActionListener (this);
 

@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -37,9 +36,11 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
+import swingDelays.KButton;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -105,7 +106,7 @@ public class Certificate implements Comparable<Certificate> {
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
 	CertificateInfoFrame infoFrame;
-	JButton infoButton;
+	KButton infoButton;
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners;
@@ -165,7 +166,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public void setupInfoBuffon () {
-		infoButton = new JButton ("Info");
+		infoButton = new KButton ("Info");
 		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
 			setupInfoFrame (corporation);
 		}
@@ -184,7 +185,7 @@ public class Certificate implements Comparable<Certificate> {
 		return infoFrame;
 	}
 	
-	public JButton getInfoButton () {
+	public KButton getInfoButton () {
 		return infoButton;
 	}
 	

@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,13 +17,14 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.ToEffect;
+import swingDelays.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final String ACCEPT_OFFER = "Accept";
 	private static final String REJECT_OFFER = "Reject";
-	JButton acceptButton;
-	JButton rejectButton;
+	KButton acceptButton;
+	KButton rejectButton;
 	RoundManager roundManager;
 	ToEffect toEffect;
 	JPanel offerPanel;
@@ -173,10 +173,10 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 	}
 
-	public JButton buildButton (String aButtonLabel, String aActionCommand) {
-		JButton tActionButton;
+	public KButton buildButton (String aButtonLabel, String aActionCommand) {
+		KButton tActionButton;
 
-		tActionButton = new JButton (aButtonLabel);
+		tActionButton = new KButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aActionCommand);
 		tActionButton.addActionListener (this);

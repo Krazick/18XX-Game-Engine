@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -25,6 +24,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
+
+import swingDelays.KButton;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
@@ -44,8 +45,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	JComboBox<String> companyCombo;
 	JComboBox<String> playerCombo;
 	JComboBox<String> actorsCombo;
-	JButton refreshList;
-	JButton lineGraph;
+	KButton refreshList;
+	KButton lineGraph;
 	CorporationList companies;
 	/**
 	 *
@@ -85,12 +86,12 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		tNorthComponents.add (actorsCombo);
 		updateActorsComboBox ();
 
-		refreshList = new JButton ("Refresh List");
+		refreshList = new KButton ("Refresh List");
 		refreshList.setActionCommand (REFRESH_LIST);
 		refreshList.addActionListener (this);
 		tNorthComponents.add (refreshList);
 
-		lineGraph = new JButton ("Draw Line Graph");
+		lineGraph = new KButton ("Draw Line Graph");
 		lineGraph.setActionCommand (DRAW_LINE_GRAPH);
 		lineGraph.addActionListener (this);
 		tNorthComponents.add (lineGraph);

@@ -5,7 +5,6 @@ import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,11 +20,13 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine2I;
 import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.WordWrapping;
+import geUtilities.WordWrapping;
+import swingDelays.KButton;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -127,7 +128,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		boolean tHasButtonFor = false;
-		JButton tThisButton;
+		KButton tThisButton;
 		Component tComponent;
 		String tButtonText;
 		int tComponentCount, tComponentIndex;
@@ -136,8 +137,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		if (tComponentCount > 0) {
 			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
 				tComponent = aButtonRow.getComponent (tComponentIndex);
-				if (tComponent instanceof JButton) {
-					tThisButton = (JButton) tComponent;
+				if (tComponent instanceof KButton) {
+					tThisButton = (KButton) tComponent;
 					tButtonText = tThisButton.getText ();
 					if (aButtonLabel.equals (tButtonText)) {
 						tHasButtonFor = true;
@@ -272,7 +273,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		Certificate tCertificate;
 		JPanel tCorpInfoJPanel;
 		JLabel tCorpName;
-		JButton tInfoButton;
+		KButton tInfoButton;
 		JLabel tPrice;
 		JLabel tRevenue;
 		JLabel tPercentOwned;

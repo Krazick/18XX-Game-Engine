@@ -14,7 +14,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -63,6 +62,7 @@ import ge18xx.train.TrainPortfolio;
 
 import ge18xx.utilities.ElementName;
 import geUtilities.MessageBean;
+import swingDelays.KButton;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
@@ -1297,14 +1297,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tFoundBenefit;
 	}
 
-	public ShareCompany findCompanyWithButton (JButton aJButton) {
+	public ShareCompany findCompanyWithButton (KButton aKButton) {
 		ShareCompany tFoundShareCompany;
 		ShareCompany tShareCompany;
 		
 		tFoundShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		for (Corporation tCorporation : corporations) {
 			tShareCompany = (ShareCompany) tCorporation;
-			if (tShareCompany.hasSpecialButton (aJButton)) {
+			if (tShareCompany.hasSpecialButton (aKButton)) {
 				tFoundShareCompany = tShareCompany;
 			}
 		}

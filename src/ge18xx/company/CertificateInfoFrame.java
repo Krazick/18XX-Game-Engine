@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -16,7 +15,9 @@ import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	public static CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
@@ -91,7 +92,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		JLabel tNoteJLabel;
 		JLabel tPrice;
 		JLabel tRevenue;
-		JButton tOKButton;
+		KButton tOKButton;
 		Border tMargin;
 		
 		tMargin = BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1);
@@ -131,7 +132,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		fillBenefits (tCorporation, tCompanyType);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		tOKButton = new JButton (OK_STRING);
+		tOKButton = new KButton (OK_STRING);
 		tOKButton.setActionCommand (OK_STRING);
 		tOKButton.addActionListener (this);
 		certificateInfoJPanel.add (tOKButton);

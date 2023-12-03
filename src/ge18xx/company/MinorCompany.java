@@ -3,16 +3,17 @@ package ge18xx.company;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
+import swingDelays.KButton;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -94,7 +95,7 @@ public class MinorCompany extends TokenCompany {
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
 		JLabel tPrice;
-		JButton tInfoButton;
+		KButton tInfoButton;
 		Certificate tCertificate;
 		
 		tCorpInfoJPanel = super.buildCorpInfoJPanel ();

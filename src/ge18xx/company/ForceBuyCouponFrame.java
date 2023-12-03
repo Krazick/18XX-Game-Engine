@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +22,7 @@ import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.train.Train;
+import swingDelays.KButton;
 
 public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemListener {
 	public static final ForceBuyCouponFrame NO_FRAME = null;
@@ -33,12 +33,12 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	private static final String UNDO_ACTION = "Undo";
 	private static final String DECLARE_BANKRUPTCY_ACTION = "DeclareBankruptcy";
 	private static final long serialVersionUID = 1L;
-	JButton doSellButton;
-	JButton exchangeButton;
-	JButton doBuyButton;
-	JButton undoButton;
-	JButton declareBankruptcyButton;
-	JButton cancelButton;
+	KButton doSellButton;
+	KButton exchangeButton;
+	KButton doBuyButton;
+	KButton undoButton;
+	KButton declareBankruptcyButton;
+	KButton cancelButton;
 	JPanel buttonJPanel;
 	JPanel infoJPanel;
 	JPanel mainJPanel;
@@ -262,21 +262,21 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		cancelButton = setupButton ("Cancel", CANCEL_ACTION);
 	}
 
-	private JButton setupButton (String aLabel, String aActionCommand) {
+	private KButton setupButton (String aLabel, String aActionCommand) {
 		return setupButton (aLabel, aActionCommand, true);
 	}
 	
-	private JButton setupButton (String aLabel, String aActionCommand, boolean aAddButton) {
-		JButton tJButton;
+	private KButton setupButton (String aLabel, String aActionCommand, boolean aAddButton) {
+		KButton tKButton;
 
-		tJButton = new JButton (aLabel);
-		tJButton.setActionCommand (aActionCommand);
-		tJButton.addActionListener (this);
+		tKButton = new KButton (aLabel);
+		tKButton.setActionCommand (aActionCommand);
+		tKButton.addActionListener (this);
 		if (aAddButton) {
-			buttonJPanel.add (tJButton);
+			buttonJPanel.add (tKButton);
 		}
 
-		return tJButton;
+		return tKButton;
 	}
 
 	private void buildStockJPanel () {

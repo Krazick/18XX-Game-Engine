@@ -15,7 +15,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +35,7 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import geUtilities.GUI;
+import swingDelays.KButton;
 
 /**
  * This class manages the Train Revenue Frame that will show all of the trains
@@ -75,12 +75,12 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	JLabel lastRevenueLabel;
 	JLabel thisRevenueLabel;
 	JLabel notificationLabel;
-	JButton confimAllRoutes;
-	JButton cancel;
-	JButton [] confirmRoutes;
-	JButton [] selectRoutes;
-	JButton [] resetRoutes;
-	JButton [] reuseRoutes;
+	KButton confimAllRoutes;
+	KButton cancel;
+	KButton [] confirmRoutes;
+	KButton [] selectRoutes;
+	KButton [] resetRoutes;
+	KButton [] reuseRoutes;
 	JPanel allFramesJPanel;
 	JPanel allRevenuesJPanel;
 	JPanel loanInfoPanel;
@@ -123,10 +123,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		revenuesByPlusTrain = new JFormattedTextField [MAX_TRAIN_COUNT];
 		plusUsedCount = new int [MAX_TRAIN_COUNT];
 		totalRevenueByEachTrain = new JLabel [MAX_TRAIN_COUNT];
-		confirmRoutes = new JButton [MAX_TRAIN_COUNT];
-		selectRoutes = new JButton [MAX_TRAIN_COUNT];
-		resetRoutes = new JButton [MAX_TRAIN_COUNT];
-		reuseRoutes = new JButton [MAX_TRAIN_COUNT];
+		confirmRoutes = new KButton [MAX_TRAIN_COUNT];
+		selectRoutes = new KButton [MAX_TRAIN_COUNT];
+		resetRoutes = new KButton [MAX_TRAIN_COUNT];
+		reuseRoutes = new KButton [MAX_TRAIN_COUNT];
 		pack ();
 		updateFrameSize ();
 		setYourCompany (true);
@@ -400,14 +400,14 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	}
 
 	private void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
-		JButton tConfirmRouteButton;
+		KButton tConfirmRouteButton;
 		int tTrainIndex;
 		int tTrainCount;
 		Train tTrain;
 		RouteInformation tRouteInformation;
 
 		tTrainCount = trainCompany.getTrainCount ();
-		tConfirmRouteButton = (JButton) aConfirmRouteEvent.getSource ();
+		tConfirmRouteButton = (KButton) aConfirmRouteEvent.getSource ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tConfirmRouteButton.equals (confirmRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
@@ -422,11 +422,11 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	}
 
 	private void handleResetRoute (ActionEvent aResetRouteEvent) {
-		JButton tResetRouteButton;
+		KButton tResetRouteButton;
 		int tTrainIndex;
 		int tTrainCount;
 
-		tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
+		tResetRouteButton = (KButton) aResetRouteEvent.getSource ();
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
@@ -438,11 +438,11 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	}
 
 	private void handleReuseRoute (ActionEvent aReuseRouteEvent) {
-		JButton tReuseRouteButton;
+		KButton tReuseRouteButton;
 		int tTrainIndex;
 		int tTrainCount;
 
-		tReuseRouteButton = (JButton) aReuseRouteEvent.getSource ();
+		tReuseRouteButton = (KButton) aReuseRouteEvent.getSource ();
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tReuseRouteButton.equals (reuseRoutes [tTrainIndex])) {
@@ -564,7 +564,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	}
 
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
-		JButton tSelectRouteButton;
+		KButton tSelectRouteButton;
 		int tTrainIndex;
 		int tTrainCount;
 		int tRegionBonus;
@@ -576,7 +576,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		Train tTrain;
 		Color tColor;
 
-		tSelectRouteButton = (JButton) aSelectRouteEvent.getSource ();
+		tSelectRouteButton = (KButton) aSelectRouteEvent.getSource ();
 		tRegionBonus = 0;
 		tSpecialBonus = 0;
 		tColor = Color.BLUE;
@@ -599,7 +599,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		updateAllFrameButtons ();
 	}
 
-	public void enableResetRoute (JButton aResetRouteButton, String aToolTipText) {
+	public void enableResetRoute (KButton aResetRouteButton, String aToolTipText) {
 		aResetRouteButton.setText (RESET_ROUTE);
 		aResetRouteButton.setActionCommand (RESET_ROUTE_ACTION);
 		aResetRouteButton.setToolTipText (aToolTipText);

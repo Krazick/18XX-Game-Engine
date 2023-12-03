@@ -4,7 +4,6 @@ import java.awt.event.ItemListener;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -31,11 +30,13 @@ import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 //
 //  ShareCompany.java
@@ -70,7 +71,7 @@ public class ShareCompany extends TokenCompany {
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
-	List<JButton> specialButtons;
+	List<KButton> specialButtons;
 	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
@@ -81,7 +82,7 @@ public class ShareCompany extends TokenCompany {
 		String tStartCell;
 
 		destinationInfo = new DestinationInfo (aChildNode);
-		specialButtons = new LinkedList<JButton> ();
+		specialButtons = new LinkedList<KButton> ();
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
@@ -1153,15 +1154,15 @@ public class ShareCompany extends TokenCompany {
 	public void removeBenefitButtons () {
 	}
 	
-	public void addSpecialButton (JButton aSpecialButton) {
+	public void addSpecialButton (KButton aSpecialButton) {
 		specialButtons.add (aSpecialButton);
 	}
 	
-	public boolean hasSpecialButton (JButton aSpecialButton) {
+	public boolean hasSpecialButton (KButton aSpecialButton) {
 		boolean tHasSpecialButton;
 		
 		tHasSpecialButton = false;
-		for (JButton tSpecialButton : specialButtons) {
+		for (KButton tSpecialButton : specialButtons) {
 			if (tSpecialButton == aSpecialButton) {
 				tHasSpecialButton = true;
 			}

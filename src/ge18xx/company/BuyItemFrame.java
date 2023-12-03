@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,14 +20,16 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.PurchaseOfferAction;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class BuyItemFrame extends JFrame implements KeyListener {
 	protected static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
 	protected static final String BUY_ACTION = "Buy";
 	private static final long serialVersionUID = 1L;
-	JButton doSetPriceButton;
-	JButton doBuyButton;
+	KButton doSetPriceButton;
+	KButton doBuyButton;
 	JPanel buyItemPanel;
 	JPanel buttonPanel;
 	JPanel rangePricePanel;
@@ -197,7 +198,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		}
 	}
 
-	public void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
+	public void updateButton (KButton aButton, boolean aEnable, String aToolTip) {
 		aButton.setEnabled (aEnable);
 		aButton.setToolTipText (aToolTip);
 	}
@@ -336,10 +337,10 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		buttonPanel.add (Box.createHorizontalStrut (10));
 	}
 
-	public JButton buildButton (String aButtonLabel, String aActionCommand) {
-		JButton tActionButton;
+	public KButton buildButton (String aButtonLabel, String aActionCommand) {
+		KButton tActionButton;
 
-		tActionButton = new JButton (aButtonLabel);
+		tActionButton = new KButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aActionCommand);
 
@@ -351,7 +352,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		setButtonListener (doBuyButton, aActionListener);
 	}
 
-	public void setButtonListener (JButton aButton, ActionListener aActionListener) {
+	public void setButtonListener (KButton aButton, ActionListener aActionListener) {
 		aButton.addActionListener (aActionListener);
 	}
 
