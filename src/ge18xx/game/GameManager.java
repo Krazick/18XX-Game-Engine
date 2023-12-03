@@ -83,10 +83,10 @@ import ge18xx.train.Train;
 
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.FileGEFilter;
-import ge18xx.utilities.FileUtils;
+import geUtilities.FileGEFilter;
+import geUtilities.FileUtils;
 import geUtilities.GUI;
-import ge18xx.utilities.JFileMChooser;
+import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;

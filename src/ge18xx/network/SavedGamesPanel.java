@@ -4,7 +4,6 @@ import java.awt.LayoutManager;
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -14,15 +13,17 @@ import javax.swing.event.ListSelectionListener;
 
 import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
-import ge18xx.utilities.FileUtils;
-import ge18xx.utilities.GUI;
+
+import geUtilities.FileUtils;
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class SavedGamesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JList<String> savedGamesList;
 	private DefaultListModel<String> savedGamesListModel;
-	private JButton chooseGameButton;
+	private KButton chooseGameButton;
 	NetworkGameSupport gameManager;
 	JGameClient jGameClient;
 	

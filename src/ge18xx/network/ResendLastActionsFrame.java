@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +24,8 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.toplevel.XMLFrame;
 
+import swingDelays.KButton;
+
 public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -32,8 +33,8 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	private static final String CANCEL = "Cancel";
 	private final static String NEWLINE = "\n";
 	private ActionManager actionManager;
-	JButton confirmResendButton;
-	JButton cancelButton;
+	KButton confirmResendButton;
+	KButton cancelButton;
 	JLabel summaryToResendLabel;
 	JLabel networkLastActionLabel;
 	JTextArea listToResendTextArea;

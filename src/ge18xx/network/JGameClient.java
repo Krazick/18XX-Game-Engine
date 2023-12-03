@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -56,6 +55,7 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;
@@ -136,13 +136,13 @@ public class JGameClient extends XMLFrame {
 	private JTextPane gameActivityTextPane;
 	private JTextField playerName;
 	private JTextField messageField;
-	private JButton connectButton;
-	private JButton sendMessageButton;
-	private JButton awayFromKeyboardAFKButton;
-	private JButton disconnectButton;
-	private JButton refreshPlayersButton;
-	private JButton startReadyButton;
-	private JButton chooseGameButton;
+	private KButton connectButton;
+	private KButton sendMessageButton;
+	private KButton awayFromKeyboardAFKButton;
+	private KButton disconnectButton;
+	private KButton refreshPlayersButton;
+	private KButton startReadyButton;
+	private KButton chooseGameButton;
 	private JTextField serverIPField;
 	private JScrollPane chatTextScrollPane;
 	private JScrollPane gameActivityScrollPane;
@@ -429,7 +429,7 @@ public class JGameClient extends XMLFrame {
 		}
 	}
 
-	public void printButtonStatus (JButton aButton) {
+	public void printButtonStatus (KButton aButton) {
 		String tActionCommand;
 		Boolean tEnabled;
 		
@@ -685,13 +685,13 @@ public class JGameClient extends XMLFrame {
 		serverIPField.setHorizontalAlignment (SwingConstants.CENTER);
 
 		// Action Buttons
-		connectButton = new JButton (CONNECT_ACTION);
-		sendMessageButton = new JButton (SEND);
-		awayFromKeyboardAFKButton = new JButton (AFK);
-		refreshPlayersButton = new JButton (REFRESH);
-		disconnectButton = new JButton (DISCONNECT);
-		startReadyButton = new JButton (SELECT_GAME);
-		chooseGameButton = new JButton (SHOW_SAVED_GAMES);
+		connectButton = new KButton (CONNECT_ACTION);
+		sendMessageButton = new KButton (SEND);
+		awayFromKeyboardAFKButton = new KButton (AFK);
+		refreshPlayersButton = new KButton (REFRESH);
+		disconnectButton = new KButton (DISCONNECT);
+		startReadyButton = new KButton (SELECT_GAME);
+		chooseGameButton = new KButton (SHOW_SAVED_GAMES);
 
 		// Text Panes and Scroll Panes
 		chatText = new JTextPane ();
@@ -750,7 +750,7 @@ public class JGameClient extends XMLFrame {
 		updateButtonGameStarted (chooseGameButton);
 	}
 
-	private void updateButtonGameStarted (JButton aButton) {
+	private void updateButtonGameStarted (KButton aButton) {
 		aButton.setEnabled (false);
 		aButton.setToolTipText (GAME_ALREADY_STARTED);
 	}
@@ -1383,7 +1383,7 @@ public class JGameClient extends XMLFrame {
 		return autoSaveFileName;
 	}
 
-	public JButton getChooseGameButton () {
+	public KButton getChooseGameButton () {
 		return chooseGameButton;
 	}
 
