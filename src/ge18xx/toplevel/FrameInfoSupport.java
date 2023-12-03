@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
 
 public class FrameInfoSupport implements ActionListener {
 	ArrayList<XMLFrame> configFrames;

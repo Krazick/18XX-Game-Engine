@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+//import javax.swing.KButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +27,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
+import swingDelays.KButton;
 
 public class AuctionFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +54,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	JLabel privateCompanyLabel;
 	JLabel freeCertificateLabel;
-	JButton doneButton;
-	JButton undoButton;
+	KButton doneButton;
+	KButton undoButton;
 
 	JPanel oneBidderJPanel;
 	JPanel auctionItemInfoJPanel;
@@ -64,12 +65,12 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	JPanel fullPanel;
 
 	JComboBox<String> parValuesCombo;
-	JButton setParPrice;
+	KButton setParPrice;
 
-	JButton [] bidderRaiseButtons;
-	JButton [] bidderRaiseByButtons;
+	KButton [] bidderRaiseButtons;
+	KButton [] bidderRaiseByButtons;
 	JTextField [] bidderRaiseAmountField;
-	JButton [] bidderPassButtons;
+	KButton [] bidderPassButtons;
 	JLabel [] bidderLabels;
 	JLabel [] bidderSuffixLabel;
 	Certificate certificateToAuction;
@@ -134,21 +135,21 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		fillAuctionItemInfo ();
 	}
 
-	public JButton setupButton (String aButtonText, String aButtonCommand) {
-		JButton tJButton;
+	public KButton setupButton (String aButtonText, String aButtonCommand) {
+		KButton tKButton;
 
-		tJButton = new JButton (aButtonText);
-		tJButton.setActionCommand (aButtonCommand);
-		tJButton.addActionListener (this);
-		tJButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		buttonJPanel.add (tJButton);
+		tKButton = new KButton (aButtonText);
+		tKButton.setActionCommand (aButtonCommand);
+		tKButton.addActionListener (this);
+		tKButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		buttonJPanel.add (tKButton);
 		if (isNetworkGame) {
 			if (aButtonText.equals (UNDO)) {
-				tJButton.setEnabled (false);
+				tKButton.setEnabled (false);
 			}
 		}
 
-		return tJButton;
+		return tKButton;
 	}
 
 	@Override
@@ -465,9 +466,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	public int getActingBidderIndex (ActionEvent aEvent) {
 		int tActingBidderIndex = NO_BIDDER_INDEX;
 		int tBidderCount = certificateToAuction.getNumberOfBidders ();
-		JButton tThisButton;
+		KButton tThisButton;
 
-		tThisButton = (JButton) aEvent.getSource ();
+		tThisButton = (KButton) aEvent.getSource ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				if (tThisButton.equals (bidderRaiseButtons [tBidderIndex])) {
@@ -495,10 +496,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
 		if (tBidderCount > 0) {
-			bidderRaiseButtons = new JButton [tBidderCount];
-			bidderRaiseByButtons = new JButton [tBidderCount];
+			bidderRaiseButtons = new KButton [tBidderCount];
+			bidderRaiseByButtons = new KButton [tBidderCount];
 			bidderRaiseAmountField = new JTextField [tBidderCount];
-			bidderPassButtons = new JButton [tBidderCount];
+			bidderPassButtons = new KButton [tBidderCount];
 			bidderSuffixLabel = new JLabel [tBidderCount];
 			bidderLabels = new JLabel [tBidderCount];
 
@@ -655,7 +656,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				updateParValueComponents ();
 			}
 		});
-		setParPrice = new JButton ("Set Par Price");
+		setParPrice = new KButton ("Set Par Price");
 		setParPrice.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
@@ -756,11 +757,11 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		oneBidderJPanel.add (Box.createHorizontalStrut (15));
 		oneBidderJPanel.add (bidderLabels [aBidderIndex]);
 		oneBidderJPanel.add (Box.createHorizontalStrut (5));
-		bidderRaiseButtons [aBidderIndex] = new JButton (aRaiseLabel);
+		bidderRaiseButtons [aBidderIndex] = new KButton (aRaiseLabel);
 		bidderRaiseButtons [aBidderIndex].addActionListener (this);
 		bidderRaiseButtons [aBidderIndex].setActionCommand (RAISE);
 
-		bidderRaiseByButtons [aBidderIndex] = new JButton (aRaiseLabel);
+		bidderRaiseByButtons [aBidderIndex] = new KButton (aRaiseLabel);
 		bidderRaiseByButtons [aBidderIndex].addActionListener (this);
 		bidderRaiseByButtons [aBidderIndex].setActionCommand (RAISE_BY);
 
@@ -768,7 +769,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		oneBidderJPanel.add (Box.createHorizontalStrut (5));
 //		oneBidderJPanel.add (bidderRaiseByButtons [aBidderIndex]);
 //		oneBidderJPanel.add (Box.createHorizontalStrut (5));
-		bidderPassButtons [aBidderIndex] = new JButton (PASS);
+		bidderPassButtons [aBidderIndex] = new KButton (PASS);
 		bidderPassButtons [aBidderIndex].addActionListener (this);
 		bidderPassButtons [aBidderIndex].setActionCommand (PASS);
 		oneBidderJPanel.add (bidderPassButtons [aBidderIndex]);
@@ -915,7 +916,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	private void setButton (JButton aButton, String aLabel, boolean aVisible, boolean aEnabled, String aToolTip) {
+	private void setButton (KButton aButton, String aLabel, boolean aVisible, boolean aEnabled, String aToolTip) {
 		aButton.setText (aLabel);
 		aButton.setVisible (aVisible);
 		aButton.setEnabled (aEnabled);

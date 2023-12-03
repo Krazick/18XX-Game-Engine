@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -28,6 +27,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
+import swingDelays.KButton;
 
 public class RoundFrame extends XMLFrame {
 	public static final XMLFrame NO_ROUND_FRAME = null;
@@ -57,8 +57,8 @@ public class RoundFrame extends XMLFrame {
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
 	JPanel fastBuyJPanel;
-	JButton passButton;
-	JButton doButton;
+	KButton passButton;
+	KButton doButton;
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JLabel totalCashLabel;
@@ -284,7 +284,7 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	private void addButtonAndSpace (JPanel aButtonPanel, JButton aButton) {
+	private void addButtonAndSpace (JPanel aButtonPanel, KButton aButton) {
 		aButtonPanel.add (aButton);
 		aButtonPanel.add (Box.createHorizontalStrut (20));
 	}

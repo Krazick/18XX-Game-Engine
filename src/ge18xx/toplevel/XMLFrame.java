@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -16,6 +15,8 @@ import ge18xx.game.Config;
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameFrameConfig;
 import ge18xx.game.GameManager;
+
+import swingDelays.KButton;
 
 //
 //  XMLFrames.java
@@ -362,32 +363,32 @@ public class XMLFrame extends JFrame {
 	}
 
 	/**
-	 * Create a new JButton with the specified parameters.
+	 * Create a new KButton with the specified parameters.
 	 * 
 	 * @param aLabel Label for the Button
 	 * @param aAction Action Command for the Button
 	 * @param aListener The Action Listener Class
 	 * @param aAlignment The Alignment
-	 * @return the newly create JButton
+	 * @return the newly create KButton
 	 */
-	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
-		JButton tButton;
+	public KButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
+		KButton tButton;
 	
-		tButton = new JButton (aLabel);
+		tButton = new KButton (aLabel);
 		setupButton (aAction, aListener, aAlignment, tButton);
 	
 		return tButton;
 	}
 
 	/**
-	 * Modify the provided JButton with the specified parameters
+	 * Modify the provided KButton with the specified parameters
 	 * 
 	 * @param aAction Action Command for the Button
 	 * @param aListener The Action Listener Class
 	 * @param aAlignment The Alignment
 	 * @param aButton The Button to be modified
 	 */
-	public void setupButton (String aAction, ActionListener aListener, float aAlignment, JButton aButton) {
+	public void setupButton (String aAction, ActionListener aListener, float aAlignment, KButton aButton) {
 		aButton.setActionCommand (aAction);
 		aButton.addActionListener (aListener);
 		aButton.setAlignmentX (aAlignment);

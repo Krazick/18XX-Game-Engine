@@ -10,17 +10,18 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import swingDelays.KButton;
 
 public class PrefPane extends JFrame {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JButton okButton;
+	protected KButton okButton;
 	protected JLabel prefsText;
 
 	public PrefPane () {
@@ -37,7 +38,7 @@ public class PrefPane extends JFrame {
 		textPanel.add (prefsText);
 		tContentPane.add (textPanel, BorderLayout.NORTH);
 
-		okButton = new JButton ("OK");
+		okButton = new KButton ("OK");
 		buttonPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 10));
 		buttonPanel.add (okButton);
 		okButton.addActionListener (new ActionListener () {

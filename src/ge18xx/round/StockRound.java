@@ -6,6 +6,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;

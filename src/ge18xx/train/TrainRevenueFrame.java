@@ -34,7 +34,8 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
 
 /**
  * This class manages the Train Revenue Frame that will show all of the trains

@@ -12,6 +12,7 @@ import javax.swing.JTable;
 
 import ge18xx.center.CityList;
 import ge18xx.game.GameManager;
+
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 

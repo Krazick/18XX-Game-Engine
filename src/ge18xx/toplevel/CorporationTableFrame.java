@@ -8,6 +8,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
+
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;

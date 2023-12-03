@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -36,6 +35,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
@@ -56,7 +56,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	boolean badPlayerList;
 	JTextField [] playerNames;
 	JLabel labelPlayerCount;
-	JButton randomizeButton;
+	KButton randomizeButton;
 	JPanel centerPanel;
 	Logger logger;
 

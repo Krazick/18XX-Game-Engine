@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +28,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import swingDelays.KButton;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [2].toString ();
@@ -36,11 +36,11 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	public static final ElementName EN_SHARES = new ElementName (BASE_TYPE + "s");
 	public static final ShareCompaniesFrame NO_SHARES_FRAME = null;
 	private static final long serialVersionUID = 1L;
-	JButton sellShareButton;
-	JButton buyShareButton;
-	JButton payDividendButton;
-	JButton holdDividendButton;
-	JButton allSoldOutButton;
+	KButton sellShareButton;
+	KButton buyShareButton;
+	KButton payDividendButton;
+	KButton holdDividendButton;
+	KButton allSoldOutButton;
 	JComboBox<String> companyCombo;
 	JComboBox<Integer> parValuesCombo;
 	Market market;
@@ -61,27 +61,27 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		parValuesCombo = new JComboBox<> ();
 		tNorthComponents.add (parValuesCombo);
 
-		sellShareButton = new JButton ("Sell Share of Stock");
+		sellShareButton = new KButton ("Sell Share of Stock");
 		sellShareButton.addActionListener (this);
 		sellShareButton.setActionCommand ("SellShare");
 		tNorthComponents.add (sellShareButton);
 
-		buyShareButton = new JButton ("Buy Share of Stock");
+		buyShareButton = new KButton ("Buy Share of Stock");
 		buyShareButton.addActionListener (this);
 		buyShareButton.setActionCommand ("BuyShare");
 		tNorthComponents.add (buyShareButton);
 
-		payDividendButton = new JButton ("Pay Dividend");
+		payDividendButton = new KButton ("Pay Dividend");
 		payDividendButton.addActionListener (this);
 		payDividendButton.setActionCommand ("PayDividend");
 		tNorthComponents.add (payDividendButton);
 
-		holdDividendButton = new JButton ("Hold Dividend");
+		holdDividendButton = new KButton ("Hold Dividend");
 		holdDividendButton.addActionListener (this);
 		holdDividendButton.setActionCommand ("HoldDividend");
 		tNorthComponents.add (holdDividendButton);
 
-		allSoldOutButton = new JButton ("All Sold Out");
+		allSoldOutButton = new KButton ("All Sold Out");
 		allSoldOutButton.addActionListener (this);
 		allSoldOutButton.setActionCommand ("AllSoldOut");
 		tNorthComponents.add (allSoldOutButton);

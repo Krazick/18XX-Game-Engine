@@ -14,18 +14,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import swingDelays.KButton;
 
 public class Initialization extends JFrame {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JButton okButton;
+	protected KButton okButton;
 	protected JLabel InitializationText;
 	protected String selectedGame;
 	protected String selectedVariation;
@@ -40,7 +41,7 @@ public class Initialization extends JFrame {
 		addGameChoices (textPanel);
 		this.getContentPane ().add (textPanel, BorderLayout.NORTH);
 
-		okButton = new JButton ("OK");
+		okButton = new KButton ("OK");
 		JPanel buttonPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 10));
 		buttonPanel.add (okButton);
 		okButton.addActionListener (new ActionListener () {

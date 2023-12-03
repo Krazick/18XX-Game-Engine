@@ -1,10 +1,10 @@
 package ge18xx.round;
 
-import javax.swing.JButton;
-
 import ge18xx.company.Certificate;
 
-public class FastBuyButton extends JButton {
+import swingDelays.KButton;
+
+public class FastBuyButton extends KButton {
 
 	private static final long serialVersionUID = 1L;
 	private Certificate certificate;

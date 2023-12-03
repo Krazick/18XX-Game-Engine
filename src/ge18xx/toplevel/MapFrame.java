@@ -10,13 +10,14 @@ import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
+
+import swingDelays.KButton;
 
 //
 //  MapFrame.java
@@ -84,13 +85,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public static final String BASE_TITLE = "Map";
 	private static final long serialVersionUID = 1L;
 
-	JButton exitTileButton;
-	JButton putTileButton;
-	JButton pickupTileButton;
-	JButton exitTokenButton;
-	JButton putTokenButton;
-	JButton buildGraphsButton;
-	JButton resetAllFlagsButton;
+	KButton exitTileButton;
+	KButton putTileButton;
+	KButton pickupTileButton;
+	KButton exitTokenButton;
+	KButton putTokenButton;
+	KButton buildGraphsButton;
+	KButton resetAllFlagsButton;
 	JPanel tokenButtonsJPanel;
 	JPanel tileButtonsJPanel;
 	JPanel allButtonsJPanel;
