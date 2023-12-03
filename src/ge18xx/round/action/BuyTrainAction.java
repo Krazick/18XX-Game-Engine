@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeTrainStatusEffect;
@@ -10,6 +11,7 @@ import ge18xx.round.action.effects.PhaseChangeEffect;
 import ge18xx.round.action.effects.RustTrainEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
+import ge18xx.round.action.effects.StartFormationEffect;
 import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.round.action.effects.UpgradeTrainEffect;
 import ge18xx.train.Train;
@@ -144,5 +146,12 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		
 		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
 		addEffect (tSetFormationStateEffect);
+	}
+	
+	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation) {
+		StartFormationEffect tStartFormationEffect;
+
+			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation);
+			addEffect (tStartFormationEffect);
 	}
 }
