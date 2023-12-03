@@ -37,11 +37,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
 		StateChangeEffect tStateChangeEffect;
 
-		if (actor.isACorporation ()) {
-			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
-		} else {
+		if (aActor.isAPlayer ()) {
 			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
 			addEffect (tStateChangeEffect);
+		} else if (actor.isACorporation ()) {
+			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
 		}
 	}
 	
