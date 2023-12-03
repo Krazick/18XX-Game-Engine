@@ -91,5 +91,4 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 
 		return tEffectUndone;
 	}
-
 }
