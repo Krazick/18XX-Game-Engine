@@ -2,7 +2,6 @@ package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,6 +16,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 public class PortPlacementBenefit extends MapBenefit {
 	final static AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
@@ -71,12 +71,12 @@ public class PortPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tPlacePortTokenButton;
+		KButton tPlacePortTokenButton;
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
 			if (!hasButton ()) {
-				tPlacePortTokenButton = new JButton (getNewButtonLabel ());
+				tPlacePortTokenButton = new KButton (getNewButtonLabel ());
 				setButton (tPlacePortTokenButton);
 				setButtonPanel (aButtonRow);
 				tPlacePortTokenButton.setActionCommand (CorporationFrame.PLACE_PORT_TOKEN);

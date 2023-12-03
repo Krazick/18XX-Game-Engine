@@ -10,6 +10,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 

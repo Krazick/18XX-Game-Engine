@@ -5,7 +5,6 @@ import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,6 +14,8 @@ import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
 import geUtilities.GUI;
+import swingDelays.KButton;
+
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -118,9 +119,9 @@ public class Benefits {
 		}
 	}
 	
-	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
-		JButton tThisButton;
-		JButton tFoundButton = GUI.NO_BUTTON;
+	public KButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
+		KButton tThisButton;
+		KButton tFoundButton = GUI.NO_BUTTON;
 		Component tComponent;
 		String tButtonText;
 		int tComponentCount, tComponentIndex;
@@ -129,8 +130,8 @@ public class Benefits {
 		if (tComponentCount > 0) {
 			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
 				tComponent = aButtonRow.getComponent (tComponentIndex);
-				if (tComponent instanceof JButton) {
-					tThisButton = (JButton) tComponent;
+				if (tComponent instanceof KButton) {
+					tThisButton = (KButton) tComponent;
 					tButtonText = tThisButton.getText ();
 					if (aButtonLabel.equals (tButtonText)) {
 						tFoundButton = tThisButton;
@@ -144,7 +145,7 @@ public class Benefits {
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		boolean tHasButtonFor = false;
-		JButton tThisButton;
+		KButton tThisButton;
 
 		tThisButton = findButtonFor (aButtonRow, aButtonLabel);
 		if (tThisButton != GUI.NO_BUTTON) {

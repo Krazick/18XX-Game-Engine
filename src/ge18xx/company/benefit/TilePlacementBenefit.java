@@ -2,7 +2,6 @@ package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -12,8 +11,10 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 public class TilePlacementBenefit extends MapBenefit {
 	boolean extraTilePlacement;
@@ -60,12 +61,12 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tPlaceTileButton;
+		KButton tPlaceTileButton;
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
 			if (!hasButton ()) {
-				tPlaceTileButton = new JButton (getNewButtonLabel ());
+				tPlaceTileButton = new KButton (getNewButtonLabel ());
 				setButton (tPlaceTileButton);
 				setButtonPanel (aButtonRow);
 				tPlaceTileButton.setActionCommand (CorporationFrame.PLACE_TILE_PRIVATE);

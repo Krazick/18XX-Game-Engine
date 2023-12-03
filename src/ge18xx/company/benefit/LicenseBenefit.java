@@ -3,7 +3,6 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,6 +21,7 @@ import ge18xx.round.action.effects.Effect;
 
 import ge18xx.utilities.AttributeName;
 import geUtilities.GUI;
+import swingDelays.KButton;
 import ge18xx.utilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {
@@ -131,7 +131,7 @@ public class LicenseBenefit extends Benefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tBuyLicenseButton;
+		KButton tBuyLicenseButton;
 		Corporation tCompany;
 		boolean tAddButton;
 		
@@ -145,7 +145,7 @@ public class LicenseBenefit extends Benefit {
 			}
 			tAddButton = ! companyHasLicense (tCompany);
 			if (!hasButton () && tAddButton) {
-				tBuyLicenseButton = new JButton (getNewButtonLabel ());
+				tBuyLicenseButton = new KButton (getNewButtonLabel ());
 				setButton (tBuyLicenseButton);
 				setButtonPanel (aButtonRow);
 				tBuyLicenseButton.setActionCommand (CorporationFrame.BUY_LICENSE);

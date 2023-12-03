@@ -2,7 +2,6 @@ package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -11,8 +10,10 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
+import swingDelays.KButton;
 
 public class CattlePlacementBenefit extends MapBenefit {
 	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
@@ -75,12 +76,12 @@ public class CattlePlacementBenefit extends MapBenefit {
 	}
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tPlaceCattleTokenButton;
+		KButton tPlaceCattleTokenButton;
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
 			if (!hasButton ()) {
-				tPlaceCattleTokenButton = new JButton (getNewButtonLabel ());
+				tPlaceCattleTokenButton = new KButton (getNewButtonLabel ());
 				setButton (tPlaceCattleTokenButton);
 				setButtonPanel (aButtonRow);
 				tPlaceCattleTokenButton.setActionCommand (CorporationFrame.PLACE_CATTLE_TOKEN);

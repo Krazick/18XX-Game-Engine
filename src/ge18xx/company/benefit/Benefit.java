@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,6 +21,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import geUtilities.GUI;
+import swingDelays.KButton;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -50,7 +50,7 @@ public abstract class Benefit implements ActionListener {
 	boolean used;
 	boolean passive;
 	boolean allActors;
-	JButton button;
+	KButton button;
 	JPanel buttonPanel;
 	protected PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
@@ -264,11 +264,11 @@ public abstract class Benefit implements ActionListener {
 		actorType = ActorI.ActorTypes.fromString (aActorType);
 	}
 
-	public void setButton (JButton aButton) {
+	public void setButton (KButton aButton) {
 		button = aButton;
 	}
 
-	public JButton getButton () {
+	public KButton getButton () {
 		return button;
 	}
 

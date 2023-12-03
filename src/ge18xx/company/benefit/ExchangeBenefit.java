@@ -2,7 +2,6 @@ package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -10,7 +9,10 @@ import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
+
 import ge18xx.utilities.XMLNode;
+
+import swingDelays.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {
 	public final static String NAME = "EXCHANGE";
@@ -24,11 +26,11 @@ public class ExchangeBenefit extends CertificateBenefit {
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
-		JButton tExchangeButton;
+		KButton tExchangeButton;
 
 		if (shouldConfigure ()) {
 			if (!hasButton ()) {
-				tExchangeButton = new JButton (getNewButtonLabel ());
+				tExchangeButton = new KButton (getNewButtonLabel ());
 				setButton (tExchangeButton);
 				setButtonPanel (aButtonRow);
 				tExchangeButton.setActionCommand (EXCHANGE_PRIVATE);

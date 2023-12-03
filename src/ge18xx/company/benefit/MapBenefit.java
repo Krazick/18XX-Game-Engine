@@ -10,6 +10,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.toplevel.MapFrame;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;

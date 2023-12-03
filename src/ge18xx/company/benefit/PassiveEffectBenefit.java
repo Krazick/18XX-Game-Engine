@@ -5,6 +5,7 @@ import ge18xx.company.License;
 import ge18xx.company.ShareCompany;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.effects.AddLicenseEffect;
+
 import ge18xx.utilities.XMLNode;
 
 public class PassiveEffectBenefit extends Benefit {
