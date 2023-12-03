@@ -8,7 +8,6 @@ import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,8 +19,10 @@ import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.WrapLayout;
+
+import geUtilities.GUI;
+import geUtilities.WrapLayout;
+import swingDelays.KButton;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
@@ -63,12 +64,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JLabel playerPortfolioLabel;
 	JLabel playerTotalValue;
 	JLabel playerDividends;
-	JButton passButton;
-	JButton buyBidButton;
-	JButton sellButton;
-	JButton exchangeButton;
-	JButton undoButton;
-	JButton explainButton;
+	KButton passButton;
+	KButton buyBidButton;
+	KButton sellButton;
+	KButton exchangeButton;
+	KButton undoButton;
+	KButton explainButton;
 	ButtonsInfoFrame buttonsInfoFrame;
 	boolean canBuy = false;
 	Player player;
@@ -194,8 +195,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));
 	}
 
-	private JButton setupButton (String aButtonLabel, String aButtonAction) {
-		JButton tActionButton;
+	private KButton setupButton (String aButtonLabel, String aButtonAction) {
+		KButton tActionButton;
 
 		tActionButton = setupButton (aButtonLabel, aButtonAction, player, CENTER_ALIGNMENT);
 		buttonsInfoFrame.addButton (tActionButton);
@@ -817,7 +818,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 
-	private boolean handledWaiting (JButton aActionButton) {
+	private boolean handledWaiting (KButton aActionButton) {
 		boolean tIsWaiting;
 
 		tIsWaiting = player.isWaiting ();

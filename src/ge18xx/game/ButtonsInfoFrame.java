@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -23,6 +23,7 @@ import ge18xx.player.Portfolio;
 //import ge18xx.toplevel.TableFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.TrainPortfolio;
+import swingDelays.KButton;
 
 public class ButtonsInfoFrame extends XMLFrame {
 
@@ -63,10 +64,10 @@ public class ButtonsInfoFrame extends XMLFrame {
 		buildButtonsTable ();
 	}
 
-	public void addButton (JButton aJButton) {
+	public void addButton (KButton aKButton) {
 		FrameButton tFrameButton;
 
-		tFrameButton = new FrameButton (aJButton);
+		tFrameButton = new FrameButton (aKButton);
 		frameButtons.add (tFrameButton);
 	}
 

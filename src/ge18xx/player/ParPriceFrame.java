@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -28,7 +27,9 @@ import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
-import ge18xx.utilities.GUI;
+
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class ParPriceFrame extends JDialog implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
@@ -41,7 +42,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	Certificate certificate;
 	GameManager gameManager;
 	JComboBox<String> parValuesCombo;
-	JButton doButton;
+	KButton doButton;
 	JPanel parValuesPanel;
 	boolean parPriceFrameActive;
 
@@ -210,7 +211,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 	public void updateButton (String aButtonLabel, String aActionCommand) {
 		if (doButton == GUI.NO_BUTTON) {
-			doButton = new JButton (aButtonLabel);
+			doButton = new KButton (aButtonLabel);
 		} else {
 			doButton.setText (aButtonLabel);
 		}

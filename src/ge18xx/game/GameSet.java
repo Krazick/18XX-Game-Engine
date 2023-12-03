@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,6 +30,7 @@ import ge18xx.game.variants.VariantEffect;
 import ge18xx.network.JGameClient;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.PlayerInputFrame;
+
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.GUI;
@@ -38,6 +38,8 @@ import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
+import swingDelays.KButton;
+
 
 public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_GAMES = new ElementName ("Games");
@@ -65,9 +67,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
 	JScrollPane variantsScrollPane;
-	JButton newGameButton;
-	JButton networkGameButton;
-	JButton loadGameButton;
+	KButton newGameButton;
+	KButton networkGameButton;
+	KButton loadGameButton;
 	JLabel gameInfoLabel;
 	JLabel gameDescriptionLabel;
 	int selectedGameIndex;
@@ -187,14 +189,14 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			listAndButtonJPanel.setLayout (new BoxLayout (listAndButtonJPanel, BoxLayout.Y_AXIS));
 			listAndButtonJPanel.add (tGamesJPanel);
 
-			networkGameButton = new JButton ();
+			networkGameButton = new KButton ();
 			setupButton (networkGameButton, NETWORK_GAME);
 
-			newGameButton = new JButton ();
+			newGameButton = new KButton ();
 			setupButton (newGameButton, NEW_GAME);
 			setEnabledGameButtons (false, REASON_NO_NEW_GAME);
 
-			loadGameButton = new JButton ();
+			loadGameButton = new KButton ();
 			setupButton (loadGameButton, LOAD_GAME);
 
 			gameJPanel.add (listAndButtonJPanel);
@@ -223,7 +225,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		}
 	}
 
-	private void setupButton (JButton aButton, String aName) {
+	private void setupButton (KButton aButton, String aName) {
 		aButton.setText (aName);
 		aButton.setActionCommand (aName);
 		aButton.addActionListener (this);

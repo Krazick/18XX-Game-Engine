@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,8 +37,10 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.WrapLayout;
+
+import geUtilities.GUI;
+import geUtilities.WrapLayout;
+import swingDelays.KButton;
 
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;
@@ -109,26 +110,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JLabel roundInfoLabel;
 	JLabel lastRevenueLabel;
 	JLabel loanCountLabel;
-	JButton showMapButton;
-	JButton placeBaseTileButton1;
-	JButton placeBaseTileButton2;
-	JButton placeTileButton;
-	JButton placeTokenButton;
-	JButton placeBaseTokenButton1;
-	JButton placeBaseTokenButton2;
-	JButton operateTrainButton;
-	JButton payFullDividendButton;
-	JButton payHalfDividendButton;
-	JButton payNoDividendButton;
-	JButton buyTrainButton;
-	JButton buyTrainForceButton;
-	JButton buyPrivateButton;
-	JButton getLoanButton;
-	JButton redeemLoanButton;
-	JButton payLoanInterestButton;
-	JButton doneButton;
-	JButton undoButton;
-	JButton explainButton;
+	KButton showMapButton;
+	KButton placeBaseTileButton1;
+	KButton placeBaseTileButton2;
+	KButton placeTileButton;
+	KButton placeTokenButton;
+	KButton placeBaseTokenButton1;
+	KButton placeBaseTokenButton2;
+	KButton operateTrainButton;
+	KButton payFullDividendButton;
+	KButton payHalfDividendButton;
+	KButton payNoDividendButton;
+	KButton buyTrainButton;
+	KButton buyTrainForceButton;
+	KButton buyPrivateButton;
+	KButton getLoanButton;
+	KButton redeemLoanButton;
+	KButton payLoanInterestButton;
+	KButton doneButton;
+	KButton undoButton;
+	KButton explainButton;
 	ButtonsInfoFrame buttonsInfoFrame;
 	Corporation corporation;
 	boolean isNetworkGame;
@@ -436,12 +437,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void actionPerformed (ActionEvent aEvent) {
 		String tCommand;
 		String tSourceTitle;
-		JButton tSourceButton;
+		KButton tSourceButton;
 		boolean tConfirmedDoneAction;
 
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
-		tSourceButton = (JButton) aEvent.getSource ();
+		tSourceButton = (KButton) aEvent.getSource ();
 		tSourceTitle = tSourceButton.getText ();
 		if (SHOW_MAP.equals (tCommand)) {
 			corporation.showMap ();
@@ -554,8 +555,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 
-	private JButton setupButton (String aButtonLabel, String aButtonAction) {
-		JButton tButton;
+	private KButton setupButton (String aButtonLabel, String aButtonAction) {
+		KButton tButton;
 
 		tButton = setupButton (aButtonLabel, aButtonAction, this, Component.CENTER_ALIGNMENT);
 		tButton.setVisible (false);
@@ -635,7 +636,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (explainButton);
 	}
 
-	private void addButtonsSubPanel (JPanel aButtonsSubPanel, JButton aButton) {
+	private void addButtonsSubPanel (JPanel aButtonsSubPanel, KButton aButton) {
 		aButton.setVisible (true);
 		aButtonsSubPanel.add (aButton);
 		buttonsInfoFrame.addButton (aButton);
@@ -645,7 +646,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsJPanel.add (aButtonsSubPanel);
 	}
 	
-	private void addButton (JButton aButton) {
+	private void addButton (KButton aButton) {
 		aButton.setVisible (true);
 		buttonsJPanel.add (aButton);
 		buttonsInfoFrame.addButton (aButton);
@@ -1138,7 +1139,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private void updateTileButton (JButton aTileButton) {
+	private void updateTileButton (KButton aTileButton) {
 		String tToolTip;
 		boolean tEnableTile;
 		MapFrame tMapFrame;
@@ -1191,7 +1192,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	private void updatePlaceBaseTokenButton (JButton aPlaceBaseTokenButton, MapCell aMapCell, String aPlaceBaseTokenLabel1) {
+	private void updatePlaceBaseTokenButton (KButton aPlaceBaseTokenButton, MapCell aMapCell, String aPlaceBaseTokenLabel1) {
 		String tToolTip;
 		String tMapCellID;
 		
@@ -1557,14 +1558,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateButton (buyPrivateButton, tEnable, tToolTipReason, tButtonLabel);
 	}
 
-	private void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
+	private void updateButton (KButton aButton, boolean aEnable, String aToolTip) {
 		String tButtonLabel;
 
 		tButtonLabel = aButton.getText ();
 		updateButton (aButton, aEnable, aToolTip, tButtonLabel);
 	}
 
-	private void updateButton (JButton aButton, boolean aEnable, String aToolTip, String aButtonLabel) {
+	private void updateButton (KButton aButton, boolean aEnable, String aToolTip, String aButtonLabel) {
 		aButton.setEnabled (aEnable);
 		aButton.setToolTipText (aToolTip);
 		aButton.setText (aButtonLabel);

@@ -28,7 +28,6 @@ import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -55,13 +54,15 @@ import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.Sound;
+
+import geUtilities.GUI;
+import geUtilities.Sound;
 import ge18xx.utilities.XMLDocument;
 
 import org.apache.logging.log4j.Logger;
 
 import log4j2.plugins.LoggerLookup;
+import swingDelays.KButton;
 
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
 // the Game_18XX Class that extends the GameEngineFrame,
@@ -112,9 +113,9 @@ public class Game_18XX extends XMLFrame {
 	JMenuItem frameInfoMenuItem;
 	JMenuItem exitMenuItem;
 	private JTextField clientUserName;
-	private JButton okButton;
-	private JButton quitButton;
-	private JButton disconnectButton;
+	private KButton okButton;
+	private KButton quitButton;
+	private KButton disconnectButton;
 	
 	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
@@ -470,9 +471,9 @@ public class Game_18XX extends XMLFrame {
 
 		tButtonPanel = new JPanel ();
 		tButtonPanel.setLayout (new BoxLayout (tButtonPanel, BoxLayout.X_AXIS));
-		okButton = new JButton (OK_TEXT);
-		quitButton = new JButton (QUIT_TEXT);
-		disconnectButton = new JButton (JGameClient.DISCONNECT);
+		okButton = new KButton (OK_TEXT);
+		quitButton = new KButton (QUIT_TEXT);
+		disconnectButton = new KButton (JGameClient.DISCONNECT);
 		tButtonPanel.add (Box.createHorizontalStrut (10));
 		tButtonPanel.add (okButton);
 		tButtonPanel.add (Box.createHorizontalStrut (10));

@@ -1,19 +1,19 @@
 package ge18xx.game;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
+import swingDelays.KButton;
 
 public class FrameButton {
 	public final static FrameButton NO_FRAME_BUTTON = null;
 	public final static String NO_GROUP_NAME = GUI.NULL_STRING;
-	JButton jButton;
+	KButton jButton;
 	JCheckBox jCheckBox;
 	String groupName;
 
-	public FrameButton (JButton aJButton) {
-		setJButton (aJButton);
+	public FrameButton (KButton aKButton) {
+		setKButton (aKButton);
 		setJCheckBox (GUI.NO_CHECK_BOX);
 		setGroupName (NO_GROUP_NAME);
 	}
@@ -21,7 +21,7 @@ public class FrameButton {
 	public FrameButton (JCheckBox aJCheckBox, String aGroupName) {
 		setJCheckBox (aJCheckBox);
 		setGroupName (aGroupName);
-		setJButton (GUI.NO_BUTTON);
+		setKButton (GUI.NO_BUTTON);
 	}
 
 	public void setCheckBox (JCheckBox aJCheckBox, String aGroupName) {
@@ -29,8 +29,8 @@ public class FrameButton {
 		setGroupName (aGroupName);
 	}
 
-	private void setJButton (JButton aJButton) {
-		jButton = aJButton;
+	private void setKButton (KButton aKButton) {
+		jButton = aKButton;
 	}
 
 	private void setJCheckBox (JCheckBox aJCheckBox) {
@@ -41,14 +41,14 @@ public class FrameButton {
 		groupName = aGroupName;
 	}
 
-	public boolean isJButton () {
+	public boolean isKButton () {
 		return jButton != GUI.NO_BUTTON;
 	}
 
 	public void setVisible (boolean aVisibleFlag) {
 		if (isJCheckBox ()) {
 			jCheckBox.setVisible (aVisibleFlag);
-		} else if (isJButton ()) {
+		} else if (isKButton ()) {
 			jButton.setVisible (aVisibleFlag);
 		}
 	}
@@ -58,7 +58,7 @@ public class FrameButton {
 
 		if (isJCheckBox ()) {
 			tIsVisible = jCheckBox.isVisible ();
-		} else if (isJButton ()) {
+		} else if (isKButton ()) {
 			tIsVisible = jButton.isVisible ();
 		}
 
@@ -76,7 +76,7 @@ public class FrameButton {
 	public String getTitle () {
 		String tTitle = GUI.NULL_STRING;
 
-		if (isJButton ()) {
+		if (isKButton ()) {
 			tTitle = jButton.getText ();
 		} else if (isJCheckBox ()) {
 			tTitle = jCheckBox.getText ();
@@ -99,7 +99,7 @@ public class FrameButton {
 	public String getToolTipText () {
 		String tToolTipText = GUI.NO_TOOL_TIP;
 
-		if (isJButton ()) {
+		if (isKButton ()) {
 			tToolTipText = jButton.getToolTipText ();
 		} else if (isJCheckBox ()) {
 			tToolTipText = jCheckBox.getToolTipText ();
@@ -117,7 +117,7 @@ public class FrameButton {
 	public boolean getEnabled () {
 		boolean tIsEnabled = false;
 
-		if (isJButton ()) {
+		if (isKButton ()) {
 			tIsEnabled = jButton.isEnabled ();
 		} else if (isJCheckBox ()) {
 			tIsEnabled = jCheckBox.isEnabled ();
@@ -126,14 +126,14 @@ public class FrameButton {
 		return tIsEnabled;
 	}
 
-	public JButton getJButton () {
-		JButton tJButton = GUI.NO_BUTTON;
+	public KButton getKButton () {
+		KButton tKButton = GUI.NO_BUTTON;
 
-		if (isJButton ()) {
-			tJButton = jButton;
+		if (isKButton ()) {
+			tKButton = jButton;
 		}
 
-		return tJButton;
+		return tKButton;
 	}
 
 	public JCheckBox getJCheckBox () {
