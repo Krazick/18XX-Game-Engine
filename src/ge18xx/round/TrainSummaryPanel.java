@@ -11,8 +11,9 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.GameBank;
 import ge18xx.train.TrainPortfolio;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.MessageBean;
+
+import geUtilities.GUI;
+import geUtilities.MessageBean;
 
 public class TrainSummaryPanel extends ListenerPanel {
 	private static final String NAME = "Train Summary";

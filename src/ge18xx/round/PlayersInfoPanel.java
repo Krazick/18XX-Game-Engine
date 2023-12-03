@@ -10,7 +10,8 @@ import javax.swing.border.TitledBorder;
 
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
-import ge18xx.utilities.MessageBean;
+
+import geUtilities.MessageBean;
 
 public class PlayersInfoPanel extends ListenerPanel{
 	private static final String NAME = "Players Info";

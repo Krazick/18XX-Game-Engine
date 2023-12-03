@@ -11,7 +11,7 @@ import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;

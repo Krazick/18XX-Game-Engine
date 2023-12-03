@@ -60,8 +60,9 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
+
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.MessageBean;
+import geUtilities.MessageBean;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
