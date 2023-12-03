@@ -255,8 +255,8 @@ public class Game_18XX extends XMLFrame {
 	private void playWhistle () {
 		Sound tSound;
 
-		tSound = new Sound ();
-		tSound.playSoundClip (tSound.WHISTLE);
+//		tSound = new Sound ();
+//		tSound.playSoundClip (tSound.WHISTLE);
 	}
 
 	public void setupLogger (String aUserName, String aAppName) {
