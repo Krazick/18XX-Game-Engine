@@ -34,6 +34,7 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.StartFormationAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -84,6 +85,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	String notificationText;
 	JPanel notificationJPanel;
 	JTextArea notiricationArea;
+
+	StartFormationAction startFormationAction;
 
 	ShareCompany formingShareCompany;
 	Player actingPresident;
@@ -207,11 +210,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		this (aGameManager);
 		
 		Player tActingPlayer;
-		
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
 			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
+			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany);
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayers = tPlayerManager.getPlayers ();
+
+			updatePlayersState (tPlayers, aBuyTrainAction);
 		}
 	}
 
@@ -279,9 +289,15 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		int tWidth;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-		ActorI.ActionStates tCurrentState;
-		GenericActor tGenericActor;
-		
+//		ActorI.ActionStates tCurrentState;
+//		GenericActor tGenericActor;
+//		RoundManager tRoundManager;
+//		ActorI.ActionStates tRoundType;
+//		ActorI.ActionStates tOldState;
+//		ActorI.ActionStates tNewState;
+//		String tRoundID;
+//		Bank tBank;
+
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		formationFrame = new XMLFrame (aFrameName, gameManager);
@@ -293,13 +309,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
 		
-		tGenericActor = new GenericActor ();
-		for (Player tPlayer : tPlayers) {
-			tCurrentState = tPlayer.getPrimaryActionState ();
-			if (! tGenericActor.isFormationRound (tCurrentState)) {
-				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
-			}
-		}
+//		tBank = gameManager.getBank ();
+//		tRoundManager = gameManager.getRoundManager ();
+//		tRoundType = tRoundManager.getCurrentRoundType ();
+//		tRoundID = tRoundManager.getCurrentRoundOf ();
+//		startFormationAction = new StartFormationAction (tRoundType, tRoundID, formingShareCompany);
+//		startFormationAction.addStartFormationEffect (tBank, formingShareCompany);
+		
+//		updatePlayersState (tPlayers);
 
 		setupPlayers (tPlayerManager, tPlayers);
 		formationFrame.buildScrollPane (formationJPanel);
@@ -316,6 +333,27 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		setShareFoldCount (0);
 	}
 
+	public void updatePlayersState (List<Player> tPlayers, BuyTrainAction aBuyTrainAction) {
+		GenericActor tGenericActor;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		
+		tGenericActor = new GenericActor ();
+		for (Player tPlayer : tPlayers) {
+
+			tOldState = tPlayer.getPrimaryActionState ();
+			if (! tGenericActor.isFormationRound (tOldState)) {
+				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
+				tNewState = tPlayer.getPrimaryActionState ();
+				aBuyTrainAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+			}
+		}
+	}
+
+	public void addStartFormationAction () {
+		gameManager.addAction (startFormationAction);
+	}
+	
 	private int panelHeight () {
 		int tPanelHeight;
 		int tPlayerHeight;
