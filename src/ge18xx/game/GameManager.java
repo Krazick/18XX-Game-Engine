@@ -1772,6 +1772,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
 		FormationPhase tFormationPhase;
+		String tFormationState;
 		
 		if (Action.EN_ACTIONS.equals (aChildName)) {
 			roundManager.loadActions (aChildNode, this);
@@ -1795,8 +1796,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
 		} else if (FormationPhase.EN_FORMATION_PHASE.equals (aChildName)) {
-			tFormationPhase = new FormationPhase (aChildNode, this);
-			setFormationPhase (tFormationPhase);
+			// If the Formation Phase is in a NoState, the game was undone, saved, and reloaded 
+			// It might be better to clear the formationPhase so it is not saved.
+			tFormationState = aChildNode.getThisAttribute (FormationPhase.AN_FORMATION_STATE);
+			if (! tFormationState.equals (ActionStates.NoState.toString ())) {
+				tFormationPhase = new FormationPhase (aChildNode, this);
+				setFormationPhase (tFormationPhase);
+			}
 		}
 	}
 
