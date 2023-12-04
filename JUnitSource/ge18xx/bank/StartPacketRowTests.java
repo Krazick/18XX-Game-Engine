@@ -13,8 +13,9 @@ import org.junit.jupiter.api.Test;
 import ge18xx.company.Certificate;
 //import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
-import ge18xx.utilities.UtilitiesTestFactory;
-import ge18xx.utilities.XMLNode;
+
+import geUtilities.XMLNode;
+import geUtilities.utilites.UtilitiesTestFactory;
 
 class StartPacketRowTests {
 	private CompanyTestFactory companyTestFactory;

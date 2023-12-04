@@ -6,7 +6,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.AddNewRouteSegmentEffect;
 import ge18xx.round.action.effects.SetNewEndPointEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RouteAction extends Action {
 	public static final String NAME = "Route";

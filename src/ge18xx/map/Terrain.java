@@ -21,11 +21,11 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.tiles.Feature;
 import ge18xx.toplevel.LoadableXMLI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class Terrain extends Feature implements LoadableXMLI {
 	public static final ElementName EN_TERRAIN = new ElementName ("Terrain");

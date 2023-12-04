@@ -2,10 +2,10 @@ package ge18xx.player;
 
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class Bidder implements ActorI {
 	public static final ElementName EN_BIDDER = new ElementName ("Bidder");

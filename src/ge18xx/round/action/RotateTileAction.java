@@ -5,7 +5,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RotateTileEffect;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RotateTileAction extends LayTileAction {
 	public final static String NAME = "Rotate Tile";

@@ -9,10 +9,10 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class CorporationTableFrame extends XMLFrame {
 	public static final ElementName EN_COMPANIES = new ElementName ("Companies");

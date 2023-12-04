@@ -2,7 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class AssetCollectionFinishedAction extends FormationPhaseAction {
 	public final static String NAME = "Asset Collection Finished";

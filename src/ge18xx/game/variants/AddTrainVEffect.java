@@ -7,10 +7,10 @@ import org.w3c.dom.NodeList;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.train.TrainInfo;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class AddTrainVEffect extends VariantEffect {
 	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");

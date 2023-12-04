@@ -9,10 +9,10 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class ChangeMarketCellEffect extends Effect {
 	public final static String NAME = "Change Market Cell";

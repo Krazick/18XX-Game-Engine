@@ -56,8 +56,8 @@ import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import geUtilities.GUI;
-import geUtilities.Sound;
-import ge18xx.utilities.XMLDocument;
+//import geUtilities.Sound;
+import geUtilities.XMLDocument;
 
 import org.apache.logging.log4j.Logger;
 
@@ -253,7 +253,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void playWhistle () {
-		Sound tSound;
+//		Sound tSound;
 
 //		tSound = new Sound ();
 //		tSound.playSoundClip (tSound.WHISTLE);

@@ -3,11 +3,11 @@ package ge18xx.company;
 import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class ExchangePrivateQuery extends QueryOffer {
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");

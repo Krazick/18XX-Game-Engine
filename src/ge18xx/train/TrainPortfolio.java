@@ -23,15 +23,15 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.ElementName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.ParsingRoutineIO;
-import ge18xx.utilities.ParsingRoutineIOO;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutineI;
+import geUtilities.ParsingRoutineIO;
+import geUtilities.ParsingRoutineIOO;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class TrainPortfolio implements TrainHolderI {
 	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";

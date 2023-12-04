@@ -51,12 +51,12 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.tiles.Track;
 import ge18xx.tiles.Upgrade;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");

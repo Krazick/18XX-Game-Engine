@@ -16,10 +16,10 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 @DisplayName ("Effect Constructor Tests")
 class EffectTestConstructor {

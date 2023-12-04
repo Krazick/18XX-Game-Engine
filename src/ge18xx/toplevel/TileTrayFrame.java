@@ -14,8 +14,8 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

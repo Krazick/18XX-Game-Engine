@@ -27,13 +27,13 @@ import ge18xx.company.TokenStack;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class MarketCell {
 	public final static ElementName EN_MARKET_CELL = new ElementName ("MarketCell");

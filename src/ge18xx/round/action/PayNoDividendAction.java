@@ -4,7 +4,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PayNoDividendAction extends ChangeMarketCellAction {
 	public final static String NAME = "Pay No Dividend";

@@ -10,7 +10,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 import swingDelays.KButton;
 

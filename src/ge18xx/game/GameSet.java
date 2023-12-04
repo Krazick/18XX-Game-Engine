@@ -31,15 +31,14 @@ import ge18xx.network.JGameClient;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.PlayerInputFrame;
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.GUI;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 import swingDelays.KButton;
-
 
 public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_GAMES = new ElementName ("Games");

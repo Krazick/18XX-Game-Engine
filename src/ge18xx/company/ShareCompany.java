@@ -31,11 +31,11 @@ import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 //

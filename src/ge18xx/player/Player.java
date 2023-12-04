@@ -40,16 +40,16 @@ import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.XMLFrame;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.ParsingRoutineIO;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutineI;
+import geUtilities.ParsingRoutineIO;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 //
 //  Player.java

@@ -10,8 +10,8 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTokenEffect;
 import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.GUI;
+import geUtilities.XMLNode;
 
 public class LayTokenAction extends ChangeMapAction {
 	public final static String NAME = "Lay Token";

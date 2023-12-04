@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ClearRoundDividendEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class ClearRoundDividendsAction extends Action {
 	public final static String NAME = "Clear Round Dividends";

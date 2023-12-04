@@ -45,14 +45,14 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.train.TrainRevenueFrame;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public abstract class TrainCompany extends Corporation implements CashHolderI, TrainHolderI {
 	public static final ElementName EN_TRAIN_COMPANY = new ElementName ("TrainCompany");

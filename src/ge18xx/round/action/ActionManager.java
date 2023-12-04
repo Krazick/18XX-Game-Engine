@@ -17,10 +17,10 @@ import ge18xx.network.ResendLastActionsFrame;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class ActionManager {
 	public final static ActionManager NO_ACTION_MANAGER = null;

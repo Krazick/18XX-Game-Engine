@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class CloseCorporationEffect extends ChangeCorporationStatusEffect {
 	public final static String NAME = "Close Corporation";

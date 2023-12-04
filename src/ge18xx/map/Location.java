@@ -21,7 +21,7 @@ import java.awt.Point;
 // 50      Center City Clocation
 // 99      Dead End Location
 
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 
 public class Location implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import ge18xx.map.Hex;
 import ge18xx.tiles.Feature2;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PrivateRailwayCenter extends RevenueCenter {
 

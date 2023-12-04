@@ -10,8 +10,8 @@ import java.io.IOException;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
 
 public interface LoadableXMLI extends ParsingRoutineI {
 	/* Returns the name of the Loadable Object for Error Messages */

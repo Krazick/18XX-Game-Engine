@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.AuctionRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class NewCurrentBidderEffect extends ChangePlayerEffect {
 	public final static String NAME = "New Current Bidder";

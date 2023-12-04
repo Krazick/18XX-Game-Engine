@@ -12,8 +12,8 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class TilePlacementBenefit extends MapBenefit {

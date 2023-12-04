@@ -3,9 +3,9 @@ package ge18xx.game.variants;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.train.TrainInfo;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class ModifyTrainVEffect extends VariantEffect {
 	static final String NAME = "Modify Train";

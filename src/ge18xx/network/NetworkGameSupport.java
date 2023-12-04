@@ -10,7 +10,7 @@ import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import geUtilities.FileUtils;
-import ge18xx.utilities.XMLElement;
+import geUtilities.XMLElement;
 
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";

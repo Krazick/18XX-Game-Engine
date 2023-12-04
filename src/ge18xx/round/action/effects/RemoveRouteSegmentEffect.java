@@ -8,10 +8,10 @@ import ge18xx.round.action.ActorI;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainRevenueFrame;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class RemoveRouteSegmentEffect extends ChangeRouteEffect {
 	final static AttributeName AN_SEGMENT_INDEX = new AttributeName ("segmentIndex");

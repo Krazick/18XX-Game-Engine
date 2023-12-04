@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 
 public interface ActorI {
 	public final ActorI NO_ACTOR = null;

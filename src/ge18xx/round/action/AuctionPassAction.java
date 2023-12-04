@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.AuctionPassEffect;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.NewCurrentBidderEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class AuctionPassAction extends ChangeStateAction {
 	public final static String NAME = "Auction Pass";

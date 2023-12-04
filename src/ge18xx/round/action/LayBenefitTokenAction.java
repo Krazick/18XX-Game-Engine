@@ -5,7 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.LayBenefitTokenEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class LayBenefitTokenAction extends ChangeMapAction {
 	public final static String NAME = "Lay Benefit Token";

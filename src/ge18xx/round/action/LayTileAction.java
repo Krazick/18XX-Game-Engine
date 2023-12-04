@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class LayTileAction extends ChangeMapAction {
 	public final static String NAME = "Lay Tile";

@@ -7,7 +7,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RemoveTokenEffect extends LayTokenEffect {
 	public final static String NAME = "Remove Token";

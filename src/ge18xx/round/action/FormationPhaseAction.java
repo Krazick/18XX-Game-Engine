@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FormationPhaseAction extends Action {
 	public final static String NAME = "Formation Phase";

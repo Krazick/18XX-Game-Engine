@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import ge18xx.utilities.MessageBean;
+import geUtilities.MessageBean;
 
 public abstract class ListenerPanel extends JPanel implements PropertyChangeListener {
 

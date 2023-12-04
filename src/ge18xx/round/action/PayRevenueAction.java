@@ -4,7 +4,7 @@ import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.effects.PayCashRevenueEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PayRevenueAction extends CashTransferAction {
 	public final static String NAME = "Pay Revenue";

@@ -22,7 +22,8 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.utilities.UtilitiesTestFactory;
+
+import geUtilities.utilites.UtilitiesTestFactory;
 
 class ChangeMapEffectTests {
 	ChangeMapEffect effectAlpha;

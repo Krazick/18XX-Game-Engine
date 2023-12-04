@@ -7,7 +7,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class ConfirmBuyPresidentSharePreference extends TrueFalseDecisionPreference implements ItemListener {
 	public final static String decisionType = "BuyPresidentShare";

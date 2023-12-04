@@ -22,11 +22,11 @@ import ge18xx.map.MapCell;
 import ge18xx.tiles.Feature;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public abstract class RevenueCenter extends Feature implements Cloneable {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

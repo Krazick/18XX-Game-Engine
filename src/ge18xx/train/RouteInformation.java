@@ -20,13 +20,13 @@ import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineIO;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineIO;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");

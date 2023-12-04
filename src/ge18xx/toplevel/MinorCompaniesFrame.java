@@ -15,9 +15,9 @@ import ge18xx.company.MinorCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class MinorCompaniesFrame extends CorporationTableFrame {
 	/**

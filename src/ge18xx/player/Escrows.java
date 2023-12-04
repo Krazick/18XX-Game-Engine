@@ -8,12 +8,12 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class Escrows {
 	public final static boolean ESCROW_EXACT_MATCH = true;

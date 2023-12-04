@@ -28,12 +28,12 @@ import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class Train extends Coupon implements Comparable<Object> {
 	final static ElementName EN_TRAIN = new ElementName ("Train");

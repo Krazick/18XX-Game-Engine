@@ -19,7 +19,7 @@ import ge18xx.game.Game_18XX;
 
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 
 public class Feature implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");

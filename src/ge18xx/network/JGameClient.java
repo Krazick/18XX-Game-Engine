@@ -48,13 +48,13 @@ import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-//import ge18xx.utilities.Validators;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+//import geUtilities.Validators;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class JGameClient extends XMLFrame {

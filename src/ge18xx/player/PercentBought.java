@@ -1,9 +1,9 @@
 package ge18xx.player;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class PercentBought {
 	public final static ElementName EN_PERCENT_BOUGHT = new ElementName ("PercentBought");

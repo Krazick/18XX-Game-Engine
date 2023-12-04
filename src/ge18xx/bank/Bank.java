@@ -32,15 +32,15 @@ import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 
-import ge18xx.utilities.ParsingRoutine2I;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutine2I;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class Bank extends GameBank implements CashHolderI {
 	private static final AttributeName AN_BANK_CASH = new AttributeName ("cash");

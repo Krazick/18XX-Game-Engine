@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowChangeEffect;
 import ge18xx.round.action.effects.NewCurrentBidderEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class AuctionRaiseAction extends CashTransferAction {
 	public final static String NAME = "Auction Raise";

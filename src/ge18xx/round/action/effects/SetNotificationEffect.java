@@ -5,11 +5,11 @@ import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.GUI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class SetNotificationEffect extends Effect {
 	public final static String NAME = "Set Notification";

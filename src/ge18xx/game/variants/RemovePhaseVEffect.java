@@ -1,7 +1,7 @@
 package ge18xx.game.variants;
 
 import ge18xx.game.GameManager;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RemovePhaseVEffect extends PhaseInfoVEffect {
 	static final String NAME = "Remove Phase";

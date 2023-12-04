@@ -1,9 +1,9 @@
 package ge18xx.game;
 
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class FrameInfo {
 	public static final AttributeName AN_NAME = new AttributeName ("name");

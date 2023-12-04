@@ -3,10 +3,10 @@ package ge18xx.player;
 import java.util.Arrays;
 
 import ge18xx.bank.Bank;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.GUI;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class RoundDividends {
 	public final static AttributeName AN_DIVIDENDS = new AttributeName ("dividends");

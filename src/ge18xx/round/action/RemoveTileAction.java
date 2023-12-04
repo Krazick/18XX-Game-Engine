@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeTileEffect;
 import ge18xx.round.action.effects.RemoveTileEffect;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RemoveTileAction extends ChangeMapAction {
 	public final static String NAME = "Remove Tile";

@@ -5,7 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class OperatedTrainsAction extends ChangeStateAction {
 	public final static String NAME = "Operated Train";

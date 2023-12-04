@@ -1,6 +1,6 @@
 package ge18xx.company.benefit;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FirstORBenefit extends Benefit {
 

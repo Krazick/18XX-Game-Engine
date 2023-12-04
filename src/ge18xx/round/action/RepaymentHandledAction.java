@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.SetRepaymentHandledEffect;
 import ge18xx.round.action.effects.ShareFoldCountEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
 	public final static String NAME = "Repayement Handled";

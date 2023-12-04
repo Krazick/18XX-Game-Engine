@@ -9,9 +9,10 @@ import org.mockito.Mockito;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
+
 import geUtilities.GUI;
-import ge18xx.utilities.UtilitiesTestFactory;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
+import geUtilities.utilites.UtilitiesTestFactory;
 
 public class CompanyTestFactory {
 	public final TokenCompanyConcrete NO_TOKEN_COMPANY = null;
@@ -426,6 +427,16 @@ public class CompanyTestFactory {
 		protected boolean choiceForBaseToken () {
 			return false;
 		}
+		
+		@Override
+		public boolean isAOperatingRound () {
+			return false;
+		}
+		
+		@Override
+		public void completeBenefitInUse (Corporation aOwningCompany) {
+		}
+
 	}
 
 	public TrainCompany buildTrainCompanyConcrete () {

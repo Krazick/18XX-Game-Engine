@@ -3,7 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FinishAuctionEffect extends Effect {
 	public final static String NAME = "Finish Auction";

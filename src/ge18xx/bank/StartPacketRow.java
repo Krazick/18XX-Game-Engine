@@ -15,12 +15,12 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
 	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");

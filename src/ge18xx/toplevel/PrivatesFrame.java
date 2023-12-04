@@ -19,9 +19,9 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class PrivatesFrame extends CorporationTableFrame {
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [0].toString ();

@@ -12,7 +12,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.effects.BenefitUsedEffect;
 
 import geUtilities.GUI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	public final static String NAME = "Free License";

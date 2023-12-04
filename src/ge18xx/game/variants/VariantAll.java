@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class VariantAll extends Variant {
 	static final String TITLE = "Variant All";

@@ -10,13 +10,13 @@ import javax.swing.border.Border;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
 import swingDelays.KButton;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 //
 //  MinorCompany.java

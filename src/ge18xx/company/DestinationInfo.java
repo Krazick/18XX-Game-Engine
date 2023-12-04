@@ -2,9 +2,9 @@ package ge18xx.company;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class DestinationInfo {
 	public static final DestinationInfo NO_DESTINATION_INFO = null;

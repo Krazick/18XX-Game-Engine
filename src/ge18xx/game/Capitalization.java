@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import org.w3c.dom.NodeList;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLNode;
 
 public class Capitalization {
 	public static final String INCREMENTAL_5 = "Incremental_5";

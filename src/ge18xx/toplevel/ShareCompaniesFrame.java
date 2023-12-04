@@ -25,9 +25,9 @@ import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 import swingDelays.KButton;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {

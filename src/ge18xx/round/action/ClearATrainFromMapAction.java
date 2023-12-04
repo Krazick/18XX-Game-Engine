@@ -4,7 +4,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ClearATrainFromMapEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 /**
  * Will clear specific Trains from the map. Each Train to be cleared needs to be added as a individual

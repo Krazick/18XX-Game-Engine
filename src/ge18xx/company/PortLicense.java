@@ -1,8 +1,8 @@
 package ge18xx.company;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class PortLicense extends License {
 	public static final AttributeName AN_PORT_LICENSE = new AttributeName ("port");

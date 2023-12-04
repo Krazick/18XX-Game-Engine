@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.ClearCorporationEffect;
 import ge18xx.round.action.effects.RemoveTokenEffect;
 import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class ReplaceTokenAction extends LayTokenAction {
 	public final static String NAME = "Replace Token";

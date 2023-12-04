@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.effects.ChangeMarketCellEffect;
 import ge18xx.round.action.effects.Effect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class ChangeMarketCellAction extends TransferOwnershipAction {
 	public final static String NAME = "Change Market Cell";

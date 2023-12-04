@@ -11,10 +11,10 @@ import org.w3c.dom.NodeList;
 //
 
 import ge18xx.map.Location;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.XMLNode;
 
 public class Upgrade {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

@@ -34,14 +34,14 @@ import ge18xx.map.MapGraph;
 import ge18xx.map.Vertex;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.ReplaceTokenAction;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.ParsingRoutine3I;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.ParsingRoutine3I;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class Tile implements Comparable<Object>, Cloneable {
 	public final static AttributeName AN_NUMBER = new AttributeName ("number");

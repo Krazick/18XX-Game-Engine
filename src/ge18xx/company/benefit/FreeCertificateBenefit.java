@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FreeCertificateBenefit extends CertificateBenefit {
 	public final static String NAME = "FREE_CERTIFICATE";

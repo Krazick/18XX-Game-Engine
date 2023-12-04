@@ -8,8 +8,10 @@ import org.mockito.Mockito;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.TileTrayFrame;
-import ge18xx.utilities.UtilitiesTestFactory;
-import ge18xx.utilities.XMLNode;
+
+
+import geUtilities.XMLNode;
+import geUtilities.utilites.UtilitiesTestFactory;
 
 public class GameTestFactory {
 	UtilitiesTestFactory utilitiesTestFactory;

@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RemoveRouteSegmentEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class RemoveRouteSegmentsAction extends RouteAction {
 	public static final String NAME = "Remove Route Segment";

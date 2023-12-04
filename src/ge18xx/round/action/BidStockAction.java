@@ -11,7 +11,7 @@ import ge18xx.round.action.effects.BidToCertificateEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowCashTransferEffect;
 import ge18xx.round.action.effects.EscrowToPlayerEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class BidStockAction extends CashTransferAction {
 	public final static String NAME = "Bid on Stock";

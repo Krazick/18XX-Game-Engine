@@ -15,11 +15,11 @@ import java.awt.Point;
 
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class TileName extends Feature implements Cloneable {
 	public final static ElementName EN_TILE_NAME = new ElementName ("TileName");

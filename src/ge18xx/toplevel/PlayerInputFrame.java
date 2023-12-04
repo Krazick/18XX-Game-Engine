@@ -33,8 +33,8 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.ElementName;
+import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {

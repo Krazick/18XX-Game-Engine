@@ -11,10 +11,10 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public abstract class Round implements ActorI {
 	public final static String NAME = "Round";

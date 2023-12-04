@@ -20,7 +20,7 @@ import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class TownTick extends Town {
 

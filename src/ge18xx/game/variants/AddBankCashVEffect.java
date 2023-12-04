@@ -5,10 +5,10 @@ import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class AddBankCashVEffect extends VariantEffect {
 	static final AttributeName AN_ACTOR_NAME = new AttributeName ("actorName");

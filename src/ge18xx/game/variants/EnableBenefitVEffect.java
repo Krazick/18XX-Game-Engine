@@ -4,10 +4,10 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 
 public class EnableBenefitVEffect extends VariantEffect {

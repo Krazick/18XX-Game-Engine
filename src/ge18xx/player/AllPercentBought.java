@@ -3,12 +3,12 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class AllPercentBought {
 	public final static ElementName EN_ALL_PERCENT_BOUGHT = new ElementName ("AllPercentBought");

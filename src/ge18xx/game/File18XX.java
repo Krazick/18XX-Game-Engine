@@ -1,8 +1,8 @@
 package ge18xx.game;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLNode;
 
 public class File18XX {
 	public static final String CITIES_TYPE = "cities";

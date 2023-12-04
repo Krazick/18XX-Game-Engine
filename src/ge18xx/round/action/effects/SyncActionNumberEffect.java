@@ -3,8 +3,8 @@ package ge18xx.round.action.effects;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLNode;
 
 public class SyncActionNumberEffect extends Effect {
 	public final static String NAME = "Sync Action Number";

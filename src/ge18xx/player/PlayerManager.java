@@ -50,14 +50,14 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 import geUtilities.MessageBean;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.ParsingRoutineIO;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutineI;
+import geUtilities.ParsingRoutineIO;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class PlayerManager {
 	public static final AttributeName AN_NAME = new AttributeName ("name");

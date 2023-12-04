@@ -22,12 +22,12 @@ import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.XMLFrame;
 
-import ge18xx.utilities.ElementName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class StartPacketFrame extends XMLFrame implements LoadableXMLI, PortfolioHolderLoaderI {
 	private static final ElementName EN_ITEM = new ElementName ("Item");

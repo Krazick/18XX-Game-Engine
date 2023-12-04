@@ -10,9 +10,9 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.Action;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 import geUtilities.GUI;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PassiveTokenBenefit extends FreeLicenseBenefit {
 	public final static String NAME = "Passive Token Placement";

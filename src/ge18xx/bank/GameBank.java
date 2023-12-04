@@ -25,9 +25,9 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.MessageBean;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected GameManager gameManager;

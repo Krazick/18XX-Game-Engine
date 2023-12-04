@@ -11,12 +11,12 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class PhaseManager {
 	public static final PhaseManager NO_PHASE_MANAGER = null;

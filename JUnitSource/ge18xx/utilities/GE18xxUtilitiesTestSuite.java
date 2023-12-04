@@ -5,8 +5,8 @@ import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
-@SuiteDisplayName ("Game Engine 18XX Utilities Test Suite")
-@SelectPackages ("ge18xx.utilities")
+@SuiteDisplayName ("Game Engine Utilities Test Suite")
+@SelectPackages ("geUtilities")
 class GE18xxUtilitiesTestSuite {
 
 }

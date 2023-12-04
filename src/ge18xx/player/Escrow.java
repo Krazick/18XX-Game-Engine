@@ -3,13 +3,13 @@ package ge18xx.player;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineIO;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineIO;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class Escrow implements CashHolderI {
 	public static final ElementName EN_ESCROW = new ElementName ("Escrow");

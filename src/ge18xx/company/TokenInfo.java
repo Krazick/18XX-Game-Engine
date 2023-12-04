@@ -1,11 +1,11 @@
 package ge18xx.company;
 
 import ge18xx.bank.Bank;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class TokenInfo {
 	public final static AttributeName AN_AVAILABLE_TOKEN_TYPE = new AttributeName ("tokenType");

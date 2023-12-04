@@ -1,8 +1,8 @@
 package ge18xx.player;
 
 import ge18xx.phase.PhaseInfo;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLNode;
 
 //
 //  PlayerInfo.java

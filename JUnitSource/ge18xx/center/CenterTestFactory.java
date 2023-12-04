@@ -5,8 +5,9 @@ import java.awt.Graphics;
 import org.mockito.Mockito;
 
 import ge18xx.game.GameTestFactory;
-import ge18xx.utilities.UtilitiesTestFactory;
-import ge18xx.utilities.XMLNode;
+
+import geUtilities.XMLNode;
+import geUtilities.utilites.UtilitiesTestFactory;
 
 public class CenterTestFactory {
 	private GameTestFactory gameTestFactory;

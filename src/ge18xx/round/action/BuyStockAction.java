@@ -6,7 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.round.action.effects.SetPercentBoughtEffect;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class BuyStockAction extends TransferOwnershipAction {
 	public final static String NAME = "Buy Stock";

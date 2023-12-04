@@ -1,8 +1,9 @@
 package ge18xx.company.benefit;
 
 import ge18xx.company.PrivateCompany;
-import ge18xx.utilities.UtilitiesTestFactory;
-import ge18xx.utilities.XMLNode;
+
+import geUtilities.XMLNode;
+import geUtilities.utilites.UtilitiesTestFactory;
 
 public class BenefitTestFactory {
 	UtilitiesTestFactory utilitiesTestFactory;

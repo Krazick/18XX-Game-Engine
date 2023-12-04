@@ -5,7 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ApplyDiscountEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PassAction extends ChangeStateAction {
 	public final static String NAME = "Pass";

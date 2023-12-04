@@ -12,13 +12,13 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
-import ge18xx.utilities.ElementName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
 import swingDelays.KButton;
 
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class Benefits {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");

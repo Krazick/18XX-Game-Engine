@@ -23,13 +23,13 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerInfo;
 import ge18xx.train.TrainInfo;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class GameInfo {
 	public static final GameInfo NO_GAME_INFO = null;

@@ -5,7 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.NewCurrentPlayerEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class ChangePlayerAction extends SetWaitStateAction {
 	public final static String NAME = "Change Player";

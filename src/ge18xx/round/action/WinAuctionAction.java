@@ -15,7 +15,7 @@ import ge18xx.round.action.effects.RemoveAllBids;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class WinAuctionAction extends BuyStockAction {
 	public final static String NAME = "Win Auction";

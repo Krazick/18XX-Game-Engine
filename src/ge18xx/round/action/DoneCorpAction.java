@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
 import ge18xx.round.action.effects.EndCorpActionsEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class DoneCorpAction extends Action {
 	public final static String NAME = "Done";

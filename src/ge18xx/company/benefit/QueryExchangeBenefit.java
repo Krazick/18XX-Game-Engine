@@ -16,7 +16,7 @@ import ge18xx.round.action.QueryExchangeBenefitAction;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WaitForReponseFrame;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
 	public final static String NAME = "QUERY EXCHANGE";

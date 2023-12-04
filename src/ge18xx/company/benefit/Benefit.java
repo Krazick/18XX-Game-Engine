@@ -18,13 +18,13 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.GUI;
 import swingDelays.KButton;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public abstract class Benefit implements ActionListener {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");

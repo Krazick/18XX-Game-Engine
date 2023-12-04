@@ -16,11 +16,11 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.TriggerClassEffect;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class Action {
 	public final static String NO_NAME = ">> NO ACTION NAME <<";

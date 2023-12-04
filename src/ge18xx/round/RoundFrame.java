@@ -26,7 +26,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
+import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class RoundFrame extends XMLFrame {

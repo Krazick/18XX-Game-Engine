@@ -7,10 +7,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public abstract class UserPreference implements ActionListener {
 	public static UserPreference NO_USER_PREFERENCE;

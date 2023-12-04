@@ -29,9 +29,9 @@ import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileType;
 
 import geUtilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;

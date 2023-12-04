@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class VariantChoose1 extends Variant {
 	static final String TITLE = "Variant Choose 1";

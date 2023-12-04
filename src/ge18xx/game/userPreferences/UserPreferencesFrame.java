@@ -16,10 +16,10 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.ElementName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class UserPreferencesFrame extends XMLFrame {
 	public static final ElementName EN_USER_PREFERENCES = new ElementName ("UserPreferences");

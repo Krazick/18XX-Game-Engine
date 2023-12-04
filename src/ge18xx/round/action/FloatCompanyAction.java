@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class FloatCompanyAction extends CashTransferAction {
 	public final static String NAME = "Float Company";

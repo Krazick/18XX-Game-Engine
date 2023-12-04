@@ -11,10 +11,10 @@ import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class MapBenefit extends Benefit {
 	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");

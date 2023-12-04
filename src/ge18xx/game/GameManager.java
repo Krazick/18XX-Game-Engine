@@ -81,16 +81,16 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
 import geUtilities.GUI;
 import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 // TODO -- Create an abstract 'GenericGameManager' Super Class that holds non-specific Game information like:
 //   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific

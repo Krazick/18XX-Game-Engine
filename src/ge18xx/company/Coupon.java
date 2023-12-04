@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class Coupon {
 	String name;

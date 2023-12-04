@@ -13,8 +13,8 @@ import javax.swing.JTable;
 import ge18xx.center.CityList;
 import ge18xx.game.GameManager;
 
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class CitiesFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

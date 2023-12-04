@@ -10,10 +10,10 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class ChangeTileContentEffect extends ChangeTileEffect {
 	public static final String NAME = "Change Tile Contents";

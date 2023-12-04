@@ -11,7 +11,7 @@ import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class TransferOwnershipAction extends CashTransferAction {
 	public final static String NAME = "Transfer Ownership";

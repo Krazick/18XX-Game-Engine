@@ -5,10 +5,10 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
 	public final static String NAME = "Set Wait State";

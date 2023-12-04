@@ -2,9 +2,9 @@ package ge18xx.company;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class MapToken extends Token {
 	public static final MapToken NO_MAP_TOKEN = null;

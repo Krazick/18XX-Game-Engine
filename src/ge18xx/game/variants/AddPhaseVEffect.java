@@ -5,10 +5,10 @@ import org.w3c.dom.NodeList;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class AddPhaseVEffect extends PhaseInfoVEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");

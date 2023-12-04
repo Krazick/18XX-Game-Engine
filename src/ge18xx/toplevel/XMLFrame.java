@@ -26,9 +26,9 @@ import swingDelays.KButton;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class XMLFrame extends JFrame {
 	public static final XMLFrame NO_XML_FRAME = null;
@@ -176,7 +176,9 @@ public class XMLFrame extends JFrame {
 	}
 
 	public void setDefaults (XMLNode aXMLMapRoot) {
-		FrameInfo tFrameInfo = new FrameInfo (aXMLMapRoot);
+		FrameInfo tFrameInfo;
+		
+		tFrameInfo = new FrameInfo (aXMLMapRoot);
 		setDefaults (tFrameInfo);
 	}
 

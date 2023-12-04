@@ -58,13 +58,13 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.ParsingRoutineI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLNodeList;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.ParsingRoutineI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
+import geUtilities.XMLNodeList;
 
 public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NO_TILE_PLACED = "No Tile placed yet";

@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.GetLoanEffect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.UpdateLastRevenueEffect;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class PreparedCorporationAction extends ChangeStateAction {
 	public final static String NAME = "Prepared Corporation";

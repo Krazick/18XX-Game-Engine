@@ -10,10 +10,10 @@ import java.awt.Graphics;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
+import geUtilities.ElementName;
+import geUtilities.GUI;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 
 public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");

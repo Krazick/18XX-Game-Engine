@@ -19,10 +19,10 @@ import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 
-import ge18xx.utilities.AttributeName;
+import geUtilities.AttributeName;
 import geUtilities.GUI;
 import swingDelays.KButton;
-import ge18xx.utilities.XMLNode;
+import geUtilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {
 	public final static String NAME = "License";

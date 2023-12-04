@@ -5,10 +5,10 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
+import geUtilities.XMLNode;
 
 public class SoldCompanyEffect extends Effect {
 	public final static String NAME = "Sold Company";

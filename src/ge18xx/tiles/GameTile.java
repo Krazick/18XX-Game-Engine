@@ -17,8 +17,8 @@ import java.util.List;
 
 import ge18xx.map.Hex;
 import ge18xx.phase.PhaseInfo;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import geUtilities.AttributeName;
+import geUtilities.ElementName;
 
 public class GameTile {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");
