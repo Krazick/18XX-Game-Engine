@@ -110,6 +110,25 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		gameManager.setFormationPhase (this);
 	}
 
+	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+		this (aGameManager);
+		
+		Player tActingPlayer;
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+
+		if (aBuyTrainAction != Action.NO_ACTION) {
+			tActingPlayer = findActingPresident ();
+			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
+			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
+			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany);
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayers = tPlayerManager.getPlayers ();
+
+			updatePlayersState (tPlayers, aBuyTrainAction);
+		}
+	}
+
 	public FormationPhase (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
 		
@@ -207,25 +226,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		}
 	}
 
-	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
-		this (aGameManager);
-		
-		Player tActingPlayer;
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-
-		if (aBuyTrainAction != Action.NO_ACTION) {
-			tActingPlayer = findActingPresident ();
-			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
-			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
-			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany);
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayers = tPlayerManager.getPlayers ();
-
-			updatePlayersState (tPlayers, aBuyTrainAction);
-		}
-	}
-
 	public void setFormingPresidentAssigned (boolean aformingPresidentAssigned) {
 		formingPresidentAssigned = aformingPresidentAssigned;
 	}
@@ -290,14 +290,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		int tWidth;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-//		ActorI.ActionStates tCurrentState;
-//		GenericActor tGenericActor;
-//		RoundManager tRoundManager;
-//		ActorI.ActionStates tRoundType;
-//		ActorI.ActionStates tOldState;
-//		ActorI.ActionStates tNewState;
-//		String tRoundID;
-//		Bank tBank;
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
@@ -309,15 +301,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationJPanel.setBorder (tMargin);
 		
 		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
-		
-//		tBank = gameManager.getBank ();
-//		tRoundManager = gameManager.getRoundManager ();
-//		tRoundType = tRoundManager.getCurrentRoundType ();
-//		tRoundID = tRoundManager.getCurrentRoundOf ();
-//		startFormationAction = new StartFormationAction (tRoundType, tRoundID, formingShareCompany);
-//		startFormationAction.addStartFormationEffect (tBank, formingShareCompany);
-		
-//		updatePlayersState (tPlayers);
 
 		setupPlayers (tPlayerManager, tPlayers);
 		formationFrame.buildScrollPane (formationJPanel);
@@ -513,6 +496,47 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tNextPlayerIndex;
 	}
 	
+	public void updateToFormingPresident (ActorI.ActionStates aFormationState) {
+		PlayerManager tPlayerManager;
+		Player tCurrentPlayer;
+		Player tFormingPresident;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ActorI.ActionStates tPrezOldState;
+		ActorI.ActionStates tPrezNewState;
+		int tPresidentIndex;
+		List<Player> tPlayers;
+		ChangeStateAction tChangeStateAction;
+
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		tCurrentPlayer = tPlayers.get (currentPlayerIndex);
+		
+		tOldState = tCurrentPlayer.getPrimaryActionState ();
+		tCurrentPlayer.setPrimaryActionState (formationState);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();;
+		tFormingPresident = (Player) formingShareCompany.getPresident ();
+		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "3", tCurrentPlayer);
+		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
+
+		if (tFormingPresident != tCurrentPlayer) {
+			System.out.println ("Need to shift currentPlayer " + tCurrentPlayer.getName () + " to Forming Company President " + 
+							tFormingPresident.getName ());
+			tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
+			tPrezOldState = tFormingPresident.getPrimaryActionState ();
+			tFormingPresident.setPrimaryActionState (aFormationState);
+			tPrezNewState = tFormingPresident.getPrimaryActionState ();
+			tChangeStateAction.addStateChangeEffect (tFormingPresident, tPrezOldState, tPrezNewState);
+			setCurrentPlayerIndex (tPresidentIndex);
+			tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tFormingPresident);
+			gameManager.addAction (tChangeStateAction);
+			actingPresident = tFormingPresident;
+			rebuildFormationPanel (tPresidentIndex);
+		} else {
+			System.out.println ("On the Current President");
+		}
+	}
+	
 	public Player getCurrentPlayer () {
 		Player tCurrentPlayer;
 		PlayerManager tPlayerManager;
@@ -692,9 +716,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			} else {
 				actingPresident = Player.NO_PLAYER;
 			}
-//			tActingPlayer
-//		} else {
-//			tActingPlayer = actingPresident;
 		}
 		tActingPlayer = actingPresident;
 	
@@ -739,8 +760,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, actingPresident);
 		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
+		tChangeFormationPhaseStateAction.setChainToPrevious (true);
+		
 		gameManager.addAction (tChangeFormationPhaseStateAction);
-
+		if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
+			(tNewFormationState == ActorI.ActionStates.AssetCollection) ||
+			(tNewFormationState == ActorI.ActionStates.StockValueCalculation)) {
+			updateToFormingPresident (tNewFormationState);
+		}
 	}
 
 	public void handleFoldIntoFormingCompany () {
