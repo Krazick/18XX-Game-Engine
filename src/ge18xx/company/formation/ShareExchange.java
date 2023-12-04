@@ -437,6 +437,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 		if (tCertificatesTransferred > 0) {
 			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
+			tTransferOwnershipAction.setChainToPrevious (true);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
 	}
@@ -615,7 +616,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
-
+		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
 		super.handlePlayerDone ();
 		if (formationPhase.getAllPlayerSharesHandled ()) {
