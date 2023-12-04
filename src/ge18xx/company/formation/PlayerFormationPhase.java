@@ -40,10 +40,10 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected List<String> shareCompaniesHandled;
 
 	JPanel buttonsPanel;
+	JLabel presidentNameLabel;
 	KButton continueButton;
 	KButton doneButton;
 	KButton undoButton;
-	JLabel presidentNameLabel;
 	boolean actingPlayer;
 
 	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aFormationPhase, Player aPlayer, 

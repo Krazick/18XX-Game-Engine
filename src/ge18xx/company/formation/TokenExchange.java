@@ -57,8 +57,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 	List<String> nonHomeMapCellsInfo;
 	ReplaceTokenAction replaceTokenAction;
 	
-	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
-			Player aActingPresident) {
+	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer, Player aActingPresident) {
 		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
 	}
 
@@ -69,9 +68,9 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		JLabel tNoteLabel;
 		Corporation tNewCompany;
 		ShareCompany tFormingShareCompany;
-		int tFormingCompanyID;
 		boolean tIsPresident;
-		
+		int tFormingCompanyID;
+
 		tCompanyInfoPanel = new JPanel ();		
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tNewCompany = gameManager.getCorporationByID (tFormingCompanyID);
