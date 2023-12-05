@@ -1341,11 +1341,6 @@ public class MapCell implements Comparator<Object> {
 		tileOrientLocked = aTileOrientLocked;
 	}
 
-//	public void putTile (Tile aTile, int aTileOrient, boolean aStarting) {
-//		putTile (aTile, aTileOrient);
-//		setStartingTile (aStarting);
-//	}
-
 	public void putTile (Tile aTile, int aTileOrient) {
 		int tNewTileNumber;
 
@@ -2650,5 +2645,26 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tile.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, this, aReplaceTokenAction);
 		}
+	}
+	
+	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
+		if (isTileOnCell ()) {
+			tile.removeDestination (aDestinationLocation, aAbbrev);
+		} else {
+			centers.removeDestination (aDestinationLocation, aAbbrev);
+		}
+		setDestinationCorpID (Corporation.NO_ID);
+	}
+	
+	public void replaceDestination (Location aDestinationLocation, ShareCompany aShareCompany) {
+		int tCorpID;
+		
+		if (isTileOnCell () ) {
+			tile.replaceDestination (aDestinationLocation);
+		} else {
+			centers.replaceDestination (aDestinationLocation);
+		}
+		tCorpID = aShareCompany.getID ();
+		setDestinationCorpID (tCorpID);
 	}
 }

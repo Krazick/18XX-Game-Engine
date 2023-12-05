@@ -21,8 +21,10 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
+import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -378,8 +380,6 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 			exchangeTokens (nonHomeMapCellsInfo, false);
 		} else if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
-		} else if (tActionCommand.equals (FormationPhase.ASSET_COLLECTION)) {
-			formationPhase.allPlayersHandled  ();
 		} else {
 			super.actionPerformed (aEvent);
 		}
@@ -438,7 +438,10 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 
 		tToolTip = GUI.NO_TOOL_TIP;
 		if (gameManager.isNetworkAndIsThisClient (player.getName ())) {
-			if (getHomeTokensExchanged ()) {
+			if (getHomeTokensExchanged () && getNonHomeTokensExchanged ()) {
+				doneButton.setEnabled (true);
+				tToolTip = "All Tokens have been exchanged.";
+			} else if (getHomeTokensExchanged ()) {
 				doneButton.setEnabled (false);
 				tToolTip = "President already completed all Home Token exchanges";
 			} else if (getNonHomeTokensExchanged ()) {
@@ -456,25 +459,8 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 	}
 	
 	@Override
-	public void updateContinueButton () {
-		String tToolTip;
-		
-		if (getHomeTokensExchanged () && getNonHomeTokensExchanged () && actingPlayer) {
-			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.TokenExchange))) {
-				continueButton.setEnabled (true);
-				tToolTip = "All Tokens have been exchanged, proceed to Asset Collection";			
-				continueButton.setToolTipText (tToolTip);
-				continueButton.setVisible (true);
-			} else {
-				continueButton.setEnabled (false);
-				tToolTip = "Not Ready Yet";
-				continueButton.setToolTipText (tToolTip);
-				continueButton.setVisible (false);
-			}	
-			continueButton.setActionCommand (FormationPhase.ASSET_COLLECTION);
-		} else {
-			continueButton.setVisible (false);
-		}
+	public void updateContinueButton (boolean aActingPlayer) {
+		continueButton.setVisible (false);
 	}
 
 	public void exchangeTokens (List<String> aMapCellIDs, boolean tExchangeHomeTokens) {
@@ -533,21 +519,57 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 	}
 	
+	public void removeDestinations () {
+		MapCell tDestinationMapCell;
+		Location tDestinationLocation;
+		int tShareIndex;
+		int tShareCount;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;
+
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					tDestinationMapCell = tShareCompany.getDestinationMapCell ();
+					tDestinationLocation = tShareCompany.getDestinationLocation ();
+					System.out.println ("Ready to remove Destination for " + tShareCompany.getAbbrev () + " on " + tDestinationMapCell.getID ());
+					tDestinationMapCell.removeDestination (tDestinationLocation, tShareCompany.getAbbrev ());
+				}
+			}
+		}
+		gameManager.repaintMapFrame ();
+	}
+	
 	@Override
 	public void handlePlayerDone () {
 		TokenExchangeFinishedAction tTokenExchangeFinishedAction;
 		String tOperatingRoundID;
-		Player tNewPlayer;
+		PlayerManager tPlayerManager;
+		List<Player> tPlayers;
+		ActorI.ActionStates tOldState;
 		
-		super.handlePlayerDone ();
-
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
+
+		removeDestinations ();
+
 		tTokenExchangeFinishedAction = new TokenExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
-		tNewPlayer = formationPhase.getCurrentPlayer ();
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		
+		for (Player tPlayer : tPlayers) {
+			tOldState = tPlayer.getPrimaryActionState ();
+			tPlayer.setPrimaryActionState (formationPhase.formationState);
+			tTokenExchangeFinishedAction.addStateChangeEffect (tPlayer, tOldState, formationPhase.formationState);
+		}
 
-		tTokenExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
 		tTokenExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tTokenExchangeFinishedAction);
+		
+		formationPhase.allPlayersHandled  ();
+		formationPhase.applyCommand (FormationPhase.ASSET_COLLECTION);
 	}
 }

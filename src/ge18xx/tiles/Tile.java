@@ -102,7 +102,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tNumber = aNode.getThisIntAttribute (AN_NUMBER);
 		tType = aNode.getThisAttribute (AN_TYPE);
 		tFixed = aNode.getThisBooleanAttribute (AN_FIXED);
-		name = null;
+		name = TileName.NO_TILE_NAME;
 		tTileTypeID = TileType.getTypeFromName (tType);
 		tXMLNodeList = new XMLNodeList (tileParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aNode, TileName.EN_TILE_NAME, Track.EN_TRACK, RevenueCenter.EN_REVENUE_CENTER);
@@ -1209,5 +1209,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 								MapCell aMapCell, ReplaceTokenAction aReplaceTokenAction) {
 		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
+	}
+	
+	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
+		centers.removeDestination (aDestinationLocation, aAbbrev);
+	}
+	
+	public void replaceDestination (Location aDestinationLocation) {
+		centers.replaceDestination (aDestinationLocation);
 	}
 }

@@ -838,4 +838,42 @@ public class Centers implements Cloneable {
 			}
 		}
 	}
+	
+	/**
+	 * Remove One Destination found at the specified Location
+	 * 
+	 * @param aDestinationLocation The Location that needs to have the Destination removed
+	 * @param aAbbrev The abbreviation of the company that has the destination to be removed
+	 */
+	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
+		int tRevenueCenterCount;
+		int tRevenueCenterIndex;
+		int tRemoveCenterIndex;
+		int NO_MATCH_FOUND = -1;
+		RevenueCenter tRevenueCenter;
+
+		tRevenueCenterCount = centers.size ();
+		tRemoveCenterIndex = NO_MATCH_FOUND;
+		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
+			tRevenueCenter = centers.get (tRevenueCenterIndex);
+			if (tRevenueCenter.isDestination ()) {
+				if (tRevenueCenter.getLocation ().isSameLocationValue (aDestinationLocation)) {
+					tRemoveCenterIndex = tRevenueCenterIndex;
+				}
+			}
+		}
+		if (tRemoveCenterIndex != NO_MATCH_FOUND) {
+			centers.remove (tRemoveCenterIndex);
+		}
+	}
+	
+	public void replaceDestination (Location aDestinationLocation) {
+		City tDestinationCity;
+		int tLocation;
+		
+		tLocation = aDestinationLocation.getLocation ();
+		tDestinationCity = new City (RevenueCenterType.DESTINATION_CITY, 1, RevenueCenter.NO_ID, tLocation,
+				RevenueCenter.NO_NAME, RevenueCenter.NO_VALUE, TileType.NO_TILE_TYPE);
+		add (tDestinationCity);
+	}
 }

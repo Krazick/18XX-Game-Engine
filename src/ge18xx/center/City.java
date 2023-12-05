@@ -52,8 +52,10 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public City (XMLNode aNode) {
 		super (aNode);
-		int tNumber = aNode.getThisIntAttribute (AN_NUMBER);
-		setValues (tNumber);
+		int tNumber;
+		
+		tNumber = aNode.getThisIntAttribute (AN_NUMBER);
+		setStationCount (tNumber);
 	}
 
 	public City (City aCity) {
@@ -81,19 +83,19 @@ public class City extends RevenueCenter implements Cloneable {
 				addRevenue (tRevenueValue, tRevenuePhase);
 			}
 		}
-		setValues (aCity.stationCount);
+		setStationCount (aCity.stationCount);
 		setRevenueLocation (aCity.revenues.getLocation ());
 	}
 
-	public City (int aType, int aNumber, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
+	public City (int aType, int aStationCount, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		super (aType, aID, aLocation, aName, aValue, aTileType);
-		setValues (aNumber);
+		setStationCount (aStationCount);
 	}
 
-	public City (RevenueCenterType aRCType, int aNumber, int aID, int aLocation, String aName, int aValue,
+	public City (RevenueCenterType aRCType, int aStationCount, int aID, int aLocation, String aName, int aValue,
 			TileType aTileType) {
 		super (aRCType, aID, aLocation, aName, aValue, aTileType);
-		setValues (aNumber);
+		setStationCount (aStationCount);
 	}
 
 	@Override
@@ -1275,10 +1277,10 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public void setValues (int aType, int aNumber, int aID, int aLocation, String aName, int aValue) {
 		super.setValues (aType, aID, aLocation, aName, aValue);
-		setValues (aNumber);
+		setStationCount (aNumber);
 	}
 
-	public void setValues (int aNumber) {
+	public void setStationCount (int aNumber) {
 		int tIndex;
 
 		if (aNumber == 0) {
