@@ -50,7 +50,6 @@ public class ClearCorporationEffect extends ChangeTileEffect {
 		GameManager tGameManager;
 		
 		tEffectApplied = false;
-		System.out.println ("Ready to Apply " + name);
 		if (actor.isATokenCompany ()) {
 			tTokenCompany = (TokenCompany) actor;
 			tGameManager = aRoundManager.getGameManager ();
