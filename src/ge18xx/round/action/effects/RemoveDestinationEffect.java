@@ -7,6 +7,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.RemoveDestinationsAction;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -25,6 +26,7 @@ public class RemoveDestinationEffect extends ChangeMapEffect {
 
 	public RemoveDestinationEffect (ActorI aActor, MapCell aMapCell, Location aLocation) {
 		super (aActor, aMapCell);
+		setName (NAME);
 		setLocation (aLocation);
 	}
 
@@ -55,23 +57,32 @@ public class RemoveDestinationEffect extends ChangeMapEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " by " + actor.getName () + " from MapCell " + mapCellID + " at Location " + 
+		return (REPORT_PREFIX + name + " of " + actor.getName () + " from MapCell " + mapCellID + " at Location " + 
 					location.toString () + ".");
 	}
 	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
+		RemoveDestinationsAction tRemoveDestinationsAction;
 		boolean tEffectApplied;
 		GameManager tGameManager;
+		ShareCompany tShareCompany;
 		HexMap tHexMap;
 		MapCell tMapCell;
 		
 		tEffectApplied = false;
-		tGameManager = aRoundManager.getGameManager ();
-		tHexMap = tGameManager.getGameMap ();
-		tMapCell = tHexMap.getMapCellForID (mapCellID);
-		tMapCell.removeDestination (location, actor.getAbbrev ());
-		tEffectApplied = true;
+		if (actor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) actor;
+			tGameManager = aRoundManager.getGameManager ();
+			tHexMap = tGameManager.getGameMap ();
+			tMapCell = tHexMap.getMapCellForID (mapCellID);
+			tRemoveDestinationsAction = new RemoveDestinationsAction ();
+			tMapCell.removeDestination (location, tShareCompany, tRemoveDestinationsAction);
+			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("The actor " + actor.getName () + " is not a Share Company");
+			
+		}
 		
 		return tEffectApplied;
 	}

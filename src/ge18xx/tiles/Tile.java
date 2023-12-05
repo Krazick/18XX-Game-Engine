@@ -24,6 +24,7 @@ import ge18xx.center.Town;
 import ge18xx.center.TownTick;
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.map.Edge;
@@ -33,6 +34,7 @@ import ge18xx.map.MapCell;
 import ge18xx.map.MapGraph;
 import ge18xx.map.Vertex;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -1211,8 +1213,9 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
 	}
 	
-	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
-		centers.removeDestination (aDestinationLocation, aAbbrev);
+	public void removeDestination (Location aDestinationLocation, MapCell aMapCell, ShareCompany aShareCompany, 
+						RemoveDestinationsAction aRemoveDestinationsAction) {
+		centers.removeDestination (aDestinationLocation, aMapCell, aShareCompany, aRemoveDestinationsAction);
 	}
 	
 	public void replaceDestination (Location aDestinationLocation) {

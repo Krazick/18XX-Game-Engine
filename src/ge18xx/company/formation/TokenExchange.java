@@ -28,6 +28,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TokenExchangeFinishedAction;
 
@@ -524,9 +525,14 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		Location tDestinationLocation;
 		int tShareIndex;
 		int tShareCount;
+		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
+		RemoveDestinationsAction tRemoveDestinationsAction;
 
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tRemoveDestinationsAction = new RemoveDestinationsAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, player);
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
@@ -535,11 +541,12 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 				if (tShareCompany.willFold ()) {
 					tDestinationMapCell = tShareCompany.getDestinationMapCell ();
 					tDestinationLocation = tShareCompany.getDestinationLocation ();
-					System.out.println ("Ready to remove Destination for " + tShareCompany.getAbbrev () + " on " + tDestinationMapCell.getID ());
-					tDestinationMapCell.removeDestination (tDestinationLocation, tShareCompany.getAbbrev ());
+					tDestinationMapCell.removeDestination (tDestinationLocation, tShareCompany, tRemoveDestinationsAction);
 				}
 			}
 		}
+		tRemoveDestinationsAction.setChainToPrevious (true);
+		gameManager.addAction (tRemoveDestinationsAction);
 		gameManager.repaintMapFrame ();
 	}
 	

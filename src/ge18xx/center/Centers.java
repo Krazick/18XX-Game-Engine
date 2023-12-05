@@ -15,6 +15,7 @@ import java.util.List;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenInfo.TokenType;
@@ -22,6 +23,7 @@ import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
@@ -845,7 +847,8 @@ public class Centers implements Cloneable {
 	 * @param aDestinationLocation The Location that needs to have the Destination removed
 	 * @param aAbbrev The abbreviation of the company that has the destination to be removed
 	 */
-	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
+	public void removeDestination (Location aDestinationLocation, MapCell aMapCell, ShareCompany aShareCompany, 
+						RemoveDestinationsAction aRemoveDestinationsAction) {
 		int tRevenueCenterCount;
 		int tRevenueCenterIndex;
 		int tRemoveCenterIndex;
@@ -864,6 +867,7 @@ public class Centers implements Cloneable {
 		}
 		if (tRemoveCenterIndex != NO_MATCH_FOUND) {
 			centers.remove (tRemoveCenterIndex);
+			aRemoveDestinationsAction.addRemoveDestinationEffect (aShareCompany, aMapCell, aDestinationLocation);
 		}
 	}
 	

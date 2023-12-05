@@ -42,6 +42,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.GameTile;
@@ -2647,11 +2648,12 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
-	public void removeDestination (Location aDestinationLocation, String aAbbrev) {
+	public void removeDestination (Location aDestinationLocation, ShareCompany aShareCompany, 
+							RemoveDestinationsAction aRemoveDestinationsAction) {
 		if (isTileOnCell ()) {
-			tile.removeDestination (aDestinationLocation, aAbbrev);
+			tile.removeDestination (aDestinationLocation, this, aShareCompany, aRemoveDestinationsAction);
 		} else {
-			centers.removeDestination (aDestinationLocation, aAbbrev);
+			centers.removeDestination (aDestinationLocation, this, aShareCompany, aRemoveDestinationsAction);
 		}
 		setDestinationCorpID (Corporation.NO_ID);
 	}
