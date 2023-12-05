@@ -122,7 +122,7 @@ public class ShareCompany extends TokenCompany {
 
 		return tCurrentColumn;
 	}
-
+	
 	@Override
 	public boolean hasDestination () {
 		return destinationInfo.hasDestination ();
@@ -152,7 +152,7 @@ public class ShareCompany extends TokenCompany {
 			System.out.println ("Check if " + abbrev + " has reached from home " + tHomeVertexID + 
 					" to destination " + tDestinationMapCellID);
 			if (destinationInfo.hasReached ()) {
-				System.out.println ("Has previously reached the destination");
+				System.err.println ("Has previously reached the destination");
 			} else {
 				tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
 				tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
@@ -376,7 +376,7 @@ public class ShareCompany extends TokenCompany {
 		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
-	public MapCell getDestination () {
+	public MapCell getDestinationMapCell () {
 		return destinationInfo.getMapCell ();
 	}
 	
