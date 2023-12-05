@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import geUtilities.XMLNode;
 
-public class FormationPhaseAction extends Action {
+public class FormationPhaseAction extends ChangeStateAction {
 	public final static String NAME = "Formation Phase";
 
 	public FormationPhaseAction () {
