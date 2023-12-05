@@ -811,7 +811,6 @@ public class JGameClient extends XMLFrame {
 		ChatServerHandler tChatServerHandler;
 
 		try {
-			System.out.println ("Tring to connect to " + serverIP + " on Port " + serverPort);
 			tChatServerHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
 			if (tChatServerHandler != ServerHandler.NO_SERVER_HANDLER) {
 				setServerHandler (tChatServerHandler);
