@@ -33,7 +33,7 @@ public class LayTokenAction extends ChangeMapAction {
 	
 	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 			TokenType aTokenType, int aTokenIndex) {
-		this.addLayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, Benefit.NO_BENEFIT);
+		addLayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, Benefit.NO_BENEFIT);
 	}
 	
 	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
