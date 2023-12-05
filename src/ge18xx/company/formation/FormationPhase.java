@@ -738,9 +738,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		} else if (aActionCommand.equals (TOKEN_EXCHANGE)) {
 			handleTokenExchange ();
 		} else if (aActionCommand.equals (ASSET_COLLECTION)) {
-			handleTokenExchange ();
+			handleAssetCollection ();
 		} else if (aActionCommand.equals (STOCK_VALUE_CALCULATION)) {
-			handleTokenExchange ();
+			handleStockValueCalculation ();
 		}
 	}
 	
