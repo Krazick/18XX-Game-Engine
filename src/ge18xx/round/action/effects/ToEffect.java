@@ -110,7 +110,11 @@ public class ToEffect extends Effect {
 		tToDisplayName = getToNickName ();
 		
 		if (tToDisplayName == GUI.NULL_STRING) {
-			tToDisplayName = toActor.getName ();
+			if (toActor == ActorI.NO_ACTOR) {
+				tToDisplayName = "NO-ACTOR-SPECIFIED";
+			} else {
+				tToDisplayName = toActor.getName ();
+			}
 		}
 
 		return tToDisplayName;
