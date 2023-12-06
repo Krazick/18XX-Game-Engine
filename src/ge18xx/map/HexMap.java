@@ -52,6 +52,7 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -319,6 +320,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public String buildTokenLocation (int aCorpID, String aAbbrev, String aMapCellID, Location aLocation) {
 		String tTokenLocation;
 		int tLocationInt;
+		
 		if (aLocation == Location.NO_LOC) {
 			tLocationInt = Location.CENTER_CITY_LOC;
 		} else {
@@ -353,7 +355,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		XMLElement tElement;
 		XMLElement tCellElement;
 		XMLElement tRowElement;
-		int tRowIndex, tColIndex, tRowCount, tColCount, tMaxColCount;
+		int tRowIndex;
+		int tColIndex;
+		int tRowCount;
+		int tColCount;
+		int tMaxColCount;
 
 		tElement = aXMLDocument.createElement (EN_MAP);
 		tRowCount = getRowCount ();
@@ -468,7 +474,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public MapCell getMapCellContainingPoint (Point2D.Double aPoint) {
-		int tRowIndex, tColIndex, tRowCount, tColCount;
+		int tRowIndex;
+		int tColIndex;
+		int tRowCount;
+		int tColCount;
 		MapCell tFoundMapCell = MapCell.NO_MAP_CELL;
 
 		tRowCount = getRowCount ();
@@ -1101,7 +1110,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMapRoot.getThisIntAttribute (AN_ROWS);
 		tDefaultType = tXMLMapRoot.getThisAttribute (AN_DEFAULT_TYPE);
-		if (tDefaultType.equals ("")) {
+		if (tDefaultType.equals (GUI.EMPTY_STRING)) {
 			tDefaultTerrainType = 0;
 		} else {
 			tDefaultTerrainType = Terrain.getTypeFromName (tDefaultType);

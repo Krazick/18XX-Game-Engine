@@ -16,6 +16,7 @@ import java.util.List;
 //
 
 import ge18xx.map.Hex;
+import ge18xx.map.Hex18XX;
 import ge18xx.phase.PhaseInfo;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -249,7 +250,7 @@ public class GameTile {
 		}
 	}
 
-	public boolean rotateArrowContainingPoint (Point aPoint, Hex aHex) {
+	public boolean rotateArrowContainingPoint (Point aPoint, Hex18XX aHex) {
 		return aHex.rotateArrowContainingPoint (aPoint, XCenter, YCenter);
 	}
 
