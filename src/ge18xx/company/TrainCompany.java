@@ -157,6 +157,21 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tHasLicense;
 	}
 	
+	public String getLicenses () {
+		String tLicenses;
+		
+		tLicenses = GUI.EMPTY_STRING;
+		for (License tLicense : licenses) {
+			if (!tLicenses.equals (GUI.EMPTY_STRING)) {
+				tLicenses += ", ";
+			}
+			tLicenses += tLicense.getName ();
+		}
+		System.out.println ("Licenses: [" + tLicenses + "]");
+		
+		return tLicenses;
+	}
+	
 	public boolean removeLicense (License aLicense) {
 		boolean tLicenseRemoved;
 		
