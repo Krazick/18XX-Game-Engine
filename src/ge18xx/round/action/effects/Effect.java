@@ -115,7 +115,11 @@ public abstract class Effect {
 		tDisplayName = getNickName ();
 		
 		if (tDisplayName == GUI.NULL_STRING) {
-			tDisplayName = actor.getName ();
+			if (actor == ActorI.NO_ACTOR) {
+				tDisplayName = "NO-FROM-ACTOR";
+			} else {
+				tDisplayName = actor.getName ();
+			}
 		}
 
 		return tDisplayName;
