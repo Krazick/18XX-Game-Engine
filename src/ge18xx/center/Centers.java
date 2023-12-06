@@ -871,13 +871,14 @@ public class Centers implements Cloneable {
 		}
 	}
 	
-	public void replaceDestination (Location aDestinationLocation) {
+	public void replaceDestination (Location aDestinationLocation, MapCell aMapCell) {
 		City tDestinationCity;
 		int tLocation;
 		
 		tLocation = aDestinationLocation.getLocation ();
 		tDestinationCity = new City (RevenueCenterType.DESTINATION_CITY, 1, RevenueCenter.NO_ID, tLocation,
 				RevenueCenter.NO_NAME, RevenueCenter.NO_VALUE, TileType.NO_TILE_TYPE);
+		tDestinationCity.setMapCell (aMapCell);
 		add (tDestinationCity);
 	}
 }

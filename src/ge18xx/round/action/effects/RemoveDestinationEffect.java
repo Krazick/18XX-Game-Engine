@@ -101,7 +101,7 @@ public class RemoveDestinationEffect extends ChangeMapEffect {
 			tHexMap = tGameManager.getGameMap ();
 			tMapCell = tHexMap.getMapCellForID (mapCellID);
 			tShareCompany = (ShareCompany) actor;
-			tMapCell.replaceDestination (location, tShareCompany);
+			tMapCell.replaceDestination (location, tShareCompany, tMapCell);
 			tEffectUndone = true;
 		} else {
 			setUndoFailureReason ("The actor " + actor.getName () + " is not a Share Company");

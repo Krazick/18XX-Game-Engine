@@ -545,7 +545,6 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 				}
 			}
 		}
-		tRemoveDestinationsAction.setChainToPrevious (true);
 		gameManager.addAction (tRemoveDestinationsAction);
 		gameManager.repaintMapFrame ();
 	}

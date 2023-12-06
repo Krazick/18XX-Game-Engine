@@ -2658,13 +2658,13 @@ public class MapCell implements Comparator<Object> {
 		setDestinationCorpID (Corporation.NO_ID);
 	}
 	
-	public void replaceDestination (Location aDestinationLocation, ShareCompany aShareCompany) {
+	public void replaceDestination (Location aDestinationLocation, ShareCompany aShareCompany, MapCell aMapCell) {
 		int tCorpID;
 		
 		if (isTileOnCell () ) {
-			tile.replaceDestination (aDestinationLocation);
+			tile.replaceDestination (aDestinationLocation, aMapCell);
 		} else {
-			centers.replaceDestination (aDestinationLocation);
+			centers.replaceDestination (aDestinationLocation, aMapCell);
 		}
 		tCorpID = aShareCompany.getID ();
 		setDestinationCorpID (tCorpID);

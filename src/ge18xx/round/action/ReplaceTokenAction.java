@@ -7,6 +7,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ClearCorporationEffect;
 import ge18xx.round.action.effects.RemoveTokenEffect;
 import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
+import ge18xx.round.action.effects.SetNonHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.XMLNode;
 
@@ -60,11 +61,11 @@ public class ReplaceTokenAction extends LayTokenAction {
 		addEffect (tSetHomeTokensExchangedEffect);
 	}
 	
-	public void addSetNonHomeTokensExchangedEffect (ActorI aFromActor, boolean aHomeTokensExchanged) {
-		SetHomeTokensExchangedEffect tSetHomeTokensExchangedEffect;
+	public void addSetNonHomeTokensExchangedEffect (ActorI aFromActor, boolean aNonHomeTokensExchanged) {
+		SetNonHomeTokensExchangedEffect tSetNonHomeTokensExchangedEffect;
 		
-		tSetHomeTokensExchangedEffect = new SetHomeTokensExchangedEffect (aFromActor, aHomeTokensExchanged);
-		addEffect (tSetHomeTokensExchangedEffect);
+		tSetNonHomeTokensExchangedEffect = new SetNonHomeTokensExchangedEffect (aFromActor, aNonHomeTokensExchanged);
+		addEffect (tSetNonHomeTokensExchangedEffect);
 	}
 	
 	// TODO: Consider options:
