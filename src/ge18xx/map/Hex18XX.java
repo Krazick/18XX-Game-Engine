@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 
@@ -284,5 +286,32 @@ public class Hex18XX extends Hex {
 				g.setColor (Color.black);
 				g.drawPolygon (tTriangle);
 			}
+
+	public boolean rotateArrowContainingPoint (Point aPoint, int Xc, int Yc) {
+		int x1;
+		int y1;
+		int width;
+		int height;
+		int tCircleRadius;
+		int xArrowCenter;
+		int yArrowCenter;
+		Rectangle tRect;
+	
+		width = trackWidth * 3;
+		tCircleRadius = width / 2;
+		height = width;
+		if (direction) {
+			xArrowCenter = Xc + (x [2] + x [3]) / 2 + width;
+			yArrowCenter = Yc - intDWidth;
+		} else {
+			xArrowCenter = Xc + (x [2] + x [3]) / 2 + width;
+			yArrowCenter = Yc - (y [2] + y [3]) / 2 - height;
+		}
+		x1 = xArrowCenter - tCircleRadius;
+		y1 = yArrowCenter - tCircleRadius;
+		tRect = new Rectangle (x1, y1, width, height);
+	
+		return tRect.contains (aPoint.getX (), aPoint.getY ());
+	}
 
 }
