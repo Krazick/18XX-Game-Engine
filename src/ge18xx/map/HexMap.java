@@ -75,7 +75,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final HexMap NO_HEX_MAP = null;
 	private static final long serialVersionUID = 1L;
 	MapCell map [] [];
-	Hex hex;
+	Hex18XX hex;
 	TileSet tileSet;
 	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
@@ -90,7 +90,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
-		hex = Hex.NO_HEX;
+		hex = Hex18XX.NO_HEX18XX;
 		setTilePlaced (false);
 		addMouseListener (this);
 		addMouseMotionListener (this);
@@ -1072,9 +1072,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		XMLNode tTCChildNode;
 		NodeList tChildren;
 		NodeList tTerrainCostsChildren;
-		int tCols, tRows;
-		int tDefaultTerrainType, tTCTIndex;
-		int tChildrenCount, index, tTerrainCostsCount, tTCindex;
+		int tCols;
+		int tRows;
+		int tDefaultTerrainType;
+		int tTCTIndex;
+		int tChildrenCount;
+		int tIndex;
+		int tTerrainCostsCount;
+		int tTCindex;
 		String tDirection;
 		String tDefaultType;
 		String tChildName;
@@ -1115,7 +1120,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tCol = 0;
 		setMapCell (tRow, tCol, tDirection);
 		map [0] [0].setTerrainFillColor (tFillColor);
-		hex = new Hex (map [0] [0].getMapDirection ());
+		hex = new Hex18XX (map [0] [0].getMapDirection ());
 		tDefaultHexSize = mapFrame.getDefaultHexScale ();
 		if (tDefaultHexSize == 0) {
 			tDefaultHexSize = 8;
@@ -1127,8 +1132,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tChildren = tXMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tTCTIndex = 0;
-		for (index = 0; index < tChildrenCount; index++) {
-			tChildNode = new XMLNode (tChildren.item (index));
+		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (Terrain.EN_TERRAIN_COSTS.equals (tChildName)) {
 				tTerrainCostsChildren = tChildNode.getChildNodes ();

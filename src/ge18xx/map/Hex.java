@@ -17,7 +17,6 @@ import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Area;
@@ -29,24 +28,24 @@ public class Hex {
 	public static final String DIRECTION_EW = "EW";
 	static final int NOT_VALID_SLICE = -9999;
 	static final int NOT_VALID_POINT = -9998;
-	static boolean direction = false;
+	protected static boolean direction = false;
 	static int DEFAULT_SCALE = 8;
 	static int DEFAULT_WIDTH = 5;
 	static int scale = DEFAULT_SCALE;
 	static int width = DEFAULT_WIDTH;
-	int x[];
-	int y[];
+	protected int x[];
+	protected int y[];
 	private int Xt;
 	private int Yt;
 	private int displaceUpDown;
 	private int displaceLeftRight;
-	private int intDWidth;
+	protected int intDWidth;
 	int Xc;
 	int Yc;
-	int cityWidth;
-	int trackWidth;
+	protected int cityWidth;
+	protected int trackWidth;
 	Polygon hexPolygon;
-	static double dwidth;
+	protected static double dwidth;
 	Rectangle rectBounds;
 
 	public Hex () {
@@ -198,94 +197,6 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	public void drawDeepCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	public void drawHill (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		double tDwidth6;
-		double tDwidth5;
-		int X1, X2, X3, Y1, Y2, Y3;
-
-		tDwidth5 = dwidth / 6;
-		tDwidth6 = dwidth / 10;
-		X1 = Double.valueOf (-tDwidth5).intValue () + Xc;
-		X2 = Xc;
-		X3 = Double.valueOf (tDwidth5).intValue () + Xc;
-		Y1 = Double.valueOf (tDwidth6).intValue () + Yc;
-		Y2 = Double.valueOf (-tDwidth6).intValue () + Yc;
-		Y3 = Y1;
-		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
-	}
-
-	public void drawHimalaya (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		int X1, X2, Y1, Y2;
-		double dw6, dw5;
-
-		dw5 = dwidth / 5;
-		dw6 = dwidth / 6;
-		X1 = Double.valueOf (-dw5).intValue () + Xc;
-		Y1 = Double.valueOf (-dw6 / 2).intValue () + Yc;
-		X2 = Double.valueOf (dw5).intValue () + Xc;
-		Y2 = Y1;
-		drawHill (g, X1, Y1, aFillPaint);
-		drawHill (g, X2, Y2, aFillPaint);
-		drawMountain (g, Xc, Yc, aFillPaint);
-	}
-
-	public void drawLargeRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	public void drawMajorRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	public void drawMountain (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		double dw6, dw5;
-		int X1, X2, X3, Y1, Y2, Y3;
-
-		dw5 = dwidth / 5;
-		dw6 = dwidth / 6;
-		X1 = Double.valueOf (-dw5).intValue () + Xc;
-		X2 = Xc;
-		X3 = Double.valueOf (dw5).intValue () + Xc;
-		Y1 = Double.valueOf (dw6).intValue () + Yc;
-		Y2 = Double.valueOf (-dw6).intValue () + Yc;
-		Y3 = Y1;
-		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
-	}
-
-	public void drawMultipleRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-		Y1 = Yc + trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
 	public void drawNeighbor (Graphics g, int aSide, int Xo, int Yo) {
 		int X1, Y1, X2, Y2, X3, Y3;
 		Shape tPreviousClip;
@@ -304,38 +215,7 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 	
-	public void drawCattle (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
-		// Draw a Cattle
-	}
-	
-	public void drawLicenseToken (Graphics aGraphics, int Xc, int Yc, Paint aPaint, int aBenefitValue) {
-		Graphics2D tGraphics2D;
-		int x1;
-		int y1;
-		int tWidth;
-		int tHeight;
-		String tLabel;
-		Font tCurrentFont;
-		
-		tGraphics2D = (Graphics2D) aGraphics;
-		tCurrentFont = setRevenueFont (tGraphics2D);
-		tLabel = "+" + aBenefitValue;
-		tWidth = tGraphics2D.getFontMetrics ().stringWidth (tLabel) + 2;
-		tHeight = tGraphics2D.getFontMetrics ().getHeight () + 2;
-		x1 = Xc - tWidth/2;
-		y1 = Yc - tHeight/2;
-		tGraphics2D.setPaint (Color.white);
-		tGraphics2D.fillRect (x1, y1, tWidth, tHeight);
-		tGraphics2D.setPaint (aPaint);
-		tGraphics2D.drawRect (x1, y1, tWidth, tHeight);
-		x1 = Xc - tWidth/2;
-		y1 = Yc + tHeight/2 - 2;
-
-		tGraphics2D.drawString (tLabel, x1, y1);
-		tGraphics2D.setFont (tCurrentFont);
-	}
-
-	private Font setRevenueFont (Graphics2D aGraphics2D) {
+	protected Font setRevenueFont (Graphics2D aGraphics2D) {
 		Font tNewFont;
 		Font tCurrentFont;
 		
@@ -346,51 +226,7 @@ public class Hex {
 		return tCurrentFont;
 	}
 
-	public void drawPort (Graphics g, int Xc, int Yc, Paint aPortPaint) {
-		Graphics2D g2d = (Graphics2D) g;
-		int x1, y1, x2, y2;
-		int xtr, ytr, width, height;
-
-		x1 = Xc;
-		y1 = Double.valueOf (Yc - trackWidth * .5).intValue ();
-		x2 = Xc;
-		y2 = Double.valueOf (Yc + trackWidth * 2).intValue ();
-		g2d.setPaint (aPortPaint);
-		g2d.drawLine (x1, y1, x2, y2);
-		width = trackWidth;
-		height = width;
-		xtr = Double.valueOf (x1 - width / 2).intValue ();
-		ytr = Double.valueOf (y1 - width).intValue ();
-		g2d.drawOval (xtr, ytr, width, height);
-		xtr = x1 - trackWidth * 2;
-		width = trackWidth * 4;
-		height = Double.valueOf (trackWidth * 3.5).intValue ();
-		x1 = Xc - trackWidth;
-		y1 = Yc;
-		x2 = Xc + trackWidth;
-		y2 = Yc;
-		g2d.drawLine (x1, y1, x2, y2);
-		g2d.drawArc (xtr, ytr, width, height, 220, 100);
-	}
-
-	public void drawOctagon (Graphics g, int Xc, int Yc, Paint aPaint) {
-		Polygon polygon = new Polygon ();
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Stroke tOriginalStroke = g2d.getStroke ();
-		Stroke tNewStroke = new BasicStroke (3);
-		int R;
-
-		R = cityWidth * 2;
-		int [] [] xy = getPolygonArrays (Xc, Yc, R, 8);
-		polygon = new Polygon (xy [0], xy [1], 8);
-		g2d.setPaint (aPaint);
-		g2d.setStroke (tNewStroke);
-		g2d.draw (polygon);
-		g2d.setStroke (tOriginalStroke);
-	}
-
-	private int [] [] getPolygonArrays (int cx, int cy, int R, int sides) {
+	protected int [] [] getPolygonArrays (int cx, int cy, int R, int sides) {
 		int [] x = new int [sides];
 		int [] y = new int [sides];
 		double thetaInc = 2 * Math.PI / sides;
@@ -404,98 +240,6 @@ public class Hex {
 		}
 
 		return new int [] [] { x, y };
-	}
-
-	public void drawRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1, width, height, index;
-		Graphics2D g2d = (Graphics2D) g;
-		int halfTW = Double.valueOf (trackWidth / 2).intValue ();
-		BasicStroke tRiverStroke = new BasicStroke (2);
-		Stroke tCurrentStroke = g2d.getStroke ();
-
-		width = trackWidth - 1;
-		height = trackWidth - 1;
-		X1 = Xc - halfTW - trackWidth - trackWidth;
-		Y1 = Yc - trackWidth;
-		g2d.setStroke (tRiverStroke);
-		g2d.setPaint (aRiverPaint);
-		for (index = 0; index < 3; index++) {
-			g.drawArc (X1, Y1, width, height, 10, 160);
-			X1 = X1 + trackWidth;
-			g.drawArc (X1, Y1 - 1, width, height, 190, 160);
-			X1 = X1 + trackWidth;
-		}
-		g.setColor (Color.black);
-		g2d.setStroke (tCurrentStroke);
-	}
-
-	public void drawRotateRightArrow (Graphics g, int Xc, int Yc) {
-		int x1, y1, width, height;
-		int x2, y2, x3, y3, x4, y4;
-		int tCircleRadius;
-		int xArrowCenter, yArrowCenter;
-
-		width = trackWidth * 3;
-		tCircleRadius = width / 2;
-		height = width;
-		if (direction) {
-			xArrowCenter = Xc + (x [2] + x [3]) / 2 + width;
-			yArrowCenter = Yc - intDWidth;
-		} else {
-			xArrowCenter = Xc + (x [2] + x [3]) / 2 + width;
-			yArrowCenter = Yc - (y [2] + y [3]) / 2 - height;
-		}
-		x1 = xArrowCenter - tCircleRadius;
-		y1 = yArrowCenter - tCircleRadius;
-		g.setColor (Color.black);
-		g.drawArc (x1, y1, width, height, 180, -270);
-		x2 = xArrowCenter;
-		y2 = yArrowCenter + tCircleRadius;
-		x3 = x2 + trackWidth / 2;
-		y3 = y2 - trackWidth;
-		g.drawLine (x2, y2, x3, y3);
-		x4 = x3 + trackWidth;
-		y4 = y2;
-		g.drawLine (x2, y2, x4, y4);
-	}
-
-	public void drawShallowCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	public void drawSmallRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
-
-		X1 = Xc;
-		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverPaint);
-	}
-
-	private void drawTriangle (Graphics g, int X1, int Y1, int X2, int Y2, int X3, int Y3, Paint aFillPaint) {
-		Graphics2D g2d = (Graphics2D) g;
-		Polygon tTriangle;
-		int xp[] = new int [4];
-		int yp[] = new int [4];
-
-		xp [0] = X1;
-		yp [0] = Y1;
-		xp [1] = X2;
-		yp [1] = Y2;
-		xp [2] = X3;
-		yp [2] = Y3;
-		xp [3] = X1;
-		yp [3] = Y1;
-		tTriangle = new Polygon (xp, yp, 4);
-		if (aFillPaint != null) {
-			g2d.setPaint (aFillPaint);
-			g2d.fillPolygon (tTriangle);
-		}
-		g.setColor (Color.black);
-		g.drawPolygon (tTriangle);
 	}
 
 	public Rectangle getBounds () {
@@ -515,126 +259,131 @@ public class Hex {
 	}
 
 	public int getHexSlicePointX (int aSliceNum, int aPointNum) {
-		int retX = NOT_VALID_POINT;
-		int actualSliceNum = aSliceNum;
-		int p1, p2, s1, s2;
+		int tReturnX;
+		int tActualSliceNum;
+		int p1;
+		int p2;
+		int s1;
+		int s2;
 
-		if ((actualSliceNum >= 0) && (actualSliceNum < 12)) {
+		tReturnX = NOT_VALID_POINT;
+		tActualSliceNum = aSliceNum;
+		if ((tActualSliceNum >= 0) && (tActualSliceNum < 12)) {
 			if ((aPointNum >= 0) && (aPointNum < 4)) {
 				if (aPointNum == 1) {
-					retX = Xc;
+					tReturnX = Xc;
 				} else if (aPointNum == 2) {
-					switch (actualSliceNum) {
+					switch (tActualSliceNum) {
 					case (0):
-						retX = midpointX (0);
+						tReturnX = midpointX (0);
 						break;
 
 					case (6):
-						retX = midpointX (3);
+						tReturnX = midpointX (3);
 						break;
 
 					case (1):
-						retX = x [1];
+						tReturnX = x [1];
 						break;
 
 					case (5):
-						retX = x [3];
+						tReturnX = x [3];
 						break;
 
 					case (2):
-						retX = midpointX (1);
+						tReturnX = midpointX (1);
 						break;
 
 					case (4):
-						retX = midpointX (2);
+						tReturnX = midpointX (2);
 						break;
 
 					case (3):
-						retX = x [2];
+						tReturnX = x [2];
 						break;
 
 					case (7):
-						retX = x [4];
+						tReturnX = x [4];
 						break;
 
 					case (11):
-						retX = x [0];
+						tReturnX = x [0];
 						break;
 
 					case (8):
-						retX = midpointX (4);
+						tReturnX = midpointX (4);
 						break;
 
 					case (10):
-						retX = midpointX (5);
+						tReturnX = midpointX (5);
 						break;
 
 					case (9):
-						retX = x [5];
+						tReturnX = x [5];
 						break;
 					}
 				} else {
-					switch (actualSliceNum) {
+					switch (tActualSliceNum) {
 					case (0):
-						retX = x [0];
+						tReturnX = x [0];
 						break;
 
 					case (8):
-						retX = x [4];
+						tReturnX = x [4];
 						break;
 
 					case (1):
-						retX = midpointX (0);
+						tReturnX = midpointX (0);
 						break;
 
 					case (7):
-						retX = midpointX (3);
+						tReturnX = midpointX (3);
 						break;
 
 					case (2):
-						retX = x [1];
+						tReturnX = x [1];
 						break;
 
 					case (6):
-						retX = x [3];
+						tReturnX = x [3];
 						break;
 
 					case (4):
-						retX = x [2];
+						tReturnX = x [2];
 						break;
 
 					case (3):
-						retX = midpointX (1);
+						tReturnX = midpointX (1);
 						break;
 
 					case (5):
-						retX = midpointX (2);
+						tReturnX = midpointX (2);
 						break;
 
 					case (10):
-						retX = x [5];
+						tReturnX = x [5];
 						break;
 
 					case (9):
-						retX = midpointX (4);
+						tReturnX = midpointX (4);
 						break;
 
 					case (11):
-						retX = midpointX (5);
+						tReturnX = midpointX (5);
 						break;
 					}
 
 				}
 			} else {
-				retX = NOT_VALID_POINT;
+				tReturnX = NOT_VALID_POINT;
 			}
 		} else {
-			if ((actualSliceNum > 12) && (actualSliceNum <= 18)) {
+			if ((tActualSliceNum > 12) && (tActualSliceNum <= 18)) {
 				p1 = 0;
 				p2 = 0;
 				s1 = 0;
 				s2 = 0;
-				switch (actualSliceNum) {
+				switch (tActualSliceNum) {
 				case (13):
 					p1 = 0;
 					s1 = 5;
@@ -675,32 +424,32 @@ public class Hex {
 				switch (aPointNum) {
 				case (0):
 				case (4):
-					retX = x [p1];
+					tReturnX = x [p1];
 					break;
 
 				case (1):
-					retX = midpointX (s1);
+					tReturnX = midpointX (s1);
 					break;
 
 				case (2):
-					retX = midpointX (s2);
+					tReturnX = midpointX (s2);
 					break;
 
 				case (3):
-					retX = x [p2];
+					tReturnX = x [p2];
 					break;
 
 				default:
-					retX = NOT_VALID_POINT;
+					tReturnX = NOT_VALID_POINT;
 					break;
 				}
 			} else {
-				if ((actualSliceNum > 18) && (actualSliceNum <= 24)) {
+				if ((tActualSliceNum > 18) && (tActualSliceNum <= 24)) {
 					p1 = 0;
 					p2 = 0;
 					s1 = 0;
 					s2 = 0;
-					switch (actualSliceNum) {
+					switch (tActualSliceNum) {
 					case (19):
 						p1 = 2;
 						s1 = 1;
@@ -743,152 +492,157 @@ public class Hex {
 					case (1):
 					case (2):
 					case (3):
-						retX = x [(p1 + aPointNum) % 6];
+						tReturnX = x [(p1 + aPointNum) % 6];
 						break;
 
 					case (6):
-						retX = x [p1];
+						tReturnX = x [p1];
 						break;
 
 					case (4):
-						retX = midpointX (s2);
+						tReturnX = midpointX (s2);
 						break;
 
 					case (5):
-						retX = midpointX (s1);
+						tReturnX = midpointX (s1);
 						break;
 
 					default:
-						retX = NOT_VALID_POINT;
+						tReturnX = NOT_VALID_POINT;
 						break;
 					}
 				} else {
-					retX = NOT_VALID_SLICE;
+					tReturnX = NOT_VALID_SLICE;
 				}
 			}
 		}
 
-		return retX;
+		return tReturnX;
 	}
 
 	public int getHexSlicePointY (int aSliceNum, int aPointNum) {
-		int retY = NOT_VALID_POINT;
-		int actualSliceNum = aSliceNum;
-		int p1, p2, s1, s2;
+		int tReturnY;
+		int tActualSliceNum;
+		int p1;
+		int p2;
+		int s1;
+		int s2;
 
-		if ((actualSliceNum >= 0) && (actualSliceNum < 12)) {
+		tReturnY = NOT_VALID_POINT;
+		tActualSliceNum = aSliceNum;
+		if ((tActualSliceNum >= 0) && (tActualSliceNum < 12)) {
 			if ((aPointNum >= 0) && (aPointNum < 4)) {
 				if (aPointNum == 1) {
-					retY = Yc;
+					tReturnY = Yc;
 				} else {
-					switch (actualSliceNum) {
+					switch (tActualSliceNum) {
 					case (0):
 						if (aPointNum == 2) {
-							retY = midpointY (0);
+							tReturnY = midpointY (0);
 						} else {
-							retY = y [0];
+							tReturnY = y [0];
 						}
 						break;
 
 					case (1):
 						if (aPointNum == 2) {
-							retY = y [1];
+							tReturnY = y [1];
 						} else {
-							retY = midpointY (0);
+							tReturnY = midpointY (0);
 						}
 						break;
 
 					case (2):
 						if (aPointNum == 2) {
-							retY = midpointY (1);
+							tReturnY = midpointY (1);
 						} else {
-							retY = y [1];
+							tReturnY = y [1];
 						}
 						break;
 
 					case (3):
 						if (aPointNum == 2) {
-							retY = y [2];
+							tReturnY = y [2];
 						} else {
-							retY = midpointY (1);
+							tReturnY = midpointY (1);
 						}
 						break;
 
 					case (4):
 						if (aPointNum == 2) {
-							retY = midpointY (2);
+							tReturnY = midpointY (2);
 						} else {
-							retY = y [2];
+							tReturnY = y [2];
 						}
 						break;
 
 					case (5):
 						if (aPointNum == 2) {
-							retY = y [3];
+							tReturnY = y [3];
 						} else {
-							retY = midpointY (2);
+							tReturnY = midpointY (2);
 						}
 						break;
 
 					case (6):
 						if (aPointNum == 2) {
-							retY = midpointY (3);
+							tReturnY = midpointY (3);
 						} else {
-							retY = y [3];
+							tReturnY = y [3];
 						}
 						break;
 
 					case (7):
 						if (aPointNum == 2) {
-							retY = y [4];
+							tReturnY = y [4];
 						} else {
-							retY = midpointY (3);
+							tReturnY = midpointY (3);
 						}
 						break;
 
 					case (8):
 						if (aPointNum == 2) {
-							retY = midpointY (4);
+							tReturnY = midpointY (4);
 						} else {
-							retY = y [4];
+							tReturnY = y [4];
 						}
 						break;
 
 					case (9):
 						if (aPointNum == 2) {
-							retY = y [5];
+							tReturnY = y [5];
 						} else {
-							retY = midpointY (4);
+							tReturnY = midpointY (4);
 						}
 						break;
 
 					case (10):
 						if (aPointNum == 2) {
-							retY = midpointY (5);
+							tReturnY = midpointY (5);
 						} else {
-							retY = y [5];
+							tReturnY = y [5];
 						}
 						break;
 
 					case (11):
 						if (aPointNum == 2) {
-							retY = y [0];
+							tReturnY = y [0];
 						} else {
-							retY = midpointY (5);
+							tReturnY = midpointY (5);
 						}
 						break;
 					}
 				}
 			} else {
-				retY = NOT_VALID_POINT;
+				tReturnY = NOT_VALID_POINT;
 			}
 		} else {
-			if ((actualSliceNum > 12) && (actualSliceNum <= 18)) {
+			if ((tActualSliceNum > 12) && (tActualSliceNum <= 18)) {
 				p1 = 0;
 				p2 = 0;
 				s1 = 0;
 				s2 = 0;
-				switch (actualSliceNum) {
+				switch (tActualSliceNum) {
 				case (13):
 					p1 = 0;
 					s1 = 5;
@@ -929,32 +683,32 @@ public class Hex {
 				switch (aPointNum) {
 				case (0):
 				case (4):
-					retY = y [p1];
+					tReturnY = y [p1];
 					break;
 
 				case (1):
-					retY = midpointY (s1);
+					tReturnY = midpointY (s1);
 					break;
 
 				case (2):
-					retY = midpointY (s2);
+					tReturnY = midpointY (s2);
 					break;
 
 				case (3):
-					retY = y [p2];
+					tReturnY = y [p2];
 					break;
 
 				default:
-					retY = NOT_VALID_POINT;
+					tReturnY = NOT_VALID_POINT;
 					break;
 				}
 			} else {
-				if ((actualSliceNum > 18) && (actualSliceNum <= 24)) {
+				if ((tActualSliceNum > 18) && (tActualSliceNum <= 24)) {
 					p1 = 0;
 					p2 = 0;
 					s1 = 0;
 					s2 = 0;
-					switch (actualSliceNum) {
+					switch (tActualSliceNum) {
 					case (19):
 						p1 = 2;
 						s1 = 1;
@@ -997,35 +751,37 @@ public class Hex {
 					case (1):
 					case (2):
 					case (3):
-						retY = y [(p1 + aPointNum) % 6];
+						tReturnY = y [(p1 + aPointNum) % 6];
 						break;
 
 					case (6):
-						retY = y [p1];
+						tReturnY = y [p1];
 						break;
 
 					case (4):
-						retY = midpointY (s2);
+						tReturnY = midpointY (s2);
 						break;
 
 					case (5):
-						retY = midpointY (s1);
+						tReturnY = midpointY (s1);
 						break;
 
 					default:
-						retY = NOT_VALID_POINT;
+						tReturnY = NOT_VALID_POINT;
 						break;
 					}
 				} else {
-					retY = NOT_VALID_SLICE;
+					tReturnY = NOT_VALID_SLICE;
 				}
 			}
 		}
-		return retY;
+		return tReturnY;
 	}
 
 	public Polygon getHexSlicesPolygon (int aStartSlice, int aEndSlice) {
-		int sliceX[], sliceY[], pointCount;
+		int sliceX[];
+		int sliceY[];
+		int pointCount;
 		int sliceCount;
 		int sliceIndex;
 		int slicePointIndex;
@@ -1130,7 +886,7 @@ public class Hex {
 	}
 
 	public int getTrackWidth () {
-		return (trackWidth);
+		return trackWidth;
 	}
 
 	public static int getWidth () {
@@ -1138,11 +894,11 @@ public class Hex {
 	}
 
 	public int getXd () {
-		return (displaceUpDown);
+		return displaceUpDown;
 	}
 
 	public int getYd () {
-		return (displaceLeftRight);
+		return displaceLeftRight;
 	}
 
 	public int leftEdgeDisplacment () {
@@ -1332,14 +1088,17 @@ public class Hex {
 		BasicStroke tFrameStroke;
 		Shape tPreviousClip;
 		Graphics2D g2d = (Graphics2D) g;
-		int xp[], yp[], npnts = x.length, index;
+		int xp[];
+		int yp[];
+		int npnts = x.length;
+		int tIndex;
 
 		tPreviousClip = clipToHex (g, Xo, Yo);
 		xp = new int [npnts];
 		yp = new int [npnts];
-		for (index = 0; index < npnts; index++) {
-			xp [index] = x [index] + Xo;
-			yp [index] = y [index] + Yo;
+		for (tIndex = 0; tIndex < npnts; tIndex++) {
+			xp [tIndex] = x [tIndex] + Xo;
+			yp [tIndex] = y [tIndex] + Yo;
 		}
 
 		g2d.setPaint (aFillPaint);
@@ -1362,13 +1121,16 @@ public class Hex {
 
 	public void paintSelected (Graphics g, int Xo, int Yo) {
 		Shape tPreviousClip;
-		int xp[], yp[], npnts = x.length, index;
+		int xp[];
+		int yp[];
+		int npnts = x.length;
+		int tIndex;
 
 		xp = new int [npnts];
 		yp = new int [npnts];
-		for (index = 0; index < npnts; index++) {
-			xp [index] = x [index] + Xo;
-			yp [index] = y [index] + Yo;
+		for (tIndex = 0; tIndex < npnts; tIndex++) {
+			xp [tIndex] = x [tIndex] + Xo;
+			yp [tIndex] = y [tIndex] + Yo;
 		}
 
 		tPreviousClip = clipToHex (g, Xo, Yo);
@@ -1385,9 +1147,13 @@ public class Hex {
 	}
 
 	public boolean rotateArrowContainingPoint (Point aPoint, int Xc, int Yc) {
-		int x1, y1, width, height;
+		int x1;
+		int y1;
+		int width;
+		int height;
 		int tCircleRadius;
-		int xArrowCenter, yArrowCenter;
+		int xArrowCenter;
+		int yArrowCenter;
 		Rectangle tRect;
 
 		width = trackWidth * 3;
@@ -1429,7 +1195,10 @@ public class Hex {
 		double cSixth_pi = 0.866025;
 		double sThird_pi = 0.866025;
 		double cThird_pi = 0.5;
-		int rectX, rectY, rectWidth, rectHeight;
+		int rectX;
+		int rectY;
+		int rectWidth;
+		int rectHeight;
 
 		dwidth = width * scale;
 

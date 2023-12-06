@@ -156,7 +156,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return tElement;
 	}
 
-	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aHexFillPaint, 
+	public void draw (Graphics g, int X, int Y, Hex18XX aHex, Paint aHexFillPaint, 
 					boolean aHasPortToken,  boolean aHasCattleToken, 
 					boolean aHasBridgeToken, boolean aHasTunnelToken, int aBenefitValue) {
 		Paint tTerrainPaint;

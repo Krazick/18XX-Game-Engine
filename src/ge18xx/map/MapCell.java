@@ -531,7 +531,7 @@ public class MapCell implements Comparator<Object> {
 		return tXMLElement;
 	}
 
-	public void drawTerrain (Graphics g, Terrain aTerrain, Hex aHex, int Xoffset, int Yoffset) {
+	public void drawTerrain (Graphics g, Terrain aTerrain, Hex18XX aHex, int Xoffset, int Yoffset) {
 		int Xol, Yol;
 		Point tLocationPoint;
 		Location tLocation;
@@ -1566,7 +1566,7 @@ public class MapCell implements Comparator<Object> {
 		return tPseudoYellowTile;
 	}
 
-	public void paintComponent (Graphics aGraphics, Hex aHex) {
+	public void paintComponent (Graphics aGraphics, Hex18XX aHex) {
 		boolean tIsInSelectable;
 		RevenueCenter tRevenueCenter;
 		Paint tThickFrame;
@@ -1658,7 +1658,7 @@ public class MapCell implements Comparator<Object> {
 		aHex.drawNeighbor (aGraphics, aSide, XCenter, YCenter);
 	}
 
-	private int drawTerrain1 (Graphics aGraphics, Hex aHex, RevenueCenter aRevenueCenter, int aXoffset, int aYoffset) {
+	private int drawTerrain1 (Graphics aGraphics, Hex18XX aHex, RevenueCenter aRevenueCenter, int aXoffset, int aYoffset) {
 		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 			if (terrain1 != Terrain.NO_TERRAINX) {
 				if (terrain1.isRiver ()) {
@@ -1673,7 +1673,7 @@ public class MapCell implements Comparator<Object> {
 		return aYoffset;
 	}
 
-	private void drawTerrain2 (Graphics aGraphics, Hex aHex, int aXoffset, int aYoffset) {
+	private void drawTerrain2 (Graphics aGraphics, Hex18XX aHex, int aXoffset, int aYoffset) {
 		if (terrain2 != Terrain.NO_TERRAINX) {
 			if (terrain2.isRiver ()) {
 				if (terrain1.getLocation () == terrain2.getLocation ()) {
@@ -1684,7 +1684,7 @@ public class MapCell implements Comparator<Object> {
 		drawTerrain (aGraphics, terrain2, aHex, aXoffset, aYoffset);
 	}
 	 
-	private void drawTerrainBleedThrough (Graphics aGraphics, Terrain aTerrain, Hex aHex, int aXoffset, int aYoffset) {
+	private void drawTerrainBleedThrough (Graphics aGraphics, Terrain aTerrain, Hex18XX aHex, int aXoffset, int aYoffset) {
 		if (aTerrain != Terrain.NO_TERRAINX) {
 			if (aTerrain.bleedThroughAll ()) {
 				drawTerrain (aGraphics, aTerrain, aHex, aXoffset, aYoffset);

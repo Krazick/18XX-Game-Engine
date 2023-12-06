@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.map.Hex;
+import ge18xx.map.Hex18XX;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.TileTrayFrame;
 import geUtilities.AttributeName;
@@ -54,7 +54,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public static final int TILES_PER_ROW = 9;
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
-	Hex hex;
+	Hex18XX hex;
 	boolean showAllTiles; 		// Set true to show all Tiles in Tile Tray
 	boolean singleTileSelect; 	// Set true if in mode to select a SINGLE Tile, selecting a different one
 								// should unselect ALL and leave only the single tile selected.
@@ -468,10 +468,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tHeight;
 		Tile tTile;
 
-		tXoffset = Double.valueOf (Hex.getWidth () * 2.25).intValue ();
+		tXoffset = Double.valueOf (Hex18XX.getWidth () * 2.25).intValue ();
 		tYoffset = hex.getYd () * 2 + 25;
 		tYNumOffset = hex.getYd () + 17;
-		tWidth = Hex.getWidth ();
+		tWidth = Hex18XX.getWidth ();
 		tHeight = hex.getYd () + 5;
 		tX = tXoffset - tWidth;
 		tY = tYoffset - tHeight;
@@ -563,7 +563,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public void setHex (boolean aHexDirection) {
-		hex = new Hex (aHexDirection);
+		hex = new Hex18XX (aHexDirection);
 	}
 
 	public void setHex (String aHexDirection) {
@@ -572,10 +572,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (aHexDirection == null) {
 			tHexDirection = false;
 		} else {
-			if (aHexDirection.equals (Hex.DIRECTION_NS)) {
+			if (aHexDirection.equals (Hex18XX.DIRECTION_NS)) {
 				tHexDirection = false;
 			} else {
-				if (aHexDirection.equals (Hex.DIRECTION_EW)) {
+				if (aHexDirection.equals (Hex18XX.DIRECTION_EW)) {
 					tHexDirection = true;
 				} else {
 					tHexDirection = false;
@@ -948,11 +948,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tRowCount;
 		Dimension tNewDimension;
 
-		if (hex == Hex.NO_HEX) {
-			setHex (Hex.getDirection ());
+		if (hex == Hex18XX.NO_HEX18XX) {
+			setHex (Hex18XX.getDirection ());
 		}
 		tRowCount = calcRowCount ();
-		tMaxX = Double.valueOf (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
+		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		tNewDimension = new Dimension (tMaxX, tMaxY);
 		tileTrayFrame.setScrollPanePSize (tNewDimension);
