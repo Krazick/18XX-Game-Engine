@@ -26,14 +26,6 @@ public class BuyStockAction extends TransferOwnershipAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-
-//	@Override
-//	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
-//		BoughtShareEffect tBoughtShareEffect;
-//
-//		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
-//		addEffect (tBoughtShareEffect);
-//	}
 	
 	public void addSetPercentBoughtEffect (ActorI aActor, String aAbbrev, int aPercent) {
 		SetPercentBoughtEffect tSetPercentBoughtEffect;
