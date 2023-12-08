@@ -43,6 +43,7 @@ public class GameInfo {
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	final AttributeName AN_TEST_GRAPHS = new AttributeName ("testGraphs");
 	final AttributeName AN_STATUS = new AttributeName ("status");
+	final AttributeName AN_LICENSES = new AttributeName ("licenses");
 	final AttributeName AN_LOANS = new AttributeName ("loans");
 	final AttributeName AN_LOAN_AMOUNT = new AttributeName ("loanAmount");
 	final AttributeName AN_LOAN_INTEREST = new AttributeName ("loanInterest");
@@ -110,6 +111,7 @@ public class GameInfo {
 	boolean hasPrivates;
 	boolean hasMinors;
 	boolean hasShares;
+	boolean hasLicenses;
 	boolean canPayHalfDividend;
 	boolean loans;
 	boolean randomizeStartOrder;
@@ -178,6 +180,7 @@ public class GameInfo {
 		boolean tHasPrivates;
 		boolean tHasMinors;
 		boolean tHasShares;
+		boolean tHasLicenses;
 		boolean tLoans;
 		boolean tTestGraphs;
 		boolean tOperateBeforeSale;
@@ -207,6 +210,7 @@ public class GameInfo {
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
 		tTestGraphs = aCellNode.getThisBooleanAttribute (AN_TEST_GRAPHS);
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
+		tHasLicenses = aCellNode.getThisBooleanAttribute (AN_LICENSES);
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tLoanAmount = aCellNode.getThisIntAttribute (AN_LOAN_AMOUNT);
 		tLoanInterest = aCellNode.getThisIntAttribute (AN_LOAN_INTEREST);
@@ -223,6 +227,7 @@ public class GameInfo {
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
 		setHasCompanies (tHasPrivates, tHasMinors, tHasShares);
+		setHasLicenses (tHasLicenses);
 		setLoans (tLoans);
 		setLoanAmount (tLoanAmount);
 		setLoanInterest (tLoanInterest);
@@ -744,6 +749,10 @@ public class GameInfo {
 		return hasPrivates;
 	}
 
+	public boolean gameHasLicenses () {
+		return hasLicenses;
+	}
+	
 	public boolean gameHasLoans () {
 		return loans;
 	}
@@ -848,6 +857,10 @@ public class GameInfo {
 		hasShares = aHasShares;
 	}
 
+	public void setHasLicenses (boolean aHasLicenses) {
+		hasLicenses = aHasLicenses;
+	}
+	
 	public void setOtherValues (String aSubTitle, String aLocation, String aDesigners, String aProducers, String aReleaseDate) {
 		subTitle = aSubTitle;
 		location = aLocation;
