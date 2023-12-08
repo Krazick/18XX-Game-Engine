@@ -167,7 +167,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 			tLicenses += tLicense.getName ();
 		}
-		System.out.println ("Licenses: [" + tLicenses + "]");
+		if (tLicenses.equals (GUI.EMPTY_STRING)) {
+			tLicenses = " ";
+		}
 		
 		return tLicenses;
 	}
@@ -1350,6 +1352,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainLimit;
 	}
 
+	public String getTrainSummary () {
+		return trainPortfolio.getTrainSummary ();
+	}
+	
+	public String getTrainList () {
+		return trainPortfolio.getTrainList ();
+	}
+	
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		return trainPortfolio.getTrainNameAndQty (aStatus);
@@ -1542,7 +1552,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tClearAllRoutesAction.addClearAllTrainsFromMapEffect (this);
 			addAction (tClearAllRoutesAction);
 		}
-
 	}
 
 	public void hideTrainRevenueFrame () {
