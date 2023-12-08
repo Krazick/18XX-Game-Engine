@@ -272,12 +272,14 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public String getTrainList () {
-		String tTrainList = "NO TRAINS";
-		int tTrainIndex = 0;
+		String tTrainList;
+		int tTrainIndex;
 		int tTrainLimit;
 		int tIndex;
 
 		tTrainLimit = getTrainLimit ();
+		tTrainList = "NO TRAINS";
+		tTrainIndex = 0;
 		if (trains.size () > 0) {
 			tTrainList = "Trains (";
 			for (Coupon tTrain : trains) {
