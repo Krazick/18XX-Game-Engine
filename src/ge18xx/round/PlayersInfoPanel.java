@@ -13,7 +13,7 @@ import ge18xx.player.Portfolio;
 
 import geUtilities.MessageBean;
 
-public class PlayersInfoPanel extends ListenerPanel{
+public class PlayersInfoPanel extends ListenerPanel {
 	private static final String NAME = "Players Info";
 	private static final long serialVersionUID = 1L;
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
