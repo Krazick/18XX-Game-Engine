@@ -35,7 +35,15 @@ public class StartFormationEffect extends Effect {
 	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + formingCorporation.getName () + " by " + actor.getName () + ".");
+		String tReport;
+		String tFormingCompanyName;
+		String tActorName;
+		
+		tFormingCompanyName = formingCorporation.getName ();
+		tActorName = actor.getName ();
+		tReport = REPORT_PREFIX + name + " for " + tFormingCompanyName + " by " + tActorName + ".";
+		
+		return tReport;
 	}
 	
 	@Override
