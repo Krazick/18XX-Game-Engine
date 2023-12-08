@@ -1256,6 +1256,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return shareCompaniesFrame.hasDestinations ();
 	}
 	
+	public boolean hasLicenses() {
+		return activeGame.gameHasLicenses ();
+	}
+	
 	public boolean hasMustBuyCertificate () {
 		return bank.hasMustBuyCertificate ();
 	}
