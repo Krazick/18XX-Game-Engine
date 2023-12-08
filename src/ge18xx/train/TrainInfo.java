@@ -32,8 +32,11 @@ public class TrainInfo {
 	public static final AttributeName AN_ON_FIRST = new AttributeName ("onFirst");
 	public static final AttributeName AN_ON_LAST = new AttributeName ("onLast");
 	public static final AttributeName AN_TILE_INFO = new AttributeName ("tileInfo");
+	public static final AttributeName AN_IS_PERMANENT= new AttributeName ("isPermanent");
 	public static final TrainInfo NO_TRAIN_INFO = null;
 	public static final String NO_RUST = "";
+	public static final String PERMANENT = "Permanent";
+	public static final boolean NOT_PERMANENT = false;
 	static final String NORMAL_GAUGE = "Normal";
 	static final String METER_GAUGE = "Meter";
 	static final String START_PHASE = "1.1";
@@ -46,6 +49,7 @@ public class TrainInfo {
 	static final String NO_TRADE_INS = "NO TRADE INS";
 	Train train;
 	boolean unlimited_quantity;
+	boolean isPermanent;
 	int quantity;
 	int triggerMainPhase;
 	int triggerMinorPhase;
@@ -59,14 +63,14 @@ public class TrainInfo {
 	public TrainInfo () {
 		train = new Train ();
 		setValues (NO_TRAINS, NO_PHASE, NO_PHASE, NO_RUST, NO_DISCOUNT, NO_TRADE_INS, Train.NO_ORDER, Train.NO_ORDER,
-				Train.NO_TILE_INFO);
+				NOT_PERMANENT, Train.NO_TILE_INFO);
 	}
 
 	public TrainInfo (TrainInfo aTrainInfo) {
 		train = new Train (aTrainInfo.train);
 		setValues (aTrainInfo.quantity, aTrainInfo.triggerMainPhase, aTrainInfo.triggerMinorPhase, aTrainInfo.rust,
 				aTrainInfo.discountPrice, aTrainInfo.tradeInTrains, aTrainInfo.onFirstOrderAvailable,
-				aTrainInfo.onLastOrderAvailable, aTrainInfo.tileInfo);
+				aTrainInfo.onLastOrderAvailable, aTrainInfo.isPermanent, aTrainInfo.tileInfo);
 	}
 
 	public TrainInfo (XMLNode aCellNode) {
@@ -88,6 +92,7 @@ public class TrainInfo {
 		int tOrder;
 		int tOnFirstOrderAvailable;
 		int tOnLastOrderAvailable;
+		boolean tIsPermanent;
 		String tTradeInTrains;
 		String [] tSplit = null;
 
@@ -124,9 +129,10 @@ public class TrainInfo {
 		}
 		tOnFirstOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_FIRST, Train.NO_ORDER);
 		tOnLastOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_LAST, Train.NO_ORDER);
+		tIsPermanent = aCellNode.getThisBooleanAttribute (AN_IS_PERMANENT);
 		train = new Train (tName, tOrder, tGauge, tMajorCount, tMinorCount, tPrice);
 		setValues (tQuantity, tTriggerMainPhase, tTriggerMinorPhase, tRust, tDiscountPrice, tTradeInTrains,
-				tOnFirstOrderAvailable, tOnLastOrderAvailable, tTileInfo);
+				tOnFirstOrderAvailable, tOnLastOrderAvailable, tIsPermanent, tTileInfo);
 	}
 
 	public String getName () {
@@ -242,13 +248,17 @@ public class TrainInfo {
 		return unlimited_quantity;
 	}
 
+	public boolean isPermanent () {
+		return isPermanent;
+	}
+	
 	public void setUnlimited () {
 		unlimited_quantity = true;
 	}
 
 	public void setValues (int aQuantity, int aTriggerMajorPhase, int aTriggerMinorPhase, String aRust,
 			int aDiscountPrice, String aTradeInTrains, int aOnFirstOrderAvailable, int aOnLastOrderAvailable,
-			String aTileInfo) {
+			boolean aIsPermanent, String aTileInfo) {
 		quantity = aQuantity;
 		triggerMainPhase = aTriggerMajorPhase;
 		triggerMinorPhase = aTriggerMinorPhase;
@@ -260,6 +270,7 @@ public class TrainInfo {
 		unlimited_quantity = false;
 		onFirstOrderAvailable = aOnFirstOrderAvailable;
 		setOnLastOrderAvailable (aOnLastOrderAvailable);
+		isPermanent = aIsPermanent;
 	}
 
 	public void setOnLastOrderAvailable (int aOnLastOrderAvailable) {
