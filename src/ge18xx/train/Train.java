@@ -459,6 +459,10 @@ public class Train extends Coupon implements Comparable<Object> {
 		return trainInfo.isUnlimitedQuantity ();
 	}
 
+	public boolean isPermanent () {
+		return trainInfo.isPermanent ();
+	}
+	
 	public void rust () {
 		setStatus (RUSTED);
 	}
