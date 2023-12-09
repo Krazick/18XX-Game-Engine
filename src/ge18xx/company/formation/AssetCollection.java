@@ -32,7 +32,7 @@ public class AssetCollection extends PlayerFormationPhase {
 	public static final String DECLINE = "Decline";
 	public static final String COLLECT_CASH = "Collect Cash";
 	public static final String COLLECT_LICENSES = "Collect Licenses";
-
+	public static final List<KButton> NO_TRAIN_BUTTONS = null;
 	private static final long serialVersionUID = 1L;
 	List<KButton> trainButtons;
 	KButton collectCashButton;
@@ -90,6 +90,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		tEmptyBorder = BorderFactory.createEmptyBorder (10, 10, 10, 10);
 		tCompanyInfoPanel.setBorder (tEmptyBorder);
 		tPanelTitle = new JLabel ("Assets of Companies folding into " + aFormingCompany.getAbbrev ());
+		tPanelTitle.setAlignmentX (CENTER_ALIGNMENT);
 		tCompanyInfoPanel.add (Box.createVerticalStrut (10));
 		tCompanyInfoPanel.add (tPanelTitle);
 		
@@ -322,7 +323,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		return tButton;
 	}
 	
-	public void updateTrainButtons (ShareCompany aShareCompany) {
+	public void updateTrainButtons (ShareCompany aShareCompany, boolean aActingPlayer) {
 		boolean tTrainTight;
 		String tActionCommand;
 		String tCommandParts [];
@@ -333,48 +334,57 @@ public class AssetCollection extends PlayerFormationPhase {
 		Train tTrain;
 		boolean tStillPermanentAvailable;
 		
-		tTrainTight = aShareCompany.atTrainLimit ();
-		if (trainButtons != null) {
-			tStillPermanentAvailable = stillPermanentAvailable ();
-			for (KButton tTrainButton : trainButtons) {
-				tActionCommand = tTrainButton.getActionCommand ();
-				tCommandParts = tActionCommand.split (" ");
-				tToolTipText = GUI.EMPTY_STRING;
-				tCompanyAbbrev = tCommandParts [1];
-				tFoldingCompany = gameManager.getShareCompany (tCompanyAbbrev);
-				tTrainName = tCommandParts [2];
-				tTrain = tFoldingCompany.getTrain (tTrainName);
-				if (tCommandParts [0].equals (CLAIM)) {
-					if (tTrainTight) {
-						tTrainButton.setEnabled (false);
-						tToolTipText = "Company " + aShareCompany.getAbbrev () + " is at the Train Limit, cannot be Claimed.";
+		if (aActingPlayer) {
+			tTrainTight = aShareCompany.atTrainLimit ();
+			if (trainButtons != NO_TRAIN_BUTTONS) {
+				tStillPermanentAvailable = stillPermanentAvailable ();
+				for (KButton tTrainButton : trainButtons) {
+					tActionCommand = tTrainButton.getActionCommand ();
+					tCommandParts = tActionCommand.split (" ");
+					tToolTipText = GUI.EMPTY_STRING;
+					tCompanyAbbrev = tCommandParts [1];
+					tFoldingCompany = gameManager.getShareCompany (tCompanyAbbrev);
+					tTrainName = tCommandParts [2];
+					tTrain = tFoldingCompany.getTrain (tTrainName);
+					if (tCommandParts [0].equals (CLAIM)) {
+						if (tTrainTight) {
+							tTrainButton.setEnabled (false);
+							tToolTipText = "Company " + aShareCompany.getAbbrev () + " is at the Train Limit, cannot be Claimed.";
+						} else {
+							if (tTrain.isPermanent ()) {
+								tTrainButton.setEnabled (true);
+								tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a train, and this is a Permanent Train that can be Claimed.";
+							} else if (tStillPermanentAvailable) {
+								tTrainButton.setEnabled (false);
+								tToolTipText = "Company " + aShareCompany.getAbbrev () + 
+											" other Permanent Trains must be claimed first.";
+							} else {
+								tTrainButton.setEnabled (true);
+								tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a train and this train can be Claimed.";
+							}
+						}
 					} else {
-						if (tTrain.isPermanent ()) {
+						if (tTrainTight) {
 							tTrainButton.setEnabled (true);
-							tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a train, and this is a Permanent Train that can be Claimed.";
-						} else if (tStillPermanentAvailable) {
+							tToolTipText = "Company " + aShareCompany.getAbbrev () + " is at the Train Limit, must be Declined";
+						} else if (tTrain.isPermanent ()) {
 							tTrainButton.setEnabled (false);
 							tToolTipText = "Company " + aShareCompany.getAbbrev () + 
-										" other Permanent Trains must be claimed first.";
+									" is not at the Train Limit, and this is a Permanent Train, cannot be Declined.";
 						} else {
 							tTrainButton.setEnabled (true);
-							tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a train and this train can be Claimed.";
+							tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a Train, this train can be Declined.";	
 						}
 					}
-				} else {
-					if (tTrainTight) {
-						tTrainButton.setEnabled (true);
-						tToolTipText = "Company " + aShareCompany.getAbbrev () + " is at the Train Limit, must be Declined";
-					} else if (tTrain.isPermanent ()) {
-						tTrainButton.setEnabled (false);
-						tToolTipText = "Company " + aShareCompany.getAbbrev () + 
-								" is not at the Train Limit, and this is a Permanent Train, cannot be Declined.";
-					} else {
-						tTrainButton.setEnabled (true);
-						tToolTipText = "Company " + aShareCompany.getAbbrev () + " can add a Train, this train can be Declined.";	
-					}
+					tTrainButton.setToolTipText (tToolTipText);
 				}
-				tTrainButton.setToolTipText (tToolTipText);
+			}
+		} else {
+			if (trainButtons != NO_TRAIN_BUTTONS) {
+				for (KButton tTrainButton : trainButtons) {
+					tTrainButton.setEnabled (false);
+					tTrainButton.setToolTipText (NOT_ACTING_PRESIDENT);
+				}
 			}
 		}
 	}
@@ -385,7 +395,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		String tCommandParts [];
 
 		tStillPermanentAvailable = false;
-		if (trainButtons != null) {
+		if (trainButtons != NO_TRAIN_BUTTONS) {
 			for (KButton tTrainButton : trainButtons) {
 				tActionCommand = tTrainButton.getActionCommand ();
 				tCommandParts = tActionCommand.split (" ");
@@ -410,6 +420,10 @@ public class AssetCollection extends PlayerFormationPhase {
 			System.out.println ("Company wants to " + tActionCommand);
 		} else if (tActionCommand.startsWith (DECLINE)) {
 			System.out.println ("Company wants to " + tActionCommand);			
+		} else if (tActionCommand.equals (COLLECT_CASH)) {
+			System.out.println ("Company wants to " + tActionCommand);			
+		} else if (tActionCommand.equals (COLLECT_LICENSES)) {
+			System.out.println ("Company wants to " + tActionCommand);			
 		}
 	}
 	
@@ -423,10 +437,90 @@ public class AssetCollection extends PlayerFormationPhase {
 		tCompany = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tCompany.isAShareCompany ()) {
 			tFormingCompany = (ShareCompany) tCompany;
-			updateTrainButtons (tFormingCompany);
+			updateTrainButtons (tFormingCompany, aActingPlayer);
+			updateCollectCash (aActingPlayer);
+			updateCollectLicenses (aActingPlayer);
 		}
 	}
 
+	public boolean anyCashToCollect () {
+		boolean tAnyCashToCollect;
+		int tTotalCash;
+		
+		tTotalCash = sumAllFoldingCash ();
+		if (tTotalCash > 0) {
+			tAnyCashToCollect = true;
+		} else {
+			tAnyCashToCollect = false;
+		}
+		
+		return tAnyCashToCollect;
+	}
+
+	public boolean anyLicensesToCollect () {
+		boolean tAnyLicensesToCollect;
+		boolean tHasLicense;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;
+		int tShareIndex;
+		int tShareCount;
+		int tAllFoldingCash;
+
+		tAnyLicensesToCollect = false;
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		tAllFoldingCash = 0;
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					tHasLicense = tShareCompany.hasAnyLicense ();
+					if (tHasLicense) {
+						tAnyLicensesToCollect = true;
+					}
+				}
+			}
+		}
+
+		
+		return tAnyLicensesToCollect;
+	}
+	
+	public void updateCollectCash (boolean aActingPlayer) {
+		if (collectCashButton != GUI.NO_BUTTON) { 
+			if (aActingPlayer) {
+				if (anyCashToCollect ()) {
+					collectCashButton.setEnabled (true);
+					collectCashButton.setToolTipText (GUI.EMPTY_STRING);
+				} else {
+					collectCashButton.setEnabled (false);
+					collectCashButton.setToolTipText ("No Cash to collect");
+				}
+			} else {
+				collectCashButton.setEnabled (false);
+				collectCashButton.setToolTipText (NOT_ACTING_PRESIDENT);
+			}
+		}
+	}
+	
+	public void updateCollectLicenses (boolean aActingPlayer) {
+		if (collectLicensesButton != GUI.NO_BUTTON) { 
+			if (aActingPlayer) {
+				if (anyLicensesToCollect ()) {
+					collectLicensesButton.setEnabled (true);
+					collectLicensesButton.setToolTipText (GUI.EMPTY_STRING);
+				} else {
+					collectLicensesButton.setEnabled (false);
+					collectLicensesButton.setToolTipText ("No Licenses to collect");
+					
+				}
+			} else {
+				collectLicensesButton.setEnabled (false);
+				collectLicensesButton.setToolTipText (NOT_ACTING_PRESIDENT);
+			}
+		}
+	}
+	
 	@Override
 	public void updateContinueButton (boolean aActingPlayer) {
 		continueButton.setVisible (false);
