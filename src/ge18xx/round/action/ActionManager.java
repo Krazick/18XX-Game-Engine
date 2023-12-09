@@ -356,6 +356,8 @@ public class ActionManager {
 		String tClassName;
 		Action tAction = Action.NO_ACTION;
 		Class<?> tActionToLoad;
+		Class<?> tGameManagerClass;
+		Class<?> tActionNodeClass;
 		Constructor<?> tActionConstructor;
 
 		tANodeName = aActionNode.getNodeName ();
@@ -364,7 +366,9 @@ public class ActionManager {
 			// XMLNode and the Game Manager
 			tClassName = aActionNode.getThisAttribute (Action.AN_CLASS);
 			tActionToLoad = Class.forName (tClassName);
-			tActionConstructor = tActionToLoad.getConstructor (aActionNode.getClass (), aGameManager.getClass ());
+			tActionNodeClass = aActionNode.getClass ();
+			tGameManagerClass = aGameManager.getClass ();
+			tActionConstructor = tActionToLoad.getConstructor (tActionNodeClass, tGameManagerClass);
 			tAction = (Action) tActionConstructor.newInstance (aActionNode, aGameManager);
 		}
 

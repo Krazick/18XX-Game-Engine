@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.xml.GameManager_XML;
+
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
@@ -29,7 +29,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	int padding1;
 
 	public CertificateInfoFrame (Certificate aCertificate, GameManager aGameManager) {
-		super ("CERT INFO", (GameManager_XML) aGameManager);
+		super ("CERT INFO", aGameManager);
 		String tInfoTitle;
 		Corporation tCorporation;
 		

@@ -27,7 +27,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
-import ge18xx.utilities.xml.GameManager_XML;
+
 import ge18xx.utilities.xml.XMLFrame;
 import swingDelays.KButton;
 
@@ -85,7 +85,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	Color defaultColor;
 
 	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame, GameManager aGameManager) {
-		super (aFrameName, (GameManager_XML) aGameManager);
+		super (aFrameName, aGameManager);
 
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));

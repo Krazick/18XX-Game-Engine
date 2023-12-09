@@ -34,7 +34,6 @@ import ge18xx.game.GameSet;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 
-import ge18xx.utilities.xml.GameManager_XML;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.XMLNode;
@@ -64,7 +63,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	Logger logger;
 
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, (GameManager_XML) aGameManager);
+		super (aFrameName, aGameManager);
 		String tClientUserName;
 
 		logger = gameManager.getLogger ();

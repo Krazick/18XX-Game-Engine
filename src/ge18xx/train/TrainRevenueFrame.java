@@ -32,7 +32,7 @@ import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.utilities.xml.GameManager_XML;
+
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
@@ -105,7 +105,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	 */
 
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
-		super (aTitle, (GameManager_XML) aTrainCompany.getGameManager ());
+		super (aTitle, aTrainCompany.getGameManager ());
 
 		trainCompany = aTrainCompany;
 		title = new JLabel ();

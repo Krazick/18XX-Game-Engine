@@ -81,7 +81,7 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.GameFrameConfig;
 import ge18xx.utilities.xml.GameManagerI;
-import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.game.GameManager;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -2466,7 +2466,7 @@ public class GameManager extends Component implements NetworkGameSupport, GameMa
 
 	public void setNetworkJGameClient (JGameClient aNetworkJGameClient) {
 		networkJGameClient = aNetworkJGameClient;
-		networkJGameClient.setFrameToConfigDetails ((GameManager_XML) this);
+		networkJGameClient.setFrameToConfigDetails (this);
 	}
 
 	@Override

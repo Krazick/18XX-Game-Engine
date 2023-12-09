@@ -14,7 +14,6 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 
-import ge18xx.utilities.xml.GameManager_XML;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -28,7 +27,7 @@ public class TileTrayFrame extends XMLFrame {
 	TileSet tileSet;
 
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, (GameManager_XML) aGameManager);
+		super (aFrameName, aGameManager);
 
 		buildTileTrayScrollPanel ();
 

@@ -12,7 +12,7 @@ import javax.swing.JTable;
 
 import ge18xx.center.CityList;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.xml.GameManager_XML;
+
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -22,7 +22,7 @@ public class CitiesFrame extends XMLFrame {
 	CityList cities;
 
 	public CitiesFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, (GameManager_XML) aGameManager);
+		super (aFrameName, aGameManager);
 		JTable tTable;
 
 		cities = new CityList ();

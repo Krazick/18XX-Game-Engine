@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
+import ge18xx.game.GameManager;
+import ge18xx.network.NetworkGameSupport;
 import ge18xx.utilities.FrameInfo;
 import ge18xx.utilities.GameFrameConfig;
 import swingDelays.KButton;
@@ -34,7 +36,7 @@ public class XMLFrame extends JFrame {
 	}
 
 	private static final long serialVersionUID = 1L;
-	public GameManager_XML gameManager;
+	public GameManager gameManager;
 	boolean defaultVisible;
 	int defaultWidth;
 	int defaultHeight;
@@ -45,7 +47,7 @@ public class XMLFrame extends JFrame {
 	String gameName;
 	public JScrollPane scrollPane;
 
-	public XMLFrame (String aFrameName, GameManager_XML aGameManager) {
+	public XMLFrame (String aFrameName, GameManager aGameManager) {
 		super ();
 		setGameManager (aFrameName, aGameManager);
 	}
@@ -54,7 +56,7 @@ public class XMLFrame extends JFrame {
 		super ();
 	}
 	
-	public void setGameManager (String aFrameName, GameManager_XML aGameManager) {
+	public void setGameManager (String aFrameName, GameManager aGameManager) {
 		setGameManager (aGameManager);
 		if (gameManager == GameManagerI.NO_GAME_MANAGER) {
 			gameName = GameManagerI.NO_GAME_NAME;
@@ -64,8 +66,12 @@ public class XMLFrame extends JFrame {
 		setTitle (aFrameName);
 	}
 	
-	public void setGameManager (GameManager_XML aGameManager) {
+	public void setGameManager (GameManager aGameManager) {
 		gameManager = aGameManager;
+	}
+	
+	public void setGameManager (NetworkGameSupport aGameManager) {
+		gameManager = (GameManager) aGameManager;
 	}
 	
 	protected void updateFrameTitle (String aBaseTitle) {
@@ -77,7 +83,7 @@ public class XMLFrame extends JFrame {
 		}
 	}
 
-	protected void setIconImage (GameManager_XML aGameManager) {
+	protected void setIconImage (GameManager aGameManager) {
 		Image tImage;
 
 		tImage = aGameManager.getIconImage ();
@@ -241,11 +247,11 @@ public class XMLFrame extends JFrame {
 		return Visibility.ON.toString ();
 	}
 
-	public void setFrameToConfigDetails (GameManager_XML aGameManager) {
+	public void setFrameToConfigDetails (GameManager aGameManager) {
 		setFrameToConfigDetails (aGameManager, getVisibileOFF ());
 	}
 
-	public void setFrameToConfigDetails (GameManager_XML aGameManager, String aVisibility) {
+	public void setFrameToConfigDetails (GameManager aGameManager, String aVisibility) {
 		GameFrameConfig tGameFrameConfig;
 
 		tGameFrameConfig = aGameManager.getGameFrameConfig ();
