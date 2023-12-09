@@ -1,4 +1,4 @@
-package ge18xx.game;
+package ge18xx.utilities;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,8 @@ public class GameFrameConfig {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final ElementName EN_FRAME = new ElementName ("Frame");
 	public static final String NO_GAME_NAME = null;
-	
+	public static final GameFrameConfig NO_GAME_FRAME = null;
+
 	String gameName;
 	ArrayList<FrameInfo> frameInfoList;
 

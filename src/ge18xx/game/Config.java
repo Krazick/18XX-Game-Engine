@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.userPreferences.UserPreferencesFrame;
+import ge18xx.utilities.FrameInfo;
+import ge18xx.utilities.GameFrameConfig;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
@@ -15,7 +17,6 @@ public class Config {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_FRAMES = new ElementName ("Frames");
-	public static final GameFrameConfig NO_GAME_FRAME = null;
 
 	ArrayList<GameFrameConfig> gameFrames;
 	String saveGameDirectory;
@@ -106,7 +107,7 @@ public class Config {
 	}
 
 	public GameFrameConfig getGameFrameConfigFor (int aGameIndex) {
-		GameFrameConfig tGameFrameConfig = NO_GAME_FRAME;
+		GameFrameConfig tGameFrameConfig = GameFrameConfig.NO_GAME_FRAME;
 
 		if ((getGameFramesCount () > 0) && (aGameIndex < getGameFramesCount ())) {
 			tGameFrameConfig = gameFrames.get (aGameIndex);
@@ -116,12 +117,12 @@ public class Config {
 	}
 
 	public GameFrameConfig getGameFrameConfigFor (String aGameName) {
-		GameFrameConfig tFoundGameFrameConfig = NO_GAME_FRAME;
+		GameFrameConfig tFoundGameFrameConfig = GameFrameConfig.NO_GAME_FRAME;
 		String tGameName;
 		
 		if (getGameFramesCount () > 0) {
 			for (GameFrameConfig tGameFrameConfig : gameFrames) {
-				if (tGameFrameConfig != NO_GAME_FRAME) {
+				if (tGameFrameConfig != GameFrameConfig.NO_GAME_FRAME) {
 					tGameName = tGameFrameConfig.getGameName ();
 					if (tGameName != GameFrameConfig.NO_GAME_NAME) {
 						if (tGameName.equals (aGameName)) {
@@ -141,7 +142,7 @@ public class Config {
 		
 		tGameName = aGameFrameConfig.getGameName ();
 		tFoundGameFrameConfig = getGameFrameConfigFor (tGameName);
-		if (tFoundGameFrameConfig == NO_GAME_FRAME) {
+		if (tFoundGameFrameConfig == GameFrameConfig.NO_GAME_FRAME) {
 			gameFrames.add (aGameFrameConfig);
 		} else {
 			System.err.println ("Already have GameFrame for " + tGameName);

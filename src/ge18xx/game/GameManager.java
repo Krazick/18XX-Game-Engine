@@ -79,7 +79,7 @@ import ge18xx.toplevel.TileDefinitionFrame;
 import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
-
+import ge18xx.utilities.GameFrameConfig;
 import ge18xx.utilities.xml.GameManagerI;
 import ge18xx.utilities.xml.GameManager_XML;
 import ge18xx.utilities.xml.XMLFrame;
@@ -2765,7 +2765,7 @@ public class GameManager extends Component implements NetworkGameSupport, GameMa
 		GameFrameConfig tGameFrameConfig;
 
 		tGameFrameConfig = getGameFrameConfig ();
-		if (tGameFrameConfig != Config.NO_GAME_FRAME) {
+		if (tGameFrameConfig != GameFrameConfig.NO_GAME_FRAME) {
 			for (XMLFrame tXMLFrame : configFrames) {
 				tXMLFrame.setFrameToConfigDefaults (tGameFrameConfig, getVisibileConfig ());
 			}

@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 //
 
 import ge18xx.tiles.Feature;
-import ge18xx.toplevel.LoadableXMLI;
+import ge18xx.utilities.xml.LoadableXMLI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;

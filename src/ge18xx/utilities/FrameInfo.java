@@ -1,4 +1,4 @@
-package ge18xx.game;
+package ge18xx.utilities;
 
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;

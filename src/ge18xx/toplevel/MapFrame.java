@@ -59,6 +59,7 @@ import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.LoadableXMLI;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.GUI;

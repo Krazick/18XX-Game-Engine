@@ -53,13 +53,12 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PayRevenueAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.InformationTable;
-import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
-
+import ge18xx.utilities.xml.LoadableXMLI;
 import geUtilities.ElementName;
 import geUtilities.MessageBean;
 import swingDelays.KButton;

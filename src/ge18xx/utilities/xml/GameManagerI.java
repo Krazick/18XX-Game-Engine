@@ -2,8 +2,8 @@ package ge18xx.utilities.xml;
 
 import java.awt.Image;
 
-import ge18xx.game.GameFrameConfig;
 import ge18xx.game.GameManager;
+import ge18xx.utilities.GameFrameConfig;
 
 public interface GameManagerI {
 	public static final String NO_GAME_NAME = "<NONE>";

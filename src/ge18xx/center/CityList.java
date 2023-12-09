@@ -14,7 +14,7 @@ import java.util.List;
 //
 
 import ge18xx.toplevel.InformationTable;
-import ge18xx.toplevel.LoadableXMLI;
+import ge18xx.utilities.xml.LoadableXMLI;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;

@@ -11,13 +11,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import ge18xx.game.Config;
-import ge18xx.game.FrameInfo;
-import ge18xx.game.GameFrameConfig;
-//import ge18xx.game.GameManager;
-import ge18xx.toplevel.LoadableXMLI;
-import swingDelays.KButton;
-
 //
 //  XMLFrames.java
 //  Game_18XX
@@ -29,10 +22,13 @@ import swingDelays.KButton;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
+import ge18xx.utilities.FrameInfo;
+import ge18xx.utilities.GameFrameConfig;
+import swingDelays.KButton;
 
 public class XMLFrame extends JFrame {
 	public static final XMLFrame NO_XML_FRAME = null;
-	
+
 	public static enum Visibility {
 		ON, OFF, CONFIG_VALUE
 	}
@@ -253,7 +249,7 @@ public class XMLFrame extends JFrame {
 		GameFrameConfig tGameFrameConfig;
 
 		tGameFrameConfig = aGameManager.getGameFrameConfig ();
-		if (tGameFrameConfig != Config.NO_GAME_FRAME) {
+		if (tGameFrameConfig != GameFrameConfig.NO_GAME_FRAME) {
 			setFrameToConfigDetails (tGameFrameConfig, aVisibility);
 		}
 	}
@@ -265,7 +261,7 @@ public class XMLFrame extends JFrame {
 	public void setFrameToConfigDetails (GameFrameConfig aGameFrameConfig, String aVisibility) {
 		String tGameName = getGameName ();
 
-		if (aGameFrameConfig == Config.NO_GAME_FRAME) {
+		if (aGameFrameConfig == GameFrameConfig.NO_GAME_FRAME) {
 			System.err.println ("No Configuration Data for " + tGameName);
 		} else {
 			setFrameToConfigDefaults (aGameFrameConfig, aVisibility);

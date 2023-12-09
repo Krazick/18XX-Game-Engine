@@ -5,15 +5,7 @@ import java.awt.Paint;
 import java.awt.TexturePaint;
 import java.io.IOException;
 
-//
-//  TileType.java
-//  Java_18XX
-//
-//  Created by Mark Smith on 11/12/06.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
-//
-
-import ge18xx.toplevel.LoadableXMLI;
+import ge18xx.utilities.xml.LoadableXMLI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 //import geUtilities.GUI;
