@@ -215,8 +215,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		updateBidderJPanels ();
 		auctionRound.updateAllFrames ();
 
-		// If the Last Action being undone was to Start the Auction, the Auction Frame
-		// should be hidden.
 		if (tLastActionUndone) {
 			hideAuctionFrame ();
 		}
