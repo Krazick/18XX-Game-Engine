@@ -18,8 +18,8 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
 import swingDelays.KButton;
@@ -77,7 +77,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	boolean locationFixed;
 
 	public PlayerFrame (String aFrameName, Player aPlayer, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;

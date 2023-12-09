@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLNode;
 
 public class ChangeStateAction extends ChangePlayerAction {

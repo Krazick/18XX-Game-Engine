@@ -22,8 +22,8 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
@@ -45,12 +45,12 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	List<Action> resendTheseActions;
 
 	public ResendLastActionsFrame (String aFrameName, ActionManager aActionManager, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		actionManager = aActionManager;
 	}
 
 	public ResendLastActionsFrame (String aFrameName, String aGameName, ActionManager aActionManager, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		actionManager = aActionManager;
 	}
 

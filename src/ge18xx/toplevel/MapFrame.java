@@ -58,6 +58,8 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
@@ -118,7 +120,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	Logger logger;
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 
 		buildMapScrollPanel ();
 		buildNorthPanel ();

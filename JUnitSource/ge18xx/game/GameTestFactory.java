@@ -8,8 +8,7 @@ import org.mockito.Mockito;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.TileTrayFrame;
-
-
+import ge18xx.utilities.xml.GameManager_XML;
 import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
 
@@ -61,14 +60,14 @@ public class GameTestFactory {
 	}
 
 	public GameManager buildGameManager (String aClientName) {
-		GameManager tGameManager;
+		GameManager_XML tGameManager_XML;
 		Game_18XX tGame_18XX;
 
 		tGame_18XX = buildGame18XX (aClientName);
-		tGameManager = new GameManager (tGame_18XX, aClientName);
-		tGame_18XX.setGameManager (tGameManager);
+		tGameManager_XML = new GameManager_XML (tGame_18XX, aClientName);
+		tGame_18XX.setGameManager (tGameManager_XML);
 
-		return tGameManager;
+		return tGameManager_XML;
 	}
 
 	public Game_18XX buildGame18XX (String aClientName) {
@@ -90,7 +89,7 @@ public class GameTestFactory {
 	}
 
 	public GameManager buildGameManagerMock (String aClientName) {
-		GameManager mGameManager = Mockito.mock (GameManager.class);
+		GameManager mGameManager = Mockito.mock (GameManager_XML.class);
 
 		Mockito.when (mGameManager.getClientUserName ()).thenReturn (aClientName);
 		Mockito.when (mGameManager.getXMLBaseDirectory ()).thenReturn ("18XX XML Data" + File.separator);

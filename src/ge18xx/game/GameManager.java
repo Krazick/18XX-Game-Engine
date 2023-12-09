@@ -77,10 +77,12 @@ import ge18xx.toplevel.PrivatesFrame;
 import ge18xx.toplevel.ShareCompaniesFrame;
 import ge18xx.toplevel.TileDefinitionFrame;
 import ge18xx.toplevel.TileTrayFrame;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 
+import ge18xx.utilities.xml.GameManagerI;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
@@ -99,7 +101,7 @@ import geUtilities.XMLNode;
 // Also create a 'NetworkGameManager' Sub-class that implements the NetworkGameSupport objects and
 // methods into this sub-class
 
-public class GameManager extends Component implements NetworkGameSupport {
+public class GameManager extends Component implements NetworkGameSupport, GameManagerI {
 
 	// Static Constants
 	private static final long serialVersionUID = 1L;
@@ -110,11 +112,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
-	public static final String NO_GAME_NAME = "<NONE>";
+//	public static final String NO_GAME_NAME = "<NONE>";
+//	public static final GameManager NO_GAME_MANAGER = null;
 	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
-	public static final GameManager NO_GAME_MANAGER = null;
 	public static final String EMPTY_GAME_ID = "";
 
 	// Generic (non-game specific objects)
@@ -435,6 +437,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return gameStarted;
 	}
 
+	@Override
 	public String createFrameTitle (String aBaseName) {
 		String tFullTitle;
 
@@ -812,6 +815,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return activeGame;
 	}
 
+	@Override
 	public String getActiveGameName () {
 		String tName;
 
@@ -2462,7 +2466,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void setNetworkJGameClient (JGameClient aNetworkJGameClient) {
 		networkJGameClient = aNetworkJGameClient;
-		networkJGameClient.setFrameToConfigDetails (this);
+		networkJGameClient.setFrameToConfigDetails ((GameManager_XML) this);
 	}
 
 	@Override
@@ -2768,6 +2772,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	@Override
 	public GameFrameConfig getGameFrameConfig () {
 		GameFrameConfig tGameFrameConfig;
 		String tGameName;
@@ -3165,6 +3170,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		game18XXFrame.updateDisconnectButton ();
 	}
 
+	@Override
 	public Image getIconImage () {
 		return game18XXFrame.getIconImage ();
 	}

@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ShowFrameEffect;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLNode;
 
 public class ShowFrameAction extends Action {

@@ -20,9 +20,9 @@ import ge18xx.bank.StartPacketFrame;
 import ge18xx.bank.StartPacketRow;
 import ge18xx.company.Certificate;
 import ge18xx.player.Portfolio;
-//import ge18xx.toplevel.TableFrame;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.TrainPortfolio;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ButtonsInfoFrame extends XMLFrame {
@@ -41,7 +41,7 @@ public class ButtonsInfoFrame extends XMLFrame {
 	int buttonIndex;
 
 	public ButtonsInfoFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		frameButtons = new ArrayList<> ();
 
 		buttonModel = new DefaultTableModel (0, 4) {

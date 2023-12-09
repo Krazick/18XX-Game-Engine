@@ -38,8 +38,8 @@ import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
@@ -195,7 +195,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tFullTitle = aGameManager.createFrameTitle ("Player");
 		playerFrame = new PlayerFrame (tFullTitle, this, aGameManager);
 		aGameManager.addNewFrame (playerFrame);
-		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
+		playerFrame.setFrameToConfigDetails ((GameManager_XML) aGameManager, XMLFrame.getVisibileOFF ());
 	}
 
 	public MessageBean getBean () {

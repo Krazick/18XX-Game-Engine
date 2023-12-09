@@ -9,7 +9,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import ge18xx.game.GameManager;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 
 public class ActionReportFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Action Report";
@@ -21,7 +22,7 @@ public class ActionReportFrame extends XMLFrame {
 	SimpleAttributeSet errorKeyWord;
 
 	public ActionReportFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		
 		actionReport = new JTextPane ();
 		actionReport.setText ( "Action Report:\n" );

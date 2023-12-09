@@ -17,6 +17,8 @@ import ge18xx.game.GameManager;
 
 import ge18xx.tiles.TileSet;
 
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 
 public class TileDefinitionFrame extends XMLFrame {
@@ -29,7 +31,7 @@ public class TileDefinitionFrame extends XMLFrame {
 	TileSet tileSet;
 
 	public TileDefinitionFrame (String aFrameName, TileTrayFrame aTileTrayFrame, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		JScrollPane scrollPane;
 
 		tileSet = new TileSet (aTileTrayFrame);

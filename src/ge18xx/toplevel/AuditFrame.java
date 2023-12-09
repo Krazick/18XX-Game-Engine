@@ -24,7 +24,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
@@ -54,7 +55,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private static final long serialVersionUID = 1L;
 
 	public AuditFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 
 		setCompanies (gameManager.getShareCompanies ());
 		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };

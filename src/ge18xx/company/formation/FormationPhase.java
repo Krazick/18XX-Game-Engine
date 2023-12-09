@@ -30,13 +30,14 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.utilities.xml.XMLFrame;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
-import ge18xx.toplevel.XMLFrame;
 
+import ge18xx.utilities.xml.GameManager_XML;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
@@ -293,7 +294,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		formationFrame = new XMLFrame (aFrameName, gameManager);
+		formationFrame = new XMLFrame (aFrameName, (GameManager_XML) gameManager);
 		formationFrame.setSize (800, 600);
 		
 		formationJPanel = new JPanel ();

@@ -7,8 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameSet;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.FileUtils;
 import geUtilities.XMLElement;
 

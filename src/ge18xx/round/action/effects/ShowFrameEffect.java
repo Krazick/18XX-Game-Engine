@@ -3,7 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;

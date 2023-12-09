@@ -49,7 +49,7 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;

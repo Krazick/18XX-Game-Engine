@@ -53,8 +53,9 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.GameManagerI;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 //import geUtilities.Sound;
 import geUtilities.XMLDocument;
@@ -130,7 +131,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public Game_18XX (ResourceBundle aResourceBundle, boolean aVisible) {
-		super ("", GameManager.NO_GAME_MANAGER);
+		super ("", GameManagerI.NO_GAME_MANAGER_XML);
 
 		setResourceBundle (aResourceBundle);
 		setTitle ();
@@ -333,11 +334,13 @@ public class Game_18XX extends XMLFrame {
 
 	private void setupNewGameManager () {
 		String tClientName = clientUserName.getText ();
-
+		GameManager_XML tGameManager_XML;
+		
 		setupAutoSavesAndLogDirectory ();
 		if (NetworkPlayer.validPlayerName (tClientName)) {
 			setupLogger (tClientName, GAME_NAME);
-			setGameManager (new GameManager (this, tClientName));
+			tGameManager_XML = new GameManager_XML (this, tClientName);
+			setGameManager (tGameManager_XML);
 			enableGameStartItems ();
 			okButton.requestFocusInWindow ();
 			okButton.setEnabled (true);
@@ -402,7 +405,6 @@ public class Game_18XX extends XMLFrame {
 				}
 			}
 		});
-
 	}
 
 	private void disconnect () {

@@ -33,11 +33,11 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
 import swingDelays.KButton;
@@ -135,7 +135,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	boolean isNetworkGame;
 
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame, GameManager aGameManager) {
-		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName, aGameManager);
+		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName, 
+				(GameManager_XML) aGameManager);
 		
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;

@@ -51,11 +51,10 @@ import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
-
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;

@@ -1,6 +1,6 @@
 package ge18xx.game;
 
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;

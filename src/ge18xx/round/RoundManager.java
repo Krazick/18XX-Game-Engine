@@ -43,7 +43,7 @@ import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
-
+import ge18xx.utilities.xml.GameManager_XML;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;
@@ -184,7 +184,7 @@ public class RoundManager implements ActionListener {
 		tRoundFrame = new RoundFrame (tFullTitle, this, gameManager);
 		setRoundFrame (tRoundFrame);
 		gameManager.addNewFrame (roundFrame);
-		roundFrame.setFrameToConfigDetails (gameManager);
+		roundFrame.setFrameToConfigDetails ((GameManager_XML) gameManager);
 		setCurrentOR (0);
 		setORCount (0);
 		addedOR = false;

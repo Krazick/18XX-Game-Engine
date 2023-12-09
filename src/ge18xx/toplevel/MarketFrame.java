@@ -16,7 +16,8 @@ import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.StockRound;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -27,7 +28,7 @@ public class MarketFrame extends XMLFrame {
 	Market market;
 
 	public MarketFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 
 		market = new Market (40, 40, aGameManager);
 		buildScrollPane (market, BorderLayout.CENTER);

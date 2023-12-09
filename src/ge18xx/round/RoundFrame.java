@@ -25,7 +25,8 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
-import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 
@@ -77,7 +78,7 @@ public class RoundFrame extends XMLFrame {
 	RoundManager roundManager;
 
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 
 		JMenuBar tJMenuBar;
 		String tGameName;

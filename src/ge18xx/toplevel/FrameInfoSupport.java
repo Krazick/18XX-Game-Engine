@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
-
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 

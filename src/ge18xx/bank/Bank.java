@@ -26,11 +26,10 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.BuyTrainAction;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
-
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;

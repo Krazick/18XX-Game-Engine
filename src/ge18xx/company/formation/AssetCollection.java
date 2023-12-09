@@ -464,12 +464,10 @@ public class AssetCollection extends PlayerFormationPhase {
 		CorporationList tShareCompanies;
 		int tShareIndex;
 		int tShareCount;
-		int tAllFoldingCash;
 
 		tAnyLicensesToCollect = false;
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
-		tAllFoldingCash = 0;
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
 			if (tShareCompany != Corporation.NO_CORPORATION) {

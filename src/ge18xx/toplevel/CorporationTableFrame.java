@@ -8,7 +8,8 @@ import ge18xx.company.CorporationList;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -21,7 +22,7 @@ public class CorporationTableFrame extends XMLFrame {
 	CorporationList companies;
 
 	public CorporationTableFrame (String aFrameName, ElementName aTypeName, RoundManager aRoundManager) {
-		super (aFrameName, aRoundManager.getGameManager ());
+		super (aFrameName, (GameManager_XML) aRoundManager.getGameManager ());
 
 		JTable tTable;
 

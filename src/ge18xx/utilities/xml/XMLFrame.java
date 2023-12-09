@@ -1,4 +1,4 @@
-package ge18xx.toplevel;
+package ge18xx.utilities.xml;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -14,8 +14,8 @@ import javax.swing.JScrollPane;
 import ge18xx.game.Config;
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameFrameConfig;
-import ge18xx.game.GameManager;
-
+//import ge18xx.game.GameManager;
+import ge18xx.toplevel.LoadableXMLI;
 import swingDelays.KButton;
 
 //
@@ -38,7 +38,7 @@ public class XMLFrame extends JFrame {
 	}
 
 	private static final long serialVersionUID = 1L;
-	public GameManager gameManager;
+	public GameManager_XML gameManager;
 	boolean defaultVisible;
 	int defaultWidth;
 	int defaultHeight;
@@ -47,9 +47,9 @@ public class XMLFrame extends JFrame {
 	int defaultHexSize;
 	int defaultState;
 	String gameName;
-	JScrollPane scrollPane;
+	public JScrollPane scrollPane;
 
-	public XMLFrame (String aFrameName, GameManager aGameManager) {
+	public XMLFrame (String aFrameName, GameManager_XML aGameManager) {
 		super ();
 		setGameManager (aFrameName, aGameManager);
 	}
@@ -58,30 +58,30 @@ public class XMLFrame extends JFrame {
 		super ();
 	}
 	
-	public void setGameManager (String aFrameName, GameManager aGameManager) {
+	public void setGameManager (String aFrameName, GameManager_XML aGameManager) {
 		setGameManager (aGameManager);
-		if (gameManager == GameManager.NO_GAME_MANAGER) {
-			gameName = GameManager.NO_GAME_NAME;
+		if (gameManager == GameManagerI.NO_GAME_MANAGER) {
+			gameName = GameManagerI.NO_GAME_NAME;
 		} else {
 			gameName = gameManager.getActiveGameName ();
 		}
 		setTitle (aFrameName);
 	}
 	
-	public void setGameManager (GameManager aGameManager) {
+	public void setGameManager (GameManager_XML aGameManager) {
 		gameManager = aGameManager;
 	}
 	
 	protected void updateFrameTitle (String aBaseTitle) {
 		String tFrameTitle;
 
-		if (gameManager != GameManager.NO_GAME_MANAGER) {
+		if (gameManager != GameManagerI.NO_GAME_MANAGER) {
 			tFrameTitle = gameManager.createFrameTitle (aBaseTitle);
 			setTitle (tFrameTitle);
 		}
 	}
 
-	protected void setIconImage (GameManager aGameManager) {
+	protected void setIconImage (GameManager_XML aGameManager) {
 		Image tImage;
 
 		tImage = aGameManager.getIconImage ();
@@ -245,11 +245,11 @@ public class XMLFrame extends JFrame {
 		return Visibility.ON.toString ();
 	}
 
-	public void setFrameToConfigDetails (GameManager aGameManager) {
+	public void setFrameToConfigDetails (GameManager_XML aGameManager) {
 		setFrameToConfigDetails (aGameManager, getVisibileOFF ());
 	}
 
-	public void setFrameToConfigDetails (GameManager aGameManager, String aVisibility) {
+	public void setFrameToConfigDetails (GameManager_XML aGameManager, String aVisibility) {
 		GameFrameConfig tGameFrameConfig;
 
 		tGameFrameConfig = aGameManager.getGameFrameConfig ();

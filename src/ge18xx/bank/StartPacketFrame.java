@@ -20,8 +20,8 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.LoadableXMLI;
-import ge18xx.toplevel.XMLFrame;
-
+import ge18xx.utilities.xml.GameManager_XML;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
@@ -64,7 +64,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	};
 
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager);
+		super (aFrameName, (GameManager_XML) aGameManager);
 		startPacketRows = new LinkedList<> ();
 		portfolio = new StartPacketPortfolio (this);
 	}
