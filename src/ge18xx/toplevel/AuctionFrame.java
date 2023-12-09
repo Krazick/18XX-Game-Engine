@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-//import javax.swing.KButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +28,7 @@ import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
 
 import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class AuctionFrame extends XMLFrame implements ActionListener {
@@ -36,7 +36,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private static int NO_BIDDER_INDEX = -1;
 	private final String HIGHEST_NO_RAISE = "Highest Bidder does not need to Raise the Bid";
 	private final String HIGHEST_NO_PASS = "Highest Bidder does not need to Pass the Bid";
-//	private final String ONLY_ONE_BIDDER_NOT_YOU = "Only One Bidder, which is not You";
 	private final String WON_NOT_YOU = "Auction has been won, but not by you";
 	private final String WON_BY_YOU = "You have won the Auction";
 	private final String MULTIPLE_BIDDERS_IN_AUCTION = "Multiple Bidders still in the Auction";
@@ -102,6 +101,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		fullPanel.add (buttonJPanel);
 		add (fullPanel);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+		setSize (450, 210);
 	}
 
 	public void buildButtonJPanel () {
@@ -209,16 +209,15 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private void undoLastAction () {
 		boolean tLastActionUndone;
-		boolean tWasStartAuction;
 
-		tWasStartAuction = auctionRound.wasLastActionStartAuction ();
+		auctionRound.wasLastActionStartAuction ();
 		tLastActionUndone = auctionRound.undoLastAction ();
 		updateBidderJPanels ();
 		auctionRound.updateAllFrames ();
 
 		// If the Last Action being undone was to Start the Auction, the Auction Frame
 		// should be hidden.
-		if (tWasStartAuction && tLastActionUndone) {
+		if (tLastActionUndone) {
 			hideAuctionFrame ();
 		}
 	}
@@ -785,12 +784,17 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tGameManager = auctionRound.getGameManager ();
 		tClientName = tGameManager.getClientUserName ();
 		tAmIBidder = certificateToAuction.amIABidder (tClientName);
-		if (tAmIBidder && !isNetworkGame) {
+		if (! isNetworkGame) {
 			undoButton.setEnabled (true);
-			undoButton.setToolTipText ("");
+			undoButton.setToolTipText (GUI.EMPTY_STRING);
 		} else {
-			undoButton.setEnabled (false);
-			undoButton.setToolTipText ("You are not a Bidder, cannot Undo");
+			if (tAmIBidder) {
+				undoButton.setEnabled (true);
+				undoButton.setToolTipText ("As the active bidder, you can Undo");
+			} else {
+				undoButton.setEnabled (false);
+				undoButton.setToolTipText ("You are not the active Bidder, you cannot Undo");
+			}
 		}
 	}
 
