@@ -634,6 +634,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aCorpJPanel.add (tLabel);
 	}
 
+	public boolean hasAnyLicense () {
+		boolean tHasAnyLicense;
+		
+		tHasAnyLicense = false;
+		if (licenses != License.NO_LICENSES) {
+			if (licenses.size () > 0) {
+				tHasAnyLicense = true;
+			}
+		}
+		
+		return tHasAnyLicense;
+	}
+	
 	public JPanel buildLicenseInfoPanel () {
 		JPanel tLicensePanel;
 		JLabel tLicenseLabel;
