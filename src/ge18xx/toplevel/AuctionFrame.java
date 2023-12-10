@@ -102,7 +102,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		add (fullPanel);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		setSize (450, 210);
-		setSize (580, 230);
 	}
 
 	public void buildButtonJPanel () {
@@ -468,7 +467,20 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		} else {
 			doneButton.setEnabled (aDone);
 			if (aDone) {
-				doneButton.setToolTipText ("Auction is done, continue game.");
+				if (freeCertificate == Certificate.NO_CERTIFICATE) {
+					doneButton.setToolTipText ("Auction is done.");
+				} else {
+					if (freeCertificate.isPresidentShare ()) {
+						if (freeCertificate.hasParPrice ()) {
+							doneButton.setToolTipText ("Auction is done, winner will received a Free Prez Share.");
+						} else {
+							doneButton.setEnabled (false);
+							doneButton.setToolTipText ("Auction is done, winner will set Par Price for Free Prez Share.");
+						}
+					} else {
+						doneButton.setToolTipText ("Auction is done, winner will receive a Free Certificate");
+					}
+				}
 			} else {
 				doneButton.setToolTipText ("Auction is not done.");
 			}
@@ -578,6 +590,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private void fillBiddersPanel (int aBidderCount, int aHighestBidderIndex) {
 		Player tPlayer;
 		int tCash;
+		int tFrameHeight;
 		String tRaiseLabel;
 		String tRaiseByLabel;
 		String tBidderName;
@@ -617,7 +630,15 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				setBidderJPanelColor (tBidderName, tBidderIsActing);
 			}
 		}
-		setSize (580, 250);
+		tFrameHeight = 190 + aBidderCount * 40;
+		if (freeCertificate != Certificate.NO_CERTIFICATE) {
+			if (freeCertificate.isPresidentShare ()) {
+				if (! freeCertificate.hasParPrice ()) {
+					tFrameHeight += 50;
+				}
+			}
+		}
+		setSize (600, tFrameHeight);
 	}
 
 	public void updateAuctionItemInfo (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
