@@ -36,21 +36,24 @@ public class Bidders {
 
 	public boolean hasBidOnThisCert (Player aPlayer) {
 		String tPlayerName;
-
+		boolean tHasBidOnThisCert;
+		
 		tPlayerName = aPlayer.getName ();
-		return hasBidOnThisCert (tPlayerName);
+		tHasBidOnThisCert = hasBidOnThisCert (tPlayerName);
+		
+		return tHasBidOnThisCert;
 	}
 
 	public boolean hasBidOnThisCert (String aPlayerName) {
-		boolean tPlayerAlreadyBid = false;
+		boolean tPlayerAlreadyBid;
 		int tBidderCount;
 		CashHolderI tThisBidder;
 
+		tPlayerAlreadyBid = false;
 		tBidderCount = bidders.size ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				tThisBidder = getCashHolderAt (tBidderIndex);
-
 				if (aPlayerName.equals (tThisBidder.getName ())) {
 					tPlayerAlreadyBid = true;
 				}
@@ -238,22 +241,28 @@ public class Bidders {
 	}
 
 	public void passBidFor (int aBidderIndex) {
-		Bidder tBidder = bidders.get (aBidderIndex);
+		Bidder tBidder;
+		
+		tBidder = bidders.get (aBidderIndex);
 		tBidder.passBid ();
 	}
 
 	public void raiseBidFor (int aBidderIndex) {
-		int tRaiseAmount = getRaiseAmount (aBidderIndex);
-		Bidder tBidder = bidders.get (aBidderIndex);
+		int tRaiseAmount;
+		Bidder tBidder;
+		
+		tBidder = bidders.get (aBidderIndex);
+		tRaiseAmount = getRaiseAmount (aBidderIndex);
 
 		tBidder.raiseBid (certificate, tRaiseAmount);
 	}
 
 	public void refundBids (WinAuctionAction aWinAuctionAction) {
-		int tNumberOfBidders = getNumberOfBidders ();
+		int tNumberOfBidders;
 		int tBid;
 		Player tBidder;
 
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (0);
@@ -266,8 +275,9 @@ public class Bidders {
 	}
 
 	public void removeAllBids () {
-		int tNumberOfBidders = getNumberOfBidders ();
-
+		int tNumberOfBidders;
+		
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			bidders.clear ();
 		}
@@ -281,9 +291,10 @@ public class Bidders {
 	}
 
 	public void setBiddersAsRaiseBid () {
-		int tNumberOfBidders = getNumberOfBidders ();
+		int tNumberOfBidders;
 		Player tBidder;
 
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
@@ -293,11 +304,12 @@ public class Bidders {
 	}
 
 	public void setAsPassForBidder (Player aPlayer) {
-		int tNumberOfBidders = getNumberOfBidders ();
+		int tNumberOfBidders;
 		Player tBidder;
 		Bidder tAsBidder;
 		int tBidderIndex;
-
+		
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tAsBidder = bidders.get (tBidderIndex);
@@ -315,11 +327,12 @@ public class Bidders {
 	}
 
 	public void printAllBidderEscrows () {
-		int tNumberOfBidders = getNumberOfBidders ();
+		int tNumberOfBidders;
 		Player tBidder;
 		String tName;
 		String tCash;
-
+		
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
@@ -332,9 +345,10 @@ public class Bidders {
 	}
 
 	public int getTotalEscrows () {
-		int tTotalEscrows = 0;
+		int tTotalEscrows;
 		int tBidderCount;
 
+		tTotalEscrows = 0;
 		tBidderCount = bidders.size ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
