@@ -102,6 +102,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		add (fullPanel);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		setSize (450, 210);
+		setSize (580, 230);
 	}
 
 	public void buildButtonJPanel () {
@@ -367,6 +368,17 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
 
+	private boolean clientIsBidding () {
+		boolean tClientIsBidding;
+
+		tClientIsBidding = true;
+		if (isNetworkGame) {
+			tClientIsBidding = certificateToAuction.amIABidder (clientUserName);
+		}
+
+		return tClientIsBidding;
+	}
+	
 	private boolean clientIsWinner () {
 		boolean tClientIsWinner;
 		Player tWinningPlayer;
@@ -425,38 +437,73 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private boolean updateDoneButton (boolean aDone) {
 		boolean tClientIsActing;
 
-		tClientIsActing = false;
-		if (freeCertificate == Certificate.NO_CERTIFICATE) {
-			tClientIsActing = updateDoneButtonStep2 (aDone);
-		} else if (freeCertificate.isPresidentShare ()) {
-			if (freeCertificate.hasParPrice ()) {
-				tClientIsActing = updateDoneButtonStep2 (aDone);
+		tClientIsActing = true;
+		if (isNetworkGame) {
+			if (clientIsBidding ()) {
+				if (aDone) {
+					if (freeCertificate == Certificate.NO_CERTIFICATE) {
+						doneButton.setEnabled (true);
+						doneButton.setToolTipText ("You have won the Auction.");
+					} else if (freeCertificate.isPresidentShare ()) {
+						if (freeCertificate.hasParPrice ()) {
+							doneButton.setEnabled (true);
+							doneButton.setToolTipText ("You have won the Auction and will receive a Free Pre Certificate.");
+						} else {
+							doneButton.setEnabled (false);
+							doneButton.setToolTipText ("You have won the Auction, and need to set the Par Price.");
+						}
+					} else {
+						doneButton.setEnabled (true);
+						doneButton.setToolTipText ("You have won and the Auction and will receive a Free Certificate.");
+					}
+				} else {
+					doneButton.setEnabled (false);
+					doneButton.setToolTipText ("You are bidding and the Auction is not over.");
+				}
 			} else {
+				tClientIsActing = false;
 				doneButton.setEnabled (false);
-				doneButton.setToolTipText ("Par Price has not been set yet");
+				doneButton.setToolTipText ("You are not bidding in the Auction.");
 			}
 		} else {
-			tClientIsActing = updateDoneButtonStep2 (aDone);
+			doneButton.setEnabled (aDone);
+			if (aDone) {
+				doneButton.setToolTipText ("Auction is done, continue game.");
+			} else {
+				doneButton.setToolTipText ("Auction is not done.");
+			}
 		}
+//		if (freeCertificate == Certificate.NO_CERTIFICATE) {
+//			tClientIsActing = updateDoneButtonStep2 (aDone);
+//		} else if (freeCertificate.isPresidentShare ()) {
+//			if (freeCertificate.hasParPrice ()) {
+//				tClientIsActing = updateDoneButtonStep2 (aDone);
+//			} else {
+//				doneButton.setEnabled (false);
+//				doneButton.setToolTipText ("Par Price has not been set yet");
+//			}
+//		} else {
+//			tClientIsActing = updateDoneButtonStep2 (aDone);
+//		}
 
 		return tClientIsActing;
 	}
 
-	private boolean updateDoneButtonStep2 (boolean aDone) {
-		boolean tClientIsActing;
-
-		tClientIsActing = false;
-		if (aDone) {
-			tClientIsActing = clientIsWinner ();
-			doneButton.setEnabled (tClientIsActing);
-			doneButton.setToolTipText ("Auction is Over");
-		} else {
-			doneButton.setEnabled (false);
-			doneButton.setToolTipText (doneToolTipText);
-		}
-
-		return tClientIsActing;
-	}
+//	private boolean updateDoneButtonStep2 (boolean aDone) {
+//		boolean tClientIsActing;
+//
+//		tClientIsActing = false;
+//		if (aDone) {
+//			tClientIsActing = clientIsWinner ();
+//			doneButton.setEnabled (tClientIsActing);
+//			doneButton.setToolTipText ("Auction is Over");
+//		} else {
+//			doneButton.setEnabled (false);
+//			doneButton.setToolTipText (doneToolTipText);
+//		}
+//
+//		return tClientIsActing;
+//	}
 
 	private void clearAllAuctionStates () {
 		auctionRound.clearAllAuctionStates ();
@@ -570,6 +617,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				setBidderJPanelColor (tBidderName, tBidderIsActing);
 			}
 		}
+		setSize (580, 250);
 	}
 
 	public void updateAuctionItemInfo (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
