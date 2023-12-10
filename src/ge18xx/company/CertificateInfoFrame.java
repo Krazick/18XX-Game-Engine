@@ -38,6 +38,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		tCorporation = certificate.getCorporation ();
 		tInfoTitle = "Info for " + tCorporation.getAbbrev () + " Certificate";
 		setTitle (tInfoTitle);
+		fillFrame ();
 	}
 
 	public void setCertificate (Certificate aCertificate) {
