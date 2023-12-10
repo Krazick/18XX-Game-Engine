@@ -142,6 +142,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tVerticalBox.add (Box.createVerticalStrut (10));
 
 		tCertificateInfoJPanel = aCertificate.buildBasicCertInfoJPanel ();
+		tCertificateInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
 		tVerticalBox.add (tCertificateInfoJPanel);
 		tVerticalBox.add (Box.createVerticalStrut (10));
 		tVerticalBox.add (tFrameLabel1);
