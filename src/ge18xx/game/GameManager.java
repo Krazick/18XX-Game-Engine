@@ -1,7 +1,6 @@
 package ge18xx.game;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ItemListener;
@@ -80,7 +79,7 @@ import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.GameFrameConfig;
-import ge18xx.utilities.xml.GameManagerI;
+import ge18xx.utilities.xml.GameEngineManager;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
@@ -101,7 +100,7 @@ import geUtilities.XMLNode;
 // Also create a 'NetworkGameManager' Sub-class that implements the NetworkGameSupport objects and
 // methods into this sub-class
 
-public class GameManager extends Component implements NetworkGameSupport, GameManagerI {
+public class GameManager extends GameEngineManager implements NetworkGameSupport {
 
 	// Static Constants
 	private static final long serialVersionUID = 1L;
@@ -112,12 +111,12 @@ public class GameManager extends Component implements NetworkGameSupport, GameMa
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
-//	public static final String NO_GAME_NAME = "<NONE>";
-//	public static final GameManager NO_GAME_MANAGER = null;
+	public static final String NO_GAME_NAME = "<NONE>";
+	public static final GameManager NO_GAME_MANAGER = null;
 	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
-	public static final String EMPTY_GAME_ID = "";
+	public static final String EMPTY_GAME_ID = GUI.EMPTY_STRING;
 
 	// Generic (non-game specific objects)
 	ArrayList<XMLFrame> configFrames;
