@@ -1875,7 +1875,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean amIABidder (String aClientName) {
-		boolean tAmIABidder = false;
+		boolean tAmIABidder;
 
 		tAmIABidder = bidders.hasBidOnThisCert (aClientName);
 
