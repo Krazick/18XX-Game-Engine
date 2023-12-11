@@ -46,8 +46,6 @@ import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
-import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 
 import geUtilities.AttributeName;
@@ -568,6 +566,7 @@ public class PlayerManager {
 				tCashValue = tCertificateToBidOn.getHighestBid ();
 				tCashValue += BID_INCREMENT;
 				tBidShare = true;
+				
 				aPlayer.setBidShare (tBidShare);
 				tBidStockAction.addBidShareEffect (aPlayer, tBidShare);
 				tEscrow = aPlayer.addEscrowInfo (tCertificateToBidOn, tCashValue);
@@ -1053,6 +1052,7 @@ public class PlayerManager {
 		tNextPlayerIndex = stockRound.getNextPlayerIndex ();
 		tOldPriorityPlayerIndex = getPriorityPlayerIndex ();
 		tOldPriorityPlayer = getPlayer (tOldPriorityPlayerIndex);
+		
 		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 		tDonePlayerAction.addNewPriorityPlayerEffect (aPlayer, tOldPriorityPlayerIndex, tNextPlayerIndex);
@@ -1068,6 +1068,7 @@ public class PlayerManager {
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
 		moveToNextPlayer (tNextPlayerIndex, tDonePlayerAction);
+		
 		addAction (tDonePlayerAction);
 		gameManager.resetRoundFrameBackgrounds ();
 	}
@@ -1075,19 +1076,16 @@ public class PlayerManager {
 	private void moveToNextPlayer (int aNextPlayerIndex, ChangeStateAction aChangeStateAction) {
 		Player tNextPlayer;
 		boolean tBidShare;
-		StateChangeEffect tStateChangeEffect;
+		
 		tNextPlayer = getPlayer (aNextPlayerIndex);
-
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
 		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT);
+		
 		tBidShare = false;
 		tNextPlayer.setBidShare (tBidShare);
 		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
 		tNextPlayer.updatePortfolioInfo ();
-		tStateChangeEffect = stockRound.setCurrentPlayer (aNextPlayerIndex, true);
-		if (tStateChangeEffect != Effect.NO_EFFECT) {
-			aChangeStateAction.addEffect (tStateChangeEffect);
-		}
+		stockRound.setCurrentPlayer (aNextPlayerIndex, true, aChangeStateAction);
 		stockRound.updateRFPlayerLabel (tNextPlayer);
 	}
 
