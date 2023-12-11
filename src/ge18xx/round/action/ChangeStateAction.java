@@ -36,11 +36,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
 		StateChangeEffect tStateChangeEffect;
-
-		if (aActor.isAPlayer ()) {
+		
+		if (aActor.isAPlayer () || aActor.isAStockRound () || aActor.isAOperatingRound ()) {
 			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
 			addEffect (tStateChangeEffect);
-		} else if (actor.isACorporation ()) {
+		} else if (aActor.isACorporation ()) {
 			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
 		}
 	}
