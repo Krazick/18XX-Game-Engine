@@ -438,8 +438,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 		tClientIsActing = true;
 		if (isNetworkGame) {
-			if (clientIsBidding ()) {
-				if (aDone) {
+			if (aDone) {
+				if (clientIsWinner ()) {
 					if (freeCertificate == Certificate.NO_CERTIFICATE) {
 						doneButton.setEnabled (true);
 						doneButton.setToolTipText ("You have won the Auction.");
@@ -457,13 +457,24 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 					}
 				} else {
 					doneButton.setEnabled (false);
-					doneButton.setToolTipText ("You are bidding and the Auction is not over.");
+					doneButton.setToolTipText ("The Auction is over, and you have lost.");		
 				}
 			} else {
-				tClientIsActing = false;
-				doneButton.setEnabled (false);
-				doneButton.setToolTipText ("You are not bidding in the Auction.");
+				if (clientIsBidding ()) {
+					doneButton.setEnabled (false);
+					doneButton.setToolTipText ("The Auction is not over.");		
+				} else {
+					if (clientIsBidding ()) {
+						doneButton.setEnabled (false);
+						doneButton.setToolTipText ("You are bidding in the Auction, but Auction is not over.");
+					} else {
+						doneButton.setEnabled (false);
+						doneButton.setToolTipText ("You are not bidding in the Auction.");
+					}
+					tClientIsActing = false;
+				}
 			}
+
 		} else {
 			doneButton.setEnabled (aDone);
 			if (aDone) {
@@ -482,7 +493,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 					}
 				}
 			} else {
-				doneButton.setToolTipText ("Auction is not done.");
+				doneButton.setToolTipText ("Auction is not over.");
 			}
 		}
 //		if (freeCertificate == Certificate.NO_CERTIFICATE) {
