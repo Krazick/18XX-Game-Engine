@@ -4,8 +4,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeStateAction;
-import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.StateChangeEffect;
+import ge18xx.round.action.DonePlayerAction;
 
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -179,32 +178,29 @@ public class StockRound extends Round {
 		setStartRoundPriorityIndex (getPriorityIndex ());
 	}
 
-	public StateChangeEffect setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
+	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
+		 ChangeStateAction tChangeStateAction;
+		 Player tCurrentPlayer;
+		 
+		 tCurrentPlayer = getCurrentPlayer ();
+		 tChangeStateAction = new DonePlayerAction (getRoundType (), getID (), tCurrentPlayer);
+		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
+	}
+	
+	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious, ChangeStateAction aChangeStateAction) {
 		ActorI.ActionStates tOldState = ActorI.ActionStates.NoState;
 		ActorI.ActionStates tNewState = ActorI.ActionStates.NoState;
 		Player tPlayer = Player.NO_PLAYER;
-		ChangeStateAction tChangeStateAction;
-		StateChangeEffect tStateChangeEffect;
 
 		tPlayer = playerManager.getPlayer (aPlayerIndex);
-		tStateChangeEffect = (StateChangeEffect) Effect.NO_EFFECT;
 		if (tPlayer != Player.NO_PLAYER) {
 			setCurrentPlayerIndex (aPlayerIndex);
 			tOldState = tPlayer.getPrimaryActionState ();
 			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
 			tNewState = tPlayer.getPrimaryActionState ();
 			
-			tChangeStateAction = new ChangeStateAction (getRoundType (), getID (), tPlayer);
-			tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
-			tStateChangeEffect = (StateChangeEffect) tChangeStateAction.getEffect (0);
-			if (! tStateChangeEffect.nullEffect ()) {
-				tStateChangeEffect = (StateChangeEffect) Effect.NO_EFFECT;
-			}
-//			tChangeStateAction.setChainToPrevious (aChainToPrevious);
-//			addAction (tChangeStateAction);
+			aChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 		}
-		
-		return tStateChangeEffect;
 	}
 
 	public void setPlayerManager (PlayerManager aPlayerManager) {
