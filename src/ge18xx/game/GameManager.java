@@ -93,7 +93,7 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
-// TODO -- Create an abstract 'GenericGameManager' Super Class that holds non-specific Game information like:
+// TODO -- Create an abstract 'GameEngineManager' Super Class that holds non-specific Game information like:
 //   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific
 //   objects flagged below. Move the methods that use only these objects to the super-class
 //
