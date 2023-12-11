@@ -24,7 +24,7 @@ public class ShowFrameAction extends Action {
 		setName (NAME);
 	}
 
-	public void AddShowFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
+	public void addShowFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
 		ShowFrameEffect tShowFrameEffect;
 
 		tShowFrameEffect = new ShowFrameEffect (aActor, aXMLFrame);
