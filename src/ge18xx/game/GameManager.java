@@ -103,7 +103,6 @@ import geUtilities.XMLNode;
 public class GameManager extends GameEngineManager implements NetworkGameSupport {
 
 	// Static Constants
-	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_SAVEGAMEDIR = new ElementName ("SaveGameDir");
 	public static final ElementName EN_GAME = new ElementName ("Game");
@@ -1501,9 +1500,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		while (tNotChosenYet) {
 			aChooser.setCurrentDirectory (tDirectory);
 			if (aSaveFile) {
-				tResult = chooser.showSaveDialog (this);
+				tResult = chooser.showSaveDialog (null);
 			} else {
-				tResult = chooser.showOpenDialog (this);
+				tResult = chooser.showOpenDialog (null);
 			}
 			if (tResult == JFileChooser.APPROVE_OPTION) {
 				tSelectedFile = chooser.getSelectedFile ();

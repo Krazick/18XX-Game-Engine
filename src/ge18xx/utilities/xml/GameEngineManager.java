@@ -1,13 +1,10 @@
 package ge18xx.utilities.xml;
 
-import java.awt.Component;
 import java.awt.Image;
 
 import ge18xx.utilities.GameFrameConfig;
 
-public abstract class GameEngineManager extends Component implements GameManagerI {
-
-	private static final long serialVersionUID = 1L;
+public abstract class GameEngineManager implements GameManagerI {
 
 	public GameEngineManager () {
 		// TODO Auto-generated constructor stub
