@@ -95,8 +95,9 @@ public class ShowFrameEffect extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied = false;
+		boolean tEffectApplied;
 
+		tEffectApplied = false;
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (false);
 		}
