@@ -5,13 +5,12 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.AuctionBidChangeEffect;
-import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowChangeEffect;
-import ge18xx.round.action.effects.NewCurrentBidderEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
-public class AuctionRaiseAction extends CashTransferAction {
+public class AuctionRaiseAction extends AuctionStateChangeAction {
 	public final static String NAME = "Auction Raise";
 
 	public AuctionRaiseAction () {
@@ -27,21 +26,6 @@ public class AuctionRaiseAction extends CashTransferAction {
 	public AuctionRaiseAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
-	}
-
-	public void addNewCurrentBidderEffect (ActorI aPlayer, int aCurrentBidderIndex, int aNextBidderIndex) {
-		NewCurrentBidderEffect tNewCurrentBidderEffect;
-
-		tNewCurrentBidderEffect = new NewCurrentBidderEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
-		addEffect (tNewCurrentBidderEffect);
-	}
-
-	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState,
-			ActorI.ActionStates aNewState) {
-		AuctionStateChangeEffect tAuctionStateChangeEffect;
-
-		tAuctionStateChangeEffect = new AuctionStateChangeEffect (aActor, aOldState, aNewState);
-		addEffect (tAuctionStateChangeEffect);
 	}
 
 	public void addBidChangeEffect (ActorI aActor, int aOldBid, int aNewBid, Certificate aCertificate) {
@@ -74,9 +58,11 @@ public class AuctionRaiseAction extends CashTransferAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
-		int tNewBid = 0;
+		String tSimpleActionReport;
+		int tNewBid;
 
+		tNewBid = 0;
+		tSimpleActionReport = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
 			if (tNewBid == 0) {
 				if (tEffect instanceof AuctionBidChangeEffect) {
@@ -85,7 +71,8 @@ public class AuctionRaiseAction extends CashTransferAction {
 			}
 		}
 
-		tSimpleActionReport = actor.getName () + " raised the bid by " + Bank.formatCash (getCashAmount ()) + " to "
+		tSimpleActionReport = actor.getName () + " raised the bid by " + 
+				Bank.formatCash (getCashAmount ()) + " to "
 				+ Bank.formatCash (tNewBid) + " for " + getCompanyAbbrev () + ".";
 
 		return tSimpleActionReport;
