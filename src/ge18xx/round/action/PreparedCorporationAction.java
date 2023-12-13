@@ -4,9 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GetLoanEffect;
-import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.UpdateLastRevenueEffect;
-import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.XMLNode;
 
 public class PreparedCorporationAction extends ChangeStateAction {
@@ -36,13 +34,6 @@ public class PreparedCorporationAction extends ChangeStateAction {
 
 		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
 		addEffect (tUpdateLastRevenueEffect);
-	}
-
-	public void addShowFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
-		ShowFrameEffect tShowFrameEffect;
-		
-		tShowFrameEffect = new ShowFrameEffect (aActor, aXMLFrame);
-		addEffect (tShowFrameEffect);
 	}
 	
 	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {

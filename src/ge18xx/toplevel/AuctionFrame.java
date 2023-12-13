@@ -39,6 +39,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private final String BIDDER_HAS_PASSED = "You have passed previously, and are out of the Auction";
 	private final String WON_NOT_YOU = "Auction has been won, but not by you";
 	private final String WON_BY_YOU = "You have won the Auction";
+	private final String ACTIVE_BIDDER_CAN_UNDO = "As the active bidder, you can Undo";
+	private final String NOT_ACTIVE_CANNOT_UNDO = "You are not the active Bidder, you cannot Undo";
 	private final String MUST_SET_PAR_PRICE = "Auction must completed before setting Par Price";
 	private final String MULTIPLE_BIDDERS_IN_AUCTION = "Multiple Bidders still in the Auction";
 	private final String AUCTION_WON = "Auction has been won";
@@ -854,10 +856,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		if (isNetworkGame) {
 			if (tAmIBidder) {
 				undoButton.setEnabled (true);
-				undoButton.setToolTipText ("As the active bidder, you can Undo");
+				undoButton.setToolTipText (ACTIVE_BIDDER_CAN_UNDO);
 			} else {
 				undoButton.setEnabled (false);
-				undoButton.setToolTipText ("You are not the active Bidder, you cannot Undo");
+				undoButton.setToolTipText (NOT_ACTIVE_CANNOT_UNDO);
 			}
 		} else {
 			undoButton.setEnabled (true);

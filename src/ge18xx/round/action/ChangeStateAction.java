@@ -7,6 +7,7 @@ import ge18xx.round.action.effects.BidShareEffect;
 import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import ge18xx.utilities.xml.XMLFrame;
@@ -74,6 +75,13 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
 		addEffect (tBoughtShareEffect);
+	}
+
+	public void addShowFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
+		ShowFrameEffect tShowFrameEffect;
+		
+		tShowFrameEffect = new ShowFrameEffect (aActor, aXMLFrame);
+		addEffect (tShowFrameEffect);
 	}
 
 	@Override
