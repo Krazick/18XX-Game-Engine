@@ -13,12 +13,18 @@ public class Bidder implements ActorI {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	CashHolderI cashHolder;
 	int amount;
-	ActionStates auctionActionState;
 
 	public Bidder (CashHolderI aBidder, int aAmount) {
-		cashHolder = aBidder;
-		setAmount (aAmount);
-		auctionActionState = ActorI.ActionStates.AuctionRaise;
+		Player tPlayer;
+		
+		if (aBidder.isAPlayer ()) {
+			cashHolder = aBidder;
+			setAmount (aAmount);
+			tPlayer = (Player) cashHolder;
+			tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+		} else {
+			System.err.println ("Bidder is not a Player, can't set Auction State.");
+		}
 	}
 
 	public CashHolderI getCashHolder () {
@@ -40,7 +46,13 @@ public class Bidder implements ActorI {
 
 	@Override
 	public String getStateName () {
-		return auctionActionState.toString ();
+		Player tPlayer;
+		String tStateName;
+		
+		tPlayer = (Player) cashHolder;
+		tStateName = tPlayer.auctionActionState.toString ();
+		
+		return tStateName;
 	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument) {
@@ -54,11 +66,21 @@ public class Bidder implements ActorI {
 	}
 
 	public boolean hasPassed () {
-		return (auctionActionState == ActorI.ActionStates.AuctionPass);
+		Player tPlayer;
+		boolean tHasPassed;
+		
+		tPlayer = (Player) cashHolder;
+		
+		tHasPassed = (tPlayer.getAuctionActionState () == ActorI.ActionStates.AuctionPass);
+		
+		return tHasPassed;
 	}
 
 	public void passBid () {
-		setAuctionActionState (ActorI.ActionStates.AuctionPass);
+		Player tPlayer;
+		
+		tPlayer = (Player) cashHolder;
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPass);
 	}
 
 	public void raiseBid (Certificate aCertificate, int aRaise) {
@@ -67,21 +89,18 @@ public class Bidder implements ActorI {
 		tPlayer = (Player) cashHolder;
 		setAmount (amount + aRaise);
 		tPlayer.raiseBid (aCertificate, aRaise);
-		setAuctionActionState (ActorI.ActionStates.AuctionRaise);
-	}
-
-	public void setAuctionActionState (ActionStates aActionState) {
-		auctionActionState = aActionState;
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
 	}
 
 	public boolean hasActed () {
 		boolean tHasActed;
 		Player tPlayer;
-
+		ActorI.ActionStates tAuctionState;
+		
 		tPlayer = (Player) getCashHolder ();
-
-		if ((tPlayer.getAuctionActionState () == ActorI.ActionStates.NoAction) ||
-			(auctionActionState == ActorI.ActionStates.Bidder)) {
+		tAuctionState = tPlayer.getAuctionActionState ();
+		if ((tAuctionState == ActorI.ActionStates.NoAction) ||
+			(tAuctionState == ActorI.ActionStates.Bidder)) {
 			tHasActed = false;
 		} else {
 			tHasActed = true;
