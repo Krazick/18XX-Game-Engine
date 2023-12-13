@@ -43,6 +43,7 @@ import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
+import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;
@@ -832,8 +833,10 @@ public class RoundManager implements ActionListener {
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundType, Round aNewRound,
 			String aOldRoundID, String aNewRoundID, boolean aCreateNewAction) {
-		ActorI.ActionStates tCurrentRoundType, tNewRoundType;
+		ActorI.ActionStates tCurrentRoundType;
+		ActorI.ActionStates tNewRoundType;
 		ChangeRoundAction tChangeRoundAction;
+		XMLFrame tAuctionFrame;
 		String tRoundID;
 
 		tRoundID = aCurrentRound.getID ();
@@ -848,6 +851,10 @@ public class RoundManager implements ActionListener {
 					tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
 					if (! aOldRoundID.equals (aNewRoundID)) {
 						tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
+					}
+					if (tNewRoundType == ActorI.ActionStates.AuctionRound) {
+						tAuctionFrame = gameManager.getAuctionFrame ();
+						tChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
 					}
 					tChangeRoundAction.setChainToPrevious (true);
 					addAction (tChangeRoundAction);
@@ -902,7 +909,8 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
-		String tOldRoundID, tNewRoundID;
+		String tOldRoundID;
+		String tNewRoundID;
 		int tRoundID;
 
 		tOldRoundID = auctionRound.getID ();
