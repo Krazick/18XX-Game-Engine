@@ -18,21 +18,6 @@ public class AuctionPassAction extends AuctionStateChangeAction {
 		setName (NAME);
 	}
 
-//	public void addNewCurrentBidderEffect (ActorI aPlayer, int aCurrentBidderIndex, int aNextBidderIndex) {
-//		NewCurrentBidderEffect tNewCurrentBidderEffect;
-//
-//		tNewCurrentBidderEffect = new NewCurrentBidderEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
-//		addEffect (tNewCurrentBidderEffect);
-//	}
-
-//	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState,
-//			ActorI.ActionStates aNewState) {
-//		AuctionStateChangeEffect tAuctionStateChangeEffect;
-//
-//		tAuctionStateChangeEffect = new AuctionStateChangeEffect (aActor, aOldState, aNewState);
-//		addEffect (tAuctionStateChangeEffect);
-//	}
-
 	public void addAuctionPassEffect (ActorI aActor, ActionStates aOldState, ActionStates aNewState) {
 		AuctionPassEffect tAuctionPassEffect;
 
