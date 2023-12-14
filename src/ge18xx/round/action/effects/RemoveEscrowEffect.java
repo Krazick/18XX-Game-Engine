@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
@@ -14,7 +13,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class RemoveEscrowEffect extends Effect {
-	public final static String NAME = "Remove Escrow";
+	public final static String NAME = "Remove Escrow Record";
 	final static AttributeName AN_ESCROW = new AttributeName ("escrow");
 	final static AttributeName AN_ESCROW_TO_PLAYER_COMPANY = new AttributeName ("escrowToPlayerCompany");
 	final static AttributeName AN_ESCROW_TO_PLAYER_CASH = new AttributeName ("escrowToPlayerCash");
@@ -69,7 +68,7 @@ public class RemoveEscrowEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + escrow.getCompanyAbbrev () + " made by " + actor.getName ()
-				+ " Amount of " + Bank.formatCash (escrow.getCash ()) + ".");
+				 + ".");
 	}
 
 	public void setEscrow (Escrow aEscrow) {
