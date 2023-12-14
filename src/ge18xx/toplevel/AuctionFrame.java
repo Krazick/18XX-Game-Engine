@@ -362,11 +362,11 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		ActorI.ActionStates tOldBidderState;
 		ActorI.ActionStates tNewBidderState;
 
-		certificateToAuction.passBidFor (aActingBidderIndex);
 		tPlayer = (Player) certificateToAuction.getCashHolderAt (aActingBidderIndex);
-		tOldBidderState = tPlayer.getAuctionActionState ();
-
 		tAuctionPassAction = new AuctionPassAction (ActorI.ActionStates.AuctionRound, "0", tPlayer);
+		tOldBidderState = tPlayer.getAuctionActionState ();
+		certificateToAuction.passBidFor (aActingBidderIndex);
+
 		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPass);
 
 		tNewBidderState = tPlayer.getAuctionActionState ();
@@ -376,7 +376,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAuctionIsOver = certificateToAuction.auctionIsOver ();
 		if (tAuctionIsOver) {
 			tDone = clientIsWinner ();
-			updateParValueComponents ();
 		} else {		
 			moveToNextBidder (aActingBidderIndex, tPlayer, tAuctionPassAction);
 			tDone = false;
@@ -855,8 +854,13 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAmIBidder = certificateToAuction.amIABidder (tClientName);
 		if (isNetworkGame) {
 			if (tAmIBidder) {
-				undoButton.setEnabled (true);
-				undoButton.setToolTipText (ACTIVE_BIDDER_CAN_UNDO);
+				if (isBidderActing ()) {
+						undoButton.setEnabled (true);
+						undoButton.setToolTipText (ACTIVE_BIDDER_CAN_UNDO);
+				} else {
+					undoButton.setEnabled (false);
+					undoButton.setToolTipText (NOT_ACTIVE_CANNOT_UNDO);				
+				}
 			} else {
 				undoButton.setEnabled (false);
 				undoButton.setToolTipText (NOT_ACTIVE_CANNOT_UNDO);
