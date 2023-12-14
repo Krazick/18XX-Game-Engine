@@ -71,6 +71,8 @@ public class Game_18XX extends XMLFrame {
 
 	// Generic Game Engine Fields
 	private final String ENTER_USER_NAME = "Must Enter User Name";
+	private final String PLAYER_NAME_ENTERED = "User Name entered";
+	private final String GAME_STARTED = "Game has started";
 	private final String OK_TEXT = "OK";
 	private final String QUIT_TEXT = "Quit";
 	private static final String VERSION = "version";
@@ -80,7 +82,8 @@ public class Game_18XX extends XMLFrame {
 	public final String DATA_URL_BASE = "DataURLBase";
 	protected ResourceBundle resourceBundle;
 	protected AboutBox aboutBox;
-	protected JMenu fileMenu, gameMenu;
+	protected JMenu fileMenu;
+	protected JMenu gameMenu;
 	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction;
 	protected Action exitAction, undoAction, cutAction, copyAction;
 	protected Action pasteAction, clearAction, selectAllAction, userPreferencesAction;
@@ -488,7 +491,7 @@ public class Game_18XX extends XMLFrame {
 		tPrimaryPanel.add (Box.createVerticalStrut (10));
 		add (tPrimaryPanel);
 		pack ();
-		disableGameButtons ();
+		disableOKButton (ENTER_USER_NAME);
 	}
 
 	@Override
@@ -700,16 +703,16 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public void disableGameButtons () {
+	public void disableOKButton (String aToolTipText) {
 		okButton.setEnabled (false);
-		okButton.setToolTipText (ENTER_USER_NAME);
+		okButton.setToolTipText (aToolTipText);
 	}
 
 	public void disableGameStartItems () {
 		disableNewMenuItem ();
 		disableOpenMenuItem ();
 		disableCloseMenuItem ();
-		disableGameButtons ();
+		disableOKButton (GAME_STARTED);
 		clientUserName.setEnabled (false);
 	}
 
@@ -1062,6 +1065,7 @@ public class Game_18XX extends XMLFrame {
 	public void newGame () {
 		createPlayerInputFrame ();
 		playerInputFrame.setVisible (true);
+		disableOKButton (PLAYER_NAME_ENTERED);
 	}
 
 	public void loadGame () {
