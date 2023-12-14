@@ -33,8 +33,8 @@ public class AuctionPassEffect extends AuctionStateChangeEffect {
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
 			tPlayer.applyAuctionPass ();
-			tEffectApplied = true;
 			aRoundManager.updateAuctionFrame ();
+			tEffectApplied = true;
 		}
 
 		return tEffectApplied;
