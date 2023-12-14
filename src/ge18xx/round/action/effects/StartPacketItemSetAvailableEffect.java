@@ -48,7 +48,6 @@ public class StartPacketItemSetAvailableEffect extends Effect {
 		tBank = aGameManager.getBank ();
 		tStartPacketFrame = tBank.getStartPacketFrame ();
 		tStartPacketItem = tStartPacketFrame.getStartPacketItem (tCorporationID);
-//		tStartPacketItem = new StartPacketItem (aEffectNode);
 		setStartPacketItem (tStartPacketItem);
 		setAvailable (tAvailable);
 	}
@@ -76,8 +75,8 @@ public class StartPacketItemSetAvailableEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
 		
-		tEffectReport = REPORT_PREFIX + name + " " + startPacketItem.getCorporationAbbrev () + 
-					" is Available " + available + ".";
+		tEffectReport = REPORT_PREFIX + name + " flag as " + available +  " for " 
+					+ startPacketItem.getCorporationAbbrev () + ".";
 					
 		return tEffectReport;
 	}
