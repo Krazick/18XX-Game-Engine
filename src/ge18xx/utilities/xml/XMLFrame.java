@@ -74,6 +74,10 @@ public class XMLFrame extends JFrame {
 		gameManager = (GameManager) aGameManager;
 	}
 	
+	public NetworkGameSupport getGameManager () {
+		return gameManager;
+	}
+	
 	protected void updateFrameTitle (String aBaseTitle) {
 		String tFrameTitle;
 
@@ -148,7 +152,8 @@ public class XMLFrame extends JFrame {
 				aLoadableObject.loadXML (tXMLDocument);
 				tXMLFileWasLoaded = true;
 			} catch (Exception tException) {
-				System.err.println ("Oops, mucked up the XML " + aLoadableObject.getTypeName () + " File Access ["
+				System.err.println ("Oops, mucked up the XML " + aLoadableObject.getTypeName () + 
+									" File Access ["
 						+ aXMLFileName + "].");
 				System.err.println ("Exception Message [" + tException.getMessage () + "].");
 				tException.printStackTrace (System.err);
@@ -162,7 +167,8 @@ public class XMLFrame extends JFrame {
 		return tXMLFileWasLoaded;
 	}
 
-	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible, int aHexSize, int aState ) {
+	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible, 
+							int aHexSize, int aState) {
 		defaultWidth = aWidth;
 		defaultHeight = aHeight;
 		defaultXLocation = aXLocation;
@@ -174,7 +180,8 @@ public class XMLFrame extends JFrame {
 
 	public void setDefaults (FrameInfo aFrameInfo) {
 		setDefaults (aFrameInfo.getWidth (), aFrameInfo.getHeight (), aFrameInfo.getXLocation (),
-				aFrameInfo.getYLocation (), aFrameInfo.getVisible (), aFrameInfo.getHexSize (), aFrameInfo.getState ());
+					aFrameInfo.getYLocation (), aFrameInfo.getVisible (), aFrameInfo.getHexSize (), 
+					aFrameInfo.getState ());
 	}
 
 	public void setDefaults (XMLNode aXMLMapRoot) {
