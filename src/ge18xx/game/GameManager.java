@@ -41,7 +41,7 @@ import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
 import ge18xx.network.JGameClient;
-import ge18xx.network.NetworkGameSupport;
+import ge18xx.network.NetworkGameSupportTier2;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
@@ -100,7 +100,7 @@ import geUtilities.XMLNode;
 // Also create a 'NetworkGameManager' Sub-class that implements the NetworkGameSupport objects and
 // methods into this sub-class
 
-public class GameManager extends GameEngineManager implements NetworkGameSupport {
+public class GameManager extends GameEngineManager implements NetworkGameSupportTier2 {
 
 	// Static Constants
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
@@ -2685,10 +2685,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public boolean frameIsPresent (String aFrameName) {
-		boolean tFrameIsPresent = false;
+		boolean tFrameIsPresent;
 		String tSpecificFrameName;
 
-		if (aFrameName != null) {
+		tFrameIsPresent = false;
+		if (aFrameName != GUI.NULL_STRING) {
 			for (XMLFrame tSpecificFrame : configFrames) {
 				if (tSpecificFrame != XMLFrame.NO_XML_FRAME) {
 					tSpecificFrameName = tSpecificFrame.getTitle ();
@@ -2917,11 +2918,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public XMLFrame getXMLFrameName (String aXMLFrameTitle) {
 		XMLFrame tXMLFrameFound;
+		String tFrameTitle;
 
 		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
-		if (aXMLFrameTitle != null) {
+		if (aXMLFrameTitle != GUI.NULL_STRING) {
 			for (XMLFrame tXMLFrame : configFrames) {
-				if (aXMLFrameTitle.equals (tXMLFrame.getTitle ())) {
+				tFrameTitle = tXMLFrame.getTitle ();
+				if (tFrameTitle.startsWith (aXMLFrameTitle)) {
 					tXMLFrameFound = tXMLFrame;
 				}
 			}
