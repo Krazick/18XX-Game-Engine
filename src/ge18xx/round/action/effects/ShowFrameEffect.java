@@ -45,6 +45,7 @@ public class ShowFrameEffect extends Effect {
 		tXMLFrameTitle = aEffectNode.getThisAttribute (AN_XMLFRAME_TITLE);
 		tXMLFrame = aGameManager.getXMLFrameName (tXMLFrameTitle);
 		setXMLFrame (tXMLFrame);
+		setXMLFrameTitle (tXMLFrame.getTitle ());
 	}
 
 	private void setXMLFrame (XMLFrame aXMLFrame) {
