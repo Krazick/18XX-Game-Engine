@@ -246,10 +246,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 	}
 
-	public GameManager getGameManager () {
-		return gameManager;
-	}
-
 	@Override
 	public int getHexScale () {
 		return map.getHexScale ();

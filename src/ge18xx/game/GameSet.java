@@ -136,7 +136,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		String tChatTitle;
 		String tVersionMismatch;
 		
-		tGameManager = playerInputFrame.getGameManager ();
+		tGameManager = (GameManager) playerInputFrame.getGameManager ();
 		tGameManager.createUserPreferencesFrame ();
 		tPlayerName = tGameManager.getClientUserName ();
 		playerInputFrame.clearOtherPlayers (tPlayerName);
@@ -496,7 +496,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		tVariantCount = gameInfo [aIndex].getVariantCount ();
 
 		gameVariants = new JPanel [tVariantCount];
-		tGameManager = playerInputFrame.getGameManager ();
+		tGameManager = (GameManager) playerInputFrame.getGameManager ();
 		tAddedCount = 0;
 		for (tVariantIndex = 0; tVariantIndex < tVariantCount; tVariantIndex++) {
 			tVariant = gameInfo [aIndex].getVariantIndex (tVariantIndex);

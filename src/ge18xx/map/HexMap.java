@@ -865,7 +865,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 			if (aAddAction == DO_ADD_ACTION) {
 				tNewOrientation = aThisMapCell.getTileOrient ();
-				tGameManager = mapFrame.getGameManager ();
+				tGameManager = (GameManager) mapFrame.getGameManager ();
 				tRoundManager = tGameManager.getRoundManager ();
 				tOperatingCompany = tRoundManager.getOperatingCompany ();
 				tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound,
@@ -1400,7 +1400,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		GameManager tGameManager;
 		Corporation tOperatingCompany;
 		
-		tGameManager = mapFrame.getGameManager ();
+		tGameManager = (GameManager) mapFrame.getGameManager ();
 		tOperatingCompany = tGameManager.getOperatingCompany ();
 		
 		return tOperatingCompany;

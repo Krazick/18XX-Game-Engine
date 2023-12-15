@@ -166,7 +166,7 @@ public class JGameClient extends XMLFrame {
 	private SimpleAttributeSet errorStyle = new SimpleAttributeSet ();
 
 	// GE18XX Specific Objects
-	private NetworkGameSupport gameManager;
+	private NetworkGameSupportTier2 gameManager;
 	private NetworkPlayers networkPlayers;
 	private GameSet gameSet;
 	private NetworkMessages networkMessage;
@@ -181,19 +181,20 @@ public class JGameClient extends XMLFrame {
 	private boolean gameStarted = false;
 	private boolean versionMismatch = false;
 
-	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
+	public JGameClient (String aTitle, NetworkGameSupportTier2 aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
 	
-	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aVersionMismatch) {
+	public JGameClient (String aTitle, NetworkGameSupportTier2 aGameManager, String aVersionMismatch) {
 		this (aTitle, aGameManager, aVersionMismatch, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
 	
-	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aServerIP, int aServerPort) {
+	public JGameClient (String aTitle, NetworkGameSupportTier2 aGameManager, String aServerIP, 
+						int aServerPort) {
 		this (aTitle, aGameManager, GUI.EMPTY_STRING, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
 
-	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aVersionMismatch, 
+	public JGameClient (String aTitle, NetworkGameSupportTier2 aGameManager, String aVersionMismatch, 
 			String aServerIP, int aServerPort) {
 
 		setTitle (aTitle);
@@ -910,6 +911,7 @@ public class JGameClient extends XMLFrame {
 		sendPlayerOrder ();
 	}
 
+	@Override
 	public NetworkGameSupport getGameManager () {
 		return gameManager;
 	}

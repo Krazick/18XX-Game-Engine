@@ -361,10 +361,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		labelPlayerCount.setText (tLabel);
 	}
 
-	public GameManager getGameManager () {
-		return gameManager;
-	}
-
 	public GameSet getGameSet () {
 		return gameSet;
 	}
