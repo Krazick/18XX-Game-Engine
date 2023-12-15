@@ -29,12 +29,14 @@ public class ShowFrameEffect extends Effect {
 
 	public ShowFrameEffect (String aName, ActorI aActor, XMLFrame aXMLFrame) {
 		super (aName, aActor);
+		
 		setXMLFrame (aXMLFrame);
 		setXMLFrameTitle (aXMLFrame.getTitle ());
 	}
 
 	public ShowFrameEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		
 		setName (NAME);
 		
 		String tXMLFrameTitle;
@@ -50,7 +52,16 @@ public class ShowFrameEffect extends Effect {
 	}
 
 	public void setXMLFrameTitle (String aXMLFrameTitle) {
-		xmlFrameTitle = aXMLFrameTitle;
+		String tClientUserName;
+		String tBriefName;
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) xmlFrame.getGameManager ();
+		tClientUserName = tGameManager.getClientUserName ();
+		tBriefName = aXMLFrameTitle.replaceAll (" \\(" + tClientUserName + "\\)", "");
+		System.out.println ("Saving Auction Frame Title as [" + tBriefName + "] FULL [" +
+							aXMLFrameTitle);
+		xmlFrameTitle = tBriefName;
 	}
 	
 	public XMLFrame getXMLFrame () {
