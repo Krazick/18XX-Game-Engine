@@ -87,7 +87,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	boolean onlyBidder = false;
 	Color defaultColor;
 
-	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame, GameManager aGameManager) {
+	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame, 
+						GameManager aGameManager) {
 		super (aFrameName, aGameManager);
 
 		fullPanel = new JPanel ();
@@ -339,12 +340,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private void setBidderJPanelColor (String aBidderName, boolean aBidderActing) {
 		Color tBackgroundColor;
 
-		tBackgroundColor = defaultColor;
-		if (aBidderActing) {
-			if (isNetworkGame) {
-				if (aBidderName.equals (clientUserName)) {
-					tBackgroundColor = Color.ORANGE;
-					toTheFront ();
+		tBackgroundColor = gameManager.getDefaultColor ();
+		if (clientIsBidding ()) {
+			if (aBidderActing) {
+				if (isNetworkGame) {
+					if (aBidderName.equals (clientUserName)) {
+						tBackgroundColor = gameManager.getAlertColor ();
+						toTheFront ();
+					}
 				}
 			}
 		}
