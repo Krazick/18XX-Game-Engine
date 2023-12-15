@@ -4,11 +4,11 @@ import javax.swing.DefaultListModel;
 
 public class NetworkPlayers {
 	private DefaultListModel<NetworkPlayer> playerList;
-	private NetworkGameSupport gameManager;
+	private NetworkGameSupportTier2 gameManager;
 	public static final boolean OK_TO_ADD = true;
 	public static final boolean NOT_OK_TO_ADD = false;
 
-	public NetworkPlayers (NetworkGameSupport aGameManager) {
+	public NetworkPlayers (NetworkGameSupportTier2 aGameManager) {
 		playerList = new DefaultListModel<> ();
 		gameManager = aGameManager;
 	}
