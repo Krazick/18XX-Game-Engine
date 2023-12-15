@@ -836,6 +836,7 @@ public class RoundManager implements ActionListener {
 		ActorI.ActionStates tCurrentRoundType;
 		ActorI.ActionStates tNewRoundType;
 		ChangeRoundAction tChangeRoundAction;
+		AuctionRound tAuctionRound;
 		XMLFrame tAuctionFrame;
 		String tRoundID;
 
@@ -853,7 +854,8 @@ public class RoundManager implements ActionListener {
 						tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
 					}
 					if (tNewRoundType == ActorI.ActionStates.AuctionRound) {
-						tAuctionFrame = gameManager.getAuctionFrame ();
+						tAuctionRound = (AuctionRound) aNewRound;
+						tAuctionFrame = tAuctionRound.getAuctionFrame ();
 						tChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
 					}
 					tChangeRoundAction.setChainToPrevious (true);
