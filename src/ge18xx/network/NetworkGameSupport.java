@@ -4,9 +4,9 @@ import java.awt.Point;
 
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.game.GameInfo;
-import ge18xx.game.GameSet;
-import ge18xx.toplevel.PlayerInputFrame;
+//import ge18xx.game.GameInfo;
+//import ge18xx.game.GameSet;
+//import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.FileUtils;
 import geUtilities.XMLElement;
@@ -42,7 +42,7 @@ public interface NetworkGameSupport {
 	public Logger getLogger ();
 	public String getXMLBaseDirectory ();
 	public XMLElement getGameVariantsXMLElement ();
-	public GameInfo getSelectedGame ();
+//	public GameInfo getSelectedGame ();
 	
 	public void setGameID (String aGameID);
 	public String getGameID ();
@@ -51,7 +51,7 @@ public interface NetworkGameSupport {
 	public String getGEVersion ();
 	public String getEnvironmentVersionInfo ();
 
-	public JGameClient getNetworkJGameClient ();
-	public PlayerInputFrame getPlayerInputFrame ();
-	public GameSet getGameSet ();
+//	public JGameClient getNetworkJGameClient ();
+//	public PlayerInputFrame getPlayerInputFrame ();
+//	public GameSet getGameSet ();
 }
