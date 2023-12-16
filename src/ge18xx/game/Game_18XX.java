@@ -167,6 +167,7 @@ public class Game_18XX extends XMLFrame {
 	public void printDisplayInfo () {
 		int tIndex;
 		Dimension tDimension;
+		
 		numberOfDisplays = GUI.getNumberOfDisplays ();
 		
 		System.out.println ("Number of Displays " + numberOfDisplays);	// PRINTLOG
@@ -191,13 +192,14 @@ public class Game_18XX extends XMLFrame {
 		String tJarDirectory;
 		
 		try {
-			tJarFile = new File(Game_18XX.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			tJarFile = new File
+						(Game_18XX.class.getProtectionDomain ().getCodeSource (). 
+								getLocation (). toURI ());
 			tJarDirectory = tJarFile.getParent ();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			tJarDirectory = NO_PATH;
 		}
-		
 		
 		return tJarDirectory;
 	}
@@ -219,20 +221,7 @@ public class Game_18XX extends XMLFrame {
 		// application. ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
 		resourceBundle = aResourceBundle;
-		
 	}
-	
-//	private void loadResourceBundle (String aGameEngineName) {
-//		String tTitle;
-//
-//		if (aGameEngineName.length () > 0) {
-//			resbundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
-//			tTitle = resbundle.getString ("frameTitle");
-//		} else {
-//			tTitle = "Generic Game Engine";
-//		}
-//		setTitle (tTitle);
-//	}
 
 	public void onExit () {
 		int tConfirm;
@@ -645,9 +634,12 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public Point getOffsetGEFrame () {
-		Point tGEFramePoint, tNewPoint;
-		double tX, tY;
-		int tNewX, tNewY;
+		Point tGEFramePoint;
+		Point tNewPoint;
+		double tX;
+		double tY;
+		int tNewX;
+		int tNewY;
 
 		tGEFramePoint = getLocation ();
 		tX = tGEFramePoint.getX ();
@@ -852,6 +844,7 @@ public class Game_18XX extends XMLFrame {
 		return tLoadedGameSet;
 	}
 
+	// START of Game Specific Action Classes for Menu Items
 	public class showMapActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -1047,7 +1040,20 @@ public class Game_18XX extends XMLFrame {
 			gameManager.showUserPreferencesFrame ();
 		}
 	}
+	// LAST of Game Specific Action Classes for Menu Items
 
+	public void newGame () {
+		createPlayerInputFrame ();
+		playerInputFrame.setVisible (true);
+		disableOKButton (PLAYER_NAME_ENTERED);
+	}
+
+	public void loadGame () {
+		createPlayerInputFrame ();
+		gameManager.loadSavedGame ();
+	}
+
+	// START of Game Generic Action Classes for Menu Items
 	public class newActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -1060,17 +1066,6 @@ public class Game_18XX extends XMLFrame {
 		public void actionPerformed (ActionEvent e) {
 			newGame ();
 		}
-	}
-
-	public void newGame () {
-		createPlayerInputFrame ();
-		playerInputFrame.setVisible (true);
-		disableOKButton (PLAYER_NAME_ENTERED);
-	}
-
-	public void loadGame () {
-		createPlayerInputFrame ();
-		gameManager.loadSavedGame ();
 	}
 
 	public class openActionClass extends AbstractAction {
@@ -1155,7 +1150,8 @@ public class Game_18XX extends XMLFrame {
 			gameManager.saveConfig (false);
 		}
 	}
-
+	// LAST of Game Generic Action Classes for Menu Items
+	
 	private static void setupForMac () {
 		boolean tIsMacOS = false;
 
@@ -1172,9 +1168,12 @@ public class Game_18XX extends XMLFrame {
 
 	static ResourceBundle readResourceBundle (String aGameEngineName) {
 		ResourceBundle tResourceBundle;
-
+		String tFileLocation;
+		
 		if (aGameEngineName.length () > 0) {
-			tResourceBundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
+			tFileLocation = aGameEngineName + ".game.MyResources";
+			System.out.println ("Looking for Resources at " + tFileLocation);
+			tResourceBundle = ResourceBundle.getBundle (tFileLocation, Locale.getDefault ());
 		} else {
 			tResourceBundle = null;
 		}
