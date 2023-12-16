@@ -1172,7 +1172,6 @@ public class Game_18XX extends XMLFrame {
 		
 		if (aGameEngineName.length () > 0) {
 			tFileLocation = aGameEngineName + ".game.MyResources";
-			System.out.println ("Looking for Resources at " + tFileLocation);
 			tResourceBundle = ResourceBundle.getBundle (tFileLocation, Locale.getDefault ());
 		} else {
 			tResourceBundle = null;
