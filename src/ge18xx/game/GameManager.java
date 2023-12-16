@@ -1960,9 +1960,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void outputToFile (String aReport, File aFile) {
-
+		FileWriter tFWout;
+		
 		try {
-			FileWriter tFWout = new FileWriter (aFile);
+			tFWout = new FileWriter (aFile);
 			tFWout.write (aReport);
 			tFWout.close ();
 		} catch (Exception tException) {
@@ -1984,8 +1985,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
-		File tPriorSave = saveFile;
+		File tPriorSave;
 
+		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
 		if (gameStarted) {
 			saveGame ();
@@ -1994,6 +1996,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void saveAGame (boolean aOverwriteFile) {
+		File tSaveDirectory;
+		String tFileName;
+		String tOriginalSaveGameDir;
+		String tNewSaveGameDir;
+		
 		if (saveFile == null) {
 			aOverwriteFile = false;
 		}
@@ -2001,11 +2008,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			saveGame ();
 			setGameChanged (false);
 		} else {
-
-			File tSaveDirectory;
-			String tFileName;
-			String tOriginalSaveGameDir, tNewSaveGameDir;
-
 			tOriginalSaveGameDir = configData.getSaveGameDirectory ();
 			tSaveDirectory = new File (tOriginalSaveGameDir);
 			setupChooser (tSaveDirectory);
@@ -2207,7 +2209,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public Point getOffsetCorporationFrame () {
 		CorporationFrame tCorporationFrame;
 		Corporation tOperatingCorporation;
-
 		Point tNewPoint;
 
 		tOperatingCorporation = roundManager.getOperatingCompany ();
@@ -2331,7 +2332,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		Train [] tBankAvailableTrains;
 		Train [] tBankPoolAvailableTrains;
 		Train [] tAvailableTrains;
-		int tIndex = 0, tBankCount = 0, tBankPoolCount = 0;
+		int tIndex = 0;
+		int tBankCount = 0;
+		int tBankPoolCount = 0;
 
 		if (bank != Bank.NO_BANK) {
 			tBankAvailableTrains = bank.getAvailableTrains ();
@@ -2542,7 +2545,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	@Override
 	public void handleGameActivity (String aGameActivity) {
 		XMLDocument tXMLGameActivity;
-
 		XMLNode tXMLGameActivityNode;
 		XMLNode tActionNode;
 		NodeList tActionChildren;
@@ -2706,11 +2708,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	//  Configuration File Methods
 	
 	public void loadConfig () {
-		XMLDocument tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
+		XMLDocument tXMLDocument;
+		XMLNode tXMLNode;
 		String tConfigFileName;
 		File tConfigFile;
 		Config tConfigData;
 
+		tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
 		tConfigFileName = getConfigFileName ();
 		tConfigFile = new File (tConfigFileName);
 		showConfigFileInfo (tConfigFile, "Loading Config File from");
@@ -2723,7 +2727,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
-				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
+				tXMLNode = tXMLDocument.getDocumentNode ();
 				tConfigData = new Config (tXMLNode, this);
 			} else {
 				tConfigData = new Config (this);
@@ -2836,7 +2840,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tXMLDocument;
 	}
 
-	public void addOtherGameConfigs (String aActiveGameName, XMLElement tConfigElement, XMLDocument tXMLDocument) {
+	public void addOtherGameConfigs (String aActiveGameName, XMLElement tConfigElement, 
+									XMLDocument tXMLDocument) {
 		XMLElement tFramesElement;
 		int tGameCount;
 		int tGameIndex;
@@ -3091,9 +3096,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public boolean isClientCurrentPlayer () {
-		boolean tIsClientCurrentPlayer = false;
-		Player tCurrentPlayer, tClientPlayer;
+		boolean tIsClientCurrentPlayer;
+		Player tCurrentPlayer;
+		Player tClientPlayer;
 
+		tIsClientCurrentPlayer = false;
 		tClientPlayer = playerManager.getPlayer (clientUserName);
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
 		if (tClientPlayer.equals (tCurrentPlayer)) {
@@ -3126,7 +3133,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void declareBankruptcy (String aCompanyAbbrev) {
 		System.out.println ("Game Manager set to Bankruptcy Declared by " + aCompanyAbbrev);
-
 	}
 
 	public void disconnect () {
