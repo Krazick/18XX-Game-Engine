@@ -5,6 +5,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.xml.XMLFrame;
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -44,8 +45,10 @@ public class ShowFrameEffect extends Effect {
 
 		tXMLFrameTitle = aEffectNode.getThisAttribute (AN_XMLFRAME_TITLE);
 		tXMLFrame = aGameManager.getXMLFrameName (tXMLFrameTitle);
-		setXMLFrame (tXMLFrame);
-		setXMLFrameTitle (tXMLFrame.getTitle ());
+		if (tXMLFrame != XMLFrame.NO_XML_FRAME) {
+			setXMLFrame (tXMLFrame);
+			setXMLFrameTitle (tXMLFrameTitle);
+		}
 	}
 
 	private void setXMLFrame (XMLFrame aXMLFrame) {
@@ -57,12 +60,12 @@ public class ShowFrameEffect extends Effect {
 		String tBriefName;
 		GameManager tGameManager;
 		
-		tGameManager = (GameManager) xmlFrame.getGameManager ();
-		tClientUserName = tGameManager.getClientUserName ();
-		tBriefName = aXMLFrameTitle.replaceAll (" \\(" + tClientUserName + "\\)", "");
-		System.out.println ("Saving Auction Frame Title as [" + tBriefName + "] FULL [" +
-							aXMLFrameTitle);
-		xmlFrameTitle = tBriefName;
+		if (aXMLFrameTitle != GUI.EMPTY_STRING) {
+			tGameManager = (GameManager) xmlFrame.getGameManager ();
+			tClientUserName = tGameManager.getClientUserName ();
+			tBriefName = aXMLFrameTitle.replaceAll (" \\(" + tClientUserName + "\\)", "");
+			xmlFrameTitle = tBriefName;
+		}
 	}
 	
 	public XMLFrame getXMLFrame () {
