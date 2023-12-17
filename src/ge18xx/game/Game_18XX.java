@@ -324,9 +324,10 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void setupNewGameManager () {
-		String tClientName = clientUserName.getText ();
+		String tClientName;
 		GameManager tGameManager;
 		
+		tClientName = clientUserName.getText ();
 		setupAutoSavesAndLogDirectory ();
 		if (NetworkPlayer.validPlayerName (tClientName)) {
 			setupLogger (tClientName, GAME_NAME);
@@ -336,7 +337,7 @@ public class Game_18XX extends XMLFrame {
 			okButton.requestFocusInWindow ();
 			okButton.setEnabled (true);
 			okButton.setToolTipText (GUI.EMPTY_STRING);
-		} else if (!(tClientName.equals (""))) {
+		} else if (!(tClientName.equals (GUI.EMPTY_STRING))) {
 			clientUserName.setText ("INVALID NAME");
 			clientUserName.requestFocusInWindow ();
 			okButton.setEnabled (false);

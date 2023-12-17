@@ -1529,7 +1529,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void loadSavedGame () {
-		File tSaveDirectory, tNewSaveDirectory;
+		File tSaveDirectory;
+		File tNewSaveDirectory;
 		String tSaveDirectoryPath;
 		Point tNewPoint;
 
