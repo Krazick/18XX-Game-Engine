@@ -347,7 +347,8 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		}
 	}
 	
-	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, boolean aActingPlayer) {
+	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, 
+									boolean aActingPlayer) {
 		String tToolTip;
 		Player tCurrentPlayer;
 		Player tFormingPresident;
@@ -364,8 +365,8 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		homeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Home Tokens", EXCHANGE_HOME_TOKEN, 
 								tToolTip, this);
 	
-		nonHomeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Non-Home Tokens", EXCHANGE_NON_HOME_TOKEN, 
-								tToolTip, this);	
+		nonHomeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Non-Home Tokens", 
+								EXCHANGE_NON_HOME_TOKEN, tToolTip, this);	
 		updateSpecialButtons (aActingPlayer);
 	}
 	
@@ -416,19 +417,24 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		
 		if (nonHomeTokensExchange != GUI.NO_BUTTON) {
 			tToolTip = GUI.EMPTY_STRING;
-			if (gameManager.isNetworkAndIsThisClient (player.getName ())) {	
-				if (getNonHomeTokensExchanged ()) {
+			if (nonHomeMapCellsInfo.size () > 0) {
+				if (gameManager.isNetworkAndIsThisClient (player.getName ())) {	
+					if (getNonHomeTokensExchanged ()) {
+						nonHomeTokensExchange.setEnabled (false);
+						tToolTip = "President already completed all Non-Home Token exchanges.";
+					} else if (! getHomeTokensExchanged ()) {
+						nonHomeTokensExchange.setEnabled (false);
+						tToolTip = "President has not completed Home Token exchanges.";
+					}
+				} else {
 					nonHomeTokensExchange.setEnabled (false);
-					tToolTip = "President already completed all Non-Home Token exchanges";
-				} else if (! getHomeTokensExchanged ()) {
-					nonHomeTokensExchange.setEnabled (false);
-					tToolTip = "President has not completed Home Token exchanges";
+					tToolTip = NOT_ACTING_PRESIDENT;
 				}
 			} else {
 				nonHomeTokensExchange.setEnabled (false);
-				tToolTip = NOT_ACTING_PRESIDENT;
-			}
+				tToolTip = "There are no Non-Home Token to exchange.";
 	
+			}
 			nonHomeTokensExchange.setToolTipText (tToolTip);
 		}
 	}
@@ -443,14 +449,19 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 				doneButton.setEnabled (true);
 				tToolTip = "All Tokens have been exchanged.";
 			} else if (getHomeTokensExchanged ()) {
-				doneButton.setEnabled (false);
-				tToolTip = "President already completed all Home Token exchanges";
+				if (nonHomeMapCellsInfo.size () > 0) {
+					doneButton.setEnabled (false);
+					tToolTip = "President already completed all Home Token exchanges.";
+				} else {
+					doneButton.setEnabled (true);
+					tToolTip = "All Home Tokens have been exchanged, no Non-Home Tokens to Exchange.";
+				}
 			} else if (getNonHomeTokensExchanged ()) {
 				doneButton.setEnabled (false);
-				tToolTip = "President already completed all Non-Home Token exchanges";
+				tToolTip = "President already completed all Non-Home Token exchanges.";
 			} else {
 				doneButton.setEnabled (false);
-				tToolTip = "President has not completed all token exchanges";
+				tToolTip = "President has not completed all token exchanges.";
 			}
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
