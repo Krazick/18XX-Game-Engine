@@ -520,8 +520,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
 
 		if (tFormingPresident != tCurrentPlayer) {
-			System.out.println ("Need to shift currentPlayer " + tCurrentPlayer.getName () + " to Forming Company President " + 
-							tFormingPresident.getName ());
 			tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
 			tPrezOldState = tFormingPresident.getPrimaryActionState ();
 			tFormingPresident.setPrimaryActionState (aFormationState);
@@ -532,8 +530,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			gameManager.addAction (tChangeStateAction);
 			actingPresident = tFormingPresident;
 			rebuildFormationPanel (tPresidentIndex);
-		} else {
-			System.out.println ("On the Current President");
 		}
 	}
 	
@@ -560,7 +556,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
 			setAllPlayerSharesHandled (true);
 		} else if (formationState == ActorI.ActionStates.TokenExchange) {
-			System.out.println ("All Folded Companies have had Tokens Exchanged");
 			if (hasAssetsToCollect ()) {
 				System.out.println ("Ready to do " + ASSET_COLLECTION);
 			}
