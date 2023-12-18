@@ -9,7 +9,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CloseCorporationEffect;
 import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.RebuildFormationPanelEffect;
+//import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.RemoveLicenseEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
@@ -52,19 +52,13 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
-	public void addTransferOwnershipEffect (ActorI afromActor, String aFromNickName, Certificate aCertificate, ActorI aToActor,
-			String aToNickName) {
+	public void addTransferOwnershipEffect (ActorI afromActor, String aFromNickName, Certificate aCertificate, 
+									ActorI aToActor, String aToNickName) {
 		TransferOwnershipEffect tTransferOwnershipEffect;
 
-		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aFromNickName, aCertificate, aToActor, aToNickName);
+		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aFromNickName, aCertificate, 
+									aToActor, aToNickName);
 		addEffect (tTransferOwnershipEffect);
-	}
-
-	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
-		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
-		
-		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
-		addEffect (tRebuildFormationPanelEffect);
 	}
 	
 	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
