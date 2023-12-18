@@ -1714,7 +1714,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tPlayer = (Player) tHolder;
 			tPlayerName = tPlayer.getName ();
 			if (gameManager.isNetworkGame ()) {
-				if (gameManager.isNetworkAndIsThisClient (tPlayerName)) {
+				if (gameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
 					super.showFrame ();
 				}
 			} else {

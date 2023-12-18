@@ -263,7 +263,7 @@ public class RoundFrame extends XMLFrame {
 				tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
 				if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
 					tPlayerName = tCurrentPlayer.getName ();
-					if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
+					if (tGameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
 						tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + 
 								" for " + Bank.formatCash (tFastBuyCertificate.getParPrice ());
 						tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);

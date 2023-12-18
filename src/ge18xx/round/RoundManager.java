@@ -1221,7 +1221,7 @@ public class RoundManager implements ActionListener {
 	}
 
 	public boolean isNetworkAndIsThisClient (String aClientName) {
-		return gameManager.isNetworkAndIsThisClient (aClientName);
+		return gameManager.notIsNetworkAndIsThisClient (aClientName);
 	}
 
 	public void enableActionButton (boolean aEnableActionButton) {

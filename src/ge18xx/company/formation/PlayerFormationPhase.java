@@ -58,7 +58,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
 			tActingPresidentName = aActingPresident.getName ();
-			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
+			if (gameManager.notIsNetworkAndIsThisClient (tActingPresidentName)) {
 				tBackgroundColor = gameManager.getAlertColor ();
 				tBorderColor = gameManager.getAlertColor ();
 				actingPlayer = true;
@@ -154,6 +154,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 	
 	public void updateContinueButton () {
+		
 	}
 	
 	public void updateContinueButton (boolean aActingPlayer) {
@@ -178,6 +179,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 	
 	public void updateDoneButton () {
+		
 	}
 	
 	public void updateUndoButton (boolean aActingPlayer) {

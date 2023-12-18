@@ -773,7 +773,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 					tWinningPlayer = getHighestBidder ();
 					tWinningName = tWinningPlayer.getName ();
 					if (tGameManager.isNetworkGame ()) {
-						if (tGameManager.isNetworkAndIsThisClient (tWinningName)) {
+						if (tGameManager.notIsNetworkAndIsThisClient (tWinningName)) {
 							updateParValueForWinner ();
 						} else {
 							parValuesCombo.setEnabled (false);

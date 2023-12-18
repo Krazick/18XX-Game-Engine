@@ -67,7 +67,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			tPlayerName = tPlayer.getName ();
 			tCurrentPlayer = tGameManager.getCurrentPlayer ();
 			tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
-			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
+			if (tGameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
 			} else {
 				tellPlayerToQuery (tGameManager, tPlayer);

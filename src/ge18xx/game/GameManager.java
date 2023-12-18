@@ -2661,9 +2661,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return clientUserName;
 	}
 
-	public boolean isNetworkAndIsThisClient (String aClientName) {
-		boolean tIsNetworkAndClient = true;
+	// TODO: This method per the logic is backwards....
+	// This should be 'isNetworkAndIsThisClient', and
+	// Return TRUE if it is a Network Game, AND the Client Name is what is provided
+	// There are 11 methods calling this and each needs to be tested when this is reversed.
+	public boolean notIsNetworkAndIsThisClient (String aClientName) {
+		boolean tIsNetworkAndClient;
 
+		tIsNetworkAndClient = true;
 		if (isNetworkGame ()) {
 			if (!clientUserName.equals (aClientName)) {
 				tIsNetworkAndClient = false;

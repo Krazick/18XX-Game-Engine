@@ -924,7 +924,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	@Override
 	public void showFrame () {
 		if (gameManager.isNetworkGame ()) {
-			if (gameManager.isNetworkAndIsThisClient (getName ())) {
+			if (gameManager.notIsNetworkAndIsThisClient (getName ())) {
 				super.showFrame ();
 			}
 		} else {

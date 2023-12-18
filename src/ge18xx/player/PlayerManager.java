@@ -1714,7 +1714,7 @@ public class PlayerManager {
 	}
 
 	public boolean isNetworkAndIsThisClient (String aPlayerName) {
-		return gameManager.isNetworkAndIsThisClient (aPlayerName);
+		return gameManager.notIsNetworkAndIsThisClient (aPlayerName);
 	}
 
 	public String getClientUserName () {
