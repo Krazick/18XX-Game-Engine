@@ -13,15 +13,21 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.License;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AssetCollectionFinishedAction;
+import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.CashTransferAction;
+import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import geUtilities.GUI;
@@ -69,8 +75,8 @@ public class AssetCollection extends PlayerFormationPhase {
 			}
 		}
 		if (!tIsPresident) {
-			tNoteLabel = new JLabel (player.getName () + " is not the President of the " + tNewCompany.getAbbrev () + 
-					". Nothing to do.");
+			tNoteLabel = new JLabel (player.getName () + " is not the President of the " + 
+								tNewCompany.getAbbrev () +  ". Nothing to do.");
 			tCompanyInfoPanel.add (tNoteLabel);
 		}
 
@@ -105,19 +111,14 @@ public class AssetCollection extends PlayerFormationPhase {
 	}
 
 	public JPanel buildCompaniesJPanel (ShareCompany aFormingShareCompany, boolean aActingPlayer) {
-		JPanel tAssetPanel;
 		JPanel tLabelPanel;
 		JPanel tButtonsPanel;
-		JPanel tTrainButtonsPanel;
 		JPanel tFullCompaniesPanel;
 		ShareCompany tShareCompany;
+		ShareCompany tFormingShareCompany;
 		CorporationList tShareCompanies;
 		int tShareIndex;
 		int tShareCount;
-		JLabel tAbbrev;
-		JLabel tCash;
-		JLabel tLicenses;
-		JLabel tTrains;
 		
 		JLabel tAbbrevLabel;
 		JLabel tCashLabel;
@@ -164,38 +165,16 @@ public class AssetCollection extends PlayerFormationPhase {
 		tButtonsPanel = new JPanel ();
 		tButtonsPanel.setLayout (new BoxLayout (tButtonsPanel, BoxLayout.X_AXIS));
 		tButtonsPanel.add (Box.createHorizontalGlue ());
+		tFormingShareCompany = formationPhase.getFormingCompany ();
 		
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
 			if (tShareCompany != Corporation.NO_CORPORATION) {
 				if (tShareCompany.willFold ()) {
-					tAssetPanel = new JPanel ();
-					tAssetPanel.setLayout (new BoxLayout (tAssetPanel, BoxLayout.Y_AXIS));
-					tAbbrev = new JLabel (tShareCompany.getAbbrev ());
-					tAssetPanel.add (Box.createVerticalGlue ());
-					tAssetPanel.add (tAbbrev);
-					tCash = new JLabel (Bank.formatCash (tShareCompany.getCash ()));
-					tAssetPanel.add (Box.createVerticalGlue ());
-					tAssetPanel.add (tCash);
-					tAssetPanel.add (Box.createVerticalGlue ());
-					if (gameManager.hasLicenses ()) {
-						tLicenses = new JLabel (tShareCompany.getLicenses ());
-						tAssetPanel.add (tLicenses);
-						tAssetPanel.add (Box.createVerticalGlue ());
-					}
-					
-					tTrains = new JLabel (tShareCompany.getTrainList ());
-					tAssetPanel.add (tTrains);
-					tAssetPanel.add (Box.createVerticalGlue ());
-					companiesPanel.add (Box.createHorizontalStrut (10));
-					companiesPanel.add (tAssetPanel);
-					companiesPanel.add (Box.createHorizontalGlue ());
-					companiesPanel.add (Box.createHorizontalStrut (10));
-					
-					tTrainButtonsPanel = buildTrainButtons (tShareCompany);
-					tButtonsPanel.add (tTrainButtonsPanel);
-					tButtonsPanel.add (Box.createHorizontalGlue ());
-					}
+					buildCompanyPanel (tButtonsPanel, tShareCompany);
+				} else if (tShareCompany == tFormingShareCompany) {
+					buildCompanyPanel (tButtonsPanel, tFormingShareCompany);
+				}
 			}
 		}
 		
@@ -203,6 +182,46 @@ public class AssetCollection extends PlayerFormationPhase {
 		tFullCompaniesPanel.add (tButtonsPanel);
 		
 		return tFullCompaniesPanel;
+	}
+
+	public void buildCompanyPanel (JPanel aButtonsPanel, ShareCompany aShareCompany) {
+		JPanel tAssetPanel;
+		JPanel tTrainButtonsPanel;
+		JLabel tAbbrev;
+		JLabel tCash;
+		JLabel tLicenses;
+		JLabel tTrains;
+		
+		tAssetPanel = new JPanel ();
+		tAssetPanel.setLayout (new BoxLayout (tAssetPanel, BoxLayout.Y_AXIS));
+		tAbbrev = new JLabel (aShareCompany.getAbbrev ());
+		tAssetPanel.add (Box.createVerticalGlue ());
+		tAssetPanel.add (tAbbrev);
+		tCash = new JLabel (Bank.formatCash (aShareCompany.getCash ()));
+		tAssetPanel.add (Box.createVerticalGlue ());
+		tAssetPanel.add (tCash);
+		tAssetPanel.add (Box.createVerticalGlue ());
+		if (gameManager.hasLicenses ()) {
+			tLicenses = new JLabel (aShareCompany.getLicenses ());
+			tAssetPanel.add (tLicenses);
+			tAssetPanel.add (Box.createVerticalGlue ());
+		}
+		
+		tTrains = new JLabel (aShareCompany.getTrainList ());
+		tAssetPanel.add (tTrains);
+		tAssetPanel.add (Box.createVerticalGlue ());
+		companiesPanel.add (Box.createHorizontalStrut (10));
+		companiesPanel.add (tAssetPanel);
+		companiesPanel.add (Box.createHorizontalGlue ());
+		companiesPanel.add (Box.createHorizontalStrut (10));
+		
+		if (aShareCompany.willFold ()) {
+			tTrainButtonsPanel = buildTrainButtons (aShareCompany);
+			aButtonsPanel.add (tTrainButtonsPanel);
+			aButtonsPanel.add (Box.createHorizontalGlue ());
+		} else {
+			aButtonsPanel.add (Box.createHorizontalStrut (200));
+		}
 	}
 	
 	public int sumAllFoldingCash () {
@@ -417,14 +436,15 @@ public class AssetCollection extends PlayerFormationPhase {
 		tActionCommand = aEvent.getActionCommand ();
 		
 		if (tActionCommand.startsWith (CLAIM)) {
-			System.out.println ("Company wants to " + tActionCommand);
+			claimTrain (tActionCommand);
 		} else if (tActionCommand.startsWith (DECLINE)) {
-			System.out.println ("Company wants to " + tActionCommand);			
+			declineTrain (tActionCommand);
 		} else if (tActionCommand.equals (COLLECT_CASH)) {
-			System.out.println ("Company wants to " + tActionCommand);			
+			collectCash (tActionCommand);
 		} else if (tActionCommand.equals (COLLECT_LICENSES)) {
-			System.out.println ("Company wants to " + tActionCommand);			
+			collectLicenses (tActionCommand);
 		}
+		formationPhase.rebuildFormationPanel ();
 	}
 	
 	@Override
@@ -443,6 +463,17 @@ public class AssetCollection extends PlayerFormationPhase {
 		}
 	}
 
+	public boolean anyTrainsToHandle () {
+		boolean tAnyTrainsToHandle;
+		
+		tAnyTrainsToHandle = false;
+		if (trainButtons != NO_TRAIN_BUTTONS) {
+			tAnyTrainsToHandle = true;
+		}
+		
+		return tAnyTrainsToHandle;
+	}
+	
 	public boolean anyCashToCollect () {
 		boolean tAnyCashToCollect;
 		int tTotalCash;
@@ -522,6 +553,196 @@ public class AssetCollection extends PlayerFormationPhase {
 	@Override
 	public void updateContinueButton (boolean aActingPlayer) {
 		continueButton.setVisible (false);
+	}
+
+	@Override
+	public void updateDoneButton () {
+		if (allAssetsHandled ()) {
+			doneButton.setEnabled (true);
+			doneButton.setToolTipText ("All Assets have been handled.");
+		} else {
+			doneButton.setEnabled (false);
+			doneButton.setToolTipText ("Not all Assets have been handled yet.");
+		}
+	}
+	
+	public boolean allAssetsHandled () {
+		boolean tAllAssetsHandled;
+		
+		tAllAssetsHandled = true;
+		if (anyCashToCollect ()) {
+			tAllAssetsHandled = false;
+		}
+		if (anyLicensesToCollect ()) {
+			tAllAssetsHandled = false;			
+		}
+		if (anyTrainsToHandle ()) {
+			tAllAssetsHandled = false;			
+		}
+	
+		return tAllAssetsHandled;
+	}
+	
+	private void claimTrain (String aActionCommand) {
+		String tActionCommand [];
+		ShareCompany tFormingShareCompany;
+		ShareCompany tShareCompany;
+		BuyTrainAction tBuyTrainAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+
+		Train tTrain;
+		
+		System.out.println ("Company wants to " + aActionCommand);
+		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tActionCommand = aActionCommand.split (" ");
+		tShareCompany = gameManager.getShareCompany (tActionCommand [1]);
+		if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
+			tTrain = tShareCompany.getTrain (tActionCommand [2]);
+			if (tTrain != Train.NO_TRAIN) {
+				tShareCompany.removeTrain (tTrain.getName ());
+				tFormingShareCompany.addTrain (tTrain);
+				tRoundManager = gameManager.getRoundManager ();
+				tRoundType = tRoundManager.getCurrentRoundType ();
+				tRoundID = tRoundManager.getCurrentRoundOf ();
+				tBuyTrainAction = new BuyTrainAction (tRoundType, tRoundID, tFormingShareCompany);
+				tBuyTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
+				gameManager.addAction (tBuyTrainAction);
+		} else {
+				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
+									tActionCommand [1] + ".");
+			}
+		} else {
+			System.err.println ("No Share Company " + tActionCommand [1] + " Found.");
+		}
+	}
+	
+	private void declineTrain (String aActionCommand) {
+		String tActionCommand [];
+		ShareCompany tShareCompany;
+		BankPool tBankPool;
+		Train tTrain;
+		BuyTrainAction tBuyTrainAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		
+		System.out.println ("Company wants to " + aActionCommand);	
+		tActionCommand = aActionCommand.split (" ");
+		tBankPool = gameManager.getBankPool ();
+		tShareCompany = gameManager.getShareCompany (tActionCommand [1]);
+		if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
+			tTrain = tShareCompany.getTrain (tActionCommand [2]);
+			if (tTrain != Train.NO_TRAIN) {
+				tShareCompany.removeTrain (tTrain.getName ());
+				tBankPool.addTrain (tTrain);
+				tRoundManager = gameManager.getRoundManager ();
+				tRoundType = tRoundManager.getCurrentRoundType ();
+				tRoundID = tRoundManager.getCurrentRoundOf ();
+				tBuyTrainAction = new BuyTrainAction (tRoundType, tRoundID, tBankPool);
+				tBuyTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
+				gameManager.addAction (tBuyTrainAction);
+			} else {
+				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
+									tActionCommand [1] + ".");
+			}
+		} else {
+			System.err.println ("No Share Company " + tActionCommand [1] + " Found.");
+		}
+	}
+
+	private void collectCash (String aActionCommand) {
+		ShareCompany tFormingShareCompany;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;
+		CashTransferAction tCashTransferAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		int tShareIndex;
+		int tShareCount;
+		int tCashAmount;
+		int tEffectCount;
+		
+		// formingShareCompany
+		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		
+		tEffectCount = 0;
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tCashTransferAction = new CashTransferAction (tRoundType, tRoundID, tFormingShareCompany);
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					tCashAmount = tShareCompany.getCash ();
+					tShareCompany.addCash (-tCashAmount);
+					tFormingShareCompany.addCash (tCashAmount);
+					tCashTransferAction.addCashTransferEffect (tShareCompany, tFormingShareCompany, tCashAmount);
+					tEffectCount++;
+				}
+			}
+		}
+		if (tEffectCount > 0) {
+			gameManager.addAction (tCashTransferAction);
+		}
+	}
+	
+	private void collectLicenses (String aActionCommand) {
+		ShareCompany tFormingShareCompany;
+		ShareCompany tShareCompany;
+		License tLicense;
+		CorporationList tShareCompanies;
+		TransferOwnershipAction tTransferOwnershipAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		int tShareIndex;
+		int tShareCount;
+		int tLicenseCount;
+		int tLicenseIndex;
+		int tEffectCount;
+		
+		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		
+		tEffectCount = 0;
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, tFormingShareCompany);
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					tLicenseCount = tShareCompany.getLicenseCount ();
+					if (tLicenseCount > 0) {
+						for (tLicenseIndex = (tLicenseCount - 1); tLicenseIndex >= 0; tLicenseIndex--) {
+							tLicense = tShareCompany.getLicenseAt (tLicenseIndex);
+							tShareCompany.removeLicense (tLicense);
+							if (! tFormingShareCompany.hasLicense (tLicense)) {
+								tFormingShareCompany.addLicense (tLicense);
+								tTransferOwnershipAction.addAddLicenseEffect (tShareCompany, 
+											tFormingShareCompany, tLicense);
+								tEffectCount++;
+							}
+							tTransferOwnershipAction.addRemoveLicenseEffect (tShareCompany, 
+											tFormingShareCompany, tLicense);
+							tEffectCount++;
+						}
+					}
+				}
+			}
+		}
+		if (tEffectCount > 0) {
+			gameManager.addAction (tTransferOwnershipAction);
+		}
+
 	}
 
 	@Override
