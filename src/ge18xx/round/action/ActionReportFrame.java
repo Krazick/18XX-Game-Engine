@@ -46,7 +46,8 @@ public class ActionReportFrame extends XMLFrame {
 	}
 	
 	/**
-	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static 
+	 * BASE_TITLE provided
 	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
