@@ -28,7 +28,7 @@ public class ActionReportFrame extends XMLFrame {
 		actionReport.setEditable (false);
 		actionReportDoc = actionReport.getStyledDocument ();
 
-	//  Define a keyword attributes
+		//  Define a keyword attributes
 		normalKeyWord = new SimpleAttributeSet ();
 		StyleConstants.setForeground (normalKeyWord, Color.BLACK);
 		StyleConstants.setBackground (normalKeyWord, Color.WHITE);
