@@ -53,7 +53,8 @@ public interface ActorI {
 		// Player Primary States
 		NoAction ("No Action", 
 			Arrays.asList (new String [] { "Passed", "Acted", "Sold", "Bought",
-											"Bought and Sold", "Bought, Sold and Done", "Done", "Bid", "Bid and Done" })),
+											"Bought and Sold", "Bought, Sold and Done", 
+											"Done", "Bid", "Bid and Done" })),
 		Pass ("Passed", Arrays.asList (new String [] {"No Action"})), 
 		Acted ("Acted"),
 		Bought ("Bought", Arrays.asList (new String [] {"No Action"})),
@@ -79,7 +80,8 @@ public interface ActorI {
 		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
-		FormationComplete ("Formation Complete",Arrays.asList (new String [] {"Loan Repayment", "Stock Value Calculation"})),
+		FormationComplete ("Formation Complete", Arrays.asList (new String [] {"Loan Repayment", 
+											"Stock Value Calculation"})),
 		
 		// Round States
 		NoRound ("No Round", "NR"),
