@@ -18,7 +18,7 @@ import ge18xx.train.Train;
 import geUtilities.GUI;
 import geUtilities.XMLNode;
 
-public class BuyTrainAction extends TransferOwnershipAction {
+public class BuyTrainAction extends TransferTrainAction {
 	public final static String NAME = "Buy Train";
 
 	public BuyTrainAction () {
@@ -74,13 +74,6 @@ public class BuyTrainAction extends TransferOwnershipAction {
 
 		tRustTrainEffect = new RustTrainEffect (aFromActor, aTrain, aToActor, aOldTrainStatus);
 		addEffect (tRustTrainEffect);
-	}
-
-	public void addTransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
-		TransferTrainEffect tBoughtTrainEffect;
-
-		tBoughtTrainEffect = new TransferTrainEffect (aFromActor, aTrain, aToActor);
-		addEffect (tBoughtTrainEffect);
 	}
 
 	public void addTrainAvailableStatusEffect (ActorI aActor, String aTrainName, int aTrainOrder, int aOldTrainStatus,
