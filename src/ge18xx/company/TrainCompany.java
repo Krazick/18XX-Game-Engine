@@ -144,6 +144,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		licenses.add (aLicense);
 	}
 	
+	public boolean hasLicense (License aLicense) {
+		return hasLicense (aLicense.getName ());
+	}
+	
 	public boolean hasLicense (String aLicenseName) {
 		boolean tHasLicense;
 		
@@ -172,6 +176,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		
 		return tLicenses;
+	}
+	
+	public int getLicenseCount () {
+		return licenses.size ();
+	}
+	
+	public License getLicenseAt (int aIndex) {
+		return licenses.get (aIndex);
 	}
 	
 	public boolean removeLicense (License aLicense) {
