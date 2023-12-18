@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import geUtilities.XMLNode;
 
 public class CashTransferAction extends ChangeStateAction {
@@ -32,6 +33,13 @@ public class CashTransferAction extends ChangeStateAction {
 
 		tCashTransferEffect = new CashTransferEffect (aFromCashHolder, aToCashHolder, aCashAmount);
 		addEffect (tCashTransferEffect);
+	}
+	
+	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
+		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
+		
+		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
+		addEffect (tRebuildFormationPanelEffect);
 	}
 
 	public String getToActorName () {
