@@ -39,9 +39,10 @@ public class RedeemLoanAction extends GetLoanAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
-		tSimpleActionReport = actor.getName () + " redeemed a Goverment Loan of the amount " + Bank.formatCash (getCashAmount ());
+		tSimpleActionReport = actor.getName () + " redeemed a Goverment Loan of the amount " + 
+								Bank.formatCash (getCashAmount ());
 
 		return tSimpleActionReport;
 	}

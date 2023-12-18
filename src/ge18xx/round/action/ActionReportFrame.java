@@ -79,12 +79,10 @@ public class ActionReportFrame extends XMLFrame {
 	}
 
 	private void append (String aReport, SimpleAttributeSet aKeyWord) {
-		try
-		{
+		try {
 			actionReportDoc.insertString (actionReportDoc.getLength (), aReport, aKeyWord);
 			scrollToBottom ();
-		}
-		catch (Exception eException) {
+		} catch (Exception eException) {
 			System.err.println (eException);
 		}
 	}
