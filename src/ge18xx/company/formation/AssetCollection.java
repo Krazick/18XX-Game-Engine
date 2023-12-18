@@ -28,6 +28,7 @@ import ge18xx.round.action.AssetCollectionFinishedAction;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.CashTransferAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.round.action.TransferTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import geUtilities.GUI;
@@ -587,7 +588,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		String tActionCommand [];
 		ShareCompany tFormingShareCompany;
 		ShareCompany tShareCompany;
-		BuyTrainAction tBuyTrainAction;
+		TransferTrainAction tTransferTrainAction;
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -606,9 +607,9 @@ public class AssetCollection extends PlayerFormationPhase {
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundType ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
-				tBuyTrainAction = new BuyTrainAction (tRoundType, tRoundID, tFormingShareCompany);
-				tBuyTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
-				gameManager.addAction (tBuyTrainAction);
+				tTransferTrainAction = new BuyTrainAction (tRoundType, tRoundID, tFormingShareCompany);
+				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
+				gameManager.addAction (tTransferTrainAction);
 		} else {
 				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
 									tActionCommand [1] + ".");
@@ -623,7 +624,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		ShareCompany tShareCompany;
 		BankPool tBankPool;
 		Train tTrain;
-		BuyTrainAction tBuyTrainAction;
+		TransferTrainAction tTransferTrainAction;
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -640,9 +641,9 @@ public class AssetCollection extends PlayerFormationPhase {
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundType ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
-				tBuyTrainAction = new BuyTrainAction (tRoundType, tRoundID, tBankPool);
-				tBuyTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
-				gameManager.addAction (tBuyTrainAction);
+				tTransferTrainAction = new BuyTrainAction (tRoundType, tRoundID, tBankPool);
+				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
+				gameManager.addAction (tTransferTrainAction);
 			} else {
 				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
 									tActionCommand [1] + ".");

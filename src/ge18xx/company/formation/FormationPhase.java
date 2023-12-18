@@ -36,7 +36,6 @@ import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
-
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;

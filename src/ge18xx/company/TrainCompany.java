@@ -2183,7 +2183,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		queryOffer.setStatus (QueryOffer.ACCEPTED);
 	}
 
-	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
+	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, 
+									BuyTrainAction aBuyTrainAction) {
 		ActorI.ActionStates tCurrentCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
 		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
