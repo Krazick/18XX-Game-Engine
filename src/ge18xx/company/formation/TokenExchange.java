@@ -398,7 +398,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		
 		if (homeTokensExchange != GUI.NO_BUTTON) {
 			tToolTip = GUI.EMPTY_STRING;
-			if (gameManager.isNetworkAndIsThisClient (player.getName ())) {	
+			if (gameManager.notIsNetworkAndIsThisClient (player.getName ())) {	
 				if (getHomeTokensExchanged ()) {
 					homeTokensExchange.setEnabled (false);
 					tToolTip = "President already completed all Home Token exchanges";
@@ -418,13 +418,16 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		if (nonHomeTokensExchange != GUI.NO_BUTTON) {
 			tToolTip = GUI.EMPTY_STRING;
 			if (nonHomeMapCellsInfo.size () > 0) {
-				if (gameManager.isNetworkAndIsThisClient (player.getName ())) {	
+				if (gameManager.notIsNetworkAndIsThisClient (player.getName ())) {	
 					if (getNonHomeTokensExchanged ()) {
 						nonHomeTokensExchange.setEnabled (false);
 						tToolTip = "President already completed all Non-Home Token exchanges.";
 					} else if (! getHomeTokensExchanged ()) {
 						nonHomeTokensExchange.setEnabled (false);
 						tToolTip = "President has not completed Home Token exchanges.";
+					} else {
+						nonHomeTokensExchange.setEnabled (true);
+						tToolTip = "President has completed Home Token exchanges.";
 					}
 				} else {
 					nonHomeTokensExchange.setEnabled (false);
@@ -444,7 +447,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		String tToolTip;
 
 		tToolTip = GUI.NO_TOOL_TIP;
-		if (gameManager.isNetworkAndIsThisClient (player.getName ())) {
+		if (gameManager.notIsNetworkAndIsThisClient (player.getName ())) {
 			if (getHomeTokensExchanged () && getNonHomeTokensExchanged ()) {
 				doneButton.setEnabled (true);
 				tToolTip = "All Tokens have been exchanged.";
