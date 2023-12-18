@@ -4,10 +4,13 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.StartPacketItem;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.License;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CloseCorporationEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
+import ge18xx.round.action.effects.RemoveLicenseEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
@@ -71,6 +74,20 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tSetNotificationEffect);
 	}
 
+	public void addAddLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
+		AddLicenseEffect tAddLicenseEffect;
+		
+		tAddLicenseEffect = new AddLicenseEffect (aFromActor, aToActor, aLicense);
+		addEffect (tAddLicenseEffect);
+	}
+
+	public void addRemoveLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
+		RemoveLicenseEffect tRemoveLicenseEffect;
+		
+		tRemoveLicenseEffect = new RemoveLicenseEffect (aFromActor, aToActor, aLicense);
+		addEffect (tRemoveLicenseEffect);
+	}
+	
 	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, boolean aAvailable) {
 		StartPacketItemSetAvailableEffect tRemoveStartPacketItemEffect;
 		
