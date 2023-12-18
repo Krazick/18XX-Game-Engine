@@ -14,6 +14,7 @@ import ge18xx.round.action.effects.RemoveLicenseEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class TransferOwnershipAction extends CashTransferAction {
@@ -82,7 +83,8 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tRemoveLicenseEffect);
 	}
 	
-	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, boolean aAvailable) {
+	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, 
+										boolean aAvailable) {
 		StartPacketItemSetAvailableEffect tRemoveStartPacketItemEffect;
 		
 		tRemoveStartPacketItemEffect = new StartPacketItemSetAvailableEffect (aActor, aStartPacketItem, aAvailable);
@@ -103,8 +105,9 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	public String getCompanyAbbrev () {
-		String tCompanyAbbrev = "";
+		String tCompanyAbbrev;
 
+		tCompanyAbbrev = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
 			if (tCompanyAbbrev.equals ("")) {
 				if (tEffect instanceof TransferOwnershipEffect) {
@@ -117,8 +120,9 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	protected int getShareCountTransferred () {
-		int tShareCountTransferred = 0;
+		int tShareCountTransferred;
 
+		tShareCountTransferred = 0;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tShareCountTransferred++;
@@ -129,9 +133,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	protected int getSharePercentageTransferred () {
-		int tSharePercentage = 0;
+		int tSharePercentage;
 		Certificate tCertificate;
 
+		tSharePercentage = 0;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
@@ -143,9 +148,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	protected boolean isPresidentTransferred () {
-		boolean tIsPresident = false;
+		boolean tIsPresident;
 		Certificate tCertificate;
 
+		tIsPresident = false;
 		for (Effect tEffect : effects) {
 			if ((tEffect instanceof TransferOwnershipEffect) && (!tIsPresident)) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
@@ -157,9 +163,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	protected boolean isPrivateTransferred () {
-		boolean tIsPrivateTransferred = false;
+		boolean tIsPrivateTransferred;
 		Certificate tCertificate;
 
+		tIsPrivateTransferred = false;
 		for (Effect tEffect : effects) {
 			if ((tEffect instanceof TransferOwnershipEffect) && (!tIsPrivateTransferred)) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
@@ -171,9 +178,14 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	protected String getBuySaleSimpleReport (String aVerb1, String aVerb2) {
-		String tShareCountTransferred, tSimpleActionReport;
-		int tCount, tTotalPrice, tSharePrice, tSharePercentage;
-		boolean tIsPresident, tIsPrivate;
+		int tCount;
+		int tTotalPrice;
+		int tSharePrice;
+		int tSharePercentage;
+		boolean tIsPresident;
+		boolean tIsPrivate;
+		String tShareCountTransferred;
+		String tSimpleActionReport;
 		String tFullShareDescription;
 		String tPrice;
 		String tFromActorName;
