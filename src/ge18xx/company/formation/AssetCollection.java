@@ -25,7 +25,6 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AssetCollectionFinishedAction;
-import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.CashTransferAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.TransferTrainAction;
@@ -444,6 +443,8 @@ public class AssetCollection extends PlayerFormationPhase {
 			collectCash (tActionCommand);
 		} else if (tActionCommand.equals (COLLECT_LICENSES)) {
 			collectLicenses (tActionCommand);
+		} else {
+			super.actionPerformed (aEvent);
 		}
 		formationPhase.rebuildFormationPanel ();
 	}
@@ -467,9 +468,12 @@ public class AssetCollection extends PlayerFormationPhase {
 	public boolean anyTrainsToHandle () {
 		boolean tAnyTrainsToHandle;
 		
-		tAnyTrainsToHandle = false;
-		if (trainButtons != NO_TRAIN_BUTTONS) {
-			tAnyTrainsToHandle = true;
+		if (trainButtons == NO_TRAIN_BUTTONS) {
+			tAnyTrainsToHandle = false;
+		} else if (trainButtons.size () == 0) {
+			tAnyTrainsToHandle = false;
+		} else {
+			tAnyTrainsToHandle = true;			
 		}
 		
 		return tAnyTrainsToHandle;
@@ -595,7 +599,6 @@ public class AssetCollection extends PlayerFormationPhase {
 
 		Train tTrain;
 		
-		System.out.println ("Company wants to " + aActionCommand);
 		tFormingShareCompany = formationPhase.getFormingCompany ();
 		tActionCommand = aActionCommand.split (" ");
 		tShareCompany = gameManager.getShareCompany (tActionCommand [1]);
@@ -607,8 +610,9 @@ public class AssetCollection extends PlayerFormationPhase {
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundType ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
-				tTransferTrainAction = new BuyTrainAction (tRoundType, tRoundID, tFormingShareCompany);
+				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tFormingShareCompany);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
+				tTransferTrainAction.addRebuildFormationPanelEffect (player);
 				gameManager.addAction (tTransferTrainAction);
 		} else {
 				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
@@ -629,7 +633,6 @@ public class AssetCollection extends PlayerFormationPhase {
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		
-		System.out.println ("Company wants to " + aActionCommand);	
 		tActionCommand = aActionCommand.split (" ");
 		tBankPool = gameManager.getBankPool ();
 		tShareCompany = gameManager.getShareCompany (tActionCommand [1]);
@@ -641,8 +644,9 @@ public class AssetCollection extends PlayerFormationPhase {
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundType ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
-				tTransferTrainAction = new BuyTrainAction (tRoundType, tRoundID, tBankPool);
+				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tBankPool);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
+				tTransferTrainAction.addRebuildFormationPanelEffect (player);
 				gameManager.addAction (tTransferTrainAction);
 			} else {
 				System.err.println ("No Train named " + tActionCommand [2] + " Found in Company " + 
@@ -684,6 +688,7 @@ public class AssetCollection extends PlayerFormationPhase {
 					tShareCompany.addCash (-tCashAmount);
 					tFormingShareCompany.addCash (tCashAmount);
 					tCashTransferAction.addCashTransferEffect (tShareCompany, tFormingShareCompany, tCashAmount);
+					tCashTransferAction.addRebuildFormationPanelEffect (player);
 					tEffectCount++;
 				}
 			}
@@ -741,9 +746,9 @@ public class AssetCollection extends PlayerFormationPhase {
 			}
 		}
 		if (tEffectCount > 0) {
+			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
-
 	}
 
 	@Override
@@ -753,6 +758,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		PlayerManager tPlayerManager;
 		List<Player> tPlayers;
 		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tAssetCollectionFinishedAction = new AssetCollectionFinishedAction (ActorI.ActionStates.OperatingRound, 
@@ -763,10 +769,15 @@ public class AssetCollection extends PlayerFormationPhase {
 		for (Player tPlayer : tPlayers) {
 			tOldState = tPlayer.getPrimaryActionState ();
 			tPlayer.setPrimaryActionState (formationPhase.formationState);
-			tAssetCollectionFinishedAction.addStateChangeEffect (tPlayer, tOldState, formationPhase.formationState);
+			tNewState = tPlayer.getPrimaryActionState ();
+			tAssetCollectionFinishedAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 		}
 
 		tAssetCollectionFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tAssetCollectionFinishedAction);
+		
+		formationPhase.allPlayersHandled  ();
+		formationPhase.applyCommand (FormationPhase.STOCK_VALUE_CALCULATION);
+
 	}
 }
