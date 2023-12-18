@@ -46,6 +46,7 @@ public class RedeemLoanAction extends GetLoanAction {
 		return tSimpleActionReport;
 	}
 	
+	@Override
 	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
 		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
 		
