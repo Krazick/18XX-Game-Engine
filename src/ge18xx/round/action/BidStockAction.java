@@ -11,6 +11,7 @@ import ge18xx.round.action.effects.BidToCertificateEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowCashTransferEffect;
 import ge18xx.round.action.effects.EscrowToPlayerEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class BidStockAction extends CashTransferAction {
@@ -62,10 +63,10 @@ public class BidStockAction extends CashTransferAction {
 	}
 
 	public String getCompanyAbbrev () {
-		String tCompanyAbbrev = "";
+		String tCompanyAbbrev = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tCompanyAbbrev.equals ("")) {
+			if (tCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof BidToCertificateEffect) {
 					tCompanyAbbrev = ((BidToCertificateEffect) tEffect).getCertificateName ();
 				}
@@ -77,7 +78,7 @@ public class BidStockAction extends CashTransferAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " bid " + Bank.formatCash (getCashAmount ()) + " on "
 				+ getCompanyAbbrev () + ".";
