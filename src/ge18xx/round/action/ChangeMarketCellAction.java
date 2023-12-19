@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.effects.ChangeMarketCellEffect;
 import ge18xx.round.action.effects.Effect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class ChangeMarketCellAction extends TransferOwnershipAction {
@@ -42,11 +43,11 @@ public class ChangeMarketCellAction extends TransferOwnershipAction {
 	}
 
 	public String getCellCoordinates (boolean aNewCell) {
-		String tCellCoordinates = "";
+		String tCellCoordinates = GUI.EMPTY_STRING;
 		ChangeMarketCellEffect tChangeMarketCellEffect;
 
 		for (Effect tEffect : effects) {
-			if (tCellCoordinates.equals ("")) {
+			if (tCellCoordinates.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof ChangeMarketCellEffect) {
 					tChangeMarketCellEffect = ((ChangeMarketCellEffect) tEffect);
 					if (aNewCell) {
@@ -60,5 +61,4 @@ public class ChangeMarketCellAction extends TransferOwnershipAction {
 
 		return tCellCoordinates;
 	}
-
 }
