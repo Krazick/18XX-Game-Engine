@@ -43,7 +43,7 @@ public class FormationPhaseAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " has finished all Loan Repayments";
 
