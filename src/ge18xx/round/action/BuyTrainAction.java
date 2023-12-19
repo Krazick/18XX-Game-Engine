@@ -112,7 +112,7 @@ public class BuyTrainAction extends TransferTrainAction {
 	}
 
 	private String getTrainBought () {
-		String tTrainName ;
+		String tTrainName;
 
 		tTrainName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
