@@ -43,7 +43,7 @@ public class BuyStockAction extends TransferOwnershipAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = getBuySaleSimpleReport ("bought", "purchase");
 
