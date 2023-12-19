@@ -528,7 +528,8 @@ public class Action {
 
 	public boolean effectsForActorAreCash (String aActorName) {
 		boolean tEffectsThisActorAreCash;
-		String tActorName, tToActorName;
+		String tActorName;
+		String tToActorName;
 
 		tEffectsThisActorAreCash = false;
 		for (Effect tEffect : effects) {
