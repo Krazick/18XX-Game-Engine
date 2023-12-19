@@ -5,6 +5,7 @@ import ge18xx.player.CashHolderI;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class CashTransferAction extends ChangeStateAction {
@@ -43,10 +44,10 @@ public class CashTransferAction extends ChangeStateAction {
 	}
 
 	public String getToActorName () {
-		String tToActorName = "";
+		String tToActorName = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if ("".equals (tToActorName)) {
+			if (tToActorName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof CashTransferEffect) {
 					tToActorName = ((CashTransferEffect) tEffect).getToActor ().getName ();
 				}
