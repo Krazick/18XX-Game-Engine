@@ -250,7 +250,8 @@ public class ActionManager {
 	}
 
 	public XMLElement getActionElements (XMLDocument aXMLDocument) {
-		XMLElement tElements, tActionElement;
+		XMLElement tElements;
+		XMLElement tActionElement;
 
 		tElements = aXMLDocument.createElement (Action.EN_ACTIONS);
 		for (Action tAction : actions) {
@@ -327,7 +328,9 @@ public class ActionManager {
 	public void loadActions (XMLNode aActionsNode, GameManager aGameManager) {
 		XMLNode tActionNode;
 		NodeList tActionChildren;
-		int tActionNodeCount, tActionIndex, tActionNumber;
+		int tActionNodeCount;
+		int tActionIndex;
+		int tActionNumber;
 		Action tAction;
 
 		tActionChildren = aActionsNode.getChildNodes ();
@@ -439,7 +442,8 @@ public class ActionManager {
 
 	public boolean undoLastActionNetwork () {
 		String tXMLFormat;
-		Action tUndoAction, tLastAction;
+		Action tUndoAction;
+		Action tLastAction;
 		ActorI tActor;
 		ActionStates tRoundType;
 		String tRoundID;
@@ -524,7 +528,8 @@ public class ActionManager {
 
 	public void handleNetworkAction (XMLNode aActionNode) {
 		Action tAction;
-		int tExpectedActionNumber, tThisActionNumber;
+		int tExpectedActionNumber;
+		int tThisActionNumber;
 		String tActionFailureMessage;
 
 		// When handling incomming Network Actions, we DO NOT want to notify other
