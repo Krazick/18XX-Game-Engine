@@ -24,7 +24,7 @@ public class FloatCompanyAction extends CashTransferAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " was floated and obtained " + Bank.formatCash (getCashAmount ())
 				+ " in starting Capital from the Bank.";
