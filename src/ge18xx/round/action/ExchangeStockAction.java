@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.ExchangePrezShareEffect;
 import ge18xx.round.action.effects.ExchangeShareEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class ExchangeStockAction extends TransferOwnershipAction {
@@ -52,10 +53,10 @@ public class ExchangeStockAction extends TransferOwnershipAction {
 	}
 
 	public String getOldCompanyAbbrev () {
-		String tOldCompanyAbbrev = "";
+		String tOldCompanyAbbrev = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tOldCompanyAbbrev.equals ("")) {
+			if (tOldCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof ExchangeShareEffect) {
 					tOldCompanyAbbrev = ((ExchangeShareEffect) tEffect).getCorporationAbbrev ();
 				}
@@ -66,10 +67,10 @@ public class ExchangeStockAction extends TransferOwnershipAction {
 	}
 
 	public String getNewCompanyAbbrev () {
-		String tNewCompanyAbbrev = "";
+		String tNewCompanyAbbrev = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tNewCompanyAbbrev.equals ("")) {
+			if (tNewCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof ExchangeShareEffect) {
 					tNewCompanyAbbrev = ((ExchangeShareEffect) tEffect).getNewCorporationAbbrev ();
 				}
