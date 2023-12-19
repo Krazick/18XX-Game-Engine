@@ -30,13 +30,6 @@ public class FormationPanelAction extends Action {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-//
-//	public void addHideFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
-//		HideFormationPanelEffect tHideFormationPanelEffect;
-//		
-//		tHideFormationPanelEffect = new HideFormationPanelEffect (aFromActor, aToActor);
-//		addEffect (tHideFormationPanelEffect);
-//	}
 
 	public void addShowFormationPanelEffect (ActorI aFromActor) {
 		ShowFormationPanelEffect tShowFormationPanelEffect;
@@ -54,7 +47,7 @@ public class FormationPanelAction extends Action {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " updated " + name;
 
