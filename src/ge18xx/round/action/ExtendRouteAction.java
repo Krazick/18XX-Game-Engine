@@ -27,7 +27,7 @@ public class ExtendRouteAction extends ClearAllRoutesAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Extended a Route for a Train.";
 
