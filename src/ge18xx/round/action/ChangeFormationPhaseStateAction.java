@@ -27,7 +27,7 @@ public class ChangeFormationPhaseStateAction extends ChangeStateAction {
 	
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		String tOldState, tNewState;
 
 		tOldState = getOldState ();
