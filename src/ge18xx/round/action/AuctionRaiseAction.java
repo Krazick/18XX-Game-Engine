@@ -43,10 +43,10 @@ public class AuctionRaiseAction extends AuctionStateChangeAction {
 	}
 
 	public String getCompanyAbbrev () {
-		String tCompanyAbbrev = "";
+		String tCompanyAbbrev = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tCompanyAbbrev.equals ("")) {
+			if (tCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof AuctionBidChangeEffect) {
 					tCompanyAbbrev = ((AuctionBidChangeEffect) tEffect).getCertificate ().getCompanyAbbrev ();
 				}
