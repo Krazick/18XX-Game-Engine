@@ -27,7 +27,7 @@ public class AuctionPassAction extends AuctionStateChangeAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " passed in the Auction.";
 
