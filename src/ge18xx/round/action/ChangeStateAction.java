@@ -11,6 +11,7 @@ import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class ChangeStateAction extends ChangePlayerAction {
@@ -98,10 +99,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getOldState () {
-		String tOldState = "";
+		String tOldState = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tOldState.equals ("")) {
+			if (tOldState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof StateChangeEffect) {
 					tOldState = ((StateChangeEffect) tEffect).getPreviousState ().toString ();
 				}
@@ -112,10 +113,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getNewState () {
-		String tOldState = "";
+		String tOldState = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tOldState.equals ("")) {
+			if (tOldState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof StateChangeEffect) {
 					tOldState = ((StateChangeEffect) tEffect).getNewState ().toString ();
 				}
@@ -126,10 +127,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getOldCorpState () {
-		String tOldState = "";
+		String tOldState = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tOldState.equals ("")) {
+			if (tOldState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof ChangeCorporationStatusEffect) {
 					tOldState = ((ChangeCorporationStatusEffect) tEffect).getPreviousState ().toString ();
 				}
@@ -140,10 +141,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getNewCorpState () {
-		String tOldState = "";
+		String tOldState = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if (tOldState.equals ("")) {
+			if (tOldState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof ChangeCorporationStatusEffect) {
 					tOldState = ((ChangeCorporationStatusEffect) tEffect).getNewState ().toString ();
 				}
@@ -154,7 +155,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getActorNames () {
-		String tActorNames = "";
+		String tActorNames = GUI.EMPTY_STRING;
 		String tActorName;
 
 		for (Effect tEffect : effects) {
@@ -165,7 +166,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 				}
 			}
 		}
-		if (tActorNames.equals ("")) {
+		if (tActorNames.equals (GUI.EMPTY_STRING)) {
 			tActorNames = "NONE";
 		} else {
 			tActorNames = tActorNames.substring (0, tActorNames.length () - 2);
@@ -176,7 +177,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport = GUI.EMPTY_STRING;
 		String tOldState, tNewState;
 
 		tOldState = getOldState ();
