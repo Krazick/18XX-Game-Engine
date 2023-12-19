@@ -65,7 +65,7 @@ public class LayTileAction extends ChangeMapAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " laid Tile " + getTileNumber () + " with Orientation of "
 				+ getOrientation () + " onto MapCell " + getMapCellID () + ".";
