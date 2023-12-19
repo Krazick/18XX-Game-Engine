@@ -37,7 +37,7 @@ public class OperatedTrainsAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		int tTrainCount;
 
 		tTrainCount = getTrainCount ();
