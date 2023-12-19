@@ -79,11 +79,10 @@ public class ClearATrainFromMapAction extends Action {
 	 * @return String with the Action Report
 	 */
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Clear A Train Route from the Map.";
 
 		return tSimpleActionReport;
 	}
-
 }
