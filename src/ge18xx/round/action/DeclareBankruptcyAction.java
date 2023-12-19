@@ -45,7 +45,7 @@ public class DeclareBankruptcyAction extends Action {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Declared Bankruptcy.";
 
