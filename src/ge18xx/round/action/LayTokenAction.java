@@ -77,7 +77,7 @@ public class LayTokenAction extends ChangeMapAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " laid a Token on Map Cell " + getMapCellID ();
 
