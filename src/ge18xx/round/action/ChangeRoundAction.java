@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class ChangeRoundAction extends ChangeStateAction {
@@ -39,7 +40,7 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport = GUI.EMPTY_STRING;
 		String tOldState, tNewState;
 
 		tOldState = getOldState ();
