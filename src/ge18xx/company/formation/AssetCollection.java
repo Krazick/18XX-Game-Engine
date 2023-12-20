@@ -135,9 +135,6 @@ public class AssetCollection extends PlayerFormationPhase {
 		companiesPanel.setLayout (new BoxLayout (companiesPanel, BoxLayout.X_AXIS));
 		companiesPanel.setBorder (tBorder);
 		
-		tShareCompanies = gameManager.getShareCompanies ();
-		tShareCount = tShareCompanies.getCorporationCount ();
-		
 		tLabelPanel = new JPanel ();
 		tLabelPanel.setLayout (new BoxLayout (tLabelPanel, BoxLayout.Y_AXIS));
 		tAbbrevLabel = new JLabel ("Abbrev:");
@@ -166,6 +163,9 @@ public class AssetCollection extends PlayerFormationPhase {
 		tButtonsPanel.setLayout (new BoxLayout (tButtonsPanel, BoxLayout.X_AXIS));
 		tButtonsPanel.add (Box.createHorizontalGlue ());
 		tFormingShareCompany = formationPhase.getFormingCompany ();
+		
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
 		
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
