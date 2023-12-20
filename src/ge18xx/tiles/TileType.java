@@ -5,10 +5,9 @@ import java.awt.Paint;
 import java.awt.TexturePaint;
 import java.io.IOException;
 
-import ge18xx.utilities.xml.LoadableXMLI;
+import geUtilities.xml.LoadableXMLI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
-//import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLNode;

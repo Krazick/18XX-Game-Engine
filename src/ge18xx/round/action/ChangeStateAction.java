@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.XMLNode;
 

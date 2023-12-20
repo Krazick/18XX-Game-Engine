@@ -21,7 +21,7 @@ import ge18xx.bank.StartPacketRow;
 import ge18xx.company.Certificate;
 import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ButtonsInfoFrame extends XMLFrame {

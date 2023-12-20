@@ -14,7 +14,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
@@ -99,15 +99,24 @@ public class TileTrayFrame extends XMLFrame {
 	}
 
 	public void notifyMapFrame () {
-		gameManager.notifyMapFrame ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tGameManager.notifyMapFrame ();
 	}
 
 	public boolean isPlaceTileMode () {
-		return gameManager.isPlaceTileMode ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		return tGameManager.isPlaceTileMode ();
 	}
 
 	public void bringMapToFront () {
-		gameManager.bringMapToFront ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tGameManager.bringMapToFront ();
 	}
 
 	public void setValues (String aSetName) {
@@ -146,9 +155,12 @@ public class TileTrayFrame extends XMLFrame {
 		String tTileColor;
 //		int tToTileNumber;
 //		int tPhaseNumber;
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
 
 		tTileColor = aGameTile.getTileColor ();
-		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
+		tUpgradeAllowed = tGameManager.isUpgradeAllowed (tTileColor);
 //		if (tUpgradeAllowed) {
 //			tToTileNumber = aGameTile.getTileNumber ();
 //			tPhaseNumber = gameManager.getCurrentPhase ();

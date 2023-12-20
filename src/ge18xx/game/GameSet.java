@@ -29,7 +29,7 @@ import ge18xx.game.variants.VariantEffect;
 
 import ge18xx.network.JGameClient;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.utilities.xml.LoadableXMLI;
+import geUtilities.xml.LoadableXMLI;
 import geUtilities.ElementName;
 import geUtilities.AttributeName;
 import geUtilities.GUI;

@@ -16,7 +16,7 @@ import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.StockRound;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;

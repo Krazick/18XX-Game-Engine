@@ -59,8 +59,8 @@ import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 
-import ge18xx.utilities.xml.LoadableXMLI;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
@@ -110,6 +110,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	CorporationList shareCos;
 	String companyAbbrev;
 	RouteInformation routeInformation;
+	GameManager gameManager;
+	
 	private String RESET_ALL_FLAGS = "Reset All Flags";
 	private String BUILD_GRAPHS = "Build Graphs";
 	private String CANCEL_TOKEN_MODE = "CancelToken";
@@ -122,6 +124,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
+		gameManager = (GameManager) gameEngineManager;
 
 		buildMapScrollPanel ();
 		buildNorthPanel ();

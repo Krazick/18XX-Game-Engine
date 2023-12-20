@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 
 import ge18xx.map.Hex18XX;
 import ge18xx.toplevel.TileTrayFrame;
-import ge18xx.utilities.xml.LoadableXMLI;
+import geUtilities.xml.LoadableXMLI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;

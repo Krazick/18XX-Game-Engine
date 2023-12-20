@@ -34,7 +34,7 @@ import ge18xx.game.GameSet;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.XMLNode;
 import swingDelays.KButton;
@@ -53,6 +53,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	private static final long serialVersionUID = 1L;
 	static final int MAX_PLAYERS = 8;
 	static final int MAX_GAMES = 5;
+	GameManager gameManager;
 	GameSet gameSet;
 	int playerCount;
 	boolean badPlayerList;
@@ -64,8 +65,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
+		
 		String tClientUserName;
-
+		
+		gameManager = (GameManager) gameEngineManager;
 		logger = gameManager.getLogger ();
 
 		buildWestPanel ();

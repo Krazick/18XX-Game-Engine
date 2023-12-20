@@ -30,7 +30,7 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;

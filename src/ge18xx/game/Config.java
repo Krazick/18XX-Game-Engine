@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.userPreferences.UserPreferencesFrame;
-import ge18xx.utilities.FrameInfo;
-import ge18xx.utilities.GameFrameConfig;
+import geUtilities.FrameInfo;
+import geUtilities.GameFrameConfig;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;

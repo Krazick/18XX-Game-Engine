@@ -1,6 +1,6 @@
 package ge18xx.utilities;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;

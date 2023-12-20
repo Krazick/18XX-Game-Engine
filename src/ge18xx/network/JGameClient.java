@@ -46,11 +46,11 @@ import ge18xx.game.GameSet;
 import ge18xx.game.SavedGames;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.GameEngineManager;
+import geUtilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-//import geUtilities.Validators;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -198,7 +198,7 @@ public class JGameClient extends XMLFrame {
 			String aServerIP, int aServerPort) {
 
 		setTitle (aTitle);
-		setGameManager (aGameManager);
+		setGameManager ((GameEngineManager) aGameManager);
 		GameSet tGameSet;
 		Point tNewPoint;
 		String tServerIP;
@@ -912,8 +912,8 @@ public class JGameClient extends XMLFrame {
 	}
 
 	@Override
-	public NetworkGameSupport getGameManager () {
-		return gameManager;
+	public GameEngineManager getGameManager () {
+		return gameEngineManager;
 	}
 
 	public void sendPlayerOrder () {

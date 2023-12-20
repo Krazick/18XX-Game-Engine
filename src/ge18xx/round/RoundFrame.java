@@ -26,7 +26,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 

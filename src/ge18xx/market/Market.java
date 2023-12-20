@@ -26,7 +26,7 @@ import ge18xx.company.Token;
 import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
 import ge18xx.toplevel.MarketFrame;
-import ge18xx.utilities.xml.LoadableXMLI;
+import geUtilities.xml.LoadableXMLI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;

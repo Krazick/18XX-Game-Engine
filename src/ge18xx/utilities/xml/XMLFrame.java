@@ -19,13 +19,14 @@ import javax.swing.JScrollPane;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
+import ge18xx.game.GameManager;
+import ge18xx.network.NetworkGameSupport;
+
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
-import ge18xx.game.GameManager;
-import ge18xx.network.NetworkGameSupport;
-import ge18xx.utilities.FrameInfo;
-import ge18xx.utilities.GameFrameConfig;
+import geUtilities.FrameInfo;
+import geUtilities.GameFrameConfig;
 import swingDelays.KButton;
 
 public class XMLFrame extends JFrame {
@@ -230,14 +231,14 @@ public class XMLFrame extends JFrame {
 	}
 
 	public XMLElement getXMLFrameElement (XMLDocument aXMLDocument) {
-		FrameInfo tFrameInfo;
+//		FrameInfo tFrameInfo;
 		GameFrameConfig tGameFrameConfig;
 		XMLElement tXMLFrameElement;
 
 		tGameFrameConfig = new GameFrameConfig ("template");
 		tXMLFrameElement = tGameFrameConfig.createXMLFrameElement (aXMLDocument);
-		tFrameInfo = new FrameInfo (this);
-		tFrameInfo.appendXMLFrameAttributes (tXMLFrameElement);
+//		tFrameInfo = new FrameInfo (this);
+//		tFrameInfo.appendXMLFrameAttributes (tXMLFrameElement);
 
 		return tXMLFrameElement;
 	}

@@ -25,7 +25,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
@@ -56,8 +56,11 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	public AuditFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-
-		setCompanies (gameManager.getShareCompanies ());
+		
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		setCompanies (tGameManager.getShareCompanies ());
 		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };
 		int tColWidths[] = { 50, 50, 110, 1000, 50, 50, 70 };
 		int tTotalWidth = 0;
@@ -262,8 +265,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	private void setSelectedBank () {
 		Bank tBank;
-
-		tBank = gameManager.getBank ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tBank = tGameManager.getBank ();
 		setActorName (tBank.getName ());
 		setActorAbbrev (tBank.getName ());
 		setActorType (ActorI.ActorTypes.Bank);
@@ -272,28 +277,34 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private void setPlayerStartingCash () {
 		int tStartingCash;
 		String tActionDescription;
-
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
 		tActionDescription = "Initial Capital fron Bank of ";
 
-		tStartingCash = gameManager.getStartingCash ();
+		tStartingCash = tGameManager.getStartingCash ();
 		setStartingCash (tStartingCash, tActionDescription);
 	}
 
 	private void setBankStartingCash () {
 		int tStartingCash;
 		String tActionDescription;
-
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
 		tActionDescription = "Initial Capital of Bank ";
 
-		tStartingCash = gameManager.getBankStartingCash ();
+		tStartingCash = tGameManager.getBankStartingCash ();
 		setStartingCash (tStartingCash, tActionDescription);
 	}
 
 	private void setStartingCash (int aStartingCash, String aActionDescription) {
 		int tFirstActionNumber;
-
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
 		tFirstActionNumber = 0;
-		if (gameManager.isNetworkGame ()) {
+		if (tGameManager.isNetworkGame ()) {
 			tFirstActionNumber += 100;
 		}
 		setActorBalance (0);
@@ -343,8 +354,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		Corporation tCorporation;
 		String tActorName;
 		Bank tBank;
-
-		tPlayerManager = gameManager.getPlayerManager ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tPlayerManager = tGameManager.getPlayerManager ();
 		tPlayerCount = tPlayerManager.getPlayerCount ();
 
 		// As we add Actors we don't want to recursively call itemListener
@@ -373,7 +386,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 				}
 			}
 		}
-		tBank = gameManager.getBank ();
+		tBank = tGameManager.getBank ();
 		actorsCombo.addItem (tBank.getName ());
 		actorsCombo.addItemListener (this);
 	}
@@ -445,6 +458,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	public void refreshAuditTable (boolean aPlayer) {
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
 		removeAllRows ();
 		if (aPlayer) {
 			setPlayerStartingCash ();
@@ -452,6 +468,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		if (actorType == ActorI.ActorTypes.Bank) {
 			setBankStartingCash ();
 		}
-		gameManager.fillAuditFrame (actorName);
+		tGameManager.fillAuditFrame (actorName);
 	}
 }

@@ -15,7 +15,7 @@ import javax.swing.JTabbedPane;
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -38,10 +38,11 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
 	List <UserPreference> userPreferences;
-
+	GameManager gameManager;
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
+		gameManager = aGameManager;
 		userPreferences = new LinkedList <UserPreference> ();
 		setupJTabbedPane (aGameManager);
 	}

@@ -33,7 +33,7 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 

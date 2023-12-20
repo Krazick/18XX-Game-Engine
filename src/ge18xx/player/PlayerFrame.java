@@ -18,7 +18,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
 import swingDelays.KButton;
@@ -276,8 +276,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public boolean canSellSelectedStocks () {
 		boolean tCanSellSelectedStocks;
+		GameManager tGameManager;
 		
-		if (gameManager.noTouchPass ()) {
+		tGameManager = (GameManager) gameEngineManager;
+		if (tGameManager.noTouchPass ()) {
 			tCanSellSelectedStocks = player.canSellSelectedStocks ();
 		} else {
 			tCanSellSelectedStocks = true;
@@ -923,8 +925,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	
 	@Override
 	public void showFrame () {
-		if (gameManager.isNetworkGame ()) {
-			if (gameManager.notIsNetworkAndIsThisClient (getName ())) {
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		if (tGameManager.isNetworkGame ()) {
+			if (tGameManager.notIsNetworkAndIsThisClient (getName ())) {
 				super.showFrame ();
 			}
 		} else {

@@ -53,8 +53,9 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.utilities.xml.GameManagerI;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.GameEngineManager;
+import geUtilities.xml.GameManagerI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 //import geUtilities.Sound;
 import geUtilities.XMLDocument;
@@ -120,6 +121,7 @@ public class Game_18XX extends XMLFrame {
 	private KButton quitButton;
 	private KButton disconnectButton;
 	
+	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
@@ -250,7 +252,18 @@ public class Game_18XX extends XMLFrame {
 //		tSound = new Sound ();
 //		tSound.playSoundClip (tSound.WHISTLE);
 	}
-
+	
+	@Override
+	public void setGameManager (String aFrameName, GameEngineManager aGameManager) {
+		gameManager = (GameManager) aGameManager;
+		super.setGameManager (aFrameName, aGameManager);
+	}
+	
+	@Override
+	public void setGameManager (GameEngineManager aGameManager) {
+		gameManager = (GameManager) aGameManager;
+	}
+	
 	public void setupLogger (String aUserName, String aAppName) {
 		String tAppVersion;
 		String tXMLConfigFileDir;
@@ -681,7 +694,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public void updateDisconnectButton () {
-		if (gameManager == GameManager.NO_GAME_MANAGER) {
+		if (gameEngineManager == GameManager.NO_GAME_MANAGER) {
 			disconnectButton.setEnabled (false);
 			disconnectButton.setToolTipText ("No Game Initialized yet");
 		} else if (!gameManager.isNetworkGame ()) {

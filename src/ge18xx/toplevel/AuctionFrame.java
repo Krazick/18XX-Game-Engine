@@ -27,7 +27,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
 import ge18xx.round.action.AuctionStateChangeAction;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 
@@ -339,13 +339,15 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private void setBidderJPanelColor (String aBidderName, boolean aBidderActing) {
 		Color tBackgroundColor;
-
-		tBackgroundColor = gameManager.getDefaultColor ();
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tBackgroundColor = tGameManager.getDefaultColor ();
 		if (clientIsBidding ()) {
 			if (aBidderActing) {
 				if (isNetworkGame) {
 					if (aBidderName.equals (clientUserName)) {
-						tBackgroundColor = gameManager.getAlertColor ();
+						tBackgroundColor = tGameManager.getAlertColor ();
 						toTheFront ();
 					}
 				}

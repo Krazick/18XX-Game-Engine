@@ -17,7 +17,7 @@ import ge18xx.game.GameManager;
 
 import ge18xx.tiles.TileSet;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 
 public class TileDefinitionFrame extends XMLFrame {

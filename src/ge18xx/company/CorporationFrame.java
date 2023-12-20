@@ -37,7 +37,7 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
 import swingDelays.KButton;
@@ -132,12 +132,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton explainButton;
 	ButtonsInfoFrame buttonsInfoFrame;
 	Corporation corporation;
+	GameManager gameManager;
 	boolean isNetworkGame;
 
-	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame, GameManager aGameManager) {
+	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame, 
+							GameManager aGameManager) {
 		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName, 
 				aGameManager);
 		
+		gameManager = aGameManager;
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;
 		if (isCorporationSet ()) {

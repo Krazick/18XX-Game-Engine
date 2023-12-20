@@ -14,8 +14,8 @@ import javax.swing.border.Border;
 import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
-
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.GameEngineManager;
+import geUtilities.xml.XMLFrame;
 import geUtilities.GUI;
 import swingDelays.KButton;
 
@@ -28,7 +28,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	private JPanel certificateInfoJPanel;
 	int padding1;
 
-	public CertificateInfoFrame (Certificate aCertificate, GameManager aGameManager) {
+	public CertificateInfoFrame (Certificate aCertificate, GameEngineManager aGameManager) {
 		super ("CERT INFO", aGameManager);
 		String tInfoTitle;
 		Corporation tCorporation;
@@ -64,12 +64,14 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	private Point getOffset () {
 		Point tOffsetLocation;
 		CertificateHolderI tOwner;
+		GameManager tGameManager;
 		
 		tOwner = certificate.getOwner ();
+		tGameManager = (GameManager) gameEngineManager;
 		if (tOwner.isACorporation ()) {
-			tOffsetLocation = gameManager.getOffsetCorporationFrame ();
+			tOffsetLocation = tGameManager.getOffsetCorporationFrame ();
 		} else {
-			tOffsetLocation = gameManager.getOffsetPlayerFrame ();
+			tOffsetLocation = tGameManager.getOffsetPlayerFrame ();
 		}
 		
 		return tOffsetLocation;

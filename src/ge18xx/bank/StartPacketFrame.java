@@ -19,8 +19,8 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.ActorI;
-import ge18xx.utilities.xml.LoadableXMLI;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
@@ -40,6 +40,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 	List<StartPacketRow> startPacketRows;
 	StartPacketPortfolio portfolio;
+	GameManager gameManager;
 	JPanel portfolioInfoJPanel;
 
 	ParsingRoutineI itemParsingRoutine = new ParsingRoutineI () {
@@ -64,6 +65,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
+		gameManager = aGameManager;
 		startPacketRows = new LinkedList<> ();
 		portfolio = new StartPacketPortfolio (this);
 	}

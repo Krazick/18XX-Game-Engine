@@ -54,7 +54,7 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;

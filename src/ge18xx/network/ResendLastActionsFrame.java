@@ -22,7 +22,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
@@ -149,8 +149,8 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		Corporation tCorporation;
 		GameManager tGameManager;
 		
-		tClientName = gameManager.getClientUserName ();
 		tGameManager = actionManager.getGameManager ();
+		tClientName = tGameManager.getClientUserName ();
 		tCorporation = tGameManager.getActingCorporationByName (aActorName);
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tPlayerName = aActorName;

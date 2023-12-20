@@ -3,7 +3,7 @@ package ge18xx.map;
 import org.mockito.Mockito;
 
 import ge18xx.toplevel.MapFrame;
-import ge18xx.utilities.xml.XMLFrame;
+import geUtilities.xml.XMLFrame;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
