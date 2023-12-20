@@ -66,6 +66,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final AttributeName AN_HOME_COLOR = new AttributeName ("homeColor");
 	static final AttributeName AN_COST = new AttributeName ("cost");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
+	static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
 	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
 	public static final String BUY_LABEL = "Buy";
@@ -114,13 +115,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, MapCell aHomeCity1,
 			Location aHomeLocation1, int aCost, ActorI.ActionStates aState, boolean aGovtRailway) {
-		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, MapCell.NO_MAP_CELL, Location.NO_LOC,
-				aCost, aState, aGovtRailway);
+		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, 
+				MapCell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
 	}
 
 	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, MapCell aHomeCity1,
-			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, int aCost, ActorI.ActionStates aState,
-			boolean aGovtRailway) {
+			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, int aCost, 
+			ActorI.ActionStates aState, boolean aGovtRailway) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, aGovtRailway);
 
 		trainPortfolio = new TrainPortfolio (this);
@@ -203,6 +204,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		String tColorName;
 		boolean tMustBuyTrain;
+		boolean tGovtRailway;
 
 		trainPortfolio = new TrainPortfolio (this);
 		licenses = new ArrayList<License> ();
@@ -219,6 +221,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
 		setMustBuyTrain (tMustBuyTrain);
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
+		tGovtRailway = aChildNode.getThisBooleanAttribute (AN_GOVT_RAILWAY);
+		setGovtRailway (tGovtRailway);
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
@@ -757,7 +761,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		return tMustBuyTrainNow;
 	}
+	
+	public void setGovtRailway (boolean aGovtRailway) {
+		govtRailway = aGovtRailway;
+	}
 
+	@Override
+	public boolean isGovtRailway () {
+		return govtRailway;
+	}
+	
 	@Override
 	public void setMustBuyTrain (boolean aMustBuyTrain) {
 		mustBuyTrain = aMustBuyTrain;
