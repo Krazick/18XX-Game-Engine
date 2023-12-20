@@ -5,9 +5,9 @@ import ge18xx.company.Certificate;
 import swingDelays.KButton;
 
 public class FastBuyButton extends KButton {
-
 	private static final long serialVersionUID = 1L;
 	private Certificate certificate;
+	
 	public FastBuyButton (String aLabel, Certificate aCertificate) {
 		super (aLabel);
 		setCertificate (aCertificate);
@@ -20,5 +20,4 @@ public class FastBuyButton extends KButton {
 	public void setCertificate (Certificate aCertificate) {
 		certificate = aCertificate;
 	}
-
 }

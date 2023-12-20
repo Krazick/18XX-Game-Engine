@@ -535,7 +535,9 @@ public class RoundManager implements ActionListener {
 	}
 
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tXMLStockElement, tXMLOperatingElement;
+		XMLElement tXMLElement;
+		XMLElement tXMLStockElement;
+		XMLElement tXMLOperatingElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_ROUNDS);
 		tXMLElement.setAttribute (AN_CURRENT_OR, currentOR);
@@ -654,7 +656,8 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void incrementStockRound () {
-		int tIDPart1, tIDPart2;
+		int tIDPart1;
+		int tIDPart2;
 
 		tIDPart1 = incrementRoundIDPart1 (stockRound);
 		tIDPart2 = stockRound.getIDPart2 ();
@@ -790,10 +793,12 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
-		String tOldOperatingRoundID, tNewOperatingRoundID;
+		String tOldOperatingRoundID;
+		String tNewOperatingRoundID;
 		Round tCurrentRound;
-		boolean tCreateNewAction = true;
+		boolean tCreateNewAction;
 
+		tCreateNewAction = true;
 		if (aRoundIDPart2 == 1) {
 			setOperatingRoundCount ();
 			tCurrentRound = stockRound;
@@ -832,7 +837,7 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundType, Round aNewRound,
-			String aOldRoundID, String aNewRoundID, boolean aCreateNewAction) {
+								String aOldRoundID, String aNewRoundID, boolean aCreateNewAction) {
 		ActorI.ActionStates tCurrentRoundType;
 		ActorI.ActionStates tNewRoundType;
 		ChangeRoundAction tChangeRoundAction;
@@ -896,7 +901,8 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setRoundToStockRound (int aRoundIDPart1) {
-		String tOldRoundID, tNewRoundID;
+		String tOldRoundID;
+		String tNewRoundID;
 		boolean tCreateNewAction = true;
 
 		tOldRoundID = stockRound.getID ();
@@ -981,7 +987,8 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void startOperatingRound () {
-		int tIDPart1, tIDPart2;
+		int tIDPart1;
+		int tIDPart2;
 
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
 		tIDPart2 = 1;

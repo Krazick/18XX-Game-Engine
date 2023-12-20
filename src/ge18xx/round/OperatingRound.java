@@ -40,8 +40,9 @@ public class OperatingRound extends Round {
 	}
 	
 	public boolean anyFloatedCompanies () {
-		boolean tAnyFloatedCompanies = false;
+		boolean tAnyFloatedCompanies;
 
+		tAnyFloatedCompanies = false;
 		tAnyFloatedCompanies = tAnyFloatedCompanies || minorCompanies.anyCanOperate ();
 		tAnyFloatedCompanies = tAnyFloatedCompanies || shareCompanies.anyCanOperate ();
 
@@ -50,8 +51,9 @@ public class OperatingRound extends Round {
 
 	@Override
 	public boolean startOperatingRound () {
-		boolean tStartedOperatingRound = true;
+		boolean tStartedOperatingRound;
 
+		tStartedOperatingRound = true;
 		if (! roundManager.applyingAction ()) {
 			if (getPrivateCompanyCount () > 0) {
 				payRevenues ();
@@ -326,40 +328,6 @@ public class OperatingRound extends Round {
 		return tNextCompanyToOperate;
 	}
 	
-//	public int getNextShareToOperate () {
-//		int tNextShareIndexToOperate;
-//		ShareCompany tShareCompany;
-//		int tStartingTreasury;
-//
-//		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
-//
-//		tNextShareIndexToOperate = shareCompanies.getNextToOperate ();
-//		if (tNextShareIndexToOperate != CorporationList.NO_CORPORATION_INDEX) {
-//			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
-//			if (!tShareCompany.hasFloated ()) {
-//				if (tShareCompany.shouldFloat ()) {
-//					tShareCompany.setDestinationCapitalizationLevel ();
-//					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
-//					tShareCompany.floatCompany (tStartingTreasury);
-//				} else {
-//					tNextShareIndexToOperate = CorporationList.NO_CORPORATION_INDEX;
-//				}
-//			}
-//		}
-//
-//		return tNextShareIndexToOperate;
-//	}
-
-//	public void updateCurrentCompanyFrame () {
-//		int tNextShareToOperate;
-//		ShareCompany tShareCompany;
-//
-//		// Need for every time a Company Operates, to be sure to provide capitalization
-//		tNextShareToOperate = getNextCompanyToOperate ();
-//		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
-//		tShareCompany.updateFrameInfo ();
-//	}
-
 	public Corporation getOperatingCompany () {
 		Corporation tCorporation;
 

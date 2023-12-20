@@ -352,7 +352,8 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void updatePassButton () {
-		String tClientUserName, tCurrentPlayerName;
+		String tClientUserName;
+		String tCurrentPlayerName;
 		GameManager tGameManager;
 		Player tCurrentPlayer;
 
@@ -405,7 +406,8 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setActionForCurrentPlayer () {
-		String tClientUserName, tCurrentPlayerName;
+		String tClientUserName;
+		String tCurrentPlayerName;
 		GameManager tGameManager;
 		Player tCurrentPlayer;
 
@@ -494,7 +496,8 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setFrameBackgrounds () {
 		GameManager tGameManager;
-		String tClientUserName, tCurrentPlayerName;
+		String tClientUserName;
+		String tCurrentPlayerName;
 		String tOperatingOwnerName;
 
 		tGameManager = roundManager.getGameManager ();

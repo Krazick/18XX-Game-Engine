@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.AuctionFrame;
+import geUtilities.GUI;
 
 public class AuctionRound extends Round {
 	public final static String NAME = "Auction Round";
@@ -44,7 +45,7 @@ public class AuctionRound extends Round {
 
 	@Override
 	public String getID () {
-		return getIDPart1 () + "";
+		return getIDPart1 () + GUI.EMPTY_STRING;
 	}
 
 	public void setPrevBidderJPanelColor (int aNewBidderIndex) {

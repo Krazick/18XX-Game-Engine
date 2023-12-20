@@ -15,7 +15,6 @@ import javax.swing.border.TitledBorder;
 import geUtilities.MessageBean;
 
 public abstract class ListenerPanel extends JPanel implements PropertyChangeListener {
-
 	private static final long serialVersionUID = 1L;
 	RoundManager roundManager;
 	List<String> messages;

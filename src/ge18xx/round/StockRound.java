@@ -188,9 +188,9 @@ public class StockRound extends Round {
 	}
 	
 	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious, ChangeStateAction aChangeStateAction) {
-		ActorI.ActionStates tOldState = ActorI.ActionStates.NoState;
-		ActorI.ActionStates tNewState = ActorI.ActionStates.NoState;
-		Player tPlayer = Player.NO_PLAYER;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		Player tPlayer;
 
 		tPlayer = playerManager.getPlayer (aPlayerIndex);
 		if (tPlayer != Player.NO_PLAYER) {
@@ -242,19 +242,15 @@ public class StockRound extends Round {
 		roundManager.fullOwnershipAdjustment ();
 	}
 
-//	@Override
-//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-//		roundManager.startAuctionRound (aCreateNewAuctionAction);
-//	}
-
 	public boolean canStartOperatingRound () {
 		return roundManager.canStartOperatingRound ();
 	}
 
 	@Override
 	public boolean startOperatingRound () {
-		boolean tStockRoundStarted = true;
+		boolean tStockRoundStarted;
 
+		tStockRoundStarted = true;
 		if (canStartOperatingRound ()) {
 			endStockRound ();
 			super.startOperatingRound ();
