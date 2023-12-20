@@ -174,6 +174,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		// Set CGR Par Price to what is shown.
 		// if > $100, find it on the Top Row of the Market
 		// Place CGR Market Token on the proper spot on the Market
+		// Update State of CGR to "Operated" (if any folded company has operated), or "Not Operated"
 		// Remove Market Tokens from all other folding companies
 		// Change Folding Companies' Status to Closed
 		// Hide Formation Phase Frame -- this should continue with Operating Round (if not finished)
