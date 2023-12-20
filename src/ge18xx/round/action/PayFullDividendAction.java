@@ -50,7 +50,7 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		int tCashAmount;
 		String tReceiverName;
 		CashTransferEffect tCashTransferEffect;
@@ -71,7 +71,7 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
-		boolean tActionApplied = false;
+		boolean tActionApplied;
 		GameManager tGameManager;
 		TrainCompany tTrainCompany;
 

@@ -39,7 +39,7 @@ public class StartRouteAction extends RouteAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Started a Route for a Train.";
 

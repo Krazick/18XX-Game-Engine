@@ -40,7 +40,7 @@ public class SellStockAction extends ChangeMarketCellAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = getBuySaleSimpleReport ("sold", "sale");
 

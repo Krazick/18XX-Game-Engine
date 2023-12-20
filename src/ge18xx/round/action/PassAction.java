@@ -34,7 +34,7 @@ public class PassAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Passed.";
 

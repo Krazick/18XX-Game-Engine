@@ -15,6 +15,7 @@ import ge18xx.round.action.effects.RemoveAllBids;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class WinAuctionAction extends BuyStockAction {
@@ -75,15 +76,6 @@ public class WinAuctionAction extends BuyStockAction {
 		addEffect (tFinishAuctionEffect);
 	}
 
-//	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState,
-//						ActionStates aNewState) {
-//		SetWaitStateEffect tSetWaitStateEffect;
-//
-//		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor,
-//						aOldState, aNewState);
-//		addEffect (tSetWaitStateEffect);
-//	}
-
 	@Override
 	public int getEffectCredit (String aActorName) {
 		int tCredit = 0;
@@ -104,11 +96,13 @@ public class WinAuctionAction extends BuyStockAction {
 
 	@Override
 	public String getSimpleActionReport (String aActorName) {
-		String tRefundReport = "";
-		String tActorName, tToActorName;
+		String tRefundReport;
+		String tActorName;
+		String tToActorName;
 		RefundEscrowEffect tRefundEscrowEffect;
 		int tCredit;
 
+		tRefundReport = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
 			tActorName = tEffect.getActorName ();
 			tToActorName = tEffect.getToActorName ();
@@ -126,9 +120,10 @@ public class WinAuctionAction extends BuyStockAction {
 
 	@Override
 	public String getAuctionWinner () {
-		String aAuctionWinner = ActorI.NO_NAME;
+		String aAuctionWinner;
 		TransferOwnershipEffect tTransferOwnershipEffect;
 
+		aAuctionWinner = ActorI.NO_NAME;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tTransferOwnershipEffect = (TransferOwnershipEffect) tEffect;
@@ -141,7 +136,7 @@ public class WinAuctionAction extends BuyStockAction {
 
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
-		boolean tActionApplied = false;
+		boolean tActionApplied;
 		GameManager tGameManager;
 		PlayerFrame tPlayerFrame;
 

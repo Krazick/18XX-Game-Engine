@@ -27,7 +27,7 @@ public class QueryActorAction extends SetWaitStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " has generated a Query Action.";
 

@@ -28,7 +28,7 @@ public class RemoveRouteSegmentsAction extends RouteAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " " + NAME + "s for a Train.";
 

@@ -6,6 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetParValueEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class SetParValueAction extends SetWaitStateAction {
@@ -35,7 +36,7 @@ public class SetParValueAction extends SetWaitStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " set Par Value for " + getCompanyAbbrev () + " at "
 				+ Bank.formatCash (getParValue ()) + ".";
@@ -44,8 +45,9 @@ public class SetParValueAction extends SetWaitStateAction {
 	}
 
 	public int getParValue () {
-		int tParValue = -1;
+		int tParValue;
 
+		tParValue = -1;
 		for (Effect tEffect : effects) {
 			if (tParValue == -1) {
 				if (tEffect instanceof SetParValueEffect) {
@@ -58,10 +60,11 @@ public class SetParValueAction extends SetWaitStateAction {
 	}
 
 	public String getCompanyAbbrev () {
-		String tCompanyAbbrev = "";
+		String tCompanyAbbrev;
 
+		tCompanyAbbrev = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tCompanyAbbrev.equals ("")) {
+			if (tCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof SetParValueEffect) {
 					tCompanyAbbrev = ((SetParValueEffect) tEffect).getCompanyAbbrev ();
 				}

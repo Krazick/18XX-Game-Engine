@@ -45,7 +45,6 @@ public class WaitForReponseFrame extends JFrame {
 		tRoundPoint = playerManager.getOffsetRoundFramePoint ();
 		setLocation (tRoundPoint);
 		setAlwaysOnTop (true);
-//		setDefaultCloseOperation (JDialog.DO_NOTHING_ON_CLOSE);
 	}
 
 	public boolean isWaitingForResponse () {
@@ -71,7 +70,6 @@ public class WaitForReponseFrame extends JFrame {
 	}
 
 	public void waitForResponse (int aWaitTime) {
-
 		showFrame ();
 		while (isWaitingForResponse ()) {
 			try {

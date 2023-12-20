@@ -35,7 +35,7 @@ public class PayNoDividendAction extends ChangeMarketCellAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " paid NO Dividend.";
 
@@ -44,7 +44,7 @@ public class PayNoDividendAction extends ChangeMarketCellAction {
 
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
-		boolean tActionApplied = false;
+		boolean tActionApplied;
 		GameManager tGameManager;
 		TrainCompany tTrainCompany;
 

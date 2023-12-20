@@ -31,7 +31,7 @@ public class ReplaceTokenAction extends LayTokenAction {
 	
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " replaced Token on Map Cell " + getMapCellID ();
 

@@ -41,8 +41,9 @@ public class UndoLastAction extends Action {
 
 	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
-		boolean tActionUndone = true;
+		boolean tActionUndone;
 
+		tActionUndone = true;
 		System.out.println ("Performing Undo Action for UndoAction Action");
 
 		return tActionUndone;

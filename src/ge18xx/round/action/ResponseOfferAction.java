@@ -28,7 +28,7 @@ public class ResponseOfferAction extends QueryActorAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " has responded to a Query Action.";
 

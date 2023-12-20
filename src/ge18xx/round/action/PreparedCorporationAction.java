@@ -45,7 +45,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " " + name + " set to state of " + getNewCorpState () + ".";
 
@@ -53,8 +53,9 @@ public class PreparedCorporationAction extends ChangeStateAction {
 	}
 
 	public int getNewLastRevenue () {
-		int tNewLastRevenue = 0;
+		int tNewLastRevenue;
 
+		tNewLastRevenue = 0;
 		for (Effect tEffect : effects) {
 			if (tNewLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {
@@ -67,8 +68,9 @@ public class PreparedCorporationAction extends ChangeStateAction {
 	}
 
 	public int getOldLastRevenue () {
-		int tOldLastRevenue = 0;
+		int tOldLastRevenue;
 
+		tOldLastRevenue = 0;
 		for (Effect tEffect : effects) {
 			if (tOldLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {

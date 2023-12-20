@@ -34,5 +34,4 @@ public class RemoveTileAction extends ChangeMapAction {
 				aPreviousBases);
 		addEffect (tTileRemoveEffect);
 	}
-
 }

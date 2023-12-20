@@ -27,7 +27,7 @@ public class ShareExchangeFinishedAction extends FormationPhaseAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " has finished all Share Exchanges";
 

@@ -109,7 +109,7 @@ public class TransferOwnershipAction extends CashTransferAction {
 
 		tCompanyAbbrev = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tCompanyAbbrev.equals ("")) {
+			if (tCompanyAbbrev.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof TransferOwnershipEffect) {
 					tCompanyAbbrev = ((TransferOwnershipEffect) tEffect).getCompanyAbbrev ();
 				}

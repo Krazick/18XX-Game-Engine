@@ -7,6 +7,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PurchaseOfferEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class PurchaseOfferAction extends QueryActorAction {
@@ -48,7 +49,7 @@ public class PurchaseOfferAction extends QueryActorAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		String tFromActorName;
 
 		tFromActorName = getToActorName ();
@@ -59,9 +60,10 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	private String getPresidentName () {
-		String tPresidentName = "";
+		String tPresidentName;
 		Corporation tCorporation;
 
+		tPresidentName = GUI.EMPTY_STRING;
 		if (actor.isACorporation ()) {
 			tCorporation = (Corporation) actor;
 			tPresidentName = " (" + tCorporation.getPresidentName () + ")";
@@ -71,8 +73,9 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	public int getCashAmount () {
-		int tCashAmount = -1;
+		int tCashAmount;
 
+		tCashAmount = -1;
 		for (Effect tEffect : effects) {
 			if (tCashAmount == -1) {
 				if (tEffect instanceof PurchaseOfferEffect) {
@@ -85,10 +88,11 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	private String getItemName () {
-		String tItemName = "";
+		String tItemName;
 
+		tItemName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tItemName.equals ("")) {
+			if (tItemName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof PurchaseOfferEffect) {
 					tItemName = ((PurchaseOfferEffect) tEffect).getItemName ();
 				}
@@ -99,10 +103,11 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	private String getItemType () {
-		String tItemType = "";
+		String tItemType;
 
+		tItemType = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tItemType.equals ("")) {
+			if (tItemType.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof PurchaseOfferEffect) {
 					tItemType = ((PurchaseOfferEffect) tEffect).getItemType ();
 				}
@@ -113,10 +118,11 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	private String getToActorName () {
-		String tToActorName = "";
+		String tToActorName;
 
+		tToActorName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tToActorName.equals ("")) {
+			if (tToActorName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof PurchaseOfferEffect) {
 					tToActorName = ((PurchaseOfferEffect) tEffect).getToActorName ();
 				}

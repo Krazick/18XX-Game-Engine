@@ -31,7 +31,7 @@ public class RouteAction extends Action {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " Updated a Route for a Train.";
 

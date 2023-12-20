@@ -25,9 +25,9 @@ public class SoldOutAdjustmentAction extends ChangeMarketCellAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
-		String tStartCellCoordinates, tNewCellCoordinates;
-//		int tStartCellPrice, tNewCellPrice;
+		String tSimpleActionReport;
+		String tStartCellCoordinates;
+		String tNewCellCoordinates;
 
 		tStartCellCoordinates = getStartCellCorodinates ();
 		tNewCellCoordinates = getNewCellCoordinates ();

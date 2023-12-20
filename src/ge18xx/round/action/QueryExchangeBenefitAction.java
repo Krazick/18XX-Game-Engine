@@ -31,7 +31,7 @@ public class QueryExchangeBenefitAction extends Action {
 	}
 
 	public void addQueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor,
-			PrivateCompany aPrivateCompany, QueryExchangeBenefit aQueryExchangeBenefit) {
+						PrivateCompany aPrivateCompany, QueryExchangeBenefit aQueryExchangeBenefit) {
 		QueryExchangeBenefitEffect tQueryExchangeBenefitEffect;
 
 		tQueryExchangeBenefitEffect = new QueryExchangeBenefitEffect (aFromActor, aToActor,
@@ -48,7 +48,7 @@ public class QueryExchangeBenefitAction extends Action {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " must answer Query Exchange Benefit Question.";
 

@@ -52,8 +52,9 @@ public class OperatedTrainsAction extends ChangeStateAction {
 	}
 
 	public int getRevenue () {
-		int tRevenue = 0;
+		int tRevenue;
 
+		tRevenue = 0;
 		for (Effect tEffect : effects) {
 			if (tRevenue == 0) {
 				if (tEffect instanceof GeneratedRevenueEffect) {
@@ -66,8 +67,9 @@ public class OperatedTrainsAction extends ChangeStateAction {
 	}
 
 	public int getTrainCount () {
-		int tTrainCount = 0;
+		int tTrainCount;
 
+		tTrainCount = 0;
 		for (Effect tEffect : effects) {
 			if (tTrainCount == 0) {
 				if (tEffect instanceof GeneratedRevenueEffect) {

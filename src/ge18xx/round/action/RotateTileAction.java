@@ -42,7 +42,7 @@ public class RotateTileAction extends LayTileAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " rotate Tile " + getTileNumber () + " to Orientation of "
 				+ getOrientation () + ".";

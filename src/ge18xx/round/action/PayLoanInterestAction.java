@@ -36,9 +36,10 @@ public class PayLoanInterestAction extends CashTransferAction {
 	
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
-		tSimpleActionReport = actor.getName () + NAME + " on Goverment Loan of the amount " + Bank.formatCash (getCashAmount ());
+		tSimpleActionReport = actor.getName () + NAME + " on Goverment Loan of the amount " + 
+								Bank.formatCash (getCashAmount ());
 
 		return tSimpleActionReport;
 	}

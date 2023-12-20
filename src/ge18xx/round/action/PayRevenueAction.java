@@ -27,7 +27,7 @@ public class PayRevenueAction extends CashTransferAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " paid revenue of " + Bank.formatCash (getCashAmount ()) + " to "
 				+ getToActorName () + ".";

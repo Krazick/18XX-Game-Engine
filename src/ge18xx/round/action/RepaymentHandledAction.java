@@ -67,7 +67,7 @@ public class RepaymentHandledAction extends ChangeStateAction {
 	
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		Corporation tCorporation;
 		Player tPlayer;
 		
