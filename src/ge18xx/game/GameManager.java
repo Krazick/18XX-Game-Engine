@@ -67,7 +67,7 @@ import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.CorporationTableFrame;
-import ge18xx.toplevel.FrameInfoSupport;
+//import ge18xx.toplevel.FrameInfoSupport;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
 import ge18xx.toplevel.MinorCompaniesFrame;
@@ -86,6 +86,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
+import geUtilities.FrameInfoSupport;
 import geUtilities.GUI;
 import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
@@ -484,7 +485,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (gameIsStarted ()) {
 			tFullTitle = createFrameTitle ("Frame Info");
 
-			tFrameInfoFrame = new FrameInfoSupport (tFullTitle, this);
+			tFrameInfoFrame = new FrameInfoSupport (tFullTitle, this, configFrames);
 			setFrameInfoFrame (tFrameInfoFrame);
 			userPreferencesFrame.setFrameInfoPanel (tFrameInfoFrame.getFrameInfoPanel ());
 		}
