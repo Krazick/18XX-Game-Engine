@@ -956,27 +956,34 @@ public class ShareCompany extends TokenCompany {
 
 	public void setStartCell (Market aMarket) {
 		MarketCell tMarketCell;
-		int tParPrice;
 
 		if (startCell != NO_START_CELL) {
 			if (aMarket != Market.NO_MARKET) {
 				tMarketCell = getMarketCellAt (aMarket);
 				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-					tParPrice = tMarketCell.getValue ();
-					setSharePrice (tMarketCell);
-					setParPrice (tParPrice);
+					setParPrice (tMarketCell);
 				}
 			}
 		}
 	}
 
+	public void setParPrice (MarketCell aMarketCell) {
+		int tParPrice;
+		
+		tParPrice = aMarketCell.getValue ();
+		setSharePrice (aMarketCell);
+		setParPrice (tParPrice);
+	}
+
 	public void setSharePrice (MarketCell aSharePrice) {
 		int tRowIndex;
+		int tValue;
 
 		sharePrice = aSharePrice;
 		if (aSharePrice != MarketCell.NO_SHARE_PRICE) {
 			tRowIndex = corporationList.getRowIndex (this);
-			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, sharePriceColumn);
+			tValue = sharePrice.getValue ();
+			corporationList.addDataElement (tValue, tRowIndex, sharePriceColumn);
 		}
 	}
 
@@ -1079,6 +1086,30 @@ public class ShareCompany extends TokenCompany {
 		return tShouldFloat;
 	}
 
+	public boolean hasBoughtTrain () {
+		boolean tHasBoughtTrain;
+		
+		if (status == ActorI.ActionStates.BoughtTrain) {
+			tHasBoughtTrain = true; 
+		} else {
+			tHasBoughtTrain = false;
+		}
+		
+		return tHasBoughtTrain;
+	}
+
+	public boolean hasOperated () {
+		boolean tHasOperated;
+		
+		if (status == ActorI.ActionStates.Operated) {
+			tHasOperated = true; 
+		} else {
+			tHasOperated = false;
+		}
+		
+		return tHasOperated;
+	}
+	
 	public void handleRejectOfferPrivate () {
 		corporationList.clearPrivateSelections ();
 		updateInfo ();
