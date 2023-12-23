@@ -7,7 +7,9 @@ import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.MarketFrame;
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -16,30 +18,44 @@ public class SetParValueEffect extends Effect {
 	public final static String NAME = "Set Par Value";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_PAR_VALUE = new AttributeName ("parValue");
+	final static AttributeName AN_COORDINATES = new AttributeName ("coordinates");
 	int parValue;
 	String companyAbbrev;
+	String coordinates;
 
 	public SetParValueEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public SetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
+	public SetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
 		super (NAME, aActor);
-		setCompanyAbbrev (aShareCompany.getAbbrev ());
+		
+		String tCompanyAbbrev;
+		
+		tCompanyAbbrev = aShareCompany.getAbbrev ();
+		setCompanyAbbrev (tCompanyAbbrev);
 		setParValue (aParPrice);
+		setCoordinates (aCoordinates);
 	}
 
 	public SetParValueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 
 		String tCompanyAbbrev;
+		String tCoordinates;
 		int tParValue;
 
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tParValue = aEffectNode.getThisIntAttribute (AN_PAR_VALUE);
+		tCoordinates = aEffectNode.getThisAttribute (AN_COORDINATES);
 		setCompanyAbbrev (tCompanyAbbrev);
 		setParValue (tParValue);
+		setCoordinates (tCoordinates);
+	}
+
+	public String getCoordinates () {
+		return coordinates;
 	}
 
 	public String getCompanyAbbrev () {
@@ -57,19 +73,35 @@ public class SetParValueEffect extends Effect {
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
 		tEffectElement.setAttribute (AN_PAR_VALUE, getParValue ());
+		tEffectElement.setAttribute (AN_COORDINATES, getCoordinates ());
 
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to $ " + parValue
-				+ ".");
+		String tReport;
+		
+		tReport = REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to $ " + parValue;
+		
+		if (coordinates != GUI.NULL_STRING) {
+			if (! coordinates.equals (GUI.EMPTY_STRING)) {
+				tReport += " at coordinates " + coordinates;
+			}
+		}
+		
+		tReport += ".";
+				
+		return tReport;
 	}
 
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
+	}
+
+	public void setCoordinates (String aCoordinates) {
+		coordinates = aCoordinates;
 	}
 
 	public void setCompanyAbbrev (String aCompanyAbbrev) {
@@ -84,13 +116,27 @@ public class SetParValueEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
+		MarketCell tMarketCell;
+		Market tMarket;
+		MarketFrame tMarketFrame;
+		GameManager tGameManager;
 
 		tEffectApplied = false;
+		tMarket = aRoundManager.getMarket ();
 		if (actor.isAPlayer ()) {
 			tShareCompany = aRoundManager.getShareCompany (companyAbbrev);
 			aRoundManager.setParPrice (tShareCompany, parValue);
 			tShareCompany.updateListeners (ShareCompany.SET_PAR_PRICE);
 			tEffectApplied = true;
+		} else if (actor.isAShareCompany ()) {
+			tShareCompany = aRoundManager.getShareCompany (companyAbbrev);
+			tGameManager = aRoundManager.getGameManager ();
+			tMarketFrame = tGameManager.getMarketFrame ();
+			tMarketCell = tMarket.getMarketCellAtCoordinates (coordinates);
+			tMarketFrame.setParPriceToMarketCell (tShareCompany, parValue, tMarketCell);
+			tEffectApplied = true;
+		} else {
+			System.err.println ("Setting Par where Actor is not Player or Share Company");
 		}
 
 		return tEffectApplied;
@@ -100,22 +146,32 @@ public class SetParValueEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		MarketCell tMarketCell;
-		ShareCompany tShareCompany;
-		Token tToken;
 		Market tMarket;
 
 		tEffectUndone = false;
 		tMarket = aRoundManager.getMarket ();
 		if (actor.isAPlayer ()) {
 			tMarketCell = tMarket.getMarketCellContainingToken (companyAbbrev);
-			tMarketCell.printMarketCellInfo ();
-			tToken = tMarketCell.getToken (companyAbbrev);
-			tShareCompany = (ShareCompany) tToken.getWhichCompany ();
-			tShareCompany.setNoPrice ();
-			tMarketCell.redrawMarket ();
+			undoEffectAtMarketCell (tMarketCell);
 			tEffectUndone = true;
+		} else if (actor.isAShareCompany ()) {
+			tMarketCell = tMarket.getMarketCellAtCoordinates (coordinates);
+			undoEffectAtMarketCell (tMarketCell);
+			tEffectUndone = true;
+		} else {
+			System.err.println ("Setting Par where Actor is not Player or Share Company");
 		}
 
 		return tEffectUndone;
+	}
+
+	public void undoEffectAtMarketCell (MarketCell aMarketCell) {
+		ShareCompany tShareCompany;
+		Token tToken;
+		
+		tToken = aMarketCell.getToken (companyAbbrev);
+		tShareCompany = (ShareCompany) tToken.getWhichCompany ();
+		tShareCompany.setNoPrice ();
+		aMarketCell.redrawMarket ();
 	}
 }
