@@ -1,7 +1,9 @@
 package ge18xx.round.action;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.SetParValueEffect;
 import geUtilities.XMLNode;
 
 public class StockValueCalculationAction extends FormationPhaseAction {
@@ -32,6 +34,13 @@ public class StockValueCalculationAction extends FormationPhaseAction {
 		tSimpleActionReport = actor.getName () + " has finished Stock Value Calculation";
 
 		return tSimpleActionReport;
+	}
+	
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
+		SetParValueEffect tSetParValueEffect;
+
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
+		addEffect (tSetParValueEffect);
 	}
 
 }
