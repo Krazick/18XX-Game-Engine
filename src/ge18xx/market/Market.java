@@ -51,8 +51,10 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	MarketCell market[][];
 	GameManager gameManager;
-	int cellHeight, cellWidth;
-	int parseRowIndex, parseColIndex;
+	int cellHeight;
+	int cellWidth;
+	int parseRowIndex;
+	int parseColIndex;
 
 	public Market (int CH, int CW, GameManager aGameManager) {
 		addMouseListener (this);
@@ -175,7 +177,8 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void fullOwnershipAdjustment (StockRound aStockRound, Market aMarket) {
-		MarketCell tMarketCell, tPreviousMarketCell;
+		MarketCell tMarketCell;
+		MarketCell tPreviousMarketCell;
 		int tRowCount;
 		int tColCount;
 		int tRowIndex;
@@ -236,6 +239,39 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tColCount;
 	}
 
+	public MarketCell getClosestMarketCell (int aPriceToFind, int aRowToExamine) {
+		int tColCount;
+		int tColIndex;
+		int tCostDiff;
+		int tMinDiff;
+		int tCellValue;
+		MarketCell tClosestMarketCell;
+		MarketCell tMarketCell;
+		
+		tClosestMarketCell = MarketCell.NO_MARKET_CELL;
+		tColCount = getColCount (aRowToExamine);
+		tMinDiff = aPriceToFind;
+		for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+			tMarketCell = getMarketCellAtRowCol (aRowToExamine, tColIndex);
+			tCellValue = tMarketCell.getValue ();
+			if (tCellValue == aPriceToFind) {
+				tCostDiff = 1;
+				tMinDiff = 0;
+				tClosestMarketCell = tMarketCell;
+			} else if (tCellValue < aPriceToFind) {
+				tCostDiff = aPriceToFind - tCellValue;
+			} else {
+				tCostDiff = tCellValue - aPriceToFind;
+			}
+			if (tCostDiff < tMinDiff) {
+				tClosestMarketCell = tMarketCell;
+				tMinDiff = tCostDiff;
+			}
+		}
+		
+		return tClosestMarketCell;
+	}
+	
 	public MarketCell getMarketCellAtCoordinates (String aCoordinates) {
 		int tRowIndex;
 		int tColIndex;
