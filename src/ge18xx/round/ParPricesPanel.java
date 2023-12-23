@@ -74,11 +74,12 @@ public class ParPricesPanel extends ListenerPanel {
 	public void updateParPrices () {
 		GameManager tGameManager;
 		int tParPriceCount;
-		Integer tParPrices [];
 		int tMinToFloat;
 		int tParPriceIndex;
 		int tPrice;
-		String [] tPrices;
+		int tGovtRailwayUniqueParPrice;
+		Integer tParPrices [];
+		String tPrices [];
 		JPanel tParPriceLinePanel;
 		JLabel tPriceLabel;
 		JLabel tCompaniesAtParLabel;
@@ -88,11 +89,13 @@ public class ParPricesPanel extends ListenerPanel {
 		removeAll ();
 		tGameManager = roundManager.getGameManager ();
 		tParPrices = tGameManager.getAllStartCells ();
+		tGovtRailwayUniqueParPrice = getGovtRailwayUniqueParPrice (tGameManager, tParPrices);
+		tParPrices = addGovtRailwayParPrice (tGovtRailwayUniqueParPrice, tParPrices);
 		tParPriceCount = tParPrices.length;
 		tMinToFloat = tGameManager.getMinSharesToFloat ();
 
 		tPrices = new String [tParPriceCount];
-
+		
 		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
 			tPrice = tParPrices [tParPriceIndex].intValue ();
 			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
@@ -108,6 +111,60 @@ public class ParPricesPanel extends ListenerPanel {
 		updateJustParPrices (tParPriceCount);
 	}
 
+	private Integer [] addGovtRailwayParPrice (int aGovtRailwayUniqueParPrice, Integer [] aParPrices) {
+		Integer [] tNewParPrices;
+		int tParPriceCount;
+		int tParPriceIndex;
+		
+		if (aGovtRailwayUniqueParPrice == 0) {
+			tNewParPrices = aParPrices;
+		} else {
+			tParPriceCount = aParPrices.length + 1;
+			tNewParPrices = new Integer [tParPriceCount];
+			tNewParPrices [0] = aGovtRailwayUniqueParPrice;
+			for (tParPriceIndex = 0; tParPriceIndex < aParPrices.length; tParPriceIndex++) {
+				tNewParPrices [tParPriceIndex + 1] = aParPrices [tParPriceIndex];
+			}
+		}
+		
+		return tNewParPrices;
+	}
+	
+	private int getGovtRailwayUniqueParPrice (GameManager aGameManager, Integer aParPrices []) {
+		int tShareIndex;
+		int tShareCount;
+		int tParPriceCount;
+		int tParPriceIndex;
+		boolean tHasUniqueParPrice;
+		int tParPrice;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;	
+		
+		tShareCompanies = aGameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		tParPrice = 0;
+		tParPriceCount = aParPrices.length;
+		tHasUniqueParPrice = true;
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany.isGovtRailway ()) {
+				if (!tShareCompany.isUnowned ()) {
+					tParPrice = tShareCompany.getParPrice ();
+					for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
+						if (tParPrice == aParPrices [tParPriceIndex]) {
+							tHasUniqueParPrice = false;
+						}
+					}
+				}
+			}
+		}
+		if (! tHasUniqueParPrice) {
+			tParPrice = 0;
+		}
+		
+		return tParPrice;
+	}
+	
 	private JPanel buildParPriceLinePanel (int aParPriceIndex, int aMinToFloat, int aPrice) {
 		JPanel tParPriceLinePanel;
 		JLabel tMinStartupLabel;
