@@ -13,14 +13,18 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.market.Market;
+import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.StockValueCalculationAction;
+import ge18xx.toplevel.MarketFrame;
 
 public class StockValueCalculation extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;
 	private int newParPrice;
+	private MarketCell closestMarketCell;
 
 	public StockValueCalculation (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
 			Player aActingPresident) {
@@ -76,8 +80,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 	public void buildParPriceCalcPanel (ShareCompany aShareCompany, JPanel tShareCompanyJPanel) {
 		JPanel tParPriceCalcPanel;
 		ShareCompany tShareCompany;
-		CorporationList tShareCompanies;
-		
+		CorporationList tShareCompanies;		
 		List<String> tFoldingAbbrevs;
 		List<Integer> tFoldingPrices;
 		String tShareInfoText;
@@ -89,8 +92,10 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		int tMinPriceIndex;
 		int tIngoredIndex;
 		int tPriceIndex;
+		int tClosestMarketValue;
 		JLabel tShareInfo;
 		JLabel tNewStockPrice;
+		JLabel tNewParPrice;
 		
 		tParPriceCalcPanel = new JPanel ();
 		tParPriceCalcPanel.setLayout (new BoxLayout (tParPriceCalcPanel, BoxLayout.Y_AXIS));
@@ -119,6 +124,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 			}
 		}
 		tIngoredIndex = calculateNewParPrice (tFoldingPrices, tTotalPrice, tPriceCount, tMinPriceIndex);
+		tClosestMarketValue = closestMarketCell.getValue ();
 		for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
 			tShareInfoText = tFoldingAbbrevs.get (tPriceIndex) + " " + 
 								Bank.formatCash (tFoldingPrices.get (tPriceIndex));
@@ -131,6 +137,10 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		tNewStockPrice = new JLabel (aShareCompany.getAbbrev () + " Par Price " + Bank.formatCash (newParPrice));
 		tParPriceCalcPanel.add (Box.createVerticalStrut (20));
 		tParPriceCalcPanel.add (tNewStockPrice);
+		if (tClosestMarketValue != newParPrice) {
+			tNewParPrice = new JLabel ("Closest Par Price " + Bank.formatCash (tClosestMarketValue));
+			tParPriceCalcPanel.add (tNewParPrice);
+		}
 		
 		tShareCompanyJPanel.add (tParPriceCalcPanel);
 	}
@@ -150,6 +160,8 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		newParPrice = 5 * (Math.round (newParPrice/5));
 		newParPrice = Math.max (100, newParPrice);
 		
+		closestMarketCell = getClosestMarketCell (newParPrice);
+		
 		// Returned the ignored price index (lowest if at least 3 prices).
 		
 		return tIgnoredIndex;
@@ -160,19 +172,71 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		continueButton.setVisible (false);
 	}
 
+	public MarketCell getClosestMarketCell (int aNewParPrice) {
+		Market tMarket;
+		MarketCell tParPriceMarketCell;
+		
+		tMarket = gameManager.getMarket ();
+		tParPriceMarketCell = tMarket.getClosestMarketCell (aNewParPrice, 0);
+		
+		return tParPriceMarketCell;
+	}
+	
+	public void completeFormingCompany (StockValueCalculationAction tStockValueCalculationAction) {
+		ShareCompany tFormingShareCompany;
+		ActorI.ActionStates tOldFormingCoStatus;
+		ActorI.ActionStates tNewFormingCoStatus;
+		MarketFrame tMarketFrame;
+		String tCoordinates;
+		int tParPrice;
+		int tShareIndex;
+		int tShareCount;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;		
+
+		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tMarketFrame = gameManager.getMarketFrame ();
+		tParPrice = closestMarketCell.getValue ();
+		tMarketFrame.setParPriceToMarketCell (tFormingShareCompany, tParPrice, closestMarketCell);
+		
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		tNewFormingCoStatus = ActorI.ActionStates.NotOperated;
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					if (tShareCompany.hasOperated () || tShareCompany.hasBoughtTrain ()) {
+						tNewFormingCoStatus = ActorI.ActionStates.Operated;
+					}
+				}
+			}
+		}
+		
+		tCoordinates = closestMarketCell.getCoordinates ();
+		tStockValueCalculationAction.addSetParValueEffect (tFormingShareCompany, tFormingShareCompany, newParPrice, 
+										tCoordinates);
+		tOldFormingCoStatus = tFormingShareCompany.getActionStatus ();
+		tFormingShareCompany.resetStatus (tNewFormingCoStatus);
+		tStockValueCalculationAction.addChangeCorporationStatusEffect (tFormingShareCompany, 
+						tOldFormingCoStatus, tNewFormingCoStatus);
+	}
+	
 	@Override
 	public void handlePlayerDone () {
 		StockValueCalculationAction tStockValueCalculationAction;
 		String tOperatingRoundID;
 		
-		super.handlePlayerDone ();
-
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tStockValueCalculationAction = new StockValueCalculationAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
 
-		// Set CGR Par Price to what is shown.
-		// if > $100, find it on the Top Row of the Market
+		completeFormingCompany (tStockValueCalculationAction);
+		gameManager.updateAllFrames ();
+		
+		
+		// Set CGR Par Price to what is shown. -- DONE
+		// if > $100, find it on the Top Row of the Market -- DONE
 		// Place CGR Market Token on the proper spot on the Market
 		// Update State of CGR to "Operated" (if any folded company has operated), or "Not Operated"
 		// Remove Market Tokens from all other folding companies
