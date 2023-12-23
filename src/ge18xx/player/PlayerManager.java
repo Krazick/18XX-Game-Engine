@@ -49,6 +49,7 @@ import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
 
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
@@ -640,6 +641,7 @@ public class PlayerManager {
 		Certificate tFreeCertificate;
 		Certificate tCertificateToBuy;
 		String tCompanyAbbrev;
+		String tCoordinates;
 		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
 		Portfolio tPlayerPortfolio;
@@ -688,7 +690,8 @@ public class PlayerManager {
 					if (! gameManager.marketHasTokenFor (tShareCompany)) {
 						gameManager.setParPriceToken (tShareCompany);
 						tParPrice = tShareCompany.getParPrice ();
-						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+						tCoordinates = GUI.EMPTY_STRING;
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice, tCoordinates);
 					}
 				}
 			} else {
