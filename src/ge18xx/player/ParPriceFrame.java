@@ -23,6 +23,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.ActorI;
 import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.round.action.effects.Effect;
@@ -285,9 +286,15 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 	public void setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
 		SetParValueAction tSetParValueAction;
-
-		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
-		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		String tCoordinates;
+		
+		tRoundType = stockRound.getRoundType ();
+		tRoundID = stockRound.getID ();
+		tCoordinates = GUI.EMPTY_STRING;
+		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
+		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates);
 		if (gameManager.isNetworkGame ()) {
 			handleResetPlayerStates (tSetParValueAction);
 		}
