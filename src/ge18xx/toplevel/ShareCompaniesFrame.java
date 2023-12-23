@@ -25,6 +25,7 @@ import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeMarketCellAction;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -90,9 +91,10 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	}
 
 	@Override
-	public void actionPerformed (ActionEvent e) {
-		String tTheAction = e.getActionCommand ();
+	public void actionPerformed (ActionEvent aEvent) {
+		String tTheAction;
 
+		tTheAction = aEvent.getActionCommand ();
 		if ("SellShare".equals (tTheAction)) {
 			sellStockShare ();
 		}
@@ -130,6 +132,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 					tToken = tMarketCell.getToken (tCompanyAbbrev);
 					if (tToken != Token.NO_TOKEN) {
 						tNewMarketCell.addTokenToBottom (tToken);
+						moveMarketCellAction (tShareCompany, tCompanyAbbrev, tMarketCell, tNewMarketCell);
 					}
 					tNewMarketCell.redrawMarket ();
 				}
@@ -277,6 +280,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 					tToken = tMarketCell.getToken (tCompanyAbbrev);
 					if (tToken != Token.NO_TOKEN) {
 						tNewMarketCell.addTokenToBottom (tToken);
+						moveMarketCellAction (tShareCompany, tCompanyAbbrev, tMarketCell, tNewMarketCell);
 					}
 					tNewMarketCell.redrawMarket ();
 				}
@@ -284,6 +288,27 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		}
 	}
 
+	public void moveMarketCellAction (ShareCompany aShareCompany, String aCompanyAbbrev, MarketCell aOldMarketCell, 
+								MarketCell aNewMarketCell) {
+		int tOldStackLocation;
+		int tNewStackLocation;
+		ChangeMarketCellAction tChangeMarketCellAction;
+		RoundManager tRoundManager;
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tRoundManager = tGameManager.getRoundManager ();
+		
+		tChangeMarketCellAction = new ChangeMarketCellAction (tRoundManager.getCurrentRoundType (), 
+										tRoundManager.getOperatingRoundID (), aShareCompany);
+		
+		tOldStackLocation = aOldMarketCell.getTokenLocation (aCompanyAbbrev);
+		tNewStackLocation = aNewMarketCell.getTokenLocation (aCompanyAbbrev);
+		tChangeMarketCellAction.addChangeMarketCellEffect (aShareCompany, aOldMarketCell, tOldStackLocation, 
+										aNewMarketCell, tNewStackLocation);
+		tGameManager.addAction (tChangeMarketCellAction);
+	}
+	
 	// Test Method
 	public void payDividend () {
 		String tCompanyAbbrev;
@@ -303,6 +328,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 					tToken = tMarketCell.getToken (tCompanyAbbrev);
 					if (tToken != Token.NO_TOKEN) {
 						tNewMarketCell.addTokenToBottom (tToken);
+						moveMarketCellAction (tShareCompany, tCompanyAbbrev, tMarketCell, tNewMarketCell);
 					}
 					tNewMarketCell.redrawMarket ();
 				}
@@ -328,6 +354,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 					tToken = tMarketCell.getToken (tCompanyAbbrev);
 					if (tToken != Token.NO_TOKEN) {
 						tNewMarketCell.addTokenToBottom (tToken);
+						moveMarketCellAction (tShareCompany, tCompanyAbbrev, tMarketCell, tNewMarketCell);
 					}
 					tNewMarketCell.redrawMarket ();
 				}
