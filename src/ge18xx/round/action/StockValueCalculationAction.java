@@ -2,7 +2,10 @@ package ge18xx.round.action;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.market.MarketCell;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.RemoveTokenFromMarketCellEffect;
 import ge18xx.round.action.effects.SetParValueEffect;
 import geUtilities.XMLNode;
 
@@ -43,4 +46,21 @@ public class StockValueCalculationAction extends FormationPhaseAction {
 		addEffect (tSetParValueEffect);
 	}
 
+	public void addRemoveTokenFromMarketCellEffect (ActorI aActor, MarketCell aMarketCell, int aStackLocation) {
+		RemoveTokenFromMarketCellEffect tRemoveTokenFromMarketCellEffect;
+		
+		tRemoveTokenFromMarketCellEffect = new RemoveTokenFromMarketCellEffect (aActor, aMarketCell, aStackLocation);
+		addEffect (tRemoveTokenFromMarketCellEffect);
+	}
+	
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		boolean tActionUndone;
+		
+		reverseEffects ();
+		tActionUndone = super.undoAction (aRoundManager);
+		reverseEffects ();
+		
+		return tActionUndone;
+	}
 }
