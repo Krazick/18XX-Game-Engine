@@ -882,6 +882,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tNewStatus;
 		boolean tStatusUpdated;
 		Bank tBank;
+		BankPool tBankPool;
 		GameManager tGameManager;
 		boolean tFirstTrainOfType;
 
@@ -915,7 +916,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
 		}
-		if (tTrainHolder.isABank ()) {
+		if (tTrainHolder.isABankPool ()) {
+			tBankPool = (BankPool) tTrainHolder;
+			tNextAvailableTrain = tBankPool.getNextAvailableTrain ();
+		} else if (tTrainHolder.isABank ()) {
 			tBank = (Bank) tTrainHolder;
 			tNextAvailableTrain = tBank.getNextAvailableTrain ();
 		}
