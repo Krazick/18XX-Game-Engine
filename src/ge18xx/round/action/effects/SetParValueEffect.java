@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.game.GameManager;
@@ -81,8 +82,14 @@ public class SetParValueEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
+		String tParValue;
 		
-		tReport = REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to $ " + parValue;
+		if (parValue > 0) {
+			tParValue = Bank.formatCash (parValue);
+		} else {
+			tParValue = "NO PAR VALUE";
+		}
+		tReport = REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to " + tParValue;
 		
 		if (coordinates != GUI.NULL_STRING) {
 			if (! coordinates.equals (GUI.EMPTY_STRING)) {
