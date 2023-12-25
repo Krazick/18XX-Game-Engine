@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.Bank;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
+import ge18xx.company.TokenStack;
 import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
@@ -30,26 +31,34 @@ public class ChangeMarketCellEffect extends Effect {
 		setStartLocation (PlayerManager.NO_PLAYER_INDEX);
 		setStartCellCoordinates (MarketCell.NO_COORDINATES);
 		setNewCellCoordinates (MarketCell.NO_COORDINATES);
-		setNewLocation (PlayerManager.NO_PLAYER_INDEX);
+		setNewLocation (TokenStack.NO_STACK_LOCATION);
 	}
 
-	public ChangeMarketCellEffect (ActorI aActor, MarketCell aStartMarketCell, int aLocation, MarketCell aNewMarketCell,
-			int aNewLocation) {
+	public ChangeMarketCellEffect (ActorI aActor, MarketCell aStartMarketCell, int aLocation, 
+									MarketCell aNewMarketCell, int aNewLocation) {
 		super (NAME, aActor);
 
-		String tStartCellCoordinates, tNewCellCoordinates;
+		String tStartCellCoordinates;
+		String tNewCellCoordinates;
 
 		tStartCellCoordinates = aStartMarketCell.getCoordinates ();
-		tNewCellCoordinates = aNewMarketCell.getCoordinates ();
+		if (aNewMarketCell == MarketCell.NO_MARKET_CELL) {
+			tNewCellCoordinates = MarketCell.NO_COORDINATES;
+		} else {
+			tNewCellCoordinates = aNewMarketCell.getCoordinates ();
+		}
 		setStartLocation (aLocation);
 		setStartCellCoordinates (tStartCellCoordinates);
 		setNewCellCoordinates (tNewCellCoordinates);
+		setNewLocation (aNewLocation);
 	}
 
 	public ChangeMarketCellEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		String tStartCellCoordinates, tNewCellCoordinates;
-		int tStartLocation, tNewLocation;
+		String tStartCellCoordinates;
+		String tNewCellCoordinates;
+		int tStartLocation;
+		int tNewLocation;
 		setName (NAME);
 
 		tStartLocation = aEffectNode.getThisIntAttribute (AN_START_LOCATION);
@@ -119,7 +128,8 @@ public class ChangeMarketCellEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		int tStartPrice;
 		int tNewPrice;
-		MarketCell tStartCell, tNewCell;
+		MarketCell tStartCell;
+		MarketCell tNewCell;
 		Market tMarket;
 
 		tMarket = aRoundManager.getMarket ();
