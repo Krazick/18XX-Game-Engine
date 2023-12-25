@@ -232,6 +232,8 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;	
 		String tClosingCorps [];
+		String tCoordinates;
+		int tNewParPrice;
 		
 		tClosingCorps = aFoldingCorps.split (",");
 		tShareCompanies = gameManager.getShareCompanies ();
@@ -239,13 +241,18 @@ public class StockValueCalculation extends PlayerFormationPhase {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tClosingCorp);
 			if (tShareCompany != Corporation.NO_CORPORATION) {
 				if (tShareCompany.willFold ()) {
-					System.out.println ("Closing Corp " + tShareCompany.getAbbrev ());
 					tShareCompany.close (aStockValueCalculationAction);
+					tCoordinates = GUI.EMPTY_STRING;
+					tShareCompany.setNoPrice ();
+					tNewParPrice = tShareCompany.getParPrice ();
+					aStockValueCalculationAction.addSetParValueEffect (tShareCompany, tShareCompany, tNewParPrice,
+										tCoordinates);
 				}
 			}
 		}
 
 	}
+	
 	@Override
 	public void handlePlayerDone () {
 		StockValueCalculationAction tStockValueCalculationAction;
@@ -257,18 +264,12 @@ public class StockValueCalculation extends PlayerFormationPhase {
 
 		completeFormingCompany (tStockValueCalculationAction);
 		
-		
-		// Set CGR Par Price to what is shown. -- DONE
-		// if > $100, find it on the Top Row of the Market -- DONE
-		// Place CGR Market Token on the proper spot on the Market
-		// Update State of CGR to "Operated" (if any folded company has operated), or "Not Operated"
-		// Remove Market Tokens from all other folding companies
-		// Change Folding Companies' Status to Closed
-		// Hide Formation Phase Frame -- this should continue with Operating Round (if not finished)
 		// Possible special test if none of the folding companies have operated yet, may start CGR if next in order
+		// Check for Next company to Operate
 		
 		tStockValueCalculationAction.setChainToPrevious (true);
 		gameManager.addAction (tStockValueCalculationAction);
 		gameManager.updateAllFrames ();
+		formationPhase.hideFormationPanel ();
 	}
 }
