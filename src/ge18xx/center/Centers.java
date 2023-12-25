@@ -832,9 +832,12 @@ public class Centers implements Cloneable {
 				tCity = (City) tRevenueCenter;
 				if (tCity.cityHasStation (tTokenCompanyID)) {
 					removeMapToken (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
-					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
+					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, 
+										tRevenueCenterIndex, tCity);
 					if (tReplaceToken) {
-						layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
+						aNewMapToken.setConnectedSides (aMapCell, tCity.getLocation ());
+						layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,
+									tRevenueCenterIndex, tCity);
 					}
 				}
 			}
