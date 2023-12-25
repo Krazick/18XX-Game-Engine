@@ -20,6 +20,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.toplevel.MarketFrame;
+import geUtilities.GUI;
 
 public class StockValueCalculation extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;
@@ -182,7 +183,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		return tParPriceMarketCell;
 	}
 	
-	public void completeFormingCompany (StockValueCalculationAction tStockValueCalculationAction) {
+	public void completeFormingCompany (StockValueCalculationAction aStockValueCalculationAction) {
 		ShareCompany tFormingShareCompany;
 		ActorI.ActionStates tOldFormingCoStatus;
 		ActorI.ActionStates tNewFormingCoStatus;
@@ -192,20 +193,23 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		int tShareIndex;
 		int tShareCount;
 		ShareCompany tShareCompany;
-		CorporationList tShareCompanies;		
+		CorporationList tShareCompanies;	
+		String tFoldingCorps;
 
 		tFormingShareCompany = formationPhase.getFormingCompany ();
 		tMarketFrame = gameManager.getMarketFrame ();
 		tParPrice = closestMarketCell.getValue ();
 		tMarketFrame.setParPriceToMarketCell (tFormingShareCompany, tParPrice, closestMarketCell);
 		
+		tNewFormingCoStatus = ActorI.ActionStates.NotOperated;
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
-		tNewFormingCoStatus = ActorI.ActionStates.NotOperated;
+		tFoldingCorps = GUI.EMPTY_STRING;
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
 			if (tShareCompany != Corporation.NO_CORPORATION) {
 				if (tShareCompany.willFold ()) {
+					tFoldingCorps += tShareCompany.getAbbrev () + ",";
 					if (tShareCompany.hasOperated () || tShareCompany.hasBoughtTrain ()) {
 						tNewFormingCoStatus = ActorI.ActionStates.Operated;
 					}
@@ -214,14 +218,34 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		}
 		
 		tCoordinates = closestMarketCell.getCoordinates ();
-		tStockValueCalculationAction.addSetParValueEffect (tFormingShareCompany, tFormingShareCompany, newParPrice, 
+		aStockValueCalculationAction.addSetParValueEffect (tFormingShareCompany, tFormingShareCompany, newParPrice, 
 										tCoordinates);
 		tOldFormingCoStatus = tFormingShareCompany.getActionStatus ();
 		tFormingShareCompany.resetStatus (tNewFormingCoStatus);
-		tStockValueCalculationAction.addChangeCorporationStatusEffect (tFormingShareCompany, 
+		aStockValueCalculationAction.addChangeCorporationStatusEffect (tFormingShareCompany, 
 						tOldFormingCoStatus, tNewFormingCoStatus);
+		closeAllFoldingCompanies (aStockValueCalculationAction, tFoldingCorps);
 	}
 	
+	public void closeAllFoldingCompanies (StockValueCalculationAction aStockValueCalculationAction, 
+										String aFoldingCorps) {
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;	
+		String tClosingCorps [];
+		
+		tClosingCorps = aFoldingCorps.split (",");
+		tShareCompanies = gameManager.getShareCompanies ();
+		for (String tClosingCorp : tClosingCorps) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tClosingCorp);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					System.out.println ("Closing Corp " + tShareCompany.getAbbrev ());
+					tShareCompany.close (aStockValueCalculationAction);
+				}
+			}
+		}
+
+	}
 	@Override
 	public void handlePlayerDone () {
 		StockValueCalculationAction tStockValueCalculationAction;
@@ -232,7 +256,6 @@ public class StockValueCalculation extends PlayerFormationPhase {
 				tOperatingRoundID, player);
 
 		completeFormingCompany (tStockValueCalculationAction);
-		gameManager.updateAllFrames ();
 		
 		
 		// Set CGR Par Price to what is shown. -- DONE
@@ -246,5 +269,6 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		
 		tStockValueCalculationAction.setChainToPrevious (true);
 		gameManager.addAction (tStockValueCalculationAction);
+		gameManager.updateAllFrames ();
 	}
 }
