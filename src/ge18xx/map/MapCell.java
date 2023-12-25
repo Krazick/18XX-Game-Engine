@@ -2163,7 +2163,7 @@ public class MapCell implements Comparator<Object> {
 					tOldSides = tMapToken.getSides ();
 					moveAMapToken (tMapToken, tNewTileCity);
 					tNewSides = tMapToken.getSides ();
-					if (! allOldSidesConnected (tOldSides,tNewSides)) {
+					if (! allOldSidesConnected (tOldSides, tNewSides)) {
 						tMustSwap = true;
 					}
 				}
