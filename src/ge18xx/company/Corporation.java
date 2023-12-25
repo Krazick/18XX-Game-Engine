@@ -743,7 +743,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
 		}
 	}
-
+	
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		return aXMLDocument.createElement (EN_CORPORATION);
 	}
