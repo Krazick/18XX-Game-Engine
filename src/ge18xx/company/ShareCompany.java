@@ -30,7 +30,7 @@ import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
-
+import ge18xx.round.action.StockValueCalculationAction;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
@@ -1178,6 +1178,31 @@ public class ShareCompany extends TokenCompany {
 		return getSharePrice ();
 	}
 	
+	public void close (StockValueCalculationAction aStockValueCalculationAction) {
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		Market tMarket;
+		MarketCell tMarketCell;
+		GameManager tGameManager;
+		int tStackLocation;
+
+		tOldState = getActionStatus ();
+
+		if (tOldState.equals (ActorI.ActionStates.Closed)) {
+			appendErrorReport ("The Corporation " + name + " is already Closed... don't need to close again");
+		} else {
+			resetStatus (ActorI.ActionStates.Closed);
+			tNewState = getActionStatus ();
+			aStockValueCalculationAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
+			tGameManager = corporationList.getGameManager ();
+			tMarket = tGameManager.getMarket ();
+			tMarketCell = tMarket.getMarketCellContainingToken (abbrev);
+			tStackLocation = tMarketCell.getTokenLocation (abbrev);
+			tMarketCell.getToken (abbrev);
+			aStockValueCalculationAction.addRemoveTokenFromMarketCellEffect (this, tMarketCell, tStackLocation);
+		}
+	}
+
 	/**
 	 * Method to override the Basic Corporation Method so that if Share Company Closes, no error message is generated.
 	 */
