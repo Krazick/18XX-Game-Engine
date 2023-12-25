@@ -14,7 +14,7 @@ public class MapToken extends Token {
 	MapCell mapCell;
 	Location location;
 	int cost;
-	boolean connectedSides[] = new boolean [6];
+	boolean connectedSides [] = new boolean [6];
 
 	public MapToken () {
 		super ();
@@ -98,6 +98,15 @@ public class MapToken extends Token {
 		return tConnectedSide;
 	}
 
+	public void copyConnectedSides (boolean aConnectedSides []) {
+		int tSideIndex;
+		
+		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
+			setConnectedSide (tSideIndex, aConnectedSides [tSideIndex]);
+		}
+
+	}
+	
 	public void setConnectedSide (int aSideIndex, boolean aConnected) {
 		if (Location.isValidSide (aSideIndex)) {
 			connectedSides [aSideIndex] = aConnected;
