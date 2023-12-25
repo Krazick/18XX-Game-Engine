@@ -4,6 +4,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
+import ge18xx.company.Coupon;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -78,6 +79,14 @@ public class BankPool extends GameBank {
 		tXMLElement.appendChild (tTrainPortfolioElements);
 
 		return tXMLElement;
+	}
+	
+	public Coupon getNextAvailableTrain () {
+		Coupon tTrain;
+
+		tTrain = trainPortfolio.getNextAvailableTrain ();
+
+		return tTrain;
 	}
 
 	@Override
