@@ -60,7 +60,8 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 	List<String> nonHomeMapCellsInfo;
 	ReplaceTokenAction replaceTokenAction;
 	
-	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer, Player aActingPresident) {
+	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer, 
+							Player aActingPresident) {
 		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
 	}
 
