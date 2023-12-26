@@ -308,10 +308,10 @@ public class Portfolio implements CertificateHolderI {
 			if (tCertificateType.equals (aCorpType)) {
 				tCorporationForCert = tCertificate.getCorporation ();
 				if (tCorporationForCert.isFormed ()) {
+					tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 					tCertCount = getCertificateCountFor (tCorporationForCert);
 					tCertTotalPercent = getCertificatePercentageFor (tCorporationForCert);
 					tCount++;
-					tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 					if (!tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
 						tCertificateToShow = getCertificateToShow (tCertificate);
 						tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel,
