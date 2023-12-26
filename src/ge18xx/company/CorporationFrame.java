@@ -789,10 +789,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void setPhaseInfo () {
 		PhaseInfo tPhaseInfo;
 		String tCurrentRoundOf;
+		int tTrainLimit;
 
 		tPhaseInfo = corporation.getCurrentPhaseInfo ();
 		phaseNameLabel.setText ("Current Phase Name " + tPhaseInfo.getFullName ());
-		trainLimitLabel.setText ("Train Limit: " + tPhaseInfo.getTrainLimit ());
+		tTrainLimit = corporation.getTrainLimit ();
+		trainLimitLabel.setText ("Train Limit: " + tTrainLimit);
 		allowedTilesLabel.setText ("Tile Colors: " + tPhaseInfo.getTiles ());
 		tCurrentRoundOf = corporation.getCurrentRoundOf ();
 		roundInfoLabel.setText ("Round " + tCurrentRoundOf);
