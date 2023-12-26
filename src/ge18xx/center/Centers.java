@@ -789,12 +789,38 @@ public class Centers implements Cloneable {
 					ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
 		boolean tCorporationCleared;
 		
-		tCorporationCleared = aCity.clearCorporation (aFoldingCompany);
+		tCorporationCleared = clearBaseCorporation (aCity, aFoldingCompany);
 		if (tCorporationCleared) {
 			aReplaceTokenAction.addClearCorporationEffect (aFoldingCompany, aMapCell, aTile, aRevenueCenterIndex);
 		}
 	}
 	
+	public boolean clearBaseCorporation (City aCity, TokenCompany aCorporation) {
+		boolean tCorporationCleared;
+		
+		tCorporationCleared = aCity.clearCorporation (aCorporation);
+
+		return tCorporationCleared;
+	}
+	
+	public boolean clearHomeCorporation (TokenCompany aCorporation) {
+		int tRevenueCenterIndex;
+		int tRevenueCenterCount;
+		RevenueCenter tRevenueCenter;
+		City tCity;
+		boolean tCleared;
+		
+		tRevenueCenterCount = centers.size ();
+		tCleared = false;
+		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
+			tRevenueCenter = centers.get (tRevenueCenterIndex);
+			tCity = (City) tRevenueCenter;
+			tCleared = clearBaseCorporation (tCity, aCorporation);
+		}
+
+		return tCleared;
+	}
+			
 	public void layMapToken (TokenCompany aFoldingCompany, MapToken aMapToken, MapCell aMapCell, Tile aTile,
 			ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
 		TokenType tTokenType;
@@ -805,7 +831,8 @@ public class Centers implements Cloneable {
 		tTokenType = aMapToken.getTokenType ();
 		tTokenCompany = aMapToken.getTokenCompany ();
 		tTokenIndex = tTokenCompany.getTokenIndex (aMapToken);
-		aReplaceTokenAction.addLayTokenEffect (tTokenCompany, aMapCell, aTile, aRevenueCenterIndex, tTokenType, tTokenIndex);
+		aReplaceTokenAction.addLayTokenEffect (tTokenCompany, aMapCell, aTile, aRevenueCenterIndex,
+							tTokenType, tTokenIndex);
 	}
 	
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
