@@ -638,4 +638,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return benefits;
 	}
 
+	@Override
+	public int getTrainLimit () {
+		return 0;
+	}
+
 }
