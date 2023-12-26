@@ -881,8 +881,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tMinSharesToFloat;
 	}
 
-	// TODO: Push this method content up to CorporationList
-
 	public int getWillFloatPercent () {
 		PhaseInfo tPhaseInfo;
 		int tWillFloatPercent;
@@ -995,7 +993,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCapitalizationLevel;
 	}
 
-	// TODO Reorder methods with single call to corporationCertificates together
 	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
 		return corporationCertificates.getIPOCertificate (aPercentage, aPresidentShare);
 	}
@@ -1168,7 +1165,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (aHomeID == 2) {
 			tMapCellID = getCorpHome2MapID ();
 		} else {
-			tMapCellID = null;
+			tMapCellID = MapCell.NO_ID;
 		}
 		return tMapCellID;
 	}
@@ -1505,9 +1502,16 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public boolean isActive () {
 		boolean tIsActive;
+		boolean tIsClosed;
+		boolean tIsFormed;
+		int tPercentOwned;
+		
+		tIsClosed = isClosed ();
+		tIsFormed = isFormed ();
+		tPercentOwned = getPercentOwned ();
 
 		tIsActive = true;
-		if (isClosed () || !isFormed () || (getPercentOwned () == 0)) {
+		if (tIsClosed || (! tIsFormed) || (tPercentOwned == 0)) {
 			tIsActive = false;
 		}
 
@@ -1731,6 +1735,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		removeHomeIfNull (aXMLNode);
 		
 		loadStates (aXMLNode);
+		setCorporationFrame ();
 	}
 
 	private void removeHomeIfNull (XMLNode aXMLNode) {
@@ -2220,7 +2225,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public int compareFormed (Corporation aCorporation) {
-		boolean tIsFormed1, tIsFormed2;
+		boolean tIsFormed1;
+		boolean tIsFormed2;
 		int tCompareFormed;
 
 		tIsFormed1 = isFormed ();
@@ -2242,7 +2248,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public int compareActive (Corporation aCorporation) {
-		boolean tIsActive1, tIsActive2;
+		boolean tIsActive1;
+		boolean tIsActive2;
 		int tCompareActive;
 
 		tIsActive1 = isActive ();
@@ -2428,36 +2435,37 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		@Override
 		public int compare (Corporation aCorporation1, Corporation aCorporation2) {
-			int tOperatingOrderValue, tClosedCompare;
+			int tOperatingOrderValue;
+			int tClosedCompare;
 
 			tOperatingOrderValue = aCorporation1.compareFormed (aCorporation2);
 			if (tOperatingOrderValue == 0) { // Both Companies are Active
-
-				tOperatingOrderValue = aCorporation1.compareActive (aCorporation2);
-				if (tOperatingOrderValue == 0) { // Both Companies are Active
-					tOperatingOrderValue = aCorporation1.comparePartiallyOperated (aCorporation2);
-					if (tOperatingOrderValue == 0) { // Both Companies can Operate
-						tOperatingOrderValue = aCorporation1.compareCanOperate (aCorporation2);
-					}
-					if (tOperatingOrderValue == 0) { // Neither Company is Partially Operated
-						tOperatingOrderValue = aCorporation1.comparePrice (aCorporation2);
-					}
-					if (tOperatingOrderValue == 0) { // Both Companies have Same Price
-						tOperatingOrderValue = aCorporation1.compareShare (aCorporation2);
-					}
-					if (tOperatingOrderValue == 0) { // Both Companies are Share Companies
-						tOperatingOrderValue = aCorporation1.compareMarketCellLtoR (aCorporation2);
-					}
-					if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Column
-						tOperatingOrderValue = aCorporation1.compareMarketCellDtoU (aCorporation2);
-					}
-					if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Cell
-						tOperatingOrderValue = aCorporation1.compareStackLocation (aCorporation2);
-					}
+				
+				tClosedCompare = aCorporation1.compareClosed (aCorporation2);
+				if (tClosedCompare != 0) {
+					tOperatingOrderValue = tClosedCompare;
 				} else {
-					tClosedCompare = aCorporation1.compareClosed (aCorporation2);
-					if (tClosedCompare != 0) {
-						tOperatingOrderValue = tClosedCompare;
+					tOperatingOrderValue = aCorporation1.compareActive (aCorporation2);
+					if (tOperatingOrderValue == 0) { // Both Companies are Active
+						tOperatingOrderValue = aCorporation1.comparePartiallyOperated (aCorporation2);
+						if (tOperatingOrderValue == 0) { // Both Companies can Operate
+							tOperatingOrderValue = aCorporation1.compareCanOperate (aCorporation2);
+						}
+						if (tOperatingOrderValue == 0) { // Neither Company is Partially Operated
+							tOperatingOrderValue = aCorporation1.comparePrice (aCorporation2);
+						}
+						if (tOperatingOrderValue == 0) { // Both Companies have Same Price
+							tOperatingOrderValue = aCorporation1.compareShare (aCorporation2);
+						}
+						if (tOperatingOrderValue == 0) { // Both Companies are Share Companies
+							tOperatingOrderValue = aCorporation1.compareMarketCellLtoR (aCorporation2);
+						}
+						if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Column
+							tOperatingOrderValue = aCorporation1.compareMarketCellDtoU (aCorporation2);
+						}
+						if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Cell
+							tOperatingOrderValue = aCorporation1.compareStackLocation (aCorporation2);
+						}
 					}
 				}
 			}
@@ -2616,6 +2624,18 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tIsTileAvailableForMapCell;
 	}
 
+	public boolean homeMapCell () {
+		boolean tHomeMapCell;
+		
+		if (homeCity1 == MapCell.NO_MAP_CELL) {
+			tHomeMapCell = false;
+		} else {
+			tHomeMapCell = true;
+		}
+		
+		return tHomeMapCell;
+	}
+	
 	public boolean homeMapCell1HasTile () {
 		boolean tHomeMapCellHasTile;
 
