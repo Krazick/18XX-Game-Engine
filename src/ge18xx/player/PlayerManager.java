@@ -432,6 +432,12 @@ public class PlayerManager {
 		return players.size ();
 	}
 
+	public void setPlayersToNoAction () {
+		for (Player tPlayer : players) {
+			tPlayer.resetPrimaryActionState (ActorI.ActionStates.NoAction);
+		}
+	}
+	
 	public boolean isInCompanyFormationState () {
 		Player tPlayer;
 		boolean tIsCompanyFormationState;
