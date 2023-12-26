@@ -2890,4 +2890,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public boolean willFold () {
 		return false;
 	}
+	
+	public abstract int getTrainLimit ();
 }
