@@ -39,7 +39,11 @@ public class StartFormationEffect extends Effect {
 		String tFormingCompanyName;
 		String tActorName;
 		
-		tFormingCompanyName = formingCorporation.getName ();
+		if (formingCorporation == Corporation.NO_CORPORATION) {
+			tFormingCompanyName = "NO Formation Corporation";
+		} else {
+			tFormingCompanyName = formingCorporation.getName ();
+		}
 		tActorName = actor.getName ();
 		tReport = REPORT_PREFIX + name + " for " + tFormingCompanyName + " by " + tActorName + ".";
 		
