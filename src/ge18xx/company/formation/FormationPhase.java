@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
@@ -82,6 +83,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
+	JPanel ipoJPanel;
 	String notificationText;
 	JPanel notificationJPanel;
 	JTextArea notiricationArea;
@@ -663,7 +665,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void buildOpenMarketPortfolio () {
 		BankPool tOpenMarket;
+		Bank tBank;
 		Portfolio tOpenMarketPortfolio;
+		Portfolio tIPOPortfolio;
 		
 		if (openMarketJPanel == GUI.NO_PANEL) {
 			openMarketJPanel = new JPanel ();
@@ -672,12 +676,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tOpenMarket = gameManager.getBankPool ();
 		
 		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
-		buildPortfolioJPanel (tOpenMarketPortfolio);
+		
+		if (ipoJPanel == GUI.NO_PANEL) {
+			ipoJPanel = new JPanel ();
+			bottomJPanel.add (ipoJPanel);
+		}
+		tBank = gameManager.getBank ();
+		tIPOPortfolio = tBank.getPortfolio ();
+		buildPortfolioJPanel (tOpenMarketPortfolio, tIPOPortfolio);
 		bottomJPanel.add (Box.createHorizontalGlue ());
 	}
 
-	public void buildPortfolioJPanel (Portfolio aPortfolio) {
+	public void buildPortfolioJPanel (Portfolio aOpenMarketPortfolio, Portfolio aIPOPortfolio) {
 		JPanel tOwnershipPanel;
+		JPanel tIPOPanel;
 		JLabel tTitle;
 		JLabel tEmptyOpenMarket;
 		BankPool tBankPool;
@@ -687,13 +699,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		openMarketJPanel.setLayout (new BoxLayout (openMarketJPanel, BoxLayout.Y_AXIS));
 		tTitle = new JLabel (tBankPool.getName ());
 		openMarketJPanel.add (tTitle);
-		tOwnershipPanel = aPortfolio.buildOwnershipPanel (gameManager);
+		tOwnershipPanel = aOpenMarketPortfolio.buildOwnershipPanel (gameManager);
 		if (tOwnershipPanel == GUI.NO_PANEL) {
 			tEmptyOpenMarket = new JLabel ("NO CERTIFICATES IN OPEN MARKET");
 			openMarketJPanel.add (tEmptyOpenMarket);
 		} else {
 			openMarketJPanel.add (tOwnershipPanel);
 		}
+		
+		ipoJPanel.removeAll ();
+		ipoJPanel.setLayout (new BoxLayout (ipoJPanel, BoxLayout.Y_AXIS));
+		tTitle = new JLabel ("IPO Holdings");
+		tIPOPanel = aIPOPortfolio.buildOwnershipPanel (gameManager);
+		ipoJPanel.add (tTitle);
+		ipoJPanel.add (tIPOPanel);
 	}
 
 	public Player findActingPresident () {
