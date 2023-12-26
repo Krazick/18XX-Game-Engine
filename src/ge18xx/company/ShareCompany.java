@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.center.Centers;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -31,7 +32,6 @@ import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.round.action.RemoveDestinationsAction;
-import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.tiles.Tile;
 import geUtilities.AttributeName;
@@ -1230,23 +1230,14 @@ public class ShareCompany extends TokenCompany {
 		return tHasSpecialButton;
 	}
 	
-	public void clearClosed () {
-		// Remove Destination (if any exist)
-		// Remove Home Cell 1 and 2 (if exists)
-		// Don't add any Actions, this is just during Loading a Save Game
-		
-		HexMap tHexMap;
+	public void clearClosed () {		
 		MapCell tDestinationMapCell;
-		ReplaceTokenAction tReplaceTokenAction;
 		RemoveDestinationsAction tRemoveDestinationsAction;
-		MapToken tNewMapToken;
-		String [] tMapCellInfo;
-		TokenCompany tFoldingCompany;
 		Location tDestinationLocation;
-		Tile tTile;
 		
-//		homeCity1.replaceMapToken (tMapCellInfo, tNewMapToken, tFoldingCompany, tReplaceTokenAction);
-
+		clearHomeFromMapCell (homeCity1);
+		clearHomeFromMapCell (homeCity2);
+		
 		if (hasDestination ()) {
 			tDestinationMapCell = getDestinationMapCell ();
 			tDestinationLocation = getDestinationLocation ();
@@ -1255,4 +1246,18 @@ public class ShareCompany extends TokenCompany {
 		}
 
 	}
+	
+	public void clearHomeFromMapCell (MapCell aMapCell) {
+		Tile tTile;
+		Centers tCenters;
+		
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell.isTileOnCell ()) {
+				tTile = aMapCell.getTile ();
+				tCenters = tTile.getCenters ();
+				tCenters.clearHomeCorporation (this);
+			}
+		}
+	}
+
 }
