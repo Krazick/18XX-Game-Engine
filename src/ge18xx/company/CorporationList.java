@@ -1506,4 +1506,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void updateRoundFrame () {
 		roundManager.updateRoundFrame ();
 	}
+	
+	public void clearClosedCorporations () {
+		ShareCompany tClosedShare;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isClosed ()) {
+				if (tCorporation.isAShareCompany ()) {
+					tClosedShare = (ShareCompany) tCorporation;
+					tClosedShare.clearClosed ();
+				}
+			}
+		}
+	}
 }
