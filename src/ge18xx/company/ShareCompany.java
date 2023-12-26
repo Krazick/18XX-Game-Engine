@@ -30,7 +30,10 @@ import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
+import ge18xx.round.action.RemoveDestinationsAction;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.StockValueCalculationAction;
+import ge18xx.tiles.Tile;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
@@ -1225,5 +1228,31 @@ public class ShareCompany extends TokenCompany {
 		}
 		
 		return tHasSpecialButton;
+	}
+	
+	public void clearClosed () {
+		// Remove Destination (if any exist)
+		// Remove Home Cell 1 and 2 (if exists)
+		// Don't add any Actions, this is just during Loading a Save Game
+		
+		HexMap tHexMap;
+		MapCell tDestinationMapCell;
+		ReplaceTokenAction tReplaceTokenAction;
+		RemoveDestinationsAction tRemoveDestinationsAction;
+		MapToken tNewMapToken;
+		String [] tMapCellInfo;
+		TokenCompany tFoldingCompany;
+		Location tDestinationLocation;
+		Tile tTile;
+		
+//		homeCity1.replaceMapToken (tMapCellInfo, tNewMapToken, tFoldingCompany, tReplaceTokenAction);
+
+		if (hasDestination ()) {
+			tDestinationMapCell = getDestinationMapCell ();
+			tDestinationLocation = getDestinationLocation ();
+			tRemoveDestinationsAction = new RemoveDestinationsAction ();
+			tDestinationMapCell.removeDestination (tDestinationLocation, this, tRemoveDestinationsAction);
+		}
+
 	}
 }
