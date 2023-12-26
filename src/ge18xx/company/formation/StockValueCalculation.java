@@ -16,6 +16,7 @@ import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.StockValueCalculationAction;
@@ -257,6 +258,8 @@ public class StockValueCalculation extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		StockValueCalculationAction tStockValueCalculationAction;
 		String tOperatingRoundID;
+		PlayerManager tPlayerManager;
+		Corporation tFormingCompany;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tStockValueCalculationAction = new StockValueCalculationAction (ActorI.ActionStates.OperatingRound, 
@@ -270,6 +273,11 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		tStockValueCalculationAction.setChainToPrevious (true);
 		gameManager.addAction (tStockValueCalculationAction);
 		gameManager.updateAllFrames ();
+		formationPhase.setFormationState (ActorI.ActionStates.NoState);
+		tFormingCompany = formationPhase.getFormingCompany ();
+		tFormingCompany.setCorporationFrame ();
 		formationPhase.hideFormationPanel ();
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayerManager.setPlayersToNoAction ();
 	}
 }
