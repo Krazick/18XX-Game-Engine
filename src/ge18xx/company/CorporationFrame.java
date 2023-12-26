@@ -1115,23 +1115,27 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tPlaceBaseTileLabel1;
 		String tPlaceBaseTileLabel2;
 
-		tPlaceBaseTileLabel1 = createBaseTileLabel (1);
-		if (corporation.homeMapCell1HasTile ()) {
+		if (corporation.homeMapCell ()) {
+			tPlaceBaseTileLabel1 = createBaseTileLabel (1);
+			if (corporation.homeMapCell1HasTile ()) {
+				placeBaseTileButton1.setVisible (false);
+			} else {
+				placeBaseTileButton1.setText (tPlaceBaseTileLabel1);
+				placeBaseTileButton1.setVisible (true);
+				updateTileButton (placeBaseTileButton1);
+			}
+			tPlaceBaseTileLabel2 = createBaseTileLabel (2);
+			if (corporation.homeMapCell2HasTile () || tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
+				placeBaseTileButton2.setVisible (false);
+			} else {
+				placeBaseTileButton2.setText (tPlaceBaseTileLabel2);
+				placeBaseTileButton2.setVisible (true);
+				updateTileButton (placeBaseTileButton2);
+			}
+		} else {
 			placeBaseTileButton1.setVisible (false);
-		} else {
-			placeBaseTileButton1.setText (tPlaceBaseTileLabel1);
-			placeBaseTileButton1.setVisible (true);
-			updateTileButton (placeBaseTileButton1);
-		}
-		tPlaceBaseTileLabel2 = createBaseTileLabel (2);
-		if (corporation.homeMapCell2HasTile () || tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
 			placeBaseTileButton2.setVisible (false);
-		} else {
-			placeBaseTileButton2.setText (tPlaceBaseTileLabel2);
-			placeBaseTileButton2.setVisible (true);
-			updateTileButton (placeBaseTileButton2);
 		}
-
 	}
 
 	private void updatePlaceTileButton () {
@@ -1231,7 +1235,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTokenLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
+		if (tMapCellID == MapCell.NO_ID) {
+			tBaseTokenLabel = GUI.EMPTY_STRING;
+		} else {
+			tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
+		}
 
 		return tBaseTokenLabel;
 	}
@@ -1241,8 +1249,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTileLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
-
+		if (tMapCellID == MapCell.NO_ID) {
+			tBaseTileLabel = GUI.EMPTY_STRING;
+		} else {
+			tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
+		}
+		
 		return tBaseTileLabel;
 	}
 
