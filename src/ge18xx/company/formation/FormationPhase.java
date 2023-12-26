@@ -703,6 +703,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		if (actingPresident == Player.NO_PLAYER) {
 			tActingCorporation = gameManager.getOperatingCompany ();
+
 			tPresident = tActingCorporation.getPresident ();
 			if (tPresident.isAPlayer ()) {
 				tActingPlayer = (Player) tPresident;
