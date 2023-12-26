@@ -1692,10 +1692,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		tLoadedSaveGame = false;
 		if (aXMLDocument.validDocument ()) {
-			playerManager = new PlayerManager (this); /*
-														 * Create a new Player Manager - repeated openings, should not
-														 * add players to an existing set
-														 */
+			playerManager = new PlayerManager (this); 
+			/** Create a new Player Manager - repeated openings, should not add players to an existing set */
+			
 			activeGame = null;
 
 			tXMLSaveGame = aXMLDocument.getDocumentNode ();
@@ -1718,7 +1717,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				prepareFormationPhase ();
 				showFormationPhaseFrame ();
 			}
-
+			clearClosedCorporations ();
 			fixLoadedRoutes ();
 			updateStartPacket ();
 			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 1)) {
@@ -1730,6 +1729,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tLoadedSaveGame;
 	}
 
+	private void clearClosedCorporations () {
+		CorporationList tShareCompanies;
+		
+		tShareCompanies = getShareCompanies ();
+		tShareCompanies.clearClosedCorporations ();
+	}
+	
 	private void parseChildNode (NodeList aChildren, int aIndex, boolean aGameInitiated) {
 		XMLNode tChildNode;
 		String tChildName;
