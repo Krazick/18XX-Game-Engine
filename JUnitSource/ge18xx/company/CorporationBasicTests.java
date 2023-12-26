@@ -50,6 +50,11 @@ class CorporationBasicTests {
 		public void completeBenefitInUse (Corporation aCorporation) {
 			
 		}
+
+		@Override
+		public int getTrainLimit () {
+			return 2;
+		}
 	}
 
 	CorporationConcrete corporation;
