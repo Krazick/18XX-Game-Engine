@@ -463,7 +463,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tBank = gameManager.getBank ();
 		tBankIPOPortfolio = tBank.getPortfolio ();
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
-		tCorporation = (ShareCompany)gameManager.getCorporationByID (tFormingCompanyID);
+		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tCorporation.isAShareCompany ()) {
 			tFormingCompany = (ShareCompany) tCorporation;
 			tFormingAbbrev = tFormingCompany.getAbbrev ();
@@ -486,6 +486,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			} else {
 				System.err.println ("Share not found");
 			}
+			gameManager.addAction (tTransferOwnershipAction);
 		}
 	}
 	
