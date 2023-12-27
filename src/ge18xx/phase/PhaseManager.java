@@ -268,6 +268,10 @@ public class PhaseManager {
 		}
 	}
 
+	public void setCorporationTriggerFormation (TrainCompany aTrainCompany) {
+		aTrainCompany.setTriggerFormation (true);
+	}
+	
 	public void handleTriggerClass () {
 		String tTriggerClass;
 		
@@ -275,7 +279,6 @@ public class PhaseManager {
 		if (hasTriggerClass ()) {
 			callTriggerClass (tTriggerClass);
 		}
-
 	}
 
 	public void handleTriggerClass (BuyTrainAction aBuyTrainAction) {
