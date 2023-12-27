@@ -6,6 +6,9 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
 import ge18xx.round.action.effects.EndCorpActionsEffect;
+import ge18xx.round.action.effects.SetFormationStateEffect;
+import ge18xx.round.action.effects.ShowFormationPanelEffect;
+import ge18xx.round.action.effects.StartFormationEffect;
 import geUtilities.XMLNode;
 
 public class DoneCorpAction extends Action {
@@ -58,5 +61,27 @@ public class DoneCorpAction extends Action {
 		tSimpleActionReport = actor.getName () + " completed Operations.";
 
 		return tSimpleActionReport;
+	}
+	
+	public void addShowFormationPanelEffect (ActorI aFromActor) {
+		ShowFormationPanelEffect tShowFormationPanelEffect;
+		
+		tShowFormationPanelEffect = new ShowFormationPanelEffect (aFromActor);
+		addEffect (tShowFormationPanelEffect);
+	}
+
+	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
+							ActorI.ActionStates aNewFormationState) {
+		SetFormationStateEffect tSetFormationStateEffect;
+		
+		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
+		addEffect (tSetFormationStateEffect);
+	}
+	
+	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation) {
+		StartFormationEffect tStartFormationEffect;
+
+			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation);
+			addEffect (tStartFormationEffect);
 	}
 }
