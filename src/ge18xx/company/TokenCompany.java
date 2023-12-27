@@ -241,11 +241,6 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-//	@Override
-//	public JLabel buildTokenLabel () {
-//		return new JLabel ("");
-//	}
-//
 	@Override
 	public String getTokenLabel () {
 		return "Token Count: " + getTokenCount ();
