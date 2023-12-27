@@ -69,5 +69,4 @@ public class EndCorpActionsEffect extends Effect {
 
 		return tEffectUndone;
 	}
-
 }
