@@ -830,8 +830,10 @@ public abstract class TokenCompany extends TrainCompany {
 		JLabel tTokens;
 
 		tCorpInfoPanel = super.buildCorpInfoJPanel ();
-		tTokens = new JLabel ("Tokens: " + getTokenCount ());
-		tCorpInfoPanel.add (tTokens);
+		if (isActive ()) {
+			tTokens = new JLabel ("Tokens: " + getTokenCount ());
+			tCorpInfoPanel.add (tTokens);
+		}
 
 		return tCorpInfoPanel;
 	}
