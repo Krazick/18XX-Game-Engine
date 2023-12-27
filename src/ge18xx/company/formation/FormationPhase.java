@@ -133,6 +133,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public FormationPhase (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
 		
+		showFormationFrame ();
+
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
 		boolean tCurrentPlayerDone;
@@ -313,9 +315,13 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tWidth = 1140;
 		tHeight = panelHeight ();
 		formationFrame.setSize (tWidth,  tHeight);
-		formationFrame.showFrame ();
+		showFormationFrame ();
 		
 		setShareFoldCount (0);
+	}
+
+	public void showFormationFrame () {
+		formationFrame.showFrame ();
 	}
 
 	public void updatePlayersState (List<Player> tPlayers, BuyTrainAction aBuyTrainAction) {
@@ -325,7 +331,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tGenericActor = new GenericActor ();
 		for (Player tPlayer : tPlayers) {
-
 			tOldState = tPlayer.getPrimaryActionState ();
 			if (! tGenericActor.isFormationRound (tOldState)) {
 				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
@@ -875,7 +880,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	@Override
 	public void showFormationPanel () {
-		formationFrame.showFrame ();
+		showFormationFrame ();
 	}
 	
 	public void refreshPanel () {
