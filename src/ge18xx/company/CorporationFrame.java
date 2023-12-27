@@ -617,7 +617,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeTokenButton);
 		addButton (operateTrainButton);
 		if (corporation.gameHasLoans ()) {
-			addButton (payLoanInterestButton);
+			if (! corporation.isGovtRailway ()) {
+				addButton (payLoanInterestButton);
+			}
 		}
 		addButton (payNoDividendButton);
 		if (corporation.canPayHalfDividend ()) {
@@ -632,8 +634,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			addButton (buyPrivateButton);
 		}
 		if (corporation.gameHasLoans ()) {
-			addButton (getLoanButton);
-			addButton (redeemLoanButton);
+			if (! corporation.isGovtRailway ()) {
+				addButton (getLoanButton);
+				addButton (redeemLoanButton);
+			}
 		}
 		addButton (doneButton);
 		addButton (undoButton);
