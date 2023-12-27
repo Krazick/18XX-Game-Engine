@@ -264,7 +264,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			corporationInfoJPanel.add (treasuryLabel);
 			setTreasuryLabel ();
-//			tokenLabel = corporation.buildTokenLabel ();
 			if (tokenLabel != GUI.NO_LABEL) {
 				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 				corporationInfoJPanel.add (tokenLabel);
@@ -273,10 +272,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			corporationInfoJPanel.add (lastRevenueLabel);
 			setLastRevenueLabel ();
-			if (corporation.gameHasLoans ()) {
-				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-				corporationInfoJPanel.add (loanCountLabel);
-				setLoanCountLabel ();
+			if (! corporation.isGovtRailway ()) {
+				if (corporation.gameHasLoans ()) {
+					corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
+					corporationInfoJPanel.add (loanCountLabel);
+					setLoanCountLabel ();
+				}
 			}
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			fillCertPortfolioJPanel ();
