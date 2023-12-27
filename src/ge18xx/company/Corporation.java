@@ -109,6 +109,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	int loanInterest = 0;
 	boolean gameTestFlag = false;
 	boolean govtRailway;
+	boolean triggerFormation;
 	int id;
 	String name;
 	String abbrev;
@@ -196,6 +197,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setBenefitInUse (Benefit.FAKE_BENEFIT);
 	}
 
+	public void setTriggerFormation (boolean aTriggerFormation) {
+		triggerFormation = aTriggerFormation;
+	}
+	
+	public boolean getTriggerFormation () {
+		return triggerFormation;
+	}
+	
 	public boolean hasHomeCell () {
 		boolean tHasHomeCell;
 		
