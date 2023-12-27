@@ -18,6 +18,7 @@ import ge18xx.map.Vertex;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.phase.PhaseManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
@@ -1166,15 +1167,25 @@ public class ShareCompany extends TokenCompany {
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
 		JLabel tLoanInfo;
+		GameManager tGameManager;
+		PhaseManager tPhaseManager;
 		
+		
+		tGameManager = corporationList.getGameManager ();
 		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
-		if (gameHasLoans ()) {
-			tLoanInfo = new JLabel ("Loan Count: " + loanCount);
-			tCorpInfoJPanel.add (tLoanInfo);
+		if (isActive ()) {
+			if (gameHasLoans ()) {
+				tPhaseManager = tGameManager.getPhaseManager ();
+				if (tPhaseManager.loansAllowed ()) {
+					tLoanInfo = new JLabel ("Loan Count: " + loanCount);
+					tCorpInfoJPanel.add (tLoanInfo);
+				}
+			}
 		}
 
 		return tCorpInfoJPanel;
 	}
+	
 	
 	@Override
 	public int getCurrentValue () {
