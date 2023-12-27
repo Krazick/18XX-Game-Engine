@@ -451,24 +451,28 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JLabel tEscrowLabel;
 		int tEscrowAmount;
 		GameManager tGameManager;
-		
-		tGameManager = getGameManager ();
-		if (tGameManager.hasDestinations ()) {
-			tEscrowAmount = calculateEscrowToRelease ();
-			if (hasReachedDestination ()) {
-				tEscrowLabel = new JLabel ("Escrow: All Paid");
-			} else {
-				if (tEscrowAmount > 0) {
-					tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
-				} else if (tGameManager.getAlwaysShowEscrow ()) {
-					if (hasReachedDestination ()) {
-						tEscrowLabel = new JLabel ("Escrow: All Paid");
-					} else {
-						tEscrowLabel = new JLabel ("Escrow: No Escrow");
-					}
+
+		if (! isGovtRailway ()) {
+			tGameManager = getGameManager ();
+			if (tGameManager.hasDestinations ()) {
+				tEscrowAmount = calculateEscrowToRelease ();
+				if (hasReachedDestination ()) {
+					tEscrowLabel = new JLabel ("Escrow: All Paid");
 				} else {
-					tEscrowLabel = GUI.NO_LABEL;
+					if (tEscrowAmount > 0) {
+						tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
+					} else if (tGameManager.getAlwaysShowEscrow ()) {
+						if (hasReachedDestination ()) {
+							tEscrowLabel = new JLabel ("Escrow: All Paid");
+						} else {
+							tEscrowLabel = new JLabel ("Escrow: No Escrow");
+						}
+					} else {
+						tEscrowLabel = GUI.NO_LABEL;
+					}
 				}
+			} else {
+				tEscrowLabel = GUI.NO_LABEL;
 			}
 		} else {
 			tEscrowLabel = GUI.NO_LABEL;
@@ -498,18 +502,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JLabel tTreasury;
 		JLabel tTrainList;
 		JLabel tThisRevenue;
-		String tCorpAbbrev;
 		BankPool tBankPool;
 		
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
-		tCorpAbbrev = getAbbrev ();
-		if (hasDestination ()) {
-			if (hasReachedDestination ()) {
-				tCorpAbbrev += "*";
-			}
-		}
-		tCorpLabel = new JLabel (tCorpAbbrev);
+		tCorpLabel = buildCorpNameLabel ();
 		tCorpInfoJPanel.add (tCorpLabel);
 		tStatus = new JLabel ("[" + getStatusName () + "]");
 		tCorpInfoJPanel.add (tStatus);
@@ -538,6 +535,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		return tCorpInfoJPanel;
+	}
+
+	public JLabel buildCorpNameLabel () {
+		JLabel tCorpLabel;
+		String tCorpAbbrev;
+		tCorpAbbrev = getAbbrev ();
+		if (isGovtRailway ()) {
+			tCorpAbbrev += " [Gov't]";
+		} else {
+			if (hasDestination ()) {
+				if (hasReachedDestination ()) {
+					tCorpAbbrev += "*";
+				}
+			}
+		}
+		tCorpLabel = new JLabel (tCorpAbbrev);
+		return tCorpLabel;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {
