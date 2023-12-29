@@ -14,6 +14,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.round.action.ActorI;
+
 @DisplayName ("Portfolio Summary")
 class PortfolioSummaryTest {
 	PortfolioSummary sharePrezPortfolioSummary;
@@ -35,6 +37,7 @@ class PortfolioSummaryTest {
 		boolean tCorporationIsFolding;
 		Border tColorBorder;
 		String tNote;
+		ActorI.ActionStates tStatus;
 
 		tAbbrev = "BnOTest";
 		tType = "Share";
@@ -45,14 +48,17 @@ class PortfolioSummaryTest {
 		tNote = "Test Case Note";
 		tNoTouchPass = false;
 		tCorporationIsFolding = false;
+		tStatus = ActorI.ActionStates.Owned;
 		
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, 
+						tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 
 		tPercentage = 20;
 		tNoTouchPass = true;
-		sharePrezPortfolioSummaryNTP = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+		sharePrezPortfolioSummaryNTP = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
+						tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 		
 		tAbbrev = "NPrezTest";
 		tType = "Share";
@@ -64,7 +70,8 @@ class PortfolioSummaryTest {
 
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, 
+						tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 
 		tAbbrev = "PrivateTest";
 		tType = "Private";
@@ -76,7 +83,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		privatePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, 
-				tIsPresident, tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+						tIsPresident, tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 
 		tAbbrev = "MinorTest";
 		tType = "Minor";
@@ -88,7 +95,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		minorPrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-				tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+						tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 
 		tAbbrev = "MinorNPrezTest";
 		tType = "Minor";
@@ -100,7 +107,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		minorPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-				tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+						tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 	}
 
 	@Test
