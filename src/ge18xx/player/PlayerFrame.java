@@ -677,6 +677,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				} else {
 					exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 				}
+			} if (! hasSelectedPrezToExchange ()) {
+				exchangeButton.setEnabled (false);
+				exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 			} else {
 				exchangeButton.setEnabled (false);
 				exchangeButton.setToolTipText ("Select only a single President Share to Exchange at a time");
