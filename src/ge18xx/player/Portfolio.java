@@ -42,6 +42,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -2036,7 +2037,7 @@ public class Portfolio implements CertificateHolderI {
 		boolean tIsPresident;
 		boolean tHandledCertificate;
 		boolean tCorporationIsFolding;
-		
+		ActorI.ActionStates tStatus;
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
 
@@ -2064,6 +2065,7 @@ public class Portfolio implements CertificateHolderI {
 				tHandledCertificate = false;
 				
 				tCorporation = tCertificate.getCorporation ();
+				tStatus = tCorporation.getStatus ();
 				if (tCorporation.willFold ()) {
 					tCorporationIsFolding = true;
 				}
@@ -2096,7 +2098,7 @@ public class Portfolio implements CertificateHolderI {
 					}
 					tNote = tCorporation.getNote ();
 					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
+							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
 					tPortfolioSummary.add (tASummary);
 				}
 				tCorporationIsFolding = false;
