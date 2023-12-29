@@ -60,6 +60,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	public static AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");
 	public static AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
+	public static AttributeName AN_SECOND_ISSUE = new AttributeName ("secondIssue");
 	public static ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
 	public static String NO_OWNER_NAME = GUI.EMPTY_STRING;
@@ -98,6 +99,7 @@ public class Certificate implements Comparable<Certificate> {
 
 	Corporation corporation;
 	boolean isPresidentShare;
+	boolean secondIssue;
 	int percentage;
 	CertificateHolderI owner;
 	String [] allowedOwners = null;
@@ -110,28 +112,25 @@ public class Certificate implements Comparable<Certificate> {
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners;
-
+		boolean tIsPresidentShare;
+		boolean tSecondIssue;
+		int tPercentage;
+		
 		tAllowedOwners = null;
-		if (AN_DIRECTOR.hasValue ()) {
-			isPresidentShare = aNode.getThisBooleanAttribute (AN_DIRECTOR);
-		} else {
-			System.err.println ("Bad AN_DIRECTOR Object");
-		}
-
-		if (AN_PERCENTAGE.hasValue ()) {
-			percentage = aNode.getThisIntAttribute (AN_PERCENTAGE);
-		} else {
-			System.err.println ("Bad AN_PERCENTAGE Object");
-		}
-		if (AN_ALLOWED_OWNERS.hasValue ()) {
-			tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
-		} else {
-			System.err.println ("Bad AN_ALLOWED_OWNERS Object");
-		}
-
-		if (tAllowedOwners != null) {
+		tIsPresidentShare = aNode.getThisBooleanAttribute (AN_DIRECTOR);
+		setIsPresidentShare (tIsPresidentShare);
+		
+		tSecondIssue = aNode.getThisBooleanAttribute (AN_SECOND_ISSUE);
+		setSecondIssue (tSecondIssue);
+		
+		tPercentage = aNode.getThisIntAttribute (AN_PERCENTAGE);
+		setPercentage (tPercentage);
+		
+		tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
+		if (tAllowedOwners != GUI.NULL_STRING) {
 			allowedOwners = tAllowedOwners.split (",");
 		}
+		
 		setCorporation (aCorporation);
 		setOwner (CertificateHolderI.NO_OWNER);
 		setParValuesCombo (GUI.NO_COMBO_BOX);
@@ -144,9 +143,11 @@ public class Certificate implements Comparable<Certificate> {
 		Corporation tCorporation;
 		
 		if (aCertificate != NO_CERTIFICATE) {
-			isPresidentShare = aCertificate.isPresidentShare ();
-			percentage = aCertificate.getPercentage ();
+			setIsPresidentShare (aCertificate.isPresidentShare ());
+			setSecondIssue (aCertificate.isSecondIssue ());
+			setPercentage (aCertificate.getPercentage ());
 			allowedOwners = aCertificate.allowedOwners.clone ();
+			
 			tCorporation = aCertificate.getCorporation ();
 			setCorporation (tCorporation);
 			setOwner (aCertificate.getOwner ());
@@ -1094,6 +1095,7 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement = aXMLDocument.createElement (EN_CERTIFICATE);
 		tXMLElement.setAttribute (Corporation.AN_ABBREV, corporation.getAbbrev ());
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
+		tXMLElement.setAttribute (AN_SECOND_ISSUE, secondIssue);
 		tXMLElement.setAttribute (AN_PERCENTAGE, percentage);
 		tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);
 		if (tXMLBidders != Bidders.NO_XML_BIDDERS) {
@@ -1371,12 +1373,14 @@ public class Certificate implements Comparable<Certificate> {
 
 	public int calcCertificateValue (int aSharePrice) {
 		float fSinglePercentPrice;
-		int iValue;
+		int tValue;
 
 		fSinglePercentPrice = (float) aSharePrice / PhaseInfo.STANDARD_SHARE_SIZE;
-		iValue = (int) (fSinglePercentPrice * percentage);
-
-		return iValue;
+		tValue = (int) (fSinglePercentPrice * percentage);
+		if (secondIssue) {
+			tValue = tValue + tValue;
+		}
+		return tValue;
 	}
 
 	public boolean hasParPrice () {
@@ -1492,6 +1496,10 @@ public class Certificate implements Comparable<Certificate> {
 
 	public boolean isPresidentShare () {
 		return isPresidentShare;
+	}
+
+	public boolean isSecondIssue () {
+		return secondIssue;
 	}
 
 	public boolean isSelected () {
@@ -1768,6 +1776,10 @@ public class Certificate implements Comparable<Certificate> {
 
 	private void setIsPresidentShare (boolean aIsPresidentShare) {
 		isPresidentShare = aIsPresidentShare;
+	}
+
+	private void setSecondIssue (boolean aSecondIssue) {
+		secondIssue = aSecondIssue;
 	}
 
 	public void sortCorporationCertificates () {
