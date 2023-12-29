@@ -2,6 +2,9 @@ package ge18xx.player;
 
 import javax.swing.border.Border;
 
+import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
+
 public class PortfolioSummary {
 	String abbrev;
 	String type;
@@ -12,6 +15,7 @@ public class PortfolioSummary {
 	boolean noTouchPass;
 	boolean isPresident;
 	boolean willFold;
+	ActorI.ActionStates status;
 	Border corporateColorBorder;
 	public final static String PRIVATE_CORP_TYPE = "Private";
 	public final static String MINOR_CORP_TYPE = "Minor";
@@ -20,7 +24,7 @@ public class PortfolioSummary {
 
 	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, int aPercentBought, 
 			boolean aIsPresident, Border aCorporateColorBorder, String aNote, boolean aNoTouchPass,
-			boolean aWillFold) {
+			boolean aWillFold, ActorI.ActionStates aStatus) {
 		abbrev = aAbbrev;
 		count = aCount;
 		percentage = aPercentage;
@@ -35,6 +39,7 @@ public class PortfolioSummary {
 		note = aNote;
 		type = aType;
 		willFold = aWillFold;
+		status = aStatus;
 	}
 
 	public String getAbbrev () {
@@ -46,7 +51,15 @@ public class PortfolioSummary {
 	}
 
 	public int getPrecentage () {
-		return percentage;
+		int tPercentage;
+		
+		if (status == ActorI.ActionStates.Unformed) {
+			tPercentage = 100;
+		} else {
+			tPercentage = percentage;
+		}
+
+		return tPercentage;
 	}
 
 	public String getType () {
@@ -107,10 +120,10 @@ public class PortfolioSummary {
 			if (percentBought > 0) {
 				tGetPercentageText = tPercentCanSell + "% + " + percentBought + "%";
 			} else {
-				tGetPercentageText = percentage + "%";
+				tGetPercentageText = getPrecentage () + "%";
 			}
 		} else {
-			tGetPercentageText = percentage + "%";
+			tGetPercentageText = getPrecentage () + "%";
 		}
 		
 		return tGetPercentageText;
@@ -119,12 +132,16 @@ public class PortfolioSummary {
 	private String getCertCountText () {
 		String tCertCountText;
 
-		tCertCountText = count + " Cert";
-		if (count > 1) {
-			tCertCountText += "s";
+		if (status == ActorI.ActionStates.Unformed) {
+			tCertCountText = GUI.EMPTY_STRING;
+		} else {
+			tCertCountText = count + " Cert";
+			if (count > 1) {
+				tCertCountText += "s";
+			}
+			tCertCountText += "/";
 		}
-		tCertCountText += "/";
-
+		
 		return tCertCountText;
 	}
 
