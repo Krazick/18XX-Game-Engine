@@ -62,6 +62,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String SKIP_BASE_TOKEN = "Skip Base Token";
 	static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile Available";
+	static final String BORROW_TRAIN = "Borrow Train";
+	static final String NOT_GOVERNMENT_RAILWAY = "This is NOT a Government Railway";
 	static final String OPERATE_TRAIN = "Operate Train";
 	static final String OPERATE_TRAINS = "Operate Trains";
 	static final String NO_TRAINS_TO_OPERATE = "No Trains to Operate";
@@ -117,6 +119,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton placeTokenButton;
 	KButton placeBaseTokenButton1;
 	KButton placeBaseTokenButton2;
+	KButton borrowTrainButton;
 	KButton operateTrainButton;
 	KButton payFullDividendButton;
 	KButton payHalfDividendButton;
@@ -468,6 +471,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.showMap ();
 			corporation.skipBaseToken ();
 		}
+		if (BORROW_TRAIN.equals (tCommand)) {
+			corporation.borrowTrain ();
+		}
 		if (OPERATE_TRAIN.equals (tCommand)) {
 			corporation.showMap ();
 			corporation.operateTrains ();
@@ -589,6 +595,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		placeBaseTokenButton2 = setupButton (tPlaceBaseTokenLabel, PLACE_BASE_TOKEN);
 		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
+		borrowTrainButton = setupButton (BORROW_TRAIN, BORROW_TRAIN);
 		operateTrainButton = setupButton (OPERATE_TRAIN, OPERATE_TRAIN);
 		payNoDividendButton = setupButton (PAY_NO_DIVIDEND, PAY_NO_DIVIDEND);
 		payHalfDividendButton = setupButton (PAY_HALF_DIVIDEND, PAY_HALF_DIVIDEND);
@@ -616,6 +623,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeBaseTokenButton1);
 		addButton (placeBaseTokenButton2);
 		addButton (placeTokenButton);
+		addButton (borrowTrainButton);
 		addButton (operateTrainButton);
 		if (corporation.gameHasLoans ()) {
 			if (! corporation.isGovtRailway ()) {
@@ -864,6 +872,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updatePlaceTileButton ();
 		updatePlaceBaseTokenButtons ();
 		updatePlaceTokenButton ();
+		updateBorrowTrainButton ();
 		updateOperateTrainButton (tTrainCount);
 		if (corporation.gameHasLoans ()) {
 			updateGetLoanButton ();
@@ -1535,6 +1544,44 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateButton (buyTrainButton, aEnable, tToolTip);
 	}
 
+	private void updateBorrowTrainButton () {
+		String tToolTip;
+		boolean tEnable;
+		boolean tVisible;
+		
+		tVisible = false;
+		if (corporation.isPlaceTileMode ()) {
+			tEnable = false;
+			tToolTip = "Is in Place Tile Mode, can't Borrow Train";
+		} else if (corporation.isPlaceTokenMode ()) {
+			tEnable = false;
+			tToolTip = "Is in Place Token Mode, can't Borrow Train";
+		} else if (corporation.didOperateTrains ()) {
+			tEnable = false;
+			tToolTip = "Trains have operated, can't Borrow Train";
+		} else if (corporation.didOperateTrains ()) {
+			tEnable = false;
+			tToolTip = "Trains have operated, can't Borrow Train";
+		} else if (corporation.dividendsHandled ()) {
+			tEnable = false;
+			tToolTip = "Dividends have been handled, can't Borrow Train";
+		} else if (corporation.isGovtRailway ()) {
+			if (corporation.hasPermanentTrain ()) {
+				tEnable = false;
+				tToolTip = "Is a Gov't Railway with a Permanent Train";
+			} else {
+				tEnable = true;
+				tToolTip = "Is a Gov't Railway with no Permanent Train";
+				tVisible = true;
+			}
+		} else {
+			tEnable = false;
+			tToolTip = NOT_GOVERNMENT_RAILWAY;
+		}
+		updateButton (borrowTrainButton, tEnable, tToolTip);
+		borrowTrainButton.setVisible (tVisible);
+	}
+	
 	private void updateOperateTrainButton (int aTrainCount) {
 		String tToolTip;
 		String tButtonLabel;
