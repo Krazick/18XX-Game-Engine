@@ -2527,6 +2527,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public Coupon getCheapestBankTrain () {
 		return Train.NO_TRAIN;
 	}
+	
+	public Coupon getCheapestPermanentBankTrain () {
+		return Train.NO_TRAIN;
+	}
 
 	// Train Company will Override these
 	public void setMustBuyTrain (boolean aMustBuyTrain) {
