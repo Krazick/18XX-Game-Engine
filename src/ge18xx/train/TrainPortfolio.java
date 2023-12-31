@@ -220,6 +220,47 @@ public class TrainPortfolio implements TrainHolderI {
 		return aTrainIndex;
 	}
 
+	public int getTrainCount () {
+		return trains.size ();
+	}
+
+	public boolean hasNoTrain () {
+		boolean tHasTrains;
+		
+		tHasTrains = false;
+		if (trains != NO_TRAINS) {
+			tHasTrains = (getTrainCount () == 0);
+		}
+		
+		return tHasTrains;
+	}
+
+	public boolean hasTrains () {
+		boolean tHasTrains;
+		
+		tHasTrains = false;
+		if (trains != NO_TRAINS) {
+			tHasTrains = (getTrainCount () > 0);
+		}
+		
+		return tHasTrains;
+	}
+	
+	public boolean hasPermanentTrain () {
+		boolean tHasPermanentTrain;
+		
+		tHasPermanentTrain = false;
+		if (hasTrains ()) {
+			for (Train tTrain : trains) {
+				if (tTrain.isPermanent ()) {
+					tHasPermanentTrain = true;
+				}
+			}
+		}
+		
+		return tHasPermanentTrain;
+	}
+
 	public void clearCurrentRoutes () {
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
@@ -359,7 +400,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCount;
 
 		tCount = 0;
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isSelected ()) {
 					tCount++;
@@ -375,7 +416,7 @@ public class TrainPortfolio implements TrainHolderI {
 		Train tSelectedTrain;
 
 		tSelectedTrain = Train.NO_TRAIN;
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isSelected ()) {
 					tSelectedTrain = tTrain;
@@ -384,14 +425,6 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 
 		return tSelectedTrain;
-	}
-
-	public int getTrainCount () {
-		return trains.size ();
-	}
-
-	public boolean hasNoTrain () {
-		return (getTrainCount () == 0);
 	}
 
 	public Coupon getTrainOfOrder (int aOrder) {
@@ -455,6 +488,35 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrain;
 	}
 
+	public Train getLastTrain () {
+		int tTrainCount;
+		Train tLastTrain;
+		
+		tTrainCount = getTrainCount ();
+		tLastTrain = getTrainAt (tTrainCount - 1);
+		trains.remove (tTrainCount - 1);
+		
+		return tLastTrain;
+	}
+	
+	public Train getBorrowedTrain () {
+		Train tBorrowedTrain;
+		Train tTrain;
+		int tIndex;
+		int tCount;
+		
+		tCount = trains.size ();
+		tBorrowedTrain = Train.NO_TRAIN;
+		for (tIndex = 0; tIndex < tCount; tIndex++) {
+			tTrain = trains.get (tIndex);
+			if (tTrain.isBorrowed ()) {
+				tBorrowedTrain = trains.remove (tIndex);
+			}
+		}
+
+		return tBorrowedTrain;
+	}
+	
 	public String getTrainAndQty (String aName, int aQty) {
 		String tNameAndQty;
 
