@@ -375,7 +375,8 @@ public class ShareExchange extends PlayerFormationPhase {
 		Certificate tHalfPresidentCertificate;
 		Certificate tExchangeCertificate;
 		Portfolio tPlayerPortfolio;
-
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		Bank tBank;
 		int tOwnedPercentage;
 		int tPresidentPercentage;
@@ -403,6 +404,10 @@ public class ShareExchange extends PlayerFormationPhase {
 				formationPhase.setFormingPresidentAssigned  (true);
 			}
 		}
+		tOldState = aFormingCompany.getStatus ();
+		aFormingCompany.resetStatus (ActorI.ActionStates.Owned);
+		tNewState = aFormingCompany.getStatus ();
+		aTransferOwnershipAction.addChangeCorporationStatusEffect (aFormingCompany, tOldState, tNewState);
 	}
 	
 	public void handleIPOShareClosing () {
