@@ -2,6 +2,7 @@ package ge18xx.player;
 
 import ge18xx.phase.PhaseInfo;
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 //
@@ -20,6 +21,7 @@ public class PlayerInfo {
 	static final int NO_PLAYERS = 0;
 	static final int NO_CASH = 0;
 	static final int NO_LIMIT = 0;
+	static final String NO_PHASE = GUI.EMPTY_STRING;
 	static final String ALL_PHASES = "0";
 	static final int NO_COMPANIES = 0;
 	static final int COMPANIES_CLOSED = -1;
@@ -31,7 +33,10 @@ public class PlayerInfo {
 	int companyCount;
 
 	public PlayerInfo (XMLNode aCellNode) {
-		int tNumPlayers, tStartingCash, tCertificateLimit, tCompanyCount;
+		int tNumPlayers;
+		int tStartingCash;
+		int tCertificateLimit;
+		int tCompanyCount;
 		String tPhases;
 
 		tNumPlayers = aCellNode.getThisIntAttribute (AN_NUM_PLAYERS);
@@ -54,6 +59,42 @@ public class PlayerInfo {
 		return startingCash;
 	}
 
+	public int getCompanyCount () {
+		return companyCount;
+	}
+	
+	public String getPhases () {
+		return phases;
+	}
+	
+	public int getPhaseCount () {
+		int tPhaseCount;
+		String tPhases [];
+		
+		tPhaseCount = 1;
+		if (! phases.equals (ALL_PHASES)) {
+
+			tPhases = phases.split (",");
+			tPhaseCount = tPhases.length;
+		}
+		
+		return tPhaseCount;
+	}
+	
+	public String getPhase (int aIndex) {
+		String tPhase;
+		String tPhases [];
+		
+		tPhases = phases.split (",");
+		if ((aIndex < 0) || (aIndex > tPhases.length)) {
+			tPhase = NO_PHASE;
+		} else {
+			tPhase = tPhases [0];
+		}
+		
+		return tPhase;
+	}
+	
 	public void setValues (int aNumPlayers, int aStartingCash, int aCertificateLimit, String aPhases,
 			int aCompanyCount) {
 		numberPlayers = aNumPlayers;
