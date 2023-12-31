@@ -41,6 +41,10 @@ public class PhaseManager {
 		gameManager = aGameManager;
 	}
 	
+	public GameManager getGameManager () {
+		return gameManager;
+	}
+	
 	public void addPhase (PhaseInfo aPhase) {
 		if (phases == NO_PHASES) {
 			System.err.println ("Phases Linked List not Initialized");
