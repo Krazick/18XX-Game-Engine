@@ -188,6 +188,10 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return trainPortfolio.getCheapestTrain ();
 	}
 
+	public Coupon getCheapestPermanentTrain () {
+		return trainPortfolio.getCheapestPermanentTrain ();
+	}
+	
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
