@@ -357,6 +357,27 @@ public class TrainPortfolio implements TrainHolderI {
 
 		return tCheapestTrain;
 	}
+	
+	public Train getCheapestPermanentTrain () {
+		Train tCheapestPermanentTrain;
+
+		tCheapestPermanentTrain = Train.NO_TRAIN;
+		for (Train tTrain : trains) {
+			if (tCheapestPermanentTrain == Train.NO_TRAIN) {
+				if (tTrain.isPermanent ()) {
+					tCheapestPermanentTrain = tTrain;
+				}
+			} else {
+				if (tTrain.getPrice () < tCheapestPermanentTrain.getPrice ()) {
+					if (tTrain.isPermanent ()) {
+						tCheapestPermanentTrain = tTrain;
+					}
+				}
+			}
+		}
+
+		return tCheapestPermanentTrain;
+	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		return getElements (aXMLDocument, EN_TRAIN_PORTFOLIO);
