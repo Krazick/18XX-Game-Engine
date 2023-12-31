@@ -421,7 +421,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
-		if (! trainPortfolio.hasNoTrain ()) {
+		if (! hasNoTrain ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
@@ -1670,6 +1670,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
 			}
+			if (isGovtRailway ()) {
+				returnBorrowedTrain ();
+			}
+
 			/*
 			 * If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			 * is paid
@@ -1695,6 +1699,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void payHalfDividend () {
+		if (isGovtRailway ()) {
+			returnBorrowedTrain ();
+		}
 		// TODO -- Implement Half Pay Dividend for 1870 GITHUB Issue GE # 169
 	}
 	
@@ -1726,6 +1733,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (tRevenueGenerated > 0) {
 				// Pay the Dividend to the Stock Holders not the TrainCompany (this)
 				payShareHolders (tPayFullDividendAction, tOperatingRoundPart2);
+			}
+			if (isGovtRailway ()) {
+				returnBorrowedTrain ();
 			}
 			// If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			// is paid
@@ -2389,6 +2399,44 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	public boolean hasFloated () {
 		return false;
+	}
+	
+	@Override
+	public boolean hasPermanentTrain () {
+		return trainPortfolio.hasPermanentTrain  ();
+	}
+
+	@Override
+	public void borrowTrain () {
+		Bank tBank;
+		TrainPortfolio tBankTrainPortfolio;
+		Train tTrain;
+		
+		tBank = corporationList.getBank ();
+		tBankTrainPortfolio = tBank.getTrainPortfolio ();
+		tTrain = tBankTrainPortfolio.getLastTrain ();
+		if (tTrain == Train.NO_TRAIN) {
+			System.err.println ("Selected Borrow Train Button, but could not get Last Train");
+		} else {
+			System.out.println ("Selected Borrow Train Button, found the Last train is a " + tTrain.getName ());
+			tTrain.setBorrowed (true);
+			trainPortfolio.addTrain (tTrain);
+		}
+	}
+	
+	public void returnBorrowedTrain () {
+		Train tBorrowedTrain;
+		Bank tBank;
+		TrainPortfolio tBankTrainPortfolio;
+		
+		tBank = corporationList.getBank ();
+		tBankTrainPortfolio = tBank.getTrainPortfolio ();
+		tBorrowedTrain = trainPortfolio.getBorrowedTrain ();
+		System.out.println ("Ready to return BorrowedTrain " + tBorrowedTrain.getName ());
+		tBorrowedTrain.setBorrowed (false);
+		tBorrowedTrain.clearPreviousRoute ();
+		tBorrowedTrain.clearRouteInformation ();
+		tBankTrainPortfolio.addTrain (tBorrowedTrain);
 	}
 	
 	public void setDestinationCapitalizationLevel () {
