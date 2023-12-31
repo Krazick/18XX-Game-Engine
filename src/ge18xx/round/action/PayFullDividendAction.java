@@ -47,7 +47,7 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
 	}
-
+	
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
