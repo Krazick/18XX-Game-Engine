@@ -1,9 +1,13 @@
 package ge18xx.round.action;
 
+import ge18xx.bank.Bank;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.effects.ChangeMarketCellEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.ReturnTrainEffect;
+import ge18xx.train.Train;
 import geUtilities.GUI;
 import geUtilities.XMLNode;
 
@@ -32,6 +36,14 @@ public class ChangeMarketCellAction extends TransferOwnershipAction {
 		tChangeMarketCellEffect = new ChangeMarketCellEffect (aActor, aStartMarketCell, aStartLocation, aNewMarketCell,
 				aNewLocation);
 		addEffect (tChangeMarketCellEffect);
+	}
+
+
+	public void addReturnTrainEffect (TrainCompany aTrainCompany, Train aTrain, Bank aBank) {
+		ReturnTrainEffect tReturnTrainEffect;
+		
+		tReturnTrainEffect = new ReturnTrainEffect (aTrainCompany, aTrain, aBank);
+		addEffect (tReturnTrainEffect);
 	}
 
 	public String getNewCellCoordinates () {
