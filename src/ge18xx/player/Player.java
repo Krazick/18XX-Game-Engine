@@ -194,7 +194,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tFullTitle = aGameManager.createFrameTitle ("Player");
 		playerFrame = new PlayerFrame (tFullTitle, this, aGameManager);
 		aGameManager.addNewFrame (playerFrame);
-		playerFrame.setFrameToConfigDetails ( aGameManager, XMLFrame.getVisibileOFF ());
+		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
 	}
 
 	public MessageBean getBean () {
