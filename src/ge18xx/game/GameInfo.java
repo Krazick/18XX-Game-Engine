@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.company.CorporationList;
 import ge18xx.game.variants.Variant;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.game.variants.VariantToggle;
@@ -572,18 +573,53 @@ public class GameInfo {
 
 	public int getCertificateLimit (int aNumPlayers) {
 		int tCertificateLimit;
-		int tIndex, tPlayerInfoCount;
+		int tIndex;
+		int tPlayerInfoCount;
+		int tPhaseCount;
+		PlayerInfo tPlayerInfo;
 
 		tCertificateLimit = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
-				if (aNumPlayers == players [tIndex].getNumPlayers ()) {
-					tCertificateLimit = players [tIndex].getCertificateLimit ();
+				tPlayerInfo = players [tIndex];
+				if (aNumPlayers == tPlayerInfo.getNumPlayers ()) {
+					tPhaseCount = tPlayerInfo.getPhaseCount ();
+					if (tPhaseCount == 1) {
+						tCertificateLimit = tPlayerInfo.getCertificateLimit ();
+					} else {
+						tCertificateLimit = getCertificateLimitCompanies (tPlayerInfo);
+					}
 				}
 			}
 		}
 
+		return tCertificateLimit;
+	}
+
+	public int getCertificateLimitCompanies (PlayerInfo aPlayerInfo) {
+		PhaseInfo tCurrentPhaseInfo;
+		String tCurrentPhaseName;
+		String tPhaseName;
+		int tCertificateLimit;
+		int tCompanyCount;
+		GameManager tGameManager;
+		CorporationList tShareCompanies;
+		
+		tCertificateLimit = 100;
+		tPhaseName = aPlayerInfo.getPhase (0);
+		tCurrentPhaseInfo = phaseManager.getCurrentPhaseInfo ();
+		tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
+		if (tPhaseName.equals (tCurrentPhaseName)) {
+			tGameManager = phaseManager.getGameManager ();
+			tShareCompanies = tGameManager.getShareCompanies ();
+			tCompanyCount = tShareCompanies.getCountOfOpen ();
+			if (aPlayerInfo.getCompanyCount () == tCompanyCount) {
+				tCertificateLimit = aPlayerInfo.getCertificateLimit ();
+			}
+		}
+		System.out.println ("Current Phase Name " + tCurrentPhaseName + " looking at " + tPhaseName + ", Limit " + tCertificateLimit);
+		
 		return tCertificateLimit;
 	}
 
