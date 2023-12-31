@@ -72,6 +72,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	FrameButton frameButton;
 	JLabel costLabel;
 	boolean operating;
+	boolean borrowed;
 	RouteInformation currentRouteInformation;
 	RouteInformation previousRouteInformation;
 
@@ -90,10 +91,12 @@ public class Train extends Coupon implements Comparable<Object> {
 	public Train (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice) {
 		super (aName, aPrice);
 		setValues (aOrder, aGauge, aMajorCity, aMinorCity);
+		setBorrowed (false);
 	}
 
 	public Train (Train aTrain) {
-		this (aTrain.getName (), aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, aTrain.getPrice ());
+		this (aTrain.getName (), aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, 
+			aTrain.getPrice ());
 		setStatus (aTrain.getStatus ());
 		setTrainInfo (aTrain.getTrainInfo ());
 	}
@@ -479,6 +482,14 @@ public class Train extends Coupon implements Comparable<Object> {
 		trainInfo.setUnlimited ();
 	}
 
+	/** Set the Borrow Flag to the provided value 
+	 * 
+	 * @param aBorrowed
+	 */
+	public void setBorrowed (boolean aBorrowed) {
+		borrowed = aBorrowed;
+	}
+	
 	public void setValues (int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity) {
 		gauge = aGauge;
 		order = aOrder;
@@ -496,6 +507,10 @@ public class Train extends Coupon implements Comparable<Object> {
 		operating = aOperating;
 	}
 
+	public boolean isBorrowed () {
+		return borrowed;
+	}
+	
 	public boolean isOperating () {
 		return operating;
 	}
