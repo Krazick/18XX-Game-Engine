@@ -62,7 +62,7 @@ public class GameTile {
 		tIsUpgradeAllowed = true;
 		for (Upgrade tUpgrade : upgrades) {
 			if (tUpgrade.getTileNumber () == aToTileNumber) {
-				tPhaseNumber = "" + aPhase;
+				tPhaseNumber = "" + (aPhase + 1);
 				tIsUpgradeAllowed = tUpgrade.containsPhase (tPhaseNumber);
 			}
 		}
