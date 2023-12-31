@@ -1095,8 +1095,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					}
 				}
 			} else {
-				payNoDividendButton.setEnabled (false);
-				tToolTip = corporation.reasonForNoDividendOptions ();
+				if (corporation.isGovtRailway ()) {
+					if (aTrainCount == 0) {
+						payNoDividendButton.setEnabled (false);
+						tToolTip = "Government Railay with no train - MUST - Borrow a Train and Operate";
+					} else {
+						payNoDividendButton.setEnabled (false);
+						tToolTip = corporation.reasonForNoDividendOptions ();
+					}
+				} else {
+					payNoDividendButton.setEnabled (false);
+					tToolTip = corporation.reasonForNoDividendOptions ();
+				}
 			}
 		} else {
 			payNoDividendButton.setEnabled (false);
@@ -1566,13 +1576,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tEnable = false;
 			tToolTip = "Dividends have been handled, can't Borrow Train";
 		} else if (corporation.isGovtRailway ()) {
-			if (corporation.hasPermanentTrain ()) {
-				tEnable = false;
-				tToolTip = "Is a Gov't Railway with a Permanent Train";
-			} else {
+			if (corporation.hasNoTrain ()) {
 				tEnable = true;
-				tToolTip = "Is a Gov't Railway with no Permanent Train";
+				tToolTip = "Is a Gov't Railway with no Train";
 				tVisible = true;
+			} else {
+				tEnable = false;
+				tVisible = false;
+				tToolTip = "Is a Gov't Railway with a Train";
 			}
 		} else {
 			tEnable = false;
