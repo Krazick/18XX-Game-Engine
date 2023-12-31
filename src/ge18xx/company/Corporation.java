@@ -2900,5 +2900,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 	
+	public boolean hasPermanentTrain () {
+		return false;
+	}
+
+	public void borrowTrain () {
+		
+	}
+	
 	public abstract int getTrainLimit ();
 }
