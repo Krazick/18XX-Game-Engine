@@ -26,8 +26,10 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.ShareHolders;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.BorrowTrainAction;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.CashTransferAction;
+import ge18xx.round.action.ChangeMarketCellAction;
 import ge18xx.round.action.ClearATrainFromMapAction;
 import ge18xx.round.action.ClearAllRoutesAction;
 import ge18xx.round.action.FloatCompanyAction;
@@ -768,12 +770,38 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tMustBuyTrainNow;
 
 		if (mustBuyTrain && hasNoTrain ()) {
-			tMustBuyTrainNow = true;
+			if (isGovtRailway ()) {
+				if (hasPermanentTrain ()) {
+					tMustBuyTrainNow = false;
+				} else if (canBuyPermanentTrain ()) {
+					tMustBuyTrainNow = true;
+				} else {
+					tMustBuyTrainNow = false;
+				}
+			} else {
+				tMustBuyTrainNow = true;
+			}
 		} else {
 			tMustBuyTrainNow = false;
 		}
 
 		return tMustBuyTrainNow;
+	}
+	
+	public boolean canBuyPermanentTrain () {
+		boolean tCanBuyPermanentTrain;
+		Coupon tTrain;
+		int tPrice;
+		
+		tTrain = getCheapestPermanentBankTrain ();
+		tPrice = tTrain.getPrice ();
+		if (this.treasury >= tPrice) {
+			tCanBuyPermanentTrain = true;
+		} else {
+			tCanBuyPermanentTrain = false;
+		}
+		
+		return tCanBuyPermanentTrain;
 	}
 	
 	public void setGovtRailway (boolean aGovtRailway) {
@@ -793,12 +821,50 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void setHasLaidTile (boolean aHasLaidTile) {
 		hasLaidTile = aHasLaidTile;
 	}
+	
+	@Override
+	public Coupon getCheapestPermanentBankTrain () {
+		Coupon tCheapestPermanentTrain = Train.NO_TRAIN;
+		Coupon tBankPoolPermanentTrain;
+		Coupon tBankPermanentTrain;
+		int tBankPoolTrainCost;
+		int tBankTrainCost;
+		BankPool tBankPool;
+		Bank tBank;
+
+		tBankPool = corporationList.getBankPool ();
+		tBankPoolPermanentTrain = tBankPool.getCheapestPermanentTrain ();
+		tBank = corporationList.getBank ();
+		tBankPermanentTrain = tBank.getCheapestPermanentTrain ();
+		if (tBankPoolPermanentTrain != Train.NO_TRAIN) {
+			tBankPoolTrainCost = tBankPoolPermanentTrain.getPrice ();
+		} else {
+			tBankPoolTrainCost = INFINITE_PRICE;
+		}
+		if (tBankPermanentTrain != Train.NO_TRAIN) {
+			tBankTrainCost = tBankPermanentTrain.getPrice ();
+		} else {
+			tBankTrainCost = INFINITE_PRICE;
+		}
+		// TODO: Determine if BankPool Train and BankTrain cost is the same, which train
+		// to buy?
+		// Provide choice where to buy from?
+		if (tBankPoolTrainCost < tBankTrainCost) {
+			tCheapestPermanentTrain = tBankPoolPermanentTrain;
+		} else {
+			tCheapestPermanentTrain = tBankPermanentTrain;
+		}
+
+		return tCheapestPermanentTrain;
+	}
 
 	@Override
 	public Coupon getCheapestBankTrain () {
 		Coupon tCheapestTrain = Train.NO_TRAIN;
-		Coupon tBankPoolTrain, tBankTrain;
-		int tBankPoolTrainCost, tBankTrainCost;
+		Coupon tBankPoolTrain;
+		Coupon tBankTrain;
+		int tBankPoolTrainCost;
+		int tBankTrainCost;
 		BankPool tBankPool;
 		Bank tBank;
 
@@ -1643,6 +1709,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void payNoDividend () {
 		boolean tStatusUpdated;
+		boolean tMovementStock;
 		int tRevenueGenerated;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
@@ -1670,8 +1737,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
 			}
+			tMovementStock = true;
 			if (isGovtRailway ()) {
-				returnBorrowedTrain ();
+				returnBorrowedTrain (tPayNoDividendAction);
+				if (!hasPermanentTrain ()) {
+					tMovementStock = false;
+				}
 			}
 
 			/*
@@ -1680,7 +1751,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			 */
 			if (isAShareCompany ()) {
 				tShareCompany = (ShareCompany) this;
-				tShareCompany.payNoDividendAdjustment (tPayNoDividendAction);
+				if (tMovementStock) {
+					tShareCompany.payNoDividendAdjustment (tPayNoDividendAction);
+				}
 			} 
 			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tPayNoDividendAction);
@@ -1699,8 +1772,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void payHalfDividend () {
+		PayFullDividendAction tPayFullDividendAction;
+		String tOperatingRoundID;
+		
 		if (isGovtRailway ()) {
-			returnBorrowedTrain ();
+			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+					this);
+			returnBorrowedTrain (tPayFullDividendAction);
 		}
 		// TODO -- Implement Half Pay Dividend for 1870 GITHUB Issue GE # 169
 	}
@@ -1735,7 +1814,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				payShareHolders (tPayFullDividendAction, tOperatingRoundPart2);
 			}
 			if (isGovtRailway ()) {
-				returnBorrowedTrain ();
+				returnBorrowedTrain (tPayFullDividendAction);
 			}
 			// If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			// is paid
@@ -2408,13 +2487,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void borrowTrain () {
-		Bank tBank;
+		BorrowTrainAction tBorrowTrainAction;
+		OperatingRound tOperatingRound;
 		TrainPortfolio tBankTrainPortfolio;
 		Train tTrain;
+		Bank tBank;
 		
 		tBank = corporationList.getBank ();
 		tBankTrainPortfolio = tBank.getTrainPortfolio ();
 		tTrain = tBankTrainPortfolio.getLastTrain ();
+		tOperatingRound = corporationList.getOperatingRound ();
+		tBorrowTrainAction = new BorrowTrainAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tBorrowTrainAction.addBorrowTrainEffect (tBank, tTrain, this);
 		if (tTrain == Train.NO_TRAIN) {
 			System.err.println ("Selected Borrow Train Button, but could not get Last Train");
 		} else {
@@ -2422,9 +2506,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tTrain.setBorrowed (true);
 			trainPortfolio.addTrain (tTrain);
 		}
+		tOperatingRound.addAction (tBorrowTrainAction);
 	}
 	
-	public void returnBorrowedTrain () {
+	public void returnBorrowedTrain (ChangeMarketCellAction aChangeMarketCellAction) {
 		Train tBorrowedTrain;
 		Bank tBank;
 		TrainPortfolio tBankTrainPortfolio;
@@ -2432,11 +2517,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBank = corporationList.getBank ();
 		tBankTrainPortfolio = tBank.getTrainPortfolio ();
 		tBorrowedTrain = trainPortfolio.getBorrowedTrain ();
-		System.out.println ("Ready to return BorrowedTrain " + tBorrowedTrain.getName ());
-		tBorrowedTrain.setBorrowed (false);
-		tBorrowedTrain.clearPreviousRoute ();
-		tBorrowedTrain.clearRouteInformation ();
-		tBankTrainPortfolio.addTrain (tBorrowedTrain);
+		if (tBorrowedTrain != Train.NO_TRAIN) {
+			System.out.println ("Ready to return BorrowedTrain " + tBorrowedTrain.getName ());
+			tBorrowedTrain.setBorrowed (false);
+			tBorrowedTrain.clearPreviousRoute ();
+			tBorrowedTrain.clearRouteInformation ();
+			tBankTrainPortfolio.addTrain (tBorrowedTrain);
+			aChangeMarketCellAction.addReturnTrainEffect (this, tBorrowedTrain, tBank);
+		}
 	}
 	
 	public void setDestinationCapitalizationLevel () {
