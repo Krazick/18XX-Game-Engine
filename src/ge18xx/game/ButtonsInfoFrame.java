@@ -277,7 +277,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 		}
 	}
 
-	private void addRow (int aButtonNumber, String aButtonDescription, boolean aEnabled, String aToolTipText) {
+	private void addRow (int aButtonNumber, String aButtonDescription, boolean aEnabled, 
+						String aToolTipText) {
 		buttonModel.addRow (new Object [] { aButtonNumber, aButtonDescription, aEnabled, aToolTipText });
 	}
 
