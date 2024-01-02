@@ -15,6 +15,7 @@ public class Capitalization {
 	public static final int FULL_CAPITALIZATION = 10;
 	public static final int INCREMENTAL_5_MAX = 5;
 	public static final int INCREMENTAL_10_MAX = 10;
+	public static final Capitalization NO_CAPITALIZATION = null;
 	public static final ElementName EN_CAPITALIZATIONS = new ElementName ("Capitalizations");
 	public static final ElementName EN_CAPITALIZATION = new ElementName ("Capitalization");
 	public static final AttributeName AN_AVAILABLE_TRAIN = new AttributeName ("availableTrain");
@@ -45,8 +46,18 @@ public class Capitalization {
 	}
 
 	public void printInfo (String aGameName) {
-		System.out.println ("Capitalization Info for " + aGameName + ":");		// PRINTLOG
-		System.out.println (levels.toString ());
+		String tItemInfo;
+		
+		tItemInfo = getInfo (aGameName);
+		System.out.println (tItemInfo);
+	}
+	
+	public String getInfo (String aGameName) {
+		String tItemInfo;
+		
+		tItemInfo = "Capitalization Info for " + aGameName + ":\n" + levels.toString ();
+		
+		return tItemInfo;
 	}
 	
 	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
