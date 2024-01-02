@@ -33,6 +33,8 @@
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/commons-io/commons-io/2.6/commons-io-2.6.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/net/bytebuddy/byte-buddy/1.12.18/byte-buddy-1.12.18.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.18/byte-buddy-agent-1.12.18.jar"/>
+            <fileset dir="/Users/marksmith/git/GameEngineUtilities/Game Engine Utilities/target/classes"/>
+            <fileset dir="${dir.workspace}/JARS/mockito"/>
         </jar>
     </target>
 </project>
