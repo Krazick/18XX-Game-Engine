@@ -292,6 +292,7 @@ public class OperatingRound extends Round {
 
 	public int getNextCompanyToOperate (CorporationList aTrainCompanies) {
 		TrainCompany tTrainCompany;
+		ShareCompany tShareCompany;
 		int tNextCompanyToOperate;
 		int tStartingTreasury;
 		
@@ -300,9 +301,14 @@ public class OperatingRound extends Round {
 			tTrainCompany = (TrainCompany) aTrainCompanies.getCorporation (tNextCompanyToOperate);
 			if (! tTrainCompany.hasFloated () ) {
 				if (tTrainCompany.shouldFloat ()) {
-					tTrainCompany.setDestinationCapitalizationLevel ();
-					tStartingTreasury = tTrainCompany.calculateStartingTreasury ();
-					tTrainCompany.floatCompany (tStartingTreasury);
+					if (tTrainCompany.isAShareCompany ()) {
+						tShareCompany = (ShareCompany) tTrainCompany;
+						tShareCompany.setDestinationCapitalizationLevel ();
+						tStartingTreasury = tShareCompany.calculateStartingTreasury ();
+						tShareCompany.floatCompany (tStartingTreasury);
+					} else {
+						System.err.println ("The Train Company trying to float is not a Share Company");
+					}
 				} else {
 					tNextCompanyToOperate =  CorporationList.NO_CORPORATION_INDEX;
 				}
