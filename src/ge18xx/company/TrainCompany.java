@@ -2526,8 +2526,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aChangeMarketCellAction.addReturnTrainEffect (this, tBorrowedTrain, tBank);
 		}
 	}
-	
-	public void setDestinationCapitalizationLevel () {
-		
-	}
+//	
+//	public void setDestinationCapitalizationLevel () {
+//		
+//	}
 }

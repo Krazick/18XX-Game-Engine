@@ -1021,7 +1021,6 @@ public class ShareCompany extends TokenCompany {
 		return destinationInfo.getCapitalizationLevel ();
 	}
 	
-	@Override
 	public void setDestinationCapitalizationLevel () {
 		int tCapitalizationLevel;
 		
@@ -1040,11 +1039,6 @@ public class ShareCompany extends TokenCompany {
 		tStartingTreasury = getDestinationCapitalizationLevel () * getParPrice ();
 
 		return tStartingTreasury;
-	}
-
-	@Override
-	public int getGameCapitalizationLevel (int aSharesSold) {
-		return getCapitalizationLevel ();
 	}
 
 	private int getCapitalizationLevel () {
