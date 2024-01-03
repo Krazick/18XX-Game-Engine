@@ -48,7 +48,6 @@ import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
 
-import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
@@ -59,18 +58,18 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class PlayerManager {
-	public static final AttributeName AN_NAME = new AttributeName ("name");
+//	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final int BID_INCREMENT = 5;
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final String NO_PLAYER_NAME = null;
 	public static final List<Player> NO_PLAYERS = null;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
+	public static final boolean AUCTION_BUY = false;
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound
 	} // Round a Stock Certificate was purchased
 
-	public final static boolean AUCTION_BUY = false;
 	GameManager gameManager;
 	StockRound stockRound;
 	AuctionRound auctionRound;
@@ -640,10 +639,11 @@ public class PlayerManager {
 		updateAllPlayerFrames ();
 	}
 
-	public BuyStockAction buyAction (Player aPlayer, List<Certificate> aCertificatesToBuy, STOCK_BUY_IN aRoundBuying,
-			BuyStockAction aBuyStockAction) {
+	public BuyStockAction buyAction (Player aPlayer, List<Certificate> aCertificatesToBuy, 
+			STOCK_BUY_IN aRoundBuying, BuyStockAction aBuyStockAction) {
 		BuyStockAction tBuyStockAction;
-		Player.ActionStates tOldState, tNewState;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		Certificate tFreeCertificate;
 		Certificate tCertificateToBuy;
 		String tCompanyAbbrev;
@@ -690,7 +690,8 @@ public class PlayerManager {
 						handleSetParPrice (aPlayer, tCertificateToBuy, tShareCompany, tParPrice);
 						tChainToPrevious = true;
 					} else {
-						System.err.println ("***Selected Par Price is " + tParPrice + " or tShareCompany is NULL***");
+						System.err.println ("***Selected Par Price is " + tParPrice + 
+											" or tShareCompany is NULL***");
 					}
 				} else {
 					if (! gameManager.marketHasTokenFor (tShareCompany)) {
@@ -1087,12 +1088,13 @@ public class PlayerManager {
 		boolean tBidShare;
 		
 		tNextPlayer = getPlayer (aNextPlayerIndex);
+		
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
 		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT);
-		
 		tBidShare = false;
 		tNextPlayer.setBidShare (tBidShare);
 		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
+		
 		tNextPlayer.updatePortfolioInfo ();
 		stockRound.setCurrentPlayer (aNextPlayerIndex, true, aChangeStateAction);
 		stockRound.updateRFPlayerLabel (tNextPlayer);
@@ -1320,7 +1322,7 @@ public class PlayerManager {
 		public void foundItemMatchKey1 (XMLNode aPlayerNode, Object aGameInfo) {
 			String tPlayerName;
 
-			tPlayerName = aPlayerNode.getThisAttribute (AN_NAME);
+			tPlayerName = aPlayerNode.getThisAttribute (Player.AN_NAME);
 			addPlayer (tPlayerName);
 		}
 	};
@@ -1342,7 +1344,7 @@ public class PlayerManager {
 			String tPlayerName;
 			Player tPlayer;
 
-			tPlayerName = aPlayerNode.getThisAttribute (AN_NAME);
+			tPlayerName = aPlayerNode.getThisAttribute (Player.AN_NAME);
 			tPlayer = (Player) getActor (tPlayerName);
 			if (tPlayer != Player.NO_PLAYER) {
 				tPlayer.loadState (aPlayerNode);
@@ -1373,7 +1375,6 @@ public class PlayerManager {
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 			stockRound.updateRFPlayerLabel (aPlayer);
-			addAction (tPassAction);
 			
 			if (tHaveAllPassed) {
 				// Test result -- if True, continue
@@ -1389,6 +1390,7 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 			}
+			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
