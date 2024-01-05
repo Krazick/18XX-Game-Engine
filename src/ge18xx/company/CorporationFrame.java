@@ -749,21 +749,23 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isAShareCompany ()) {
 			tGameManager = corporation.getGameManager ();
 			tCountOpenPrivates = tGameManager.getCountOfOpenPrivates ();
-			privatesPanel.removeAll ();
-			if (tCountOpenPrivates > 0) {
-				tCountPlayerOwnedPrivates = tGameManager.getCountOfPlayerOwnedPrivates ();
-				if (tCountPlayerOwnedPrivates > 0) {
-					tShareCompany = (ShareCompany) corporation;
-					privatesJPanel = tShareCompany.buildPrivatesForPurchaseJPanel (this);
-					privatesPanel.add (Box.createVerticalGlue ());
-					privatesPanel.add (privatesJPanel);
-					privatesPanel.add (Box.createVerticalGlue ());
-				} else {
-					JLabel NoPrivatesLeft = new JLabel ("No Privates Left for purchase");
-					privatesPanel.add (NoPrivatesLeft);
+			if (privatesPanel != null) {
+				privatesPanel.removeAll ();
+				if (tCountOpenPrivates > 0) {
+					tCountPlayerOwnedPrivates = tGameManager.getCountOfPlayerOwnedPrivates ();
+					if (tCountPlayerOwnedPrivates > 0) {
+						tShareCompany = (ShareCompany) corporation;
+						privatesJPanel = tShareCompany.buildPrivatesForPurchaseJPanel (this);
+						privatesPanel.add (Box.createVerticalGlue ());
+						privatesPanel.add (privatesJPanel);
+						privatesPanel.add (Box.createVerticalGlue ());
+					} else {
+						JLabel NoPrivatesLeft = new JLabel ("No Privates Left for purchase");
+						privatesPanel.add (NoPrivatesLeft);
+					}
+					privatesPanel.repaint ();
+					privatesPanel.revalidate ();
 				}
-				privatesPanel.repaint ();
-				privatesPanel.revalidate ();
 			}
 		}
 	}
