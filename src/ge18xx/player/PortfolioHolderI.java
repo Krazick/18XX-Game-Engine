@@ -11,7 +11,7 @@ public interface PortfolioHolderI extends ActorI {
 	public final static PortfolioHolderI NO_HOLDER = null;
 	public static final String PLAYER_PORTFOLIO_CHANGED = "Player Portfolio Changed ";
 	
-	Portfolio portfolio = new Portfolio ();
+	Portfolio portfolio = new Portfolio (NO_HOLDER);
 
 	public void addCertificate (Certificate aCertificate);
 
