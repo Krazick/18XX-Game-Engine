@@ -58,7 +58,6 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class PlayerManager {
-//	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final int BID_INCREMENT = 5;
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final String NO_PLAYER_NAME = null;
@@ -768,7 +767,7 @@ public class PlayerManager {
 		aBuyStockAction.addCashTransferEffect (aPlayer, tPayCashTo, tCashValue);
 	}
 
-	private CashHolderI getPayCashTo (Bank aBank, Certificate aCertificate, Portfolio aSourcePortfolio) {
+	public CashHolderI getPayCashTo (Bank aBank, Certificate aCertificate, Portfolio aSourcePortfolio) {
 		CashHolderI tPayCashTo;
 		int tCapitalizationLevel;
 		int tSharesSold;
@@ -778,7 +777,9 @@ public class PlayerManager {
 		tShareCompany = aCertificate.getShareCompany ();
 		if (aSourcePortfolio.isABankPool ()) {
 			tPayCashTo = aBank;
-		} else if (aCertificate.isAPrivateCompany () || aCertificate.isAMinorCompany ()) {
+		} else if (aCertificate.isAPrivateCompany ()) {
+			tPayCashTo = aBank;
+		} else if (aCertificate.isAMinorCompany ()) {
 			tPayCashTo = aBank;
 		} else if (! tShareCompany.hasFloated ()) {
 			tPayCashTo = aBank;
