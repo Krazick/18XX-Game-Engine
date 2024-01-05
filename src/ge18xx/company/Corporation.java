@@ -2741,7 +2741,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		tHasPlacedAnyStation = false;
 		tMapFrame = corporationList.getMapFrame ();
-		tHasPlacedAnyStation = tMapFrame.hasStation (getID ());
+		if (tMapFrame != MapFrame.NO_XML_FRAME) {
+			tHasPlacedAnyStation = tMapFrame.hasStation (getID ());
+		}
 
 		return tHasPlacedAnyStation;
 	}
@@ -2758,16 +2760,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	private void addAllActorsBenefitButtons (JPanel aButtonRow) {
 		CorporationList tPrivates;
 		PrivateCompany tPrivate;
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 
 		tPrivates = corporationList.getPrivates ();
-		tCount = tPrivates.getCorporationCount ();
-		if (tCount > 0) {
-			for (tIndex = 0; tIndex < tCount; tIndex++) {
-				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
-				if (tPrivate.isClosed () || ! tPrivate.isPlayerOwned ()) {
-					if (tPrivate.hasActiveCompanyBenefits ()) {
-						tPrivate.addAllActorsBenefitButtons (aButtonRow);
+		if (tPrivates != CorporationList.NO_CORPORATION_LIST) {
+			tCount = tPrivates.getCorporationCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
+					if (tPrivate.isClosed () || ! tPrivate.isPlayerOwned ()) {
+						if (tPrivate.hasActiveCompanyBenefits ()) {
+							tPrivate.addAllActorsBenefitButtons (aButtonRow);
+						}
 					}
 				}
 			}
@@ -2798,15 +2803,18 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	private void removeAllBenefitButtons (JPanel aButtonRow) {
 		CorporationList tPrivates;
 		PrivateCompany tPrivate;
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 
 		tPrivates = corporationList.getPrivates ();
-		tCount = tPrivates.getCorporationCount ();
-		if (tCount > 0) {
-			for (tIndex = 0; tIndex < tCount; tIndex++) {
-				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
-				if (tPrivate.hasActiveCompanyBenefits ()) {
-					tPrivate.removeBenefitButtons (aButtonRow);
+		if (tPrivates != CorporationList.NO_CORPORATION_LIST) {
+			tCount = tPrivates.getCorporationCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
+					if (tPrivate.hasActiveCompanyBenefits ()) {
+						tPrivate.removeBenefitButtons (aButtonRow);
+					}
 				}
 			}
 		}
