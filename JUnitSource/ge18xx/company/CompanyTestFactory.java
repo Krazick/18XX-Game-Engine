@@ -264,10 +264,14 @@ public class CompanyTestFactory {
 		ShareCompany tShareCompany;
 		CorporationList mCorporationList;
 		GameManager mGameManager;
+		PhaseInfo mPhaseInfo;
 		
 		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
-		mCorporationList = Mockito.mock (CorporationList.class);
+		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
+
+//		mCorporationList = Mockito.mock (CorporationList.class);
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
