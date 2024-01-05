@@ -36,8 +36,11 @@ public class RoundTestFactory {
 	}
 
 	public RoundManager buildRoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
-		return new RoundManager (aGameManager, aPlayerManager);
-
+		RoundManager roundManager;
+		
+		roundManager = new RoundManager (aGameManager, aPlayerManager);
+		
+		return roundManager;
 	}
 
 	public RoundManager buildRoundManagerMock () {
