@@ -1920,9 +1920,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tBank = getBank ();
 		tBankPool = getBankPool ();
-		tSelectedCount = tBank.getSelectedTrainCount () + tBankPool.getSelectedTrainCount ()
+		if ((tBank != null) && (tBankPool != null)) {
+			tSelectedCount = tBank.getSelectedTrainCount () + tBankPool.getSelectedTrainCount ()
 				+ super.getSelectedTrainCount ();
-
+		} else {
+			tSelectedCount = 0;
+		}
+		
 		return tSelectedCount;
 	}
 
@@ -2260,15 +2264,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean removeAllDiscounts () {
 		Bank tBank;
 		Train [] tAvailableTrains;
-		boolean tADiscountRemoved = false;
+		boolean tADiscountRemoved;
 
 		tBank = getBank ();
-		tAvailableTrains = tBank.getAvailableTrains ();
-		for (Train tBankTrain : tAvailableTrains) {
-			tADiscountRemoved |= tBankTrain.removeDiscount ();
-		}
-		if (tADiscountRemoved) {
-			corporationFrame.updateBankJPanel ();
+		tADiscountRemoved = false;
+		if (tBank != Bank.NO_BANK) {
+			tAvailableTrains = tBank.getAvailableTrains ();
+			for (Train tBankTrain : tAvailableTrains) {
+				tADiscountRemoved |= tBankTrain.removeDiscount ();
+			}
+			if (tADiscountRemoved) {
+				corporationFrame.updateBankJPanel ();
+			}
 		}
 
 		return tADiscountRemoved;
