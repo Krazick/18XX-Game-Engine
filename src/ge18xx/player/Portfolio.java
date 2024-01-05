@@ -88,10 +88,6 @@ public class Portfolio implements CertificateHolderI {
 	int minorIndex;
 	int shareIndex;
 
-	public Portfolio () {
-		this (PortfolioHolderI.NO_HOLDER);
-	}
-
 	public Portfolio (PortfolioHolderI aHolder) {
 		certificates = new LinkedList<> ();
 		setHolder (aHolder);

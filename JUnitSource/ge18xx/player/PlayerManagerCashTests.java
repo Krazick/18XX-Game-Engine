@@ -11,10 +11,8 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
-import ge18xx.company.CertificateHolderI;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
-import ge18xx.company.Corporation;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -24,7 +22,6 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
-import geUtilities.utilites.UtilitiesTestFactory;
 
 class PlayerManagerCashTests {
 	GameTestFactory gameTestFactory;
