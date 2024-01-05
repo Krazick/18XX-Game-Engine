@@ -1429,6 +1429,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		bank = new Bank (aInitialTreasury, this);
 	}
 
+	public void setBank (Bank aBank) {
+		bank = aBank;
+	}
+	
 	public void setBankPool (BankPool aBankPool) {
 		bankPool = aBankPool;
 	}
