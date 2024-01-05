@@ -1222,7 +1222,7 @@ public class Certificate implements Comparable<Certificate> {
 	public ShareCompany getShareCompany () {
 		ShareCompany tShareCompany;
 
-		tShareCompany = null;
+		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		if (getCorpType ().equals (Corporation.SHARE_COMPANY)) {
 			tShareCompany = (ShareCompany) corporation;
 		}
