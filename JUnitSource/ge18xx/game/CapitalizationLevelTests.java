@@ -151,6 +151,13 @@ class CapitalizationLevelTests {
 		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
 				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (4, tCapLevel);
+
+		tSharesSold = 6;
+		tNextTrainName = "2";
+		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
+		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
+				" Capital Recieved $ " + (tCapLevel * 100));
+		assertEquals (5, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "3";
