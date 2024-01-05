@@ -23,8 +23,36 @@ public class BankTestFactory {
 
 		mBank = Mockito.mock (Bank.class);
 		Mockito.when (mBank.getAbbrev ()).thenReturn ("Bank Mock");
-
+		mGameManager.setBank (mBank);
+		
 		return mBank;
+	}
+	
+	public Bank buildBankMock (GameManager mGameManager, String aBankName) {
+		Bank mBank;
+
+		mBank = Mockito.mock (Bank.class);
+		Mockito.when (mBank.getAbbrev ()).thenReturn ("Bank Mock");
+		Mockito.when (mBank.getName ()).thenReturn (aBankName);
+		Mockito.when (mBank.isABank ()).thenReturn (true);
+		Mockito.when (mBank.isABankPool ()).thenReturn (false);
+		mGameManager.setBank (mBank);
+		
+		return mBank;
+	}
+	
+	public BankPool buildBankPoolMock (GameManager mGameManager, String aBankPoolName) {
+		BankPool mBankPool;
+
+		mBankPool = Mockito.mock (BankPool.class);
+		Mockito.when (mBankPool.getAbbrev ()).thenReturn ("Bank Pool Mock");
+		Mockito.when (mBankPool.getName ()).thenReturn (aBankPoolName);
+		Mockito.when (mBankPool.isABank ()).thenReturn (true);
+		Mockito.when (mBankPool.isABankPool ()).thenReturn (true);
+		
+		mGameManager.setBankPool (mBankPool);
+		
+		return mBankPool;
 	}
 
 	public GameBank buildGameBank (GameManager aGameManager) {
