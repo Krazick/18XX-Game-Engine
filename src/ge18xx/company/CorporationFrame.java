@@ -723,16 +723,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					bankJPanel.add (Box.createHorizontalGlue ());
 					bankJPanel.add (tBPPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
-				} else {
-					System.err.println ("Bank Pool is Null");
+//				} else {
+//					System.err.println ("Bank Pool is Null");
 				}
 				if (tBank != Bank.NO_BANK) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (tBankPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
-				} else {
-					System.err.println ("Bank is Null");
+//				} else {
+//					System.err.println ("Bank is Null");
 				}
 				bankJPanel.repaint ();
 				bankJPanel.revalidate ();
