@@ -16,7 +16,6 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -771,7 +770,7 @@ public class PlayerManager {
 		CashHolderI tPayCashTo;
 		int tCapitalizationLevel;
 		int tSharesSold;
-		CorporationList tCorporationList;
+//		CorporationList tCorporationList;
 		ShareCompany tShareCompany;
 		
 		tShareCompany = aCertificate.getShareCompany ();
@@ -783,14 +782,15 @@ public class PlayerManager {
 			tPayCashTo = aBank;
 		} else if (! tShareCompany.hasFloated ()) {
 			tPayCashTo = aBank;
-		} else if (! gameManager.hasDestinations ()) {
+		} else if (! tShareCompany.hasDestination ()) {
 			tPayCashTo = aBank;
 		} else if (tShareCompany.hasReachedDestination ()) {
 			tPayCashTo = tShareCompany;
 		} else {
 			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
-			tCorporationList = gameManager.getShareCompanies ();
-			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
+//			tCorporationList = gameManager.getShareCompanies ();
+//			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
+			tCapitalizationLevel = gameManager.getCapitalizationLevel (tSharesSold);
 			if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
 				tPayCashTo = aBank;
 			} else if (tCapitalizationLevel < tSharesSold){
