@@ -17,16 +17,20 @@ class BankPoolTests {
 	private BankTestFactory bankTestFactory;
 	private GameTestFactory gameTestFactory;
 	private GameManager mGameManager;
-	private GameManager mGameManager2;
+	private GameManager mGameManager1830;
+	private GameManager mGameManager1856;
 	private GameInfo mGameInfo;
-	private GameInfo gameInfo;
+	private GameInfo gameInfo1830;
+	private GameInfo gameInfo1856;
 	BankPool bankPool;
-	BankPool bankPool2;
+	BankPool bankPool1830;
+	BankPool bankPool1856;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		bankTestFactory = new BankTestFactory ();
 		gameTestFactory = new GameTestFactory ();
+		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		mGameInfo = gameTestFactory.buildGameInfoMock ();
 		Mockito.when (mGameInfo.getBankPoolName ()).thenReturn ("Open Market");
@@ -34,10 +38,15 @@ class BankPoolTests {
 
 		bankPool = bankTestFactory.buildBankPool (mGameManager);
 		
-		mGameManager2 = gameTestFactory.buildGameManagerMock ();
-		gameInfo = gameTestFactory.buildGameInfo ();
-		Mockito.when (mGameManager2.getActiveGame ()).thenReturn (gameInfo);
-		bankPool2 = bankTestFactory.buildBankPool (mGameManager2);
+		mGameManager1830 = gameTestFactory.buildGameManagerMock ();
+		gameInfo1830 = gameTestFactory.buildGameInfo (1);
+		Mockito.when (mGameManager1830.getActiveGame ()).thenReturn (gameInfo1830);
+		bankPool1830 = bankTestFactory.buildBankPool (mGameManager1830);
+
+		mGameManager1856 = gameTestFactory.buildGameManagerMock ();
+		gameInfo1856 = gameTestFactory.buildGameInfo (2);
+		Mockito.when (mGameManager1856.getActiveGame ()).thenReturn (gameInfo1856);
+		bankPool1856 = bankTestFactory.buildBankPool (mGameManager1856);
 	}
 
 	@Test
@@ -53,7 +62,11 @@ class BankPoolTests {
 		assertEquals ("Open Market", bankPool.getName ());
 		assertEquals ("Bank Pool", bankPool.getAbbrev ());
 
-		assertEquals ("Bank Pool", bankPool2.getName ());
-		assertEquals ("Bank Pool", bankPool2.getAbbrev ());
+		assertEquals ("Bank Pool", bankPool1830.getName ());
+		assertEquals ("Bank Pool", bankPool1830.getAbbrev ());
+		
+		assertEquals ("Open Market", bankPool1856.getName ());
+		assertEquals ("Bank Pool", bankPool1856.getAbbrev ());
+
 	}
 }
