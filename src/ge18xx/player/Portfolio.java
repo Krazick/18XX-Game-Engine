@@ -147,8 +147,8 @@ public class Portfolio implements CertificateHolderI {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
 				tCount++;
-				tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener,
-						tIsBankPortfolioHolder, Player.NO_PLAYER, aGameManager);
+				tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+						aItemListener, tIsBankPortfolioHolder, Player.NO_PLAYER, aGameManager);
 				addJCAndHGlue (tCertificateJPanel, tCertificateInfoJPanel);
 			}
 		}
@@ -397,7 +397,8 @@ public class Portfolio implements CertificateHolderI {
 	// type, and add it
 	// to the portfolioInfoJPanel.
 	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aMinors,
-			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
+			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, 
+			GameManager aGameManager) {
 		JPanel tPrivateCertPanel;
 		JPanel tMinorCertPanel;
 		JPanel tShareCertPanel;
@@ -405,8 +406,8 @@ public class Portfolio implements CertificateHolderI {
 		buildPortfolioJPanel ("Portfolio");
 
 		if (aPrivates) {
-			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, aSelectedButtonLabel,
-					aItemListener, aGameManager);
+			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, 
+					aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
@@ -417,8 +418,8 @@ public class Portfolio implements CertificateHolderI {
 			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aShares) {
-			tShareCertPanel = buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aSelectedButtonLabel,
-					aItemListener, null, aGameManager);
+			tShareCertPanel = buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
+					aSelectedButtonLabel, aItemListener, null, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tShareCertPanel);
 			shareIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
