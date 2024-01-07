@@ -171,7 +171,8 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		if (tCorporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) tCorporation;
 			if (tShareCompany.hasDestination ()) {
-				tDestination = new JLabel ("Destination MapCell ID:  " + tShareCompany.getDestinationLabel ());
+				tDestination = new JLabel ("Destination MapCell ID:  " + 
+						tShareCompany.getDestinationLabel ());
 				certificateInfoJPanel.add (tDestination);
 				certificateInfoJPanel.add (Box.createVerticalStrut (10));
 				tDestinationReached = "Destination ";
@@ -183,11 +184,13 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 				tDestinationReachedLabel = new JLabel (tDestinationReached);
 				certificateInfoJPanel.add (tDestinationReachedLabel);
 				certificateInfoJPanel.add (Box.createVerticalStrut (10));
-				
+				if (! tShareCompany.hasReachedDestination ()) {
+					tEscrow  = new JLabel ("Escrow held: " + 
+							Bank.formatCash (tShareCompany.calculateEscrowWithheld ()));
+					certificateInfoJPanel.add (tEscrow);
+					certificateInfoJPanel.add (Box.createVerticalStrut (10));
+				}
 			}
-			tEscrow  = new JLabel ("Escrow held " + Bank.formatCash (tShareCompany.calculateEscrowToRelease ()));
-			certificateInfoJPanel.add (tEscrow);
-			certificateInfoJPanel.add (Box.createVerticalStrut (10));		
 
 			tParPriceJLabel = new JLabel ("Par Price: " + tShareCompany.getFormattedParPrice ());
 			certificateInfoJPanel.add (tParPriceJLabel);
