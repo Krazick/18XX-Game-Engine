@@ -180,7 +180,7 @@ public class ShareCompany extends TokenCompany {
 		ReachedDestinationAction tReachedDestinationAction;
 		OperatingRound tOperatingRound;
 		boolean tReachedDestination;
-		int tEscrowReleased;
+		int tEscrowToRelease;
 		int tOldCapitalizationLevel;
 		int tNewCapitalizationLevel;
 		Bank tBank;
@@ -198,18 +198,18 @@ public class ShareCompany extends TokenCompany {
 		tReachedDestinationAction.addReachedDestinationEffect (this, tReachedDestination, 
 				tOldCapitalizationLevel, tNewCapitalizationLevel);
 		
-		tEscrowReleased = calculateEscrowToRelease ();
-		tBank.transferCashTo (this, tEscrowReleased);
+		tEscrowToRelease = calculateEscrowWithheld ();
+		tBank.transferCashTo (this, tEscrowToRelease);
 
-		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowReleased);
+		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowToRelease);
 		corporationList.addAction (tReachedDestinationAction);
 	}
 
 	@Override
-	public int calculateEscrowToRelease () {
+	public int calculateEscrowWithheld () {
 		int tEscrowCalculated;
 		
-		tEscrowCalculated = destinationInfo.calculateEscrowToRelease (this);
+		tEscrowCalculated = destinationInfo.calculateEscrowWithheld (this);
 		
 		return tEscrowCalculated;
 	}
