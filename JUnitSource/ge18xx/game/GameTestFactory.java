@@ -105,24 +105,79 @@ public class GameTestFactory {
 		return mGameInfo;
 	}
 
-	public GameInfo buildGameInfo () {
-		String t1830TestXML = "<GameInfo id=\"1\" name=\"1830TEST\" minPlayers=\"2\" maxPlayers=\"6\" bankTotal=\"1500\"  \n"
-				+ "   currencyFormat=\"$ ###,###\" subtitle=\"1830 Test\" location=\"JUNIT TEST DATA\"\n"
-				+ "   privates=\"true\" shares=\"true\" bankPoolShareLimit=\"5\" playerShareLimit=\"6\">\n"
-				+ "   ipoDividends=\"Bank\" bankPoolDividends=\"corporation\"\n"
-				+ "   <PlayerInfo><Player numPlayers=\"2\" startingCash=\"600\" certificateLimit=\"28\" /></PlayerInfo>\n"
-				+ "   <Phases><Phase name=\"1\" subName=\"1\" rounds=\"1\" tiles=\"Yellow\" trainLimit=\"4\"/></Phases>\n"
-				+ "   <Trains><Train name=\"2\" order=\"1\" revenueCenters=\"2\" quantity=\"6\" price=\"80\" /></Trains>\n"
-				+ "   <Files>\n" + "      <File type=\"map\" name=\"1830TEST XML Data/1830TEST Map.xml\" /> \n"
-				+ "      <File type=\"companies\" name=\"1830TEST XML Data/1830TEST Companies.xml\" /> \n"
-				+ "      <File type=\"cities\" name=\"1830TEST XML Data/1830TEST Cities.xml\" /> \n"
-				+ "      <File type=\"market\" name=\"1830TEST XML Data/1830TEST Market.xml\" /> \n"
-				+ "      <File type=\"tileSet\" name=\"1830TEST XML Data/1830TEST TileSet.xml\" /> \n" + "   </Files>\n"
+	public GameInfo buildGameInfo (int aGameInfoIndex) {
+		String t1830TestXML = "<GameInfo id=\"1\" name=\"1830TEST\" minPlayers=\"2\" " 
+				+ "   maxPlayers=\"6\" bankTotal=\"1500\"  currencyFormat=\"$ ###,###\"\n"
+				+ "   subtitle=\"1830 Test\" location=\"JUNIT TEST DATA\"\n"
+				+ "   privates=\"true\" shares=\"true\" bankPoolShareLimit=\"5\""
+				+ "   playerShareLimit=\"6\">\n ipoDividends=\"Bank\" "
+				+ "   bankPoolDividends=\"corporation\"\n"
+				+ "   <PlayerInfo><Player numPlayers=\"2\" startingCash=\"600\" "
+				+ "      certificateLimit=\"28\" /></PlayerInfo>\n"
+				+ "   <Phases><Phase name=\"1\" subName=\"1\" rounds=\"1\" tiles=\"Yellow\"  "
+				+ "      trainLimit=\"4\"/></Phases>\n"
+				+ "   <Trains><Train name=\"2\" order=\"1\" revenueCenters=\"2\" "
+				+ "      quantity=\"6\" price=\"80\" /></Trains>\n"
+				+ "   <Files>\n" + "      <File type=\"map\" "
+				+ "      name=\"1830TEST XML Data/1830TEST Map.xml\" /> \n"
+				+ "    <File type=\"companies\" name=\"1830TEST XML Data/1830TEST Companies.xml\" /> \n"
+				+ "    <File type=\"cities\" name=\"1830TEST XML Data/1830TEST Cities.xml\" /> \n"
+				+ "    <File type=\"market\" name=\"1830TEST XML Data/1830TEST Market.xml\" /> \n"
+				+ "    <File type=\"tileSet\" name=\"1830TEST XML Data/1830TEST TileSet.xml\" /> \n"
+				+ "   </Files>\n"
 				+ "</GameInfo>";
+		String t1856TestXML = "	<GameInfo id=\"4\" name=\"1856\" "
+				+ "     Subtitle=\"Railroading in Upper Canada from 1856\" "
+				+ "     minPlayers=\"3\" maxPlayers=\"6\"\n"
+				+ "		status=\"IN PROGRESS\" bankTotal=\"12000\" "
+				+ "     currencyFormat=\"$ ###,###\" designers=\"Bill Dixon (Canada)\"\n"
+				+ "		location=\"Southern Ontario, Canada\" "
+				+ "     producers=\"Mayfair Games (US)\" releaseDate=\"1995\"\n"
+				+ "		firstTokenCost=\"40\" laterTokenCost=\"100\" maxRounds=\"3\" \n"
+				+ "		privates=\"true\" minors=\"false\" shares=\"true\" "
+				+ "     bankPoolDividends=\"corporation\" ipoDivedends=\"bank\"\n"
+				+ "		bankPoolShareLimit=\"5\" playerShareLimit=\"6\" \n"
+				+ "		licenses=\"true\" noTouchPass=\"true\" bankPoolName=\"Open Market\"\n"
+				+ "		loans=\"true\" loanAmount=\"100\" loanInterest=\"10\">\n"
+				+ "		<Capitalizations>\n"
+				+ "			<Capitalization availableTrain=\"2\" level=\"Incremental_5\" />\n"
+				+ "			<Capitalization availableTrain=\"3\" level=\"Incremental_5\" />\n"
+				+ "			<Capitalization availableTrain=\"4\" level=\"Incremental_5\" />\n"
+				+ "			<Capitalization availableTrain=\"5\" level=\"Incremental_10\" />\n"
+				+ "			<Capitalization availableTrain=\"6\" level=\"FULL\" />\n"
+				+ "			<Capitalization availableTrain=\"Diesel\" level=\"FULL\" />\n"
+				+ "		</Capitalizations>\n"
+				+ "		<PlayerInfo>\n"
+				+ "			<Player numPlayers=\"3\" startingCash=\"500\" certificateLimit=\"20\" />\n"
+				+ "     </PlayerInfo>\n"
+				+ "		<Phases>\n"
+				+ "			<Phase name=\"1\" subName=\"1\" rounds=\"1\" tiles=\"Yellow\"\n"
+				+ "				trainLimit=\"4\" offBoard=\"Low\" capitalization=\"Incremental_5\"\n"
+				+ "				loansAllowed=\"true\" minToFloat=\"2\" minToFloatLast=\"3\" />\n"
+				+ "		</Phases>\n"
+				+ "		<Trains>\n"
+				+ "			<Train name=\"2\" order=\"1\" revenueCenters=\"2\" quantity=\"6\" "
+				+ "				price=\"100\" onLast=\"2\" />\n"
+				+ "		</Trains>\n"
+				+ "		<Files>\n"
+				+ "			<File type=\"map\" name=\"1856/1856-Map.xml\" />\n"
+				+ "			<File type=\"companies\" name=\"1856/1856-Companies.xml\" />\n"
+				+ "			<File type=\"cities\" name=\"1856/1856-Cities.xml\" />\n"
+				+ "			<File type=\"market\" name=\"1856/1856-Market.xml\" />\n"
+				+ "			<File type=\"tileSet\" name=\"1856/1856-TileSet.xml\" />\n"
+				+ "		</Files>\n"
+				+ "	</GameInfo>\n";
+
 		GameInfo tGameInfo = GameInfo.NO_GAME_INFO;
 		XMLNode tGameInfoNode;
 
-		tGameInfoNode = utilitiesTestFactory.buildXMLNode (t1830TestXML);
+		if (aGameInfoIndex == 1) {
+			tGameInfoNode = utilitiesTestFactory.buildXMLNode (t1830TestXML);
+		} else if (aGameInfoIndex == 2) {
+			tGameInfoNode = utilitiesTestFactory.buildXMLNode (t1856TestXML);
+		} else {
+			tGameInfoNode = XMLNode.NO_NODE;
+		}
 		if (tGameInfoNode != XMLNode.NO_NODE) {
 			tGameInfo = new GameInfo (tGameInfoNode);
 			tGameInfo.setTestingFlag (true);
