@@ -101,7 +101,7 @@ class TransferOwnershipEffectTestConstructor {
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
 		
-		tGameInfo = gameTestFactory.buildGameInfo ();
+		tGameInfo = gameTestFactory.buildGameInfo (1);
 		gameManager.setGameInfo (tGameInfo);
 		bankPool = bankTestFactory.buildBankPool (gameManager);
 		gameManager.setBank (100);
