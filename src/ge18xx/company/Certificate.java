@@ -323,8 +323,8 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 	
-	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, boolean aIsBankHolder,
-											Player aPlayer, GameManager aGameManager) {
+	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, 
+						boolean aIsBankHolder, Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoJPanel;
 		JLabel tDiscountLabel;
 		boolean tPlayerHasSoldThisCompany;
