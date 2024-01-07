@@ -93,7 +93,8 @@ public class ShareCompany extends TokenCompany {
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
 		tRepaymentHandled = aChildNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED);
 		setNoPrice ();
-		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, tRepaymentHandled, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
+					tRepaymentHandled, tStartCell);
 		
 	}
 
@@ -129,7 +130,23 @@ public class ShareCompany extends TokenCompany {
 	
 	@Override
 	public boolean hasDestination () {
-		return destinationInfo.hasDestination ();
+		boolean tHasDestination;
+		
+		tHasDestination = false;
+		if (destinationInfo != DestinationInfo.NO_DESTINATION_INFO) {
+			tHasDestination = destinationInfo.hasDestination ();
+		}
+		
+		return tHasDestination;
+	}
+
+	@Override
+	public String getDestinationCityName () {
+		String tDestinationCityName;
+		
+		tDestinationCityName = destinationInfo.getCityName ();
+		
+		return tDestinationCityName;
 	}
 	
 	@Override
@@ -153,24 +170,24 @@ public class ShareCompany extends TokenCompany {
 			tDestinationMapCell = destinationInfo.getMapCell ();
 			
 			tDestinationMapCellID = destinationInfo.getMapCellID ();
-			System.out.println ("Check if " + abbrev + " has reached from home " + tHomeVertexID + 
-					" to destination " + tDestinationMapCellID);
+//			System.out.println ("Check if " + abbrev + " has reached from home " + tHomeVertexID + 
+//					" to destination " + tDestinationMapCellID);
 			if (destinationInfo.hasReached ()) {
 				System.err.println ("Has previously reached the destination");
 			} else {
 				tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
 				tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
 				if (tContainsHomeMapCell && tContainsDestinationMapCell) {
-					System.out.println ("Home and Destination Map Cells are in the Graph - Need to see if Connected");
+//					System.out.println ("Home and Destination Map Cells are in the Graph - Need to see if Connected");
 					aHexMap.breadthFirstSearch (tHomeVertexID);
 					tFoundInBFS = aHexMap.foundInBFS (tDestinationMapCellID);
-					System.out.println ("**** Found Destination in BFS " + tFoundInBFS);
+//					System.out.println ("**** Found Destination in BFS " + tFoundInBFS);
 					if (tFoundInBFS) {
 						handleReachedDestination ();
 					}
-				} else {
-					System.out.println ("Home Map Cell in Graph: " + tContainsHomeMapCell);
-					System.out.println ("Destination Map Cell in Graph: " + tContainsDestinationMapCell);			
+//				} else {
+//					System.out.println ("Home Map Cell in Graph: " + tContainsHomeMapCell);
+//					System.out.println ("Destination Map Cell in Graph: " + tContainsDestinationMapCell);			
 				}
 			}
 		}
@@ -384,6 +401,7 @@ public class ShareCompany extends TokenCompany {
 		return destinationInfo.getMapCell ();
 	}
 	
+	@Override
 	public String getDestinationLabel () {
 		String tDestinationLabel;
 		
