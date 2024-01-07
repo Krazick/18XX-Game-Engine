@@ -118,21 +118,19 @@ public class DestinationInfo {
 		}
 	}
 
-	public int calculateEscrowToRelease (ShareCompany aShareCompany) {
-		int tEscrowReleased;
+	public int calculateEscrowWithheld (ShareCompany aShareCompany) {
+		int tEscrowWithheld;
 		int tSharesSold;
 		int tParPrice;
 		
-		tEscrowReleased = 0;
-		if (reached) {
-			tSharesSold = aShareCompany.getSharesOwned ();
-			tParPrice = aShareCompany.getParPrice ();
-			if (tSharesSold > 5) {
-				tEscrowReleased = (tSharesSold - 5) * tParPrice;
-			}
+		tEscrowWithheld = 0;
+		tSharesSold = aShareCompany.getSharesOwned ();
+		tParPrice = aShareCompany.getParPrice ();
+		if (tSharesSold > 5) {
+			tEscrowWithheld = (tSharesSold - 5) * tParPrice;
 		}
 		
-		return tEscrowReleased;
+		return tEscrowWithheld;
 	}
 
 	public void getDestinationInfo (XMLElement aXMLCorporationState) {
