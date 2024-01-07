@@ -32,7 +32,7 @@ class PlayerActionStateTests {
 		
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager ();
-		tGameInfo = gameTestFactory.buildGameInfo ();
+		tGameInfo = gameTestFactory.buildGameInfo (1);
 		gameManager.setGameInfo (tGameInfo);
 		tConfigData = new Config (gameManager);
 		gameManager.setConfigData (tConfigData);
@@ -54,7 +54,5 @@ class PlayerActionStateTests {
 		assertEquals (player.getStateName (), "Passed");
 		assertFalse (player.primaryActionState.canChangeState (ActorI.ActionStates.Pass));
 		assertTrue (player.primaryActionState.canChangeState (ActorI.ActionStates.NoAction));
-
 	}
-
 }
