@@ -117,6 +117,10 @@ public class DestinationInfo {
 			return location.getLocation ();
 		}
 	}
+	
+	public String getCityName () {
+		return mapCell.getCityName ();
+	}
 
 	public int calculateEscrowWithheld (ShareCompany aShareCompany) {
 		int tEscrowWithheld;
