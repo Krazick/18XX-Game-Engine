@@ -70,7 +70,7 @@ class GameManagerTestConstructors {
 		tClientName = "TGIBuster";
 
 		tGameManager = testFactory.buildGameManager (tClientName);
-		tGameInfo = testFactory.buildGameInfo ();
+		tGameInfo = testFactory.buildGameInfo (1);
 
 		assertEquals ("<NONE>", tGameManager.getGameName ());
 		assertEquals ("", tGameManager.getActiveGameName ());
