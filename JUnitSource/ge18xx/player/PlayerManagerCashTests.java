@@ -13,9 +13,11 @@ import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
+import ge18xx.company.Coupon;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.round.RoundManager;
@@ -42,12 +44,15 @@ class PlayerManagerCashTests {
 	String bankName;
 	Portfolio bankPoolPortfolio;
 	Portfolio bankPortfolio;
+	GameInfo gameInfo;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		bankName = "PM Mock Bank";
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager ();
+		gameInfo = gameTestFactory.buildGameInfo (2);
+		gameManager.setGameInfo (gameInfo);
 		
 		playerTestFactory = new PlayerTestFactory (gameManager);
 		bankTestFactory = new BankTestFactory ();
@@ -146,4 +151,77 @@ class PlayerManagerCashTests {
 		tCashHolder = playerManager.getPayCashTo (tBank, tShareCertificate, tSourcePortfolio);
 		assertEquals ("PM Mock Bank", tCashHolder.getName ());		
 	}
+
+	@Test
+	@DisplayName ("For Operated Non-Destinated Share Company Pay Cash To Test")
+	void forNoDestinationShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		Bank tBank;
+		
+		tBank = playerManager.getBank ();
+		tSourcePortfolio = tBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (2);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		
+		tCashHolder = playerManager.getPayCashTo (tBank, tShareCertificate, tSourcePortfolio);
+		assertEquals ("PM Mock Bank", tCashHolder.getName ());		
+	}
+	
+	@Test
+	@DisplayName ("For Operated Non-Destinated Share Company Pay Cash To Test")
+	void forNonDestinationedShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		Bank mBank;
+		Coupon mNextTrain;
+		
+		mNextTrain = Mockito.mock (Coupon.class);
+		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
+
+		mBank = playerManager.getBank ();
+		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
+
+		tSourcePortfolio = mBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (3);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCompany.setReachedDestination (false);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		
+		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
+		assertEquals ("PM Mock Bank", tCashHolder.getName ());		
+	}
+	
+	@Test
+	@DisplayName ("For Operated Non-Destinated Share Company Pay Cash To Test")
+	void forDestinationedShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		String tResult = "Buffalo, Brantford & Goderich Railway";
+		Bank tBank;
+		
+		tBank = playerManager.getBank ();
+		tSourcePortfolio = tBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (3);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCompany.setReachedDestination (true);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		
+		tCashHolder = playerManager.getPayCashTo (tBank, tShareCertificate, tSourcePortfolio);
+		assertEquals (tResult, tCashHolder.getName ());		
+	}
+
 }
