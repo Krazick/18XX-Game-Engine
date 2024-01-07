@@ -102,8 +102,8 @@ public class CompanyTestFactory {
 		return tPrivateCompany;
 	}
 
-	private PrivateCompany buildPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany,
-			CorporationList mCorporationList) {
+	private PrivateCompany buildPrivateCompany (String aPrivateCompanyTextXML, 
+					PrivateCompany aPrivateCompany, CorporationList mCorporationList) {
 		XMLNode tPrivateCompanyNode;
 
 		tPrivateCompanyNode = utilitiesTestFactory.buildXMLNode (aPrivateCompanyTextXML);
@@ -267,11 +267,10 @@ public class CompanyTestFactory {
 		PhaseInfo mPhaseInfo;
 		
 		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
+		
 		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
-
-//		mCorporationList = Mockito.mock (CorporationList.class);
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
@@ -286,9 +285,57 @@ public class CompanyTestFactory {
 
 		return tShareCompany;
 	}
+	/**
+	 * Build a Share Company from XML Data for Testing Purposes. The CorporationList
+	 * attached to Share Company will be Mocked, and the GameManager attached to the
+	 * Corporation List will be mocked, and returned when requesting to
+	 * 'getGameManager'
+	 *
+	 * @param aCompanyIndex Use 1 for TestPennsylvania and 2 for Test BnO, any other
+	 *                      will return NO_SHARE_COMPANY
+	 * @param mCorporationList this is the CorporationList that the ShareCompany should
+	 * 						be added to, to allow JUNIT to have multiple Companies in list
+	 * @return a ShareCompany for the one requested
+	 */
+	
+	public ShareCompany buildAShareCompany (int aCompanyIndex, CorporationList mCorporationList) {
+		String tShareCompany1TestXML = "<Share id=\"901\" name=\"Test Pennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
+				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tShareCompany2TestXML = "<Share id=\"902\" name=\"Test Baltimore and Ohio\" abbrev=\"TBNO\" homeCell1=\"I15\" \n"
+				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tShareCompany3TestXML = "	<Share id=\"1501\" name=\"Buffalo, Brantford &amp; Goderich Railway\"\n"
+				+ "		abbrev=\"BBG\" homeCell1=\"J15\" homeLocation1=\"50\" destination=\"N17\"\n"
+				+ "		destinationLocation=\"12\" bgColor=\"255,102,255\" fgColor=\"Black\" tokens=\"3\" tokenType=\"FixedCost\">\n"
+				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\"\n"
+				+ "			allowedOwners=\"IPO,Player,BankPool\" />\n"
+				+ "	</Share>\n";
 
-	private TrainCompanyConcrete buildTrainCompany (String aTrainCompanyTestXML, TrainCompanyConcrete aTrainCompany,
-			CorporationList mCorporationList) {
+		ShareCompany tShareCompany;
+		
+		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
+
+		if (aCompanyIndex == 1) {
+			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
+		} else if (aCompanyIndex == 2) {
+			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
+		} else if (aCompanyIndex == 3) {
+			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mCorporationList);
+		} else {
+			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
+		}
+
+		return tShareCompany;
+	}
+
+	private TrainCompanyConcrete buildTrainCompany (String aTrainCompanyTestXML, 
+					TrainCompanyConcrete aTrainCompany, CorporationList mCorporationList) {
 		XMLNode tTrainCompanyNode;
 
 		tTrainCompanyNode = utilitiesTestFactory.buildXMLNode (aTrainCompanyTestXML);
@@ -300,8 +347,8 @@ public class CompanyTestFactory {
 		return aTrainCompany;
 	}
 
-	private TokenCompanyConcrete buildTokenCompany (String aTokenCompanyTestXML, TokenCompanyConcrete aTokenCompany,
-			CorporationList mCorporationList) {
+	private TokenCompanyConcrete buildTokenCompany (String aTokenCompanyTestXML, 
+					TokenCompanyConcrete aTokenCompany, CorporationList mCorporationList) {
 		XMLNode tTokenCompanyNode;
 
 		tTokenCompanyNode = utilitiesTestFactory.buildXMLNode (aTokenCompanyTestXML);
