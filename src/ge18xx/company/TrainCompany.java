@@ -449,6 +449,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tAtTrainLimit;
 	}
 
+	public String getDestinationCityName () {
+		return GUI.EMPTY_STRING;
+	}
+	
 	public JLabel buildEscrowLabel () {
 		JLabel tEscrowLabel;
 		int tEscrowAmount;
@@ -698,15 +702,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JPanel tTrainPortfolioInfoJPanel;
 		JPanel tPortfolioInfoJPanel;
 		JPanel tLicenseInfoPanel;
+		JPanel tCompanyInfoPanel;
 		GameManager tGameManager;
 		JLabel tLabel;
 		JLabel tBPPLabel;
+		JLabel tDestination;
+		JLabel tEscrowWithheld;
 		String tBankPoolPercent;
+		String tDestinationPrefix;
 
 		tGameManager = corporationList.getGameManager ();
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
-			tTrainPortfolioInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, tGameManager, null,
-					TrainPortfolio.FULL_TRAIN_PORTFOLIO, true, "");
+			tTrainPortfolioInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, 
+					this, tGameManager, null, TrainPortfolio.FULL_TRAIN_PORTFOLIO, true, "");
 		} else {
 			tTrainPortfolioInfoJPanel = new JPanel ();
 			tLabel = new JLabel (">>NO TRAINS<<");
@@ -716,9 +724,27 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPortfolioInfoJPanel = buildPortfolioJPanel (aItemListener, tGameManager);
 		tCertPortfolioInfoJPanel = new JPanel ();
 
+		tCompanyInfoPanel = new JPanel ();
+		tCompanyInfoPanel.setLayout (new BoxLayout (tCompanyInfoPanel, BoxLayout.Y_AXIS));
+		tCompanyInfoPanel.setAlignmentY (LEFT_ALIGNMENT);
 		tBankPoolPercent = getBankPoolPercentage () + "% " + abbrev + " in Bank Pool";
+		if (hasDestination ()) {
+			if (hasReachedDestination ()) { 
+				tDestinationPrefix = "Destination reached ";
+			} else {
+				tDestinationPrefix = "Destination: ";
+			}
+			tDestination = new JLabel (tDestinationPrefix + getDestinationCityName ());
+			tCompanyInfoPanel.add (tDestination);
+			tEscrowWithheld = buildEscrowLabel ();
+			if (tEscrowWithheld != GUI.NO_LABEL) {
+				tCompanyInfoPanel.add (tEscrowWithheld);
+			}
+		}
 		tBPPLabel = new JLabel (tBankPoolPercent);
-		tCertPortfolioInfoJPanel.add (tBPPLabel);
+		tCompanyInfoPanel.add (tBPPLabel);
+		
+		tCertPortfolioInfoJPanel.add (tCompanyInfoPanel);
 		tCertPortfolioInfoJPanel.add (tTrainPortfolioInfoJPanel);
 		tCertPortfolioInfoJPanel.add (tPortfolioInfoJPanel);
 		tLicenseInfoPanel = buildLicenseInfoPanel ();
@@ -2529,8 +2555,4 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aChangeMarketCellAction.addReturnTrainEffect (this, tBorrowedTrain, tBank);
 		}
 	}
-//	
-//	public void setDestinationCapitalizationLevel () {
-//		
-//	}
 }
