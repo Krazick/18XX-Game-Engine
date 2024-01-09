@@ -496,15 +496,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
 		JLabel tCorpLabel;
-		JLabel tBankPoolOwned;
 		JLabel tPercentOwned;
 		JLabel tEscrowLabel;
 		JLabel tStatus;
-		JLabel tPresidentName;
-		JLabel tTreasury;
 		JLabel tTrainList;
 		JLabel tThisRevenue;
 		BankPool tBankPool;
+		String tBankPoolText;
 		
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
@@ -521,13 +519,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 			if (! isAMinorCompany ()) {
 				tBankPool = getBankPool ();
-				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + "% in " + tBankPool.getName () + "]");
-				tCorpInfoJPanel.add (tBankPoolOwned);
+				tBankPoolText = "[" + getBankPoolPercentage () + "% in " + tBankPool.getName () + "]";
+				addLabel (tCorpInfoJPanel, tBankPoolText);
 			}			
-			tPresidentName = new JLabel ("Prez: " + getPresidentName ());
-			tCorpInfoJPanel.add (tPresidentName);
-			tTreasury = new JLabel ("Treasury: " + Bank.formatCash (getCash ()));
-			tCorpInfoJPanel.add (tTreasury);
+			addLabel (tCorpInfoJPanel, "Prez: " + getPresidentName ());
+			addLabel (tCorpInfoJPanel, "Treasury: ", treasury);
 			if (canOperate () || didOperate ()) {
 				tTrainList = new JLabel (trainPortfolio.getTrainList ());
 				tCorpInfoJPanel.add (tTrainList);
@@ -625,8 +621,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JPanel tTrainInfoJPanel;
 		JPanel tCorpJPanel;
 		Border tBorder;
-		String tPresident, tBuyingPresident;
+		String tPresident;
+		String tBuyingPresident;
 		String tActionLabel;
+		JLabel tEscrow;
 
 		tActionLabel = BUY_LABEL;
 		tPresident = getPresidentName ();
@@ -644,6 +642,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		addLabel (tCorpJPanel, getAbbrev () + " " + buildPercentOwned ());
 		addLabel (tCorpJPanel, "State: " + getStatusName ());
 		addLabel (tCorpJPanel, "Treasury: " + Bank.formatCash (treasury));
+		if (hasDestination ()) {
+			tEscrow = buildEscrowLabel ();
+			if (tEscrow != GUI.NO_LABEL) {
+				addLabel (tCorpJPanel, tEscrow);
+			}
+		}
+
 		addLabel (tCorpJPanel, "Tokens: " + aTokenCount);
 		addLabel (tCorpJPanel, "Prez: " + tPresident);
 		if (canOperate ()) {
@@ -659,6 +664,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCorpJPanel;
 	}
 
+	private void addLabel (JPanel aCorpJPanel, String aString, int aCash) {
+		addLabel (aCorpJPanel, aString + Bank.formatCash (aCash));
+	}
+
 	private void addLabel (JPanel aCorpJPanel, String aString) {
 		JLabel tLabel;
 
@@ -666,6 +675,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aCorpJPanel.add (tLabel);
 	}
 
+	private void addLabel (JPanel aCorpJPanel, JLabel aLabel) {
+		aCorpJPanel.add (aLabel);
+	}
+	
 	public boolean hasAnyLicense () {
 		boolean tHasAnyLicense;
 		
