@@ -3,6 +3,7 @@ package ge18xx.company;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
@@ -119,7 +120,15 @@ public class DestinationInfo {
 	}
 	
 	public String getCityName () {
-		return mapCell.getCityName ();
+		String tCityName;
+		
+		if (mapCell == MapCell.NO_MAP_CELL) {
+			tCityName = GUI.NULL_STRING;
+		} else {
+			tCityName = mapCell.getCityName ();
+		}
+		
+		return tCityName;
 	}
 
 	public int calculateEscrowWithheld (ShareCompany aShareCompany) {
