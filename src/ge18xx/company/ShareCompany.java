@@ -170,24 +170,15 @@ public class ShareCompany extends TokenCompany {
 			tDestinationMapCell = destinationInfo.getMapCell ();
 			
 			tDestinationMapCellID = destinationInfo.getMapCellID ();
-//			System.out.println ("Check if " + abbrev + " has reached from home " + tHomeVertexID + 
-//					" to destination " + tDestinationMapCellID);
-			if (destinationInfo.hasReached ()) {
-				System.err.println ("Has previously reached the destination");
-			} else {
+			if (! destinationInfo.hasReached ()) {
 				tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
 				tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
 				if (tContainsHomeMapCell && tContainsDestinationMapCell) {
-//					System.out.println ("Home and Destination Map Cells are in the Graph - Need to see if Connected");
 					aHexMap.breadthFirstSearch (tHomeVertexID);
 					tFoundInBFS = aHexMap.foundInBFS (tDestinationMapCellID);
-//					System.out.println ("**** Found Destination in BFS " + tFoundInBFS);
 					if (tFoundInBFS) {
 						handleReachedDestination ();
 					}
-//				} else {
-//					System.out.println ("Home Map Cell in Graph: " + tContainsHomeMapCell);
-//					System.out.println ("Destination Map Cell in Graph: " + tContainsDestinationMapCell);			
 				}
 			}
 		}
@@ -1059,7 +1050,8 @@ public class ShareCompany extends TokenCompany {
 		return tStartingTreasury;
 	}
 
-	private int getCapitalizationLevel () {
+	@Override
+	public int getCapitalizationLevel () {
 		int tCapitalizationAmount;
 		int tSharesSold;
 
@@ -1069,7 +1061,8 @@ public class ShareCompany extends TokenCompany {
 		return tCapitalizationAmount;
 	}
 
-	private int getSharesSold () {
+	@Override
+	public int getSharesSold () {
 		int tSharesSold;
 
 		tSharesSold = getPlayerOrCorpOwnedPercentage () / 10;

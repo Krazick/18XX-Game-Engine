@@ -16,6 +16,7 @@ import javax.swing.border.Border;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.game.ButtonsInfoFrame;
+import ge18xx.game.Capitalization;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -452,25 +453,41 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public String getDestinationCityName () {
 		return GUI.EMPTY_STRING;
 	}
-	
+
+	public int getCapitalizationLevel () {
+		int tCapitalizationAmount;
+		int tSharesSold;
+
+		tSharesSold = getSharesSold ();
+		tCapitalizationAmount = super.getGameCapitalizationLevel (tSharesSold);
+
+		return tCapitalizationAmount;
+	}
+
 	public JLabel buildEscrowLabel () {
 		JLabel tEscrowLabel;
 		int tEscrowAmount;
 		GameManager tGameManager;
+		int tCapitalizationLevel;
 
 		tGameManager = getGameManager ();
 		if (hasDestination ()) {
-			tEscrowAmount = calculateEscrowWithheld ();
 			if (hasReachedDestination ()) {
 				tEscrowLabel = new JLabel ("Escrow: All Paid");
 			} else {
-				if (tEscrowAmount > 0) {
-					tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
-				} else if (tGameManager.getAlwaysShowEscrow ()) {
-					if (hasReachedDestination ()) {
-						tEscrowLabel = new JLabel ("Escrow: All Paid");
+				tCapitalizationLevel = getCapitalizationLevel ();
+				if (tCapitalizationLevel == Capitalization.INCREMENTAL_5_MAX) {
+					tEscrowAmount = calculateEscrowWithheld ();
+					if (tEscrowAmount > 0) {
+						tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
+					} else if (tGameManager.getAlwaysShowEscrow ()) {
+						if (hasReachedDestination ()) {
+							tEscrowLabel = new JLabel ("Escrow: All Paid");
+						} else {
+							tEscrowLabel = new JLabel ("Escrow: No Escrow");
+						}
 					} else {
-						tEscrowLabel = new JLabel ("Escrow: No Escrow");
+						tEscrowLabel = GUI.NO_LABEL;
 					}
 				} else {
 					tEscrowLabel = GUI.NO_LABEL;
@@ -2108,10 +2125,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tNewStatus;
 		ActorI.ActionStates tTargetStatus;
 		int tCostToLayTile;
-		int tAllowedTileLays;
+//		int tAllowedTileLays;
 		Bank tBank;
-		String tTokens;
-		String tBases;
+		GameManager tGameManager;
 
 		tCurrentStatus = status;
 		if (benefitInUse.changeState ()) {
@@ -2124,23 +2140,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 			updateStatus (tTargetStatus);
 		}
+		tGameManager = getGameManager ();
+		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewStatus = status;
 		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
 		tOperatingRoundID = corporationList.getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-		tAllowedTileLays = getAllowedTileLays ();
-		System.out.println ("For the Company " + name + " (" + getAbbrev () + ") " + tAllowedTileLays + " Tile(s) can be laid.");
+//		tAllowedTileLays = getAllowedTileLays ();
 		if (aPreviousTile != Tile.NO_TILE) {
-			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
-					aPreviousBases);
+			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
+					tOperatingRoundID, this);
+			tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
+					aPreviousTokens, aPreviousBases);
 			tRemoveTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			addAction (tRemoveTileAction);
 			tLayTileAction.setChainToPrevious (true);
 		}
-		tTokens = aTile.getPlacedTokens ();
-		tBases = aTile.getCorporationBases ();
-		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tTokens, tBases);
+		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
+					aPreviousTokens, aPreviousBases);
 		addRemoveHomeEffect (tLayTileAction, aMapCell);
 		if (tCurrentStatus != tNewStatus) {
 			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);

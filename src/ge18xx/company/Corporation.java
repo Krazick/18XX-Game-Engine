@@ -1437,6 +1437,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getBankPoolPercentage (this)/PhaseInfo.STANDARD_SHARE_SIZE;
 	}
 
+	public int getSharesSold () {
+		int tSharesSold;
+
+		tSharesSold = getPlayerOrCorpOwnedPercentage () / 10;
+
+		return tSharesSold;
+	}
+
 	public int getPlayerOrCorpOwnedPercentage () {
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
