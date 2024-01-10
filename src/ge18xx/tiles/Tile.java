@@ -107,7 +107,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 		name = TileName.NO_TILE_NAME;
 		tTileTypeID = TileType.getTypeFromName (tType);
 		tXMLNodeList = new XMLNodeList (tileParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aNode, TileName.EN_TILE_NAME, Track.EN_TRACK, RevenueCenter.EN_REVENUE_CENTER);
+		tXMLNodeList.parseXMLNodeList (aNode, TileName.EN_TILE_NAME, Track.EN_TRACK,
+						RevenueCenter.EN_REVENUE_CENTER);
 		setValues (tNumber, tTileTypeID);
 		centers.setTileType (type);
 		type.setFixed (tFixed);

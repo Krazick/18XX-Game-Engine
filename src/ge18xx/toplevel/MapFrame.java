@@ -486,8 +486,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tTile = tMapCell.getTile ();
 			tOrientation = tMapCell.getTileOrient ();
-			tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, tPreviousOrientation,
-					tPreviousTokens, tPreviousBases);
+			tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, 
+					tPreviousOrientation, tPreviousTokens, tPreviousBases);
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
