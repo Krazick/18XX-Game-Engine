@@ -1,10 +1,8 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.center.RevenueCenter;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
-import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -115,33 +113,41 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		}
 	}
 
-	public void applyBases (RoundManager aRoundManager, MapCell aMapCell) {
-		String [] tBases;
-		String [] tBaseInfo;
-		String tAbbrev;
-		int tIndex;
-		ShareCompany tShareCompany;
-		RevenueCenter tRevenueCenter;
-		Location tLocation;
-		String tTheBases;
-		Tile tTile;
-
-		tTile = aMapCell.getTile ();
-		tTheBases = getBases ();
-		if (!(Tile.NO_BASES.equals (tTheBases))) {
-			tBases = tTheBases.split (";");
-			// Format for Bases are "CompanyAbbrev,CityIndex"
-			for (String tAPreviousBase : tBases) {
-				tBaseInfo = tAPreviousBase.split (",");
-				tAbbrev = tBaseInfo [0];
-				tIndex = Integer.parseInt (tBaseInfo [1]);
-				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
-
-				tRevenueCenter = tTile.getRevenueCenter (tIndex);
-				tLocation = tRevenueCenter.getLocation ();
-				tLocation = tLocation.rotateLocation (aMapCell.getTileOrient ());
-				aMapCell.setCorporationHome (tShareCompany, tLocation);
-			}
-		}
+	public boolean applyBases (RoundManager aRoundManager, MapCell aMapCell) {
+		boolean tBasesApplied;
+		GameManager tGameManager;
+		
+		tGameManager = aRoundManager.getGameManager ();
+		tBasesApplied = aMapCell.applyBases (bases, tGameManager);
+		
+		return tBasesApplied;
+//		
+//		String [] tBases;
+//		String [] tBaseInfo;
+//		String tAbbrev;
+//		int tIndex;
+//		ShareCompany tShareCompany;
+//		RevenueCenter tRevenueCenter;
+//		Location tLocation;
+//		String tTheBases;
+//		Tile tTile;
+//
+//		tTile = aMapCell.getTile ();
+//		tTheBases = getBases ();
+//		if (!(Tile.NO_BASES.equals (tTheBases))) {
+//			tBases = tTheBases.split (";");
+//			// Format for Bases are "CompanyAbbrev,CityIndex"
+//			for (String tAPreviousBase : tBases) {
+//				tBaseInfo = tAPreviousBase.split (",");
+//				tAbbrev = tBaseInfo [0];
+//				tIndex = Integer.parseInt (tBaseInfo [1]);
+//				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
+//
+//				tRevenueCenter = tTile.getRevenueCenter (tIndex);
+//				tLocation = tRevenueCenter.getLocation ();
+//				tLocation = tLocation.rotateLocation (aMapCell.getTileOrient ());
+//				aMapCell.setCorporationHome (tShareCompany, tLocation);
+//			}
+//		}
 	}
 }

@@ -41,6 +41,7 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
+import ge18xx.game.GameManager;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
@@ -1404,6 +1405,39 @@ public class MapCell implements Comparator<Object> {
 		}
 
 		return tTilePlaced;
+	}
+	
+	public boolean applyBases (String aBases, GameManager aGameManager) {
+		String [] tBases;
+		String [] tBaseInfo;
+		String tAbbrev;
+		int tIndex;
+		ShareCompany tShareCompany;
+		RevenueCenter tRevenueCenter;
+		Location tLocation;
+		Tile tTile;
+		boolean tBasesApplied;
+		
+		tTile = getTile ();
+		tBasesApplied = false;
+		if (!(Tile.NO_BASES.equals (aBases))) {
+			tBases = aBases.split (";");
+			// Format for Bases are "CompanyAbbrev,CityIndex"
+			for (String tAPreviousBase : tBases) {
+				tBaseInfo = tAPreviousBase.split (",");
+				tAbbrev = tBaseInfo [0];
+				tIndex = Integer.parseInt (tBaseInfo [1]);
+				tShareCompany = aGameManager.getShareCompany (tAbbrev);
+	
+				tRevenueCenter = tTile.getRevenueCenter (tIndex);
+				tLocation = tRevenueCenter.getLocation ();
+				tLocation = tLocation.rotateLocation (getTileOrient ());
+				setCorporationHome (tShareCompany, tLocation);
+				tBasesApplied = true;
+			}
+		}
+		
+		return tBasesApplied;
 	}
 
 	public boolean putThisTileDown (TileSet aTileSet, GameTile aThisTile, int aThisRotation) {
