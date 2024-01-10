@@ -33,19 +33,20 @@ public class LayTileAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
-			String aBases) {
+	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
+			String aTokens, String aBases) {
 		LayTileEffect tTileLayEffect;
 
 		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
 		addEffect (tTileLayEffect);
 	}
 
-	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2,
-									Location aHomeLocation1, Location aHomeLocation2) {
+	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, 
+			MapCell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
 
-		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, aHomeLocation1, aHomeLocation2);
+		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, 
+				aHomeCity2, aHomeLocation1, aHomeLocation2);
 		addEffect (tRemoveHomeEffect);
 	}
 
@@ -67,8 +68,8 @@ public class LayTileAction extends ChangeMapAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
 
-		tSimpleActionReport = actor.getName () + " laid Tile " + getTileNumber () + " with Orientation of "
-				+ getOrientation () + " onto MapCell " + getMapCellID () + ".";
+		tSimpleActionReport = actor.getName () + " laid Tile " + getTileNumber () + 
+				" with Orientation of " + getOrientation () + " onto MapCell " + getMapCellID () + ".";
 
 		return tSimpleActionReport;
 	}
