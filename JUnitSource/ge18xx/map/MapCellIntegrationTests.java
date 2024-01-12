@@ -91,6 +91,8 @@ class MapCellIntegrationTests {
 		Mockito.when (mRoundManager.getTileSet ()).thenReturn (tileSet);
 		Mockito.when (mRoundManager.getGameMap ()).thenReturn (mHexMap);
 		Mockito.when (mRoundManager.getShareCompany ("TPRR")).thenReturn (alphaShareCompany);
+		Mockito.when (mGameManager.getShareCompany ("TPRR")).thenReturn (alphaShareCompany);
+		Mockito.when (mRoundManager.getGameManager ()).thenReturn (mGameManager);
 		
 		layTileEffect.applyEffect (mRoundManager);
 		verifyMapCellAfterUpgrade ();
