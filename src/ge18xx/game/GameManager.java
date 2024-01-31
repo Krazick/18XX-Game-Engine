@@ -1972,6 +1972,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		outputToFile (tFullActionReport, autoSaveActionReportFile);
 	}
 
+	/* Update to use the method in the File Utils */
 	public void outputToFile (String aReport, File aFile) {
 		FileWriter tFWout;
 		
