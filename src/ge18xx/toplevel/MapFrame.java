@@ -407,6 +407,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tOperatingCompany = gameManager.getOperatingCompany ();
 			completeBenefitInUse (tOperatingCompany);
 			removeHomeIfChoice ();
+			map.lockPlacedTile ();
 		}
 		togglePlaceTileMode ();
 		map.setTilePlaced (false);
