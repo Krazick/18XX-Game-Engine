@@ -2083,6 +2083,7 @@ public class MapCell implements Comparator<Object> {
 		int tCityCenterCount;
 		int tCityCenterIndex;
 		int tFirstPossibleRotation;
+		int tTileNumber;
 		Location tOldCityLocation;
 		Location tNewCityLocation;
 		RevenueCenter tRevenueCenter;
@@ -2136,7 +2137,8 @@ public class MapCell implements Comparator<Object> {
 
 		setTile (aNewTile);
 		lockTileOrientation ();
-		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
+		tTileNumber = aNewTile.getNumber ();
+		setTileInfo (tTileNumber, tFirstPossibleRotation, false);
 		aNewTile.setMapCell (this);
 
 		// For the Tile on Map, find Revenue Centers, and Tokens on them. Place them
