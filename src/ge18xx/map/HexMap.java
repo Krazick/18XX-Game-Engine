@@ -705,10 +705,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public MapCell getSelectedMapCell () {
-		int rowIndex, colIndex, rowCount, colCount;
-		MapCell foundMapCell = MapCell.NO_MAP_CELL;
+		int rowIndex;
+		int colIndex;
+		int rowCount;
+		int colCount;
+		MapCell foundMapCell;
 
 		rowCount = getRowCount ();
+		foundMapCell = MapCell.NO_MAP_CELL;
 		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == MapCell.NO_MAP_CELL); colIndex++) {
@@ -976,7 +980,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (tTile != Tile.NO_TILE) {
 			tCurrentTile = map [aRow] [aCol].getTile ();
 			map [aRow] [aCol].putTile (tTile, aTileOrientation);
-			map [aRow] [aCol].setTileOrientationLocked (true);
+//			map [aRow] [aCol].setTileOrientationLocked (true);
+			map [aRow] [aCol].lockTileOrientation ();
 			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);
 		} else {
@@ -1546,6 +1551,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tilePlaced;
 	}
 
+	public void lockPlacedTile () {
+		MapCell tSelectedMapCell;
+
+		tSelectedMapCell = getSelectedMapCell ();
+		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
+			System.err.println ("ERROR-- Trying to Lock Tile Orientation, can't Find Selected MapCell.");
+		} else {
+			tSelectedMapCell.lockTileOrientation ();
+		}
+	}
+	
 	public void upgradeTile (MapCell aCurrentMapCell, Tile aNewTile) {
 		aCurrentMapCell.upgradeTile (tileSet, aNewTile);
 		redrawMap ();
