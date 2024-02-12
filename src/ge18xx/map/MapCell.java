@@ -1298,8 +1298,20 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	public void unlockTileOrientation () {
+		tileOrientLocked = false;
+	}
+
 	public void lockTileOrientation () {
 		tileOrientLocked = true;
+	}
+
+	public void setTileOrientationLocked (boolean aTileOrientLocked) {
+		if (aTileOrientLocked) {
+			lockTileOrientation ();
+		} else {
+			unlockTileOrientation ();
+		}
 	}
 
 	// To Place a Tile, determine if there is a tile already on the Map Cell, if so,
@@ -1320,7 +1332,7 @@ public class MapCell implements Comparator<Object> {
 			tNewTile.setRevenueCenters (centers);
 			tNewTile.setMapCell (this);
 			setTile (tNewTile);
-			setTileOrientationLocked (false);
+			unlockTileOrientation ();
 		}
 	}
 
@@ -1339,10 +1351,6 @@ public class MapCell implements Comparator<Object> {
 		tile = aTile;
 	}
 
-	public void setTileOrientationLocked (boolean aTileOrientLocked) {
-		tileOrientLocked = aTileOrientLocked;
-	}
-
 	public void putTile (Tile aTile, int aTileOrient) {
 		int tNewTileNumber;
 
@@ -1359,7 +1367,7 @@ public class MapCell implements Comparator<Object> {
 			tNewTileNumber = aTile.getNumber ();
 		}
 		setTile (aTile);
-		setTileOrientationLocked (false);
+		lockTileOrientation ();
 		setTileInfo (tNewTileNumber, aTileOrient, false);
 	}
 
@@ -1781,7 +1789,7 @@ public class MapCell implements Comparator<Object> {
 			allowedRotations [tIndex] = false;
 			neighbors [tIndex] = NO_MAP_CELL;
 		}
-		tileOrientLocked = false;
+		lockTileOrientation ();
 		selectedFeature2 = new Feature2 ();
 		removePortToken ();
 		removeCattleToken ();
@@ -1987,7 +1995,7 @@ public class MapCell implements Comparator<Object> {
 			startingTileNumber = tileNumber;
 		}
 		startingTile = aStarting;
-		tileOrientLocked = startingTile;
+		setTileOrientationLocked (startingTile);
 	}
 
 	public void setStartingTile () {
@@ -2127,7 +2135,7 @@ public class MapCell implements Comparator<Object> {
 		// using the new Tile.
 
 		setTile (aNewTile);
-		setTileOrientationLocked (false);
+		lockTileOrientation ();
 		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
 		aNewTile.setMapCell (this);
 
