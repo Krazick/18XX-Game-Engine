@@ -79,9 +79,8 @@ public class RotateTileEffect extends LayTileEffect {
 		int tCurrentOrientation;
 
 		tCurrentOrientation = aMapCell.getTileOrient ();
-		aMapCell.setTileOrientationLocked (false);
+		aMapCell.unlockTileOrientation ();
 		if (tCurrentOrientation == orientation) {
-			System.out.println ("Tile in Correct Orientation of " + orientation);
 			aEffectApplied = true;
 		} else {
 			aMapCell.setTileOrient (orientation);
@@ -95,7 +94,7 @@ public class RotateTileEffect extends LayTileEffect {
 				aEffectApplied = true;
 			}
 		}
-		aMapCell.setTileOrientationLocked (true);
+		aMapCell.lockTileOrientation ();
 		aGameMap.redrawMap ();
 
 		return aEffectApplied;
