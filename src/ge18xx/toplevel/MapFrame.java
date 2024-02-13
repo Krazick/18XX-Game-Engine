@@ -333,12 +333,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
-		String tTheAction = aActionEvent.getActionCommand ();
+		String tTheAction;
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		
 		tCorporation = getOperatingCompany ();
-
+		tTheAction = aActionEvent.getActionCommand ();
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
 			completeTileLay ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
