@@ -116,7 +116,7 @@ public class ReachedDestinationEffect extends Effect {
 		
 		if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
-			tShareCompany.setReachedDestination (reached);
+			tShareCompany.setReachedDestination (!reached);
 			tShareCompany.setDestinationCapitalizationLevel (oldCapitalizationLevel);
 			tEffectUndone = true;
 		} else {
