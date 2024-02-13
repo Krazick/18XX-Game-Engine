@@ -251,7 +251,6 @@ public class StockValueCalculation extends PlayerFormationPhase {
 				}
 			}
 		}
-
 	}
 	
 	@Override
