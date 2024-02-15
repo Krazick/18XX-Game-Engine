@@ -67,9 +67,7 @@ import geUtilities.XMLNodeList;
 
 public abstract class Corporation extends Observable implements PortfolioHolderLoaderI, 
 										ParsingRoutineI, Comparable<Corporation> {
-	public static final String CORPORATION = "Corporation";
-	public static final String COMPANIES = "Companies";
-	public static final ElementName EN_CORPORATION = new ElementName (CORPORATION);
+	public static final ElementName EN_CORPORATION = new ElementName ("Corporation");
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
@@ -82,11 +80,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_FORMATION_PHASE = new AttributeName ("formationPhase");
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
 	public static final AttributeName AN_FORMATION_MADATORY_PHASE = new AttributeName ("formationMandatoryPhase");
+	public static final Corporation NO_CORPORATION = null;
+	public static final String CORPORATION = EN_CORPORATION.getString ();
+	public static final String COMPANIES = "Companies";
 	public static final String CORPORATION_STATUS_CHANGE = "CORPORATION STATUS CHANGE";
-	public static final String NO_NOTE = GUI.EMPTY_STRING;
 	public static final String NO_REASON = ">>NO REASON<<";
+	public static final String NO_NOTE = GUI.EMPTY_STRING;
 	public static final String NO_PRESIDENT = GUI.EMPTY_STRING;
 	public static final String NO_ABBREV = GUI.NULL_STRING;
+	public static final String NO_HOME_GRID = GUI.NULL_STRING;
 	public static final String NO_NAME_STRING = "<NONE>";
 	public static final String PRIVATE_COMPANY = "Private";
 	public static final String MINOR_COMPANY = "Minor";
@@ -95,21 +97,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final String FORMATION_PHASE1 = "1";
 	public static final String HOME_TYPE_CHOICE = "choice";
 	public static final String HOME_TYPE_BOTH = "both";
+	public static final String enum_closed = ActionStates.Closed.toString ();
+	public static final String enum_operated = ActionStates.Operated.toString ();
+	public static final String enum_not_operated = ActionStates.NotOperated.toString ();
 	public static final int NO_ID = 0;
-	public static final Corporation NO_CORPORATION = null;
-	static final String enum_closed = ActionStates.Closed.toString ();
-	static final String enum_operated = ActionStates.Operated.toString ();
-	static final String enum_not_operated = ActionStates.NotOperated.toString ();
-	static final String NO_HOME_GRID = GUI.NULL_STRING;
-	static final int NO_COST = -1;
-	static final int NO_NAME_INT = -1;
-	static final int SORT_CO1_BEFORE_CO2 = -100;
-	static final int SORT_CO2_BEFORE_CO1 = 100;
-	int loanAmount = 0;
-	int loanInterest = 0;
+	public static final int NO_COST = -1;
+	public static final int NO_NAME_INT = -1;
+	public static final int SORT_CO1_BEFORE_CO2 = -100;
+	public static final int SORT_CO2_BEFORE_CO1 = 100;
 	boolean gameTestFlag = false;
 	boolean govtRailway;
 	boolean triggerFormation;
+	int loanAmount = 0;
+	int loanInterest = 0;
 	int id;
 	String name;
 	String abbrev;

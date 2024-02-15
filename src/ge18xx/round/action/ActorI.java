@@ -5,10 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import geUtilities.AttributeName;
+import geUtilities.GUI;
 
 public interface ActorI {
+	public final String NO_NAME = GUI.NULL_STRING;
 	public final ActorI NO_ACTOR = null;
-	public final String NO_NAME = null;
 	public final ActorI.ActionStates NO_STATE = null;
 	public static final AttributeName AN_ACTOR_NAME = new AttributeName ("actor");
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActor");

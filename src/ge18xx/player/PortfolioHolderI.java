@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 
 public interface PortfolioHolderI extends ActorI {
 
-	public final static PortfolioHolderI NO_HOLDER = null;
+	public static final PortfolioHolderI NO_HOLDER = null;
 	public static final String PLAYER_PORTFOLIO_CHANGED = "Player Portfolio Changed ";
 	
 	Portfolio portfolio = new Portfolio (NO_HOLDER);
