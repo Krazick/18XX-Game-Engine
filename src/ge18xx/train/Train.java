@@ -36,28 +36,29 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Train extends Coupon implements Comparable<Object> {
-	final static ElementName EN_TRAIN = new ElementName ("Train");
-	final static ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
-	final static ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
-	final static AttributeName AN_GAUGE = new AttributeName ("gauge");
-	final static AttributeName AN_NAME = new AttributeName ("name");
-	final static AttributeName AN_ORDER = new AttributeName ("order");
-	final static AttributeName AN_CITY_COUNT = new AttributeName ("cityCount");
-	final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
-	final static AttributeName AN_PRICE = new AttributeName ("price");
-	final static AttributeName AN_STATUS = new AttributeName ("status");
+	public final static ElementName EN_TRAIN = new ElementName ("Train");
+	public final static ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
+	public final static ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
+	public final static AttributeName AN_GAUGE = new AttributeName ("gauge");
+	public final static AttributeName AN_NAME = new AttributeName ("name");
+	public final static AttributeName AN_ORDER = new AttributeName ("order");
+	public final static AttributeName AN_CITY_COUNT = new AttributeName ("cityCount");
+	public final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
+	public final static AttributeName AN_PRICE = new AttributeName ("price");
+	public final static AttributeName AN_STATUS = new AttributeName ("status");
 	public static final String NO_TRAIN_NAME = null;
 	public static final String MISSING_NAME = "MISSING";
 	public static final String NO_TILE_INFO = "";
-	public static final int MAX_STOPS = 30;
-	public static final int HALF_MAX_STOPS = MAX_STOPS / 2;
 	public static final String TYPE_NAME = "Train";
 	public static final Train NO_TRAIN = null;
+	public static final int MAX_STOPS = 30;
+	public static final int HALF_MAX_STOPS = MAX_STOPS / 2;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
 	public static final int NO_RC_COUNT = -1;
-	
 	public static final int NO_PRICE = -1;
+	
+	// Train Status constants. Maybe make this an ENUM ??
 	public static final int NOT_AVAILABLE = 0;
 	public static final int AVAILABLE_FOR_PURCHASE = 1;
 	public static final int OWNED = 2;
@@ -65,19 +66,19 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final int RUST_AFTER_NEXT_OR = -3;
 	public static final int NO_TRAIN_STATUS = -4;
 	
-	Gauge gauge;
 	int order;
 	int cityCount;
 	int townCount;
 	int status;
-	TrainInfo trainInfo;
-	JCheckBox actionCheckbox;
-	FrameButton frameButton;
-	JLabel costLabel;
 	boolean operating;
 	boolean borrowed;
+	Gauge gauge;
+	TrainInfo trainInfo;
+	FrameButton frameButton;
 	RouteInformation currentRouteInformation;
 	RouteInformation previousRouteInformation;
+	JLabel costLabel;
+	JCheckBox actionCheckbox;
 
 	public Train () {
 		this ("", NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE);
