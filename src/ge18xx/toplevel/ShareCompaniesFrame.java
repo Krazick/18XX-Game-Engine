@@ -32,11 +32,11 @@ import geUtilities.XMLElement;
 import swingDelays.KButton;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [2].toString ();
 	public static final String BASE_TITLE = BASE_TYPE +  " " + Corporation.COMPANIES;
 	public static final ElementName EN_SHARES = new ElementName (BASE_TYPE + "s");
 	public static final ShareCompaniesFrame NO_SHARES_FRAME = null;
-	private static final long serialVersionUID = 1L;
 	KButton sellShareButton;
 	KButton buyShareButton;
 	KButton payDividendButton;
