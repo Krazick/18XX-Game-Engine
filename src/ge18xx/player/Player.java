@@ -66,16 +66,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
 	public static final AttributeName AN_CASH = new AttributeName ("cash");
-	final static AttributeName AN_NAME = new AttributeName ("name");
-	final static AttributeName AN_PLAYER_INDEX = new AttributeName ("playerIndex");
-	final static AttributeName AN_PRIMARY_STATE = new AttributeName ("primaryState");
-	final static AttributeName AN_AUCTION_STATE = new AttributeName ("auctionState");
-	final static AttributeName AN_EXCHANGED_PREZ_SHARE = new AttributeName ("exchangePrezShare");
-	final static AttributeName AN_SOLD_COMPANIES = new AttributeName ("soldCompanies");
-	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
-	final static AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
-	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
-	final static AttributeName AN_REPAYMENT_FINISHED = new AttributeName ("repaymentFinished");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_PLAYER_INDEX = new AttributeName ("playerIndex");
+	public static final AttributeName AN_PRIMARY_STATE = new AttributeName ("primaryState");
+	public static final AttributeName AN_AUCTION_STATE = new AttributeName ("auctionState");
+	public static final AttributeName AN_EXCHANGED_PREZ_SHARE = new AttributeName ("exchangePrezShare");
+	public static final AttributeName AN_SOLD_COMPANIES = new AttributeName ("soldCompanies");
+	public static final AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
+	public static final AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
+	public static final AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
+	public static final AttributeName AN_REPAYMENT_FINISHED = new AttributeName ("repaymentFinished");
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
@@ -85,7 +85,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
 	public static final String NO_SHARE_BOUGHT = null;
-	private final String DELIMITER = ",";
+	public static final String DELIMITER = ",";
 	
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
