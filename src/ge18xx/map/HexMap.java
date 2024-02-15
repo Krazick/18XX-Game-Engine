@@ -58,6 +58,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class HexMap extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
+	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
 	public static final ElementName EN_ROW = new ElementName ("Row");
 	public static final AttributeName AN_ROWS = new AttributeName ("rows");
@@ -66,15 +67,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final AttributeName AN_COLS = new AttributeName ("cols");
 	public static final AttributeName AN_INDEX = new AttributeName ("index");
 	public static final AttributeName AN_START_COL = new AttributeName ("startCol");
-	final static AttributeName AN_DEFAULT_TYPE = new AttributeName ("defaultType");
-	final static AttributeName AN_DIRECTION = new AttributeName ("direction");
-	final static AttributeName AN_FILL_COLOR = new AttributeName ("fillColor");
-	final static AttributeName AN_ROW_START = new AttributeName ("rowStart");
-	final static AttributeName AN_COL_START = new AttributeName ("colStart");
+	public static final AttributeName AN_DEFAULT_TYPE = new AttributeName ("defaultType");
+	public static final AttributeName AN_DIRECTION = new AttributeName ("direction");
+	public static final AttributeName AN_FILL_COLOR = new AttributeName ("fillColor");
+	public static final AttributeName AN_ROW_START = new AttributeName ("rowStart");
+	public static final AttributeName AN_COL_START = new AttributeName ("colStart");
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	public static final HexMap NO_HEX_MAP = null;
-	private static final long serialVersionUID = 1L;
 	MapCell map [] [];
 	Hex18XX hex;
 	TileSet tileSet;
