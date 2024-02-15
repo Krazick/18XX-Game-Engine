@@ -886,13 +886,15 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public int getAvailableCount () {
-		int tAvailableCount = 0;
+		int tAvailableCount;
 
+		tAvailableCount = 0;
 		for (Train tTrain : trains) {
 			if (tTrain.isAvailableForPurchase ()) {
 				tAvailableCount++;
 			}
 		}
+		
 		return tAvailableCount;
 	}
 
@@ -911,9 +913,14 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public Train [] getAvailableTrains () {
-		Train [] tAvailableTrains = new Train [getAvailableCount ()];
-		int tIndex = 0;
+		Train [] tAvailableTrains;
+		int tIndex;
+		int tAvailableCount;
+		
 
+		tIndex = 0;
+		tAvailableCount = getAvailableCount ();
+		tAvailableTrains = new Train [tAvailableCount];
 		for (Train tTrain : trains) {
 			if (tTrain.isAvailableForPurchase ()) {
 				tAvailableTrains [tIndex++] = tTrain;
