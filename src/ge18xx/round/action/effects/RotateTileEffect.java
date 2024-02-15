@@ -12,8 +12,8 @@ import geUtilities.AttributeName;
 import geUtilities.XMLNode;
 
 public class RotateTileEffect extends LayTileEffect {
-	public final static String NAME = "Rotate Tile";
-	protected static final AttributeName AN_PREVIOUS_ORIENTATION = new AttributeName ("tilePreviousOrientation");
+	public static final String NAME = "Rotate Tile";
+	public static final AttributeName AN_PREVIOUS_ORIENTATION = new AttributeName ("tilePreviousOrientation");
 	int previousOrientation;
 
 	public RotateTileEffect () {
