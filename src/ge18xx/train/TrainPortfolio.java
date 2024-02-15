@@ -34,10 +34,10 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class TrainPortfolio implements TrainHolderI {
+	public static final String NEWLINE = "\n";
 	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
-	private final static String NEWLINE = "\n";
-	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
-	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
+	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
+	public static final ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
 	public static final String ALL_TRAINS = "ALL";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
 	public static final String FUTURE_TRAINS = "FUTURE";
@@ -47,7 +47,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
-	private final static ArrayList<Train> NO_TRAINS = null;
+	public final static ArrayList<Train> NO_TRAINS = null;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 
