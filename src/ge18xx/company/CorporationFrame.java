@@ -261,7 +261,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		lastRevenueLabel = new JLabel (GUI.EMPTY_STRING);
 		tokenLabel = new JLabel (GUI.EMPTY_STRING);
 		loanCountLabel = new JLabel (GUI.EMPTY_STRING);
-		if (corporation.isActive ()) {
+//		if (corporation.isActive ()) {
 			corporationInfoJPanel.add (presidentLabel);
 			setPresidentLabel ();
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
@@ -284,7 +284,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			fillCertPortfolioJPanel ();
-		}
+//		}
 	}
 
 	private JPanel buildPhaseInfoPanel () {
