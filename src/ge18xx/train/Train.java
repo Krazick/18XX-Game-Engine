@@ -46,6 +46,9 @@ public class Train extends Coupon implements Comparable<Object> {
 	final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
+	public static final String NO_TRAIN_NAME = null;
+	public static final String MISSING_NAME = "MISSING";
+	public static final String NO_TILE_INFO = "";
 	public static final int MAX_STOPS = 30;
 	public static final int HALF_MAX_STOPS = MAX_STOPS / 2;
 	public static final String TYPE_NAME = "Train";
@@ -53,15 +56,15 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
 	public static final int NO_RC_COUNT = -1;
+	
 	public static final int NO_PRICE = -1;
 	public static final int NOT_AVAILABLE = 0;
 	public static final int AVAILABLE_FOR_PURCHASE = 1;
+	public static final int OWNED = 2;
 	public static final int RUSTED = -2;
-	public static final int RUST_AFTER_NEXT_OR = -1;
-	public static final int NO_TRAIN_STATUS = -3;
-	public static final String NO_TRAIN_NAME = null;
-	public static final String MISSING_NAME = "MISSING";
-	public static final String NO_TILE_INFO = "";
+	public static final int RUST_AFTER_NEXT_OR = -3;
+	public static final int NO_TRAIN_STATUS = -4;
+	
 	Gauge gauge;
 	int order;
 	int cityCount;
