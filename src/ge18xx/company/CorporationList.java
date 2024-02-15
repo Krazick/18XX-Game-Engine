@@ -73,7 +73,7 @@ import swingDelays.KButton;
 
 public class CorporationList extends InformationTable implements LoadableXMLI, ParsingRoutineI {
 	private static final long serialVersionUID = 1L;
-	public final static ElementName EN_CORPORATIONS = new ElementName ("Corporations");
+	public static final ElementName EN_CORPORATIONS = new ElementName ("Corporations");
 	public static final int NO_CORPORATION_INDEX = -1;
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES[] = {
