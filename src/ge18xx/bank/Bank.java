@@ -42,25 +42,25 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class Bank extends GameBank implements CashHolderI {
-	private static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
-	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	static DecimalFormat decimalFormat;
-	public static final ElementName EN_BANK_STATE = new ElementName ("Bank");
 	static String format;
-	private static Logger logger;
+	public static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
+	public static final ElementName EN_BANK_STATE = new ElementName ("Bank");
+	public static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	public static final String NAME = "Bank";
 	public static final String CLOSED = "Bank Closed";
 	public static final String IPO = "Bank IPO";
 	public static final Bank NO_BANK = null;
-	public static final int NO_BANK_CASH = 0;
 	public static final String NO_FORMAT = null;
-	
-	JLabel bankCashLabel;
+	public static final int NO_BANK_CASH = 0;
+	private static Logger logger;
+
 	boolean bankIsBroken;
+	int treasury;
+	JLabel bankCashLabel;
 	Portfolio closedPortfolio;
 	TrainPortfolio rustedTrainsPortfolio;
 	StartPacketFrame startPacketFrame;
-	int treasury;
 
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
