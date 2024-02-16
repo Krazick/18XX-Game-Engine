@@ -21,8 +21,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Benefits {
-	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
-	public final static Benefits NO_BENEFITS = null;
+	public static final ElementName EN_BENEFITS = new ElementName ("Benefits");
+	public static final Benefits NO_BENEFITS = null;
 	List<Benefit> benefits;
 
 	public Benefits (XMLNode aBenefitsNode, Corporation aCorporation) {
