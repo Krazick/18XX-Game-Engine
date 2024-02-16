@@ -1,5 +1,7 @@
 package ge18xx.center;
 
+import geUtilities.GUI;
+
 //
 //  RevenueCenterType.java
 //  Java_18XX
@@ -10,7 +12,7 @@ package ge18xx.center;
 
 public class RevenueCenterType implements Cloneable {
 	public static final RevenueCenterType NO_REVENUE_CENTER_TYPE = null;
-	public static final String NO_REVENUE_CENTER_TYPE_NAME = null;
+	public static final String NO_REVENUE_CENTER_TYPE_NAME = GUI.NULL_STRING;
 	public static final int NO_REVENUE_CENTER = 0;
 	public static final int SMALL_TOWN = 1;
 	public static final int TWO_SMALL_TOWNS = 2;
@@ -33,10 +35,10 @@ public class RevenueCenterType implements Cloneable {
 	public static final int RUN_THROUGH_CITY = 19;
 	public static final int MIN_REVENUE_CENTER_TYPE = NO_REVENUE_CENTER;
 	public static final int MAX_REVENUE_CENTER_TYPE = RUN_THROUGH_CITY;
-	static final String NAMES[] = { "No Revenue Center", "Small Town", "Two Small Towns", "Single City", "Two Cities",
-			"Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", "Triple City", "Quad City",
-			"Two Double Cities", "Dead-End City", "Dead-End Only City", "Bypass City", "Destination City", "Dot Town",
-			"Private Railway", "Run Through City" };
+	public static final String NAMES [] = { "No Revenue Center", "Small Town", "Two Small Towns", "Single City", 
+			"Two Cities", "Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", 
+			"Triple City", "Quad City", "Two Double Cities", "Dead-End City", "Dead-End Only City", 
+			"Bypass City", "Destination City", "Dot Town", "Private Railway", "Run Through City" };
 
 	int type;
 

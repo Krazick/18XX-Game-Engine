@@ -35,15 +35,15 @@ public class Revenues extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final AttributeName AN_LAYOUT = new AttributeName ("layout");
 	public static final Revenues NO_REVENUES = null;
-	static final int LIRA_SYMBOL = -1;
-	static final int LAYOUT_CIRCLE = 0;
-	static final int LAYOUT_OVAL = 1;
-	static final int LAYOUT_HORIZONTAL = 2;
-	static final int LAYOUT_VERTICAL = 3;
-	static final int LAYOUT_SPLIT = 4;
-	static final int MIN_LAYOUT_STYLE = LAYOUT_CIRCLE;
-	static final int MAX_LAYOUT_STYLE = LAYOUT_SPLIT;
-	static final String LAYOUT_NAMES[] = { "circle", "oval", "horizontal", "vertical", "split" };
+	public static final int LIRA_SYMBOL = -1;
+	public static final int LAYOUT_CIRCLE = 0;
+	public static final int LAYOUT_OVAL = 1;
+	public static final int LAYOUT_HORIZONTAL = 2;
+	public static final int LAYOUT_VERTICAL = 3;
+	public static final int LAYOUT_SPLIT = 4;
+	public static final int MIN_LAYOUT_STYLE = LAYOUT_CIRCLE;
+	public static final int MAX_LAYOUT_STYLE = LAYOUT_SPLIT;
+	public static final String LAYOUT_NAMES[] = { "circle", "oval", "horizontal", "vertical", "split" };
 	int layoutStyle;
 	List<Revenue> revenues;
 

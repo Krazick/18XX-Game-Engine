@@ -26,9 +26,9 @@ public class CityList extends InformationTable implements LoadableXMLI {
 	/**
 	 *
 	 */
-	public final static CityList NO_CITY_LIST = null;
-	final static ElementName EN_CITIES = new ElementName ("Cities");
 	private static final long serialVersionUID = 1L;
+	public static final CityList NO_CITY_LIST = null;
+	public static final ElementName EN_CITIES = new ElementName ("Cities");
 	List<CityInfo> cities;
 
 	public CityList () {
