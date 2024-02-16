@@ -45,8 +45,8 @@ public class City extends RevenueCenter implements Cloneable {
 	public static final ElementName CorporationBase = new ElementName ("CorporationBase");
 	public static final ElementName EN_CORPORATE_STATION = new ElementName ("CorporateStation");
 	public static final City NO_CITY = null;
-	static final int NO_STATIONS = 0;
-	static final int NOT_VALID_STATION = -1;
+	public static final int NO_STATIONS = 0;
+	public static final int NOT_VALID_STATION = -1;
 	int stationCount;
 	MapToken corpStations [];
 
