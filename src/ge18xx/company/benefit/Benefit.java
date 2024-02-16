@@ -27,21 +27,21 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public abstract class Benefit implements ActionListener {
-	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
-	public final static ElementName EN_BENEFIT = new ElementName ("Benefit");
-	public final static AttributeName AN_CLASS = new AttributeName ("class");
-	public final static AttributeName AN_USED = new AttributeName ("used");
-	public final static AttributeName AN_ALL_ACTORS = new AttributeName ("allActors");
-	public final static AttributeName AN_NAME = new AttributeName ("name");
-	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
-	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
-	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
-	public final static AttributeName AN_OWNER_TYPE = new AttributeName ("ownerType");
-	public final static JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
-	public final static Benefit NO_BENEFIT = null;
-	public final static String NO_BENEFIT_NAME = null;
-	public final static String NO_BUTTON_LABEL = null;
-	public final static String NAME = "ABSTRACT";
+	public static final ElementName EN_BENEFITS = new ElementName ("Benefits");
+	public static final ElementName EN_BENEFIT = new ElementName ("Benefit");
+	public static final AttributeName AN_CLASS = new AttributeName ("class");
+	public static final AttributeName AN_USED = new AttributeName ("used");
+	public static final AttributeName AN_ALL_ACTORS = new AttributeName ("allActors");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
+	public static final AttributeName AN_PASSIVE = new AttributeName ("passive");
+	public static final AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
+	public static final AttributeName AN_OWNER_TYPE = new AttributeName ("ownerType");
+	public static final JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
+	public static final Benefit NO_BENEFIT = null;
+	public static final String NO_BENEFIT_NAME = GUI.NULL_STRING;
+	public static final String NO_BUTTON_LABEL = GUI.NULL_STRING;
+	public static final String NAME = "ABSTRACT";
 	public static final Benefit FAKE_BENEFIT = new FakeBenefit (); 
 
 	ActorI.ActorTypes actorType;
