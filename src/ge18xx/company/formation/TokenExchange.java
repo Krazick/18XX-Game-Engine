@@ -47,8 +47,8 @@ import swingDelays.KButton;
 
 public class TokenExchange extends PlayerFormationPhase implements ItemListener {
 	private static final long serialVersionUID = 1L;
-	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
-	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
+	public static final String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
+	public static final String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
 	JPanel nonHomeCheckboxesPanel;
 	KButton homeTokensExchange;
 	KButton nonHomeTokensExchange;

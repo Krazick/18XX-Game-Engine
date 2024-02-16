@@ -21,14 +21,14 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class LoanRepayment extends PlayerFormationPhase {
+	private static final long serialVersionUID = 1L;
 	public static final String PAY_FROM_TREASURY = "Pay From Treasury";
 	public static final String PAY_FROM_PRESIDENT = "Pay From President";
 	public static final String CONFIRM_REPAYMENT = "Confirm Repayment";
 	public static final String PAY_TREASURY = "PayTreasury";
 	public static final String PAY_PRESIDENT = "PayPresident";
-	private static final String PAYBACK_COMPLETED = "President already completed all loan paybacks";
-	private static final String LOANS_REPAYMENTS_NEEDED = "Not all Share Companies have confirmed loan repayments";
-	private static final long serialVersionUID = 1L;
+	public static final String PAYBACK_COMPLETED = "President already completed all loan paybacks";
+	public static final String LOANS_REPAYMENTS_NEEDED = "Not all Share Companies have confirmed loan repayments";
 	boolean oneShareToBankPool;
 	int foldingCompanyCount;
 	int totalExchangeCount;

@@ -45,17 +45,17 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class FormationPhase extends TriggerClass implements ActionListener {
-	public final static ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");
-	public final static AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
-	public final static AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
-	public final static AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
-	public final static AttributeName AN_FORMING_PRESIDENT_ASSIGNED = new AttributeName ("formingPresidentAssigned");
-	public final static AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
-	public final static AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
-	public final static AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
-	public final static AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
-	public final static AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
-	public final static AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
+	public static final ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");
+	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
+	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
+	public static final AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
+	public static final AttributeName AN_FORMING_PRESIDENT_ASSIGNED = new AttributeName ("formingPresidentAssigned");
+	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
+	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
+	public static final AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
+	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
+	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
+	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 	public static final FormationPhase NO_FORMATION_PHASE = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";

@@ -34,12 +34,12 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class AssetCollection extends PlayerFormationPhase {
+	private static final long serialVersionUID = 1L;
 	public static final String CLAIM = "Claim";
 	public static final String DECLINE = "Decline";
 	public static final String COLLECT_CASH = "Collect Cash";
 	public static final String COLLECT_LICENSES = "Collect Licenses";
 	public static final List<KButton> NO_TRAIN_BUTTONS = null;
-	private static final long serialVersionUID = 1L;
 	List<KButton> trainButtons;
 	KButton collectCashButton;
 	KButton collectLicensesButton;

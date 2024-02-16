@@ -27,8 +27,8 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class ShareExchange extends PlayerFormationPhase {
-	public static final String EXCHANGE = "Exchange Shares";
 	private static final long serialVersionUID = 1L;
+	public static final String EXCHANGE = "Exchange Shares";
 	boolean oneShareToBankPool;
 	KButton exchange;
 	int foldingCompanyCount;
