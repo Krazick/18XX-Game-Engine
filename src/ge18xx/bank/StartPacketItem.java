@@ -19,14 +19,13 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class StartPacketItem implements ParsingRoutineI {
+	public static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");
 	public static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationId");
 	public static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
-	private static final AttributeName AN_AVAILABLE = new AttributeName ("available");
-	private static final AttributeName AN_CAN_BE_BID_ON = new AttributeName ("canBeBidOn");
-	private static final AttributeName AN_DISCOUNT_AMOUNT = new AttributeName ("discountAmount");
-	private static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");
-
-	public static StartPacketItem NO_START_PACKET_ITEM = null;
+	public static final AttributeName AN_AVAILABLE = new AttributeName ("available");
+	public static final AttributeName AN_CAN_BE_BID_ON = new AttributeName ("canBeBidOn");
+	public static final AttributeName AN_DISCOUNT_AMOUNT = new AttributeName ("discountAmount");
+	public static final StartPacketItem NO_START_PACKET_ITEM = null;
 	StartPacketRow startPacketRow;
 	Certificate certificate;
 	Certificate freeCertificate;

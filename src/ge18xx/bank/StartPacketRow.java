@@ -23,9 +23,9 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
-	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
-	private static final AttributeName AN_ROW = new AttributeName ("row");
-	private static final AttributeName AN_BUY_N_ITEMS = new AttributeName ("buyNItems");
+	public static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
+	public static final AttributeName AN_ROW = new AttributeName ("row");
+	public static final AttributeName AN_BUY_N_ITEMS = new AttributeName ("buyNItems");
 	public static final StartPacketRow NO_START_PACKET_ROW = null;
 	public static final int NO_ROW_LOCATION = -1;
 	int rowNumber;
