@@ -16,7 +16,7 @@ import geUtilities.XMLNode;
 public class ShowConfigInfoPreference extends TrueFalseDecisionPreference implements ItemListener {
 	public static final ElementName EN_CONFIG_INFO = new ElementName ("ConfigInfo");
 	public static final AttributeName AN_SHOW = new AttributeName ("show");
-	public final static String buttonText = "Show Config Info File (full Path) when saving";
+	public static final String buttonText = "Show Config Info File (full Path) when saving";
 	JCheckBox showConfigInfoFrame;
 	
 	public ShowConfigInfoPreference (GameManager aGameManager) {

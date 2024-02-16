@@ -16,7 +16,7 @@ import geUtilities.XMLNode;
 public class ClientNameInFramePreference extends TrueFalseDecisionPreference implements ItemListener {
 	public static final ElementName EN_CLIENT_NAME = new ElementName ("ClientName");
 	public static final AttributeName AN_IN_FRAME = new AttributeName ("inFrame");
-	public final static String buttonText = "Show Client Name in Frame Titles (Network Games Only)";
+	public static final String buttonText = "Show Client Name in Frame Titles (Network Games Only)";
 	JCheckBox clientNameInFrame;
 	
 	public ClientNameInFramePreference (GameManager aGameManager) {

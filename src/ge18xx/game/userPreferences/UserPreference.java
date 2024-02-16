@@ -13,7 +13,6 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public abstract class UserPreference implements ActionListener {
-	public static UserPreference NO_USER_PREFERENCE;
 	GameManager gameManager;
 
 	public UserPreference (GameManager aGameManager) {
