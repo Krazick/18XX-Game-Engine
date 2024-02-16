@@ -15,8 +15,8 @@ import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class PassiveTokenBenefit extends FreeLicenseBenefit {
-	public final static String NAME = "Passive Token Placement";
-	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final String NAME = "Passive Token Placement";
+	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
 	String tokenType;
 	
 	public PassiveTokenBenefit (XMLNode aXMLNode) {

@@ -19,7 +19,7 @@ import ge18xx.round.action.WaitForReponseFrame;
 import geUtilities.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
-	public final static String NAME = "QUERY EXCHANGE";
+	public static final String NAME = "QUERY EXCHANGE";
 	SetWaitStateAction setWaitStateAction;
 	ExchangePrivateQuery exchangePrivateQuery;
 

@@ -3,7 +3,6 @@ package ge18xx.company.benefit;
 import geUtilities.XMLNode;
 
 public class FirstORBenefit extends Benefit {
-
 	public FirstORBenefit () {
 		// TODO Auto-generated constructor stub
 	}

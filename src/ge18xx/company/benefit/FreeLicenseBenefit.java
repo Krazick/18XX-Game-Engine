@@ -15,7 +15,7 @@ import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class FreeLicenseBenefit extends PassiveEffectBenefit {
-	public final static String NAME = "Free License";
+	public static final String NAME = "Free License";
 	int corporationID;
 	int licenseCost;
 	String [] mapCellIDs;

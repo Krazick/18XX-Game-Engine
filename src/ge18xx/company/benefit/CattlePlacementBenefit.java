@@ -16,10 +16,10 @@ import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class CattlePlacementBenefit extends MapBenefit {
-	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
-	final static AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
-	final static AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
-	public final static String NAME = "Cattle Placement";
+	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
+	public static final AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
+	public static final String NAME = "Cattle Placement";
 	String tokenType;
 	boolean tokenPlacement;
 	int tokenBonus;

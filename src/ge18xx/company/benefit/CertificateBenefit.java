@@ -15,10 +15,10 @@ import geUtilities.AttributeName;
 import geUtilities.XMLNode;
 
 public abstract class CertificateBenefit extends Benefit {
-	final static AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
-	final static AttributeName AN_CORPORATION_ID = new AttributeName ("corporationID");
-	final static AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
-	public final static String NAME = "CERTIFICATE";
+	public static final AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
+	public static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationID");
+	public static final AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
+	public static final String NAME = "CERTIFICATE";
 	int corporationID;
 	int certificatePercentage;
 	boolean certificatePresident;

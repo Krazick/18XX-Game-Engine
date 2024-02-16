@@ -19,9 +19,9 @@ import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class PortPlacementBenefit extends MapBenefit {
-	final static AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
-	final static AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
-	public final static String NAME = "Port Placement";
+	public static final AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
+	public static final AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
+	public static final String NAME = "Port Placement";
 	boolean tokenPlacement;
 	int tokenBonus;
 

@@ -9,7 +9,6 @@ import ge18xx.round.action.effects.AddLicenseEffect;
 import geUtilities.XMLNode;
 
 public class PassiveEffectBenefit extends Benefit {
-
 	public PassiveEffectBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
 	}

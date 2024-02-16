@@ -22,8 +22,8 @@ import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class TokenPlacementBenefit extends MapBenefit {
-	final static AttributeName AN_EXTRA = new AttributeName ("extra");
-	public final static String NAME = "Token Placement";
+	public static final AttributeName AN_EXTRA = new AttributeName ("extra");
+	public static final String NAME = "Token Placement";
 	boolean extraTokenPlacement;
 
 	public TokenPlacementBenefit (XMLNode aXMLNode) {

@@ -17,10 +17,10 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class MapBenefit extends Benefit {
-	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
-	final static AttributeName AN_MAPCELL = new AttributeName ("mapCell");
-	final static AttributeName AN_COST = new AttributeName ("cost");
-	final static AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
+	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final AttributeName AN_MAPCELL = new AttributeName ("mapCell");
+	public static final AttributeName AN_COST = new AttributeName ("cost");
+	public static final AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
 	public final static String PORT_TOKEN = "Port";
 	public final static String CATTLE_TOKEN = "Cattle";
 	public final static String BRIDGE_TOKEN = "Bridge";

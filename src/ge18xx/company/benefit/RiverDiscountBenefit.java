@@ -6,7 +6,6 @@ import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class RiverDiscountBenefit extends Benefit {
-
 	public RiverDiscountBenefit () {
 		// TODO Auto-generated constructor stub
 	}

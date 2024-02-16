@@ -17,9 +17,9 @@ import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class TilePlacementBenefit extends MapBenefit {
+	public static final AttributeName AN_EXTRA = new AttributeName ("extra");
+	public static final String NAME = "Tile Placement";
 	boolean extraTilePlacement;
-	final static AttributeName AN_EXTRA = new AttributeName ("extra");
-	public final static String NAME = "Tile Placement";
 
 	public TilePlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);

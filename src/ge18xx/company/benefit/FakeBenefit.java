@@ -1,7 +1,7 @@
 package ge18xx.company.benefit;
 
 public final class FakeBenefit extends Benefit {
-	public final static String NAME = "FAKE";
+	public static final String NAME = "FAKE";
 
 	public FakeBenefit () {
 	}

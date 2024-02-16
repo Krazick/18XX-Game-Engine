@@ -15,7 +15,7 @@ import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {
-	public final static String NAME = "EXCHANGE";
+	public static final String NAME = "EXCHANGE";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
 
 	public ExchangeBenefit (XMLNode aXMLNode) {
