@@ -29,13 +29,13 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class StartPacketFrame extends XMLFrame implements LoadableXMLI, PortfolioHolderLoaderI {
-	private static final ElementName EN_ITEM = new ElementName ("Item");
-	private static final ElementName EN_START_PACKET = new ElementName ("StartPacket");
-	private static final int NO_ACTIVE_ROW = -1;
-	public static final StartPacketFrame NO_START_PACKET = null;
 	private static final long serialVersionUID = 1L;
+	public static final ElementName EN_ITEM = new ElementName ("Item");
+	public static final ElementName EN_START_PACKET = new ElementName ("StartPacket");
+	public static final StartPacketFrame NO_START_PACKET = null;
 	public static final String SP_NAME = "Start Packet";
 	public static final String SPFRAME_SUFFIX = " " + SP_NAME + " Frame";
+	public static final int NO_ACTIVE_ROW = -1;
 	public enum StartPacketStates { NO_ROWS, FIRST_ROW, SECOND_ROW, OTHER_ROWS, ALL_ROWS };
 
 	List<StartPacketRow> startPacketRows;
