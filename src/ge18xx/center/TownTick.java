@@ -23,12 +23,6 @@ import ge18xx.tiles.TileType;
 import geUtilities.XMLNode;
 
 public class TownTick extends Town {
-
-//	public TownTick () {
-//		this (RevenueCenterType.NO_REVENUE_CENTER, NO_ID, Location.NO_LOCATION, NO_NAME, RevenueCenter.NO_VALUE,
-//				new TileType ());
-//	}
-
 	public TownTick (XMLNode aNode) {
 		super (aNode);
 	}
