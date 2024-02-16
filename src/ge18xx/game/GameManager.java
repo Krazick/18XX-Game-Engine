@@ -111,8 +111,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
-	public static final String NO_GAME_NAME = "<NONE>";
 	public static final GameManager NO_GAME_MANAGER = null;
+	public static final String NO_GAME_NAME = "<NONE>";
 	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
