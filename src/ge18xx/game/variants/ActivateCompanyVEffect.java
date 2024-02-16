@@ -10,9 +10,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ActivateCompanyVEffect extends VariantEffect {
-	static final String NAME = "Activate Company";
-	static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	static final AttributeName AN_COMPANY_ID = new AttributeName ("companyID");
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final AttributeName AN_COMPANY_ID = new AttributeName ("companyID");
+	public static final String NAME = "Activate Company";
 	String companyAbbrev;
 	int companyID;
 
