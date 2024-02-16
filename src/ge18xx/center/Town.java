@@ -22,11 +22,6 @@ import geUtilities.XMLNode;
 public class Town extends RevenueCenter {
 	public static final Town NO_TOWN = null;
 
-//	public Town () {
-//		this (RevenueCenter.NO_VALUE, NO_ID, Location.NO_LOCATION, NO_NAME, RevenueCenterType.NO_REVENUE_CENTER,
-//				new TileType ());
-//	}
-
 	public Town (XMLNode aNode) {
 		super (aNode);
 	}
