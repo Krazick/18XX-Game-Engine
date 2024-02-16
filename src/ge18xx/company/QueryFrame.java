@@ -21,8 +21,8 @@ import swingDelays.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private static final String ACCEPT_OFFER = "Accept";
-	private static final String REJECT_OFFER = "Reject";
+	public static final String ACCEPT_OFFER = "Accept";
+	public static final String REJECT_OFFER = "Reject";
 	KButton acceptButton;
 	KButton rejectButton;
 	RoundManager roundManager;

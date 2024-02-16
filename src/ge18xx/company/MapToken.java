@@ -7,10 +7,10 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
 public class MapToken extends Token {
+	public final static AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");
 	public static final MapToken NO_MAP_TOKEN = null;
 	public static final String NO_SIDES = null;
 	public static final String DIVIDER = "|";
-	final static AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");
 	MapCell mapCell;
 	Location location;
 	int cost;

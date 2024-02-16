@@ -9,11 +9,11 @@ import geUtilities.XMLNode;
 
 public class DestinationInfo {
 	public static final DestinationInfo NO_DESTINATION_INFO = null;
-	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
-	static final AttributeName AN_REACHED = new AttributeName ("reached");
-	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
-	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
-	static final AttributeName AN_ESCROW = new AttributeName ("escrow");
+	public static final AttributeName AN_DESTINATION = new AttributeName ("destination");
+	public static final AttributeName AN_REACHED = new AttributeName ("reached");
+	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
+	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
+	public static final AttributeName AN_ESCROW = new AttributeName ("escrow");
 	// TODO:
 	// Should take the location, and MapCell and make a sub-item "Destination" that is an array.
 	// This will allow for 1853 to support multiple Destinations (setup in the initial contract

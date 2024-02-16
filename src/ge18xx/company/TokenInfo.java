@@ -8,10 +8,12 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
 public class TokenInfo {
-	public final static AttributeName AN_AVAILABLE_TOKEN_TYPE = new AttributeName ("tokenType");
-	public final static AttributeName AN_AVAILABLE_TOKEN_COST = new AttributeName ("cost");
-	public final static AttributeName AN_AVAILABLE_TOKEN_USED = new AttributeName ("used");
-	public final static ElementName EN_TOKEN_INFO = new ElementName ("TokenInfo");
+	public static final ElementName EN_TOKEN_INFO = new ElementName ("TokenInfo");
+	public static final AttributeName AN_AVAILABLE_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final AttributeName AN_AVAILABLE_TOKEN_COST = new AttributeName ("cost");
+	public static final AttributeName AN_AVAILABLE_TOKEN_USED = new AttributeName ("used");
+	public static final TokenInfo NO_TOKEN_INFO = null;
+	public static final TokenType NO_TOKEN_TYPE = null;
 
 	// Create new Class 'TokenInfo' that has:
 	// 1) Token (can be sub-Class MapToken)
@@ -20,8 +22,6 @@ public class TokenInfo {
 	// 4) Used (Boolean to mark if used or not)
 	// Store in an ArrayList, with a fixed number of entries, based on how many tokens the Company has
 
-	public static TokenInfo NO_TOKEN_INFO = null;
-	public static TokenType NO_TOKEN_TYPE = null;
 	public enum TokenType {
 		MARKET ("Market"), 
 		HOME1 ("Home1"), 

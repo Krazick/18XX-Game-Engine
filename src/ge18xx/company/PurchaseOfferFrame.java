@@ -7,7 +7,6 @@ import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.PurchaseOfferEffect;
 
 public class PurchaseOfferFrame extends QueryFrame {
-
 	private static final long serialVersionUID = 1L;
 	String itemType;
 	String itemName;

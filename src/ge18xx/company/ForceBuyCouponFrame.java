@@ -25,14 +25,14 @@ import ge18xx.train.Train;
 import swingDelays.KButton;
 
 public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemListener {
-	public static final ForceBuyCouponFrame NO_FRAME = null;
-	private static final String BUY_ACTION = "BuyAction";
-	private static final String CANCEL_ACTION = "Cancel";
-	private static final String SELL_ACTION = "SellStock";
-	private static final String EXCHANGE_ACTION = "Exchange";
-	private static final String UNDO_ACTION = "Undo";
-	private static final String DECLARE_BANKRUPTCY_ACTION = "DeclareBankruptcy";
 	private static final long serialVersionUID = 1L;
+	public static final ForceBuyCouponFrame NO_FRAME = null;
+	public static final String BUY_ACTION = "BuyAction";
+	public static final String CANCEL_ACTION = "Cancel";
+	public static final String SELL_ACTION = "SellStock";
+	public static final String EXCHANGE_ACTION = "Exchange";
+	public static final String UNDO_ACTION = "Undo";
+	public static final String DECLARE_BANKRUPTCY_ACTION = "DeclareBankruptcy";
 	KButton doSellButton;
 	KButton exchangeButton;
 	KButton doBuyButton;

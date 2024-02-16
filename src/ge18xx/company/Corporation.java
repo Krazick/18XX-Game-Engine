@@ -118,12 +118,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	String formationPhase;
 	String formationRequirement;
 	String formationManadatoryPhase;
-	MessageBean bean;
+	String homeType;
 	MapCell homeCity1;
 	Location homeLocation1;
 	MapCell homeCity2;
 	Location homeLocation2;
-	String homeType;
+	MessageBean bean;
 	ActorI.ActionStates status;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Corporation;
 	CorporationFrame corporationFrame;

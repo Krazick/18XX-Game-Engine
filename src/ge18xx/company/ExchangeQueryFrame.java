@@ -8,9 +8,9 @@ import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
 import ge18xx.round.action.effects.ToEffect;
 
 public class ExchangeQueryFrame extends QueryFrame {
+	private static final long serialVersionUID = 1L;
 	public final static String NAME = "QUERY EXCHANGE";
 
-	private static final long serialVersionUID = 1L;
 	String actionText;
 
 	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {

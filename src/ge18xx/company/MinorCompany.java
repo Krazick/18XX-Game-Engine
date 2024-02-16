@@ -29,10 +29,10 @@ import geUtilities.XMLNode;
 public class MinorCompany extends TokenCompany {
 	public static final MinorCompany NO_MINOR_COMPANY = null;
 	public static final ElementName EN_MINOR_COMPANY = new ElementName ("Minor");
-	static final AttributeName AN_FORM_UPGRADE = new AttributeName ("formUpgrade");
-	static final AttributeName AN_FORM_PHASE = new AttributeName ("formPhase");
-	static final AttributeName AN_UPGRADE_ID = new AttributeName ("upgradeID");
-	static final AttributeName AN_UPGRADE_PERCENTAGE = new AttributeName ("upgradePercentage");
+	public static final AttributeName AN_FORM_UPGRADE = new AttributeName ("formUpgrade");
+	public static final AttributeName AN_FORM_PHASE = new AttributeName ("formPhase");
+	public static final AttributeName AN_UPGRADE_ID = new AttributeName ("upgradeID");
+	public static final AttributeName AN_UPGRADE_PERCENTAGE = new AttributeName ("upgradePercentage");
 	int upgradeToID;
 	int upgradePercentage;
 	boolean formUpgrade;

@@ -56,19 +56,19 @@ import geUtilities.XMLNodeList;
 //
 
 public class Certificate implements Comparable<Certificate> {
-	public static AttributeName AN_DIRECTOR = new AttributeName ("director");
-	public static AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
-	public static AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");
-	public static AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
-	public static AttributeName AN_SECOND_ISSUE = new AttributeName ("secondIssue");
-	public static ElementName EN_CERTIFICATE = new ElementName ("Certificate");
-	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	public static String NO_OWNER_NAME = GUI.EMPTY_STRING;
-	private static String SHARE_OWNER = "Share";
-	private static String IPO_OWNER = "IPO";
-	private static String PLAYER_OWNER = "Player";
-	public static final String NO_CERTIFICATE_NAME = GUI.EMPTY_STRING;
+	public static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
+	public static final ElementName EN_BIDDERS = new ElementName ("Bidders");
+	public static final AttributeName AN_DIRECTOR = new AttributeName ("director");
+	public static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
+	public static final AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");
+	public static final AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
+	public static final AttributeName AN_SECOND_ISSUE = new AttributeName ("secondIssue");
 	public static final Certificate NO_CERTIFICATE = null;
+	public static final String NO_OWNER_NAME = GUI.EMPTY_STRING;
+	public static final String SHARE_OWNER = "Share";
+	public static final String IPO_OWNER = "IPO";
+	public static final String PLAYER_OWNER = "Player";
+	public static final String NO_CERTIFICATE_NAME = GUI.EMPTY_STRING;
 	public static final String NO_REASON = ">> NO REASON <<";
 	public static final String NOT_ENOUGH_CASH = "You do not have enough cash to Buy";
 	public static final String NOT_ENOUGH_CASH_TO_BID = "You do not have enough cash to Raise Bid";
@@ -86,29 +86,28 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
 	public static final String HAVE_ENOUGH_CASH = "Enough cash to buy the Train, can't sell stock";
 	public static final String NO_SALE_FIRST_STOCK_ROUND = "Can't sell Stock in First Stock Round";
-	static final int SORT_CERT1_BEFORE_CERT2 = -100;
-	static final int SORT_CERT2_BEFORE_CERT1 = 100;
-	static final int NO_PERCENTAGE = 0;
-	static final float X_LEFT_ALIGNMENT = 0.0f;
-	static final float X_CENTER_ALIGNMENT = 0.5f;
-	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	public static final String NO_PAR_PRICE = "???";
+	public static final String BANK_POOL_AT_LIMIT = " at Share Limit";
+	public static final String BANK_POOL_OWNER = "Bank";
+	public static final int SORT_CERT1_BEFORE_CERT2 = -100;
+	public static final int SORT_CERT2_BEFORE_CERT1 = 100;
+	public static final int NO_PERCENTAGE = 0;
+	public static final float X_LEFT_ALIGNMENT = 0.0f;
+	public static final float X_CENTER_ALIGNMENT = 0.5f;
+	public static final float X_RIGHT_ALIGNMENT = 1.0f;
 	
-	private String BANK_POOL_AT_LIMIT = " at Share Limit";
-	private String BANK_POOL_OWNER = "Bank";
-
-	Corporation corporation;
 	boolean isPresidentShare;
 	boolean secondIssue;
 	int percentage;
-	CertificateHolderI owner;
 	String [] allowedOwners = null;
-	JCheckBox checkBox;
 	FrameButton frameButton;
+	JCheckBox checkBox;
 	JComboBox<String> parValuesCombo;
+	KButton infoButton;
+	Corporation corporation;
+	CertificateHolderI owner;
 	Bidders bidders;
 	CertificateInfoFrame infoFrame;
-	KButton infoButton;
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners;

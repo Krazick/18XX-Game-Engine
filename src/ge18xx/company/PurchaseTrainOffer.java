@@ -12,9 +12,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class PurchaseTrainOffer extends QueryOffer {
+	public static final ElementName EN_PURCHASE_OFFER = new ElementName ("PurchaseOffer");
 	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");
 	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
-	public static final ElementName EN_PURCHASE_OFFER = new ElementName ("PurchaseOffer");
 	public static final String TRAIN_TYPE = Train.TYPE_NAME;
 
 	int amount;

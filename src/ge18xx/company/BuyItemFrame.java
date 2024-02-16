@@ -25,9 +25,9 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class BuyItemFrame extends JFrame implements KeyListener {
-	protected static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
-	protected static final String BUY_ACTION = "Buy";
 	private static final long serialVersionUID = 1L;
+	public static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
+	public static final String BUY_ACTION = "Buy";
 	KButton doSetPriceButton;
 	KButton doBuyButton;
 	JPanel buyItemPanel;

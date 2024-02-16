@@ -20,12 +20,12 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
-	public static CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
+	private static final long serialVersionUID = 1L;
+	public static final CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
 	public static final String GET_INFO = "GET INFO";
 	public static final String OK_STRING = "OK";
-	private static final long serialVersionUID = 1L;
-	private Certificate certificate;
-	private JPanel certificateInfoJPanel;
+	JPanel certificateInfoJPanel;
+	Certificate certificate;
 	int padding1;
 
 	public CertificateInfoFrame (Certificate aCertificate, GameEngineManager aGameManager) {

@@ -12,14 +12,14 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class Tokens {
-	public final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
-	public final static AttributeName AN_TOKEN_INDEX = new AttributeName ("tokenIndex");
-	public final static ElementName EN_TOKENS = new ElementName ("Tokens");
-	public final static Tokens NO_TOKENS = null;
-	private static int MARKET_INDEX = 0;
-	private static int HOME1_INDEX = 1;
-	private static int HOME2_INDEX = 2;
-	public final static int NO_TOKEN_INDEX = -1;
+	public static final ElementName EN_TOKENS = new ElementName ("Tokens");
+	public static final AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
+	public static final AttributeName AN_TOKEN_INDEX = new AttributeName ("tokenIndex");
+	public static final Tokens NO_TOKENS = null;
+	public static final int MARKET_INDEX = 0;
+	public static final int HOME1_INDEX = 1;
+	public static final int HOME2_INDEX = 2;
+	public static final int NO_TOKEN_INDEX = -1;
 	
 	ArrayList<TokenInfo> tokens;
 	int startIndex;

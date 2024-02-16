@@ -52,18 +52,18 @@ import swingDelays.KButton;
 
 public class ShareCompany extends TokenCompany {
 	public static final ElementName EN_SHARE_COMPANY = new ElementName ("ShareCompany");
-	static final AttributeName AN_PAR_PRICE = new AttributeName ("parPrice");
-	static final AttributeName AN_LOAN_COUNT = new AttributeName ("loanCount");
-	static final AttributeName AN_LOAN_TAKEN = new AttributeName ("loanTaken");
-	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
-	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
-	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
-	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
-	static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
+	public static final AttributeName AN_PAR_PRICE = new AttributeName ("parPrice");
+	public static final AttributeName AN_LOAN_COUNT = new AttributeName ("loanCount");
+	public static final AttributeName AN_LOAN_TAKEN = new AttributeName ("loanTaken");
+	public static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
+	public static final AttributeName AN_DESTINATION = new AttributeName ("destination");
+	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
+	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
+	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	public static final String NO_START_CELL = null;
 	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
-	public static ShareCompany NO_SHARE_COMPANY = null;
+	public static final ShareCompany NO_SHARE_COMPANY = null;
 	public static final int NO_LOANS = 0;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;

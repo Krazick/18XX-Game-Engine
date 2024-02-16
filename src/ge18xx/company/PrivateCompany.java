@@ -52,8 +52,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public static final AttributeName AN_DISCOUNT = new AttributeName ("discount");
 	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
 	public static final String INCREASE_DISCOUNT = "- INCREASE DISCOUNT";
-	private static final int DISCOUNT = 5;
-	private static final int INITIAL_DISCOUNT = 0;
+	public static final int DISCOUNT = 5;
+	public static final int INITIAL_DISCOUNT = 0;
 	int cost;
 	int revenue;
 	int discount;
