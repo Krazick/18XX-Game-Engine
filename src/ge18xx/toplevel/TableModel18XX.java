@@ -10,9 +10,6 @@ package ge18xx.toplevel;
 import javax.swing.table.AbstractTableModel;
 
 public class TableModel18XX extends AbstractTableModel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private String [] headers;
 	private Object [] [] data;

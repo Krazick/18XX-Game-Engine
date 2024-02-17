@@ -17,9 +17,6 @@ import javax.swing.JPanel;
 import swingDelays.KButton;
 
 public class PrefPane extends JFrame {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	protected KButton okButton;
 	protected JLabel prefsText;

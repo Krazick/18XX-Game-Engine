@@ -19,9 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class AboutBox extends JFrame implements ActionListener {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	protected JLabel titleLabel, aboutLabel[];
 	protected static int labelCount = 8;

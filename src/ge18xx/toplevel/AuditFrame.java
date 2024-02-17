@@ -29,30 +29,27 @@ import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
-	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
+	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Audit";
+	public static final int NO_CREDIT = 0;
+	public static final int NO_DEBIT = 0;
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
 	private String BANK_PREFIX = "Bank";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
-	public static int NO_CREDIT = 0;
-	public static int NO_DEBIT = 0;
+	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
 	JTable auditTable;
-	int actorBalance;
-	String actorName;
-	String actorAbbrev;
-	ActorI.ActorTypes actorType;
 	JComboBox<String> companyCombo;
 	JComboBox<String> playerCombo;
 	JComboBox<String> actorsCombo;
 	KButton refreshList;
 	KButton lineGraph;
+	ActorI.ActorTypes actorType;
 	CorporationList companies;
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+	int actorBalance;
+	String actorName;
+	String actorAbbrev;
 
 	public AuditFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);

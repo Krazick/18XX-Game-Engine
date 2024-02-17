@@ -16,9 +16,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class CorporationTableFrame extends XMLFrame {
+	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_COMPANIES = new ElementName ("Companies");
 	public static final CorporationTableFrame NO_CORP_TABLE_FRAME = null;
-	private static final long serialVersionUID = 1L;
 	CorporationList companies;
 
 	public CorporationTableFrame (String aFrameName, ElementName aTypeName, RoundManager aRoundManager) {

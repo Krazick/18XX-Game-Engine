@@ -70,6 +70,9 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class MapFrame extends XMLFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
+	public static final String NO_COMPANY = "NO_COMPANY";
+	public static final String BASE_TITLE = "Map";
 	private final String NO_TILE_PLACED = "No Tile placed yet";
 	private final String NO_TILE_SELECTED = "No Tile selected yet";
 	private final String NOT_PLACE_TILE_MODE = "Place Tile Mode not Active";
@@ -84,9 +87,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NON_PLAYABLE_TILE_SELECTED = "The selected Tile is not Playable on the Selected MapCell.";
 	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
 	private final String NO_VALID_ROTATION = "No Valid Rotation for the selected Upgrade Tile";
-	public static final String NO_COMPANY = "NO_COMPANY";
-	public static final String BASE_TITLE = "Map";
-	private static final long serialVersionUID = 1L;
 
 	KButton exitTileButton;
 	KButton putTileButton;

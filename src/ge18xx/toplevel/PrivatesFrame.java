@@ -24,11 +24,11 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
 public class PrivatesFrame extends CorporationTableFrame {
-	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [0].toString ();
-	public static final String BASE_TITLE = BASE_TYPE + " " + Corporation.COMPANIES;
-	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
-	public static final ElementName EN_PRIVATES = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
+	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [0].toString ();
+	public static final ElementName EN_PRIVATES = new ElementName (BASE_TYPE + "s");
+	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
+	public static final String BASE_TITLE = BASE_TYPE + " " + Corporation.COMPANIES;
 
 	public PrivatesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [0], aRoundManager);

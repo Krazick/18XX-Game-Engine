@@ -20,14 +20,11 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
 public class MinorCompaniesFrame extends CorporationTableFrame {
-	/**
-	 *
-	 */
+	private static final long serialVersionUID = 1L;
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [1].toString ();
 	public static final MinorCompaniesFrame NO_MINORS_FRAME = null;
 	public static final String BASE_TITLE = BASE_TYPE +  " " + Corporation.COMPANIES;
 	public static final ElementName EN_MINORS = new ElementName (BASE_TYPE + "s");
-	private static final long serialVersionUID = 1L;
 
 	public MinorCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [1], aRoundManager);

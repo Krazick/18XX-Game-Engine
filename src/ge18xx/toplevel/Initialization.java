@@ -22,9 +22,6 @@ import javax.swing.JRadioButton;
 import swingDelays.KButton;
 
 public class Initialization extends JFrame {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	protected KButton okButton;
 	protected JLabel InitializationText;

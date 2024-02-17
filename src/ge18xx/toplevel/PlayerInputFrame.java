@@ -36,31 +36,32 @@ import ge18xx.network.NetworkPlayer;
 
 import geUtilities.xml.XMLFrame;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 import swingDelays.KButton;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
+	public static final ElementName EN_PLAYERS = new ElementName ("Players");
+	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
-	public static final String NO_NAME = "";
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final int NO_PLAYERS = 0;
 	public static final String INVALID_NAME = "INVALID-NAME";
 	public static final String DUPLICATE_NAME = "DUPLICATE-NAME";
-	public static final ElementName EN_PLAYERS = new ElementName ("Players");
-	public static final ElementName EN_PLAYER = new ElementName ("Player");
+	public static final String NO_NAME = GUI.EMPTY_STRING;
+	public static final int MAX_PLAYERS = 8;
+	public static final int MAX_GAMES = 5;
 	private static final String RANDOMIZE_ORDER = "Randomize Order";
 	private static final String REASON_NO_RANDOMIZE = "Must have at least two Players entered to Randomize";
 	private static final long serialVersionUID = 1L;
-	static final int MAX_PLAYERS = 8;
-	static final int MAX_GAMES = 5;
+	JTextField [] playerNames;
+	JLabel labelPlayerCount;
+	JPanel centerPanel;
+	KButton randomizeButton;
 	GameManager gameManager;
 	GameSet gameSet;
 	int playerCount;
 	boolean badPlayerList;
-	JTextField [] playerNames;
-	JLabel labelPlayerCount;
-	KButton randomizeButton;
-	JPanel centerPanel;
 	Logger logger;
 
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {

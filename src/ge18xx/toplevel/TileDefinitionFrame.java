@@ -21,11 +21,11 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.XMLDocument;
 
 public class TileDefinitionFrame extends XMLFrame {
+	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Tile Definition";
 	public static final String TILE_SUFFIX_NAME = "-Tile-Definitions.xml";
 	public static final String TILE_DIRECTORY_NAME = "Tile XML Data/";
 	public static final String TILE_URL_BASE = "Tiles";
-	private static final long serialVersionUID = 1L;
 	String allTileSetNames[] = { "Yellow", "Green", "Brown", "Grey", "Other" };
 	TileSet tileSet;
 
