@@ -31,8 +31,6 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class RoundFrame extends XMLFrame {
-	public static final XMLFrame NO_ROUND_FRAME = null;
-	public final static String BASE_TITLE = "Round";
 	private static final long serialVersionUID = 1L;
 	private static final String DO_STOCK_ACTION = " do Stock Action";
 	private static final String DOING_STOCK_ACTION = " is doing Stock Action";
@@ -45,12 +43,14 @@ public class RoundFrame extends XMLFrame {
 	private static final String IS_WAITING = "You are in a Wait State";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
-	static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
-	static final String PASS_STOCK_ACTION = "passStockAction";
-	static final String BUY_STOCK_ACTION = "buyStockAction";
-	static final String PLAYER_ACTION = "DoPlayerAction";
-	static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
-	static final String CORPORATION_ACTION = "DoCorporationAction";
+	public static final XMLFrame NO_ROUND_FRAME = null;
+	public static final String BASE_TITLE = "Round";
+	public static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
+	public static final String PASS_STOCK_ACTION = "passStockAction";
+	public static final String BUY_STOCK_ACTION = "buyStockAction";
+	public static final String PLAYER_ACTION = "DoPlayerAction";
+	public static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
+	public static final String CORPORATION_ACTION = "DoCorporationAction";
 	JPanel roundJPanel;
 	JPanel allCorporationsJPanel;
 	JPanel buttonsJPanel;

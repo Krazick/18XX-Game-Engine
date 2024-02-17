@@ -22,7 +22,7 @@ public abstract class Round implements ActorI {
 	public final static AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
 	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
 	public final static Round NO_ROUND = null;
-	static final int NO_ID = 0;
+	public static final int NO_ID = 0;
 	int idPart1;
 	int idPart2;
 	RoundManager roundManager;

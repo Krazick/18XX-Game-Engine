@@ -19,8 +19,8 @@ import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 
 public class ParPricesPanel extends ListenerPanel {
-	private static final String NAME = "Par Prices";
 	private static final long serialVersionUID = 1L;
+	private static final String NAME = "Par Prices";
 	private static final String PAR_PRICES_LABEL = "Par Prices";
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();

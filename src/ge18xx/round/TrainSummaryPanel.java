@@ -16,8 +16,8 @@ import geUtilities.GUI;
 import geUtilities.MessageBean;
 
 public class TrainSummaryPanel extends ListenerPanel {
-	private static final String NAME = "Train Summary";
 	private static final long serialVersionUID = 1L;
+	private static final String NAME = "Train Summary";
 	private static final String TRAIN_SUMMARY_LABEL = "Train Summary";
 	private JTextArea trainSummary;
 	

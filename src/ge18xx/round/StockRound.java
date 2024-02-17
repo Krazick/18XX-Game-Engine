@@ -13,12 +13,12 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class StockRound extends Round {
-	public final static ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
-	public final static AttributeName AN_CURRENT_PLAYER = new AttributeName ("currentPlayer");
-	public final static AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
-	public final static String NAME = "Stock Round";
-	public final static int FIRST_PLAYER = 0;
-	public final static StockRound NO_STOCK_ROUND = null;
+	public static final ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
+	public static final AttributeName AN_CURRENT_PLAYER = new AttributeName ("currentPlayer");
+	public static final AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
+	public static final StockRound NO_STOCK_ROUND = null;
+	public static final String NAME = "Stock Round";
+	public static final int FIRST_PLAYER = 0;
 	PlayerManager playerManager;
 	int currentPlayerIndex;
 	int priorityPlayerIndex;

@@ -13,8 +13,8 @@ import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
 
 public class AllCorporationsPanel extends ListenerPanel {
-	private static final String NAME = "All Corporations";
 	private static final long serialVersionUID = 1L;
+	private static final String NAME = "All Corporations";
 
 	public AllCorporationsPanel (RoundManager aRoundManager) {
 		super (aRoundManager, NAME);

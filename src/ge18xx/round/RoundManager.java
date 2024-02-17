@@ -53,13 +53,13 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class RoundManager implements ActionListener {
-	public final static ElementName EN_ROUNDS = new ElementName ("Rounds");
-	public final static AttributeName AN_CURRENT_OR = new AttributeName ("currentOR");
-	public final static AttributeName AN_OR_COUNT = new AttributeName ("maxOR");
-	public final static AttributeName AN_ADDED_OR = new AttributeName ("addedOR");
-	public final static AttributeName AN_ON_STOCK_ROUND = new AttributeName ("onStockRound");
-	public final static AttributeName AN_CURRENT_ROUND_TYPE = new AttributeName ("currentRoundType");
-	public final static RoundManager NO_ROUND_MANAGER = null;
+	public static final ElementName EN_ROUNDS = new ElementName ("Rounds");
+	public static final AttributeName AN_CURRENT_OR = new AttributeName ("currentOR");
+	public static final AttributeName AN_OR_COUNT = new AttributeName ("maxOR");
+	public static final AttributeName AN_ADDED_OR = new AttributeName ("addedOR");
+	public static final AttributeName AN_ON_STOCK_ROUND = new AttributeName ("onStockRound");
+	public static final AttributeName AN_CURRENT_ROUND_TYPE = new AttributeName ("currentRoundType");
+	public static final RoundManager NO_ROUND_MANAGER = null;
 
 	GameManager gameManager;
 	PlayerManager playerManager;
@@ -67,13 +67,13 @@ public class RoundManager implements ActionListener {
 	OperatingRound operatingRound;
 	AuctionRound auctionRound;
 	ActionManager actionManager;
+	ActorI.ActionStates currentRoundType;
+	RoundFrame roundFrame;
+	Logger logger;
 	int currentOR;
 	int operatingRoundCount;
 	boolean addedOR;
-	ActorI.ActionStates currentRoundType;
-	RoundFrame roundFrame;
 	String gameName;
-	Logger logger;
 
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		setManagers (aGameManager, aPlayerManager);
