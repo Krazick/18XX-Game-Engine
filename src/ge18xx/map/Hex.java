@@ -26,13 +26,13 @@ public class Hex {
 	public static final Hex NO_HEX = null;
 	public static final String DIRECTION_NS = "NS";
 	public static final String DIRECTION_EW = "EW";
-	static final int NOT_VALID_SLICE = -9999;
-	static final int NOT_VALID_POINT = -9998;
+	public static final int NOT_VALID_SLICE = -9999;
+	public static final int NOT_VALID_POINT = -9998;
+	public static int DEFAULT_SCALE = 8;
+	public static int DEFAULT_WIDTH = 5;
+	public static int scale = DEFAULT_SCALE;
+	public static int width = DEFAULT_WIDTH;
 	protected static boolean direction = false;
-	static int DEFAULT_SCALE = 8;
-	static int DEFAULT_WIDTH = 5;
-	static int scale = DEFAULT_SCALE;
-	static int width = DEFAULT_WIDTH;
 	protected int x[];
 	protected int y[];
 	private int Xt;
@@ -44,8 +44,8 @@ public class Hex {
 	int Yc;
 	protected int cityWidth;
 	protected int trackWidth;
-	Polygon hexPolygon;
 	protected static double dwidth;
+	Polygon hexPolygon;
 	Rectangle rectBounds;
 
 	public Hex () {

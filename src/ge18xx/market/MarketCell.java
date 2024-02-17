@@ -36,19 +36,18 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class MarketCell {
-	public final static ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
-	public final static ElementName EN_SOLD_OUT = new ElementName ("SoldOut");
-	public final static ElementName EN_NO_DIVIDEND = new ElementName ("NoDividend");
-	public final static ElementName EN_HALF_DIVIDEND = new ElementName ("HalfDividend");
-	public final static ElementName EN_FULL_DIVIDEND = new ElementName ("FullDividend");
-	public final static ElementName EN_SHARE_SELL = new ElementName ("ShareSale");
-	public final static AttributeName AN_VALUE = new AttributeName ("value");
-	public final static AttributeName AN_REGION = new AttributeName ("region");
-
-	public final static String NO_COORDINATES = null;
-	public final static MarketCell NO_MARKET_CELL = null;
-	public final static MarketCell NO_SHARE_PRICE = null;
-	public final static int NO_STOCK_PRICE = 0;
+	public static final ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
+	public static final ElementName EN_SOLD_OUT = new ElementName ("SoldOut");
+	public static final ElementName EN_NO_DIVIDEND = new ElementName ("NoDividend");
+	public static final ElementName EN_HALF_DIVIDEND = new ElementName ("HalfDividend");
+	public static final ElementName EN_FULL_DIVIDEND = new ElementName ("FullDividend");
+	public static final ElementName EN_SHARE_SELL = new ElementName ("ShareSale");
+	public static final AttributeName AN_VALUE = new AttributeName ("value");
+	public static final AttributeName AN_REGION = new AttributeName ("region");
+	public static final String NO_COORDINATES = null;
+	public static final MarketCell NO_MARKET_CELL = null;
+	public static final MarketCell NO_SHARE_PRICE = null;
+	public static final int NO_STOCK_PRICE = 0;
 	
 	static final int NEIGHBOR_UP = 0;
 	static final int NEIGHBOR_RIGHT = 1;

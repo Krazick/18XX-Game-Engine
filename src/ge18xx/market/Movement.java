@@ -15,9 +15,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 class Movement {
-	public final static Movement NO_MOVEMENT = null;
-	final static AttributeName AN_ROW_ADJUST = new AttributeName ("rowAdjust");
-	final static AttributeName AN_COL_ADJUST = new AttributeName ("colAdjust");
+	public static final Movement NO_MOVEMENT = null;
+	public static final AttributeName AN_ROW_ADJUST = new AttributeName ("rowAdjust");
+	public static final AttributeName AN_COL_ADJUST = new AttributeName ("colAdjust");
 	int rowAdjust;
 	int colAdjust;
 

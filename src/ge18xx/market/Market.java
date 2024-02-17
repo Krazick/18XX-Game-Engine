@@ -37,18 +37,17 @@ import geUtilities.XMLNodeList;
 
 public class Market extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
-	public final static ElementName EN_MARKET = new ElementName ("Market");
-	final static ElementName EN_ROW = new ElementName ("Row");
-	final static AttributeName AN_COLS = new AttributeName ("cols");
-	final static AttributeName AN_ROWS = new AttributeName ("rows");
-	final static AttributeName AN_COL = new AttributeName ("col");
-	final static AttributeName AN_ROW = new AttributeName ("row");
-	final static AttributeName AN_INDEX = new AttributeName ("index");
-	final static AttributeName AN_NEIGHBORS = new AttributeName ("neighbors");
-	public final static MarketCell [] [] NO_MARKET_CELLS = null;
-	public final static Market NO_MARKET = null;
-	public final static String MARKET_CELL_ADJUSTMENT = "Market Cell Adjustment";
-
+	public static final ElementName EN_MARKET = new ElementName ("Market");
+	public static final ElementName EN_ROW = new ElementName ("Row");
+	public static final AttributeName AN_COLS = new AttributeName ("cols");
+	public static final AttributeName AN_ROWS = new AttributeName ("rows");
+	public static final AttributeName AN_COL = new AttributeName ("col");
+	public static final AttributeName AN_ROW = new AttributeName ("row");
+	public static final AttributeName AN_INDEX = new AttributeName ("index");
+	public static final AttributeName AN_NEIGHBORS = new AttributeName ("neighbors");
+	public static final MarketCell [] [] NO_MARKET_CELLS = null;
+	public static final Market NO_MARKET = null;
+	public static final String MARKET_CELL_ADJUSTMENT = "Market Cell Adjustment";
 	MarketCell market[][];
 	GameManager gameManager;
 	int cellHeight;
