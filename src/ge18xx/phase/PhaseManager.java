@@ -26,7 +26,7 @@ public class PhaseManager {
 	public static final int MINIMUM_TRAIN_LIMIT = 1;
 	public static final int MINIMUM_TILE_LAY_LIMIT = 1;
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
-	final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
+	public final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
 	int currentPhase;
 	GameManager gameManager;
