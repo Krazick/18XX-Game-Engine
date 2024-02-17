@@ -25,11 +25,6 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Variant {
-	static final String NO_TITLE = "<NO TITLE>";
-	public static final int NO_ID = 0;
-	public static final Variant NO_VARIANT = null;
-	public static final JComponent NO_VARIANT_COMPONENT = null;
-	public static final Variant [] NO_VARIANTS = null;
 	public static final ElementName EN_VARIANT = new ElementName ("Variant");
 	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
 	public static final AttributeName AN_TITLE = new AttributeName ("title");
@@ -37,9 +32,14 @@ public class Variant {
 	public static final AttributeName AN_VARIANT_CLASS = new AttributeName ("class");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_HOTSEAT_ONLY = new AttributeName ("hotSeatOnly");
-	static final String TYPE_ALL = "ALL";
-	static final String TYPE_CHOOSE_ANY = "Choose Any";
-	static final String TYPE_CHOOSE_1 = "Choose 1";
+	public static final Variant NO_VARIANT = null;
+	public static final Variant [] NO_VARIANTS = null;
+	public static final JComponent NO_VARIANT_COMPONENT = null;
+	public static final String TYPE_ALL = "ALL";
+	public static final String TYPE_CHOOSE_ANY = "Choose Any";
+	public static final String TYPE_CHOOSE_1 = "Choose 1";
+	public static final String NO_TITLE = "<NO TITLE>";
+	public static final int NO_ID = 0;
 	int id;
 	String title;
 	String type;

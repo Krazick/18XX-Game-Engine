@@ -11,9 +11,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class AddBankCashVEffect extends VariantEffect {
-	static final AttributeName AN_ACTOR_NAME = new AttributeName ("actorName");
-	static final String NAME = "Add to Bank Cash";
-	static final String ACTOR_NAME = "Bank";
+	public static final AttributeName AN_ACTOR_NAME = new AttributeName ("actorName");
+	public static final String NAME = "Add to Bank Cash";
+	public static final String ACTOR_NAME = "Bank";
 	int quantity;
 
 	public AddBankCashVEffect () {

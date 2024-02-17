@@ -11,10 +11,9 @@ import geUtilities.XMLNode;
 
 
 public class EnableBenefitVEffect extends VariantEffect {
-	static final String NAME = "Enable Benefit";
-	static final AttributeName AN_COMPANY_ID = new AttributeName ("companyID");
-	static final AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
-
+	public static final String NAME = "Enable Benefit";
+	public static final AttributeName AN_COMPANY_ID = new AttributeName ("companyID");
+	public static final AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
 	String benefitName;
 	int companyID;
 

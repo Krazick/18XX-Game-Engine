@@ -7,7 +7,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ModifyGameInfoVEffect extends VariantEffect {
-	static final String NAME = "Modify Game Info";
+	public static final String NAME = "Modify Game Info";
 	String attributeName;
 
 	public ModifyGameInfoVEffect () {

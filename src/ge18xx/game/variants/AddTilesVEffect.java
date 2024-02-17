@@ -8,10 +8,10 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class AddTilesVEffect extends VariantEffect {
-	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
-	static final AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
-	static final AttributeName AN_TILE_TYPE = new AttributeName ("tileType");
-	static final String NAME = "Add Tile";
+	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
+	public static final AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
+	public static final AttributeName AN_TILE_TYPE = new AttributeName ("tileType");
+	public static final String NAME = "Add Tile";
 	int quantity;
 	int tileNumber;
 	String tileType;

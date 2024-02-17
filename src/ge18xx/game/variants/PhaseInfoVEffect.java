@@ -10,7 +10,7 @@ import geUtilities.XMLNode;
 
 public class PhaseInfoVEffect extends VariantEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
-	static final String NAME = "Phase Info";
+	public static final String NAME = "Phase Info";
 	String phaseName;
 
 	public PhaseInfoVEffect () {

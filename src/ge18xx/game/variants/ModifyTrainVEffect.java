@@ -8,7 +8,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ModifyTrainVEffect extends VariantEffect {
-	static final String NAME = "Modify Train";
+	public static final String NAME = "Modify Train";
 	String attributeName;
 	String value;
 	String trainName;

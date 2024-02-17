@@ -13,8 +13,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class AddTrainVEffect extends VariantEffect {
-	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
-	static final String NAME = "Add Train";
+	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
+	public static final String NAME = "Add Train";
 	int quantity;
 	TrainInfo trainInfo;
 

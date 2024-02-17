@@ -8,7 +8,7 @@ import javax.swing.JRadioButton;
 import geUtilities.XMLNode;
 
 public class VariantChoose1 extends Variant {
-	static final String TITLE = "Variant Choose 1";
+	public static final String TITLE = "Variant Choose 1";
 
 	public VariantChoose1 () {
 		setTitle (TITLE);

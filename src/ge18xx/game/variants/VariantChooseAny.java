@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import geUtilities.XMLNode;
 
 public class VariantChooseAny extends Variant {
-	static final String TITLE = "Variant Any";
+	public static final String TITLE = "Variant Any";
 
 	public VariantChooseAny () {
 		setTitle (TITLE);
