@@ -61,12 +61,12 @@ public class JGameClient extends XMLFrame {
 	private static final int DEFAULT_SERVER_PORT = 18300;
 	private static final String DEFAULT_REMOTE_SERVER_IP = "71.178.230.211";
 	private static final String CONNECT_ACTION = "CONNECT";
-	private final String ALREADY_CONNECTED = "You are already connected";
-	private final String NOT_CONNECTED = "You are not connected yet";
-	private final String WAITING_FOR_GAME = "Waiting for Game Selection";
-	private final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
-	private final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
-	private final String GAME_ALREADY_STARTED = "Game has already started, don't need to Start again";
+	private static final String ALREADY_CONNECTED = "You are already connected";
+	private static final String NOT_CONNECTED = "You are not connected yet";
+	private static final String WAITING_FOR_GAME = "Waiting for Game Selection";
+	private static final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
+	private static final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
+	private static final String GAME_ALREADY_STARTED = "Game has already started, don't need to Start again";
 
 	private ChatServerHandler serverHandler;
 	private GameSupportHandler gameSupportHandler;
@@ -105,7 +105,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
-	public static JGameClient NO_JGAME_CLIENT = null;
+	public static final JGameClient NO_JGAME_CLIENT = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	public static final String REQUEST_LAST_ACTION = "<ActionNumber requestLast=\"TRUE\">";
 	public static final String DISCONNECT = "DISCONNECT";

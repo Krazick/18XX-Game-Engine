@@ -9,13 +9,14 @@ import org.apache.logging.log4j.Logger;
 //import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.XMLFrame;
 import geUtilities.FileUtils;
+import geUtilities.GUI;
 import geUtilities.XMLElement;
 
 public interface NetworkGameSupport {
 	public static final String NO_GAME_ID = "NOID";
-	public static final String EMPTY_GAME_ID = "";
+	public static final String EMPTY_GAME_ID = GUI.EMPTY_STRING;
+	public static final String NO_NAME = GUI.EMPTY_STRING;
 	public static final int WAIT_TIME = 10;
-	public final String NO_NAME = "";
 
 	public void updatePlayerCountLabel ();
 	public void addNetworkPlayer (String aPlayerName);

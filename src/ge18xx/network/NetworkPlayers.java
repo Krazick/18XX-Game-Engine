@@ -3,10 +3,10 @@ package ge18xx.network;
 import javax.swing.DefaultListModel;
 
 public class NetworkPlayers {
-	private DefaultListModel<NetworkPlayer> playerList;
-	private NetworkGameSupportTier2 gameManager;
 	public static final boolean OK_TO_ADD = true;
 	public static final boolean NOT_OK_TO_ADD = false;
+	private DefaultListModel<NetworkPlayer> playerList;
+	private NetworkGameSupportTier2 gameManager;
 
 	public NetworkPlayers (NetworkGameSupportTier2 aGameManager) {
 		playerList = new DefaultListModel<> ();

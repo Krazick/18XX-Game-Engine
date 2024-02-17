@@ -26,11 +26,10 @@ import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
-
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_RESEND = "Confirm Resend Actions";
 	private static final String CANCEL = "Cancel";
-	private final static String NEWLINE = "\n";
+	private static final String NEWLINE = "\n";
 	private ActionManager actionManager;
 	KButton confirmResendButton;
 	KButton cancelButton;
