@@ -17,9 +17,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class TransferTrainEffect extends ToEffect {
-	final static AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
-	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	public final static String NAME = "Transfer Train";
+	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final String NAME = "Transfer Train";
 	Train train;
 	String trainName;	// Need to save in case the Train is not found where expected
 

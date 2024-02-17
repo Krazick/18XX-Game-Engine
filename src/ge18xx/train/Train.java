@@ -36,16 +36,16 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Train extends Coupon implements Comparable<Object> {
-	public final static ElementName EN_TRAIN = new ElementName ("Train");
-	public final static ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
-	public final static ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
-	public final static AttributeName AN_GAUGE = new AttributeName ("gauge");
-	public final static AttributeName AN_NAME = new AttributeName ("name");
-	public final static AttributeName AN_ORDER = new AttributeName ("order");
-	public final static AttributeName AN_CITY_COUNT = new AttributeName ("cityCount");
-	public final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
-	public final static AttributeName AN_PRICE = new AttributeName ("price");
-	public final static AttributeName AN_STATUS = new AttributeName ("status");
+	public static final ElementName EN_TRAIN = new ElementName ("Train");
+	public static final ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
+	public static final ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
+	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_ORDER = new AttributeName ("order");
+	public static final AttributeName AN_CITY_COUNT = new AttributeName ("cityCount");
+	public static final AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
+	public static final AttributeName AN_PRICE = new AttributeName ("price");
+	public static final AttributeName AN_STATUS = new AttributeName ("status");
 	public static final String NO_TRAIN_NAME = null;
 	public static final String MISSING_NAME = "MISSING";
 	public static final String NO_TILE_INFO = "";
