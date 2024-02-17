@@ -9,8 +9,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class RoundDividends {
-	public final static AttributeName AN_DIVIDENDS = new AttributeName ("dividends");
-	public final static AttributeName AN_DIVIDEND_COUNT = new AttributeName ("dividendCount");
+	public static final AttributeName AN_DIVIDENDS = new AttributeName ("dividends");
+	public static final AttributeName AN_DIVIDEND_COUNT = new AttributeName ("dividendCount");
 
 	int maxRoundID;
 	int currentRoundIndex;

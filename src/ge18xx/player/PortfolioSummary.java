@@ -6,6 +6,10 @@ import ge18xx.round.action.ActorI;
 import geUtilities.GUI;
 
 public class PortfolioSummary {
+	public static final String PRIVATE_CORP_TYPE = "Private";
+	public static final String MINOR_CORP_TYPE = "Minor";
+	public static final String SHARE_CORP_TYPE = "Share";
+	public static final Border NO_BORDER = null;
 	String abbrev;
 	String type;
 	String note;
@@ -17,10 +21,6 @@ public class PortfolioSummary {
 	boolean willFold;
 	ActorI.ActionStates status;
 	Border corporateColorBorder;
-	public final static String PRIVATE_CORP_TYPE = "Private";
-	public final static String MINOR_CORP_TYPE = "Minor";
-	public final static String SHARE_CORP_TYPE = "Share";
-	public final static Border NO_BORDER = null;
 
 	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, int aPercentBought, 
 			boolean aIsPresident, Border aCorporateColorBorder, String aNote, boolean aNoTouchPass,

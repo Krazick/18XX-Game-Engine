@@ -57,12 +57,12 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class PlayerManager {
-	public static final int BID_INCREMENT = 5;
-	public static final int NO_PLAYER_INDEX = -1;
 	public static final String NO_PLAYER_NAME = null;
 	public static final List<Player> NO_PLAYERS = null;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final boolean AUCTION_BUY = false;
+	public static final int BID_INCREMENT = 5;
+	public static final int NO_PLAYER_INDEX = -1;
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound

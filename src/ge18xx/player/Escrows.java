@@ -16,10 +16,10 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class Escrows {
-	public final static boolean ESCROW_EXACT_MATCH = true;
-	public final static boolean ESCROW_CLOSE_MATCH = false;
-	public final static ElementName EN_ESCROWS = new ElementName ("Escrows");
-	public final static Escrows NO_ESCROWS = null;
+	public static final ElementName EN_ESCROWS = new ElementName ("Escrows");
+	public static final Escrows NO_ESCROWS = null;
+	public static final boolean ESCROW_EXACT_MATCH = true;
+	public static final boolean ESCROW_CLOSE_MATCH = false;
 	LinkedList<Escrow> escrows;
 	String escrowHolderName;
 	EscrowHolderI escrowHolder;

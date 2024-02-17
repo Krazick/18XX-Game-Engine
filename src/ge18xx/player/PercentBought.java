@@ -6,9 +6,9 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 
 public class PercentBought {
-	public final static ElementName EN_PERCENT_BOUGHT = new ElementName ("PercentBought");
-	public final static AttributeName AN_ABBREV = new AttributeName ("abbrev");
-	public final static AttributeName AN_PERCENT = new AttributeName ("percent");
+	public static final ElementName EN_PERCENT_BOUGHT = new ElementName ("PercentBought");
+	public static final AttributeName AN_ABBREV = new AttributeName ("abbrev");
+	public static final AttributeName AN_PERCENT = new AttributeName ("percent");
 	String abbrev;
 	int percent;
 	

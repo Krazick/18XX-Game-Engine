@@ -11,7 +11,7 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class AllPercentBought {
-	public final static ElementName EN_ALL_PERCENT_BOUGHT = new ElementName ("AllPercentBought");
+	public static final ElementName EN_ALL_PERCENT_BOUGHT = new ElementName ("AllPercentBought");
 	List<PercentBought> allPercentBought;
 	
 	public AllPercentBought () {

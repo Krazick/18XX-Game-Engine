@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.JLabel;
 
 public class SoldCompanies {
-	List<String> soldCompanies;
 	public static final JLabel NO_SOLD_COMPANIES = null;
+	List<String> soldCompanies;
 
 	SoldCompanies () {
 		soldCompanies = new LinkedList<> ();

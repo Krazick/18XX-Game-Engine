@@ -11,7 +11,7 @@ import ge18xx.round.action.ActorI;
 //
 
 public interface CashHolderI extends ActorI {
-	public final CashHolderI NO_CASH_HOLDER = null;
+	public static final CashHolderI NO_CASH_HOLDER = null;
 	public static final String PLAYER_CASH_CHANGED = "Player Cash Changed";
 	public static final String PLAYER_BID_CHANGED = "Player Bid Changed";
 	public static final String PLAYER_STATUS_CHANGED = "Player Status Changed";

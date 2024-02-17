@@ -7,7 +7,6 @@ import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 
 public interface PortfolioHolderI extends ActorI {
-
 	public static final PortfolioHolderI NO_HOLDER = null;
 	public static final String PLAYER_PORTFOLIO_CHANGED = "Player Portfolio Changed ";
 	

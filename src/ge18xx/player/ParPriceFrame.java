@@ -33,8 +33,8 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class ParPriceFrame extends JDialog implements ActionListener {
-	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
 	private static final long serialVersionUID = 1L;
+	public static final String SET_PAR_PRICE_ACTION = "SetParPrice";
 	public static final ParPriceFrame NO_PAR_PRICE_FRAME = null;
 	public static final int NO_PAR_PRICE_VALUE = ShareCompany.NO_PAR_PRICE;
 

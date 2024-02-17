@@ -24,6 +24,7 @@ import geUtilities.WrapLayout;
 import swingDelays.KButton;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
+	private static final long serialVersionUID = 1L;
 	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
 	public static final String STOCK_SELECTED_FOR_BUY = "A Stock has been selected to be Bought";
 	public static final String STOCK_SELECTED_FOR_BUY2 = "Another Stock has been selected to be Bought";
@@ -43,10 +44,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String MUST_EXCHANGE = "Must Exchange President Share before selecting stock to sell";
 	public static final String WILL_OVERFILL = "Stocks selected to be Sold will Overfill BankPool";
 	public static final String DIFFERENT_COMPANIES = "Stocks selected to sell are different companies, sell one company stock at a time";
-	static final String DONE = "Done";
-	static final String UNDO = "Undo";
-	static final String PASS = "Pass";
-	private static final long serialVersionUID = 1L;
+	public static final String DONE = "Done";
+	public static final String UNDO = "Undo";
+	public static final String PASS = "Pass";
 	JPanel playerAndBankJPanel;
 	JPanel bankJPanel;
 	JPanel playerJPanel;

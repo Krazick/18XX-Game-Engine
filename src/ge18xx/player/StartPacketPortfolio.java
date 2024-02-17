@@ -7,7 +7,7 @@ package ge18xx.player;
 //import ge18xx.game.GameManager;
 
 public class StartPacketPortfolio extends Portfolio {
-	public final static StartPacketPortfolio NO_START_PACKET = null;
+	public static final StartPacketPortfolio NO_START_PACKET = null;
 
 	public StartPacketPortfolio (PortfolioHolderI aHolder) {
 		super (aHolder);

@@ -17,8 +17,8 @@ public class Escrow implements CashHolderI {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_ACTION_STATE = new AttributeName ("actionState");
 	public static final AttributeName AN_PRIVATE_NAME = new AttributeName ("privateName");
-	private final String NO_NAME = null;
-	public final static Escrow NO_ESCROW = null;
+	public static final Escrow NO_ESCROW = null;
+	public static final String NO_NAME = null;
 	int cash;
 	String name;
 	ActionStates actionState;
