@@ -25,12 +25,8 @@ import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
 public class ButtonsInfoFrame extends XMLFrame {
-
-	/**
-	 *
-	 */
-	public static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
+	public static final String EXPLAIN = "Explain";
 	private ArrayList<FrameButton> frameButtons;
 	DefaultTableModel buttonModel;
 	JPanel allButtonInfoJPanel;

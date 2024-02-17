@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 import ge18xx.network.JGameClient;
 
 public class SavedGames implements Comparator<SavedGame> {
-	private ArrayList<SavedGame> games;
 	public static int NO_INDEX = -1;
+	private ArrayList<SavedGame> games;
 	GameManager gameManager;
 
 	public SavedGames (String aSavedGamesXML, GameManager aGameManager) {

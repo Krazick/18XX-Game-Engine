@@ -14,10 +14,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Config {
-	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_FRAMES = new ElementName ("Frames");
-
+	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	ArrayList<GameFrameConfig> gameFrames;
 	String saveGameDirectory;
 	GameManager gameManager;

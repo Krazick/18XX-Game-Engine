@@ -40,14 +40,14 @@ import geUtilities.XMLNodeList;
 import swingDelays.KButton;
 
 public class GameSet implements LoadableXMLI, ActionListener {
-	final ElementName EN_GAMES = new ElementName ("Games");
-	final ElementName EN_NETWORK = new ElementName ("Network");
-	final AttributeName AN_GE_VERSION = new AttributeName ("ge18XXVersion");
-	final AttributeName AN_LOCAL_SERVER_IP = new AttributeName ("localServerIP");
-	final AttributeName AN_REMOTE_SERVER_IP = new AttributeName ("remoteServerIP");
-	final AttributeName AN_SERVER_PORT = new AttributeName ("serverPort");
-	public static final int NO_GAME_SELECTED = -1;
+	public static final ElementName EN_GAMES = new ElementName ("Games");
+	public static final ElementName EN_NETWORK = new ElementName ("Network");
+	public static final AttributeName AN_GE_VERSION = new AttributeName ("ge18XXVersion");
+	public static final AttributeName AN_LOCAL_SERVER_IP = new AttributeName ("localServerIP");
+	public static final AttributeName AN_REMOTE_SERVER_IP = new AttributeName ("remoteServerIP");
+	public static final AttributeName AN_SERVER_PORT = new AttributeName ("serverPort");
 	public static final GameSet NO_GAME_SET = null;
+	public static final int NO_GAME_SELECTED = -1;
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
 	private static final String NEW_GAME = "New Local Game";
 	private static final String NETWORK_GAME = "Online Game";
@@ -72,10 +72,10 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	JLabel gameDescriptionLabel;
 	int selectedGameIndex;
 	int gameIndex;
+	int serverPort;
 	String geVersion;
 	String localServerIP;
 	String remoteServerIP;
-	int serverPort;
 
 	public GameSet (PlayerInputFrame aPlayerInputFrame) {
 		setGEVersion (GUI.NULL_STRING);

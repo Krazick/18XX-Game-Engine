@@ -33,11 +33,6 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class GameInfo {
-	public static final GameInfo NO_GAME_INFO = null;
-	public static final GameInfo [] NO_GAMES = null;
-	public static final String CORPORATION = "corporation";
-	public static final String BANK = "bank";
-	public static final String BANK_POOL_NAME = "Bank Pool";
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
@@ -74,13 +69,19 @@ public class GameInfo {
 	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
 	final AttributeName AN_BANK_POOL_NAME = new AttributeName ("bankPoolName");
 
+	public static final GameInfo NO_GAME_INFO = null;
+	public static final GameInfo [] NO_GAMES = null;
+	public static final String CORPORATION = "corporation";
+	public static final String BANK = "bank";
+	public static final String BANK_POOL_NAME = "Bank Pool";
+
 	static final int NO_GAME_ID = 0;
-	static final String NO_NAME = "<NONE>";
 	static final int NO_MIN_PLAYERS = 0;
 	static final int NO_MAX_PLAYERS = 0;
 	static final int NO_BANK_TOTAL = 0;
 	static final int NO_SHARE_LIMIT = 100;
 	static final int NO_BANK_SHARE_LIMIT = 9;
+	static final String NO_NAME = "<NONE>";
 	static final String NO_FORMAT = "<NONE>";
 	static final TrainInfo [] NO_TRAINS = null;
 

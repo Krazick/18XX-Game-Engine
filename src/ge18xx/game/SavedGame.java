@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 import ge18xx.network.JGameClient;
 
 public class SavedGame {
+	String gameName;
 	String gameID;
 	String gameStatus;
 	int lastActionNumber;
-	ArrayList<String> players;
 	boolean localAutoSaveFound;
-	String gameName;
+	ArrayList<String> players;
 
 	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private final static String NSG_WITH_GAME_ID = "<NetworkSaveGame gameID=\"" + GAME_ID
