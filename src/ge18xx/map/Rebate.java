@@ -24,7 +24,7 @@ public class Rebate extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final ElementName EN_REBATE = new ElementName ("Rebate");
 	public static final Rebate NO_REBATE = null;
-	static final int NO_REBATE_VALUE = 0;
+	public static final int NO_REBATE_VALUE = 0;
 	int amount;
 
 	public Rebate () {

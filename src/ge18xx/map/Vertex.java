@@ -9,8 +9,8 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
 
 public class Vertex {
-	public final static Vertex NO_VERTEX = null;
-	public final static String NO_VERTEX_ID = null;
+	public static final Vertex NO_VERTEX = null;
+	public static final String NO_VERTEX_ID = null;
 	MapCell mapCell;
 	Location location;
 	List<Edge> edges;
