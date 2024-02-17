@@ -19,16 +19,15 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class RouteSegment {
-	final static ElementName EN_ROUTE_SEGMENT = new ElementName ("RouteSegment");
-	final static ElementName EN_START_NODE = new ElementName ("StartNode");
-	final static ElementName EN_END_NODE = new ElementName ("EndNode");
-	final static AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
-	final static AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
-	final static AttributeName AN_COST = new AttributeName ("cost");
-	final static AttributeName AN_GAUGE = new AttributeName ("gauge");
-
-	static Gauge NORMAL_GAUGE = new Gauge (Gauge.NORMAL_GAUGE);
-	public static RouteSegment NO_ROUTE_SEGMENT = null;
+	public static final ElementName EN_ROUTE_SEGMENT = new ElementName ("RouteSegment");
+	public static final ElementName EN_START_NODE = new ElementName ("StartNode");
+	public static final ElementName EN_END_NODE = new ElementName ("EndNode");
+	public static final AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
+	public static final AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
+	public static final AttributeName AN_COST = new AttributeName ("cost");
+	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
+	public static final Gauge NORMAL_GAUGE = new Gauge (Gauge.NORMAL_GAUGE);
+	public static final RouteSegment NO_ROUTE_SEGMENT = null;
 	MapCell mapCell; // Hex ID
 	Tile tile;
 	String mapCellID;

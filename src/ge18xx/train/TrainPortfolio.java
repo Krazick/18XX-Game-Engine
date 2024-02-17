@@ -47,7 +47,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
-	public final static ArrayList<Train> NO_TRAINS = null;
+	public static final ArrayList<Train> NO_TRAINS = null;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 

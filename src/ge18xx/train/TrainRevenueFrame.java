@@ -48,7 +48,6 @@ import swingDelays.KButton;
  *
  */
 public class TrainRevenueFrame extends XMLFrame implements ActionListener, PropertyChangeListener, ItemListener {
-	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
 	private static final String RESET_ROUTE_ACTION = "DoResetRouteAction";
@@ -57,6 +56,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
 	private static final String REUSE_ROUTE_ACTION = "doReuseRouteAction";
 	private static final String NO_NOTIFICATION = "";
+	private static final String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final int MAX_TRAIN_COUNT = 5;
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 
