@@ -15,9 +15,6 @@ import javax.swing.JLabel;
 //
 
 public class AllTileSets extends JLabel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	Set<TileSet> gameTileSets;
 

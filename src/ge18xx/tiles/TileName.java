@@ -22,11 +22,11 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class TileName extends Feature implements Cloneable {
-	public final static ElementName EN_TILE_NAME = new ElementName ("TileName");
-	public final static AttributeName AN_NAME = new AttributeName ("name");
-	public final static AttributeName AN_LOCATION = new AttributeName ("location");
-	public final static String OO_NAME = "OO";
-	public final static String NY_NAME = "NY";
+	public static final ElementName EN_TILE_NAME = new ElementName ("TileName");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_LOCATION = new AttributeName ("location");
+	public static final String OO_NAME = "OO";
+	public static final String NY_NAME = "NY";
 	public static final TileName NO_TILE_NAME = null;
 	public static String NO_NAME = null;
 	public static String NO_NAME2 = "";

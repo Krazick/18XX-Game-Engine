@@ -25,9 +25,9 @@ public class Track implements Cloneable {
 	public static final AttributeName AN_ENTER = new AttributeName ("enter");
 	public static final AttributeName AN_EXIT = new AttributeName ("exit");
 	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
-	static final int NO_SIDE = 0;
-	static final int NO_TRAIN = 0;
-	public static Track NO_TRACK = null;
+	public static final int NO_SIDE = 0;
+	public static final int NO_TRAIN = 0;
+	public static final Track NO_TRACK = null;
 
 	Location enter;
 	Location exit;

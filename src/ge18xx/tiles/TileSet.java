@@ -39,7 +39,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	private static final long serialVersionUID = 1L;
 	private static final String NO_CITY_NAME = "";
 	private static final String NO_TILE_SET_NAME = "";
-	public static final TileSet NO_TILE_SET = null;
 	public static final ElementName EN_TILE_MANIFEST = new ElementName ("TileManifest");
 	public static final ElementName EN_TILE_DEFINITIONS = new ElementName ("TileDefinitions");
 	public static final ElementName EN_TILE_SET = new ElementName ("TileSet");
@@ -51,6 +50,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public static final AttributeName AN_COLOR = new AttributeName ("color");
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
+	public static final TileSet NO_TILE_SET = null;
 	public static final int TILES_PER_ROW = 9;
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;

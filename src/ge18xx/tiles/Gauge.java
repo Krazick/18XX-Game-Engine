@@ -12,17 +12,17 @@ import java.awt.Color;
 
 public class Gauge implements Cloneable {
 	public static final Gauge NO_GAUGE = null;
-	static final int NO_TYPE = 0;
+	public static final int NO_TYPE = 0;
 	public static final int NORMAL_GAUGE = 1;
 	public static final int METER_GAUGE = 2;
-	static final int DUAL_GAUGE = 3;
-	static final int TUNNEL = 4;
-	static final int FERRY = 5;
-	static final int FERRY_BASE = 7;
-	static final int METER_BASE = 8;
-	static final int OVERPASS = 9;
-	static final int MIN_GAUGE = NO_TYPE;
-	static final int MAX_GAUGE = OVERPASS;
+	public static final int DUAL_GAUGE = 3;
+	public static final int TUNNEL = 4;
+	public static final int FERRY = 5;
+	public static final int FERRY_BASE = 7;
+	public static final int METER_BASE = 8;
+	public static final int OVERPASS = 9;
+	public static final int MIN_GAUGE = NO_TYPE;
+	public static final int MAX_GAUGE = OVERPASS;
 
 	// TODO Make this an Enum, with Names, and Useable Track Flag
 	static final String NAMES[] = { "NO GAUGE", "NORMAL", "METER", "DUAL", "TUNNEL", "FERRY", "", "FERRY BASE",

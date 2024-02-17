@@ -28,7 +28,7 @@ public class Upgrade {
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final Upgrade NO_UPGRADE = null;
 	public static final String [] NO_PHASES = null;
-	static final int ANY_ROTATION = -1;
+	public static final int ANY_ROTATION = -1;
 	int toNumber;
 	int toRotations [];
 	int RCfrom [];

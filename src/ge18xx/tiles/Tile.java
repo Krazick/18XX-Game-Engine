@@ -46,19 +46,19 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class Tile implements Comparable<Object>, Cloneable {
-	public final static AttributeName AN_NUMBER = new AttributeName ("number");
-	public final static AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
-	public final static AttributeName AN_TYPE = new AttributeName ("type");
-	public final static AttributeName AN_FIXED = new AttributeName ("fixed");
-	public final static ElementName EN_TILE = new ElementName ("Tile");
+	public static final ElementName EN_TILE = new ElementName ("Tile");
+	public static final AttributeName AN_NUMBER = new AttributeName ("number");
+	public static final AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
+	public static final AttributeName AN_TYPE = new AttributeName ("type");
+	public static final AttributeName AN_FIXED = new AttributeName ("fixed");
 	public static final Tile NO_TILE = null;
 	public static final String NO_BASES = "";
 	public static final String NO_TOKENS = "";
 	public static final int NOT_A_TILE = 0;
-	static final int NO_TRACK = 0;
-	static final int NO_STATION = 0;
-	static final int NO_RC_ID = -1;
-	static final boolean ON_TILE = true;
+	public static final int NO_TRACK = 0;
+	public static final int NO_STATION = 0;
+	public static final int NO_RC_ID = -1;
+	public static final boolean ON_TILE = true;
 	int number;
 	int XCenter;
 	int YCenter;
