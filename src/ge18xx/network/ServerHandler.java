@@ -16,16 +16,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class ServerHandler implements Runnable {
-	public final static ServerHandler NO_SERVER_HANDLER = null;
-	private final static int DefaultTimeout = 12000;
-	private final static int DefaultSleep = 60000;
+	public static final ServerHandler NO_SERVER_HANDLER = null;
+	private static final int DefaultTimeout = 12000;
+	private static final int DefaultSleep = 60000;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
 	private boolean continueRunning;
-	protected String name;
 	private String host;
 	private int port;
+	protected String name;
 	protected Logger logger;
 	private NetworkGameSupport gameManager;
 

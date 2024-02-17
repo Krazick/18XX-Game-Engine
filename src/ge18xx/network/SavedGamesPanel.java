@@ -19,7 +19,6 @@ import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class SavedGamesPanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 	private JList<String> savedGamesList;
 	private DefaultListModel<String> savedGamesListModel;

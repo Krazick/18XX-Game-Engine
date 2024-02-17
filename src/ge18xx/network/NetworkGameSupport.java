@@ -12,10 +12,10 @@ import geUtilities.FileUtils;
 import geUtilities.XMLElement;
 
 public interface NetworkGameSupport {
-	public final String NO_NAME = "";
 	public static final String NO_GAME_ID = "NOID";
 	public static final String EMPTY_GAME_ID = "";
-	public final static int WAIT_TIME = 10;
+	public static final int WAIT_TIME = 10;
+	public final String NO_NAME = "";
 
 	public void updatePlayerCountLabel ();
 	public void addNetworkPlayer (String aPlayerName);

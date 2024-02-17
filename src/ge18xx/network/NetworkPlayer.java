@@ -1,8 +1,8 @@
 package ge18xx.network;
 
 public class NetworkPlayer {
-	public final static NetworkPlayer NO_NETWORK_PLAYER = null;
-	public final static String INVALID_NAME = "INVALID NAME";
+	public static final NetworkPlayer NO_NETWORK_PLAYER = null;
+	public static final String INVALID_NAME = "INVALID NAME";
 	String name;
 	boolean ready;
 	boolean afk;

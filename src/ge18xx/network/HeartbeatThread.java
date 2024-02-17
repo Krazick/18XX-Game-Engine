@@ -13,15 +13,15 @@ public class HeartbeatThread implements Runnable {
 	final Level HEARTBEAT = Level.forName ("HEARTBEAT", 550);
 
 	Thread thread;
-	boolean continueRunning = false;
-	JGameClient jGameClient;
 	LocalTime startTime;
 	LocalTime responseTime;
 	DateTimeFormatter hmssFormat = DateTimeFormatter.ofPattern ("HH:mm:ss.SSS");
-	long totalResponseTime;
 	String heartbeatRequest = "<Heartbeat>";
-	boolean sendHeartbeat = true;
 	String baseDirectory;
+	long totalResponseTime;
+	boolean sendHeartbeat = true;
+	boolean continueRunning = false;
+	JGameClient jGameClient;
 
 	public HeartbeatThread (JGameClient aJGameClient) {
 		setContinueRunning (false);
