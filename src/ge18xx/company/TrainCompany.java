@@ -453,6 +453,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public String getDestinationCityName () {
 		return GUI.EMPTY_STRING;
 	}
+	
+	public int getDestinationCapitalizationLevel () {
+		return Capitalization.INCREMENTAL_0_MAX;
+	}
 
 	public int getCapitalizationLevel () {
 		int tCapitalizationAmount;
@@ -475,7 +479,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (hasReachedDestination ()) {
 				tEscrowLabel = new JLabel ("Escrow: All Paid");
 			} else {
-				tCapitalizationLevel = getCapitalizationLevel ();
+				tCapitalizationLevel = getDestinationCapitalizationLevel ();
 				if (tCapitalizationLevel == Capitalization.INCREMENTAL_5_MAX) {
 					tEscrowAmount = calculateEscrowWithheld ();
 					if (tEscrowAmount > 0) {

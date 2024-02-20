@@ -13,8 +13,9 @@ public class Capitalization {
 	public static final String INCREMENTAL_10 = "Incremental_10";
 	public static final String FULL_GAME_CAPITALIZATION = "FULL";
 	public static final int FULL_CAPITALIZATION = 10;
-	public static final int INCREMENTAL_5_MAX = 5;
 	public static final int INCREMENTAL_10_MAX = 10;
+	public static final int INCREMENTAL_5_MAX = 5;
+	public static final int INCREMENTAL_0_MAX = 0;
 	public static final Capitalization NO_CAPITALIZATION = null;
 	public static final ElementName EN_CAPITALIZATIONS = new ElementName ("Capitalizations");
 	public static final ElementName EN_CAPITALIZATION = new ElementName ("Capitalization");

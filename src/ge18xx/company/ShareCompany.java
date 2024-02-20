@@ -95,7 +95,6 @@ public class ShareCompany extends TokenCompany {
 		setNoPrice ();
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
 					tRepaymentHandled, tStartCell);
-		
 	}
 
 	@Override
@@ -1026,6 +1025,7 @@ public class ShareCompany extends TokenCompany {
 		setRepaymentHandled (aRepaymentHandled);
 	}
 
+	@Override
 	public int getDestinationCapitalizationLevel () {
 		return destinationInfo.getCapitalizationLevel ();
 	}
