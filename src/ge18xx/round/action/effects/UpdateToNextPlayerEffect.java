@@ -11,7 +11,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
-	public final static String NAME = "Update to Next Player";
+	public static final String NAME = "Update to Next Player";
 
 	public UpdateToNextPlayerEffect () {
 		this (NAME);

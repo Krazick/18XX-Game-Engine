@@ -13,8 +13,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class StartPacketItemSetAvailableEffect extends Effect {
-	public final static String NAME = "Start Packet Item Set Available";
-	final static AttributeName AN_AVAILABLE = new AttributeName ("available");
+	public static final AttributeName AN_AVAILABLE = new AttributeName ("available");
+	public static final String NAME = "Start Packet Item Set Available";
 	StartPacketItem startPacketItem;
 	boolean available;
 	

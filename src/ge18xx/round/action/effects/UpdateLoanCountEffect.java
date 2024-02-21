@@ -10,9 +10,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class UpdateLoanCountEffect extends Effect {
-	final static AttributeName AN_OLD_LOAN_COUNT = new AttributeName ("oldLoanCount");
-	final static AttributeName AN_NEW_LOAN_COUNT = new AttributeName ("newLoanCount");
-	public final static String NAME = "Update Loan Count";
+	public static final AttributeName AN_OLD_LOAN_COUNT = new AttributeName ("oldLoanCount");
+	public static final AttributeName AN_NEW_LOAN_COUNT = new AttributeName ("newLoanCount");
+	public static final String NAME = "Update Loan Count";
 	int oldLoanCount;
 	int newLoanCount;
 

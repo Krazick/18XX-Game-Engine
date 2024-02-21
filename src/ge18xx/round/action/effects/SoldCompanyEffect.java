@@ -11,8 +11,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class SoldCompanyEffect extends Effect {
-	public final static String NAME = "Sold Company";
-	public final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final String NAME = "Sold Company";
 	String companyAbbrev;
 
 	public SoldCompanyEffect () {

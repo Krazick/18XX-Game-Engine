@@ -11,9 +11,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class UpdateLastRevenueEffect extends Effect {
-	public final static String NAME = "Update Last Revenue";
-	final static AttributeName AN_OLD_LAST_REVENUE = new AttributeName ("oldLastRevenue");
-	final static AttributeName AN_NEW_LAST_REVENUE = new AttributeName ("newLastRevenue");
+	public static final AttributeName AN_OLD_LAST_REVENUE = new AttributeName ("oldLastRevenue");
+	public static final AttributeName AN_NEW_LAST_REVENUE = new AttributeName ("newLastRevenue");
+	public static final String NAME = "Update Last Revenue";
 	int oldLastRevenue;
 	int newLastRevenue;
 

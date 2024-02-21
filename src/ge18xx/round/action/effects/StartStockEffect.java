@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class StartStockEffect extends Effect {
-	public final static String NAME = "Start Stock";
+	public static final String NAME = "Start Stock";
 
 	public StartStockEffect () {
 		super ();

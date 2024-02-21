@@ -11,9 +11,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ToEffect extends Effect {
-	public final static String NO_NAME = ">>NO TO EFFECT NAME<<";
-	public final static ActorI NO_TO_ACTOR = null;
-	static final AttributeName AN_TO_NICK_NAME = new AttributeName ("toNickName");
+	public static final AttributeName AN_TO_NICK_NAME = new AttributeName ("toNickName");
+	public static final String NO_NAME = ">>NO TO EFFECT NAME<<";
+	public static final ActorI NO_TO_ACTOR = null;
 	ActorI toActor;
 	String toNickName;
 

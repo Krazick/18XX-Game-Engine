@@ -15,10 +15,10 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class TransferOwnershipEffect extends ToEffect {
-	public static final String NAME = "Transfer Ownership";
 	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	public static final AttributeName AN_PRESIDENT_SHARE = new AttributeName ("president");
 	public static final AttributeName AN_SHARE_PERCENT = new AttributeName ("percentage");
+	public static final String NAME = "Transfer Ownership";
 	Certificate certificate;
 
 	public TransferOwnershipEffect () {

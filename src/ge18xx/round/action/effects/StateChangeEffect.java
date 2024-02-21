@@ -12,9 +12,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class StateChangeEffect extends Effect {
-	public final static String NAME = "State Change";
-	final static AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");
-	final static AttributeName AN_NEW_STATE = new AttributeName ("newState");
+	public static final AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");
+	public static final AttributeName AN_NEW_STATE = new AttributeName ("newState");
+	public static final String NAME = "State Change";
 	ActorI.ActionStates previousState;
 	ActorI.ActionStates newState;
 

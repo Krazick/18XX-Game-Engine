@@ -10,7 +10,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class ToFormationPanelEffect extends ToEffect {
-	public final static String NAME = "To Formation Panel";
+	public static final String NAME = "To Formation Panel";
 
 	public ToFormationPanelEffect () {
 		this (NAME);

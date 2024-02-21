@@ -10,7 +10,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class UpgradeTrainEffect extends TransferTrainEffect {
-	public final static String NAME = "Upgrade Train";
+	public static final String NAME = "Upgrade Train";
 
 	public UpgradeTrainEffect () {
 		super ();

@@ -12,9 +12,9 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ShareFoldCountEffect extends Effect {
-	public final static String NAME = "Share Fold Count";
-	final static AttributeName AN_OLD_SHARE_FOLD_COUNT = new AttributeName ("oldShareFoldCount");
-	final static AttributeName AN_NEW_SHARE_FOLD_COUNT = new AttributeName ("newShareFoldCount");
+	public static final AttributeName AN_OLD_SHARE_FOLD_COUNT = new AttributeName ("oldShareFoldCount");
+	public static final AttributeName AN_NEW_SHARE_FOLD_COUNT = new AttributeName ("newShareFoldCount");
+	public static final String NAME = "Share Fold Count";
 	int oldShareFoldCount;
 	int newShareFoldCount;
 

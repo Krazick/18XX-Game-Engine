@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class StartFormationEffect extends Effect {
-	public final static String NAME = "Start Formation";
+	public static final String NAME = "Start Formation";
 	Corporation formingCorporation;
 	
 	public StartFormationEffect () {

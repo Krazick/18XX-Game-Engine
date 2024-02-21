@@ -11,8 +11,8 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class ShowFrameEffect extends Effect {
-	public final static String NAME = "Show Frame";
-	final static AttributeName AN_XMLFRAME_TITLE = new AttributeName ("xmlFrameTitle");
+	public static final AttributeName AN_XMLFRAME_TITLE = new AttributeName ("xmlFrameTitle");
+	public static final String NAME = "Show Frame";
 	XMLFrame xmlFrame;
 	String xmlFrameTitle;
 

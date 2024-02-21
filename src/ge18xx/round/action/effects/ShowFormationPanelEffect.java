@@ -9,7 +9,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
-	public final static String NAME = "Show Formation Panel";
+	public static final String NAME = "Show Formation Panel";
 	
 	public ShowFormationPanelEffect () {
 		this (NAME);

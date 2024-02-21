@@ -7,8 +7,8 @@ import geUtilities.AttributeName;
 import geUtilities.XMLNode;
 
 public class SyncActionNumberEffect extends Effect {
-	public final static String NAME = "Sync Action Number";
-	final static AttributeName AN_NEW_ACTION_NUMBER = new AttributeName ("newActionNumber");
+	public static final AttributeName AN_NEW_ACTION_NUMBER = new AttributeName ("newActionNumber");
+	public static final String NAME = "Sync Action Number";
 	int newActionNumber;
 
 	public SyncActionNumberEffect () {
