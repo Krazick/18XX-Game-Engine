@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class TriggerClassEffect extends FormationPanelEffect {
-	public final static String NAME = "Trigger Class";
+	public static final String NAME = "Trigger Class";
 
 	public TriggerClassEffect () {
 		this (NAME);
