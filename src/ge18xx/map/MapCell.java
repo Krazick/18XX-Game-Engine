@@ -1056,7 +1056,9 @@ public class MapCell implements Comparator<Object> {
 		TokenCompany tTokenCompany;
 		
 		tCorporation = hexMap.getCorporationByID (aCorpID);
-		if (tCorporation.isATokenCompany ()) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
+		} else if (tCorporation.isATokenCompany ()) {
 			tTokenCompany = (TokenCompany) tCorporation;
 		} else {
 			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;

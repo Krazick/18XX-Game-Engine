@@ -15,10 +15,10 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class TransferOwnershipEffect extends ToEffect {
-	public final static String NAME = "Transfer Ownership";
-	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	final static AttributeName AN_PRESIDENT_SHARE = new AttributeName ("president");
-	final static AttributeName AN_SHARE_PERCENT = new AttributeName ("percentage");
+	public static final String NAME = "Transfer Ownership";
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final AttributeName AN_PRESIDENT_SHARE = new AttributeName ("president");
+	public static final AttributeName AN_SHARE_PERCENT = new AttributeName ("percentage");
 	Certificate certificate;
 
 	public TransferOwnershipEffect () {
@@ -80,18 +80,19 @@ public class TransferOwnershipEffect extends ToEffect {
 		String tFromActorName;
 		
 		tEffectReport = "";
-		tEffectReport += REPORT_PREFIX + name + " of ";
-		tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
-		if (certificate.isPresidentShare ()) {
-			tEffectReport += " (President Share)";
+		if (certificate == Certificate.NO_CERTIFICATE) {
+			tEffectReport = "No Presidental Certificate Exchange";
+		} else {
+			tEffectReport += REPORT_PREFIX + name + " of ";
+			tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
+			if (certificate.isPresidentShare ()) {
+				tEffectReport += " (President Share)";
+			}
+			tFromActorName = getFromDisplayName ();
+			tEffectReport += " from " + tFromActorName;
+			tToActorName = getToDisplayName ();
+			tEffectReport += " to " + tToActorName + ".";
 		}
-//		tFromActorName = getActorName ();
-		tFromActorName = getFromDisplayName ();
-		tEffectReport += " from " + tFromActorName;
-		tToActorName = getToDisplayName ();
-		tEffectReport += " to " + tToActorName + ".";
-
-		// --Effect: Transfer Ownership of 10% of CV from JeffW to Bank.
 		
 		return tEffectReport;
 	}
