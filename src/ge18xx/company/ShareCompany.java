@@ -26,6 +26,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayLoanInterestAction;
@@ -865,6 +866,11 @@ public class ShareCompany extends TokenCompany {
 		}
 
 		return tCanOperate;
+	}
+
+	@Override
+	public void handleCapitalization (FloatCompanyAction aFloatCompanyAction) {
+		destinationInfo.handleCapitalization (aFloatCompanyAction);
 	}
 
 	public boolean willFloat () {

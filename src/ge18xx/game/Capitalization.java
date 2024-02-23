@@ -9,6 +9,10 @@ import geUtilities.ElementName;
 import geUtilities.XMLNode;
 
 public class Capitalization {
+	public static final ElementName EN_CAPITALIZATIONS = new ElementName ("Capitalizations");
+	public static final ElementName EN_CAPITALIZATION = new ElementName ("Capitalization");
+	public static final AttributeName AN_AVAILABLE_TRAIN = new AttributeName ("availableTrain");
+	public static final AttributeName AN_LEVEL = new AttributeName ("level");
 	public static final String INCREMENTAL_5 = "Incremental_5";
 	public static final String INCREMENTAL_10 = "Incremental_10";
 	public static final String FULL_GAME_CAPITALIZATION = "FULL";
@@ -17,10 +21,6 @@ public class Capitalization {
 	public static final int INCREMENTAL_5_MAX = 5;
 	public static final int INCREMENTAL_0_MAX = 0;
 	public static final Capitalization NO_CAPITALIZATION = null;
-	public static final ElementName EN_CAPITALIZATIONS = new ElementName ("Capitalizations");
-	public static final ElementName EN_CAPITALIZATION = new ElementName ("Capitalization");
-	public static final AttributeName AN_AVAILABLE_TRAIN = new AttributeName ("availableTrain");
-	public static final AttributeName AN_LEVEL = new AttributeName ("level");
 	HashMap<String, String> levels;
 	
 	public Capitalization (XMLNode aXMLNode) {

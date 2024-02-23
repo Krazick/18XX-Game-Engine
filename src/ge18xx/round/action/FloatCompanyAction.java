@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.ReachedDestinationEffect;
 import geUtilities.XMLNode;
 
 public class FloatCompanyAction extends CashTransferAction {
@@ -31,4 +32,17 @@ public class FloatCompanyAction extends CashTransferAction {
 
 		return tSimpleActionReport;
 	}
+	
+	public void addReachedDestinationEffect (ActorI aActor, boolean aReached, int aOldCapitalizationLevel, 
+			int aNewCapitalizationLevel) {
+		ReachedDestinationEffect tReachedDestinationEffect;
+	
+		if (actor.isACorporation ()) {
+			tReachedDestinationEffect = new ReachedDestinationEffect (aActor, aReached, 
+					aOldCapitalizationLevel, aNewCapitalizationLevel);
+			addEffect (tReachedDestinationEffect);
+		}
+	}
+
+	
 }

@@ -1,7 +1,10 @@
 package ge18xx.company;
 
+import ge18xx.game.Capitalization;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.FloatCompanyAction;
 import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.XMLElement;
@@ -155,4 +158,16 @@ public class DestinationInfo {
 			aXMLCorporationState.setAttribute (AN_ESCROW, getEscrowForPayment ());
 		}
 	}
+	
+	public void handleCapitalization (FloatCompanyAction aFloatCompanyAction) {
+		ActorI tActor;
+		
+		if (capitalizationLevel == Capitalization.FULL_CAPITALIZATION) {
+			setReached (true);
+			tActor = aFloatCompanyAction.getActor ();
+			aFloatCompanyAction.addReachedDestinationEffect (tActor, true, Capitalization.INCREMENTAL_0_MAX,
+							capitalizationLevel);
+		}
+	}
+
 }

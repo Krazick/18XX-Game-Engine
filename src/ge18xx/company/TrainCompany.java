@@ -296,12 +296,21 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tFloatCompanyAction.addCashTransferEffect (tBank, this, aInitialTreasury);
 		tFloatCompanyAction.setChainToPrevious (true);
 
+		if (hasDestination ()) {
+			handleCapitalization (tFloatCompanyAction);
+		}
+		
 		tBank.transferCashTo (this, aInitialTreasury);
 		corporationList.addDataElement (treasury, tRowIndex, 9);
 		corporationList.addDataElement (getStatusName (), tRowIndex, 3);
 		corporationList.addAction (tFloatCompanyAction);
 	}
 
+	// Share Company will Override this method
+	public void handleCapitalization (FloatCompanyAction aFloatCompanyAction) {
+		
+	}
+	
 	/**
 	 * Prepare the Corporation for operations.
 	 *
