@@ -224,6 +224,7 @@ public class Train extends Coupon implements Comparable<Object> {
 				tCanUpgrade = true;
 			}
 		}
+		
 		return tCanUpgrade;
 	}
 
