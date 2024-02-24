@@ -225,7 +225,12 @@ public class ShareCompany extends TokenCompany {
 	public void setReachedDestination (boolean aReached) {
 		destinationInfo.setReached (aReached);
 	}
-	
+
+	@Override
+	public String destinationMapCellID () {
+		return destinationInfo.getMapCellID ();
+	}
+
 	@Override
 	public boolean hasReachedDestination () {
 		boolean tHasReachedDestination;

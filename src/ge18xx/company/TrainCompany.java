@@ -522,6 +522,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return false;
 	}
 
+	public String destinationMapCellID () {
+		return GUI.EMPTY_STRING;
+	}
+	
 	@Override
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
@@ -575,6 +579,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (hasDestination ()) {
 				if (hasReachedDestination ()) {
 					tCorpAbbrev += "*";
+				} else {
+					tCorpAbbrev += " (Destination: " + destinationMapCellID () + ")";
 				}
 			}
 		}
