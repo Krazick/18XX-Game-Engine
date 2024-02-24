@@ -61,11 +61,12 @@ public class ShareCompany extends TokenCompany {
 	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
+	public static final ShareCompany NO_SHARE_COMPANY = null;
 	public static final String NO_START_CELL = null;
 	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
-	public static final ShareCompany NO_SHARE_COMPANY = null;
 	public static final int NO_LOANS = 0;
+	List<KButton> specialButtons;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;
@@ -76,7 +77,6 @@ public class ShareCompany extends TokenCompany {
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
-	List<KButton> specialButtons;
 	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
