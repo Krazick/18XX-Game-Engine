@@ -2798,7 +2798,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PrivateCompany tPrivateCompany;
 		
 		tPresident = getPresident ();
-		if (tPresident != PortfolioHolderI.NO_HOLDER) {
+		if (tPresident != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			if (tPresident.isAPlayer ()) {
 				tPresidentPlayer = (Player) tPresident;
 				tOwnerBenefitButtons = tPresidentPlayer.getOwnerTypeBenefits ();

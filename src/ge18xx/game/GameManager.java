@@ -1083,7 +1083,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		PortfolioHolderLoaderI tCurrentHolder;
 
 		tCurrentHolder = bank.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
+		if (tCurrentHolder == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			tCurrentHolder = bankPool.getCurrentHolder (aLoadedCertificate);
 		}
 

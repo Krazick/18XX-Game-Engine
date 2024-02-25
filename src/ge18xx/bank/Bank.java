@@ -285,7 +285,7 @@ public class Bank extends GameBank implements CashHolderI {
 		PortfolioHolderLoaderI tCurrentHolder;
 
 		tCurrentHolder = startPacketFrame.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
+		if (tCurrentHolder == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			tCurrentHolder = super.getCurrentHolder (aLoadedCertificate);
 		}
 
