@@ -96,14 +96,14 @@ public class Certificate implements Comparable<Certificate> {
 	public static final float X_CENTER_ALIGNMENT = 0.5f;
 	public static final float X_RIGHT_ALIGNMENT = 1.0f;
 	
+	JCheckBox checkBox;
+	JComboBox<String> parValuesCombo;
+	KButton infoButton;
 	boolean isPresidentShare;
 	boolean secondIssue;
 	int percentage;
 	String [] allowedOwners = null;
 	FrameButton frameButton;
-	JCheckBox checkBox;
-	JComboBox<String> parValuesCombo;
-	KButton infoButton;
 	Corporation corporation;
 	CertificateHolderI owner;
 	Bidders bidders;
@@ -264,8 +264,8 @@ public class Certificate implements Comparable<Certificate> {
 	 */
 	// TODO Update to use a % Limit instead of Certificate Limit
 	public int getBankPoolShareLimit (GameManager aGameManager) {
-		int tBankPoolShareLimit;
 		GameInfo tGameInfo;
+		int tBankPoolShareLimit;
 
 		tGameInfo = aGameManager.getActiveGame ();
 		tBankPoolShareLimit = tGameInfo.getBankPoolShareLimit ();
@@ -274,9 +274,10 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean bankPoolAtLimit (GameManager aGameManager) {
-		boolean tBankPoolAtLimit;
 		BankPool tBankPool;
-		int tBankPoolShareLimit, tBankPoolShareCount;
+		boolean tBankPoolAtLimit;
+		int tBankPoolShareLimit;
+		int tBankPoolShareCount;
 
 		tBankPoolAtLimit = false;
 		tBankPool = aGameManager.getBankPool ();
@@ -326,14 +327,14 @@ public class Certificate implements Comparable<Certificate> {
 						boolean aIsBankHolder, Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoJPanel;
 		JLabel tDiscountLabel;
+		CertificateFlags tCertificateFlags;
 		boolean tPlayerHasSoldThisCompany;
 		boolean tPlayerHasMaxShares;
 		boolean tPlayerAtCertLimit;
-		int tDiscount;
 		String tCompanyAbbrev;
 		String tBoughtShare;
 		String tToolTip;
-		CertificateFlags tCertificateFlags;
+		int tDiscount;
 
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -418,8 +419,8 @@ public class Certificate implements Comparable<Certificate> {
 
 	public void handleRevenue (JPanel tCertificateInfoJPanel) {
 		JLabel tRevenueLabel;
-		int tRevenue;
 		String tRevenueInfo;
+		int tRevenue;
 		
 		if (isAPrivateCompany ()) {
 			tRevenue = getRevenue ();
@@ -548,8 +549,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	private String updateExchangeCheckBox (ItemListener aItemListener, GameManager aGameManager) {
-		String tGroupName;
 		boolean tEnableCheckbox;
+		String tGroupName;
 		String tToolTip;
 		String tButtonLabel;
 		
@@ -573,8 +574,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean calcCheckboxState () {
-		boolean tCalcCheckBoxState;
 		MinorCompany tMinorCompany;
+		boolean tCalcCheckBoxState;
 		
 		tCalcCheckBoxState = false;
 		if (isAMinorCompany ()) {
@@ -623,11 +624,11 @@ public class Certificate implements Comparable<Certificate> {
 
 	public JPanel buildBasicCertInfoJPanel () {
 		BoxLayout tInfoBoxLayout;
+		CompoundBorder tCertInfoBorder2;
 		JPanel tCertificateInfoJPanel;
 		JLabel tPrimaryLabel;
 		String tCertInfo;
 		String tNote;
-		CompoundBorder tCertInfoBorder2;
 		
 		tCertificateInfoJPanel = new JPanel ();
 		tInfoBoxLayout = new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS);
@@ -748,8 +749,14 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public Border setupPCPBorder () {
-		String tPrivatePresident, tSharePresident;
-		Border tPanelBorder, tInnerBorder, tOuterBorder, tRaisedBevel, tLoweredBevel, tBevelBorder;
+		String tPrivatePresident;
+		String tSharePresident;
+		Border tPanelBorder;
+		Border tInnerBorder;
+		Border tOuterBorder;
+		Border tRaisedBevel;
+		Border tLoweredBevel;
+		Border tBevelBorder;
 		Color tInnerColor;
 
 		tPrivatePresident = getOwnerName ();
@@ -771,12 +778,19 @@ public class Certificate implements Comparable<Certificate> {
 
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 		JPanel tPrivateCertJPanel;
-		JLabel tPrivateAbbrevLabel, tPresidentLabel, tPriceLabel, tSaleLabel, tRevenueLabel;
+		JLabel tPrivateAbbrevLabel;
+		JLabel tPresidentLabel;
+		JLabel tPriceLabel;
+		JLabel tSaleLabel;
+		JLabel tRevenueLabel;
 		BoxLayout tLayout;
 		Border tPanelBorder;
 		String tCheckboxLabel;
-		int tPrice, tHalfValue, tDoubleValue, tRevenueValue;
 		String tPrivatePresident;
+		int tPrice;
+		int tHalfValue;
+		int tDoubleValue;
+		int tRevenueValue;
 
 		tPrivatePresident = getOwnerName ();
 		tPanelBorder = setupPCPBorder ();
@@ -937,8 +951,9 @@ public class Certificate implements Comparable<Certificate> {
 
 	public boolean didOperate () {
 		ShareCompany tShareCompany;
-		boolean tDidOperate = false;
+		boolean tDidOperate;
 
+		tDidOperate = false;
 		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			tDidOperate = tShareCompany.didOperate ();
@@ -948,9 +963,9 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean canBeSold (GameManager aGameManager) {
-		boolean tCanBeSold;
 		ShareCompany tShareCompany;
 		ShareCompany tOperatingCompany;
+		boolean tCanBeSold;
 
 		tCanBeSold = false;
 		// Only a Share Company Stock Share can be sold
@@ -1004,8 +1019,8 @@ public class Certificate implements Comparable<Certificate> {
 	// The Company must Pay Loan Interest or Redeem Loan
 	// Otherwise return false;
 	private boolean operatingCompanyMustBuyCoupon (GameManager aGameManager) {
-		boolean tOCMustBuyCoupon;
 		Corporation tOperatingCompany;
+		boolean tOCMustBuyCoupon;
 
 		tOCMustBuyCoupon = false;
 
@@ -1056,10 +1071,10 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public int getValue () {
-		int iValue;
-		int iSharePrice;
 		PrivateCompany tPrivate;
 		MinorCompany tMinor;
+		int iValue;
+		int iSharePrice;
 		
 		iValue = 0;
 		if (corporation.isAShareCompany ()) {
@@ -1089,7 +1104,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tXMLBidders;
+		XMLElement tXMLElement;
+		XMLElement tXMLBidders;
 
 		tXMLElement = aXMLDocument.createElement (EN_CERTIFICATE);
 		tXMLElement.setAttribute (Corporation.AN_ABBREV, corporation.getAbbrev ());
@@ -1113,9 +1129,9 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public String getReasonForNoSale (GameManager aGameManager) {
-		String tReason;
 		ShareCompany tShareCompany;
 		BankPool tBankPool;
+		String tReason;
 		
 		tReason = NO_REASON;
 		if (isAPrivateCompany ()) {
@@ -1153,10 +1169,10 @@ public class Certificate implements Comparable<Certificate> {
 
 	@Override
 	public int compareTo (Certificate aCertificate) {
+		Corporation tOtherCorporporation;
 		int tCompareValue;
 		int tThisID;
 		int tOtherID;
-		Corporation tOtherCorporporation;
 
 		tThisID = corporation.getID ();
 		tOtherCorporporation = aCertificate.getCorporation ();
@@ -1184,8 +1200,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public int getComboParValue () {
-		int tParPrice;
 		String tSelectedValue;
+		int tParPrice;
 
 		tParPrice = getParPrice ();
 		if (tParPrice == ShareCompany.NO_PAR_PRICE) {
@@ -1234,9 +1250,11 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tCounts;
 
 		tCounts = true;
-		if (corporation.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) corporation;
-			tCounts = tShareCompany.countsAgainstCertificateLimit ();
+		if (percentage > NO_PERCENTAGE) {
+			if (corporation.isAShareCompany ()) {
+				tShareCompany = (ShareCompany) corporation;
+				tCounts = tShareCompany.countsAgainstCertificateLimit ();
+			}
 		}
 
 		return tCounts;
@@ -1299,11 +1317,11 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public int getParValue () {
-		int tValue;
-		int tParPrice;
-		float tSinglePercentPrice;
 		PrivateCompany tPrivate;
 		MinorCompany tMinor;
+		float tSinglePercentPrice;
+		int tValue;
+		int tParPrice;
 
 		tValue = 0;
 		if (corporation.isAShareCompany ()) {
@@ -1341,8 +1359,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public int getRevenue () {
-		int tRevenue;
 		PrivateCompany iPrivate;
+		int tRevenue;
 
 		tRevenue = Revenue.NO_REVENUE_VALUE;
 		if (corporation.isAPrivateCompany ()) {
@@ -1437,7 +1455,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != PortfolioHolderI.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				if ((tHolder.isAPlayer ()) || (tHolder.isACorporation ()) || (tHolder.isABankPool ())) {
 					tOwned = true;
 				}
@@ -1454,7 +1472,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != PortfolioHolderI.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				if (tHolder.isABankPool ()) {
 					tOwned = true;
 				}
@@ -1479,7 +1497,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != PortfolioHolderI.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				if ((tHolder.isAPlayer ()) || (tHolder.isACorporation ())) {
 					tOwned = true;
 				}
