@@ -586,10 +586,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public Certificate getCertificateFor (Corporation aCorporation, boolean aRemove) {
-		Certificate tCertificate;
 		Certificate tPortfolioCertificate;
-		int tIndex;
+		Certificate tCertificate;
 		int tCertificateCount;
+		int tIndex;
 
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
@@ -912,8 +912,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
 		XMLElement tXMLCertificateElements;
+		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_PORTFOLIO);
 		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
@@ -928,8 +928,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getBidderCount () {
-		int tBidderCount = 0;
+		int tBidderCount;
 
+		tBidderCount = 0;
 		for (Certificate tCertificate : certificates) {
 			tBidderCount += tCertificate.getNumberOfBidders ();
 		}
@@ -938,8 +939,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public String getBidderNames () {
-		String tBidderNames = "";
+		String tBidderNames;
 
+		tBidderNames = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tBidderNames.length () > 0) {
 				tBidderNames += ", ";
@@ -951,8 +953,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getHighestBid () {
-		int tHighestBid = 0;
+		int tHighestBid;
 
+		tHighestBid = 0;
 		for (Certificate tCertificate : certificates) {
 			tHighestBid = tCertificate.getHighestBid ();
 		}
@@ -961,9 +964,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public XMLElement getBidders (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement = NO_BIDDERS;
+		XMLElement tXMLElement;
 		XMLElement tXMLBidders;
 
+		tXMLElement = NO_BIDDERS;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.hasBidders ()) {
 				if (tXMLElement == NO_BIDDERS) {
@@ -980,7 +984,7 @@ public class Portfolio implements CertificateHolderI {
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 
-		tCurrentHolder = null;
+		tCurrentHolder = PortfolioHolderLoaderI.NO_PORTFOLIO_HOLDER_LOADER;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.sameCertificate (aLoadedCertificate)) {
 				tCurrentHolder = (PortfolioHolderLoaderI) holder;
@@ -991,8 +995,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public String getSelectedCompanyAbbrev () {
-		String tSelectedCompanyAbbrev = "";
+		String tSelectedCompanyAbbrev;
 
+		tSelectedCompanyAbbrev = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tSelectedCompanyAbbrev = tCertificate.getCompanyAbbrev ();
@@ -1032,8 +1037,9 @@ public class Portfolio implements CertificateHolderI {
 		String tCertificateOwnerName;
 		String tPresidentName;
 		PortfolioHolderI tPresident;
-		int tPresidentPercent = 0;
+		int tPresidentPercent;
 
+		tPresidentPercent = 0;
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
 
@@ -1060,14 +1066,14 @@ public class Portfolio implements CertificateHolderI {
 	 * 
 	 */
 	public int getNextPresidentPercent (Corporation aCorporation) {
+		PortfolioHolderI tPresident;
 		String tCertificateOwnerName;
 		String tNextName;
 		String tPresidentName;
-		PortfolioHolderI tPresident;
 		int tNextPresidentPercent;
 		int tPercent;
 
-		tNextName = "";
+		tNextName = GUI.EMPTY_STRING;
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
 		tNextPresidentPercent = 0;
@@ -1108,13 +1114,13 @@ public class Portfolio implements CertificateHolderI {
 		int tPercent;
 		String tNextPresidentName;
 
-		tNextName = "";
+		tNextName = GUI.EMPTY_STRING;
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
 		tNextPresidentPercent = 0;
 		tPercent = 0;
 		sortByOwners ();
-		tNextPresidentName = "";
+		tNextPresidentName = GUI.EMPTY_STRING;
 
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isOwned ()) {
@@ -1143,7 +1149,7 @@ public class Portfolio implements CertificateHolderI {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
 
-		tPortfolioHolder = PortfolioHolderI.NO_HOLDER;
+		tPortfolioHolder = PortfolioHolderI.NO_PORTFOLIO_HOLDER;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
 				tCertificateHolder = tCertificate.getOwner ();
@@ -1181,11 +1187,11 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean isPresidentAPlayer () {
-		boolean tPresidentIsAPlayer;
 		PortfolioHolderI tPresident;
+		boolean tPresidentIsAPlayer;
 
 		tPresident = getPresident ();
-		if (tPresident == PortfolioHolderI.NO_HOLDER) {
+		if (tPresident == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			tPresidentIsAPlayer = false;
 		} else {
 			tPresidentIsAPlayer = tPresident.isAPlayer ();
@@ -1234,12 +1240,12 @@ public class Portfolio implements CertificateHolderI {
 			} else {
 				tCurrentHolder = tHolder.getCurrentHolder (tLoadedCertificate);
 			}
-			if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
+			if (tCurrentHolder == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				tBank = holder.getBank ();
 				tCurrentHolder = tBank.getStartPacketFrame ();
 			}
 
-			if (tCurrentHolder != PortfolioHolderI.NO_HOLDER) {
+			if (tCurrentHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				tPortfolio = tCurrentHolder.getPortfolio ();
 				if (tPortfolio != NO_PORTFOLIO) {
 					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (),
@@ -1265,7 +1271,7 @@ public class Portfolio implements CertificateHolderI {
 		String tHolderAbbrev;
 
 		tHolderAbbrev = ">> NO HOLDER <<";
-		if (holder != PortfolioHolderI.NO_HOLDER) {
+		if (holder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			tHolderAbbrev = holder.getAbbrev ();
 		}
 
@@ -1277,7 +1283,7 @@ public class Portfolio implements CertificateHolderI {
 		String tHolderName;
 
 		tHolderName = ">> NO HOLDER <<";
-		if (holder != PortfolioHolderI.NO_HOLDER) {
+		if (holder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 			tHolderName = holder.getName ();
 		}
 
@@ -1389,8 +1395,8 @@ public class Portfolio implements CertificateHolderI {
 	public Certificate getThisCertificate (Certificate aCertificate) {
 		Certificate tCertificate;
 		Certificate tPortfolioCertificate;
-		int tIndex;
 		int tCertificateCount;
+		int tIndex;
 
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
@@ -1437,8 +1443,9 @@ public class Portfolio implements CertificateHolderI {
 
 	public boolean hasSelectedOneToExchange () {
 		boolean tHasSelectedOneToExchange;
-		int tSelectedCount = 0;
+		int tSelectedCount;
 
+		tSelectedCount = 0;
 		tHasSelectedOneToExchange = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isAShareCompany ()) {
@@ -1513,8 +1520,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public Certificate getSelectedStockToExchange () {
-		Certificate tCertificateToExchange = Certificate.NO_CERTIFICATE;
+		Certificate tCertificateToExchange;
 
+		tCertificateToExchange = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToExchange ()) {
 				tCertificateToExchange = tCertificate;
@@ -1525,8 +1533,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public Certificate getSelectedStockToSell () {
-		Certificate tCertificateToSell = Certificate.NO_CERTIFICATE;
+		Certificate tCertificateToSell;
 
+		tCertificateToSell = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCertificateToSell = tCertificate;
@@ -1537,10 +1546,12 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getCountSelectedCosToBuy () {
-		int tCountSelectedCosToBuy = 0;
-		String tCoAbbrev, tPrevCoAbbrev;
+		int tCountSelectedCosToBuy;
+		String tCoAbbrev;
+		String tPrevCoAbbrev;
 
-		tPrevCoAbbrev = "";
+		tCountSelectedCosToBuy = 0;
+		tPrevCoAbbrev = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCoAbbrev = tCertificate.getCompanyAbbrev ();
@@ -1555,8 +1566,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getCountSelectedCosToBid () {
-		int tCountSelectedCosToBid = 0;
+		int tCountSelectedCosToBid;
 
+		tCountSelectedCosToBid = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBid ()) {
 				tCountSelectedCosToBid++;
@@ -1681,7 +1693,8 @@ public class Portfolio implements CertificateHolderI {
 
 	public boolean AreAllSelectedStocksSameCorporation () {
 		boolean tAreAllSelectedStocksSameCorporation;
-		Corporation tCorporation, tPreviousCorporation;
+		Corporation tCorporation;
+		Corporation tPreviousCorporation;
 
 		tAreAllSelectedStocksSameCorporation = true;
 		tPreviousCorporation = Corporation.NO_CORPORATION;
@@ -1716,8 +1729,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean hasThisCertificate (Certificate aThisCertificate) {
-		boolean tHasThisCertificate = false;
+		boolean tHasThisCertificate;
 
+		tHasThisCertificate = false;
 		for (Certificate tCertificate : certificates) {
 			if (aThisCertificate == tCertificate) {
 				tHasThisCertificate = true;
@@ -1803,7 +1817,8 @@ public class Portfolio implements CertificateHolderI {
 			String tOwner1;
 			String tOwner2;
 			int tSortOrder;
-			int tCert1Percentage, tCert2Percentage;
+			int tCert1Percentage;
+			int tCert2Percentage;
 
 			tOwner1 = aCertificate1.getOwnerName ();
 			tOwner2 = aCertificate2.getOwnerName ();
@@ -1925,8 +1940,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean transferOwnership (Portfolio aFromPortfolio, Corporation aCorporation) {
-		boolean tTransferGood;
 		Certificate tCertificate;
+		boolean tTransferGood;
 
 		tTransferGood = false;
 		if (aFromPortfolio != NO_PORTFOLIO) {
@@ -1934,9 +1949,6 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = aFromPortfolio.getCertificateFor (aCorporation);
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					tCertificate.setOwner (this);
-//					if (isAPlayer ()) {
-//						tCertificate.setJustBought (true);
-//					}
 					tCertificate.sortCorporationCertificates ();
 					addCertificate (tCertificate);
 					tTransferGood = true;
@@ -1950,8 +1962,8 @@ public class Portfolio implements CertificateHolderI {
 	public void updateCertificateOwnersInfo () {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
-		Player tPlayerOwner;
 		Player tPreviousPlayerOwner;
+		Player tPlayerOwner;
 
 		tPreviousPlayerOwner = Player.NO_PLAYER;
 		for (Certificate tCertificate : certificates) {
@@ -2021,6 +2033,9 @@ public class Portfolio implements CertificateHolderI {
 		PortfolioSummary tASummary;
 		Certificate tPresidentCertificate;
 		Player tPlayer;
+		ActorI.ActionStates tStatus;
+		Border tCorporateColorBorder;
+		Corporation tCorporation;
 		String tAbbrev;
 		String tOwnershipLabel;
 		String tNote;
@@ -2034,9 +2049,6 @@ public class Portfolio implements CertificateHolderI {
 		boolean tIsPresident;
 		boolean tHandledCertificate;
 		boolean tCorporationIsFolding;
-		ActorI.ActionStates tStatus;
-		Border tCorporateColorBorder;
-		Corporation tCorporation;
 
 		tOwnershipPanel = GUI.NO_PANEL;
 		if (certificates.size () > 0) {
@@ -2149,9 +2161,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getSmallestSharePercentage () {
-		int tSmallestSharePercentage = 100;
+		int tSmallestSharePercentage;
 		int tCertificatePercentage;
 
+		tSmallestSharePercentage = 100;
 		for (Certificate tCertificate : certificates) {
 			tCertificatePercentage = tCertificate.getPercentage ();
 			if (tCertificatePercentage < tSmallestSharePercentage) {
@@ -2177,16 +2190,16 @@ public class Portfolio implements CertificateHolderI {
 
 	public Certificate getNextFastBuyCertificate (int aFastBuyIndex, Player aPlayer) {
 		Certificate tCertToBuy;
-		String tPresidentName;
 		Corporation tCorporation;
 		ShareCompany tShareCompany;
+		Bank tBank;
+		String tPresidentName;
 		String tPlayerName;
 		String tAbbrev;
 		String tPrevAbbrev;
 		int tPlayerCash;
 		int tCertParValue;
 		int tCorpIndex;
-		Bank tBank;
 
 		tCertToBuy = Certificate.NO_CERTIFICATE;
 		tPlayerName = aPlayer.getName ();
