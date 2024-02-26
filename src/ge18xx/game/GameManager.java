@@ -3222,4 +3222,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		return tLastAction;
 	}
+	
+	public int getActionNumber () {
+		return roundManager.getActionNumber ();
+	}
 }

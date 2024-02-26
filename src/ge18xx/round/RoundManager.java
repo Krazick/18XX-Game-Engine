@@ -462,6 +462,10 @@ public class RoundManager implements ActionListener {
 		return actionManager.getLastAction (aActionOffset);
 	}
 
+	public int getActionNumber () {
+		return actionManager.getActionNumber ();
+	}
+	
 	public Market getMarket () {
 		return gameManager.getMarket ();
 	}
