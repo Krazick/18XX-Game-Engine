@@ -1425,8 +1425,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getNextPresidentName (this);
 	}
 
-	public int getPresidentPercent () {
-		return corporationCertificates.getPresidentPercent (this);
+	public int getPresidentCertPercent () {
+		return corporationCertificates.getPresidentCertPercent ();
+	}
+
+	public int getPresidentOwnedPercent () {
+		return corporationCertificates.getPresidentOwnedPercent ();
 	}
 
 	public int getBankPoolPercentage () {

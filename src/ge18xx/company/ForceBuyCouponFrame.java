@@ -441,7 +441,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 		tShareCompanyAbbrev = shareCompany.getAbbrev ();
 		tLiquidCertificateValue = 0;
-		tPresidentPercent = shareCompany.getPresidentPercent ();
+		tPresidentPercent = shareCompany.getPresidentOwnedPercent ();
 		tNextPresidentPercent = shareCompany.getNextPresidentPercent ();
 		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
 		tCanSellCount = tCanSellPercent / tSharePercent;
@@ -594,7 +594,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 		if (tSelectedCompanyAbbrev.equals (shareCompany.getAbbrev ())) {
 			tSelectedPercent = president.getSelectedPercent ();
-			tPresidentPercent = shareCompany.getPresidentPercent ();
+			tPresidentPercent = shareCompany.getPresidentOwnedPercent ();
 			tNextPresidentPercent = shareCompany.getNextPresidentPercent ();
 			if (tNextPresidentPercent > (tPresidentPercent - tSelectedPercent)) {
 				tWillChangePresidency = true;
@@ -718,7 +718,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 		tPresidentPortfolio = getPresidentPortfolio ();
 		tCurrentPresidentPercent = tPresidentPortfolio.getPercentageFor (exchangedCompany);
-		tNewPresidentPercent = exchangedCompany.getPresidentPercent ();
+		tNewPresidentPercent = exchangedCompany.getPresidentOwnedPercent ();
 		tMustSellPercent = (tCurrentPresidentPercent - tNewPresidentPercent) + 1;
 		tToolTip = "Must sell at least " + tMustSellPercent + "% of " + exchangedCompany.getAbbrev ();
 

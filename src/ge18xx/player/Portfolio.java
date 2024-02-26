@@ -215,11 +215,11 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tScrollableCorpJPanel;
 		JScrollPane tCorporationScrollPane;
 		Certificate tCertificateToShow;
-		int tCount;
 		String tCertificateType;
 		String tPrevShareCorpAbbrev;
 		String tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder;
+		int tCount;
 
 		tCount = 0;
 		tIsBankPortfolioHolder = false;
@@ -284,11 +284,13 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tScrollableCorpJPanel;
 		Certificate tCertificateToShow;
 		Corporation tCorporationForCert;
-		int tCount, tCertCount, tCertTotalPercent;
 		String tCertificateType;
 		String tPrevShareCorpAbbrev;
 		String tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder;
+		int tCount;
+		int tCertCount;
+		int tCertTotalPercent;
 
 		tCount = 0;
 		tCertCount = 0;
@@ -1033,13 +1035,23 @@ public class Portfolio implements CertificateHolderI {
 		return tSelectedAbbrevToSell;
 	}
 	
-	public int getPresidentPercent (Corporation corporation) {
+	public int getPresidentCertPercent () {
+		Certificate tPresidentCertificate;
+		int tPresidentCertPercentage;
+		
+		tPresidentCertificate = getPresidentCertificate ();
+		tPresidentCertPercentage = tPresidentCertificate.getPercentage ();
+		
+		return tPresidentCertPercentage;
+	}
+	
+	public int getPresidentOwnedPercent () {
 		String tCertificateOwnerName;
 		String tPresidentName;
 		PortfolioHolderI tPresident;
 		int tPresidentPercent;
 
-		tPresidentPercent = 0;
+		tPresidentPercent = Certificate.NO_PERCENTAGE;
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
 
