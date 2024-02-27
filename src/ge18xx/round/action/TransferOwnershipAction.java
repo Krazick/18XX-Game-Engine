@@ -8,6 +8,7 @@ import ge18xx.company.License;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CloseCorporationEffect;
+import ge18xx.round.action.effects.CreateNewCertificateEffect;
 import ge18xx.round.action.effects.Effect;
 //import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.RemoveLicenseEffect;
@@ -83,7 +84,14 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tRemoveLicenseEffect);
 	}
 	
-	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, 
+	public void addCreateNewCertificateEffet (ActorI aFromActor, Certificate aCertificate, ActorI aToActor) {
+		CreateNewCertificateEffect tCreateNewCertificateEffet;
+		
+		tCreateNewCertificateEffet = new CreateNewCertificateEffect (aFromActor, aCertificate, aToActor);
+		addEffect (tCreateNewCertificateEffet);
+	}
+	
+	public void addStartPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, 
 										boolean aAvailable) {
 		StartPacketItemSetAvailableEffect tRemoveStartPacketItemEffect;
 		
