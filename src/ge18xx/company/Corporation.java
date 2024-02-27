@@ -1483,6 +1483,21 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getPresidentCertificate ();
 	}
 
+	public boolean isPresident (Portfolio aPortfolio) {
+		Certificate tPresidentCertificate;
+		boolean tIsPresident;
+	
+		tIsPresident = false;
+		tPresidentCertificate = getPresidentCertificate ();
+		if (aPortfolio.hasThisCertificate (tPresidentCertificate)) {
+			tIsPresident = true;
+		} else {
+			tIsPresident = aPortfolio.hasPresidentCertificateFor (abbrev);
+		}
+		
+		return tIsPresident;
+	}
+	
 	/**
 	 * Base class to get the Share Price of the Company. Will be Overridden by the
 	 * ShareCompany Class
