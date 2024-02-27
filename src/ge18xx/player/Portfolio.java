@@ -1434,7 +1434,7 @@ public class Portfolio implements CertificateHolderI {
 			tStartPacketItem = tStartPacketFrame.removeCertificateFromRow (aCertificate);
 			if (tStartPacketItem != StartPacketItem.NO_START_PACKET_ITEM) {
 				tAvailable = tStartPacketItem.available ();
-				aBuyStockAction.startPacketItemSetAvailableEffect (holder, tStartPacketItem, tAvailable);
+				aBuyStockAction.addStartPacketItemSetAvailableEffect (holder, tStartPacketItem, tAvailable);
 			}
 		}
 	}
@@ -1753,6 +1753,23 @@ public class Portfolio implements CertificateHolderI {
 		return tHasThisCertificate;
 	}
 
+	public boolean hasPresidentCertificateFor (String aAbbrev) {
+		String tAbbrev;
+		boolean tHasPresidentCertificateFor;
+
+		tHasPresidentCertificateFor = false;
+		for (Certificate tCertificate : certificates) {
+			tAbbrev = tCertificate.getCompanyAbbrev ();
+			if (tAbbrev.equals (aAbbrev)) {
+				if (tCertificate.isPresidentShare ()) {
+					tHasPresidentCertificateFor = true;
+				}
+			}
+		}
+
+		return tHasPresidentCertificateFor;
+	}
+
 	@Override
 	public boolean isABank () {
 		return holder.isABank ();
@@ -2043,7 +2060,6 @@ public class Portfolio implements CertificateHolderI {
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
-		Certificate tPresidentCertificate;
 		Player tPlayer;
 		ActorI.ActionStates tStatus;
 		Border tCorporateColorBorder;
@@ -2090,16 +2106,10 @@ public class Portfolio implements CertificateHolderI {
 				if (tCorporation.willFold ()) {
 					tCorporationIsFolding = true;
 				}
-				tPresidentCertificate = tCorporation.getPresidentCertificate ();
-				if (hasThisCertificate (tPresidentCertificate)) {
-					tIsPresident = true;
-				} else {
-					tIsPresident = false;
-				}
+				tIsPresident = tCorporation.isPresident (this);
 				for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
 					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share
-					// Company Certs when owned by
-					// the same player
+					// Company Certs when owned by the same player
 					tAbbrevAndType2 = buildAbbrevAndType (tASingleSummary.getAbbrev (), tASingleSummary.getType ());
 
 					if (tAbbrevAndType1.equals (tAbbrevAndType2)) {
