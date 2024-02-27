@@ -81,7 +81,7 @@ public class TransferOwnershipEffect extends ToEffect {
 		
 		tEffectReport = "";
 		if (certificate == Certificate.NO_CERTIFICATE) {
-			tEffectReport = "No Presidental Certificate Exchange";
+			tEffectReport = "No Certificate Exchange";
 		} else {
 			tEffectReport += REPORT_PREFIX + name + " of ";
 			tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
@@ -124,7 +124,7 @@ public class TransferOwnershipEffect extends ToEffect {
 		return tEffectApplied;
 	}
 
-	private Portfolio getToPortfolio () {
+	protected Portfolio getToPortfolio () {
 		PortfolioHolderI tToHolder;
 		Portfolio tToPortfolio;
 		Corporation tCorporation;
