@@ -66,6 +66,9 @@ public class TransferOwnershipEffect extends ToEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
+		// TODO -- ZERO Percent Cert doesn't have Corporation assigned, because the Cert is not
+		// in the corporationCertificates List. And need to create that Certificate. 
+		// Verify via Breakpoint the attributes below are set. 
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, certificate.getCompanyAbbrev ());
 		tEffectElement.setAttribute (AN_PRESIDENT_SHARE, certificate.isPresidentShare ());
 		tEffectElement.setAttribute (AN_SHARE_PERCENT, certificate.getPercentage ());
