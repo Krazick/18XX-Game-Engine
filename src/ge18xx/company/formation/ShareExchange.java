@@ -37,6 +37,7 @@ public class ShareExchange extends PlayerFormationPhase {
 	public ShareExchange (GameManager aGameManager, FormationPhase aShareExchange, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aShareExchange, aPlayer, aActingPresident);
+		closeFormingCompanySecondIssue ();
 	}
 	
 	@Override
@@ -195,7 +196,6 @@ public class ShareExchange extends PlayerFormationPhase {
 				tCertificate = tPlayerPortfolio.getCertificate (tCertificateIndex);
 				if (tCertificate.getCompanyAbbrev ().equals (tCompanyAbbrev)) {
 					if ((tCertificate.getPercentage () == PhaseInfo.STANDARD_SHARE_SIZE) && oneShareToBankPool) {
-						System.out.println (player.getName () + " to exchange 1 Share of " + tCompanyAbbrev + " to Open Market");
 						transferShare (player, tBankPool, tCertificate, tTransferOwnershipAction1);
 						oneShareToBankPool = false;
 						tTransferNotification += "1 Share of " + tCompanyAbbrev + " to " + 
@@ -204,7 +204,6 @@ public class ShareExchange extends PlayerFormationPhase {
 					} else {
 						tExchangeCount += tCertificate.getShareCount ();
 						transferShareToClosed (player, tCertificate, tTransferOwnershipAction1);
-						System.out.println (player.getName () + " to exchange " + tExchangeCount + " Share(s) of " + tCompanyAbbrev + " to Closed");
 					}
 				}
 			}
@@ -222,11 +221,9 @@ public class ShareExchange extends PlayerFormationPhase {
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
 			tFormingAbbrev = getFormingAbbrev ();
 			tPercentage = formationPhase.getPercentageForExchange ();
-			System.out.println (player.getName () + " to receive " + tPercentage + "% of  " + tFormingAbbrev);
 
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
-				System.out.println (player.getName () + " to receive " + tFormedCertificate.getPercentage () + "% Certificate of " + tFormingAbbrev);
 				if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
 					transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction1);
 				} else {
@@ -387,28 +384,25 @@ public class ShareExchange extends PlayerFormationPhase {
 		ActorI.ActionStates tNewState;
 		Bank tBank;
 		int tOwnsPercentage;
-		int tPresidentCertPercentage;
 		int tPresidentOwnedPercentage;
 		boolean tNewPresident;
 		String tFormingAbbrev;
-		String tCurrentPresidentName;
 		
 		tBank = gameManager.getBank ();
-		tPresidentCertPercentage = aFormingCompany.getPresidentCertPercent ();
 		tPresidentOwnedPercentage = aFormingCompany.getPresidentOwnedPercent ();
 		tPlayerPortfolio = player.getPortfolio ();
 		tOwnsPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
 		tFormingAbbrev = aFormingCompany.getAbbrev ();
 		tNewPresident = false;
-		tCurrentPresidentName = aFormingCompany.getPresidentName ();
-		System.out.println (player.getName () + " just exchanged, and now owns " + tOwnsPercentage + "% of " + tFormingAbbrev + ". The President Certificate is " + tPresidentCertPercentage + "%");
-		System.out.println (tCurrentPresidentName + " is the Current President who owns " + tPresidentOwnedPercentage + "%.");
 		if (tPresidentOwnedPercentage == Certificate.NO_PERCENTAGE) {
+			
 			System.out.println ("Need to give " + player.getName () + " a Standard Cert and a Ghost Prez Cert.");
 			tPresidentZeroCertificate = new Certificate (aFormingCompany, true, Certificate.NO_PERCENTAGE,
 							tPlayerPortfolio);
 			tPlayerPortfolio.addCertificate (tPresidentZeroCertificate);
-			
+			aTransferOwnershipAction.addCreateNewCertificateEffet (tBank, tPresidentZeroCertificate, player);
+			tNewPresident = true;
+
 		} else if (tOwnsPercentage > tPresidentOwnedPercentage) {
 			System.out.println (player.getName () + " now becomes President of " + tFormingAbbrev + " and needs to exchange Shares with the current President.");
 			tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage * 2, true);
@@ -657,7 +651,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			handleOpenMarketShareExchange ();
 			confirmFormingPresident ();
 			handleIPOShareClosing ();
-			closeFormingCompanySecondIssue ();
 		}
 	}
 }
