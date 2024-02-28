@@ -225,6 +225,20 @@ public class PlayerManager {
 		}
 	}
 	
+	public Player getPresidentFromPlayers (Corporation aCorporation) {
+		Player tPlayerWhoIsPresident;
+		
+		tPlayerWhoIsPresident = Player.NO_PLAYER;
+		for (Player tPlayer : players) {
+			if (tPlayer.hasPresidentCertFor (aCorporation)) {
+				tPlayerWhoIsPresident = tPlayer;
+			}
+		}
+		
+		return tPlayerWhoIsPresident;
+	}
+	
+
 	public int getOperatingRoundCount () {
 		return gameManager.getOperatingRoundCount ();
 	}
