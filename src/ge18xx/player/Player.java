@@ -648,6 +648,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public Certificate getCertificateToExchange () {
 		return portfolio.getCertificateToExchange ();
 	}
+	
+	public boolean hasPresidentCertFor (Corporation aCorporation) {
+		boolean tPlayerWhoIsPresident;
+		
+		tPlayerWhoIsPresident = portfolio.hasPresidentCertFor (aCorporation);
+		
+		return tPlayerWhoIsPresident;
+	}
+	
 
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
@@ -707,6 +716,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tAllDividends;
 	}
 	
+	@Override
 	public GameManager getGameManager () {
 		return playerManager.getGameManager ();
 	}
@@ -716,6 +726,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return name;
 	}
 
+	@Override
 	public int getPercentOwnedOf (Corporation aCorporation) {
 		int tPercentOwned;
 
