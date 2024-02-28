@@ -1430,7 +1430,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public int getPresidentOwnedPercent () {
-		return corporationCertificates.getPresidentOwnedPercent ();
+		
+		PortfolioHolderI tPresident;
+		int tPresidentOwnedPercent;
+		
+		tPresident = getPresident ();
+		tPresidentOwnedPercent = tPresident.getPercentOwnedOf (this);
+		
+		return tPresidentOwnedPercent;
+//		return corporationCertificates.getPresidentOwnedPercent ();
 	}
 
 	public int getBankPoolPercentage () {
@@ -1476,7 +1484,16 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public PortfolioHolderI getPresident () {
-		return corporationCertificates.getPresident ();
+		PortfolioHolderI tPresident;
+		GameManager tGameManager;
+		
+		tPresident = corporationCertificates.getPresident ();
+		if (tPresident == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
+			tGameManager = getGameManager ();
+			tPresident = tGameManager.getPresidentFromPlayers (this);
+		}
+		
+		return tPresident;
 	}
 
 	public Certificate getPresidentCertificate () {
