@@ -948,6 +948,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tCorporation;
 	}
 
+	public Corporation getCorporationByAbbrev (String aCorporationAbbrev) {
+		Corporation tCorporation;
+
+		tCorporation = minorCompaniesFrame.getCorporationByName (aCorporationAbbrev);
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tCorporation = shareCompaniesFrame.getCorporationByName (aCorporationAbbrev);
+		}
+
+		return tCorporation;
+	}
+
 	public Corporation getActingCorporationByName (String aCorporationName) {
 		Corporation tCorporation;
 
@@ -959,6 +970,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tCorporation;
 	}
 
+	public Player getPresidentFromPlayers (Corporation aCorporation) {
+		Player tPlayerWhoIsPresident;
+		
+		tPlayerWhoIsPresident = playerManager.getPresidentFromPlayers (aCorporation);
+		
+		return tPlayerWhoIsPresident;
+	}
+	
 	public Corporation getCorporationByID (int aCorporationID) {
 		Corporation tCorporation;
 
