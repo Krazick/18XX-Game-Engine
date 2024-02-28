@@ -538,4 +538,9 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 		return tRemovedStartPacketItem;
 	}
+	
+	@Override
+	public GameManager getGameManager () {
+		return gameManager;
+	}
 }

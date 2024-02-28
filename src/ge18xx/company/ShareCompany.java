@@ -1286,5 +1286,4 @@ public class ShareCompany extends TokenCompany {
 			}
 		}
 	}
-
 }

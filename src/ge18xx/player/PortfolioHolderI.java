@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 
 public interface PortfolioHolderI extends ActorI {
@@ -51,4 +53,13 @@ public interface PortfolioHolderI extends ActorI {
 	public String getAbbrev ();
 
 	public void updateListeners (String aMessage);
+
+	public default int getPercentOwnedOf (Corporation corporation) {
+		return 0;
+	}
+	
+	public default GameManager getGameManager () {
+		return GameManager.NO_GAME_MANAGER;
+	}
+
 }
