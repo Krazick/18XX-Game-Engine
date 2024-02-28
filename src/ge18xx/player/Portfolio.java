@@ -1045,6 +1045,21 @@ public class Portfolio implements CertificateHolderI {
 		return tPresidentCertPercentage;
 	}
 	
+	public boolean hasPresidentCertFor (Corporation aCorporation) {
+		boolean tHasPresidentCertFor;
+		
+		tHasPresidentCertFor = false;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.getCompanyAbbrev ().equals (aCorporation.getAbbrev ())) {
+				if (tCertificate.isPresidentShare ()) {
+					tHasPresidentCertFor = true;
+				}
+			}
+		}
+		
+		return tHasPresidentCertFor;
+	}
+	
 	public int getPresidentOwnedPercent () {
 		String tCertificateOwnerName;
 		String tPresidentName;
@@ -1244,6 +1259,12 @@ public class Portfolio implements CertificateHolderI {
 			Portfolio tPortfolio;
 			PortfolioHolderLoaderI tHolder;
 			Bank tBank;
+			Corporation tCorporation;
+			GameManager tGameManager;
+			CertificateHolderI tCertificateHolder;
+			String tCompanyAbbrev;
+			boolean tIsPresident;
+			int tPercentage;
 
 			tLoadedCertificate = new LoadedCertificate (aChildNode);
 			tHolder = (PortfolioHolderLoaderI) holder;
@@ -1260,10 +1281,21 @@ public class Portfolio implements CertificateHolderI {
 			if (tCurrentHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
 				tPortfolio = tCurrentHolder.getPortfolio ();
 				if (tPortfolio != NO_PORTFOLIO) {
-					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (),
-							tLoadedCertificate.getPercentage (), tLoadedCertificate.getIsPresidentShare ());
+					tCompanyAbbrev = tLoadedCertificate.getCompanyAbbrev ();
+					tIsPresident = tLoadedCertificate.getIsPresidentShare ();
+					tPercentage = tLoadedCertificate.getPercentage ();
+					tCertificate = tPortfolio.getCertificate (tCompanyAbbrev, tPercentage, tIsPresident);
 					if (tCertificate != Certificate.NO_CERTIFICATE) {
 						transferOneCertificateOwnership (tPortfolio, tCertificate);
+					} else {
+						System.out.println ("Tried to find Certificate, but was not found. " + 
+								tCompanyAbbrev + " " + tPercentage + "% President " + tIsPresident);
+						tGameManager = holder.getGameManager ();
+						tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
+						tCertificateHolder = (CertificateHolderI) tHolder;
+						tCertificate = new Certificate (tCorporation, tIsPresident, tPercentage, 
+												tCertificateHolder);
+						addCertificate (tCertificate);
 					}
 				}
 			}
