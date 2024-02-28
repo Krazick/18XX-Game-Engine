@@ -11,6 +11,8 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 /**
@@ -66,14 +68,42 @@ public class CreateNewCertificateEffect extends TransferOwnershipEffect {
 
 		setName (NAME);
 		
+		Player tPlayer;
 		Corporation tCorporation;
+		Portfolio tPlayerPortfolio;
+		Certificate tZeroCertificate;
+		int tCorporationID;
 
 		setCompanyAbbrev (aCertificate.getCompanyAbbrev ());
 		setIsPresident (aCertificate.isPresidentShare ());
 		setPercentage (aCertificate.getPercentage ());
 
 		tCorporation = aCertificate.getCorporation ();
-		setCorporationID (tCorporation.getID ());
+		tCorporationID = tCorporation.getID ();
+		setCorporationID (tCorporationID);
+		if (certificate == Certificate.NO_CERTIFICATE) {
+			if (toActor.isAPlayer ()) {
+				tPlayer = (Player) toActor;
+				tPlayerPortfolio = tPlayer.getPortfolio ();
+				tZeroCertificate = new Certificate (tCorporation, true, 
+						Certificate.NO_PERCENTAGE, tPlayerPortfolio);
+				tPlayerPortfolio.addCertificate (tZeroCertificate);
+				setCertificate (tZeroCertificate);
+			}
+		}
+	}
+
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
+
+		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
+		// TODO -- ZERO Percent Cert doesn't have Corporation assigned, because the Cert is not
+		// in the corporationCertificates List. And need to create that Certificate. 
+		// Verify via Breakpoint the attributes below are set. 
+		tEffectElement.setAttribute (AN_CORPORATION_ID, corporationID);
+
+		return tEffectElement;
 	}
 
 	/**
