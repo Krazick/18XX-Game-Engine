@@ -951,9 +951,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public Corporation getCorporationByAbbrev (String aCorporationAbbrev) {
 		Corporation tCorporation;
 
-		tCorporation = minorCompaniesFrame.getCorporationByName (aCorporationAbbrev);
+		tCorporation = minorCompaniesFrame.getCorporationByAbbrev (aCorporationAbbrev);
 		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = shareCompaniesFrame.getCorporationByName (aCorporationAbbrev);
+			tCorporation = shareCompaniesFrame.getCorporationByAbbrev (aCorporationAbbrev);
 		}
 
 		return tCorporation;
