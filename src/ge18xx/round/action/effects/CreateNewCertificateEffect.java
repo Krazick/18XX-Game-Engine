@@ -234,5 +234,4 @@ public class CreateNewCertificateEffect extends TransferOwnershipEffect {
 
 		return tEffectUndone;
 	}
-
 }
