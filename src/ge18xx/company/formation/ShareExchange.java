@@ -376,12 +376,14 @@ public class ShareExchange extends PlayerFormationPhase {
 	public boolean assignPresident (Portfolio aBankPortfolio, int aPercentage, Corporation aFormingCompany, 
 					TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tPresidentCertificate;
-		Certificate tHalfPresidentCertificate;
 		Certificate tExchangeCertificate;
 		Certificate tPresidentZeroCertificate;
+		Certificate tRemovedCertificate;
 		Portfolio tPlayerPortfolio;
+		Portfolio tOldPresidentPortfolio;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
+		PortfolioHolderI tCurrentPresident;
 		Bank tBank;
 		int tOwnsPercentage;
 		int tPresidentOwnedPercentage;
@@ -389,6 +391,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tFormingAbbrev;
 		
 		tBank = gameManager.getBank ();
+		tCurrentPresident = aFormingCompany.getPresident ();
 		tPresidentOwnedPercentage = aFormingCompany.getPresidentOwnedPercent ();
 		tPlayerPortfolio = player.getPortfolio ();
 		tOwnsPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
@@ -396,7 +399,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		tNewPresident = false;
 		if (tPresidentOwnedPercentage == Certificate.NO_PERCENTAGE) {
 			
-			System.out.println ("Need to give " + player.getName () + " a Standard Cert and a Ghost Prez Cert.");
 			tPresidentZeroCertificate = new Certificate (aFormingCompany, true, Certificate.NO_PERCENTAGE,
 							tPlayerPortfolio);
 			tPlayerPortfolio.addCertificate (tPresidentZeroCertificate);
@@ -404,7 +406,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			tNewPresident = true;
 
 		} else if (tOwnsPercentage > tPresidentOwnedPercentage) {
-			System.out.println (player.getName () + " now becomes President of " + tFormingAbbrev + " and needs to exchange Shares with the current President.");
 			tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage * 2, true);
 			tNewPresident = true;
 			if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
@@ -414,15 +415,19 @@ public class ShareExchange extends PlayerFormationPhase {
 				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
 				if (tExchangeCertificate != Certificate.NO_CERTIFICATE) {
 					transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
+				} 
+				tOldPresidentPortfolio = tCurrentPresident.getPortfolio ();
+				tPresidentZeroCertificate = tOldPresidentPortfolio.getCertificate (tFormingAbbrev,
+						Certificate.NO_PERCENTAGE, tNewPresident);
+				if (tPresidentZeroCertificate != Certificate.NO_CERTIFICATE) {
+					System.out.println ("Found Cert found to remove from " + tCurrentPresident.getName ());
+					tRemovedCertificate = tOldPresidentPortfolio.getThisCertificate (tPresidentZeroCertificate);
+					System.out.println ("Found 0% Cert in old President Portfolio - Removed");
+					aTransferOwnershipAction.addDeleteCertificateEffet (tCurrentPresident, tRemovedCertificate,
+									tCurrentPresident);
 				}
-				formationPhase.setFormingPresidentAssigned  (tNewPresident);
-			} else {
-				tHalfPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage, true);
-				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
-				transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
-				transferShare (tBank, Bank.IPO, player, tHalfPresidentCertificate, aTransferOwnershipAction);		
-				formationPhase.setFormingPresidentAssigned  (tNewPresident);
 			}
+			formationPhase.setFormingPresidentAssigned  (tNewPresident);
 		}
 		tOldState = aFormingCompany.getStatus ();
 		aFormingCompany.resetStatus (ActorI.ActionStates.Owned);
@@ -510,8 +515,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPrezPercentage, true);
 			if (tCertificate != Certificate.NO_CERTIFICATE) {
 				transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
-			} else {
-				System.err.println ("Share not found");
 			}
 			gameManager.addAction (tTransferOwnershipAction);
 		}
