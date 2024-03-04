@@ -1292,9 +1292,9 @@ public class Portfolio implements CertificateHolderI {
 								tCompanyAbbrev + " " + tPercentage + "% President " + tIsPresident);
 						tGameManager = holder.getGameManager ();
 						tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
-						tCertificateHolder = (CertificateHolderI) tHolder;
+						tCertificateHolder = tCorporation.getPortfolio ();
 						tCertificate = new Certificate (tCorporation, tIsPresident, tPercentage, 
-												tCertificateHolder);
+								tCertificateHolder);
 						addCertificate (tCertificate);
 					}
 				}
