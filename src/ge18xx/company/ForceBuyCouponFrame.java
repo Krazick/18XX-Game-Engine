@@ -1,6 +1,5 @@
 package ge18xx.company;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -51,12 +50,13 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	JLabel totalSelectedAssetLabel;
 	JLabel saleLimitReasons;
 	JLabel frameLabel;
-	Coupon mustBuyCoupon;
+	GameManager gameManager;
 	ShareCompany shareCompany;
+	ShareCompany exchangedCompany;
+	Coupon mustBuyCoupon;
 	Player president;
 	String operatingRoundID;
 	String forceAction;
-	GameManager gameManager;
 	int buyingTrainCompanyTreasury;
 	int presidentTreasury;
 	int actionCount;
@@ -64,8 +64,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	int liquidAssetTotal;
 	int selectedAssetTotal;
 	int revenueContribution;
-	ShareCompany exchangedCompany;
-
+	
 	public ForceBuyCouponFrame (ShareCompany aBuyingCompany, Coupon aMustBuyCoupon) {
 		super ("Force Payment Frame");
 		
@@ -139,8 +138,6 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		tCompanyTreasury = shareCompany.getCash ();
 		infoJPanel = new JPanel ();
 		infoJPanel.setLayout (new BoxLayout (infoJPanel, BoxLayout.Y_AXIS));
-		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-
 		infoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Force " + forceAction + " for " + shareCompany.getAbbrev ());
 		addLabelAndSpace (frameLabel);
@@ -153,7 +150,8 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		addLabelAndSpace (tPresidentLabel);
 		presidentTreasuryLabel = new JLabel ("President Treasury: " + Bank.formatCash (presidentTreasury));
 		addLabelAndSpace (presidentTreasuryLabel);
-		totalTreasuryLabel = new JLabel ("Total Treasury: " + Bank.formatCash (presidentTreasury + tCompanyTreasury));
+		totalTreasuryLabel = new JLabel ("Total Treasury: " + Bank.formatCash (presidentTreasury +
+							tCompanyTreasury));
 		addLabelAndSpace (totalTreasuryLabel);
 		presidentalCashNeededLabel = new JLabel ("XXX");
 		updatePresidentalCashNeeded ();
@@ -179,15 +177,21 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
+	private void addLabelAndSpace (JLabel aLabelToAdd) {
+		infoJPanel.add (aLabelToAdd);
+		infoJPanel.add (Box.createVerticalStrut (10));
+	}
+
 	private void addRevenueContributionToPanel () {
-		int tRevenueContribution;
-		LoanInterestCoupon tLoanInterestCoupon;
 		JLabel tRevenueContributionLabel;
+		LoanInterestCoupon tLoanInterestCoupon;
+		int tRevenueContribution;
 		
 		if (mustBuyCoupon instanceof LoanInterestCoupon) {
 			tLoanInterestCoupon = (LoanInterestCoupon) mustBuyCoupon;
 			tRevenueContribution = tLoanInterestCoupon.getRevenueContribution ();
-			tRevenueContributionLabel = new JLabel ("Revenue Contribution: " + Bank.formatCash (tRevenueContribution));
+			tRevenueContributionLabel = new JLabel ("Revenue Contribution: " + 
+					Bank.formatCash (tRevenueContribution));
 			addLabelAndSpace (tRevenueContributionLabel);
 		} else {
 			tRevenueContribution = 0;
@@ -195,17 +199,12 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		setRevenueContribution (tRevenueContribution);
 	}
 
-	private void addLabelAndSpace (JLabel aLabelToAdd) {
-		infoJPanel.add (Box.createHorizontalStrut (50));
-		infoJPanel.add (aLabelToAdd);
-		infoJPanel.add (Box.createVerticalStrut (10));
-	}
-
 	private void calculatePresidentalCashNeeded (int aCompanyTreasury, int aCouponCost) {
 		presidentContribution = aCouponCost - (getRevenueContribution () + aCompanyTreasury);
 	}
 
 	private void updatePresidentalCashNeeded () {
+		String tCashLabel;
 		int tCompanyTreasury;
 		int tCouponCost;
 		int tCashToRaise;
@@ -215,10 +214,17 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		calculatePresidentalCashNeeded (tCompanyTreasury, tCouponCost);
 		tCashToRaise = tCouponCost - (getRevenueContribution () + tCompanyTreasury + presidentTreasury);
 		if (presidentContribution > 0) {
-			presidentalCashNeededLabel.setText ("Cash amount that must be raised: " + Bank.formatCash (tCashToRaise));
+			if (tCashToRaise > 0) {
+				tCashLabel = "Cash amount that must be raised: " + Bank.formatCash (tCashToRaise);
+			} else {
+				tCashLabel = String.format ("Excess Cash of %s will remain in the President's Treasury.",
+					Bank.formatCash (-tCashToRaise));
+			}
+			presidentalCashNeededLabel.setText (tCashLabel);
 		} else {
 			presidentalCashNeededLabel.setText (
-					"Have enough Cash, will have " + Bank.formatCash (presidentTreasury + presidentContribution) + " in President Treasury");
+					"Have enough Cash, will have " + 
+					Bank.formatCash (presidentTreasury + presidentContribution) + " in President Treasury");
 		}
 	}
 
