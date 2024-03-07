@@ -103,12 +103,13 @@ public class AddLicenseEffect extends ToEffect {
 		boolean tEffectApplied;
 		TrainCompany tTrainCompany;
 		
+		tEffectApplied = false;
 		tTrainCompany = getTrainCompany ();
 		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 			tTrainCompany.addLicense (license);
-			tEffectApplied = super.applyEffect (aRoundManager);
+			tEffectApplied = true;
 		} else {
-			tEffectApplied = false;
+			setApplyFailureReason ("The Actor to apply the effect to is NOT a Train Company");
 		}
 		
 		return tEffectApplied;
@@ -133,12 +134,13 @@ public class AddLicenseEffect extends ToEffect {
 		boolean tEffectUndone;
 		TrainCompany tTrainCompany;
 
+		tEffectUndone = false;
 		tTrainCompany = getTrainCompany ();
 		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 			tTrainCompany.removeLicense (license);
-			tEffectUndone = super.undoEffect (aRoundManager);
+			tEffectUndone = true;
 		} else {
-			tEffectUndone = false;
+			setUndoFailureReason ("The Actor to undo the effect from is NOT a Train Company");
 		}
 
 		return tEffectUndone;
