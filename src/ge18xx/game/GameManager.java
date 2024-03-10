@@ -1730,7 +1730,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				}
 				parseChildNode (tChildren, tIndex, tGameInitiated);
 				if (gameID != null) {
-					tGameIdentified = true;
+					if (gameID != EMPTY_GAME_ID) {
+						tGameIdentified = true;
+					}
 				}
 				if (playerManager.getPlayerCount () > 1) {
 					tPlayersLoaded = true;
