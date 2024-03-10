@@ -51,7 +51,7 @@ public class SetNotificationEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " sets the Notification Text to [" + notificationText +  "].");
+		return (REPORT_PREFIX + "Set Notification Text to [" + notificationText +  "].");
 	}
 
 	@Override
