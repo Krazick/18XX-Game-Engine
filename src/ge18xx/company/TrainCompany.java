@@ -580,7 +580,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				if (hasReachedDestination ()) {
 					tCorpAbbrev += "*";
 				} else {
-					tCorpAbbrev += " (Destination: " + destinationMapCellID () + ")";
+					tCorpAbbrev += " (" + destinationMapCellID () + ")";
 				}
 			}
 		}
