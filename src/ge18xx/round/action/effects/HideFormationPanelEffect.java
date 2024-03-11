@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.XMLNode;
 
 public class HideFormationPanelEffect extends FormationPanelEffect {
-	public final static String NAME = "Hide Special Panel";
+	public final static String NAME = "Hide Formation Panel";
 
 	public HideFormationPanelEffect () {
 		this (NAME);
@@ -17,18 +17,14 @@ public class HideFormationPanelEffect extends FormationPanelEffect {
 	public HideFormationPanelEffect (String aName) {
 		super (aName);
 	}
-//
-//	public HideFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
-//		super (aFromActor, aToActor);
-//	}
+
+	public HideFormationPanelEffect (ActorI aToActor) {
+		super (NAME, aToActor);
+	}
 
 	public HideFormationPanelEffect (String aName, ActorI aToActor) {
 		super (aName, aToActor);
 	}
-
-//	public HideFormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
-//		super (aName, aToActor, aFromActor);
-//	}
 
 	public HideFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
