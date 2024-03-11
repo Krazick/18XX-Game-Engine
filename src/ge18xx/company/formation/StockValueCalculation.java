@@ -219,7 +219,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		}
 		
 		tCoordinates = closestMarketCell.getCoordinates ();
-		aStockValueCalculationAction.addSetParValueEffect (tFormingShareCompany, tFormingShareCompany, newParPrice, 
+		aStockValueCalculationAction.addSetParValueEffect (tFormingShareCompany, tFormingShareCompany, tParPrice, 
 										tCoordinates);
 		tOldFormingCoStatus = tFormingShareCompany.getActionStatus ();
 		tFormingShareCompany.resetStatus (tNewFormingCoStatus);
@@ -270,13 +270,14 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		// Check for Next company to Operate
 		
 		tStockValueCalculationAction.setChainToPrevious (true);
-		gameManager.addAction (tStockValueCalculationAction);
-		gameManager.updateAllFrames ();
 		formationPhase.setFormationState (ActorI.ActionStates.NoState);
 		tFormingCompany = formationPhase.getFormingCompany ();
 		tFormingCompany.setCorporationFrame ();
 		formationPhase.hideFormationPanel ();
+		tStockValueCalculationAction.addHideFormationPanelEffect (player);
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerManager.setPlayersToNoAction ();
+		gameManager.addAction (tStockValueCalculationAction);
+		gameManager.updateAllFrames ();
 	}
 }
