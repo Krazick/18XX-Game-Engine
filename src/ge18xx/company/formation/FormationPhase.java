@@ -492,14 +492,19 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
 		gameManager.addAction (tChangeStateAction);
 		
-		setCurrentPlayerIndex (tNextPlayerIndex);
-		if (tNextPlayer == tFirstPresident) {
-			allPlayersHandled ();
-		} else {
-			updatePlayers (aPlayers, tNextPlayer);
-		}
+		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
 		
 		return tNextPlayerIndex;
+	}
+
+	private void updateToPlayer (List<Player> aPlayers, Player aNextPlayer, Player aFirstPresident,
+			int aNextPlayerIndex) {
+		setCurrentPlayerIndex (aNextPlayerIndex);
+		if (aNextPlayer == aFirstPresident) {
+			allPlayersHandled ();
+		} else {
+			updatePlayers (aPlayers, aNextPlayer);
+		}
 	}
 	
 	public void updateToFormingPresident (ActorI.ActionStates aFormationState) {
