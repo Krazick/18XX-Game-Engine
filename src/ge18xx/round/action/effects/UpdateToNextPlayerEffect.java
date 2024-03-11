@@ -56,13 +56,20 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		TriggerClass tTriggerClass;
 		List<Player> tPlayers;
 		int tNextPlayerIndex;
+		int tToPlayerIndex;
 		
 		tGameManager = aRoundManager.getGameManager ();
 		tPlayerManager = tGameManager.getPlayerManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		tPlayers = tPlayerManager.getPlayers ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers);
+			tToPlayerIndex = getPlayerIndex (tPlayers, toActor.getName ());
+			if (tToPlayerIndex == PlayerManager.NO_PLAYER_INDEX) {
+				tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers);
+			} else {
+				tTriggerClass.setCurrentPlayerIndex (tToPlayerIndex);
+				tNextPlayerIndex = tToPlayerIndex;
+			}
 		} else {
 			tNextPlayerIndex = 0;
 		}
@@ -70,6 +77,26 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		return tNextPlayerIndex;
 	}
 
+	public int getPlayerIndex (List<Player> aPlayers, String aPlayerName) {
+		int tPlayerIndex;
+		int tIndex;
+		int tPlayerCount;
+		Player tPlayer;
+		String tPlayerName;
+		
+		tPlayerCount = aPlayers.size ();
+		tPlayerIndex = PlayerManager.NO_PLAYER_INDEX;
+		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
+			tPlayer = aPlayers.get (tIndex);
+			tPlayerName = tPlayer.getName ();
+			if (tPlayerName.equals (aPlayerName)) {
+				tPlayerIndex = tIndex;
+			}
+		}
+		
+		return tPlayerIndex;
+	}
+	
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
