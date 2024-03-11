@@ -87,7 +87,8 @@ public class LoanRepayment extends PlayerFormationPhase {
 			if (! aShareCompany.wasRepaymentHandled ()) {
 				tLoanAmount = aShareCompany.getLoanAmount ();
 				if (aShareCompany.getCash () >= tLoanAmount) {
-					tToolTip = "Company [" + aShareCompany.getAbbrev () + "] Treasury has enough to pay an Outstanding Loan";
+					tToolTip = "Company [" + aShareCompany.getAbbrev () + 
+								"] Treasury has enough to pay an Outstanding Loan";
 				} else {
 					tPlayer = (Player) aShareCompany.getPresident ();
 					tPlayerCash = tPlayer.getCash ();
