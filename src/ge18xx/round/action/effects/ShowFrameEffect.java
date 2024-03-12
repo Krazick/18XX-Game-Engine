@@ -91,7 +91,7 @@ public class ShowFrameEffect extends Effect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-
+		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_XMLFRAME_TITLE, xmlFrameTitle);
 
