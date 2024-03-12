@@ -31,6 +31,7 @@ class ResponseOfferEffectTestConstructor {
 	ShareCompany companyGamma;
 	Player mPlayerActorAlpha;
 	Player mPlayerActorDelta;
+	Player playerActorGamma;
 	GameManager mGameManager;
 	PlayerManager playerManager;
 	GameTestFactory gameTestFactory;
@@ -42,14 +43,17 @@ class ResponseOfferEffectTestConstructor {
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
+		String tPlayer1Name;
 		String tPlayer2Name;
 		String tPlayer3Name;
 		Portfolio mPortfolioAlpha;
+		Portfolio tGammaPortfolio;
 		boolean tResponse;
 		String tItemType;
 		String tItemName;
 
 		tClientName = "TFBuster";
+		tPlayer1Name = "ToEffectTesterGamma";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		gameTestFactory = new GameTestFactory ();
@@ -67,15 +71,16 @@ class ResponseOfferEffectTestConstructor {
 		
 		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
 		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
-		
+		playerActorGamma = playerTestFactory.buildPlayer (tPlayer1Name, playerManager, 0);
 		mPortfolioAlpha = Mockito.mock (Portfolio.class);
 		Mockito.when (mPlayerActorAlpha.getPortfolio ()).thenReturn (mPortfolioAlpha);
 		
 		companyBeta = companyTestFactory.buildAShareCompany (1);
 		companyGamma = companyTestFactory.buildAShareCompany (2);
+		tGammaPortfolio = playerActorGamma.getPortfolio ();
+		certificate = companyBeta.getCertificate (20, true);
+		tGammaPortfolio.addCertificate (certificate);
 
-		certificate = certificateTestFactory.buildCertificate (companyBeta, true, 20, mPortfolioAlpha);
-		Mockito.when (mPortfolioAlpha.getCertificate (0)).thenReturn (certificate);
 		effectAlpha = new ResponseOfferEffect ();
 		tResponse = true;
 		tItemType = "Private";
@@ -111,7 +116,7 @@ class ResponseOfferEffectTestConstructor {
 		String tReportResponseTrue = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Accepted";
 		String tReportResponseFalse = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
 		String tReportResponseNoTO = "--Effect:  The offer from NULL to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
-		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to  President of Test Pennsylvania (TPRR) was Rejected";
+		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to President of Test Pennsylvania (ToEffectTesterGamma) was Rejected";
 
 		assertEquals (tReportResponseTrue, effectBeta.getEffectReport (null));
 		assertEquals (tReportResponseFalse, effectChi.getEffectReport (null));

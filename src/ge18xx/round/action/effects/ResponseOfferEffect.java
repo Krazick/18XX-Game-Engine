@@ -93,6 +93,8 @@ public class ResponseOfferEffect extends ToEffect {
 		String tWho;
 		String tItem;
 		String tDoes_DoesNot;
+		String tActorName;
+		String tPrezName;
 		Corporation tCorporation;
 
 		if (response) {
@@ -107,7 +109,9 @@ public class ResponseOfferEffect extends ToEffect {
 		}
 		if (actor.isACorporation ()) {
 			tCorporation = (Corporation) actor;
-			tWho = " President of " + actor.getName () + " (" + tCorporation.getPresidentName () + ")";
+			tActorName = actor.getName ();
+			tPrezName = tCorporation.getPresidentName ();
+			tWho = "President of " + tActorName + " (" + tPrezName + ")";
 		} else {
 			tWho = actor.getName ();
 		}

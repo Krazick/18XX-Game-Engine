@@ -14,8 +14,8 @@ import geUtilities.XMLNode;
 public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 	public final static String NAME = "Remove Token from Market Cell";
 	
-	public RemoveTokenFromMarketCellEffect (ActorI aActor, MarketCell aMarketCell, int aStackLocation) {
-		super (aActor, aMarketCell, aStackLocation, MarketCell.NO_MARKET_CELL, TokenStack.NO_STACK_LOCATION);
+	public RemoveTokenFromMarketCellEffect (ActorI aActor, MarketCell aMarketCell, int aLocation) {
+		super (aActor, aMarketCell, aLocation, MarketCell.NO_MARKET_CELL, TokenStack.NO_STACK_LOCATION);
 		setName (NAME);
 	}
 
@@ -26,12 +26,12 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		int tStartPrice;
-		MarketCell tStartCell;
+		MarketCell tMarketCell;
 		Market tMarket;
 
 		tMarket = aRoundManager.getMarket ();
-		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
-		tStartPrice = tStartCell.getValue ();
+		tMarketCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
+		tStartPrice = tMarketCell.getValue ();
 
 		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + startCellCoordinates + " ("
 				+ Bank.formatCash (tStartPrice) + ") location (" + startLocation + ").");
@@ -46,16 +46,17 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Market tMarket;
-		MarketCell tStartCell;
+		MarketCell tMarketCell;
 		ShareCompany tShareCompany;
 		String tCompanyAbbrev;
 
 		tEffectApplied = true;
 		tMarket = aRoundManager.getMarket ();
-		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
+		tMarketCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
 		tShareCompany = (ShareCompany) actor;
 		tCompanyAbbrev = tShareCompany.getAbbrev ();
-		tStartCell.getToken (tCompanyAbbrev);
+		tMarketCell.getToken (tCompanyAbbrev);
+
 		aRoundManager.updatePlayerListeners (Market.MARKET_CELL_ADJUSTMENT);
 
 		return tEffectApplied;
@@ -65,20 +66,20 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Market tMarket;
-		MarketCell tStartCell;
+		MarketCell tMarketCell;
 		Token tToken;
 		ShareCompany tShareCompany;
 
 		tEffectUndone = true;
 		tMarket = aRoundManager.getMarket ();
-		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
+		tMarketCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
 		tShareCompany = (ShareCompany) actor;
-		tShareCompany.setSharePrice (tStartCell);
+		tShareCompany.setSharePrice (tMarketCell);
 		tToken = tShareCompany.getMarketToken ();
 		if (tToken != Token.NO_TOKEN) {
-			tStartCell.addTokenToLocation (startLocation, tToken);
+			tMarketCell.addTokenToLocation (startLocation, tToken);
 		}
-		tStartCell.redrawMarket ();
+		tMarketCell.redrawMarket ();
 
 		return tEffectUndone;
 	}

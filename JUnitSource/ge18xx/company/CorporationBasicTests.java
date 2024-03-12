@@ -61,7 +61,14 @@ class CorporationBasicTests {
 
 	@BeforeEach
 	void setUp () throws Exception {
+		CompanyTestFactory tCompanyTestFactory;
+		CorporationList mCorporationList;
+		
+		tCompanyTestFactory = new CompanyTestFactory ();
+		mCorporationList = tCompanyTestFactory.getCorporationListMock ();
+		
 		corporation = new CorporationConcrete ();
+		corporation.setCorporationList (mCorporationList);
 	}
 
 	@AfterEach
@@ -326,8 +333,8 @@ class CorporationBasicTests {
 	@DisplayName ("Test base Get Methods")
 	void corporationGetMethodsTest () {
 		assertEquals (-1, corporation.getCurrentValue ());
-		assertEquals ("<NONE> will operate null", corporation.getDoLabel ());
-		assertEquals ("<NONE> is operating null", corporation.getOperatingLabel ());
+		assertEquals ("Bank will operate null", corporation.getDoLabel ());
+		assertEquals ("Bank is operating null", corporation.getOperatingLabel ());
 		assertEquals ("Corporation", corporation.getElementName ().toString ());
 	}
 }

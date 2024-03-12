@@ -15,6 +15,7 @@ public class CertificateTestFactory {
 		Certificate tCertificate;
 		
 		tCertificate = new Certificate (aCorporation, aIsPresidentShare, aPercentage, aOwner);
+		aOwner.addCertificate (tCertificate);
 		
 		return tCertificate;
 	}
