@@ -258,8 +258,10 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tCompanyAbbrev = new JLabel (aShareCompany.getAbbrev ());
 		tCompanyInfoJPanel.add (tCompanyAbbrev);
 		
-		tLoans = new JLabel ("Loans: " + aShareCompany.getLoanCount ());
-		tCompanyInfoJPanel.add (tLoans);
+		if (! aShareCompany.isGovtRailway ()) {
+			tLoans = new JLabel ("Loans: " + aShareCompany.getLoanCount ());
+			tCompanyInfoJPanel.add (tLoans);
+		}
 
 		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aShareCompany.getTreasury ()));
 		tCompanyInfoJPanel.add (tTreasury);
