@@ -56,6 +56,7 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 		tShareCompany = (ShareCompany) actor;
 		tCompanyAbbrev = tShareCompany.getAbbrev ();
 		tMarketCell.getToken (tCompanyAbbrev);
+		tMarketCell.redrawMarket ();
 
 		aRoundManager.updatePlayerListeners (Market.MARKET_CELL_ADJUSTMENT);
 
