@@ -550,8 +550,9 @@ public class ActionManager {
 					setActionNumber (tThisActionNumber);
 					justAddAction (tAction);
 				} else {
-					if ((tThisActionNumber < STARTING_ACTION_NUMBER) || (tThisActionNumber > tExpectedActionNumber)
-							|| (tThisActionNumber == tExpectedActionNumber)) {
+					if ((tThisActionNumber < STARTING_ACTION_NUMBER) || 
+						(tThisActionNumber > tExpectedActionNumber) || 
+						(tThisActionNumber == tExpectedActionNumber)) {
 //						System.out.println ("\nReceived Action Number " + tThisActionNumber
 //								+ " the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
 						if (tThisActionNumber == tExpectedActionNumber) {
@@ -571,12 +572,14 @@ public class ActionManager {
 								+ " Current Action Number " + actionNumber + " is before the Expected Action Number of "
 								+ tExpectedActionNumber + " IGNORING\n";
 						logger.error (tActionFailureMessage);
+						logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
 						appendReport (tActionFailureMessage);
 					} else {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
 								+ " is not the Expected Action Number of " + tExpectedActionNumber
 								+ " This should have Matched\n";
 						logger.error (tActionFailureMessage);
+						logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
 						appendReport (tActionFailureMessage);
 					}
 				}
