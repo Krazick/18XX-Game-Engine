@@ -35,6 +35,7 @@ import geUtilities.xml.XMLFrame;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
+import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.AttributeName;
@@ -132,8 +133,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 	public FormationPhase (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
-		
-		showFormationFrame ();
 
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
@@ -247,6 +246,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 	public void updateDoneButton () {
 		
+	}
+
+	public void setFormationState (FormationPhaseAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
+		ActorI.ActionStates tOldFormationState;
+		ActorI.ActionStates tNewFormationState;
+		ActorI tPrimaryActor;
+		
+		tPrimaryActor = aFormationPhaseAction.getActor ();
+		
+		tOldFormationState = getFormationState ();
+		setFormationState (aNewFormationState);
+		tNewFormationState = getFormationState ();
+		
+		aFormationPhaseAction.addSetFormationStateEffect (tPrimaryActor, tOldFormationState, tNewFormationState);
 	}
 
 	@Override
@@ -771,27 +784,29 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
 		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
 		String tOperatingRoundID;
-		ActorI.ActionStates tOldFormationState;
 		ActorI.ActionStates tNewFormationState;
 		
 		System.out.println ("Formation Phase - " + aNewFormationState.toString ());
-		tOldFormationState = getFormationState ();
-		setFormationState (aNewFormationState);
-		setupPlayers ();
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tNewFormationState = getFormationState ();
-
 		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, actingPresident);
-		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
 		tChangeFormationPhaseStateAction.setChainToPrevious (true);
-		
-		gameManager.addAction (tChangeFormationPhaseStateAction);
-		if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
-			(tNewFormationState == ActorI.ActionStates.AssetCollection) ||
-			(tNewFormationState == ActorI.ActionStates.StockValueCalculation)) {
-			updateToFormingPresident (tNewFormationState);
+
+		setFormationState (tChangeFormationPhaseStateAction, aNewFormationState);
+
+		tNewFormationState = getFormationState ();
+		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
+			hideFormationPanel ();
+			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (actingPresident);
+		} else {
+			setupPlayers ();
+			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
+				(tNewFormationState == ActorI.ActionStates.AssetCollection) ||
+				(tNewFormationState == ActorI.ActionStates.StockValueCalculation)) {
+				updateToFormingPresident (tNewFormationState);
+			}
 		}
+		gameManager.addAction (tChangeFormationPhaseStateAction);
 	}
 
 	public void handleFoldIntoFormingCompany () {
@@ -810,6 +825,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
 	}
 	
+	public void handleFormationComplete () {
+		handleFormationStateChange (ActorI.ActionStates.FormationComplete);
+	}
+
 	public int getSharesReceived (int aSharesExchanged) {
 		int tSharesReceived;
 		

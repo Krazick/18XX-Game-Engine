@@ -245,7 +245,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 			if (tActionCommand.equals (FormationPhase.FOLD)) {
 				formationPhase.handleFoldIntoFormingCompany ();
 			} else if (tActionCommand.equals (CONTINUE)) {
-				formationPhase.hideFormationPanel ();
+				formationPhase.handleFormationComplete ();
 			}
 		}
 	}

@@ -270,11 +270,14 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		// Check for Next company to Operate
 		
 		tStockValueCalculationAction.setChainToPrevious (true);
-		formationPhase.setFormationState (ActorI.ActionStates.NoState);
 		tFormingCompany = formationPhase.getFormingCompany ();
 		tFormingCompany.setCorporationFrame ();
+		
+		setFormationState (tStockValueCalculationAction, ActorI.ActionStates.FormationComplete);
+		
 		formationPhase.hideFormationPanel ();
 		tStockValueCalculationAction.addHideFormationPanelEffect (player);
+
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerManager.setPlayersToNoAction ();
 		gameManager.addAction (tStockValueCalculationAction);

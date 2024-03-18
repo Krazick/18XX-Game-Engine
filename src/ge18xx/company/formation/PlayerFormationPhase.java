@@ -22,6 +22,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
@@ -140,6 +141,14 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		updateAllButtons (aActingPlayer);
 		
 		add (buttonsPanel);
+	}
+	
+	public void setFormationState (ActorI.ActionStates aFormationState) {
+		formationPhase.setFormationState (aFormationState);
+	}
+	
+	public void setFormationState (FormationPhaseAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
+		formationPhase.setFormationState (aFormationPhaseAction, aNewFormationState);
 	}
 	
 	public void updateSpecialButtons (boolean aActingPlayer) {

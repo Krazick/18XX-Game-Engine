@@ -1,10 +1,10 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import ge18xx.round.action.effects.SetFormationStateEffect;
+//import ge18xx.round.action.effects.SetFormationStateEffect;
 import geUtilities.XMLNode;
 
-public class ChangeFormationPhaseStateAction extends ChangeStateAction {
+public class ChangeFormationPhaseStateAction extends FormationPhaseAction {
 	public final static String NAME = "Change Formation Phase State";
 
 	public ChangeFormationPhaseStateAction () {
@@ -42,11 +42,11 @@ public class ChangeFormationPhaseStateAction extends ChangeStateAction {
 		return tSimpleActionReport;
 	}
 
-	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
-							ActorI.ActionStates aNewFormationState) {
-		SetFormationStateEffect tSetFormationStateEffect;
-		
-		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
-		addEffect (tSetFormationStateEffect);
-	}
+//	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
+//							ActorI.ActionStates aNewFormationState) {
+//		SetFormationStateEffect tSetFormationStateEffect;
+//		
+//		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
+//		addEffect (tSetFormationStateEffect);
+//	}
 }

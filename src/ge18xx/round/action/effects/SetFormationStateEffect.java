@@ -40,10 +40,11 @@ public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setFormationState (newState);
-			
-			tFormationPhase = (FormationPhase) tTriggerClass;
-			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
-			tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
+			if (newState != ActorI.ActionStates.FormationComplete) {
+				tFormationPhase = (FormationPhase) tTriggerClass;
+				tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
+				tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
+			}
 			
 			tEffectApplied = true;
 		} else {
