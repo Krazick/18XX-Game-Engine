@@ -1738,7 +1738,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 					tPlayersLoaded = true;
 				}
 			}
-			if (playerManager.isInCompanyFormationState ()) {
+			if (isInCompanyFormationState ()) {
 				prepareFormationPhase ();
 				showFormationPhaseFrame ();
 			}
@@ -1754,6 +1754,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tLoadedSaveGame;
 	}
 
+	public boolean isInCompanyFormationState () {
+		boolean tIsInCompanyFormationState;
+		
+		if (formationPhase == FormationPhase.NO_FORMATION_PHASE) {
+			tIsInCompanyFormationState = false;
+		} else if (playerManager.isInCompanyFormationState ()) {
+			tIsInCompanyFormationState = true;
+		} else {
+			tIsInCompanyFormationState = false;			
+		}
+		
+		return tIsInCompanyFormationState;
+	}
+	
 	private void clearClosedCorporations () {
 		CorporationList tShareCompanies;
 		
@@ -1838,7 +1852,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			// If the Formation Phase is in a NoState, the game was undone, saved, and reloaded 
 			// It might be better to clear the formationPhase so it is not saved.
 			tFormationState = aChildNode.getThisAttribute (FormationPhase.AN_FORMATION_STATE);
-			if (! tFormationState.equals (ActionStates.NoState.toString ())) {
+			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
+				// If the State is FormationComplete, Don't need to Show it.
+				setFormationPhase (FormationPhase.NO_FORMATION_PHASE);
+			} else if (tFormationState.equals (ActionStates.NoState.toString ())) {
+				// If the State is NO State, Don't need to show it
+				setFormationPhase (FormationPhase.NO_FORMATION_PHASE);
+			} else {
+				// Otherwise game saved in middle of Formation, need to show it.
 				tFormationPhase = new FormationPhase (aChildNode, this);
 				setFormationPhase (tFormationPhase);
 			}
