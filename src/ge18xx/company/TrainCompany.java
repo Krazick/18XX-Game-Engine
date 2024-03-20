@@ -69,7 +69,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final AttributeName AN_HOME_COLOR = new AttributeName ("homeColor");
 	public static final AttributeName AN_COST = new AttributeName ("cost");
 	public static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
+	public static final AttributeName AN_MUST_PAY_FULL_PRICE = new AttributeName ("mustPayFullPrice");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
+	public static final AttributeName AN_CAN_BORROW_TRAIN = new AttributeName ("canBorrowTrain");
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
 	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
@@ -81,7 +83,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public static final String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
 	public static final String NO_REVENUE = "0";
-	public static final JPanel NO_JPANEL = null;
 	public static final int NO_REVENUE_GENERATED = -1;
 	public static final int NO_COST = 0;
 	public static final int NO_CASH = 0;
@@ -97,6 +98,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	int thisRevenue;
 	int lastRevenue;
 	int value;
+	boolean canBorrowTrain;
+	boolean mustPayFullPrice;
 	boolean mustBuyTrain;
 	boolean hasLaidTile;
 	boolean isOperatingTrains;
@@ -141,6 +144,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			setCorporationFrame ();
 		}
 		setMustBuyTrain (false);
+		setMustPayFullPrice (false);
+		setCanBorrowTrain (false);
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 	}
 
@@ -206,7 +211,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		super (aChildNode, aCorporationList);
 
 		String tColorName;
+		boolean tCanBorrowTrain;
 		boolean tMustBuyTrain;
+		boolean tMustPayFullPrice;
 		boolean tGovtRailway;
 
 		trainPortfolio = new TrainPortfolio (this);
@@ -221,11 +228,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		value = aChildNode.getThisIntAttribute (AN_COST);
 		lastRevenue = aChildNode.getThisIntAttribute (AN_LAST_REVENUE);
 		thisRevenue = aChildNode.getThisIntAttribute (AN_THIS_REVENUE);
-		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
-		setMustBuyTrain (tMustBuyTrain);
-		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
 		tGovtRailway = aChildNode.getThisBooleanAttribute (AN_GOVT_RAILWAY);
 		setGovtRailway (tGovtRailway);
+		tCanBorrowTrain = aChildNode.getThisBooleanAttribute (AN_CAN_BORROW_TRAIN);
+		setCanBorrowTrain (tCanBorrowTrain);
+		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
+		setMustBuyTrain (tMustBuyTrain);
+		tMustPayFullPrice = aChildNode.getThisBooleanAttribute (AN_MUST_PAY_FULL_PRICE);
+		setMustPayFullPrice (tMustPayFullPrice);
+		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
+		
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
@@ -357,19 +369,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public void loadStates (XMLNode aXMLNode) {
-		int tThisRevenue, tLastRevenue;
-		boolean tMustBuyTrain;
-
-		tLastRevenue = aXMLNode.getThisIntAttribute (AN_LAST_REVENUE);
-		tThisRevenue = aXMLNode.getThisIntAttribute (AN_THIS_REVENUE);
-		setLastRevenue (tLastRevenue);
-		setThisRevenue (tThisRevenue);
-		tMustBuyTrain = aXMLNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
-		setMustBuyTrain (tMustBuyTrain);
-	}
-
-	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		updateListeners (CORPORATION_CASH_CHANGED + " by " + aAmount);
@@ -433,6 +432,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
+		aXMLCorporationState.setAttribute (AN_MUST_PAY_FULL_PRICE, mustPayFullPrice ());
+		aXMLCorporationState.setAttribute (AN_CAN_BORROW_TRAIN, canBorrowTrain ());
 		if (! hasNoTrain ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
@@ -732,7 +733,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JPanel tLicensePanel;
 		JLabel tLicenseLabel;
 		
-		tLicensePanel = NO_JPANEL;
+		tLicensePanel = GUI.NO_PANEL;
 		if (licenses != License.NO_LICENSES) {
 			if (licenses.size () > 0) {
 				tLicensePanel = new JPanel ();
@@ -797,7 +798,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCertPortfolioInfoJPanel.add (tTrainPortfolioInfoJPanel);
 		tCertPortfolioInfoJPanel.add (tPortfolioInfoJPanel);
 		tLicenseInfoPanel = buildLicenseInfoPanel ();
-		if (tLicenseInfoPanel != NO_JPANEL) {
+		if (tLicenseInfoPanel != GUI.NO_PANEL) {
 			tCertPortfolioInfoJPanel.add (tLicenseInfoPanel);
 		}
 
@@ -821,8 +822,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
+	public boolean canBorrowTrain () {
+		return canBorrowTrain;
+	}
+
+	@Override
 	public boolean mustBuyTrain () {
 		return mustBuyTrain;
+	}
+
+	@Override
+	public boolean mustPayFullPrice () {
+		return mustPayFullPrice;
 	}
 
 	@Override
@@ -836,6 +847,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return hasLaidTile;
 	}
 
+	public boolean canBorrowTrainNow () {
+		boolean tCanBorrowTrainNow;
+		
+		tCanBorrowTrainNow = false;
+		if (canBorrowTrain && hasNoTrain ()) {
+			tCanBorrowTrainNow = true;
+		}
+		
+		return tCanBorrowTrainNow;
+	}
+	
 	@Override
 	public boolean mustBuyTrainNow () {
 		boolean tMustBuyTrainNow;
@@ -882,6 +904,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public boolean isGovtRailway () {
 		return govtRailway;
+	}
+
+	public void setCanBorrowTrain (boolean aCanBorrowTrain) {
+		canBorrowTrain = aCanBorrowTrain;
+	}
+
+	public void setMustPayFullPrice (boolean aMustPayFullPrice) {
+		mustPayFullPrice = aMustPayFullPrice;
 	}
 	
 	@Override
@@ -1582,16 +1612,42 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean hasTrainOfType (Coupon aTrain) {
 		return trainPortfolio.hasTrainNamed (aTrain.getName ());
 	}
+	
+	@Override
+	public void loadStates (XMLNode aXMLNode) {
+		int tThisRevenue, tLastRevenue;
+		boolean tMustBuyTrain;
+		boolean tMustPayFullPrice;
+		boolean tCanBorrowTrain;
+
+		tLastRevenue = aXMLNode.getThisIntAttribute (AN_LAST_REVENUE);
+		setLastRevenue (tLastRevenue);
+		
+		tThisRevenue = aXMLNode.getThisIntAttribute (AN_THIS_REVENUE);
+		setThisRevenue (tThisRevenue);
+		
+		System.out.println ("Loading Train Company States -- ALPHA --");
+		tMustBuyTrain = aXMLNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
+		setMustBuyTrain (tMustBuyTrain);
+		
+		tMustPayFullPrice = aXMLNode.getThisBooleanAttribute (AN_MUST_PAY_FULL_PRICE);
+		setMustPayFullPrice (tMustPayFullPrice);
+		
+		tCanBorrowTrain = aXMLNode.getThisBooleanAttribute (AN_CAN_BORROW_TRAIN);
+		setCanBorrowTrain (tCanBorrowTrain);
+	}
 
 	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		Bank tBank;
-
+		int tCash;
+		
 		super.loadStatus (aXMLNode);
+		
 		addCash (-getCash ()); // Clear out any Cash here
-		addCash (aXMLNode.getThisIntAttribute (AN_TREASURY));
-		setLastRevenue (aXMLNode.getThisIntAttribute (AN_LAST_REVENUE));
-		setMustBuyTrain (aXMLNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN));
+		tCash = aXMLNode.getThisIntAttribute (AN_TREASURY);
+		addCash (tCash);
+		
 		tBank = corporationList.getBank ();
 		trainPortfolio.loadTrainPortfolio (aXMLNode, tBank);
 		super.loadPortfolio (aXMLNode);
