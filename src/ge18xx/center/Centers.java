@@ -325,7 +325,7 @@ public class Centers implements Cloneable {
 		tSize = centers.size ();
 		if (tSize > 0) {
 			if (aCenterIndex == tSize) {
-				tCenter = centers.get (tSize);
+				tCenter = centers.get (tSize - 1);
 			} else if (aCenterIndex < tSize) {
 				tCenter = centers.get (aCenterIndex);
 			} else {
