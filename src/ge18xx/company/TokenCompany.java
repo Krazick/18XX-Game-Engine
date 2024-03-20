@@ -665,7 +665,6 @@ public abstract class TokenCompany extends TrainCompany {
 		super.loadStatus (aXMLNode);
 		
 		tokens.loadStatus (aXMLNode);
-		// TODO -- Parse out the Tokens, and TokenInfo Elements
 	}
 
 	@Override
