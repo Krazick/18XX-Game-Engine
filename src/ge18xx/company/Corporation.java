@@ -2600,6 +2600,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 	
+	public boolean canBorrowTrainNow () {
+		return false;
+	}
+	
+	public boolean hasBorrowedTrain () {
+		return false;
+	}
+	
 	public boolean mustBuyTrain () {
 		return false;
 	}
@@ -2989,6 +2997,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void borrowTrain () {
+		
+	}
+
+	public void returnBorrowedTrain () {
 		
 	}
 	
