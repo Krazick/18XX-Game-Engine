@@ -63,6 +63,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile Available";
 	public static final String BORROW_TRAIN = "Borrow Train";
+	public static final String RETURN_BORROWED_TRAIN = "Return Borrowed Train";
 	public static final String NOT_GOVERNMENT_RAILWAY = "This is NOT a Government Railway";
 	public static final String OPERATE_TRAIN = "Operate Train";
 	public static final String OPERATE_TRAINS = "Operate Trains";
@@ -82,6 +83,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
 	public static final String MUST_REDEEM_LOANS = "Corporation has more loans out than Shares Owned by Players. Must Redeem Loans";
 	public static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
+	public static final String MUST_HOLD_DIVIDEND = "Corporation with a borrowed Train MUST hold dividends. Share Price is Fixed";
 	public static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	public static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
 	public static final String LOANS_CANNOT_BE_TAKEN_IN_PHASE = "Loans cannot be taken in current Phase";
@@ -120,6 +122,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton placeBaseTokenButton1;
 	KButton placeBaseTokenButton2;
 	KButton borrowTrainButton;
+//	KButton returnBorrowedTrainButton;
 	KButton operateTrainButton;
 	KButton payFullDividendButton;
 	KButton payHalfDividendButton;
@@ -261,30 +264,28 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		lastRevenueLabel = new JLabel (GUI.EMPTY_STRING);
 		tokenLabel = new JLabel (GUI.EMPTY_STRING);
 		loanCountLabel = new JLabel (GUI.EMPTY_STRING);
-//		if (corporation.isActive ()) {
-			corporationInfoJPanel.add (presidentLabel);
-			setPresidentLabel ();
+		corporationInfoJPanel.add (presidentLabel);
+		setPresidentLabel ();
+		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
+		corporationInfoJPanel.add (treasuryLabel);
+		setTreasuryLabel ();
+		if (tokenLabel != GUI.NO_LABEL) {
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-			corporationInfoJPanel.add (treasuryLabel);
-			setTreasuryLabel ();
-			if (tokenLabel != GUI.NO_LABEL) {
+			corporationInfoJPanel.add (tokenLabel);
+			setTokenLabel ();
+		}
+		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
+		corporationInfoJPanel.add (lastRevenueLabel);
+		setLastRevenueLabel ();
+		if (! corporation.isGovtRailway ()) {
+			if (corporation.gameHasLoans ()) {
 				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-				corporationInfoJPanel.add (tokenLabel);
-				setTokenLabel ();
+				corporationInfoJPanel.add (loanCountLabel);
+				setLoanCountLabel ();
 			}
-			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-			corporationInfoJPanel.add (lastRevenueLabel);
-			setLastRevenueLabel ();
-			if (! corporation.isGovtRailway ()) {
-				if (corporation.gameHasLoans ()) {
-					corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-					corporationInfoJPanel.add (loanCountLabel);
-					setLoanCountLabel ();
-				}
-			}
-			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-			fillCertPortfolioJPanel ();
-//		}
+		}
+		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
+		fillCertPortfolioJPanel ();
 	}
 
 	private JPanel buildPhaseInfoPanel () {
@@ -474,6 +475,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (BORROW_TRAIN.equals (tCommand)) {
 			corporation.borrowTrain ();
 		}
+		if (RETURN_BORROWED_TRAIN.equals (tCommand)) {
+			corporation.returnBorrowedTrain ();
+		}
 		if (OPERATE_TRAIN.equals (tCommand)) {
 			corporation.showMap ();
 			corporation.operateTrains ();
@@ -596,6 +600,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
 		borrowTrainButton = setupButton (BORROW_TRAIN, BORROW_TRAIN);
+//		returnBorrowedTrainButton = setupButton (RETURN_BORROWED_TRAIN, RETURN_BORROWED_TRAIN);
 		operateTrainButton = setupButton (OPERATE_TRAIN, OPERATE_TRAIN);
 		payNoDividendButton = setupButton (PAY_NO_DIVIDEND, PAY_NO_DIVIDEND);
 		payHalfDividendButton = setupButton (PAY_HALF_DIVIDEND, PAY_HALF_DIVIDEND);
@@ -613,6 +618,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void addButtons () {
+		boolean tVisible;
 		buttonsJPanel.removeAll ();
 
 		addButton (showMapButton);
@@ -623,13 +629,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeBaseTokenButton1);
 		addButton (placeBaseTokenButton2);
 		addButton (placeTokenButton);
-		addButton (borrowTrainButton);
+		if (corporation.canBorrowTrainNow ()) {
+			tVisible = true;
+			addButton (borrowTrainButton, tVisible);
+		}
 		addButton (operateTrainButton);
 		if (corporation.gameHasLoans ()) {
 			if (! corporation.isGovtRailway ()) {
 				addButton (payLoanInterestButton);
 			}
 		}
+//		if (corporation.canBorrowTrainNow ()) {
+//			tVisible = true;
+//			addButton (returnBorrowedTrainButton, tVisible);
+//		}
 		addButton (payNoDividendButton);
 		if (corporation.canPayHalfDividend ()) {
 			addButton (payHalfDividendButton);
@@ -662,13 +675,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void addButtonsSubPanel (JPanel aButtonsSubPanel) {
 		buttonsJPanel.add (aButtonsSubPanel);
 	}
-	
+
 	private void addButton (KButton aButton) {
-		aButton.setVisible (true);
+		addButton (aButton, true);
+	}
+	
+	private void addButton (KButton aButton, boolean aVisible) {
+		aButton.setVisible (aVisible);
 		buttonsJPanel.add (aButton);
 		buttonsInfoFrame.addButton (aButton);
 	}
-
+	
 	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
@@ -723,16 +740,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					bankJPanel.add (Box.createHorizontalGlue ());
 					bankJPanel.add (tBPPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
-//				} else {
-//					System.err.println ("Bank Pool is Null");
 				}
 				if (tBank != Bank.NO_BANK) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (tBankPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
-//				} else {
-//					System.err.println ("Bank is Null");
 				}
 				bankJPanel.repaint ();
 				bankJPanel.revalidate ();
@@ -876,6 +889,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updatePlaceTokenButton ();
 		updateBorrowTrainButton ();
 		updateOperateTrainButton (tTrainCount);
+//		updateReturnBorrowedTrainButton ();
 		if (corporation.gameHasLoans ()) {
 			updateGetLoanButton ();
 			updatePayLoanInterestButton ();
@@ -997,33 +1011,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	private void updatePayHalfDividendButton (int aTrainCount) {
 		String tToolTip;
-
+		boolean tEnabled;
+		
 		tToolTip = "Status is " + corporation.getStatusName ();
 		if (corporation.isWaitingForResponse ()) {
-			payHalfDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = "Waiting for Response";
 		} else if (corporation.isPlaceTileMode ()) {
-			payHalfDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = IN_PLACE_TILE_MODE;
 		} else if (corporation.isPlaceTokenMode ()) {
-			payHalfDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = IN_TOKEN_MODE;
-		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
-			payHalfDividendButton.setEnabled (false);
-			tToolTip = "No Dividends calculated yet";
 		} else if (mustPayInterest ()) {
-			payHalfDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = MUST_PAY_INTEREST;
+		} else if (corporation.hasBorrowedTrain ()) {
+			tEnabled = false;
+			tToolTip = MUST_HOLD_DIVIDEND;
+		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
+			tEnabled = false;
+			tToolTip = "No Dividends calculated yet";
 		} else if (corporation.canPayDividend ()) {
-			payHalfDividendButton.setEnabled (true);
+			tEnabled = true;
 			payHalfDividendButton
 					.setText ("Pay " + Bank.formatCash (corporation.getHalfShareDividend ()) + " per Share");
 			tToolTip = GUI.NO_TOOL_TIP;
 		} else if (corporation.dividendsHandled ()) {
-			payHalfDividendButton.setEnabled (false);
+			tEnabled = false;
+			tToolTip = "Dividends have been handled";
 		} else {
+			tEnabled = false;
 			tToolTip = "After Checking, Status is " + corporation.getStatusName ();
 		}
+		payHalfDividendButton.setEnabled (tEnabled);
 		payHalfDividendButton.setToolTipText (tToolTip);
 	}
 
@@ -1047,95 +1068,97 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updatePayNoDividendButton (int aTrainCount) {
 		String tToolTip;
-
+		boolean tEnabled;
+		int tRevenue;
+		
 		if (!corporation.isWaitingForResponse ()) {
 			payNoDividendButton.setText ("Pay No Dividend");
 			if (mustPayInterest ()) {
-				payNoDividendButton.setEnabled (false);
+				tEnabled = false;
 				tToolTip = MUST_PAY_INTEREST;
 			} else if (!corporation.haveLaidAllBaseTokens ()) {
 				if (corporation.isStationLaid ()) {
-					payNoDividendButton.setEnabled (true);
-					tToolTip = "Base Token was Skippped due to missing Tile.";
+					tEnabled = true;
+					tToolTip = "Base Token was skippped due to missing Tile.";
 				} else if (corporation.canLayBaseToken ()) {
-					payNoDividendButton.setEnabled (false);
+					tEnabled = false;
 					tToolTip = "Base Token must be laid first.";
 				} else if (corporation.dividendsHandled ()) {
-					payNoDividendButton.setEnabled (false);
+					tEnabled = false;
 					tToolTip = corporation.reasonForNoDividendPayment ();
 				} else {
-					payNoDividendButton.setEnabled (true);
-					tToolTip = "Base Token was Skippped due to missing Tile.";
+					tEnabled = true;
+					tToolTip = "Base Token placement was skippped due to missing Tile.";
 				}
 			} else if (corporation.isPlaceTileMode ()) {
-				payNoDividendButton.setEnabled (false);
+				tEnabled = false;
 				tToolTip = IN_PLACE_TILE_MODE;
 			} else if (corporation.isPlaceTokenMode ()) {
-				payNoDividendButton.setEnabled (false);
+				tEnabled = false;
 				tToolTip = IN_TOKEN_MODE;
 			} else if (corporation.dividendsHandled ()) {
-				payNoDividendButton.setEnabled (false);
+				tEnabled = false;
 				tToolTip = corporation.reasonForNoDividendPayment ();
+			} else if (corporation.isGovtRailway () && (aTrainCount == 0)) {
+				tEnabled = false;
+				tToolTip = "Government Railay with no train should borrow a Train and Operate.";
 			} else if (aTrainCount == 0) {
-				payNoDividendButton.setEnabled (true);
-				tToolTip = GUI.NO_TOOL_TIP;
+				tEnabled = true;
+				tToolTip = "Corporation has no Trains to Operate to generate Revenue.";
 			} else if (corporation.canPayDividend ()) {
-				payNoDividendButton.setEnabled (true);
-				payNoDividendButton
-						.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
+				tEnabled = true;
+				tRevenue = corporation.getThisRevenue ();
+				payNoDividendButton.setText ("Hold " + Bank.formatCash (tRevenue) + " in Treasury.");
 				tToolTip = GUI.NO_TOOL_TIP;
 			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
 				if (corporation.getThisRevenue () == 0) {
-					payNoDividendButton.setEnabled (true);
-					tToolTip = GUI.NO_TOOL_TIP;
+					tEnabled = true;
+					tToolTip = "Corporation generated no Revenue.";
 				} else {
-					payNoDividendButton.setEnabled (false);
+					tEnabled = false;
 					if (aTrainCount == 1) {
-						tToolTip = "Must Operate the Train first.";
+						tToolTip = "Must Operate the Train to generate Revenue.";
 					} else {
-						tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") first.";
+						tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") to generarte Revenue.";
 					}
 				}
 			} else {
-				if (corporation.isGovtRailway ()) {
-					if (aTrainCount == 0) {
-						payNoDividendButton.setEnabled (false);
-						tToolTip = "Government Railay with no train - MUST - Borrow a Train and Operate";
-					} else {
-						payNoDividendButton.setEnabled (false);
-						tToolTip = corporation.reasonForNoDividendOptions ();
-					}
-				} else {
-					payNoDividendButton.setEnabled (false);
-					tToolTip = corporation.reasonForNoDividendOptions ();
-				}
+				tEnabled = false;
+				tToolTip = corporation.reasonForNoDividendOptions ();
 			}
 		} else {
-			payNoDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = "Waiting for Response";
 		}
+		payNoDividendButton.setEnabled (tEnabled);
 		payNoDividendButton.setToolTipText (tToolTip);
 	}
 
 	private void updatePayFullDividendButton () {
 		String tToolTip;
+		boolean tEnabled;
+		int tFullDividend;
 
 		if (corporation.isPlaceTileMode ()) {
-			payFullDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = IN_PLACE_TILE_MODE;
 		} else if (mustPayInterest ()) {
-			payFullDividendButton.setEnabled (false);
+			tEnabled = false;
 			tToolTip = MUST_PAY_INTEREST;
+		} else if (corporation.hasBorrowedTrain ()) {
+			tEnabled = false;
+			tToolTip = MUST_HOLD_DIVIDEND;
 		} else if (corporation.canPayDividend ()) {
-			payFullDividendButton.setEnabled (true);
-			payFullDividendButton
-					.setText ("Pay " + Bank.formatCash (corporation.getFullShareDividend ()) + " per Share");
+			tEnabled = true;
+			tFullDividend = corporation.getFullShareDividend ();
+			payFullDividendButton.setText ("Pay " + Bank.formatCash (tFullDividend) +  " per Share");
 			tToolTip = GUI.NO_TOOL_TIP;
 		} else {
+			tEnabled = false;
 			payFullDividendButton.setText (PAY_FULL_DIVIDEND);
-			payFullDividendButton.setEnabled (false);
 			tToolTip = corporation.reasonForNoDividendPayment ();
 		}
+		payFullDividendButton.setEnabled (tEnabled);
 		payFullDividendButton.setToolTipText (tToolTip);
 	}
 
@@ -1571,25 +1594,25 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else if (corporation.didOperateTrains ()) {
 			tEnable = false;
 			tToolTip = "Trains have operated, can't Borrow Train";
-		} else if (corporation.didOperateTrains ()) {
-			tEnable = false;
-			tToolTip = "Trains have operated, can't Borrow Train";
-		} else if (corporation.dividendsHandled ()) {
-			tEnable = false;
-			tToolTip = "Dividends have been handled, can't Borrow Train";
-		} else if (corporation.isGovtRailway ()) {
-			if (corporation.hasNoTrain ()) {
-				tEnable = true;
-				tToolTip = "Is a Gov't Railway with no Train";
-				tVisible = true;
+		} else if (corporation.canOperateTrains ()) {
+			if (corporation.isGovtRailway ()) {
+				if (corporation.hasNoTrain ()) {
+					tEnable = true;
+					tToolTip = "Is a Gov't Railway with no Train";
+					tVisible = true;
+				} else {
+					tEnable = false;
+					tVisible = false;
+					tToolTip = "Is a Gov't Railway with a Train";
+				}
 			} else {
 				tEnable = false;
-				tVisible = false;
-				tToolTip = "Is a Gov't Railway with a Train";
+				tToolTip = NOT_GOVERNMENT_RAILWAY;
 			}
 		} else {
 			tEnable = false;
-			tToolTip = NOT_GOVERNMENT_RAILWAY;
+			tToolTip = "Corporation cannot Borrow a Train";
+
 		}
 		updateButton (borrowTrainButton, tEnable, tToolTip);
 		borrowTrainButton.setVisible (tVisible);
@@ -1610,6 +1633,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isPlaceTileMode () || corporation.isPlaceTokenMode ()) {
 			tEnable = false;
 			tToolTip = COMPLETE_TT_PLACEMENT;
+		} else if (corporation.hasNoTrain ()) {
+			tEnable = false;
+			tToolTip = "Corporation has no Trains";
 		} else if (corporation.canOperateTrains ()) {
 			tEnable = true;
 			tToolTip = GUI.NO_TOOL_TIP;
@@ -1619,6 +1645,39 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		updateButton (operateTrainButton, tEnable, tToolTip, tButtonLabel);
 	}
+//	
+//	private void updateReturnBorrowedTrainButton () {
+//		String tToolTip;
+//		boolean tEnable;
+//		boolean tVisible;
+//		
+//		tVisible = false;
+//		if (corporation.isPlaceTileMode ()) {
+//			tEnable = false;
+//			tToolTip = "Is in Place Tile Mode, can't return borrowed train";
+//		} else if (corporation.isPlaceTokenMode ()) {
+//			tEnable = false;
+//			tToolTip = "Is in Place Token Mode, can't return borrowed train";
+//		} else if (corporation.dividendsHandled ()) {
+//			tEnable = false;
+//			tToolTip = "Dividends have been handled, can't return borrowed train";
+//		} else if (corporation.isGovtRailway ()) {
+//			if (corporation.hasBorrowedTrain ()) {
+//				tEnable = true;
+//				tToolTip = "Is a Gov't Railway with a Borrowed Train";
+//				tVisible = true;
+//			} else {
+//				tEnable = false;
+//				tVisible = false;
+//				tToolTip = "Is a Gov't Railway with no Borrowed Train";
+//			}
+//		} else {
+//			tEnable = false;
+//			tToolTip = NOT_GOVERNMENT_RAILWAY;
+//		}
+//		updateButton (returnBorrowedTrainButton, tEnable, tToolTip);
+//		returnBorrowedTrainButton.setVisible (tVisible);
+//	}
 
 	private void updateBuyPrivateButton () {
 		String tToolTipReason;
