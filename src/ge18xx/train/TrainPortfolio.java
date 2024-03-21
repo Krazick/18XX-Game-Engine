@@ -235,6 +235,21 @@ public class TrainPortfolio implements TrainHolderI {
 		return tHasTrains;
 	}
 
+	public boolean hasBorrowedTrain () {
+		boolean tHasBorrowedTrain;
+		
+		tHasBorrowedTrain = false;
+		if (hasTrains ()) {
+			for (Train tTrain : trains) {
+				if (tTrain.isBorrowed ()) {
+					tHasBorrowedTrain = true;
+				}
+			}
+		}
+		
+		return tHasBorrowedTrain;
+	}
+	
 	public boolean hasTrains () {
 		boolean tHasTrains;
 		
