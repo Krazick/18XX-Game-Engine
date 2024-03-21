@@ -21,6 +21,7 @@ import ge18xx.bank.StartPacketRow;
 import ge18xx.company.Certificate;
 import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
+import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
@@ -110,9 +111,10 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	private void setCalculatedSize () {
-		int tTotalWidth = 0;
+		int tTotalWidth;
 		int tTotalHeight;
 
+		tTotalWidth = 0;
 		for (int colWidth : colWidths) {
 			tTotalWidth += colWidth + 1;
 		}
@@ -134,14 +136,13 @@ public class ButtonsInfoFrame extends XMLFrame {
 
 	private void fillWithButtonsTable () {
 		for (FrameButton tFrameButton : frameButtons) {
-			if (tFrameButton.isVisible ()) {
-				addRow (tFrameButton);
-			}
+			addRow (tFrameButton);
 		}
 	}
 
 	public void fillWithCheckBoxes (Portfolio aPortfolio, String aHolderName) {
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 		FrameButton tFrameButton;
 
 		if (aPortfolio != Portfolio.NO_PORTFOLIO) {
@@ -171,7 +172,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	public void fillWithPrivateCheckBoxes (Portfolio aPortfolio, String aHolderName) {
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 		FrameButton tFrameButton;
 		Certificate tCertificate;
 
@@ -192,7 +194,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	public void fillWithCheckBoxes (StartPacketFrame aStartPacketFrame) {
-		int tRowCount, tRowIndex;
+		int tRowCount;
+		int tRowIndex;
 		StartPacketRow tStartPacketRow;
 
 		tRowCount = aStartPacketFrame.getStartPacketRowCount ();
@@ -205,7 +208,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	public void fillWithCheckBoxes (StartPacketRow aStartPacketRow) {
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 		FrameButton tFrameButton;
 
 		if (aStartPacketRow != StartPacketRow.NO_START_PACKET_ROW) {
@@ -222,7 +226,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	public void fillWithCheckBoxes (TrainPortfolio aTrainPortfolio) {
-		int tCount, tIndex;
+		int tCount;
+		int tIndex;
 		FrameButton tFrameButton;
 		String tPortfolioOwner;
 
@@ -255,10 +260,12 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	private void addRow (FrameButton aFrameButton) {
-		String tButtonText, tToolTipText;
-		String tButtonDescription = "";
+		String tButtonText;
+		String tToolTipText;
+		String tButtonDescription;
 		boolean tEnabled;
 
+		tButtonDescription = GUI.EMPTY_STRING;
 		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
 			if (aFrameButton.isVisible ()) {
 				tButtonText = aFrameButton.getTitle ();
@@ -279,7 +286,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 	}
 
 	private void removeAllRows () {
-		int tRowCount, tRowIndex;
+		int tRowCount;
+		int tRowIndex;
 
 		tRowCount = buttonModel.getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
