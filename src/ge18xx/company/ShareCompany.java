@@ -484,7 +484,8 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	/**
-	 * Based upon the corporation state, determine if the Loan Interest has been handled. Needed to determine loan amount for new Loans
+	 * Based upon the corporation state, determine if the Loan Interest has been handled. Needed to determine loan amount 
+	 * for new Loans
 	 *
 	 * @return TRUE if we have moved beyond the Loan Interest Handling State
 	 */
