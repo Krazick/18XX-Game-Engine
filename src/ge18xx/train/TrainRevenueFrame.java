@@ -773,9 +773,12 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private JPanel buildTrainRevenueJPanel (int aTrainIndex) {
 		JLabel tTrainLabel;
+		JLabel tBorrowedLabel;
 		int tCityCount;
 		JPanel tTrainRevenueJPanel;
+		JPanel tTrainInfoJPanel;
 		BoxLayout tLayoutX;
+		BoxLayout tLayoutY;
 		Train tTrain;
 		Color tPaintColor;
 
@@ -787,12 +790,22 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		tLayoutX = new BoxLayout (tTrainRevenueJPanel, BoxLayout.X_AXIS);
 		tTrainRevenueJPanel.setLayout (tLayoutX);
 
+		tTrainInfoJPanel = new JPanel ();
+		tLayoutY = new BoxLayout (tTrainInfoJPanel, BoxLayout.Y_AXIS);
+		tTrainInfoJPanel.setLayout (tLayoutY);
+		
+		if (tTrain.isBorrowed ()) {
+			tBorrowedLabel = new JLabel ("<BORROWED>");
+			tTrainInfoJPanel.add (tBorrowedLabel);
+		}
 		tPaintColor = (Color) Track.getPaintColor (aTrainIndex + 1);
 		tTrainLabel = new JLabel ("  " + tTrain.getName () + " Train #" + (aTrainIndex + 1) + "  ");
 		tTrainLabel.setOpaque (true);
 		tTrainLabel.setBackground (tPaintColor);
 		
-		tTrainRevenueJPanel.add (tTrainLabel);
+		tTrainInfoJPanel.add (tTrainLabel);
+		tTrainRevenueJPanel.add (tTrainInfoJPanel);
+		
 		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrain, tTrainRevenueJPanel);
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
 		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);

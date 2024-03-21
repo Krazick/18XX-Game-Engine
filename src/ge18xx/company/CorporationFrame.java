@@ -122,7 +122,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton placeBaseTokenButton1;
 	KButton placeBaseTokenButton2;
 	KButton borrowTrainButton;
-//	KButton returnBorrowedTrainButton;
 	KButton operateTrainButton;
 	KButton payFullDividendButton;
 	KButton payHalfDividendButton;

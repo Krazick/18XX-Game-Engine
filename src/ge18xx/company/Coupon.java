@@ -41,7 +41,7 @@ public class Coupon {
 		name = aName;
 	}
 
-	public JPanel buildCouponInfoPanel () {
+	public JPanel buildCouponInfoPanel (boolean aBorrowed) {
 		JPanel tCouponInfoPanel;
 		Border tCouponInfoBorder;
 
@@ -49,6 +49,9 @@ public class Coupon {
 		tCouponInfoPanel.setLayout (new BoxLayout (tCouponInfoPanel, BoxLayout.Y_AXIS));
 		tCouponInfoBorder = setupCouponInfoBorder ();
 		tCouponInfoPanel.setBorder (tCouponInfoBorder);
+		if (aBorrowed) {
+			tCouponInfoPanel.add (new JLabel ("<BORROWED>"));
+		}
 		tCouponInfoPanel.add (new JLabel (getFullName ()));
 		setCostLabel (tCouponInfoPanel, getPrice ());
 

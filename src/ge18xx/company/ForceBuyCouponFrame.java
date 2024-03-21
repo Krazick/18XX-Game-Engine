@@ -165,7 +165,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
 
-		tCouponPanel = mustBuyCoupon.buildCouponInfoPanel ();
+		tCouponPanel = mustBuyCoupon.buildCouponInfoPanel (false);
 		tCouponAndButtonPanel = new JPanel ();
 		tCouponAndButtonPanel.setLayout (new BoxLayout (tCouponAndButtonPanel, BoxLayout.X_AXIS));
 		tCouponAndButtonPanel.add (tCouponPanel);

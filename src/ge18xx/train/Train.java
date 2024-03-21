@@ -152,7 +152,7 @@ public class Train extends Coupon implements Comparable<Object> {
 			String aActionToolTip) {
 		JPanel tTrainInfoPanel;
 
-		tTrainInfoPanel = buildCouponInfoPanel ();
+		tTrainInfoPanel = buildCouponInfoPanel (isBorrowed ());
 		if (aActionLabel != GUI.NULL_STRING) {
 			if (aActionLabel != GUI.EMPTY_STRING) {
 				if (actionCheckbox == GUI.NO_CHECK_BOX) {
