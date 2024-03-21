@@ -70,8 +70,10 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			buyItemPanel.add (Box.createVerticalStrut (10));
 			description.setAlignmentX (Component.CENTER_ALIGNMENT);
 			buyItemPanel.add (description);
+			buyItemPanel.add (Box.createVerticalStrut (10));
 			rangePricePanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 			buyItemPanel.add (rangePricePanel);
+			buyItemPanel.add (Box.createVerticalStrut (10));
 			buyerInfo.setAlignmentX (Component.CENTER_ALIGNMENT);
 			buyItemPanel.add (buyerInfo);
 			buyItemPanel.add (Box.createVerticalStrut (10));
@@ -80,6 +82,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			buyItemPanel.add (Box.createVerticalStrut (10));
 			buttonPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 			buyItemPanel.add (buttonPanel);
+			buyItemPanel.add (Box.createVerticalStrut (10));
 		}
 	}
 
@@ -87,16 +90,18 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		JLabel tBuyPriceLabel;
 
 		buildPriceField ();
-		tBuyPriceLabel = new JLabel ("Buy Price: ");
 
 		rangePricePanel = new JPanel ();
 		rangePricePanel.setLayout (new BoxLayout (rangePricePanel, BoxLayout.X_AXIS));
 		rangePricePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		rangePricePanel.add (range);
-		rangePricePanel.add (Box.createHorizontalStrut (10));
-		rangePricePanel.add (tBuyPriceLabel);
-		rangePricePanel.add (Box.createHorizontalStrut (10));
-		rangePricePanel.add (priceField);
+		if (! fixedPrice ()) {
+			tBuyPriceLabel = new JLabel ("Buy Price: ");
+			rangePricePanel.add (Box.createHorizontalStrut (10));
+			rangePricePanel.add (tBuyPriceLabel);
+			rangePricePanel.add (Box.createHorizontalStrut (10));
+			rangePricePanel.add (priceField);
+		}
 	}
 
 	@Override
@@ -160,7 +165,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		String tRange;
 
 		if (fixedPrice ()) {
-			tRange = "Price " + Bank.formatCash (minPrice);
+			tRange = "Fixed Price " + Bank.formatCash (minPrice);
 		} else {
 			tRange = "Range (" + Bank.formatCash (minPrice) + " to " +
 						Bank.formatCash (maxPrice) + ") ";
@@ -187,14 +192,25 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	}
 
 	public void updateBuyButton (boolean aEnable, String aToolTip) {
-		updateButton (doBuyButton, aEnable, aToolTip);
+		int tTrainPrice;
+		int tCompanyTreasury;
+		
+		tTrainPrice = getPrice ();
+		tCompanyTreasury = trainCompany.getTreasury ();
+		if (tTrainPrice > tCompanyTreasury) {
+			updateButton (doBuyButton, false, trainCompany.getAbbrev () + " does not have enough cash to buy the Train.");
+		} else {
+			updateButton (doBuyButton, aEnable, aToolTip);
+		}
 	}
 
 	public void updateSetPriceButton (boolean aEnable, String aToolTip) {
-		if (priceIsGood ()) {
-			updateButton (doSetPriceButton, aEnable, aToolTip);
-		} else {
-			updateButton (doSetPriceButton, false, getBuyToolTip ());
+		if (doSetPriceButton != GUI.NO_BUTTON) {
+			if (priceIsGood ()) {
+				updateButton (doSetPriceButton, aEnable, aToolTip);
+			} else {
+				updateButton (doSetPriceButton, false, getBuyToolTip ());
+			}
 		}
 	}
 
@@ -327,12 +343,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		buttonPanel.setLayout (new BoxLayout (buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 
-		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
-		updateSetPriceButton (false, "Price Field has not changed");
+		if (!fixedPrice ()) {
+			doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+			updateSetPriceButton (false, "Price Field has not changed");
+			buttonPanel.add (doSetPriceButton);
+			buttonPanel.add (Box.createHorizontalStrut (10));
+		}
 
-		buttonPanel.add (doSetPriceButton);
-		buttonPanel.add (Box.createHorizontalStrut (10));
 		buttonPanel.add (doBuyButton);
 		buttonPanel.add (Box.createHorizontalStrut (10));
 	}
@@ -348,8 +366,12 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	}
 
 	public void setAllButtonListeners (ActionListener aActionListener) {
-		setButtonListener (doSetPriceButton, aActionListener);
-		setButtonListener (doBuyButton, aActionListener);
+		if (doSetPriceButton != GUI.NO_BUTTON) {
+			setButtonListener (doSetPriceButton, aActionListener);
+		}
+		if (doBuyButton != GUI.NO_BUTTON) {
+			setButtonListener (doBuyButton, aActionListener);
+		}
 	}
 
 	public void setButtonListener (KButton aButton, ActionListener aActionListener) {
@@ -441,6 +463,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		updateBuyItemPanel (aItemType, aDescription, aLowPrice, aHighPrice);
 		updateBuyerInfo ();
 		setBuyButtonText (currentOwner);
+		updateButtons ();
 		setFrameLocation ();
 	}
 
