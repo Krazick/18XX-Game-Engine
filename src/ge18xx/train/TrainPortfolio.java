@@ -122,8 +122,9 @@ public class TrainPortfolio implements TrainHolderI {
 		boolean tActionEnabled;
 		boolean tCanBeUpgraded;
 		TrainCompany tTrainCompany;
-		Train [] tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
+		Train [] tBankAvailableTrains;
 
+		tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
 		tPortfolioJPanel = new JPanel ();
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.X_AXIS));
 		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
@@ -138,6 +139,7 @@ public class TrainPortfolio implements TrainHolderI {
 			if (aCorporation.isATrainCompany ()) {
 				tCompanyAbbrev = aCorporation.getAbbrev ();
 				tTrainCompany = (TrainCompany) aCorporation;
+				System.out.println ("Building Train Portfolio for " + tCompanyAbbrev + " that has " + tTrainCount + " Trains");
 				for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 					tTrain = getTrainAt (tTrainIndex);
 					tTrainName = tTrain.getName ();
@@ -151,13 +153,14 @@ public class TrainPortfolio implements TrainHolderI {
 							tActionToolTip = GUI.NO_TOOL_TIP;
 						} else {
 							tActionEnabled = false;
-							if (tTrainCompany.atTrainLimit ()) {
-								tActionToolTip = tCompanyAbbrev + " is at the Train Limit";
-							} else if (tTrainCompany.getCash () == TrainCompany.NO_CASH) {
-								tActionToolTip = tCompanyAbbrev + " has no cash";
-							} else {
-								tActionToolTip = tCompanyAbbrev + " has not handled dividends yet";
-							}
+							tActionToolTip = tTrainCompany.getReasonWhyCantBuyTrain ();
+//							if (tTrainCompany.atTrainLimit ()) {
+//								tActionToolTip = tCompanyAbbrev + " is at the Train Limit";
+//							} else if (tTrainCompany.getCash () == TrainCompany.NO_CASH) {
+//								tActionToolTip = tCompanyAbbrev + " has no cash";
+//							} else {
+//								tActionToolTip = tCompanyAbbrev + " has not handled dividends yet";
+//							}
 						}
 					} else {
 						tActionLabel = GUI.EMPTY_STRING;
