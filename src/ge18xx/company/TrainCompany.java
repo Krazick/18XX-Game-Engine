@@ -72,6 +72,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final AttributeName AN_MUST_PAY_FULL_PRICE = new AttributeName ("mustPayFullPrice");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
 	public static final AttributeName AN_CAN_BORROW_TRAIN = new AttributeName ("canBorrowTrain");
+	public static final AttributeName AN_ONLY_PERMANENT_TRAIN = new AttributeName ("onlyPermanentTrain");
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
 	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
@@ -98,6 +99,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	int thisRevenue;
 	int lastRevenue;
 	int value;
+	boolean onlyPermanentTrain;
 	boolean canBorrowTrain;
 	boolean mustPayFullPrice;
 	boolean mustBuyTrain;
@@ -146,6 +148,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setMustBuyTrain (false);
 		setMustPayFullPrice (false);
 		setCanBorrowTrain (false);
+		setOnlyPermanentTrain (false);
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 	}
 
@@ -215,6 +218,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tMustBuyTrain;
 		boolean tMustPayFullPrice;
 		boolean tGovtRailway;
+		boolean tOnlyPermanentTrain;
 
 		trainPortfolio = new TrainPortfolio (this);
 		licenses = new ArrayList<License> ();
@@ -232,6 +236,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setGovtRailway (tGovtRailway);
 		tCanBorrowTrain = aChildNode.getThisBooleanAttribute (AN_CAN_BORROW_TRAIN);
 		setCanBorrowTrain (tCanBorrowTrain);
+		tOnlyPermanentTrain = aChildNode.getThisBooleanAttribute (AN_ONLY_PERMANENT_TRAIN);
+		setOnlyPermanentTrain (tOnlyPermanentTrain);
 		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
 		setMustBuyTrain (tMustBuyTrain);
 		tMustPayFullPrice = aChildNode.getThisBooleanAttribute (AN_MUST_PAY_FULL_PRICE);
@@ -434,6 +440,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
 		aXMLCorporationState.setAttribute (AN_MUST_PAY_FULL_PRICE, mustPayFullPrice ());
 		aXMLCorporationState.setAttribute (AN_CAN_BORROW_TRAIN, canBorrowTrain ());
+		aXMLCorporationState.setAttribute (AN_ONLY_PERMANENT_TRAIN, onlyPermanentTrain ());
 		if (! hasNoTrain ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
@@ -693,6 +700,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
+			System.out.println (aBuyingCorporation.getAbbrev () + " is Operating, Build Train Portfolio for " + abbrev);
 			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aCorporationFrame, this, aGameManager, tActionLabel,
 					aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
 			tCorpJPanel.add (tTrainInfoJPanel);
@@ -822,6 +830,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
+	public boolean onlyPermanentTrain () {
+		return onlyPermanentTrain;
+	}
+
+	@Override
 	public boolean canBorrowTrain () {
 		return canBorrowTrain;
 	}
@@ -916,6 +929,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return govtRailway;
 	}
 
+	public void setOnlyPermanentTrain (boolean aOnlyPermanentTrain) {
+		onlyPermanentTrain = aOnlyPermanentTrain;
+	}
+	
 	public void setCanBorrowTrain (boolean aCanBorrowTrain) {
 		canBorrowTrain = aCanBorrowTrain;
 	}
@@ -1643,6 +1660,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tMustBuyTrain;
 		boolean tMustPayFullPrice;
 		boolean tCanBorrowTrain;
+		boolean tOnlyPermanentTrain;
 
 		tLastRevenue = aXMLNode.getThisIntAttribute (AN_LAST_REVENUE);
 		setLastRevenue (tLastRevenue);
@@ -1658,6 +1676,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tCanBorrowTrain = aXMLNode.getThisBooleanAttribute (AN_CAN_BORROW_TRAIN);
 		setCanBorrowTrain (tCanBorrowTrain);
+
+		tOnlyPermanentTrain = aXMLNode.getThisBooleanAttribute (AN_ONLY_PERMANENT_TRAIN);
+		setOnlyPermanentTrain (tOnlyPermanentTrain);
 	}
 
 	@Override
@@ -2043,10 +2064,25 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	public String getReasonWhyCantBuyTrain () {
+		String tReasonCantBuyTrain;
+		
+		if (atTrainLimit ()) {
+			tReasonCantBuyTrain = abbrev + " is at the Train Limit";
+		} else if (getCash () == TrainCompany.NO_CASH) {
+			tReasonCantBuyTrain = abbrev + " has no cash";
+		} else {
+			tReasonCantBuyTrain = abbrev + " has not handled dividends yet";
+		}
+		
+		return tReasonCantBuyTrain;
+	}
+	
 	@Override
 	public boolean canBuyTrain () {
 		boolean tCanBuyTrain;
 
+		System.out.println ("Testing if " + abbrev + " Can Buy a Train");
 		if (atTrainLimit ()) {
 			tCanBuyTrain = false;
 		} else if (noCash ()) {
