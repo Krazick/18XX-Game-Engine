@@ -2596,6 +2596,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void setMustBuyTrain (boolean aMustBuyTrain) {
 	}
 
+	public boolean onlyPermanentTrain () {
+		return false;
+	}
+
 	public boolean canBorrowTrain () {
 		return false;
 	}
