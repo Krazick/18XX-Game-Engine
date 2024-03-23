@@ -41,6 +41,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 			setVisible (false);
 		}
 	}
+	
 	protected QueryOffer buildPurchaseOffer (ActorI aItemOwner, Train aTrain, String aFromActorName) {
 		PurchaseTrainOffer tPurchaseTrainOffer;
 		QueryOffer tQueryOffer;
