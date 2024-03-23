@@ -8,18 +8,19 @@ import geUtilities.AttributeName;
 import geUtilities.GUI;
 
 public interface ActorI {
-	public final String NO_NAME = GUI.NULL_STRING;
-	public final ActorI NO_ACTOR = null;
-	public final ActorI.ActionStates NO_STATE = null;
 	public static final AttributeName AN_ACTOR_NAME = new AttributeName ("actor");
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActor");
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActor");
+	public final String NO_NAME = GUI.NULL_STRING;
+	public final ActorI NO_ACTOR = null;
+	public final ActorI.ActionStates NO_STATE = null;
 	
 	public enum ActorTypes {
 		NO_TYPE ("No Type"), 
 		Corporation ("Corporation"), 
 		ShareCompany ("Share Company"),
 		MinorCompany ("Minor Company"), 
+		PrivateCompany ("Private Company"), 
 		Player ("Player"), 
 		Bank ("Bank"),
 		BankPool ("Bank Pool");
