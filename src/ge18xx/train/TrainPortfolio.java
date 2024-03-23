@@ -311,11 +311,6 @@ public class TrainPortfolio implements TrainHolderI {
 		return tCountOfTrains;
 	}
 
-	@Override
-	public CashHolderI getCashHolder () {
-		return CashHolderI.NO_CASH_HOLDER;
-	}
-
 	public boolean anyTrainIsOperating () {
 		boolean tAnyTrainIsOperating = false;
 
