@@ -9,7 +9,9 @@ public interface TrainHolderI extends ActorI {
 
 	public void addTrain (Train aTrain);
 
-	public CashHolderI getCashHolder ();
+	public default CashHolderI getCashHolder () {
+		return CashHolderI.NO_CASH_HOLDER;
+	}
 
 	/*
 	 * Get the name of the Entity Holding the Train - Company vs Bank, vs BankPool
