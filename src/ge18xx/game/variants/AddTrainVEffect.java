@@ -74,7 +74,7 @@ public class AddTrainVEffect extends VariantEffect {
 	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the TrainInfo, and the Quantity
 	 *
-	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * @param aXMLDocument The XMLDocument to use to create the XMLElement
 	 *
 	 * @return the filled out XMLElement
 	 *
