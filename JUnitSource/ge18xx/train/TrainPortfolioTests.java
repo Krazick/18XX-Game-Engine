@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.player.CashHolderI;
 
 class TrainPortfolioTests {
 	TrainPortfolio trainPortfolio;
@@ -19,10 +20,11 @@ class TrainPortfolioTests {
 	TrainCompany trainCompany2;
 	CompanyTestFactory companyTestFactory;
 	TrainTestFactory trainTestFactory;
-
+	Train train1;
+	Train train2;
+	
 	@BeforeEach
 	void setUp () throws Exception {
-		Train tTrain;
 		TokenCompany tTokenCompany1;
 		TokenCompany tTokenCompany2;
 		
@@ -37,16 +39,15 @@ class TrainPortfolioTests {
 		trainCompany2 = (TrainCompany) tTokenCompany2;
 		emptyTrainPortfolio = trainTestFactory.buildTrainPortfolio (trainCompany2);
 		
-		tTrain = trainTestFactory.buildTrain (1);
-		trainPortfolio.addTrain (tTrain);
-		tTrain = trainTestFactory.buildTrain (2);
-		trainPortfolio.addTrain (tTrain);
-		
+		train1 = trainTestFactory.buildTrain (1);
+		trainPortfolio.addTrain (train1);
+		train2 = trainTestFactory.buildTrain (2);
+		trainPortfolio.addTrain (train2); 
 	}
 
 	@Test
 	@DisplayName ("Initial Setup for TrainCompany with TrainPortfolio")
-	void trainPortfolioTrainCountTest () {
+	void trainPortfolioTrainCountTests () {
 		assertEquals (2, trainPortfolio.getTrainCount ());
 		assertEquals (0, emptyTrainPortfolio.getTrainCount ());
 		
@@ -56,10 +57,18 @@ class TrainPortfolioTests {
 		assertTrue (trainPortfolio.hasTrains ());
 		assertFalse (emptyTrainPortfolio.hasTrains ());
 
+		assertEquals ("Train Portfolio", trainPortfolio.getName ());
+		
+		assertEquals (0, trainPortfolio.getSelectedCount ());
+		assertEquals (0, emptyTrainPortfolio.getSelectedCount ());
+		
+		assertEquals (0, trainPortfolio.countTrainsOfThisOrder (2));
+		assertEquals (1, trainPortfolio.countTrainsOfThisOrder (3));
+		assertEquals (0, emptyTrainPortfolio.countTrainsOfThisOrder (2));
 	}
 
 	@Test
-	@DisplayName ("Verify Holder Abbrev TrainPortfolio")
+	@DisplayName ("Get PortfolioHolder Abbrev from TrainPortfolio test")
 	void trainPortfolioHolderAbbrevTest () {
 		assertEquals ("TTPRR", trainPortfolio.getPortfolioHolderAbbrev ());
 		assertEquals ("Test Token Pennsylvania", trainPortfolio.getPortfolioHolderName ());
@@ -68,4 +77,49 @@ class TrainPortfolioTests {
 		assertEquals ("Test Token Baltimore and Ohio", emptyTrainPortfolio.getPortfolioHolderName ());
 	}
 	
+	@Test
+	@DisplayName ("Get CashHolder from TrainPortfolio test") 
+	void trainPortfolioCashCholderTest () {
+		assertEquals (CashHolderI.NO_CASH_HOLDER, trainPortfolio.getCashHolder ());
+	}
+	
+	@Test
+	@DisplayName ("Porfolio contains types of Trains tests")
+	void trainTypesTests () {
+		Train tTrain;
+		
+		assertFalse (trainPortfolio.hasBorrowedTrain ());
+		assertTrue (trainPortfolio.hasPermanentTrain ());
+		
+		assertFalse (emptyTrainPortfolio.hasBorrowedTrain ());
+		assertFalse (emptyTrainPortfolio.hasPermanentTrain ());
+		
+		tTrain = trainTestFactory.buildTrain (2);
+		tTrain.setBorrowed (true);
+		trainPortfolio.addTrain (tTrain);
+		assertTrue (trainPortfolio.hasBorrowedTrain ());
+	}
+	
+	@Test
+	@DisplayName ("TrainPortfolio has Operating Train tests") 
+	void trainPortfolioHasOperatingTrainTest () {
+		assertFalse (trainPortfolio.anyTrainIsOperating ());
+		assertFalse (emptyTrainPortfolio.anyTrainIsOperating ());
+		
+		train1.setOperating (true);
+		assertTrue (trainPortfolio.anyTrainIsOperating ());
+
+	}
+
+	@Test
+	@DisplayName ("TrainPortfolio has Operating Train tests") 
+	void trainPortfolioTrainListTest () {
+		assertFalse (trainPortfolio.anyTrainIsOperating ());
+		assertFalse (emptyTrainPortfolio.anyTrainIsOperating ());
+		
+		train1.setOperating (true);
+		assertTrue (trainPortfolio.anyTrainIsOperating ());
+
+	}
+
 }

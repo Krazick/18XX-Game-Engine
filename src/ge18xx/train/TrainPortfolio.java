@@ -312,8 +312,9 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public boolean anyTrainIsOperating () {
-		boolean tAnyTrainIsOperating = false;
+		boolean tAnyTrainIsOperating;
 
+		tAnyTrainIsOperating = false;
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isOperating ()) {
