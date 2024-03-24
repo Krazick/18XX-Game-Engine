@@ -108,18 +108,34 @@ class TrainPortfolioTests {
 		
 		train1.setOperating (true);
 		assertTrue (trainPortfolio.anyTrainIsOperating ());
+	}
+	
+	@Test
+	@DisplayName ("TrainPortfolio get Train Limit tests") 
+	void trainPortfolioGetTrainLimitTest () {
+		assertEquals (3, trainPortfolio.getTrainLimit ());
 
 	}
 
 	@Test
-	@DisplayName ("TrainPortfolio has Operating Train tests") 
+	@DisplayName ("TrainPortfolio Train List tests") 
 	void trainPortfolioTrainListTest () {
-		assertFalse (trainPortfolio.anyTrainIsOperating ());
-		assertFalse (emptyTrainPortfolio.anyTrainIsOperating ());
+		String tTrainList1 = "Trains (4, 5, X)";
+		String tNoTrainsList = "NO TRAINS";
+		String tTrainList2 = "Trains (4, 4, 5)";;
 		
-		train1.setOperating (true);
-		assertTrue (trainPortfolio.anyTrainIsOperating ());
-
+		assertEquals (tTrainList1, trainPortfolio.getTrainList ());
+		assertEquals (tNoTrainsList, emptyTrainPortfolio.getTrainList ());
+		
+		trainPortfolio.addTrain (train1);
+		assertEquals (tTrainList2, trainPortfolio.getTrainList ());
+	}
+	
+	@Test
+	@DisplayName ("TrainPortfolio get Cheapest Train tests") 
+	void trainPortfolioCheapestTrainTest () {
+		assertEquals (train1, trainPortfolio.getCheapestTrain ());
+		assertEquals (train2, trainPortfolio.getCheapestPermanentTrain ());
 	}
 
 }

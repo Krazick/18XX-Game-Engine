@@ -83,7 +83,7 @@ public class TrainTestFactory {
 
 		return tTrainInfo;
 	}
-
+	
 	public TrainPortfolio buildTrainPortfolio (TrainCompany aTrainCompany) {
 		TrainPortfolio tTrainPortfolio;
 

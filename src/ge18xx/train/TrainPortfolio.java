@@ -337,7 +337,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainIndex = 0;
 		if (trains.size () > 0) {
 			tTrainList = "Trains (";
-			for (Coupon tTrain : trains) {
+			for (Train tTrain : trains) {
 				tTrainList += tTrain.getName ();
 				tTrainIndex++;
 				if (tTrainIndex < trains.size ()) {
