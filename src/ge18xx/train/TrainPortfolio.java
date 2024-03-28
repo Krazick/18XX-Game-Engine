@@ -139,7 +139,6 @@ public class TrainPortfolio implements TrainHolderI {
 			if (aCorporation.isATrainCompany ()) {
 				tCompanyAbbrev = aCorporation.getAbbrev ();
 				tTrainCompany = (TrainCompany) aCorporation;
-				System.out.println ("Building Train Portfolio for " + tCompanyAbbrev + " that has " + tTrainCount + " Trains");
 				for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 					tTrain = getTrainAt (tTrainIndex);
 					tTrainName = tTrain.getName ();
