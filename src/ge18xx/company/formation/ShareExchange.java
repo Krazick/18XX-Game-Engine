@@ -87,15 +87,12 @@ public class ShareExchange extends PlayerFormationPhase {
 		int tShareExchangeCount;
 		int tTotalShareCount;
 	
-		int tFoldingCompanyIndex;
 		String tShareCompanyAbbrev;
-		String tFormingCompanyAbbrev;
 		List<String> tShareExchange;
 		ShareCompany tShareCompany;
 		Certificate tCertificate;
 		
 		tCertificateCount = aPlayerPortfolio.getCertificateTotalCount ();
-		tShareExchangeText = GUI.EMPTY_STRING;
 		tTotalShareCount = 0;
 		shareCompaniesHandled = new LinkedList<String> ();
 		tShareExchange = new LinkedList<String> ();
@@ -126,24 +123,42 @@ public class ShareExchange extends PlayerFormationPhase {
 			oneShareToBankPool = true;
 		}
 		foldingCompanyCount = tShareExchange.size ();
+		tShareExchangeText = buildShareExchangeText (tTotalShareCount, tShareExchange);
+		
+		return tShareExchangeText;
+	}
+
+	private String buildShareExchangeText (int aTotalShareCount, List<String> aShareExchange) {
+		int tFoldingCompanyIndex;
+		String tShareExchangeText;
+		String tExchangeText;
+		String tFormingCompanyAbbrev;
+		
 		tFormingCompanyAbbrev = formationPhase.getFormingCompanyAbbrev ();
 		tShareExchangeText = GUI.EMPTY_STRING;
-		if  (tTotalShareCount == 0) {
+		if  (aTotalShareCount == 0) {
 			tShareExchangeText = "No Shares will be exchanged for " + tFormingCompanyAbbrev;
 		} else {
 			if (foldingCompanyCount == 1) {
-				tShareExchangeText = tShareExchange.get (0);
+				tShareExchangeText = aShareExchange.get (0);
 			} else {
 				for (tFoldingCompanyIndex = 0; tFoldingCompanyIndex < foldingCompanyCount; tFoldingCompanyIndex++) {
-					if (tFoldingCompanyIndex == foldingCompanyCount) {
-						tShareExchangeText += " and ";
-					} else {
-						tShareExchangeText += ", ";
+					if (tFoldingCompanyIndex > 0) {
+						if ((tFoldingCompanyIndex + 1) == foldingCompanyCount) {
+							tShareExchangeText += " and ";
+						} else {
+							tShareExchangeText += ", ";
+						}
 					}
-					tShareExchangeText += tShareExchange.get (tFoldingCompanyIndex);
+					tShareExchangeText += aShareExchange.get (tFoldingCompanyIndex);
 				}
 			}
-			tShareExchangeText += " will be exchanged for " + totalExchangeCount + " Shares of " + tFormingCompanyAbbrev;
+			if (totalExchangeCount == 1) {
+				tExchangeText = totalExchangeCount + " Share";
+			} else {
+				tExchangeText = totalExchangeCount + " Shares";
+			}
+			tShareExchangeText += " will be exchanged for " + tExchangeText + " of " + tFormingCompanyAbbrev;
 		}
 		
 		return tShareExchangeText;
