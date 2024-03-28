@@ -700,9 +700,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
-			System.out.println (aBuyingCorporation.getAbbrev () + " is Operating, Build Train Portfolio for " + abbrev);
-			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aCorporationFrame, this, aGameManager, tActionLabel,
-					aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
+			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aCorporationFrame, this, aGameManager, 
+					tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
 			tCorpJPanel.add (tTrainInfoJPanel);
 		}
 
@@ -2082,7 +2081,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean canBuyTrain () {
 		boolean tCanBuyTrain;
 
-		System.out.println ("Testing if " + abbrev + " Can Buy a Train");
 		if (atTrainLimit ()) {
 			tCanBuyTrain = false;
 		} else if (noCash ()) {
