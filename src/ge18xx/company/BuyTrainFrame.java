@@ -101,7 +101,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		trainCompany.doFinalTrainBuySteps (aOwningTrainCompany, train, tBuyTrainAction);
 		trainCompany.updateInfo ();
 	}
-
+	
 	private void updateInfo () {
 		int tLowPrice;
 		int tHighPrice;
@@ -110,6 +110,9 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		String tTrainName;
 		String tOwnerName;
 		String tPriceChoice;
+		String tToolTip;
+		boolean tVisible;
+		boolean tEnabled;
 
 		tPresidentName = trainCompany.getPresidentName ();
 		tTrainName = train.getName ();
@@ -119,17 +122,18 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 			tLowPrice = train.getPrice ();
 			tHighPrice = train.getPrice ();
 			tPriceChoice = " Buy Price for ";
-			priceField.setVisible (false);
-			priceField.setEnabled (false);
-			priceField.setToolTipText (trainCompany.getAbbrev () + " must pay full face value of the Train.");
+			tVisible = false;
+			tEnabled = false;
+			tToolTip = trainCompany.getAbbrev () + " must pay full face value of the Train.";
 		} else {
 			tLowPrice = 1;
 			tHighPrice = trainCompany.getTreasury ();
 			tPriceChoice = ", Choose Buy Price for ";
-			priceField.setVisible (true);
-			priceField.setEnabled (true);
-			priceField.setToolTipText (trainCompany.getAbbrev () + " can choose the price to pay for the Train.");
+			tVisible = true;
+			tEnabled = true;
+			tToolTip = trainCompany.getAbbrev () + " can choose the price to pay for the Train.";
 		}
+		setPriceField (tVisible, tEnabled, tToolTip);
 		setPrice (tLowPrice);
 		tDescription = tPresidentName + tPriceChoice + tTrainName + " " + PurchaseTrainOffer.TRAIN_TYPE + 
 				" from " + tOwnerName;

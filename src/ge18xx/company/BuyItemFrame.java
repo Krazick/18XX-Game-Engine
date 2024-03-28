@@ -37,6 +37,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	JLabel range;
 	JLabel buyerInfo;
 	JLabel sellerInfo;
+	JLabel buyPriceLabel;
 	JTextField priceField;
 	int minPrice;
 	int maxPrice;
@@ -87,21 +88,17 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	}
 
 	private void buildPriceRangePanel () {
-		JLabel tBuyPriceLabel;
-
 		buildPriceField ();
 
 		rangePricePanel = new JPanel ();
 		rangePricePanel.setLayout (new BoxLayout (rangePricePanel, BoxLayout.X_AXIS));
 		rangePricePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		rangePricePanel.add (range);
-		if (! fixedPrice ()) {
-			tBuyPriceLabel = new JLabel ("Buy Price: ");
-			rangePricePanel.add (Box.createHorizontalStrut (10));
-			rangePricePanel.add (tBuyPriceLabel);
-			rangePricePanel.add (Box.createHorizontalStrut (10));
-			rangePricePanel.add (priceField);
-		}
+		buyPriceLabel = new JLabel ("Buy Price: ");
+		rangePricePanel.add (Box.createHorizontalStrut (10));
+		rangePricePanel.add (buyPriceLabel);
+		rangePricePanel.add (Box.createHorizontalStrut (10));
+		rangePricePanel.add (priceField);
 	}
 
 	@Override
@@ -205,6 +202,13 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	}
 
 	public void updateSetPriceButton (boolean aEnable, String aToolTip) {
+		boolean tVisible;
+		
+		if (fixedPrice ()) {
+			tVisible = false;
+		} else {
+			tVisible = true;
+		}
 		if (doSetPriceButton != GUI.NO_BUTTON) {
 			if (priceIsGood ()) {
 				updateButton (doSetPriceButton, aEnable, aToolTip);
@@ -212,6 +216,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 				updateButton (doSetPriceButton, false, getBuyToolTip ());
 			}
 		}
+		doSetPriceButton.setVisible (tVisible);
+	}
+
+	protected void setPriceField (boolean aVisible, boolean aEnabled, String aToolTip) {
+		buyPriceLabel.setVisible (aVisible);
+		priceField.setVisible (aVisible);
+		priceField.setEnabled (aEnabled);
+		priceField.setToolTipText (aToolTip);
 	}
 
 	public void updateButton (KButton aButton, boolean aEnable, String aToolTip) {
@@ -344,12 +356,10 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		buttonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 
 		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
-		if (!fixedPrice ()) {
-			doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
-			updateSetPriceButton (false, "Price Field has not changed");
-			buttonPanel.add (doSetPriceButton);
-			buttonPanel.add (Box.createHorizontalStrut (10));
-		}
+		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+		updateSetPriceButton (false, "Price Field has not changed");
+		buttonPanel.add (doSetPriceButton);
+		buttonPanel.add (Box.createHorizontalStrut (10));
 
 		buttonPanel.add (doBuyButton);
 		buttonPanel.add (Box.createHorizontalStrut (10));
