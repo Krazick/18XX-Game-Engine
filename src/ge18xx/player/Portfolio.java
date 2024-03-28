@@ -1200,6 +1200,21 @@ public class Portfolio implements CertificateHolderI {
 		return tName;
 	}
 
+	public Certificate getPresidentCertificate (int aPercentage) {
+		Certificate tPresidentCertificate;
+
+		tPresidentCertificate = Certificate.NO_CERTIFICATE;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isPresidentShare ()) {
+				if (tCertificate.getPercentage () == aPercentage) {
+					tPresidentCertificate = tCertificate;
+				}
+			}
+		}
+
+		return tPresidentCertificate;
+	}
+
 	public Certificate getPresidentCertificate () {
 		Certificate tPresidentCertificate;
 
