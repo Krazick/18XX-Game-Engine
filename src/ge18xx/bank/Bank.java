@@ -489,9 +489,11 @@ public class Bank extends GameBank implements CashHolderI {
 
 	/* When a Train is bought, check for More Trains to make available */
 	public void makeTrainsAvailable (Train aTrain, BuyTrainAction aBuyTrainAction) {
-		int tTrainOrder, tTrainOrderCount;
+		int tTrainOrder;
+		int tTrainOrderCount;
 		int tNextTrainOrder;
-		int tOldNextTrainStatus, tNewNextTrainStatus;
+		int tOldNextTrainStatus;
+		int tNewNextTrainStatus;
 		String tTrainName;
 		Coupon tTrain;
 
