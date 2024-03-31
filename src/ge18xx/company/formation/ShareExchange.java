@@ -80,17 +80,16 @@ public class ShareExchange extends PlayerFormationPhase {
 	}
 
 	public String buildShareExchangeText (Portfolio aPlayerPortfolio) {
+		ShareCompany tShareCompany;
+		Certificate tCertificate;
+		List<String> tShareExchange;
 		String tShareExchangeText;
 		String tShareExchangePhrase;
+		String tShareCompanyAbbrev;
 		int tCertificateCount;
 		int tCertificateIndex;
 		int tShareExchangeCount;
 		int tTotalShareCount;
-	
-		String tShareCompanyAbbrev;
-		List<String> tShareExchange;
-		ShareCompany tShareCompany;
-		Certificate tCertificate;
 		
 		tCertificateCount = aPlayerPortfolio.getCertificateTotalCount ();
 		tTotalShareCount = 0;
@@ -106,12 +105,7 @@ public class ShareExchange extends PlayerFormationPhase {
 					if (tShareCompany.willFold ()) {
 						tShareExchangeCount = aPlayerPortfolio.getShareCountFor (tShareCompany);
 						tTotalShareCount += tShareExchangeCount;
-						if (tShareExchangeCount == 1) {
-							tShareExchangePhrase = tShareExchangeCount + " Share ";
-						} else {
-							tShareExchangePhrase = tShareExchangeCount + " Shares ";
-						}
-						tShareExchangePhrase += " of " + tShareCompanyAbbrev;
+						tShareExchangePhrase = buildShareCount (tShareExchangeCount, " of " + tShareCompanyAbbrev);
 						tShareExchange.add (tShareExchangePhrase);
 						shareCompaniesHandled.add (tShareCompanyAbbrev);
 					}
@@ -153,17 +147,34 @@ public class ShareExchange extends PlayerFormationPhase {
 					tShareExchangeText += aShareExchange.get (tFoldingCompanyIndex);
 				}
 			}
-			if (totalExchangeCount == 1) {
-				tExchangeText = totalExchangeCount + " Share";
-			} else {
-				tExchangeText = totalExchangeCount + " Shares";
-			}
-			tShareExchangeText += " will be exchanged for " + tExchangeText + " of " + tFormingCompanyAbbrev;
+			tExchangeText = buildShareCount (totalExchangeCount, " of " + tFormingCompanyAbbrev);
+			tShareExchangeText += " will be exchanged for " + tExchangeText;
 		}
 		
 		return tShareExchangeText;
 	}
+//
+//	private String buildShareCount (int aCount) {
+//		String tShareCount;
+//		
+//		tShareCount = buildShareCount (aCount, GUI.EMPTY_STRING);
+//
+//		return tShareCount;
+//	}
 
+	private String buildShareCount (int aCount, String aPostfix) {
+		String tShareCount;
+		
+		if (aCount == 1) {
+			tShareCount = aCount + " Share";
+		} else {
+			tShareCount = aCount + " Shares";
+		}
+		tShareCount += aPostfix;
+
+		return tShareCount;
+	}
+	
 	public void handleShareExchange () {
 		TransferOwnershipAction tTransferOwnershipAction1;
 		TransferOwnershipAction tTransferOwnershipAction2;
@@ -213,8 +224,8 @@ public class ShareExchange extends PlayerFormationPhase {
 					if ((tCertificate.getPercentage () == PhaseInfo.STANDARD_SHARE_SIZE) && oneShareToBankPool) {
 						transferShare (player, tBankPool, tCertificate, tTransferOwnershipAction1);
 						oneShareToBankPool = false;
-						tTransferNotification += "1 Share of " + tCompanyAbbrev + " to " + 
-										tBankPool.getName () + ". ";
+						tTransferNotification += buildShareCount (1, " of " + tCompanyAbbrev + " to " + 
+										tBankPool.getName () + ". ");
 						tTransferred = true;
 					} else {
 						tExchangeCount += tCertificate.getShareCount ();
@@ -223,8 +234,11 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 			if (tExchangeCount > 0) {
-				tExchangeNotification += tExchangeCount + " Shares of " + tCompanyAbbrev + " ";
+				tExchangeNotification += buildShareCount (tExchangeCount, " of " + tCompanyAbbrev + " ");
 			}
+		}
+		if (oneShareToBankPool) {
+			tExchangeNotification += " and 1 Share to the " + tBankPool.getName ();
 		}
 		if (tTransferred) {
 			tNotification = tTransferNotification;
