@@ -24,6 +24,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 			setCurrentOwner (Corporation.NO_CORPORATION);
 		}
 		updateInfo ();
+		setSize (520, 190);
 	}
 
 	@Override

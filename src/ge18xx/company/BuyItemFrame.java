@@ -58,8 +58,8 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		buildBuyItemPanel ();
 		add (buyItemPanel);
 
-		pack ();
-		setSize (520, 170);
+//		pack ();
+//		setSize (520, 170);
 		setVisible (false);
 	}
 

@@ -29,6 +29,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 			setCurrentOwner (Player.NO_PLAYER);
 		}
 		updateInfo ();
+		setSize (520, 170);
 	}
 
 	@Override
