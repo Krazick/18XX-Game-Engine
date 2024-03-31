@@ -487,25 +487,27 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public JLabel buildEscrowLabel () {
 		JLabel tEscrowLabel;
-		int tEscrowAmount;
 		GameManager tGameManager;
+		String tPrefix;
+		int tEscrowAmount;
 		int tCapitalizationLevel;
 
 		tGameManager = getGameManager ();
+		tPrefix = "Escrow: ";
 		if (hasDestination ()) {
 			if (hasReachedDestination ()) {
-				tEscrowLabel = new JLabel ("Escrow: All Paid");
+				tEscrowLabel = new JLabel (tPrefix + "All Paid");
 			} else {
 				tCapitalizationLevel = getDestinationCapitalizationLevel ();
 				if (tCapitalizationLevel == Capitalization.INCREMENTAL_5_MAX) {
 					tEscrowAmount = calculateEscrowWithheld ();
 					if (tEscrowAmount > 0) {
-						tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
+						tEscrowLabel = new JLabel (tPrefix + Bank.formatCash (tEscrowAmount));
 					} else if (tGameManager.getAlwaysShowEscrow ()) {
 						if (hasReachedDestination ()) {
-							tEscrowLabel = new JLabel ("Escrow: All Paid");
+							tEscrowLabel = new JLabel (tPrefix + "All Paid");
 						} else {
-							tEscrowLabel = new JLabel ("Escrow: No Escrow");
+							tEscrowLabel = new JLabel (tPrefix + "No Escrow");
 						}
 					} else {
 						tEscrowLabel = GUI.NO_LABEL;
