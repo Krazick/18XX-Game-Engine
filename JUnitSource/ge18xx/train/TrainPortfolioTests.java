@@ -114,7 +114,6 @@ class TrainPortfolioTests {
 	@DisplayName ("TrainPortfolio get Train Limit tests") 
 	void trainPortfolioGetTrainLimitTest () {
 		assertEquals (3, trainPortfolio.getTrainLimit ());
-
 	}
 
 	@Test
@@ -134,8 +133,26 @@ class TrainPortfolioTests {
 	@Test
 	@DisplayName ("TrainPortfolio get Cheapest Train tests") 
 	void trainPortfolioCheapestTrainTest () {
+		Train tPermaTrain;
+		
 		assertEquals (train1, trainPortfolio.getCheapestTrain ());
 		assertEquals (train2, trainPortfolio.getCheapestPermanentTrain ());
+		tPermaTrain = trainTestFactory.buildTrain (3);
+		trainPortfolio.addTrain (tPermaTrain);
+		assertEquals (tPermaTrain, trainPortfolio.getCheapestPermanentTrain ());
+	}
+	
+	@Test
+	@DisplayName ("Get Train by Name Tests")
+	void trainPortfolioGetTrainbyName () {
+		Train tDieselTrain;
+		
+		assertEquals (train2, trainPortfolio.getTrain ("5"));
+		assertEquals (train1, trainPortfolio.getTrain ("4"));
+		assertEquals (Train.NO_TRAIN, trainPortfolio.getTrain ("Diesel"));
+		tDieselTrain = trainTestFactory.buildTrain (4);
+		trainPortfolio.addTrain (tDieselTrain);
+		assertEquals (tDieselTrain, trainPortfolio.getTrain ("Diesel"));
 	}
 
 }
