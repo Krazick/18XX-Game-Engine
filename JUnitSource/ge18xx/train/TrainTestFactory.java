@@ -13,6 +13,8 @@ public class TrainTestFactory {
 	private UtilitiesTestFactory utilitiesTestFactory;
 	TrainInfo tTrainInfo1;
 	TrainInfo tTrainInfo2;
+	TrainInfo tTrainInfo3;
+	TrainInfo tTrainInfo4;
 
 	public TrainTestFactory () {
 		gameTestFactory = new GameTestFactory ();
@@ -36,6 +38,12 @@ public class TrainTestFactory {
 		} else if (aTrainInfoIndex == 2) {
 			tTrainInfo2 = buildTrainInfo (aTrainInfoIndex);
 			tTrain = tTrainInfo2.getTrain ();
+		} else if (aTrainInfoIndex == 3) {
+			tTrainInfo3 = buildTrainInfo (aTrainInfoIndex);
+			tTrain = tTrainInfo3.getTrain ();
+		} else if (aTrainInfoIndex == 4) {
+			tTrainInfo4 = buildTrainInfo (aTrainInfoIndex);
+			tTrain = tTrainInfo4.getTrain ();
 		} else {
 			tTrain = Train.NO_TRAIN;
 		}
@@ -58,11 +66,19 @@ public class TrainTestFactory {
 				+ "				onLast=\"4\" triggerPhase=\"3.1\" rust=\"2\" />";
 		String tTrainInfo2XML = "<Train name=\"5\" order=\"4\" revenueCenters=\"5\" quantity=\"3\" price=\"550\"\n"
 				+ "				onLast=\"5\" triggerPhase=\"4.1\" tileInfo=\"Brown\" isPermanent=\"true\" />";
+		String tTrainInfo3XML = "<Train name=\"5A\" order=\"5\" revenueCenters=\"5\" quantity=\"3\" price=\"500\"\n"
+				+ "				onLast=\"5\" triggerPhase=\"4.2\" tileInfo=\"Brown\" isPermanent=\"true\" />";
+		String tTrainInfo4XML = "<Train name=\"Diesel\" order=\"5\" revenueCenters=\"999\" quantity=\"6\" price=\"1000\"\n"
+				+ "				triggerPhase=\"6.1\" tileInfo=\"Brown\" isPermanent=\"true\" />";
 		
 		if (aInfoIndex == 1) {
 			tTrainInfo = buildTrainInfo (tTrainInfo1XML);
 		} else if (aInfoIndex == 2) {
 			tTrainInfo = buildTrainInfo (tTrainInfo2XML);
+		} else if (aInfoIndex == 3) {
+			tTrainInfo = buildTrainInfo (tTrainInfo3XML);
+		} else if (aInfoIndex == 4) {
+			tTrainInfo = buildTrainInfo (tTrainInfo4XML);
 		} else {
 			tTrainInfo = TrainInfo.NO_TRAIN_INFO;
 		}
