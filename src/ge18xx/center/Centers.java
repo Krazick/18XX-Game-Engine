@@ -840,6 +840,7 @@ public class Centers implements Cloneable {
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 								MapCell aMapCell, Tile aTile, ReplaceTokenAction aReplaceTokenAction) {
 		int tTokenCompanyID;
+		int tNewTokenCompanyID;
 		int tRevenueCenterCount;
 		int tRevenueCenterIndex;
 		boolean tReplaceToken;
@@ -847,6 +848,7 @@ public class Centers implements Cloneable {
 		City tCity;
 		
 		tTokenCompanyID = aFoldingCompany.getID ();
+		tNewTokenCompanyID = aNewMapToken.getCorporationID ();
 		tRevenueCenterCount = centers.size ();
 		tReplaceToken = true;
 		if (aMapCellInfo.length > 4) {
@@ -864,9 +866,13 @@ public class Centers implements Cloneable {
 					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, 
 										tRevenueCenterIndex, tCity);
 					if (tReplaceToken) {
-						aNewMapToken.setConnectedSides (aMapCell, tCity.getLocation ());
-						layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,
-									tRevenueCenterIndex, tCity);
+						if (! this.hasStation (tNewTokenCompanyID)) {
+							aNewMapToken.setConnectedSides (aMapCell, tCity.getLocation ());
+							layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,
+										tRevenueCenterIndex, tCity);
+						} else {
+							System.out.println ("Company ID " + tNewTokenCompanyID + " Already has a token on the Tile");
+						}
 					}
 				}
 			}
