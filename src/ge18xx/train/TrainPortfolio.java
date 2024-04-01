@@ -551,17 +551,17 @@ public class TrainPortfolio implements TrainHolderI {
 		return tBorrowedTrain;
 	}
 	
-	public String getTrainAndQty (String aName, int aQty) {
-		String tNameAndQty;
+	public String getTrainAndCount (String aName, int aCount) {
+		String tNameAndCount;
 
-		tNameAndQty = aName;
-		if (aQty == TrainInfo.UNLIMITED_TRAINS) {
-			tNameAndQty += " (" + TrainInfo.UNLIMITED + ")";
+		tNameAndCount = aName;
+		if (aCount == TrainInfo.UNLIMITED_TRAINS) {
+			tNameAndCount += " (" + TrainInfo.UNLIMITED + ")";
 		} else {
-			tNameAndQty += " (" + aQty + ")";
+			tNameAndCount += " (" + aCount + ")";
 		}
 
-		return tNameAndQty;
+		return tNameAndCount;
 	}
 
 	public void printNameAndQty (String aPortfolioHolderName) {
@@ -639,7 +639,7 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 			for (tIndex2 = 0; tIndex2 < tCount2; tIndex2++) {
-				tNameAndQuantity += getTrainAndQty (tNames [tIndex2], tQuantities [tIndex2]);
+				tNameAndQuantity += getTrainAndCount (tNames [tIndex2], tQuantities [tIndex2]);
 				if ((tIndex2 + 1) < tCount2) {
 					tNameAndQuantity += ", ";
 				}

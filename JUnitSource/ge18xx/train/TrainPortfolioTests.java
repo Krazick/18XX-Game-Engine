@@ -47,7 +47,7 @@ class TrainPortfolioTests {
 	}
 
 	@Test
-	@DisplayName ("Initial Setup for TrainCompany with TrainPortfolio")
+	@DisplayName ("Portfolio Count tests")
 	void trainPortfolioTrainCountTests () {
 		assertEquals (2, trainPortfolio.getTrainCount ());
 		assertEquals (0, emptyTrainPortfolio.getTrainCount ());
@@ -70,6 +70,26 @@ class TrainPortfolioTests {
 		assertEquals (1, trainPortfolio.getTrainCount ("4"));
 		assertEquals (0, trainPortfolio.getTrainCount ("Diesel"));
 		assertEquals (0, emptyTrainPortfolio.getTrainCount ("4"));
+	}
+	
+	@Test
+	@DisplayName ("Train Portfolio support method tests")
+	void trainPortfolioSupportMethodTests () {
+		String tResult;
+		String tTrainName;
+		int tTrainCount;
+		
+		tTrainName = train1.getName ();
+		tTrainCount = trainPortfolio.getTrainCount ();
+		
+		tResult = trainPortfolio.getTrainAndCount (tTrainName, tTrainCount);
+		assertEquals ("4 (2)", tResult);
+		
+		tTrainName = "Diesel";
+		tTrainCount = TrainInfo.UNLIMITED_TRAINS;
+		tResult = trainPortfolio.getTrainAndCount (tTrainName, tTrainCount);
+		assertEquals ("Diesel (unlimited)", tResult);
+	
 	}
 
 	@Test
