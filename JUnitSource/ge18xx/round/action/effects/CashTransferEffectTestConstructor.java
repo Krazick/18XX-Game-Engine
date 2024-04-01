@@ -164,6 +164,6 @@ class CashTransferEffectTestConstructor {
 		tEffectGamma = new CashTransferEffect (tEffectXMLNode, gameManager);
 		tEffectReport = tEffectGamma.getEffectReport (mRoundManager);
 		assertEquals ("--Effect: Cash Transfer of 250 from Bank to ToEffectTesterGamma.", tEffectReport);
-		System.out.println (tEffectReport);
+//		System.out.println (tEffectReport);
 	}
 }

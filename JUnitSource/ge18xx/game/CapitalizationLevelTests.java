@@ -1,6 +1,5 @@
 package ge18xx.game;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -78,54 +77,39 @@ class CapitalizationLevelTests {
 		String tNextTrainName;
 		int tCapLevel;
 		
-		System.out.println ("\nTests for 1830 Capitalization Levels\n");
 		tSharesSold = 2;
 		tNextTrainName = "2";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 
 		tSharesSold = 4;
 		tNextTrainName = "2";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "3";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "4";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "5";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "6";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 
 		tSharesSold = 8;
 		tNextTrainName = "Diesel";
 		tCapLevel = capitalization1830.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 	}
 	
@@ -137,68 +121,49 @@ class CapitalizationLevelTests {
 		String tNextTrainName;
 		int tCapLevel;
 		
-		System.out.println ("\nTests for 1856 Capitalization Levels\n");
 		tSharesSold = 2;
 		tNextTrainName = "2";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (2, tCapLevel);
 
 		tSharesSold = 4;
 		tNextTrainName = "2";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (4, tCapLevel);
 
 		tSharesSold = 6;
 		tNextTrainName = "2";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (5, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "3";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (4, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "4";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (4, tCapLevel);
 		
 		tSharesSold = 4;
 		tNextTrainName = "5";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (4, tCapLevel);
 		
 		tSharesSold = 6;
 		tNextTrainName = "5";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (6, tCapLevel);
 	
 		tSharesSold = 4;
 		tNextTrainName = "6";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 
 		tSharesSold = 8;
 		tNextTrainName = "Diesel";
 		tCapLevel = capitalization1856.getCapitalizationLevel (tSharesSold, tNextTrainName);
-		System.out.println ("Cap Level for Shares Sold " + tSharesSold + " Next Train " + tNextTrainName +
-				" Capital Recieved $ " + (tCapLevel * 100));
 		assertEquals (10, tCapLevel);
 	}
 

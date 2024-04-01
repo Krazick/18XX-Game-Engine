@@ -61,15 +61,10 @@ class GameSupportHandlerTests {
 		String tBadResponse = "<GSResponse><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tFoundGameID;
 
-		System.out.println ("Start Retrieving Good Game ID");
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tGoodResponse);
-		System.out.println ("Found First ID " + tFoundGameID);
 		assertEquals ("2021-07-31-2005", tFoundGameID);
 		
-		System.out.println ("Start Retrieving Bad Game ID");
-		
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tBadResponse);
-		System.out.println ("Found NO Bad ID " + tFoundGameID);
 		assertEquals ("NOID", tFoundGameID);
 	}
 

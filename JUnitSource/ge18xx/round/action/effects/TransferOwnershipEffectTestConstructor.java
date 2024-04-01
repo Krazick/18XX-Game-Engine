@@ -234,8 +234,6 @@ class TransferOwnershipEffectTestConstructor {
 		
 		tActionReport = aTransferOwnershipAction.getActionReport (roundManager);
 		tEffectReport = tTransferOwnershipEffect.getEffectReport (roundManager);
-		
-		aTransferOwnershipAction.printActionReport (roundManager);
 	
 		assertEquals (aExpectedActionReport, tActionReport);
 		assertEquals (aExpectedEffectReport, tEffectReport);
@@ -253,11 +251,8 @@ class TransferOwnershipEffectTestConstructor {
 		
 		tActionReport = aTransferOwnershipAction.getActionReport (roundManager);
 		tEffectReport = tTransferOwnershipEffect.getEffectReport (roundManager);
-		
-		aTransferOwnershipAction.printActionReport (roundManager);
 	
 		assertEquals (aExpectedActionReport, tActionReport);
 		assertEquals (aExpectedEffectReport, tEffectReport);
 	}
-
 }

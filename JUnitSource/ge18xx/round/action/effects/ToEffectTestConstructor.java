@@ -81,7 +81,5 @@ class ToEffectTestConstructor {
 	@DisplayName ("ToEffect Tests for toActor")
 	void toActorTests () {
 		assertEquals (effectBeta.getToActor (), actorGamma);
-
 	}
-
 }

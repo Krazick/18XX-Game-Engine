@@ -38,8 +38,8 @@ class TokenInfoTests {
 		TokenInfo.TokenType tTokenInfo;
 		
 		tTokenInfo  = mapToken.getTokenType ();
-		System.out.println ("Map Token Info: " + mapToken.getCorporationAbbrev () +
-				" Type: " + tTokenInfo.toString ());
+		assertEquals ("MC1", mapToken.getCorporationAbbrev ());
+		assertEquals ("Map", tTokenInfo.toString ());
 	}
 	
 	@Nested
