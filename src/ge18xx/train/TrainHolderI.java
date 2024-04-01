@@ -34,7 +34,7 @@ public interface TrainHolderI extends ActorI {
 	public TrainPortfolio getTrainPortfolio ();
 
 	/* Get the count of the number of Trains with this Name */
-	public int getTrainQuantity (String aName);
+	public int getTrainCount (String aName);
 
 	/* Test if a Train Object with the name is held by this Entity */
 	public boolean hasTrainNamed (String aName);

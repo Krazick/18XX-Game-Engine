@@ -1,6 +1,7 @@
 package ge18xx.train;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -65,6 +66,10 @@ class TrainPortfolioTests {
 		assertEquals (0, trainPortfolio.countTrainsOfThisOrder (2));
 		assertEquals (1, trainPortfolio.countTrainsOfThisOrder (3));
 		assertEquals (0, emptyTrainPortfolio.countTrainsOfThisOrder (2));
+		
+		assertEquals (1, trainPortfolio.getTrainCount ("4"));
+		assertEquals (0, trainPortfolio.getTrainCount ("Diesel"));
+		assertEquals (0, emptyTrainPortfolio.getTrainCount ("4"));
 	}
 
 	@Test
@@ -149,10 +154,25 @@ class TrainPortfolioTests {
 		
 		assertEquals (train2, trainPortfolio.getTrain ("5"));
 		assertEquals (train1, trainPortfolio.getTrain ("4"));
-		assertEquals (Train.NO_TRAIN, trainPortfolio.getTrain ("Diesel"));
+		assertNull (trainPortfolio.getTrain ("Diesel"));
 		tDieselTrain = trainTestFactory.buildTrain (4);
 		trainPortfolio.addTrain (tDieselTrain);
 		assertEquals (tDieselTrain, trainPortfolio.getTrain ("Diesel"));
+		assertNull (emptyTrainPortfolio.getTrain ("4"));
+	}
+
+	@Test
+	@DisplayName ("Get Train of Order Tests")
+	void trainPortfolioGetTrainOfOrder () {
+		Train tDieselTrain;
+		
+		assertEquals (train2, trainPortfolio.getTrainOfOrder (4));
+		assertEquals (train1, trainPortfolio.getTrainOfOrder (3));
+		assertNull (trainPortfolio.getTrainOfOrder (6));
+		tDieselTrain = trainTestFactory.buildTrain (4);
+		trainPortfolio.addTrain (tDieselTrain);
+		assertEquals (tDieselTrain, trainPortfolio.getTrainOfOrder (6));
+		assertNull (emptyTrainPortfolio.getTrainOfOrder (4));
 	}
 
 }

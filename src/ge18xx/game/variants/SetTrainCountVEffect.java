@@ -98,7 +98,7 @@ public class SetTrainCountVEffect extends VariantEffect {
 		if (quantity == TrainInfo.UNLIMITED_TRAINS) {
 			tTrain.setUnlimitedQuantity ();
 		} else {
-			tFoundQuantity = tBank.getTrainQuantity (trainName);
+			tFoundQuantity = tBank.getTrainCount (trainName);
 			// TODO If Found Quantity is Zero, must create a NEW Train using the info in the child of this Effect
 			if (quantity > tFoundQuantity) {
 				tAddThisMany = quantity - tFoundQuantity;

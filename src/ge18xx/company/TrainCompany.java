@@ -1637,8 +1637,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public int getTrainQuantity (String aName) {
-		return trainPortfolio.getTrainQuantity (aName);
+	public int getTrainCount (String aName) {
+		return trainPortfolio.getTrainCount (aName);
 	}
 
 	public int getValue () {

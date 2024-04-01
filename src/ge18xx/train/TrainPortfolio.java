@@ -142,7 +142,7 @@ public class TrainPortfolio implements TrainHolderI {
 				for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 					tTrain = getTrainAt (tTrainIndex);
 					tTrainName = tTrain.getName ();
-					tTrainQuantity = getTrainQuantity (tTrainName);
+					tTrainQuantity = getTrainCount (tTrainName);
 					tCanBeUpgraded = tTrain.canUpgrade (tBankAvailableTrains);
 					tActionToolTip = GUI.NO_TOOL_TIP;
 					if (tTrainCompany.isOperating () && tCanBeUpgraded) {
@@ -655,24 +655,19 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	@Override
-	public int getTrainQuantity (String aName) {
-		int tTrainQuantity;
-		int tCount;
-		int tIndex;
+	public int getTrainCount (String aName) {
+		int tTrainCount;
 		String tTrainName;
 
-		tTrainQuantity = 0;
-		tCount = getTrainCount ();
-		if (tCount > 0) {
-			for (tIndex = 0; tIndex < tCount; tIndex++) {
-				tTrainName = trains.get (tIndex).getName ();
-				if (tTrainName.equals (aName)) {
-					tTrainQuantity++;
-				}
+		tTrainCount = 0;
+		for (Train tTrain : trains) {
+			tTrainName = tTrain.getName ();
+			if (tTrainName.equals (aName)) {
+				tTrainCount++;
 			}
 		}
 
-		return tTrainQuantity;
+		return tTrainCount;
 	}
 
 	public int getTrainStatusForOrder (int aOrder) {

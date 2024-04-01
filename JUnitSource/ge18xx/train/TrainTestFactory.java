@@ -67,8 +67,8 @@ public class TrainTestFactory {
 		String tTrainInfo2XML = "<Train name=\"5\" order=\"4\" revenueCenters=\"5\" quantity=\"3\" price=\"550\"\n"
 				+ "				onLast=\"5\" triggerPhase=\"4.1\" tileInfo=\"Brown\" isPermanent=\"true\" />";
 		String tTrainInfo3XML = "<Train name=\"5A\" order=\"5\" revenueCenters=\"5\" quantity=\"3\" price=\"500\"\n"
-				+ "				onLast=\"5\" triggerPhase=\"4.2\" tileInfo=\"Brown\" isPermanent=\"true\" />";
-		String tTrainInfo4XML = "<Train name=\"Diesel\" order=\"5\" revenueCenters=\"999\" quantity=\"6\" price=\"1000\"\n"
+				+ "				onLast=\"6\" triggerPhase=\"4.2\" tileInfo=\"Brown\" isPermanent=\"true\" />";
+		String tTrainInfo4XML = "<Train name=\"Diesel\" order=\"6\" revenueCenters=\"999\" quantity=\"6\" price=\"1000\"\n"
 				+ "				triggerPhase=\"6.1\" tileInfo=\"Brown\" isPermanent=\"true\" />";
 		
 		if (aInfoIndex == 1) {

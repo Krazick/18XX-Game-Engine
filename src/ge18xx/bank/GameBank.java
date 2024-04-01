@@ -280,8 +280,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public int getTrainQuantity (String aName) {
-		return trainPortfolio.getTrainQuantity (aName);
+	public int getTrainCount (String aName) {
+		return trainPortfolio.getTrainCount (aName);
 	}
 
 	public String getTrainSummary () {

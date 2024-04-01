@@ -344,10 +344,10 @@ class GameBankTests {
 		void getTrainQuantityTest () {
 			int tTrainQuantity;
 
-			Mockito.when (mTrainPortfolio.getTrainQuantity ("3")).thenReturn (5);
-			tTrainQuantity = gameBank.getTrainQuantity ("3");
+			Mockito.when (mTrainPortfolio.getTrainCount ("3")).thenReturn (5);
+			tTrainQuantity = gameBank.getTrainCount ("3");
 			assertEquals (5, tTrainQuantity);
-			Mockito.verify (mTrainPortfolio, times (1)).getTrainQuantity ("3");
+			Mockito.verify (mTrainPortfolio, times (1)).getTrainCount ("3");
 		}
 
 		@DisplayName ("getTrainNameAndQty Test")
