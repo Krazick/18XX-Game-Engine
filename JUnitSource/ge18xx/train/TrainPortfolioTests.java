@@ -17,6 +17,7 @@ import ge18xx.player.CashHolderI;
 class TrainPortfolioTests {
 	TrainPortfolio trainPortfolio;
 	TrainPortfolio emptyTrainPortfolio;
+	TrainPortfolio noTrainsPortfolio;
 	TrainCompany trainCompany1;
 	TrainCompany trainCompany2;
 	CompanyTestFactory companyTestFactory;
@@ -40,12 +41,25 @@ class TrainPortfolioTests {
 		trainCompany2 = (TrainCompany) tTokenCompany2;
 		emptyTrainPortfolio = trainTestFactory.buildTrainPortfolio (trainCompany2);
 		
+		noTrainsPortfolio = new TrainPortfolio ();
+		noTrainsPortfolio.setTrains (TrainPortfolio.NO_TRAINS);
+		
 		train1 = trainTestFactory.buildTrain (1);
 		trainPortfolio.addTrain (train1);
 		train2 = trainTestFactory.buildTrain (2);
 		trainPortfolio.addTrain (train2); 
+		
 	}
-
+	
+	@Test
+	@DisplayName ("No Trains Portfolio Count tests")
+	void noTrainPortfolioTrainCountTests () {
+		assertTrue (noTrainsPortfolio.isEmpty ());
+		assertTrue (noTrainsPortfolio.hasNoTrain ());
+		assertFalse (noTrainsPortfolio.hasTrains ());
+		assertEquals (0, noTrainsPortfolio.getTrainCount ());
+	}
+	
 	@Test
 	@DisplayName ("Portfolio Count tests")
 	void trainPortfolioTrainCountTests () {
@@ -54,6 +68,9 @@ class TrainPortfolioTests {
 		
 		assertTrue (emptyTrainPortfolio.hasNoTrain ());
 		assertFalse (trainPortfolio.hasNoTrain ());
+		
+		assertTrue (emptyTrainPortfolio.isEmpty ());
+		assertFalse (trainPortfolio.isEmpty ());
 		
 		assertTrue (trainPortfolio.hasTrains ());
 		assertFalse (emptyTrainPortfolio.hasTrains ());
@@ -100,6 +117,10 @@ class TrainPortfolioTests {
 		
 		assertEquals ("TTBNO", emptyTrainPortfolio.getPortfolioHolderAbbrev ());
 		assertEquals ("Test Token Baltimore and Ohio", emptyTrainPortfolio.getPortfolioHolderName ());
+		
+		assertEquals ("NONE", noTrainsPortfolio.getPortfolioHolderAbbrev ());
+		assertEquals ("NONE", noTrainsPortfolio.getPortfolioHolderName ());
+		
 	}
 	
 	@Test

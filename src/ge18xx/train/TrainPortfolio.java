@@ -39,6 +39,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public static final ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
 	public static final String ALL_TRAINS = "ALL";
+	public static final String NO_NAME = "NONE";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
 	public static final String FUTURE_TRAINS = "FUTURE";
 	public static final String RUSTED_TRAINS = "RUSTED";
@@ -56,10 +57,17 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public TrainPortfolio (CashHolderI aPortfolioHolder) {
-		trains = new ArrayList<Train> ();
+		ArrayList<Train> tTrains;
+		
+		tTrains = new ArrayList<Train> ();
+		setTrains (tTrains);
 		setPortfolioHolder (aPortfolioHolder);
 	}
 
+	public void setTrains (ArrayList<Train> aTrains) {
+		trains = aTrains;
+	}
+	
 	public void setPortfolioHolder (CashHolderI aPortfolioHolder) {
 		portfolioHolder = aPortfolioHolder;
 	}
@@ -67,7 +75,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public String getPortfolioHolderAbbrev () {
 		String tHolderName;
 
-		tHolderName = "NONE";
+		tHolderName = NO_NAME;
 		if (portfolioHolder != CashHolderI.NO_CASH_HOLDER) {
 			tHolderName = portfolioHolder.getAbbrev ();
 		}
@@ -78,7 +86,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public String getPortfolioHolderName () {
 		String tHolderName;
 
-		tHolderName = "NONE";
+		tHolderName = NO_NAME;
 		if (portfolioHolder != CashHolderI.NO_CASH_HOLDER) {
 			tHolderName = portfolioHolder.getName ();
 		}
@@ -129,7 +137,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.X_AXIS));
 		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
-		if (trains.isEmpty ()) {
+		if (isEmpty ()) {
 			tLabel = new JLabel (NO_TRAINS_TEXT);
 			tPortfolioJPanel.add (tLabel);
 			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
@@ -153,13 +161,6 @@ public class TrainPortfolio implements TrainHolderI {
 						} else {
 							tActionEnabled = false;
 							tActionToolTip = tTrainCompany.getReasonWhyCantBuyTrain ();
-//							if (tTrainCompany.atTrainLimit ()) {
-//								tActionToolTip = tCompanyAbbrev + " is at the Train Limit";
-//							} else if (tTrainCompany.getCash () == TrainCompany.NO_CASH) {
-//								tActionToolTip = tCompanyAbbrev + " has no cash";
-//							} else {
-//								tActionToolTip = tCompanyAbbrev + " has not handled dividends yet";
-//							}
 						}
 					} else {
 						tActionLabel = GUI.EMPTY_STRING;
@@ -223,18 +224,55 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public int getTrainCount () {
-		return trains.size ();
-	}
-
-	public boolean hasNoTrain () {
-		boolean tHasTrains;
+		int tTrainCount;
 		
-		tHasTrains = false;
-		if (trains != NO_TRAINS) {
-			tHasTrains = (getTrainCount () == 0);
+		if (trains == NO_TRAINS) {
+			tTrainCount = 0;
+		} else {
+			tTrainCount = trains.size ();
 		}
 		
-		return tHasTrains;
+		return tTrainCount;
+	}
+
+	@Override
+	public int getTrainCount (String aName) {
+		int tTrainCount;
+		String tTrainName;
+
+		tTrainCount = 0;
+		for (Train tTrain : trains) {
+			tTrainName = tTrain.getName ();
+			if (tTrainName.equals (aName)) {
+				tTrainCount++;
+			}
+		}
+
+		return tTrainCount;
+	}
+
+	public boolean isEmpty () {
+		boolean tIsEmpty;
+		
+		if (trains == NO_TRAINS) {
+			tIsEmpty = true;
+		} else {
+			tIsEmpty = (getTrainCount () == 0);
+		}
+		
+		return tIsEmpty;
+	}
+	
+	public boolean hasNoTrain () {
+		boolean tHasNoTrains;
+		
+		if (trains == NO_TRAINS) {
+			tHasNoTrains = true;
+		} else {
+			tHasNoTrains = (getTrainCount () == 0);
+		}
+		
+		return tHasNoTrains;
 	}
 
 	public boolean hasBorrowedTrain () {
@@ -255,10 +293,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public boolean hasTrains () {
 		boolean tHasTrains;
 		
-		tHasTrains = false;
-		if (trains != NO_TRAINS) {
-			tHasTrains = (getTrainCount () > 0);
-		}
+		tHasTrains = (getTrainCount () > 0);
 		
 		return tHasTrains;
 	}
@@ -299,7 +334,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCountOfTrains;
 
 		tCountOfTrains = 0;
-		if (trains != NO_TRAINS) {
+		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				if (tTrain.isTrainThisOrder (aOrder)) {
 					tCountOfTrains++;
@@ -314,7 +349,7 @@ public class TrainPortfolio implements TrainHolderI {
 		boolean tAnyTrainIsOperating;
 
 		tAnyTrainIsOperating = false;
-		if (trains != NO_TRAINS) {
+		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				if (tTrain.isOperating ()) {
 					tAnyTrainIsOperating = true;
@@ -334,7 +369,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainLimit = getTrainLimit ();
 		tTrainList = "NO TRAINS";
 		tTrainIndex = 0;
-		if (trains.size () > 0) {
+		if (hasTrains ()) {
 			tTrainList = "Trains (";
 			for (Train tTrain : trains) {
 				tTrainList += tTrain.getName ();
@@ -434,7 +469,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCount;
 
 		tCount = 0;
-		if (trains != NO_TRAINS) {
+		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				if (tTrain.isSelected ()) {
 					tCount++;
@@ -466,7 +501,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 		tTrainOfOrder = Train.NO_TRAIN;
 
-		if (!trains.isEmpty ()) {
+		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				if (tTrain.getOrder () == aOrder) {
 					tTrainOfOrder = tTrain;
@@ -479,23 +514,20 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public Train getTrain (String aName) {
-		Train tTrain;
-		int tIndex;
-		int tCount;
+		Train tFoundTrain;
 		String tTrainName;
 
-		tTrain = Train.NO_TRAIN;
-		tCount = getTrainCount ();
-		if (tCount > 0) {
-			for (tIndex = 0; (tIndex < tCount) && (tTrain == Train.NO_TRAIN); tIndex++) {
-				tTrainName = trains.get (tIndex).getName ();
+		tFoundTrain = Train.NO_TRAIN;
+		if (hasTrains ()) {
+			for (Train tTrain : trains) {
+				tTrainName = tTrain.getName ();
 				if (tTrainName.equals (aName)) {
-					tTrain = trains.get (tIndex);
+					tFoundTrain = tTrain;
 				}
 			}
 		}
 
-		return tTrain;
+		return tFoundTrain;
 	}
 
 	/**
@@ -652,22 +684,6 @@ public class TrainPortfolio implements TrainHolderI {
 	@Override
 	public TrainPortfolio getTrainPortfolio () {
 		return this;
-	}
-
-	@Override
-	public int getTrainCount (String aName) {
-		int tTrainCount;
-		String tTrainName;
-
-		tTrainCount = 0;
-		for (Train tTrain : trains) {
-			tTrainName = tTrain.getName ();
-			if (tTrainName.equals (aName)) {
-				tTrainCount++;
-			}
-		}
-
-		return tTrainCount;
 	}
 
 	public int getTrainStatusForOrder (int aOrder) {
