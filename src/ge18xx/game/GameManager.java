@@ -1328,6 +1328,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void initiateGame (GameInfo aGameInfo) {
+		setGameID (aGameInfo.getGameID ());
 		setGameInfo (aGameInfo);
 		initiateGame ();
 		activateCommunications ();

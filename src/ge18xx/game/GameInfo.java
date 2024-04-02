@@ -1,6 +1,8 @@
 package ge18xx.game;
 
 import java.lang.reflect.Constructor;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -348,6 +350,16 @@ public class GameInfo {
 	
 	public void setVariants (Variant [] aVariants) {
 		variants = aVariants;
+	}
+
+	public String generateNewGameID () {
+		String tNewGameID;
+		
+		LocalDateTime datetime = LocalDateTime.now ();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd-HHmm");
+		tNewGameID = datetime.format (formatter);
+
+		return tNewGameID;
 	}
 
 	public void loadVariantEffects (XMLNode aGameInfoNode) {

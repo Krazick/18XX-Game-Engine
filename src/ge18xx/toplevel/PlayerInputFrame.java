@@ -177,7 +177,11 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void handleHotseatGameStart (GameInfo aGameInfo) {
+		String tGameID;
+		
 		setVisible (false);
+		tGameID = aGameInfo.generateNewGameID ();
+		aGameInfo.setGameID (tGameID);
 		initiateGame (aGameInfo);
 		logger.info ("Start new Game [" + aGameInfo.getGameName () + "] with Players [" + getPlayersInOrder () + "]");
 	}
