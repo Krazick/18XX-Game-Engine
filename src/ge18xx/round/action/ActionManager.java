@@ -18,6 +18,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -59,7 +60,7 @@ public class ActionManager {
 	public void setActionNumber (int aNumber) {
 		String tReportActionNumber;
 
-		tReportActionNumber = "\nChange Action Number from " + actionNumber + " to " + aNumber + "\n";
+		tReportActionNumber = "\nChange Action Number from " + actionNumber + " to " + aNumber + GUI.NEWLINE;
 
 		actionNumber = aNumber;
 		appendReport (tReportActionNumber);
@@ -110,7 +111,7 @@ public class ActionManager {
 				appendErrorReport (tActionNumberString);
 			}
 		} else {
-			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
+			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + GUI.NEWLINE;
 			actionNumber++;
 		}
 
@@ -170,7 +171,7 @@ public class ActionManager {
 	private void appendActionReport (Action aAction) {
 		String tActionReport;
 
-		tActionReport = "\n" + aAction.getActionReport (roundManager);
+		tActionReport = GUI.NEWLINE + aAction.getActionReport (roundManager);
 		appendReport (tActionReport);
 	}
 
@@ -211,7 +212,7 @@ public class ActionManager {
 		tAppendAction = false;
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
-			tXMLFormat = tXMLFormat.replaceAll ("\n", "");
+			tXMLFormat = tXMLFormat.replaceAll (GUI.NEWLINE, "");
 			sendGameActivity (tXMLFormat, false);
 			tAppendAction = true;
 		}
@@ -469,7 +470,7 @@ public class ActionManager {
 		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
 
-		tXMLFormat = aXMLFormat.replaceAll ("\n", "");
+		tXMLFormat = aXMLFormat.replaceAll (GUI.NEWLINE, "");
 		tNetworkJGameClient = gameManager.getNetworkJGameClient ();
 		if (aWrap) {
 			tXMLFormat = tNetworkJGameClient.wrapWithGA (tXMLFormat);
@@ -494,7 +495,7 @@ public class ActionManager {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + "\n");
+		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + GUI.NEWLINE);
 //		tLastAction.printBriefActionReport ();			// DEBUGING CONSOLE OUTPUT
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {

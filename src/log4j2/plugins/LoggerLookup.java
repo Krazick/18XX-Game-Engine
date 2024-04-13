@@ -11,6 +11,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
 
 import ge18xx.game.Game_18XX;
+import geUtilities.GUI;
 
 @Plugin (name = "loggerlookup", category = StrLookup.CATEGORY)
 public class LoggerLookup implements StrLookup {
@@ -110,7 +111,7 @@ public class LoggerLookup implements StrLookup {
 	public void writeToSimpleLogger (String aLogData) {
 		if (logFileWriter != null) {
 		try {
-			logFileWriter.append (aLogData + "\n");
+			logFileWriter.append (aLogData + GUI.NEWLINE);
 			logFileWriter.flush ();
 		} catch (IOException eIOException) {
 			System.err.println ("Failed to append to logFileWriter");

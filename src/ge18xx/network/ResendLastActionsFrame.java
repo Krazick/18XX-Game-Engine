@@ -22,6 +22,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
+import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
 import swingDelays.KButton;
 
@@ -29,7 +30,6 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_RESEND = "Confirm Resend Actions";
 	private static final String CANCEL = "Cancel";
-	private static final String NEWLINE = "\n";
 	private ActionManager actionManager;
 	KButton confirmResendButton;
 	KButton cancelButton;
@@ -125,7 +125,7 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 				tActorName = tAction.getActorName ();
 				resendTheseActions.add (0, tAction);
 
-				tFullList = tAction.getBriefActionReport () + NEWLINE + tFullList;
+				tFullList = tAction.getBriefActionReport () + GUI.NEWLINE + tFullList;
 				tGetActionsToResend = tAction.getChainToPrevious ();	
 				tLastActionIndex--;
 			} else {

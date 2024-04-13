@@ -34,10 +34,9 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class TrainPortfolio implements TrainHolderI {
-	public static final String NEWLINE = "\n";
-	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
 	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public static final ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
+	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
 	public static final String ALL_TRAINS = "ALL";
 	public static final String NO_NAME = "NONE";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
@@ -521,8 +520,10 @@ public class TrainPortfolio implements TrainHolderI {
 		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				tTrainName = tTrain.getName ();
-				if (tTrainName.equals (aName)) {
-					tFoundTrain = tTrain;
+				if (tFoundTrain == Train.NO_TRAIN) {
+					if (tTrainName.equals (aName)) {
+						tFoundTrain = tTrain;
+					}
 				}
 			}
 		}
@@ -1095,7 +1096,7 @@ public class TrainPortfolio implements TrainHolderI {
 		} else {
 			tTrainCount = aCount + "";
 		}
-		tTrainInfo = aPreviousName + " Train QTY: " + tTrainCount + " " + aCost + tRustTileInfo + NEWLINE;
+		tTrainInfo = aPreviousName + " Train QTY: " + tTrainCount + " " + aCost + tRustTileInfo + GUI.NEWLINE;
 
 		return tTrainInfo;
 	}

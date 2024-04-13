@@ -10,6 +10,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 
 public class PayFullDividendAction extends ChangeMarketCellAction {
@@ -62,7 +63,7 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 				tCashTransferEffect = (CashTransferEffect) tEffect;
 				tCashAmount = tCashTransferEffect.getCash ();
 				tReceiverName = tCashTransferEffect.getToActor ().getAbbrev ();
-				tSimpleActionReport += "\n" + tReceiverName + " received " + Bank.formatCash (tCashAmount) + ".";
+				tSimpleActionReport += GUI.NEWLINE + tReceiverName + " received " + Bank.formatCash (tCashAmount) + ".";
 			}
 		}
 

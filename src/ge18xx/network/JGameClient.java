@@ -1148,7 +1148,7 @@ public class JGameClient extends XMLFrame {
 	public void appendToGameActivity (String aGameActivity) {
 		try {
 			Document doc = gameActivityTextPane.getDocument ();
-			doc.insertString (doc.getLength (), "\n" + aGameActivity, normal);
+			doc.insertString (doc.getLength (), GUI.NEWLINE + aGameActivity, normal);
 			scroll (gameActivityScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
@@ -1188,7 +1188,7 @@ public class JGameClient extends XMLFrame {
 	public void appendToChat (String aString, SimpleAttributeSet aStyle) {
 		try {
 			Document doc = chatText.getDocument ();
-			doc.insertString (doc.getLength (), "\n" + aString, aStyle);
+			doc.insertString (doc.getLength (), GUI.NEWLINE + aString, aStyle);
 			scroll (chatTextScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();

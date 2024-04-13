@@ -115,7 +115,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		setRevenueValues (aTrainCompany);
 		loanInfoPanel = new JPanel ();
 		buildRevenuesJPanel ();
-		buildsButtonsJPanel ();
+		buildButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
 		buildAllFramesJPanel (aTrainCompany);
 
@@ -233,7 +233,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		add (allFramesJPanel);
 	}
 
-	private void buildsButtonsJPanel () {
+	private void buildButtonsJPanel () {
 		FlowLayout tFlowLayout;
 
 		tFlowLayout = new FlowLayout ();
@@ -1312,8 +1312,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void updateConfirmRouteButtons () {
 		int tTrainIndex;
-
-		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+		int tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (confirmRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateConfirmRouteButton (tTrainIndex);
 			}
@@ -1322,8 +1324,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void updateSelectRouteButtons () {
 		int tTrainIndex;
-
-		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+		int tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (selectRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateSelectRouteButton (tTrainIndex);
 			}
@@ -1332,8 +1336,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void updateResetRouteButtons () {
 		int tTrainIndex;
-
-		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+		int tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (resetRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateResetRouteButton (tTrainIndex);
 			}
@@ -1342,8 +1348,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void updateReuseRouteButtons () {
 		int tTrainIndex;
-
-		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+		int tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (reuseRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateReuseRouteButton (tTrainIndex);
 			}

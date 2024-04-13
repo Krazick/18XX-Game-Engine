@@ -15,6 +15,8 @@ import java.net.UnknownHostException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import geUtilities.GUI;
+
 public abstract class ServerHandler implements Runnable {
 	public static final ServerHandler NO_SERVER_HANDLER = null;
 	private static final int DefaultTimeout = 12000;
@@ -234,7 +236,7 @@ public abstract class ServerHandler implements Runnable {
 
 	public void println (String tString) {
 		if (out != null) {
-			tString = tString.replaceAll ("\r", "").replaceAll ("\n", "");
+			tString = tString.replaceAll ("\r", "").replaceAll (GUI.NEWLINE, "");
 			out.println (tString);
 		}
 	}

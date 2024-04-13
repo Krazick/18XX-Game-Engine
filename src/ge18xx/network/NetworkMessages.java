@@ -2,6 +2,7 @@ package ge18xx.network;
 
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -112,7 +113,7 @@ public class NetworkMessages {
 		String tMessage;
 
 		tMessage = xmlDocument.toString ();
-		tMessage = tMessage.replace ("\n", "");
+		tMessage = tMessage.replace (GUI.NEWLINE, "");
 		tMessage = tMessage.replaceAll ("> *<", "><");
 
 		return tMessage;

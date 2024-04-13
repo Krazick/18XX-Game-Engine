@@ -18,6 +18,7 @@ import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.TriggerClassEffect;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -331,7 +332,7 @@ public class Action {
 
 		tActionReport = getBriefActionReport ();
 		for (Effect tEffect : effects) {
-			tActionReport += "\n" + tEffect.getEffectReport (aRoundManager);
+			tActionReport += GUI.NEWLINE + tEffect.getEffectReport (aRoundManager);
 		}
 
 		return tActionReport;
@@ -406,7 +407,7 @@ public class Action {
 			if (tEffectUndone) {
 				tEffectsUndoneCount++;
 			} else {
-				tErrorReport = "Failed trying to undo " + name + ". Effect: " + tEffect.getName () + "\n";
+				tErrorReport = "Failed trying to undo " + name + ". Effect: " + tEffect.getName () + GUI.NEWLINE;
 				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
 				aRoundManager.appendErrorReport (tUndoFailureReason);
