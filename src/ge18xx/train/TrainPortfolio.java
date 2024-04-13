@@ -188,7 +188,8 @@ public class TrainPortfolio implements TrainHolderI {
 					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (aItemListener, tActionLabel, tActionEnabled, tActionToolTip);
 
 					if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
-						tTrainIndex = updateForCompactPortfolio (tTrainInfoJPanel, tTrainQuantity, tTrainName, tTrainIndex);
+						updateForCompactPortfolio (tTrainInfoJPanel, tTrainQuantity, tTrainName);
+						tTrainIndex = updateTrainIndex (tTrainIndex, tTrainQuantity);
 					}
 	
 					tPortfolioJPanel.add (tTrainInfoJPanel);
@@ -201,7 +202,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tPortfolioJPanel;
 	}
 
-	private int updateForCompactPortfolio (JPanel aTrainCertJPanel, int aTrainQuantity, String aTrainName, int aTrainIndex) {
+	public void updateForCompactPortfolio (JPanel aTrainCertJPanel, int aTrainQuantity, String aTrainName) {
 		JLabel tLabel;
 		String tLabelText;
 		
@@ -210,13 +211,16 @@ public class TrainPortfolio implements TrainHolderI {
 		} else if (aTrainQuantity == 1) {
 			tLabelText = "LAST " + aTrainName + " Train";
 		} else {
-			tLabelText = "";
+			tLabelText = GUI.EMPTY_STRING;
 		}
 		tLabel = new JLabel (tLabelText);
 
 		if (aTrainQuantity > 0) {
 			aTrainCertJPanel.add (tLabel);
 		}
+	}
+	
+	public int updateTrainIndex (int aTrainIndex, int aTrainQuantity) {
 		aTrainIndex += aTrainQuantity - 1;
 		
 		return aTrainIndex;
@@ -313,17 +317,16 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public void clearCurrentRoutes () {
-		if (trains != NO_TRAINS) {
+		if (hasTrains ()) {
 			for (Train tTrain : trains) {
 				tTrain.clearCurrentRoute ();
 			}
 		}
-
 	}
 
 	public void clearSelections () {
-		if (trains != NO_TRAINS) {
-			for (Coupon tTrain : trains) {
+		if (hasTrains ()) {
+			for (Train tTrain : trains) {
 				tTrain.clearSelection ();
 			}
 		}

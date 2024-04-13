@@ -3,6 +3,13 @@ package ge18xx.train;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,22 +20,28 @@ import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.CashHolderI;
+import geUtilities.GUI;
 
 class TrainPortfolioTests {
 	TrainPortfolio trainPortfolio;
 	TrainPortfolio emptyTrainPortfolio;
 	TrainPortfolio noTrainsPortfolio;
+	TrainPortfolio trainPortfolioWithMockedTrains;
 	TrainCompany trainCompany1;
 	TrainCompany trainCompany2;
+	TrainCompany trainCompany3;
 	CompanyTestFactory companyTestFactory;
 	TrainTestFactory trainTestFactory;
 	Train train1;
 	Train train2;
+	Train mTrain1;
+	Train mTrain2;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		TokenCompany tTokenCompany1;
 		TokenCompany tTokenCompany2;
+		TokenCompany tTokenCompany3;
 		
 		companyTestFactory = new CompanyTestFactory ();
 		trainTestFactory = new TrainTestFactory ();
@@ -49,6 +62,13 @@ class TrainPortfolioTests {
 		train2 = trainTestFactory.buildTrain (2);
 		trainPortfolio.addTrain (train2); 
 		
+		tTokenCompany3 = companyTestFactory.buildATokenCompany (2);
+		trainPortfolioWithMockedTrains  = trainTestFactory.buildTrainPortfolio (tTokenCompany3);
+		trainCompany3 = (TrainCompany) tTokenCompany3;
+		mTrain1 = trainTestFactory.buildTrainMock ();
+		trainPortfolioWithMockedTrains.addTrain (mTrain1);
+		mTrain2 = trainTestFactory.buildTrainMock ();
+		trainPortfolioWithMockedTrains.addTrain (mTrain2);
 	}
 	
 	@Test
@@ -215,5 +235,118 @@ class TrainPortfolioTests {
 		assertEquals (tDieselTrain, trainPortfolio.getTrainOfOrder (6));
 		assertNull (emptyTrainPortfolio.getTrainOfOrder (4));
 	}
+	
+	@Test
+	@DisplayName ("Clear Current Route count Tests")
+	void clearCurrentRouteTests () {
+		verify (mTrain1, times (0)).clearCurrentRoute ();
+		verify (mTrain2, times (0)).clearCurrentRoute ();
+		
+		trainPortfolioWithMockedTrains.clearCurrentRoutes ();
+		verify (mTrain1, times (1)).clearCurrentRoute ();
+		verify (mTrain2, times (1)).clearCurrentRoute ();
+		trainPortfolioWithMockedTrains.clearCurrentRoutes ();
+		verify (mTrain1, times (2)).clearCurrentRoute ();
+		verify (mTrain2, times (2)).clearCurrentRoute ();
+	}
+	
+	@Test
+	@DisplayName ("Clear Selections count Tests")
+	void clearSelectionsTests () {
+		verify (mTrain1, times (0)).clearSelection ();
+		verify (mTrain2, times (0)).clearSelection ();
+		
+		trainPortfolioWithMockedTrains.clearSelections ();
+		verify (mTrain1, times (1)).clearSelection ();
+		verify (mTrain2, times (1)).clearSelection ();
+	}
+	
+	@Test
+	@DisplayName ("Update Compact Portfolio Test 1")
+	void updateCompactPortfolioTests () {
+		JPanel tTrainCertJPanel;
+		JComponent tPanelComponent;
+		JLabel tLabel;
+		int tTrainQuantity;
+		int tTrainIndex;
+		int tNewTrainIndex;
+		String tTrainName;
+		String tLabelText;
+		Train tTrain;
+		
+		tTrainCertJPanel = new JPanel ();
+		tTrainIndex = 1;
+		tTrainQuantity = trainPortfolio.getTrainCount ();
+		tTrain = trainPortfolio.getTrain ("4");
+		tTrainName = tTrain.getName ();
+		
+		trainPortfolio.updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName);
+		
+		quantityLabelTest (tTrainCertJPanel, 0, "Quantity: 2");
+		
+		trainPortfolio.addTrain (tTrain);
+		tTrainQuantity = trainPortfolio.getTrainCount ();
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tTrainIndex, tTrainQuantity);
+		assertEquals (3, tNewTrainIndex);
+		
+		trainPortfolio.updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName);
+		quantityLabelTest (tTrainCertJPanel, 1, "Quantity: 3");
 
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tNewTrainIndex, tTrainQuantity);
+		
+		assertEquals (5, tNewTrainIndex);
+		
+		trainPortfolio.removeTrain ("5");
+		tTrainQuantity = trainPortfolio.getTrainCount ();
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tTrainIndex, tTrainQuantity);
+		assertEquals (2, tNewTrainIndex);
+		
+		trainPortfolio.updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName);
+		quantityLabelTest (tTrainCertJPanel, 2, "Quantity: 2");
+
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tNewTrainIndex, tTrainQuantity);
+		
+		assertEquals (3, tNewTrainIndex);
+
+		trainPortfolio.removeTrain ("4");
+		tTrainQuantity = trainPortfolio.getTrainCount ();
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tTrainIndex, tTrainQuantity);
+		assertEquals (1, tNewTrainIndex);
+		
+		trainPortfolio.updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName);
+		quantityLabelTest (tTrainCertJPanel, 3, "LAST 4 Train");
+
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tNewTrainIndex, tTrainQuantity);
+		
+		assertEquals (1, tNewTrainIndex);
+
+		trainPortfolio.removeTrain ("4");
+		tTrainQuantity = trainPortfolio.getTrainCount ();
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tTrainIndex, tTrainQuantity);
+		assertEquals (0, tNewTrainIndex);
+		
+		trainPortfolio.updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName);
+		quantityLabelTest (tTrainCertJPanel, 4, GUI.EMPTY_STRING);
+
+		tNewTrainIndex = trainPortfolio.updateTrainIndex (tNewTrainIndex, tTrainQuantity);
+		
+		assertEquals (-1, tNewTrainIndex);
+	}
+
+	private void quantityLabelTest (JPanel aTrainCertJPanel, int aCompoentIndex, String aExpectedText) {
+		JComponent tPanelComponent;
+		JLabel tLabel;
+		String tLabelText;
+		
+		tLabelText = GUI.EMPTY_STRING;
+		try {
+			tPanelComponent = (JComponent) aTrainCertJPanel.getComponent (aCompoentIndex);
+			if (tPanelComponent instanceof JLabel) {
+				tLabel = (JLabel) tPanelComponent;
+				tLabelText = tLabel.getText ();
+			}
+		} catch (ArrayIndexOutOfBoundsException eOutOfBounds) {
+		}
+		assertEquals (aExpectedText, tLabelText);
+	}
 }
