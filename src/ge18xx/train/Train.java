@@ -148,6 +148,13 @@ public class Train extends Coupon implements Comparable<Object> {
 		return getName () + " " + TYPE_NAME;
 	}
 
+	public JPanel buildTrainInfoJPanel (TrainActionCheckboxInfo aTrainActionCheckboxInfo) {
+		return buildTrainInfoJPanel (aTrainActionCheckboxInfo.getItemListener (),
+									 aTrainActionCheckboxInfo.getActionLabel (),
+									 aTrainActionCheckboxInfo.getActionEnabled (),
+									 aTrainActionCheckboxInfo.getActionToolTip ());
+	}
+	
 	public JPanel buildTrainInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
 			String aActionToolTip) {
 		JPanel tTrainInfoPanel;
