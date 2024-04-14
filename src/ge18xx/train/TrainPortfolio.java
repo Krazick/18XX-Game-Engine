@@ -44,10 +44,12 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final String RUSTED_TRAINS = "RUSTED";
 	public static final String ADDED_TRAIN = "ADDED TRAIN";
 	public static final String REMOVED_TRAIN = "REMOVED TRAIN";
+	public static final String UPGRADE = "Upgrade";
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
 	public static final ArrayList<Train> NO_TRAINS = null;
+	TrainActionCheckboxInfo trainActionCheckboxInfo;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 
@@ -61,6 +63,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrains = new ArrayList<Train> ();
 		setTrains (tTrains);
 		setPortfolioHolder (aPortfolioHolder);
+		trainActionCheckboxInfo = new TrainActionCheckboxInfo ();
 	}
 
 	public void setTrains (ArrayList<Train> aTrains) {
@@ -123,10 +126,10 @@ public class TrainPortfolio implements TrainHolderI {
 		int tTrainQuantity;
 		Train tTrain;
 		String tTrainName;
-		String tActionLabel;
-		String tActionToolTip;
+//		String tActionLabel;
+//		String tActionToolTip;
 		String tCompanyAbbrev;
-		boolean tActionEnabled;
+//		boolean tActionEnabled;
 		boolean tCanBeUpgraded;
 		TrainCompany tTrainCompany;
 		Train [] tBankAvailableTrains;
@@ -147,45 +150,57 @@ public class TrainPortfolio implements TrainHolderI {
 				tCompanyAbbrev = aCorporation.getAbbrev ();
 				tTrainCompany = (TrainCompany) aCorporation;
 				for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+					trainActionCheckboxInfo = new TrainActionCheckboxInfo ();
+					trainActionCheckboxInfo.setItemListener (aItemListener);
 					tTrain = getTrainAt (tTrainIndex);
 					tTrainName = tTrain.getName ();
 					tTrainQuantity = getTrainCount (tTrainName);
 					tCanBeUpgraded = tTrain.canUpgrade (tBankAvailableTrains);
-					tActionToolTip = GUI.NO_TOOL_TIP;
+//					tActionToolTip = GUI.NO_TOOL_TIP;
 					if (tTrainCompany.isOperating () && tCanBeUpgraded) {
-						tActionLabel = "Upgrade";
+						trainActionCheckboxInfo.setActionLabel (UPGRADE);
+//						tActionLabel = "Upgrade";
 						if (aCorporation.canBuyTrain ()) {
-							tActionEnabled = true;
-							tActionToolTip = GUI.NO_TOOL_TIP;
+							trainActionCheckboxInfo.setActionEnabled (true);
+//							tActionEnabled = true;
+//							tActionToolTip = GUI.NO_TOOL_TIP;
 						} else {
-							tActionEnabled = false;
-							tActionToolTip = tTrainCompany.getReasonWhyCantBuyTrain ();
+							trainActionCheckboxInfo.setActionToolTip (tTrainCompany.getReasonWhyCantBuyTrain ());
+//							tActionEnabled = false;
+//							tActionToolTip = tTrainCompany.getReasonWhyCantBuyTrain ();
 						}
-					} else {
-						tActionLabel = GUI.EMPTY_STRING;
-						tActionEnabled = false;
+//					} else {
+//						tActionLabel = GUI.EMPTY_STRING;
+//						tActionEnabled = false;
 					}
 					if (aActionLabel != GUI.NULL_STRING) {
 						if (tTrain.isAvailableForPurchase ()) {
-							tActionLabel = aActionLabel;
-							tActionEnabled = aEnableAction;
-							if (!aEnableAction && (tActionToolTip == GUI.EMPTY_STRING)) {
-								tActionToolTip = aDisableReason;
+							trainActionCheckboxInfo.setActionLabel (aActionLabel);
+							trainActionCheckboxInfo.setActionEnabled (aEnableAction);
+//							tActionLabel = aActionLabel;
+//							tActionEnabled = aEnableAction;
+							if (!trainActionCheckboxInfo.getActionEnabled () &&
+								 (trainActionCheckboxInfo.getActionToolTip () == GUI.EMPTY_STRING)) {
+								 trainActionCheckboxInfo.setActionToolTip (aDisableReason);
+//								tActionToolTip = aDisableReason;
 							}
 						}
 						if (aCorporation.getName ().equals (portfolioHolder.getName ())) {
 						} else {
 							if (tTrainCompany.atTrainLimit ()) {
-								tActionToolTip = tCompanyAbbrev + " is at Train Limit";
-								tActionEnabled = false;
+								 trainActionCheckboxInfo.setActionToolTip (tCompanyAbbrev + " is at Train Limit");
+//								tActionToolTip = tCompanyAbbrev + " is at Train Limit";
+//								tActionEnabled = false;
 							}
 							if (tTrainCompany.getTreasury () < tTrain.getPrice ()) {
-								tActionToolTip = tCompanyAbbrev + " does not have enough cash";
-								tActionEnabled = false;
+								 trainActionCheckboxInfo.setActionToolTip (tCompanyAbbrev + " does not have enough cash");
+//								tActionToolTip = tCompanyAbbrev + " does not have enough cash";
+//								tActionEnabled = false;
 							}
 						}
 					}
-					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (aItemListener, tActionLabel, tActionEnabled, tActionToolTip);
+					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (trainActionCheckboxInfo);
+//					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (aItemListener, tActionLabel, tActionEnabled, tActionToolTip);
 
 					if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
 						updateForCompactPortfolio (tTrainInfoJPanel, tTrainQuantity, tTrainName);
