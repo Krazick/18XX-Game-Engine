@@ -265,13 +265,10 @@ class TrainPortfolioTests {
 	@DisplayName ("Update Compact Portfolio Test 1")
 	void updateCompactPortfolioTests () {
 		JPanel tTrainCertJPanel;
-		JComponent tPanelComponent;
-		JLabel tLabel;
 		int tTrainQuantity;
 		int tTrainIndex;
 		int tNewTrainIndex;
 		String tTrainName;
-		String tLabelText;
 		Train tTrain;
 		
 		tTrainCertJPanel = new JPanel ();
