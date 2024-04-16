@@ -2558,8 +2558,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	// Overriden in Train Company
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, GameManager aGameManager,
-			boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason,
-			Corporation aBuyingCorporation) {
+			boolean aFullTrainPortfolio, Corporation aBuyingCorporation) {
 		return GUI.NO_PANEL;
 	}
 

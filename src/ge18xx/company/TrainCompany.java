@@ -662,7 +662,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, GameManager aGameManager,
-			boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason,
+			boolean aFullTrainPortfolio,
 			Corporation aBuyingCorporation, int aTokenCount) {
 		JPanel tTrainInfoJPanel;
 		JPanel tCorpJPanel;
@@ -703,7 +703,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aCorporationFrame, this, aGameManager, 
-					tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
+					tActionLabel, aFullTrainPortfolio);
 			tCorpJPanel.add (tTrainInfoJPanel);
 		}
 
@@ -773,7 +773,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tGameManager = corporationList.getGameManager ();
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tTrainPortfolioInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, 
-					this, tGameManager, null, TrainPortfolio.FULL_TRAIN_PORTFOLIO, true, "");
+					this, tGameManager, null, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
 		} else {
 			tTrainPortfolioInfoJPanel = new JPanel ();
 			tLabel = new JLabel (">>NO TRAINS<<");

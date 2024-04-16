@@ -322,10 +322,6 @@ public class ShareCompany extends TokenCompany {
 			// Remove all Tokens from for this company from the Map
 			// Remove Home Base Corporation Info from the Map
 			// Remove the Market Token for this company
-			// Transfer all Cash to the Bank
-			// Transfer all Trains to the BankPool
-			// Close any Private Corporations owned by the Company (Licenses owned by other Corps still active)
-			// Add Action that has all the Effects required
 			
 			tGameManager = getGameManager ();
 			tRoundManager = tGameManager.getRoundManager ();
@@ -334,8 +330,11 @@ public class ShareCompany extends TokenCompany {
 			tCloseCompanyAction = new CloseCompanyAction (tRoundType, tRoundID, this);
 			tHexMap = tGameManager.getGameMap ();
 			tHexMap.removeAllMapTokens (this, tCloseCompanyAction);
-		} else {
-			System.out.println ("Tested Share Company " + getAbbrev () + " for Closing");
+			
+			// Transfer all Cash to the Bank
+			// Transfer all Trains to the BankPool
+			// Close any Private Corporations owned by the Company (Licenses owned by other Corps still active)
+			// Add Action that has all the Effects required
 		}
 	}
 

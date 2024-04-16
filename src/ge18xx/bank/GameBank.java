@@ -93,12 +93,12 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
-			boolean aCompact, boolean aEnableAction, String aDisableReason) {
+			boolean aCompact) {
 		JPanel tTrainJPanel;
 		JPanel tTrainPortfolioJPanel;
 
 		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, gameManager,
-				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
+				TrainCompany.BUY_LABEL, aCompact);
 		tTrainJPanel = buildPortfolioPanel (tTrainPortfolioJPanel);
 
 		return tTrainJPanel;

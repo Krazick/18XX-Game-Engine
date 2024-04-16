@@ -969,7 +969,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	};
 
 	public JPanel buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
-			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {
+			GameManager aGameManager, boolean aFullTrainPortfolio) {
 		JPanel tFullCorpsJPanel;
 		JPanel tOtherCorpsInfoJPanel;
 		JPanel tOtherCorpsJPanel1;
@@ -983,7 +983,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tOtherCorpsJPanel1.setBorder (BorderFactory.createTitledBorder (tTitle));
 
 		tOtherCorpsInfoJPanel = buildOtherCorpsInfoJPanel (aCorporationFrame, aBuyingCorporation, aGameManager,
-				aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
+				aFullTrainPortfolio);
 		tOtherCorpsJPanel1.add (Box.createVerticalStrut (5));
 		tOtherCorpsJPanel1.add (tOtherCorpsInfoJPanel);
 		tOtherCorpsJPanel1.add (Box.createVerticalStrut (5));
@@ -993,7 +993,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public JPanel buildOtherCorpsInfoJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
-			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {
+			GameManager aGameManager, boolean aFullTrainPortfolio) {
 		JPanel tOtherCorpsInfoJPanel;
 		JPanel tOtherCorpInfoJPanel;
 		JPanel tOperatingCorpJPanel;
@@ -1012,7 +1012,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		for (Corporation tCorporation : corporations) {
 			if (aBuyingCorporation != tCorporation) {
 				tOtherCorpInfoJPanel = tCorporation.buildPortfolioTrainsJPanel (aCorporationFrame, aGameManager,
-						aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation);
+						aFullTrainPortfolio, aBuyingCorporation);
 				tOtherCorpsInfoJPanel.add (tOtherCorpInfoJPanel);
 			} else {
 				if (aBuyingCorporation.isATrainCompany ()) {

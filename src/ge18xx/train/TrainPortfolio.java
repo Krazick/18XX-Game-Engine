@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.CorporationFrame;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.FrameButton;
@@ -36,6 +37,7 @@ import geUtilities.XMLNodeList;
 public class TrainPortfolio implements TrainHolderI {
 	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public static final ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
+	public static final String CANNOT_BUY_IN_PHASE = "Cannot buy Other Corporation Trains in current Phase";
 	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
 	public static final String ALL_TRAINS = "ALL";
 	public static final String NO_NAME = "NONE";
@@ -49,7 +51,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
 	public static final ArrayList<Train> NO_TRAINS = null;
-	TrainActionCheckboxInfo trainActionCheckboxInfo;
+	TrainCheckboxInfo trainCheckboxInfo;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 
@@ -63,7 +65,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrains = new ArrayList<Train> ();
 		setTrains (tTrains);
 		setPortfolioHolder (aPortfolioHolder);
-		trainActionCheckboxInfo = new TrainActionCheckboxInfo ();
+		trainCheckboxInfo = new TrainCheckboxInfo ();
 	}
 
 	public void setTrains (ArrayList<Train> aTrains) {
@@ -116,100 +118,146 @@ public class TrainPortfolio implements TrainHolderI {
 		return tFrameButton;
 	}
 
+	public void verifyCanBuyTrain (TrainCompany aTrainCompany, TrainCheckboxInfo aTrainActionCheckboxInfo) {
+		boolean tCanBuyTrain;
+		boolean tHasCash;
+		String tCompanyAbbrev;
+
+		tCompanyAbbrev = aTrainCompany.getAbbrev ();
+		tHasCash = (aTrainCompany.getCash () > 0);
+		if (!tHasCash) {
+			tCanBuyTrain = false;
+			aTrainActionCheckboxInfo.setToolTip (tCompanyAbbrev + " has no cash");
+		} else {
+			tCanBuyTrain = true;
+		}
+		aTrainActionCheckboxInfo.setEnabled (tCanBuyTrain);
+	}
+	
+	public TrainCompany getOperatingCompany (Corporation aCompany) {
+		Corporation tCorporation;
+		TrainCompany tTrainCompany;
+		GameManager tGameManager;
+		
+		tGameManager = aCompany.getGameManager ();
+		tCorporation = tGameManager.getOperatingCompany ();
+		tTrainCompany = (TrainCompany) tCorporation;
+		
+		return tTrainCompany;
+	}
+	
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, Corporation aCorporation, GameManager aGameManager,
-			String aActionLabel, boolean aFullvsCompact, boolean aEnableAction, String aDisableReason) {
+			String aActionLabel, boolean aFullvsCompact) {
 		JPanel tPortfolioJPanel;
 		JPanel tTrainInfoJPanel;
 		JLabel tLabel;
 		int tTrainIndex;
 		int tTrainCount;
 		int tTrainQuantity;
-		Train tTrain;
 		String tTrainName;
-//		String tActionLabel;
-//		String tActionToolTip;
 		String tCompanyAbbrev;
-//		boolean tActionEnabled;
+		boolean tCorporationIsPorfolioHolder;
 		boolean tCanBeUpgraded;
 		TrainCompany tTrainCompany;
+		TrainCompany tOperatingCompany;
 		Train [] tBankAvailableTrains;
+		Train tTrain;
 
 		tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
 		tPortfolioJPanel = new JPanel ();
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.X_AXIS));
 		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
-		if (isEmpty ()) {
+		if (hasNoTrain ()) {
 			tLabel = new JLabel (NO_TRAINS_TEXT);
 			tPortfolioJPanel.add (tLabel);
 			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		} else {
-			tTrainCount = getTrainCount ();
 			tPortfolioJPanel.add (Box.createHorizontalGlue ());
-			if (aCorporation.isATrainCompany ()) {
-				tCompanyAbbrev = aCorporation.getAbbrev ();
-				tTrainCompany = (TrainCompany) aCorporation;
-				for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-					trainActionCheckboxInfo = new TrainActionCheckboxInfo ();
-					trainActionCheckboxInfo.setItemListener (aItemListener);
-					tTrain = getTrainAt (tTrainIndex);
-					tTrainName = tTrain.getName ();
-					tTrainQuantity = getTrainCount (tTrainName);
-					tCanBeUpgraded = tTrain.canUpgrade (tBankAvailableTrains);
-//					tActionToolTip = GUI.NO_TOOL_TIP;
-					if (tTrainCompany.isOperating () && tCanBeUpgraded) {
-						trainActionCheckboxInfo.setActionLabel (UPGRADE);
-//						tActionLabel = "Upgrade";
-						if (aCorporation.canBuyTrain ()) {
-							trainActionCheckboxInfo.setActionEnabled (true);
-//							tActionEnabled = true;
-//							tActionToolTip = GUI.NO_TOOL_TIP;
-						} else {
-							trainActionCheckboxInfo.setActionToolTip (tTrainCompany.getReasonWhyCantBuyTrain ());
-//							tActionEnabled = false;
-//							tActionToolTip = tTrainCompany.getReasonWhyCantBuyTrain ();
-						}
-//					} else {
-//						tActionLabel = GUI.EMPTY_STRING;
-//						tActionEnabled = false;
+			tTrainCount = getTrainCount ();
+			tOperatingCompany = getOperatingCompany (aCorporation);
+			if (tOperatingCompany != Corporation.NO_CORPORATION) {
+				if (aCorporation.isATrainCompany ()) {
+					tCompanyAbbrev = aCorporation.getAbbrev ();
+					tTrainCompany = (TrainCompany) aCorporation;
+					if (tTrainCompany.getName ().equals (portfolioHolder.getName ())) {
+						tCorporationIsPorfolioHolder = true;
+					} else {
+						tCorporationIsPorfolioHolder = false;
 					}
-					if (aActionLabel != GUI.NULL_STRING) {
-						if (tTrain.isAvailableForPurchase ()) {
-							trainActionCheckboxInfo.setActionLabel (aActionLabel);
-							trainActionCheckboxInfo.setActionEnabled (aEnableAction);
-//							tActionLabel = aActionLabel;
-//							tActionEnabled = aEnableAction;
-							if (!trainActionCheckboxInfo.getActionEnabled () &&
-								 (trainActionCheckboxInfo.getActionToolTip () == GUI.EMPTY_STRING)) {
-								 trainActionCheckboxInfo.setActionToolTip (aDisableReason);
-//								tActionToolTip = aDisableReason;
+					for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+						trainCheckboxInfo = new TrainCheckboxInfo ();
+						trainCheckboxInfo.setItemListener (aItemListener);
+						tTrain = getTrainAt (tTrainIndex);
+						tTrainName = tTrain.getName ();
+						tTrainQuantity = getTrainCount (tTrainName);
+						verifyCanBuyTrain (tOperatingCompany, trainCheckboxInfo);
+						tCanBeUpgraded = tTrain.canUpgrade (tBankAvailableTrains);
+						if (tTrainCompany.isOperating () && tCanBeUpgraded) {
+							trainCheckboxInfo.setLabel (UPGRADE);
+							if (tTrainCompany.canBuyTrain ()) {
+								trainCheckboxInfo.setEnabled (true);
+							} else {
+								trainCheckboxInfo.setToolTip (tTrainCompany.getReasonWhyCantBuyTrain ());
 							}
 						}
-						if (aCorporation.getName ().equals (portfolioHolder.getName ())) {
-						} else {
-							if (tTrainCompany.atTrainLimit ()) {
-								 trainActionCheckboxInfo.setActionToolTip (tCompanyAbbrev + " is at Train Limit");
-//								tActionToolTip = tCompanyAbbrev + " is at Train Limit";
-//								tActionEnabled = false;
+						if (aActionLabel != GUI.NULL_STRING) {
+							if (! tOperatingCompany.dividendsHandled ()) {
+								if (tTrain.isAvailableForPurchase ()) {
+									trainCheckboxInfo.setLabel (aActionLabel);
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (CorporationFrame.DIVIDENDS_NOT_HANDLED);
+								} else {
+									trainCheckboxInfo.setLabel (GUI.EMPTY_STRING);
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+								}
+							} else if (tOperatingCompany.atTrainLimit ()) {
+								if (tTrain.isAvailableForPurchase ()) {
+									trainCheckboxInfo.setLabel (aActionLabel);
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (tOperatingCompany.getAbbrev () + 
+												" is at Train Limit");
+								} else {
+									trainCheckboxInfo.setLabel (GUI.EMPTY_STRING);
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+								}
+							} else if (portfolioHolder.isABank ()) {
+								if (tTrain.isAvailableForPurchase ()) {
+									trainCheckboxInfo.setLabel (aActionLabel);
+									trainCheckboxInfo.setEnabled (true);
+									trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+								}
+							} else if (! tOperatingCompany.canBuyTrainInPhase ()) {
+								trainCheckboxInfo.setLabel (aActionLabel);
+								trainCheckboxInfo.setEnabled (false);
+								trainCheckboxInfo.setToolTip (CANNOT_BUY_IN_PHASE);
+							} else {
+								if (tTrain.isAvailableForPurchase ()) {
+									trainCheckboxInfo.setLabel (aActionLabel);
+									trainCheckboxInfo.setEnabled (true);
+									trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+								}
 							}
-							if (tTrainCompany.getTreasury () < tTrain.getPrice ()) {
-								 trainActionCheckboxInfo.setActionToolTip (tCompanyAbbrev + " does not have enough cash");
-//								tActionToolTip = tCompanyAbbrev + " does not have enough cash";
-//								tActionEnabled = false;
+							if (! tCorporationIsPorfolioHolder) {
+								if (tTrainCompany.getTreasury () < tTrain.getPrice ()) {
+									 trainCheckboxInfo.setToolTip (tCompanyAbbrev + " does not have enough cash");
+								}
 							}
 						}
-					}
-					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (trainActionCheckboxInfo);
-//					tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (aItemListener, tActionLabel, tActionEnabled, tActionToolTip);
-
-					if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
-						updateForCompactPortfolio (tTrainInfoJPanel, tTrainQuantity, tTrainName);
-						tTrainIndex = updateTrainIndex (tTrainIndex, tTrainQuantity);
-					}
 	
-					tPortfolioJPanel.add (tTrainInfoJPanel);
-					tPortfolioJPanel.add (Box.createHorizontalGlue ());
-					tPortfolioJPanel.add (Box.createHorizontalStrut (10));
+						tTrainInfoJPanel = tTrain.buildTrainInfoJPanel (trainCheckboxInfo);
+					
+						if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
+							updateForCompactPortfolio (tTrainInfoJPanel, tTrainQuantity, tTrainName);
+							tTrainIndex = updateTrainIndex (tTrainIndex, tTrainQuantity);
+						}
+		
+						tPortfolioJPanel.add (tTrainInfoJPanel);
+						tPortfolioJPanel.add (Box.createHorizontalGlue ());
+						tPortfolioJPanel.add (Box.createHorizontalStrut (10));
+					}
 				}
 			}
 		}

@@ -685,7 +685,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.addButton (aButton);
 	}
 	
-	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
+//	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
+	public void fillOtherCorpsJPanel () {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
 		CorporationList tMinorCorporations;
@@ -700,13 +701,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tMinorCorporations = tGameManager.getMinorCompanies ();
 					if (tMinorCorporations.getCountOfOpen () > 0) {
 						tMinorCorporationsTrainsJPanel = tMinorCorporations.buildFullCorpsJPanel (this, corporation,
-								tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
+								tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
 						otherCorpsJPanel.add (Box.createHorizontalGlue ());
 						otherCorpsJPanel.add (tMinorCorporationsTrainsJPanel);					
 					}
 					tShareCorporations = tGameManager.getShareCompanies ();
 					tCorporationsTrainsJPanel = tShareCorporations.buildFullCorpsJPanel (this, corporation,
-							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
+							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
 					otherCorpsJPanel.add (Box.createHorizontalGlue ());
 					otherCorpsJPanel.add (tCorporationsTrainsJPanel);
 					otherCorpsJPanel.add (Box.createHorizontalGlue ());
@@ -719,7 +720,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return (corporation != Corporation.NO_CORPORATION);
 	}
 
-	public void updateBankJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
+	public void updateBankJPanel () {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
@@ -735,14 +736,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				bankJPanel.removeAll ();
 				if (tBankPool != BankPool.NO_BANK_POOL) {
 					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation,
-							TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
+							TrainPortfolio.FULL_TRAIN_PORTFOLIO);
 					bankJPanel.add (Box.createHorizontalGlue ());
 					bankJPanel.add (tBPPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
 				}
 				if (tBank != Bank.NO_BANK) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation,
-							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
+							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO);
 					bankJPanel.add (tBankPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());
 				}
@@ -1508,7 +1509,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			// If the actual tSelectedCount is zero -- the Apply the Discount;
 			if (tSelectedCount == 0) {
 				tTrainCompany.applyDiscount ();
-				fillOtherCorpsJPanel (false, "Select Train to Upgrade to from Bank");
+//				fillOtherCorpsJPanel (false, "Select Train to Upgrade to from Bank");
+				fillOtherCorpsJPanel ();
 			}
 			if (canBuySelectedTrain (tSelectedCount)) {
 				updateBuyTrainLabel ();
@@ -1758,66 +1760,67 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void updateOtherCorpsJPanel () {
-		boolean tCanBuyTrain;
-		boolean tHasCash;
-		boolean tIsAtTrainLimit;
-		boolean tCanBuyTrainInPhase;
-		String tDisableToolTipReason;
-
-		tCanBuyTrainInPhase = corporation.canBuyTrainInPhase ();
-
-		if (tCanBuyTrainInPhase) {
-			tCanBuyTrain = corporation.dividendsHandled ();
-			tDisableToolTipReason = "";
-			if (tCanBuyTrain) {
-				tHasCash = (corporation.getCash () > 0);
-				if (!tHasCash) {
-					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
-				} else {
-					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
-					if (tIsAtTrainLimit) {
-						tCanBuyTrain = false;
-						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
-					}
-				}
-			} else {
-				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
-			}
-		} else {
-			tCanBuyTrain = false;
-			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
-		}
-		fillOtherCorpsJPanel (tCanBuyTrain, tDisableToolTipReason);
+//		boolean tCanBuyTrain;
+//		boolean tHasCash;
+//		boolean tIsAtTrainLimit;
+//		boolean tCanBuyTrainInPhase;
+//		String tDisableToolTipReason;
+//
+//		tCanBuyTrainInPhase = corporation.canBuyTrainInPhase ();
+//
+//		if (tCanBuyTrainInPhase) {
+//			tCanBuyTrain = corporation.dividendsHandled ();
+//			tDisableToolTipReason = "";
+//			if (tCanBuyTrain) {
+//				tHasCash = (corporation.getCash () > 0);
+//				if (!tHasCash) {
+//					tCanBuyTrain = false;
+//					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
+//				} else {
+//					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
+//					if (tIsAtTrainLimit) {
+//						tCanBuyTrain = false;
+//						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
+//					}
+//				}
+//			} else {
+//				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
+//			}
+//		} else {
+//			tCanBuyTrain = false;
+//			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
+//		}
+//		fillOtherCorpsJPanel (tCanBuyTrain, tDisableToolTipReason);
+		fillOtherCorpsJPanel ();
 	}
 
-	public void updateBankJPanel () {
-		boolean tCanBuyTrain;
-		boolean tHasCash;
-		boolean tIsAtTrainLimit;
-		String tDisableToolTipReason;
-
-		if (corporation.isATrainCompany ()) {
-			tCanBuyTrain = corporation.dividendsHandled ();
-			tDisableToolTipReason = "";
-			if (tCanBuyTrain) {
-				tHasCash = (corporation.getCash () > 0);
-				if (!tHasCash) {
-					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
-				} else {
-					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
-					if (tIsAtTrainLimit) {
-						tCanBuyTrain = false;
-						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
-					}
-				}
-			} else {
-				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
-			}
-			updateBankJPanel (tCanBuyTrain, tDisableToolTipReason);
-		}
-	}
+//	public void updateBankJPanel () {
+//		boolean tCanBuyTrain;
+//		boolean tHasCash;
+//		boolean tIsAtTrainLimit;
+//		String tDisableToolTipReason;
+//
+//		if (corporation.isATrainCompany ()) {
+//			tCanBuyTrain = corporation.dividendsHandled ();
+//			tDisableToolTipReason = "";
+//			if (tCanBuyTrain) {
+//				tHasCash = (corporation.getCash () > 0);
+//				if (!tHasCash) {
+//					tCanBuyTrain = false;
+//					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
+//				} else {
+//					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
+//					if (tIsAtTrainLimit) {
+//						tCanBuyTrain = false;
+//						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
+//					}
+//				}
+//			} else {
+//				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
+//			}
+//			updateBankJPanel ();
+//		}
+//	}
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {

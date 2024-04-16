@@ -834,14 +834,12 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aItemListener, GameManager aGameManager,
-			boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason,
-			Corporation aBuyingCorporation) {
+			boolean aFullTrainPortfolio, Corporation aBuyingCorporation) {
 		JPanel tTrainPortfolioInfoJPanel;
 		int tTokenCount;
 
 		tTokenCount = getTokenCount ();
-		tTrainPortfolioInfoJPanel = super.buildPortfolioTrainsJPanel (aItemListener, aGameManager, aFullTrainPortfolio,
-				aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation, tTokenCount);
+		tTrainPortfolioInfoJPanel = super.buildPortfolioTrainsJPanel (aItemListener, aGameManager, aFullTrainPortfolio, aBuyingCorporation, tTokenCount);
 
 		return tTrainPortfolioInfoJPanel;
 	}
