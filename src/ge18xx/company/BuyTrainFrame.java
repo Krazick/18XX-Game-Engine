@@ -8,7 +8,6 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
-import geUtilities.GUI;
 
 public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
