@@ -4,48 +4,48 @@ import java.awt.event.ItemListener;
 
 import geUtilities.GUI;
 
-public class TrainActionCheckboxInfo {
+public class TrainCheckboxInfo {
 	ItemListener itemListener;
-	String actionLabel;
-	String actionToolTip;
-	boolean actionEnabled;
+	String label;
+	String toolTip;
+	boolean enabled;
 
-	public TrainActionCheckboxInfo () {
+	public TrainCheckboxInfo () {
 		setItemListener (GUI.NO_ITEM_LISTENER);
-		setActionLabel (GUI.EMPTY_STRING);
-		setActionToolTip (GUI.EMPTY_STRING);
-		setActionEnabled (false);
+		setLabel (GUI.EMPTY_STRING);
+		setToolTip (GUI.EMPTY_STRING);
+		setEnabled (false);
 	}
 
 	public void setItemListener (ItemListener aItemListener) {
 		itemListener = aItemListener;	
 	}
 
-	public void setActionLabel (String aActionLabel) {
-		actionLabel = aActionLabel;
+	public void setLabel (String aLabel) {
+		label = aLabel;
 	}
 
-	public void setActionToolTip (String aActionToolTip) {
-		actionToolTip = aActionToolTip;
+	public void setToolTip (String aToolTip) {
+		toolTip = aToolTip;
 	}
 
-	public void setActionEnabled (boolean aActionEnabled) {
-		actionEnabled = aActionEnabled;
+	public void setEnabled (boolean aEnabled) {
+		enabled = aEnabled;
 	}
 	
 	public ItemListener getItemListener () {
 		return itemListener;
 	}
 	
-	public String getActionLabel () {
-		return actionLabel;
+	public String getLabel () {
+		return label;
 	}
 	
-	public String getActionToolTip () {
-		return actionToolTip;
+	public String getToolTip () {
+		return toolTip;
 	}
 	
-	public boolean getActionEnabled () {
-		return actionEnabled;
+	public boolean getEnabled () {
+		return enabled;
 	}
 }
