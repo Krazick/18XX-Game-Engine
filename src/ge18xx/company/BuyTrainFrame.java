@@ -8,6 +8,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
+import geUtilities.GUI;
 
 public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -114,25 +115,41 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		String tToolTip;
 		boolean tVisible;
 		boolean tEnabled;
+		boolean tFixedPrice;
+		TrainCompany tCurrentCompanyOwner;
 
 		tPresidentName = trainCompany.getPresidentName ();
 		tTrainName = train.getName ();
 		tOwnerName = currentOwner.getName ();
 		
-		if (trainCompany.mustPayFullPrice ()) {
-			tLowPrice = train.getPrice ();
-			tHighPrice = train.getPrice ();
-			tPriceChoice = " Buy Price for ";
-			tVisible = false;
-			tEnabled = false;
-			tToolTip = trainCompany.getAbbrev () + " must pay full face value of the Train.";
-		} else {
-			tLowPrice = 1;
-			tHighPrice = trainCompany.getTreasury ();
-			tPriceChoice = ", Choose Buy Price for ";
-			tVisible = true;
-			tEnabled = true;
-			tToolTip = trainCompany.getAbbrev () + " can choose the price to pay for the Train.";
+		tFixedPrice = false;
+		tLowPrice = 1;
+		tHighPrice = trainCompany.getTreasury ();
+		tPriceChoice = ", Choose Buy Price for ";
+		tVisible = true;
+		tEnabled = true;
+		tToolTip = trainCompany.getAbbrev () + " can choose the price to pay for the Train.";
+		if (currentOwner.isATrainCompany ()) {
+			tCurrentCompanyOwner = (TrainCompany) currentOwner;
+			if (tCurrentCompanyOwner.mustPayFullPrice () ) {
+				tLowPrice = train.getPrice ();
+				tHighPrice = train.getPrice ();
+				tPriceChoice = " Buy Price for ";
+				tVisible = false;
+				tEnabled = false;
+				tToolTip = trainCompany.getAbbrev () + " must pay full face value of the Train.";	
+				tFixedPrice = true;
+			}
+		} 
+		if (!tFixedPrice) {
+			if (trainCompany.mustPayFullPrice ()) {
+				tLowPrice = train.getPrice ();
+				tHighPrice = train.getPrice ();
+				tPriceChoice = " Buy Price for ";
+				tVisible = false;
+				tEnabled = false;
+				tToolTip = trainCompany.getAbbrev () + " must pay full face value of the Train.";
+			}
 		}
 		setPriceField (tVisible, tEnabled, tToolTip);
 		setPrice (tLowPrice);

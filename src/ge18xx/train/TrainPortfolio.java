@@ -38,8 +38,13 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public static final ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
 	public static final String CANNOT_BUY_IN_PHASE = "Cannot buy Other Corporation Trains in current Phase";
-	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
+	public static final String ONLY_BUY_PERMANENT = "Can only buy Permanent Train";
+	public static final String NOT_ENOUGH_CASH = " does not have enough Cash";
+	public static final String NOT_ENOUGH_CASH_FULL_PRICE = " does not have enough Cash to pay full price";
+	public static final String AT_TRAIN_LIMIT = " is at Train Limit";
+	public static final String HAS_NO_CASH = " has not Cash";
 	public static final String ALL_TRAINS = "ALL";
+	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
 	public static final String NO_NAME = "NONE";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
 	public static final String FUTURE_TRAINS = "FUTURE";
@@ -155,7 +160,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tTrainCount;
 		int tTrainQuantity;
 		String tTrainName;
-		String tCompanyAbbrev;
+		String tOperatingCompanyAbbrev;
 		boolean tCorporationIsPorfolioHolder;
 		boolean tCanBeUpgraded;
 		TrainCompany tTrainCompany;
@@ -178,7 +183,7 @@ public class TrainPortfolio implements TrainHolderI {
 			tOperatingCompany = getOperatingCompany (aCorporation);
 			if (tOperatingCompany != Corporation.NO_CORPORATION) {
 				if (aCorporation.isATrainCompany ()) {
-					tCompanyAbbrev = aCorporation.getAbbrev ();
+					tOperatingCompanyAbbrev = tOperatingCompany.getAbbrev ();
 					tTrainCompany = (TrainCompany) aCorporation;
 					if (tTrainCompany.getName ().equals (portfolioHolder.getName ())) {
 						tCorporationIsPorfolioHolder = true;
@@ -198,8 +203,15 @@ public class TrainPortfolio implements TrainHolderI {
 							if (tTrainCompany.canBuyTrain ()) {
 								trainCheckboxInfo.setEnabled (true);
 							} else {
-								trainCheckboxInfo.setToolTip (tTrainCompany.getReasonWhyCantBuyTrain ());
-							}
+								if (tOperatingCompany.atTrainLimit ()) {
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev +  AT_TRAIN_LIMIT);								
+								} else if (tOperatingCompany.getCash () == TrainCompany.NO_CASH) {
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev +  HAS_NO_CASH);
+								} else {
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + 
+												CorporationFrame.DIVIDENDS_NOT_HANDLED);
+								}
+						}
 						}
 						if (aActionLabel != GUI.NULL_STRING) {
 							if (! tOperatingCompany.dividendsHandled ()) {
@@ -216,8 +228,7 @@ public class TrainPortfolio implements TrainHolderI {
 								if (tTrain.isAvailableForPurchase ()) {
 									trainCheckboxInfo.setLabel (aActionLabel);
 									trainCheckboxInfo.setEnabled (false);
-									trainCheckboxInfo.setToolTip (tOperatingCompany.getAbbrev () + 
-												" is at Train Limit");
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev +  AT_TRAIN_LIMIT);
 								} else {
 									trainCheckboxInfo.setLabel (GUI.EMPTY_STRING);
 									trainCheckboxInfo.setEnabled (false);
@@ -225,9 +236,15 @@ public class TrainPortfolio implements TrainHolderI {
 								}
 							} else if (portfolioHolder.isABank ()) {
 								if (tTrain.isAvailableForPurchase ()) {
-									trainCheckboxInfo.setLabel (aActionLabel);
-									trainCheckboxInfo.setEnabled (true);
-									trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+									if (tOperatingCompany.getTreasury () >= tTrain.getPrice ()) {
+										trainCheckboxInfo.setLabel (aActionLabel);
+										trainCheckboxInfo.setEnabled (true);
+										trainCheckboxInfo.setToolTip (GUI.EMPTY_STRING);
+									} else {
+										trainCheckboxInfo.setLabel (aActionLabel);
+										trainCheckboxInfo.setEnabled (false);
+										trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + NOT_ENOUGH_CASH);
+									}
 								}
 							} else if (! tOperatingCompany.canBuyTrainInPhase ()) {
 								trainCheckboxInfo.setLabel (aActionLabel);
@@ -241,8 +258,29 @@ public class TrainPortfolio implements TrainHolderI {
 								}
 							}
 							if (! tCorporationIsPorfolioHolder) {
-								if (tTrainCompany.getTreasury () < tTrain.getPrice ()) {
-									 trainCheckboxInfo.setToolTip (tCompanyAbbrev + " does not have enough cash");
+								if (tOperatingCompany.getTreasury () < tTrain.getPrice ()) {
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + NOT_ENOUGH_CASH);
+								}
+							}
+							if (tOperatingCompany.mustPayFullPrice ()) {
+								if (tOperatingCompany.getTreasury () < tTrain.getPrice ()) {
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + NOT_ENOUGH_CASH_FULL_PRICE);
+								}
+							}
+							if (tOperatingCompany.onlyPermanentTrain ()) {
+								if (! tTrain.isPermanent ()) {
+									trainCheckboxInfo.setLabel (aActionLabel);
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + " " + ONLY_BUY_PERMANENT);
+								}
+							}
+							// If the company that owns the train must "sell" at the Full Price, test that here.
+							if (tTrainCompany.mustPayFullPrice ()) { 
+								if (tOperatingCompany.getTreasury () < tTrain.getPrice ()) {
+									trainCheckboxInfo.setEnabled (false);
+									trainCheckboxInfo.setToolTip (tOperatingCompanyAbbrev + NOT_ENOUGH_CASH_FULL_PRICE);
 								}
 							}
 						}
