@@ -222,7 +222,7 @@ public class CompanyTestFactory {
 		Mockito.when (mCorporationList.getCurrentRoundOf ()).thenReturn ("2");
 		Mockito.when (mCorporationList.getTrainLimit (Mockito.anyBoolean())).thenReturn (3);
 		mJPanel = Mockito.mock (JPanel.class);
-		Mockito.when (mCorporationList.buildFullCorpsJPanel (null, NO_TOKEN_COMPANY, mGameManager, false, false, null)).thenReturn (mJPanel);
+		Mockito.when (mCorporationList.buildFullCorpsJPanel (null, NO_TOKEN_COMPANY, mGameManager, false)).thenReturn (mJPanel);
 //		buildFullCorpsJPanel (this, corporation,
 //				tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);	
 		
