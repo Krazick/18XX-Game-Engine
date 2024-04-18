@@ -1750,11 +1750,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public String reasonForNoBuyTrain () {
 		return "Corporation cannot buy Trains - Only Train Companies";
 	}
-
-	// Train Company will override
-	public String reasonForNoDividendOptions () {
-		return ">> NO REASON <<";
-	}
+//
+//	// Train Company will override
+//	public String reasonForNoDividendOptions () {
+//		return ">> NO REASON <<";
+//	}
 
 	public void showFrame () {
 		Point tNewPoint;

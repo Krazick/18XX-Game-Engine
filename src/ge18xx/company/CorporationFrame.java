@@ -1124,7 +1124,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				}
 			} else {
 				tEnabled = false;
-				tToolTip = corporation.reasonForNoDividendOptions ();
+				tToolTip = corporation.reasonForNoDividendPayment ();
 			}
 		} else {
 			tEnabled = false;
@@ -1490,15 +1490,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (tThisSelectedTrainCount == 0) {
 			tRemovedADiscount = tTrainCompany.removeAllDiscounts ();
 			if ((tSelectedCount == 0) && tRemovedADiscount) {
-				// TODO Something here when an Upgrade is Selected, a Diesel is selected, then
-				// the Diesel is unselected,
-				// and Upgrade is unselected then tRemovedADiscount is true -- Fine, but this
-				// update then puts the state
-				// of the Other Corp Action Buttons to allow a Select,
-				// But then disallows an unselect --- This should rebuild the entire set of
-				// trains from scratch...
-				// but it gets into a weird state
-				updateOtherCorpsJPanel ();
+				fillOtherCorpsJPanel ();
 			}
 		}
 
@@ -1509,7 +1501,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			// If the actual tSelectedCount is zero -- the Apply the Discount;
 			if (tSelectedCount == 0) {
 				tTrainCompany.applyDiscount ();
-//				fillOtherCorpsJPanel (false, "Select Train to Upgrade to from Bank");
 				fillOtherCorpsJPanel ();
 			}
 			if (canBuySelectedTrain (tSelectedCount)) {
@@ -1521,7 +1512,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						tCanBuyTrain = true;
 						updateBuyTrainButton (tCanBuyTrain);
 					} else {
-						updateButton (buyTrainButton, tCanBuyTrain, "Must select Train from the Bank that Can be Upgraded to "
+						updateButton (buyTrainButton, tCanBuyTrain, 
+								"Must select Train from the Bank that Can be Upgraded to "
 								+ tSelectedTrainToBuy.getName ());
 					}
 				} else {
@@ -1756,70 +1748,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		fillCertPortfolioJPanel ();
 		fillPrivatesPanel ();
 		updateBankJPanel ();
-		updateOtherCorpsJPanel ();
-	}
-
-	public void updateOtherCorpsJPanel () {
-//		boolean tCanBuyTrain;
-//		boolean tHasCash;
-//		boolean tIsAtTrainLimit;
-//		boolean tCanBuyTrainInPhase;
-//		String tDisableToolTipReason;
-//
-//		tCanBuyTrainInPhase = corporation.canBuyTrainInPhase ();
-//
-//		if (tCanBuyTrainInPhase) {
-//			tCanBuyTrain = corporation.dividendsHandled ();
-//			tDisableToolTipReason = "";
-//			if (tCanBuyTrain) {
-//				tHasCash = (corporation.getCash () > 0);
-//				if (!tHasCash) {
-//					tCanBuyTrain = false;
-//					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
-//				} else {
-//					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
-//					if (tIsAtTrainLimit) {
-//						tCanBuyTrain = false;
-//						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
-//					}
-//				}
-//			} else {
-//				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
-//			}
-//		} else {
-//			tCanBuyTrain = false;
-//			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
-//		}
-//		fillOtherCorpsJPanel (tCanBuyTrain, tDisableToolTipReason);
 		fillOtherCorpsJPanel ();
 	}
-
-//	public void updateBankJPanel () {
-//		boolean tCanBuyTrain;
-//		boolean tHasCash;
-//		boolean tIsAtTrainLimit;
-//		String tDisableToolTipReason;
 //
-//		if (corporation.isATrainCompany ()) {
-//			tCanBuyTrain = corporation.dividendsHandled ();
-//			tDisableToolTipReason = "";
-//			if (tCanBuyTrain) {
-//				tHasCash = (corporation.getCash () > 0);
-//				if (!tHasCash) {
-//					tCanBuyTrain = false;
-//					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
-//				} else {
-//					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
-//					if (tIsAtTrainLimit) {
-//						tCanBuyTrain = false;
-//						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";
-//					}
-//				}
-//			} else {
-//				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
-//			}
-//			updateBankJPanel ();
-//		}
+//	public void updateOtherCorpsJPanel () {
+//		fillOtherCorpsJPanel ();
 //	}
 
 	@Override
