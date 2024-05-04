@@ -115,12 +115,13 @@ public class StateChangeEffect extends Effect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied;
-		boolean tNewAuctionAction = false;
 		StockRound tStockRound;
+		boolean tEffectApplied;
+		boolean tNewAuctionAction;
 		int tStockRoundID;
 
 		tEffectApplied = false;
+		tNewAuctionAction = false;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
 			tStockRound = aRoundManager.getStockRound ();
