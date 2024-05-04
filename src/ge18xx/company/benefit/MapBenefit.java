@@ -5,7 +5,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
-import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.LayTokenAction;
@@ -212,12 +211,10 @@ public class MapBenefit extends Benefit {
 	}
 	
 	private CloseCompanyAction createCloseCompanyAction (GameManager aGameManager, Corporation aOwningCompany) {
-		RoundManager tRoundManager;
 		String tRoundID;
 		CloseCompanyAction tCloseCompanyAction;
 		
-		tRoundManager = aGameManager.getRoundManager ();
-		tRoundID = tRoundManager.getOperatingRoundID ();
+		tRoundID = aGameManager.getOperatingRoundID ();
 		tCloseCompanyAction = new CloseCompanyAction (ActorI.ActionStates.OperatingRound, tRoundID, aOwningCompany);
 
 		return tCloseCompanyAction;
