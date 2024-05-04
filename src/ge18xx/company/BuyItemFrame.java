@@ -285,7 +285,8 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		PurchaseOfferAction tPurchaseOfferAction;
 		String tItemType;
 		String tItemName;
-		ActorI.ActionStates tOldState, tNewState;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 
 		tOldState = trainCompany.getStatus ();
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();

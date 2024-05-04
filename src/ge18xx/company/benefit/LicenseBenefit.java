@@ -25,12 +25,12 @@ import swingDelays.KButton;
 import geUtilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {
-	public static final String NAME = "License";
 	public static final AttributeName AN_LICENSE_COST = new AttributeName ("licenseCost");
 	public static final AttributeName AN_MAP_CELL = new AttributeName ("mapCell");
 	public static final AttributeName AN_LICENSE_VALUE = new AttributeName ("value");
-	int licenseCost;
+	public static final String NAME = "License";
 	String [] mapCellIDs;
+	int licenseCost;
 	int value;
 	License.LicenseTypes licenseType;
 

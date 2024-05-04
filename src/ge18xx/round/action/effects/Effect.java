@@ -14,33 +14,33 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public abstract class Effect {
-	public final static String NO_NAME = ">>NO EFFECT NAME<<";
-	public final static ActorI NO_ACTOR = null;
-	public final static Effect NO_EFFECT = null;
 	public static final ElementName EN_EFFECTS = new ElementName ("Effects");
 	public static final ElementName EN_EFFECT = new ElementName ("Effect");
-	public final static String REPORT_PREFIX = "--" + EN_EFFECT + ": ";
-	public final static AttributeName AN_CLASS = new AttributeName ("class");
-	public final static AttributeName AN_IS_A_PRIVATE = new AttributeName ("isAPrivate");
-	static final AttributeName AN_ORDER = new AttributeName ("order");
-	static final AttributeName AN_NAME = new AttributeName ("name");
-	static final AttributeName AN_FROM_NAME = new AttributeName ("fromName");
-	final static AttributeName AN_BENEFIT_USED = new AttributeName ("benefitUsed");
-	final static AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
-	final static AttributeName AN_BENEFIT_PRIVATE_ABBREV = new AttributeName ("benefitPrivateAbbrev");
-	final static Benefit NO_BENEFIT_IN_USE = null;
+	public static final AttributeName AN_CLASS = new AttributeName ("class");
+	public static final AttributeName AN_IS_A_PRIVATE = new AttributeName ("isAPrivate");
+	public static final AttributeName AN_ORDER = new AttributeName ("order");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_FROM_NAME = new AttributeName ("fromName");
+	public static final AttributeName AN_BENEFIT_USED = new AttributeName ("benefitUsed");
+	public static final AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
+	public static final AttributeName AN_BENEFIT_PRIVATE_ABBREV = new AttributeName ("benefitPrivateAbbrev");
+	public static final Benefit NO_BENEFIT_IN_USE = null;
+	public static final ActorI NO_ACTOR = null;
+	public static final Effect NO_EFFECT = null;
+	public static final String NO_NAME = ">>NO EFFECT NAME<<";
+	public static final String REPORT_PREFIX = "--" + EN_EFFECT + ": ";
 
+	ActorI actor;
 	int order;
 	String name;
-	ActorI actor;
 	String fromName;
 	String nickName;
-	boolean isAPrivate;
-	boolean benefitUsed;
 	String benefitName;
 	String benefitPrivateAbbrev;
 	String applyFailureReason;
 	String undoFailureReason;
+	boolean isAPrivate;
+	boolean benefitUsed;
 
 	Effect () {
 		this (NO_NAME);

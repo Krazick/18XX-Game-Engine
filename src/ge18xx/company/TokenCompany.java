@@ -702,10 +702,10 @@ public abstract class TokenCompany extends TrainCompany {
 									ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
 		LayTokenAction tLayTokenAction;
 		TokenType tTokenType;
-		String tOperatingRoundID;
-		Bank tBank;
-		int tTokenCost;
 		MapBenefit tMapBenefit;
+		Bank tBank;
+		String tOperatingRoundID;
+		int tTokenCost;
 
 		tTokenType = tokens.getTokenType (aMapToken);
 		tTokenCost = getTokenCost (aMapToken, tTokenType, aMapCell);

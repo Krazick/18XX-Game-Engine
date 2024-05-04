@@ -17,6 +17,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.ToEffect;
+import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
@@ -142,8 +143,9 @@ public class QueryFrame extends JFrame implements ActionListener {
 	public void sendOfferResponseAction (boolean aResponse) {
 		ResponseOfferAction tResponseOfferAction;
 		ActionStates tRoundType;
-		String tRoundID = "";
-		ActorI tToActor, tFromActor;
+		String tRoundID = GUI.EMPTY_STRING;
+		ActorI tToActor;
+		ActorI tFromActor;
 
 		tRoundType = roundManager.getCurrentRoundType ();
 		if (tRoundType == ActionStates.OperatingRound) {
@@ -170,7 +172,6 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
-
 	}
 
 	public KButton buildButton (String aButtonLabel, String aActionCommand) {

@@ -347,7 +347,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateStatus (ActorI.ActionStates.StartedOperations);
 		tNewStatus = getActionStatus ();
 
-		tOperatingRoundID = corporationList.getOperatingRoundID ();
+		tOperatingRoundID = getOperatingRoundID ();
 		tPreparedCorporationAction = new PreparedCorporationAction (ActorI.ActionStates.OperatingRound,
 				tOperatingRoundID, this);
 		tPreparedCorporationAction.setChainToPrevious (true);
@@ -1046,7 +1046,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tOperatingRoundID;
 
 		if (isSelectedTrainInBank ()) {
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			addNeededCashTransferEffect (tBuyTrainAction, aNeededCash);
 			tUpgradingTrain = getSelectedTrain ();
@@ -1866,7 +1866,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tStatusUpdated = updateStatus (ActorI.ActionStates.StationLaid);
 		if (tStatusUpdated) {
 			tNewStatus = status;
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tSkipBaseTokenAction = new SkipBaseTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
@@ -1900,7 +1900,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
 		if (tStatusUpdated) {
 			tNewStatus = status;
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tPayNoDividendAction = new PayNoDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
@@ -1949,7 +1949,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tOperatingRoundID;
 		
 		if (isGovtRailway ()) {
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
 			returnBorrowedTrain (tPayFullDividendAction);
@@ -1977,7 +1977,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tStatusUpdated = updateStatus (ActorI.ActionStates.FullDividend);
 		if (tStatusUpdated) {
 			tNewStatus = status;
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRoundPart2 = tOperatingRound.getIDPart2 ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
@@ -2291,7 +2291,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewStatus = status;
 		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
-		tOperatingRoundID = corporationList.getOperatingRoundID ();
+		tOperatingRoundID = getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		if (aPreviousTile != Tile.NO_TILE) {
 			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
@@ -2369,7 +2369,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (updateStatus (ActorI.ActionStates.OperatedTrain)) {
 			tNewStatus = getStatus ();
 			tTrainCount = getTrainCount ();
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRoundID = getOperatingRoundID ();
 			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
 			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);

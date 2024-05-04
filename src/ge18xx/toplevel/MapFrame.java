@@ -1371,7 +1371,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tRoundManager = gameManager.getRoundManager ();
 		tActionManager = tRoundManager.getActionManager ();
 		tRoundType = tRoundManager.getCurrentRoundType ();
-		tRoundID = tRoundManager.getOperatingRoundID ();
+		tRoundID = gameManager.getOperatingRoundID ();
 		if (routeInformation.isEmpty ()) {
 			if (aSelectedRC != RevenueCenter.NO_CENTER) {
 				tStartRouteAction = new StartRouteAction (tRoundType, tRoundID, tCorporation);

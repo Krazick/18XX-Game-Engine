@@ -157,7 +157,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 		int tNewShareFoldCount;
 		int tOldShareFoldCount;
 		
-		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
 		tRepaymentHandled = true;

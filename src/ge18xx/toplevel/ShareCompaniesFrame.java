@@ -25,6 +25,7 @@ import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ChangeMarketCellAction;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
@@ -292,15 +293,17 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 								MarketCell aNewMarketCell) {
 		int tOldStackLocation;
 		int tNewStackLocation;
+		String tOperatingRoundID;
 		ChangeMarketCellAction tChangeMarketCellAction;
+		ActionStates tRoundType;
 		RoundManager tRoundManager;
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tRoundManager = tGameManager.getRoundManager ();
-		
-		tChangeMarketCellAction = new ChangeMarketCellAction (tRoundManager.getCurrentRoundType (), 
-										tRoundManager.getOperatingRoundID (), aShareCompany);
+		tOperatingRoundID = tGameManager.getOperatingRoundID ();
+		tRoundType = tRoundManager.getCurrentRoundType ();
+		tChangeMarketCellAction = new ChangeMarketCellAction (tRoundType, tOperatingRoundID, aShareCompany);
 		
 		tOldStackLocation = aOldMarketCell.getTokenLocation (aCompanyAbbrev);
 		tNewStackLocation = aNewMarketCell.getTokenLocation (aCompanyAbbrev);

@@ -848,7 +848,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		Corporation tOperatingCompany;
-		String tTokens, tBases;
+		String tTokens;
+		String tBases;
+		String tOperatingRoundID;
 
 		tCountOfRotations = aThisMapCell.getCountofAllowedRotations ();
 		if (tCountOfRotations > 1) {
@@ -872,8 +874,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tGameManager = (GameManager) mapFrame.getGameManager ();
 				tRoundManager = tGameManager.getRoundManager ();
 				tOperatingCompany = tRoundManager.getOperatingCompany ();
+				tOperatingRoundID = tGameManager.getOperatingRoundID ();
 				tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound,
-						tRoundManager.getOperatingRoundID (), tOperatingCompany);
+						tOperatingRoundID, tOperatingCompany);
 				tTokens = tTile.getPlacedTokens ();
 				tBases = tTile.getCorporationBases ();
 				tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, tTile, tNewOrientation,
