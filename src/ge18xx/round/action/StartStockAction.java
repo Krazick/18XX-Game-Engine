@@ -13,11 +13,6 @@ public class StartStockAction extends Action {
 		setName (NAME);
 	}
 
-	public StartStockAction (Action aAction) {
-		super (aAction);
-		setName (NAME);
-	}
-
 	public StartStockAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

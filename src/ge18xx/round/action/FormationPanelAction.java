@@ -17,10 +17,6 @@ public class FormationPanelAction extends Action {
 		super (aName);
 	}
 
-	public FormationPanelAction (Action aAction) {
-		super (aAction);
-	}
-
 	public FormationPanelAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
