@@ -24,12 +24,6 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Action {
-	public final static String NO_NAME = ">> NO ACTION NAME <<";
-	public final static Action NO_ACTION = null;
-	public final static int NO_NUMBER = 0;
-	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
-	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
-	public final static String REPORT_PREFIX = "-";
 	public final static ElementName EN_ACTIONS = new ElementName ("Actions");
 	public final static ElementName EN_ACTION = new ElementName ("Action");
 	public final static AttributeName AN_NUMBER = new AttributeName ("number");
@@ -40,16 +34,21 @@ public class Action {
 	public final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	public final static AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
 	public final static AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
-	String name;
+	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
+	public final static String NO_NAME = ">> NO ACTION NAME <<";
+	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
+	public final static String REPORT_PREFIX = "-";
+	public final static Action NO_ACTION = null;
+	public final static int NO_NUMBER = 0;
 	ActorI.ActionStates roundType;
-	String roundID;
 	protected ActorI actor;
-	int number;
-	int totalCash;
-	long dateTime;
+	String name;
+	String roundID;
 	List<Effect> effects;
 	Boolean chainToPrevious;	// Chain this Action to Previous Action --
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
+	int number;
+	long dateTime;
 
 	public Action () {
 		this (NO_NAME);
@@ -93,12 +92,10 @@ public class Action {
 		ActorI.ActionStates tRoundType;
 		Boolean tChainToPrevious;
 		int tNumber;
-		int tTotalCash;
 		long tDateTime;
 
 		tActionName = aActionNode.getThisAttribute (AN_NAME);
 		tNumber = aActionNode.getThisIntAttribute (AN_NUMBER);
-		tTotalCash = aActionNode.getThisIntAttribute (AN_TOTAL_CASH);
 		tDateTime = aActionNode.getThisLongAttribute (AN_DATE_TIME);
 		tRoundTypeString = aActionNode.getThisAttribute (AN_ROUND_TYPE);
 		tRoundID = aActionNode.getThisAttribute (AN_ROUND_ID);
@@ -110,7 +107,6 @@ public class Action {
 		setValues (tActionName, tRoundType, tRoundID, tActor, tNumber);
 
 		setChainToPrevious (tChainToPrevious);
-		setTotalCash (tTotalCash);
 		setDateTime (tDateTime);
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
 	}
@@ -184,14 +180,6 @@ public class Action {
 
 	public int getNumber () {
 		return number;
-	}
-
-	public void setTotalCash (int aCash) {
-		totalCash = aCash;
-	}
-
-	public int getTotalCash () {
-		return totalCash;
 	}
 	
 	public boolean actorIsSet () {
@@ -267,7 +255,6 @@ public class Action {
 		tActionElement.setAttribute (AN_NAME, getName ());
 		tActionElement.setAttribute (AN_NUMBER, getNumber ());
 		tActionElement.setAttribute (AN_DATE_TIME, dateTime);
-		tActionElement.setAttribute (AN_TOTAL_CASH, getTotalCash ());
 		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundType ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
 		tActionElement.setAttribute (ActorI.AN_ACTOR_NAME, tActorName);
@@ -590,8 +577,6 @@ public class Action {
 	}
 	
 	public void reverseEffects () {
-//		effects.sort (Collections.reverseOrder ());
-		
 		Collections.sort (effects, new EffectComparator ());
 	}
 	
@@ -601,5 +586,4 @@ public class Action {
 			return aEffectB.getOrder () - aEffectA.getOrder ();
 		}
 	}
-
 }
