@@ -77,18 +77,18 @@ public class FormationPanelEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		int tPresidentPlayerIndex;
 		ShareCompany tShareCompany;
 		Player tPresident;
 		PlayerManager tPlayerManager;
-		int tCurrentPlayerIndex;
 		
 		tEffectApplied = false;
 		if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
 			tPlayerManager = aRoundManager.getPlayerManager ();
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
+			tPresidentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
+			rebuildFormationPanel (aRoundManager, tPresidentPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -98,26 +98,26 @@ public class FormationPanelEffect extends Effect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		int tPresidentPlayerIndex;
 		Player tPlayer;
 		PlayerManager tPlayerManager;
 		ShareCompany tShareCompany;
 		Player tPresident;
-		int tCurrentPlayerIndex;
 		
 		tPlayerManager = aRoundManager.getPlayerManager ();
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
-			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
+			tPresidentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
+			rebuildFormationPanel (aRoundManager, tPresidentPlayerIndex);
 			tEffectUndone = true;
 		} else if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
 			tPlayerManager = aRoundManager.getPlayerManager ();
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
+			tPresidentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
+			rebuildFormationPanel (aRoundManager, tPresidentPlayerIndex);
 			tEffectUndone = true;
 		}
 
