@@ -3,9 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.HideFormationPanelEffect;
-import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
-import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import geUtilities.XMLNode;
 
 public class FormationPhaseAction extends ChangeStateAction {
@@ -27,20 +25,6 @@ public class FormationPhaseAction extends ChangeStateAction {
 	public FormationPhaseAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
-	}
-
-	public void addUpdateToNextPlayerEffect (ActorI aFromActor, ActorI aToActor) {
-		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;
-
-		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aFromActor, aToActor);
-		addEffect (tUpdateToNextPlayerEffect);
-	}
-
-	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
-		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
-		
-		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
-		addEffect (tRebuildFormationPanelEffect);
 	}
 
 	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
