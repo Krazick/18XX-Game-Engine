@@ -2,6 +2,8 @@ package ge18xx.round.action;
 
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.SetFormationStateEffect;
+import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
 import geUtilities.XMLNode;
 
@@ -27,6 +29,25 @@ public class StartFormationAction extends ChangeStateAction {
 		setName (NAME);
 	}
 	
+//    <Effect actor="Mark" class="ge18xx.round.action.effects.ShowFormationPanelEffect" fromName="Mark" isAPrivate="false" name="Show Formation Panel" order="10"/>
+//    <Effect actor="Mark" class="ge18xx.round.action.effects.SetFormationStateEffect" fromName="Mark" isAPrivate="false" name="Set Formation State" newState="Loan Repayment" order="11" previousState="No State"/>
+//    <Effect actor="Mark" class="ge18xx.round.action.effects.StartFormationEffect" fromName="Mark" isAPrivate="false" name="Start Formation" order="12"/>
+	
+	public void addShowFormationPanelEffect (ActorI aFromActor) {
+		ShowFormationPanelEffect tShowFormationPanelEffect;
+		
+		tShowFormationPanelEffect = new ShowFormationPanelEffect (aFromActor);
+		addEffect (tShowFormationPanelEffect);
+	}
+
+	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
+							ActorI.ActionStates aNewFormationState) {
+		SetFormationStateEffect tSetFormationStateEffect;
+		
+		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
+		addEffect (tSetFormationStateEffect);
+	}
+
 	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation) {
 		StartFormationEffect tStartFormationEffect;
 
