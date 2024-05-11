@@ -87,7 +87,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public CorporationList (ElementName aTypeName, RoundManager aRoundManager) {
 		super ();
-		corporations = new LinkedList<> ();
+		corporations = new LinkedList<Corporation> ();
 		setTypeName (aTypeName);
 		roundManager = aRoundManager;
 	}
