@@ -337,8 +337,9 @@ public class PhaseInfo {
 	}
 	
 	public boolean isUpgradeAllowed (String aTileColor) {
-		boolean tUpgradeAllowed = false;
+		boolean tUpgradeAllowed;
 
+		tUpgradeAllowed = false;
 		for (String tTileColor : tiles) {
 			if (tTileColor.equals (aTileColor)) {
 				tUpgradeAllowed = true;
