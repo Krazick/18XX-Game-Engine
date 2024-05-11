@@ -3076,15 +3076,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean hasTriggerClass () {
 		return phaseManager.hasTriggerClass ();
 	}
-	
-	public void setFormationPhase (FormationPhase aFormationPhase) {
-		formationPhase = aFormationPhase;
-	}
-	
-	public void handleTriggerClass () {
-		phaseManager.handleTriggerClass ();
-	}
-	
+//	
+//	public void handleTriggerClass () {
+//		phaseManager.handleTriggerClass ();
+//	}
+
 	public void showFormationPhaseFrame () {
 		if (hasTriggerClass ()) {
 			prepareFormationPhase ();
@@ -3101,13 +3097,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
 		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-			
 			tFormationPhase = new FormationPhase (this);
 			tFormationPhase.showFormationFrame ();
 		} else if (triggerClass instanceof FormationPhase) {
 			tFormationPhase = (FormationPhase) triggerClass;
 		}
 		setFormationPhase (tFormationPhase);
+	}
+
+	public void setFormationPhase (FormationPhase aFormationPhase) {
+		formationPhase = aFormationPhase;
 	}
 	
 	public void fillAuditFrame (String aActorName) {
