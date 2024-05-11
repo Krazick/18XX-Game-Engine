@@ -217,44 +217,24 @@ public class PhaseManager {
 		
 		return tTrainLimit;
 	}
-
-	public String getTriggerClass () {
-		String tTriggerClass;
-		PhaseInfo tPhaseInfo;
-		
-		tPhaseInfo = getCurrentPhaseInfo ();
-		tTriggerClass = tPhaseInfo.getTriggerClass ();
-		
-		return tTriggerClass;
-	}
-	
-	public boolean hasTriggerClass () {
-		String tTriggerClass;
-		boolean tHasTriggerClass;
-		
-		tTriggerClass = getTriggerClass ();
-		if (tTriggerClass != GUI.NULL_STRING) {
-			tHasTriggerClass = true;
-		} else {
-			tHasTriggerClass = false;
-		}
-		
-		return tHasTriggerClass;
-	}
 	
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction,
 			Bank aBank) {
 		TrainInfo tTrainInfo;
 		PhaseInfo tCurrentPhase;
 		String tRustTrainName;
+		String tTriggerPhaseName;
+		String tCurrentPhaseName;
 		int tPhaseIndex;
 		int tOldPhaseIndex;
 
 		tTrainInfo = aTrain.getTrainInfo ();
 		tCurrentPhase = getCurrentPhaseInfo ();
-		if (!(tCurrentPhase.getFullName ().equals (tTrainInfo.getTriggerPhase ()))) {
+		tCurrentPhaseName = tCurrentPhase.getFullName ();
+		tTriggerPhaseName = tTrainInfo.getTriggerPhase ();
+		if (!(tCurrentPhaseName.equals (tTriggerPhaseName))) {
 			tOldPhaseIndex = currentPhase;
-			tPhaseIndex = getPhaseIndex (tTrainInfo.getTriggerPhase ());
+			tPhaseIndex = getPhaseIndex (tTriggerPhaseName);
 			setCurrentPhase (tPhaseIndex);
 			tCurrentPhase = getCurrentPhaseInfo ();
 			aBuyTrainAction.addPhaseChangeEffect (aTrainCompany, tOldPhaseIndex, tPhaseIndex);
@@ -271,25 +251,55 @@ public class PhaseManager {
 			handleTriggerClass (aBuyTrainAction);
 		}
 	}
-
-	public void setCorporationTriggerFormation (TrainCompany aTrainCompany) {
-		aTrainCompany.setTriggerFormation (true);
-	}
+//
+//	public void setCorporationTriggerFormation (TrainCompany aTrainCompany) {
+//		aTrainCompany.setTriggerFormation (true);
+//	}
 	
 	public void handleTriggerClass () {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
-		if (hasTriggerClass ()) {
+		if (hasTriggerClass (tTriggerClass)) {
 			callTriggerClass (tTriggerClass);
 		}
+	}
+
+	public String getTriggerClass () {
+		String tTriggerClass;
+		PhaseInfo tPhaseInfo;
+		
+		tPhaseInfo = getCurrentPhaseInfo ();
+		tTriggerClass = tPhaseInfo.getTriggerClass ();
+		
+		return tTriggerClass;
+	}
+	
+	public boolean hasTriggerClass () {
+		String tTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+
+		return hasTriggerClass (tTriggerClass);
+	}
+	
+	public boolean hasTriggerClass (String aTriggerClass) {
+		boolean tHasTriggerClass;
+		
+		if (aTriggerClass != GUI.NULL_STRING) {
+			tHasTriggerClass = true;
+		} else {
+			tHasTriggerClass = false;
+		}
+		
+		return tHasTriggerClass;
 	}
 
 	public void handleTriggerClass (BuyTrainAction aBuyTrainAction) {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
-		if (hasTriggerClass ()) {
+		if (hasTriggerClass (tTriggerClass)) {
 			callTriggerClass (tTriggerClass, aBuyTrainAction);
 		}
 	}
@@ -298,6 +308,7 @@ public class PhaseManager {
 		Class<?> tTriggerClass;
 		Class<?> tGameManagerClass;
 		Constructor<?> tTriggerConstructor;
+		@SuppressWarnings ("unused")
 		TriggerClass tTriggerClassActual;
 		
 		try {
@@ -305,7 +316,7 @@ public class PhaseManager {
 			tGameManagerClass = gameManager.getClass ();
 			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass);
 			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager);
-			addTriggerClass (tTriggerClassActual);
+//			addTriggerClass (tTriggerClassActual);
 		} catch (NoSuchMethodException tException) {
 			System.err.println ("Could not find Method for Class " + aTriggerClass);
 					tException.printStackTrace ();
@@ -324,6 +335,7 @@ public class PhaseManager {
 		Class<?> tGameManagerClass;
 		Class<?> tBTActionClass;
 		Constructor<?> tTriggerConstructor;
+		@SuppressWarnings ("unused")
 		TriggerClass tTriggerClassActual;
 		
 		try {
@@ -332,7 +344,7 @@ public class PhaseManager {
 			tBTActionClass = aBuyTrainAction.getClass ();
 			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass, tBTActionClass);
 			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager, aBuyTrainAction);
-			addTriggerClass (tTriggerClassActual);
+//			addTriggerClass (tTriggerClassActual);
 		} catch (NoSuchMethodException tException) {
 			System.err.println ("Could not find Method for Class " + aTriggerClass);
 					tException.printStackTrace ();
@@ -345,10 +357,10 @@ public class PhaseManager {
 			tException.printStackTrace ();
 		}
 	}
-	
-	public void addTriggerClass (TriggerClass aTriggerClass) {
-
-	}
+//	
+//	public void addTriggerClass (TriggerClass aTriggerClass) {
+//
+//	}
 	
 	public void printAllPhaseInfos () {
 		PhaseInfo tPhaseInfo;
