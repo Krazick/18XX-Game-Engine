@@ -26,6 +26,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.ShareHolders;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BorrowTrainAction;
 import ge18xx.round.action.BuyTrainAction;
@@ -38,6 +39,7 @@ import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
+import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
@@ -1125,6 +1127,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainHolder.removeSelectedTrain ();
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
+			handleTriggerClass ();
 		}
 		if (tTrainHolder.isABankPool ()) {
 			tBankPool = (BankPool) tTrainHolder;
@@ -1142,6 +1145,96 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateInfo ();
 	}
 
+	// if The Phase has a TriggerClass, it needs to be called
+	public void handleTriggerClass () {
+		String tTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+		if (hasTriggerClass (tTriggerClass)) {
+			setupPreparedAction ();
+		}
+	}
+
+	public void setupPreparedAction () {
+		PreparedAction tPreparedAction;
+		RoundManager tRoundManager;
+		
+		tPreparedAction = createPreparedFormationAction ();
+		if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
+			System.out.println ("Prepared Action for Formation of Company");
+			tRoundManager = corporationList.getRoundManager ();
+			System.out.println (tPreparedAction.getActionReport (tRoundManager));
+		} else {
+			System.out.println ("No Prepared Action found");
+		}
+	}
+	
+	public PreparedAction createPreparedFormationAction () {
+		String tPreparedFormationActionXML = 
+				"<PreparedAction>\n"
+				+ "<ActorType type=\"Corporation\"/>\n"
+				+ "<TargetState state=\"Operated\"/>\n"
+				+ "<Action actor=\"LPS\" chainPrevious=\"false\" class=\"ge18xx.round.action.StartFormationAction\" name=\"Formation Phase Action\" number=\"1667\" roundID=\"10.1\" roundType=\"Operating Round\">\n"
+				+ "	<Effects>\n"
+				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.ShowFormationPanelEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Show Formation Panel\" order=\"1\"/>\n"
+				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.SetFormationStateEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Set Formation State\" newState=\"Loan Repayment\" order=\"2\" previousState=\"No State\"/>\n"
+				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.StartFormationEffect\" formingCompanyID=\"1512\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Start Formation\" order=\"3\"/>\n"
+				+ "	</Effects>\n"
+				+ "</Action>\n" 
+				+ "</PreparedAction>";
+		XMLDocument tXMLDocument;
+		XMLDocument tAXMLDocument;
+		XMLNode tXMLNode;
+		PreparedAction tPreparedAction;
+		GameManager tGameManager;
+		String tXMLNodeName;
+
+		tAXMLDocument = new XMLDocument ();
+		tXMLDocument = tAXMLDocument.parseXMLString (tPreparedFormationActionXML);
+		tPreparedAction = PreparedAction.NO_PREPARED_ACTION;
+		if (tXMLDocument.validDocument ()) {
+			tXMLNode = tXMLDocument.getDocumentNode ();
+			tGameManager = getGameManager ();
+			tXMLNodeName = tXMLNode.getNodeName ();
+			if (PreparedAction.EN_PREPARED_ACTION.equals (tXMLNodeName)) {
+				tPreparedAction = new PreparedAction (tXMLNode, tGameManager);
+				preparedActions.addPreparedAction (tPreparedAction);
+			}
+		}
+		
+		return tPreparedAction;
+	}
+	
+	public String getTriggerClass () {
+		String tTriggerClass;
+		PhaseInfo tPhaseInfo;
+		
+		tPhaseInfo = getCurrentPhaseInfo ();
+		tTriggerClass = tPhaseInfo.getTriggerClass ();
+		
+		return tTriggerClass;
+	}
+	
+	public boolean hasTriggerClass () {
+		String tTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+
+		return hasTriggerClass (tTriggerClass);
+	}
+	
+	public boolean hasTriggerClass (String aTriggerClass) {
+		boolean tHasTriggerClass;
+		
+		if (aTriggerClass != GUI.NULL_STRING) {
+			tHasTriggerClass = true;
+		} else {
+			tHasTriggerClass = false;
+		}
+		
+		return tHasTriggerClass;
+	}
+	
 	@Override
 	public boolean trainIsSelected () {
 		boolean tTrainIsSelected = false;
@@ -1960,12 +2053,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void payFullDividend () {
 		int tRevenueGenerated;
-		PayFullDividendAction tPayFullDividendAction;
-		String tOperatingRoundID;
 		int tOperatingRoundPart2;
+		boolean tStatusUpdated;
+		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		OperatingRound tOperatingRound;
-		boolean tStatusUpdated;
+		PayFullDividendAction tPayFullDividendAction;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
 
