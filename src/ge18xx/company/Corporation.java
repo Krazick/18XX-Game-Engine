@@ -47,6 +47,7 @@ import ge18xx.round.action.DeclareBankruptcyAction;
 import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.LayTokenAction;
+import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedActions;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.effects.Effect;
@@ -2143,10 +2144,37 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			}
 		}
 		updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
+		if (tStatusUpdated) {
+			if (preparedActions.getCount () > 0) {
+				applyPreparedActions ();
+			}
+		}
 		
 		return tStatusUpdated;
 	}
 
+	public void applyPreparedActions () {
+		int tPreparedActionCount;
+		int tPreparedActionIndex;
+		PreparedAction tPreparedAction;
+		
+		tPreparedActionCount = preparedActions.getCount ();
+		for (tPreparedActionIndex = 0; tPreparedActionIndex < tPreparedActionCount; tPreparedActionIndex++) {
+			tPreparedAction = preparedActions.getAction (tPreparedActionIndex);
+			if (tPreparedAction.getTargetState ().equals (status)) {
+				applyPreparedAction (tPreparedAction);
+				preparedActions.removeAction (tPreparedActionIndex);
+			}
+		}
+	}
+	
+	public void applyPreparedAction (PreparedAction aPreparedAction) {
+		Action tAction;
+		
+		tAction = aPreparedAction.getAction ();
+		System.out.println ("Corporation Status update to [" + status + "] apply Action " + tAction.getName ());
+	}
+	
 	/**
 	 * Default Corporation knows how big a loan can be.
 	 *
