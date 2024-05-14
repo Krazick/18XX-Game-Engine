@@ -5,11 +5,15 @@ import ge18xx.company.formation.FormationPhase;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import geUtilities.AttributeName;
+import geUtilities.XMLDocument;
+import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class StartFormationEffect extends Effect {
 	public static final String NAME = "Start Formation";
-	Corporation formingCorporation;
+	public static final AttributeName AN_FORMING_COMPANY_ID = new AttributeName ("formingCompanyID");
+ 	Corporation formingCorporation;
 	
 	public StartFormationEffect () {
 		this (NAME);
@@ -27,6 +31,22 @@ public class StartFormationEffect extends Effect {
 	public StartFormationEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
+		int tCompanyID;
+		Corporation tFormingCorporation;
+		
+		tCompanyID = aEffectNode.getThisIntAttribute (AN_FORMING_COMPANY_ID);
+		tFormingCorporation = aGameManager.getCorporationByID (tCompanyID);
+		setFormingCorporation (tFormingCorporation);
+	}
+	
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
+
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
+		tEffectElement.setAttribute (AN_FORMING_COMPANY_ID, formingCorporation.getID ());
+		
+		return tEffectElement;
 	}
 
 	public void setFormingCorporation (Corporation aFormingCorporation) {
