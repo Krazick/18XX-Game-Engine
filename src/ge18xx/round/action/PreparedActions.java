@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PreparedActions {
-
 	List<PreparedAction> preparedActions;
 
 	public PreparedActions () {
@@ -21,5 +20,9 @@ public class PreparedActions {
 	
 	public PreparedAction getAction (int aIndex) {
 		return preparedActions.get (aIndex);
+	}
+	
+	public void removeAction (int aIndex) {
+		preparedActions.remove (aIndex);
 	}
 }
