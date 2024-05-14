@@ -2,6 +2,9 @@ package ge18xx.phase;
 
 import java.util.Comparator;
 
+import org.w3c.dom.NodeList;
+
+import ge18xx.round.action.PreparedAction;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
@@ -19,6 +22,7 @@ import geUtilities.XMLNode;
 public class PhaseInfo {
 	public static final ElementName EN_PHASES = new ElementName ("Phases");
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
+	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_SUB_NAME = new AttributeName ("subName");
@@ -75,7 +79,9 @@ public class PhaseInfo {
 	boolean governmentMustForm;
 	String offBoard;
 	String triggerClass;
-
+	String preparedActionXML;
+	PreparedAction preparedAction;
+	
 	public PhaseInfo () {
 		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
 				false, false, false, false, null, 0);
@@ -126,6 +132,7 @@ public class PhaseInfo {
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm,
 				tTriggerClass, tFormCompanyId);
 		parseMajorMinorValues (aCellNode);
+		loadPreparedActionXML (aCellNode);
 	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
@@ -177,6 +184,39 @@ public class PhaseInfo {
 		setMinorTileLays (tValue);
 	}
 
+	private void loadPreparedActionXML (XMLNode aCellNode) {
+		String tChildName;
+		XMLNode tChildNode;
+		NodeList tChildren;
+		int tIndex;
+		int tChildrenCount;
+
+		tChildren = aCellNode.getChildNodes ();
+		tChildrenCount = tChildren.getLength ();
+		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
+			tChildName = tChildNode.getNodeName ();
+			if (EN_PREPARED_ACTION.equals (tChildName)) {
+				System.out.println ("Found Prepared Action Node:\n" + tChildNode.toString ());
+				setPreparedActionXML (tChildNode.toString ());
+//				tPreparedAction = new PreparedAction (tChildNode);
+//				setPreparedAction (tPreparedAction);
+			}
+		}
+	}
+	
+	private void setPreparedActionXML (String aPreparedActionXML) {
+		preparedActionXML = aPreparedActionXML;
+	}
+	
+	public String getPreparedActionXML () {
+		return preparedActionXML;
+	}
+	
+	public void setPreparedAction (PreparedAction aPreparedAction) {
+		preparedAction = aPreparedAction;
+	}
+	
 	private void setMajorTileLays (int aValue) {
 		majorTileLays = aValue;
 	}
