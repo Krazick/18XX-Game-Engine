@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.HideFormationPanelEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
+import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import geUtilities.XMLNode;
 
 public class FormationPhaseAction extends ChangeStateAction {
@@ -40,6 +41,13 @@ public class FormationPhaseAction extends ChangeStateAction {
 		
 		tHideFormationPanelEffect = new HideFormationPanelEffect (aActor);
 		addEffect (tHideFormationPanelEffect);
+	}
+	
+	public void addShowFormationPanelEffect (ActorI aActor) {
+		ShowFormationPanelEffect tShowFormationPanelEffect;
+		
+		tShowFormationPanelEffect = new ShowFormationPanelEffect (aActor);
+		addEffect (tShowFormationPanelEffect);
 	}
 
 	@Override
