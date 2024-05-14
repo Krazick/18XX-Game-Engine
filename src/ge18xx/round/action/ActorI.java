@@ -174,6 +174,18 @@ public interface ActorI {
 		public String toAbbrev () {
 			return enumAbbrev;
 		}
+		
+		public static ActionStates fromString (String aActorState) {
+			ActionStates tFoundActorState = ActionStates.NoAction;
+
+			for (ActionStates tActorState : ActionStates.values ()) {
+				if (tActorState.toString ().equalsIgnoreCase (aActorState)) {
+					tFoundActorState = tActorState;
+				}
+			}
+			return tFoundActorState;
+		}
+
 	}
 
 	public String getName ();
