@@ -447,6 +447,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tSourceTitle;
 		KButton tSourceButton;
 		boolean tConfirmedDoneAction;
+		boolean tStatusUpdated;
 
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
@@ -511,7 +512,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (DONE.equals (tCommand)) {
 			tConfirmedDoneAction = confirmDoneAction ();
 			if (tConfirmedDoneAction) {	
-				corporation.doneAction ();
+				tStatusUpdated = corporation.doneAction ();
+				corporation.applyPreparedActions ();
+				if (tStatusUpdated) {
+					corporation.corporationListDoneAction ();
+				}
 			}
 		}
 		if (UNDO.equals (tCommand)) {
