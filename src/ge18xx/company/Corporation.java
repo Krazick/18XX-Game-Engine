@@ -41,6 +41,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.DeclareBankruptcyAction;
@@ -841,7 +842,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		hideFrame ();
 	}
 
-	public void doneAction () {
+	public boolean doneAction () {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
@@ -861,9 +862,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tDoneAction.addClearTrainsFromMapEffect (this);
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
-			corporationList.doneAction (this);
 		}
 		hideFrame ();
+		
+		return tStatusUpdated;
+	}
+	
+	public void corporationListDoneAction () {
+		corporationList.doneAction (this);
 	}
 
 	// Train Company will override
@@ -2144,11 +2150,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			}
 		}
 		updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
-		if (tStatusUpdated) {
-			if (preparedActions.getCount () > 0) {
-				applyPreparedActions ();
-			}
-		}
 		
 		return tStatusUpdated;
 	}
@@ -2170,9 +2171,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	
 	public void applyPreparedAction (PreparedAction aPreparedAction) {
 		Action tAction;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
 		
 		tAction = aPreparedAction.getAction ();
-		System.out.println ("Corporation Status update to [" + status + "] apply Action " + tAction.getName ());
+		tGameManager = getGameManager ();
+		tRoundManager = tGameManager.getRoundManager ();
+		tAction.applyAction (tRoundManager);
+		tRoundManager.addAction (tAction);
 	}
 	
 	/**
