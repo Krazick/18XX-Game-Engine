@@ -21,12 +21,13 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.phase.PhaseManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.ShareHolders;
 import ge18xx.round.OperatingRound;
-import ge18xx.round.RoundManager;
+import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BorrowTrainAction;
 import ge18xx.round.action.BuyTrainAction;
@@ -43,6 +44,7 @@ import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
@@ -1091,11 +1093,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		CashHolderI tCashHolder;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
+		boolean tFirstTrainOfType;
 		boolean tStatusUpdated;
 		Bank tBank;
 		BankPool tBankPool;
 		GameManager tGameManager;
-		boolean tFirstTrainOfType;
 
 		tGameManager = getGameManager ();
 		tTrain = getSelectedBankTrain ();
@@ -1142,67 +1144,97 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 		addAction (aBuyTrainAction);
+		if (tStatusUpdated) {
+			if (preparedActions.getCount () > 0) {
+				applyPreparedActions ();
+			}
+		}
 		updateInfo ();
 	}
 
 	// if The Phase has a TriggerClass, it needs to be called
 	public void handleTriggerClass () {
 		String tTriggerClass;
+		PreparedAction tPreparedAction;
 		
 		tTriggerClass = getTriggerClass ();
 		if (hasTriggerClass (tTriggerClass)) {
-			setupPreparedAction ();
+//			setupPreparedAction ();
+			tPreparedAction = createPreparedFormationAction ();
+			if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
+				preparedActions.addPreparedAction (tPreparedAction);
+			}
 		}
 	}
 
-	public void setupPreparedAction () {
-		PreparedAction tPreparedAction;
-		RoundManager tRoundManager;
-		
-		tPreparedAction = createPreparedFormationAction ();
-		if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
-			System.out.println ("Prepared Action for Formation of Company");
-			tRoundManager = corporationList.getRoundManager ();
-			System.out.println (tPreparedAction.getActionReport (tRoundManager));
-		} else {
-			System.out.println ("No Prepared Action found");
-		}
-	}
+//	public void setupPreparedAction () {
+//		PreparedAction tPreparedAction;
+//		RoundManager tRoundManager;
+//		
+//		tPreparedAction = createPreparedFormationAction ();
+//		if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
+//			System.out.println ("Prepared Action for Formation of Company");
+//			tRoundManager = corporationList.getRoundManager ();
+//			System.out.println (tPreparedAction.getActionReport (tRoundManager));
+//		} else {
+//			System.out.println ("No Prepared Action found");
+//		}
+//	}
 	
 	public PreparedAction createPreparedFormationAction () {
-		String tPreparedFormationActionXML = 
-				"<PreparedAction>\n"
-				+ "<ActorType type=\"Corporation\"/>\n"
-				+ "<TargetState state=\"Operated\"/>\n"
-				+ "<Action actor=\"LPS\" chainPrevious=\"false\" class=\"ge18xx.round.action.StartFormationAction\" name=\"Formation Phase Action\" number=\"1667\" roundID=\"10.1\" roundType=\"Operating Round\">\n"
-				+ "	<Effects>\n"
-				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.ShowFormationPanelEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Show Formation Panel\" order=\"1\"/>\n"
-				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.SetFormationStateEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Set Formation State\" newState=\"Loan Repayment\" order=\"2\" previousState=\"No State\"/>\n"
-				+ "		<Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.StartFormationEffect\" formingCompanyID=\"1512\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Start Formation\" order=\"3\"/>\n"
-				+ "	</Effects>\n"
-				+ "</Action>\n" 
-				+ "</PreparedAction>";
+		String tPreparedFormationActionXML;
 		XMLDocument tXMLDocument;
 		XMLDocument tAXMLDocument;
 		XMLNode tXMLNode;
 		PreparedAction tPreparedAction;
 		GameManager tGameManager;
 		String tXMLNodeName;
+		PhaseInfo tCurrentPhaseInfo;
+		PhaseManager tPhaseManager;
 
+		tGameManager = getGameManager ();
+		tPhaseManager = tGameManager.getPhaseManager ();
+		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
+		tPreparedFormationActionXML = tCurrentPhaseInfo.getPreparedActionXML ();
 		tAXMLDocument = new XMLDocument ();
 		tXMLDocument = tAXMLDocument.parseXMLString (tPreparedFormationActionXML);
 		tPreparedAction = PreparedAction.NO_PREPARED_ACTION;
 		if (tXMLDocument.validDocument ()) {
 			tXMLNode = tXMLDocument.getDocumentNode ();
-			tGameManager = getGameManager ();
 			tXMLNodeName = tXMLNode.getNodeName ();
 			if (PreparedAction.EN_PREPARED_ACTION.equals (tXMLNodeName)) {
 				tPreparedAction = new PreparedAction (tXMLNode, tGameManager);
-				preparedActions.addPreparedAction (tPreparedAction);
+				fillPlaceHolders (tGameManager, tPreparedAction);
+//				preparedActions.addPreparedAction (tPreparedAction);
 			}
 		}
 		
 		return tPreparedAction;
+	}
+	
+	public void fillPlaceHolders (GameManager aGameManager, PreparedAction aPreparedAction) {
+		Corporation tOperatingCorporation;
+		Player tOperatingCorpPresident;
+		Action tPreparedAction;
+		Effect tEffect;
+		int tEffectCount;
+		int tEffectIndex;
+//		int tActionNumber;
+		String tRoundID;
+		
+		tPreparedAction = aPreparedAction.getAction ();
+		tRoundID = aGameManager.getOperatingRoundID ();
+//		tActionNumber = aGameManager.getActionNumber ();
+		tOperatingCorporation = aGameManager.getOperatingCompany ();
+		tPreparedAction.setActor (tOperatingCorporation);
+		tPreparedAction.setRoundID (tRoundID);
+//		tPreparedAction.setNumber (tActionNumber);
+		tOperatingCorpPresident = (Player) tOperatingCorporation.getPresident ();
+		tEffectCount = tPreparedAction.getEffectCount ();
+		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
+			tEffect = tPreparedAction.getEffect (tEffectIndex);
+			tEffect.setActor (tOperatingCorpPresident);
+		}
 	}
 	
 	public String getTriggerClass () {
