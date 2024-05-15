@@ -248,7 +248,7 @@ public class PhaseManager {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
 			
-			handleTriggerClass (aBuyTrainAction);
+//			handleTriggerClass (aBuyTrainAction);
 		}
 	}
 //
