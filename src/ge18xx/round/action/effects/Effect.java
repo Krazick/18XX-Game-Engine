@@ -252,9 +252,9 @@ public abstract class Effect {
 		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 
 		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
-		if (tActor == ActorI.NO_ACTOR) {
-			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
-		}
+//		if (tActor == ActorI.NO_ACTOR) {
+//			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
+//		}
 		setName (tEffectName);
 		setActor (tActor);
 		setOrder (tOrder);
