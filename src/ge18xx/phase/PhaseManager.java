@@ -247,14 +247,8 @@ public class PhaseManager {
 			if (tCurrentPhase.getClosePrivates ()) {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
-			
-//			handleTriggerClass (aBuyTrainAction);
 		}
 	}
-//
-//	public void setCorporationTriggerFormation (TrainCompany aTrainCompany) {
-//		aTrainCompany.setTriggerFormation (true);
-//	}
 	
 	public void handleTriggerClass () {
 		String tTriggerClass;
@@ -316,7 +310,6 @@ public class PhaseManager {
 			tGameManagerClass = gameManager.getClass ();
 			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass);
 			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager);
-//			addTriggerClass (tTriggerClassActual);
 		} catch (NoSuchMethodException tException) {
 			System.err.println ("Could not find Method for Class " + aTriggerClass);
 					tException.printStackTrace ();
@@ -344,7 +337,6 @@ public class PhaseManager {
 			tBTActionClass = aBuyTrainAction.getClass ();
 			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass, tBTActionClass);
 			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager, aBuyTrainAction);
-//			addTriggerClass (tTriggerClassActual);
 		} catch (NoSuchMethodException tException) {
 			System.err.println ("Could not find Method for Class " + aTriggerClass);
 					tException.printStackTrace ();
@@ -357,10 +349,6 @@ public class PhaseManager {
 			tException.printStackTrace ();
 		}
 	}
-//	
-//	public void addTriggerClass (TriggerClass aTriggerClass) {
-//
-//	}
 	
 	public void printAllPhaseInfos () {
 		PhaseInfo tPhaseInfo;
