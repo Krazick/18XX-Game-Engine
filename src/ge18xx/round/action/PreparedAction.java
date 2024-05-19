@@ -13,17 +13,22 @@ public class PreparedAction {
 	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");
 	public static final ElementName EN_ACTOR_TYPE = new ElementName ("ActorType");
 	public static final ElementName EN_TARGET_STATE = new ElementName ("TargetState");
+	public static final ElementName EN_TRIGGERING_ACTOR = new ElementName ("TriggeringActor");
 	public static final AttributeName AN_STATE = new AttributeName ("state");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final PreparedAction NO_PREPARED_ACTION = null;
 	ActorI.ActionStates targetState;
 	ActorI.ActorTypes actorType;
+	ActorI triggeringActor;
 	Action action;
 	
-	public PreparedAction (ActorI.ActorTypes aActorType, ActorI.ActionStates aTargetState, Action aAction) {
+	public PreparedAction (ActorI.ActorTypes aActorType, ActorI.ActionStates aTargetState, 
+					ActorI aTriggeringActor, Action aAction) {
 		setActorType (aActorType);
 		setTargetState (aTargetState);
 		setAction (aAction);
+		setTriggeringActor (aTriggeringActor);
 	}
 	
 	public PreparedAction (XMLNode aPreparedActionNode, GameManager aGameManager) {
@@ -31,8 +36,10 @@ public class PreparedAction {
 		String tType;
 		ActorI.ActionStates tTargetState;
 		ActorI.ActorTypes tActorType;
+		ActorI tTriggeringActor;
 		XMLNode tChildNode;
 		String tChildName;
+		String tTriggeringActorName;
 		NodeList tChildren;
 		Action tAction;
 		int tIndex;
@@ -51,12 +58,20 @@ public class PreparedAction {
 				tState = tChildNode.getThisAttribute (AN_STATE);
 				tTargetState = ActorI.ActionStates.fromString (tState);
 				setTargetState (tTargetState);
+			} else if (EN_TRIGGERING_ACTOR.equals (tChildName)) {
+				tTriggeringActorName = tChildNode.getThisAttribute (AN_NAME);
+				tTriggeringActor =  aGameManager.getActor (tTriggeringActorName);
+				setTriggeringActor (tTriggeringActor);
 			} else if (Action.EN_ACTION.equals (tChildName)) {
 				tAction = new Action (tChildNode, aGameManager);
 				setAction (tAction);
 			}
 		}
 		
+	}
+	
+	public void setTriggeringActor (ActorI aTriggeringActor) {
+		triggeringActor = aTriggeringActor;
 	}
 	
 	private void setAction (Action aAction) {
@@ -73,6 +88,10 @@ public class PreparedAction {
 	
 	public Action getAction () {
 		return action;
+	}
+	
+	public ActorI getTriggeringActor () {
+		return triggeringActor;
 	}
 	
 	public ActorI.ActorTypes getActorType () {
