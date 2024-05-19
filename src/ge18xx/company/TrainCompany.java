@@ -1159,27 +1159,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tTriggerClass = getTriggerClass ();
 		if (hasTriggerClass (tTriggerClass)) {
-//			setupPreparedAction ();
 			tPreparedAction = createPreparedFormationAction ();
 			if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
 				preparedActions.addPreparedAction (tPreparedAction);
 			}
 		}
 	}
-
-//	public void setupPreparedAction () {
-//		PreparedAction tPreparedAction;
-//		RoundManager tRoundManager;
-//		
-//		tPreparedAction = createPreparedFormationAction ();
-//		if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
-//			System.out.println ("Prepared Action for Formation of Company");
-//			tRoundManager = corporationList.getRoundManager ();
-//			System.out.println (tPreparedAction.getActionReport (tRoundManager));
-//		} else {
-//			System.out.println ("No Prepared Action found");
-//		}
-//	}
 	
 	public PreparedAction createPreparedFormationAction () {
 		String tPreparedFormationActionXML;
@@ -1205,7 +1190,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (PreparedAction.EN_PREPARED_ACTION.equals (tXMLNodeName)) {
 				tPreparedAction = new PreparedAction (tXMLNode, tGameManager);
 				fillPlaceHolders (tGameManager, tPreparedAction);
-//				preparedActions.addPreparedAction (tPreparedAction);
 			}
 		}
 		
@@ -1219,16 +1203,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Effect tEffect;
 		int tEffectCount;
 		int tEffectIndex;
-//		int tActionNumber;
 		String tRoundID;
 		
 		tPreparedAction = aPreparedAction.getAction ();
 		tRoundID = aGameManager.getOperatingRoundID ();
-//		tActionNumber = aGameManager.getActionNumber ();
 		tOperatingCorporation = aGameManager.getOperatingCompany ();
 		tPreparedAction.setActor (tOperatingCorporation);
 		tPreparedAction.setRoundID (tRoundID);
-//		tPreparedAction.setNumber (tActionNumber);
+		aPreparedAction.setTriggeringActor (tOperatingCorporation);
 		tOperatingCorpPresident = (Player) tOperatingCorporation.getPresident ();
 		tEffectCount = tPreparedAction.getEffectCount ();
 		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
