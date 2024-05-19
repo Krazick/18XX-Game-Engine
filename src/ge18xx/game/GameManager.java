@@ -3109,6 +3109,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		formationPhase = aFormationPhase;
 	}
 	
+	public FormationPhase getFormationPhase () {
+		return formationPhase;
+	}
+	
 	public void fillAuditFrame (String aActorName) {
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
