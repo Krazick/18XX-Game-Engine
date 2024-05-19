@@ -2225,14 +2225,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tPlayerManager = new PlayerManager (this);
 			setPlayerManager (tPlayerManager);
 		}
+		
 		tPlayerCount = playerInputFrame.getPlayerCount ();
-		tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
-		tCertificateLimit = activeGame.getCertificateLimit (tPlayerCount);
-		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-			tPlayerName = playerInputFrame.getPlayerName (tIndex);
-			tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit);
-			bank.transferCashTo (tPlayer, tPlayerStartingCash);
-			playerManager.addPlayer (tPlayer);
+		if (tPlayerCount == 0) {
+			tPlayerCount = playerManager.getPlayerCount ();
+			playerManager.setCertificateLimit (activeGame, tPlayerCount);
+		} else {
+			tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
+			tCertificateLimit = activeGame.getCertificateLimit (tPlayerCount);
+			for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
+				tPlayerName = playerInputFrame.getPlayerName (tIndex);
+				tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit);
+				bank.transferCashTo (tPlayer, tPlayerStartingCash);
+				playerManager.addPlayer (tPlayer);
+			}
 		}
 
 		if (roundManagerIsValid ()) {
