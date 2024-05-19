@@ -1303,18 +1303,11 @@ public class PlayerManager {
 
 		tXMLNodeList = new XMLNodeList (playerParsingRoutine, aActiveGame);
 		tXMLNodeList.parseXMLNodeList (aPlayersNode, PlayerInputFrame.EN_PLAYER);
-
-		// If we have more than 1 player, we have loaded players. Can have 2 to N
-		// Players
 		tPlayerCount = getPlayerCount ();
 		if (tPlayerCount > 1) {
-			// Clear out Players from the PlayerInputFrame (to make sure we get rid of the
-			// Client User Name
-			// Who may, or may not have been in the Save Game.
 			tPlayerInputFrame = gameManager.getPlayerInputFrame ();
 			tPlayerInputFrame.removeAllPlayers ();
 			tPlayersLoaded = true;
-			setCertificateLimit (aActiveGame, tPlayerCount);
 		} else {
 			tPlayersLoaded = false;
 		}
@@ -1322,7 +1315,7 @@ public class PlayerManager {
 		return tPlayersLoaded;
 	}
 
-	private void setCertificateLimit (GameInfo aActiveGame, int aPlayerCount) {
+	public void setCertificateLimit (GameInfo aActiveGame, int aPlayerCount) {
 		int tCertificateLimit;
 
 		tCertificateLimit = aActiveGame.getCertificateLimit (aPlayerCount);
