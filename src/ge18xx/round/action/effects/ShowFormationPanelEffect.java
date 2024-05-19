@@ -34,10 +34,10 @@ public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
+		int tCurrentPlayerIndex;
 		boolean tEffectApplied;
 		Player tPresident;
 		PlayerManager tPlayerManager;
-		int tCurrentPlayerIndex;
 		ShareCompany tShareCompany;
 		
 		tEffectApplied = false;
