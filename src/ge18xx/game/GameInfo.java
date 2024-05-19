@@ -594,14 +594,15 @@ public class GameInfo {
 		tCertificateLimit = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
 			tPlayerInfoCount = players.length;
-			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
+			for (tIndex = 0; tIndex < tPlayerInfoCount; tIndex++) {
+//			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
 				tPlayerInfo = players [tIndex];
 				if (aNumPlayers == tPlayerInfo.getNumPlayers ()) {
 					tPhaseCount = tPlayerInfo.getPhaseCount ();
 					if (tPhaseCount == 1) {
 						tCertificateLimit = tPlayerInfo.getCertificateLimit ();
 					} else {
-						tCertificateLimit = getCertificateLimitCompanies (tPlayerInfo);
+						tCertificateLimit = getCertificateLimitCompanies (tPlayerInfo, tCertificateLimit);
 					}
 				}
 			}
@@ -610,7 +611,7 @@ public class GameInfo {
 		return tCertificateLimit;
 	}
 
-	public int getCertificateLimitCompanies (PlayerInfo aPlayerInfo) {
+	public int getCertificateLimitCompanies (PlayerInfo aPlayerInfo, int aCurrentCertificateLimit) {
 		PhaseInfo tCurrentPhaseInfo;
 		String tCurrentPhaseName;
 		String tPhaseName;
@@ -619,7 +620,7 @@ public class GameInfo {
 		GameManager tGameManager;
 		CorporationList tShareCompanies;
 		
-		tCertificateLimit = 100;
+		tCertificateLimit = aCurrentCertificateLimit;
 		tPhaseName = aPlayerInfo.getPhase (0);
 		tCurrentPhaseInfo = phaseManager.getCurrentPhaseInfo ();
 		tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
