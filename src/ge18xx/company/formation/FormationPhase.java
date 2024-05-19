@@ -101,7 +101,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
 		setNotificationText (TIME_TO_REPAY);
-		actingPresident = Player.NO_PLAYER;
+		setActingPresident (Player.NO_PLAYER);
 		setFormingShareCompany ();
 		setAllPlayerSharesHandled (false);
 		setHomeTokensExchanged (false);
@@ -175,7 +175,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tPlayer = (Player) gameManager.getActor (tPlayerName);
 		if (tPlayer != Player.NO_PLAYER) {
-			actingPresident = tPlayer;
+			setActingPresident (tPlayer);
 		}
 	}
 	
@@ -192,7 +192,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
-		tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
+		if (actingPresident != ActorI.NO_ACTOR) {
+			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
+		}
 
 		return tXMLElement;
 	}
@@ -468,6 +470,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		updatePlayers (aPlayers, actingPresident);
 	}
 
+	public void setActingPresident (Player aActingPresident) {
+		actingPresident = aActingPresident;
+	}
+	
 	@Override
 	public void setCurrentPlayerIndex (int aCurrentPlayerIndex) {
 		currentPlayerIndex = aCurrentPlayerIndex;
@@ -552,7 +558,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			setCurrentPlayerIndex (tPresidentIndex);
 			tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tFormingPresident);
 			gameManager.addAction (tChangeStateAction);
-			actingPresident = tFormingPresident;
+			setActingPresident (tFormingPresident);
 			rebuildFormationPanel (tPresidentIndex);
 		}
 	}
@@ -594,7 +600,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	}
 	
 	public void rebuildFormationPanel () {
-		rebuildFormationPanel (getCurrentPlayerIndex ());
+		int tCurrentPlayerIndex;
+		
+		tCurrentPlayerIndex = getCurrentPlayerIndex ();
+		if (tCurrentPlayerIndex >= 0) {
+			rebuildFormationPanel (tCurrentPlayerIndex);
+		}
 	}
 	
 	@Override
@@ -606,8 +617,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		showFormationPanel ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
-		updatePlayers (tPlayers, tActingPlayer);
+		if (aCurrentPlayerIndex >= 0) {
+			tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
+			updatePlayers (tPlayers, tActingPlayer);
+		}
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
@@ -745,13 +758,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		if (actingPresident == Player.NO_PLAYER) {
 			tActingCorporation = gameManager.getOperatingCompany ();
-
-			tPresident = tActingCorporation.getPresident ();
-			if (tPresident.isAPlayer ()) {
-				tActingPlayer = (Player) tPresident;
-				actingPresident = tActingPlayer;
-			} else {
-				actingPresident = Player.NO_PLAYER;
+			if (tActingCorporation != Corporation.NO_CORPORATION) {
+				tPresident = tActingCorporation.getPresident ();
+				if (tPresident.isAPlayer ()) {
+					tActingPlayer = (Player) tPresident;
+					setActingPresident (tActingPlayer);
+				} else {
+					setActingPresident (Player.NO_PLAYER);
+				}
 			}
 		}
 		tActingPlayer = actingPresident;
