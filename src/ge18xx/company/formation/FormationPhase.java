@@ -335,6 +335,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		setShareFoldCount (0);
 	}
 
+	public boolean isFormationFrameVisible () {
+		return formationFrame.isVisible ();
+	}
+	
 	public void showFormationFrame () {
 		formationFrame.showFrame ();
 	}
