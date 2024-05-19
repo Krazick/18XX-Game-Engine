@@ -21,6 +21,7 @@ public class PlayerInfo {
 	public static final String NO_PHASE = GUI.EMPTY_STRING;
 	public static final String ALL_PHASES = "0";
 	public static final String EN_PLAYER_INFO = "PlayerInfo";
+	public static final XMLNode NO_PLAYER_INFO_NODE = null;
 	public static final int NO_PLAYERS = 0;
 	public static final int NO_CASH = 0;
 	public static final int NO_LIMIT = 0;
