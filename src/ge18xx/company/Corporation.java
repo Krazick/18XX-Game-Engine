@@ -28,6 +28,7 @@ import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.company.formation.FormationPhase;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -37,6 +38,7 @@ import ge18xx.market.MarketCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
@@ -2173,10 +2175,26 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		Action tAction;
 		GameManager tGameManager;
 		RoundManager tRoundManager;
+		PlayerManager tPlayerManager;
+		ShareCompany tTriggeringCompany;
+		Player tActingPresident;
+		FormationPhase tFormationPhase;
+		int tCurrentPlayerIndex;
 		
 		tAction = aPreparedAction.getAction ();
 		tGameManager = getGameManager ();
 		tRoundManager = tGameManager.getRoundManager ();
+		tGameManager.prepareFormationPhase ();
+		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
+			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
+			tActingPresident = (Player) tTriggeringCompany.getPresident ();
+			tFormationPhase = tGameManager.getFormationPhase ();
+			tPlayerManager = tGameManager.getPlayerManager ();
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+			tFormationPhase.setCurrentPlayerIndex (tCurrentPlayerIndex);
+			tFormationPhase.setActingPresident (tActingPresident);
+		}
+
 		tAction.applyAction (tRoundManager);
 		tRoundManager.addAction (tAction);
 	}
