@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.formation.FormationPhase;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -446,6 +447,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tCommand;
 		String tSourceTitle;
 		KButton tSourceButton;
+		FormationPhase tFormationPhase;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
 
@@ -516,6 +518,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				corporation.applyPreparedActions ();
 				if (tStatusUpdated) {
 					corporation.corporationListDoneAction ();
+				}
+			}
+			tFormationPhase = gameManager.getFormationPhase ();
+			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
+				if (tFormationPhase.isFormationFrameVisible ()) {
+					tFormationPhase.showFormationFrame ();
 				}
 			}
 		}
