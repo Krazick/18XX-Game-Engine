@@ -533,11 +533,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	
 	public int getCountOfOpen () {
 		int tCountOfOpen;
-
+		
 		tCountOfOpen = 0;
 		for (Corporation tCorporation : corporations) {
 			if (!tCorporation.isClosed ()) {
-				tCountOfOpen++;
+				if (tCorporation.isFormed ()) {
+					tCountOfOpen++;
+				}
 			}
 		}
 
