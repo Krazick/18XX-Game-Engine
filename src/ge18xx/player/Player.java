@@ -1577,6 +1577,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));	// PRINTLOG
 		System.out.println ("Primary Action State [" + primaryActionState.toString () + "]");
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
+		System.out.println ("Player Certificate Limit " + getCertificateLimit ());
 	}
 
 	@Override
