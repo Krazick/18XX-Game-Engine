@@ -997,7 +997,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public int getCountOfOpenPrivates () {
-		return privatesFrame.getCountOfOpenCompanies ();
+		return privatesFrame.getCountOfOpen ();
 	}
 
 	public int getCountOfPlayerOwnedPrivates () {
@@ -2245,7 +2245,22 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			roundManager.updateAllCorporationsBox ();
 		}
 	}
-
+	
+	public void updateCertificateLimit () {
+		int tCertificateLimit;
+		int tPlayerCount;
+		int tIndex;
+		Player tPlayer;
+		
+		tPlayerCount = playerManager.getPlayerCount ();
+		tCertificateLimit = activeGame.getCertificateLimit (tPlayerCount);
+		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
+			tPlayer = playerManager.getPlayer (tIndex);
+			tPlayer.setCertificateLimit (tCertificateLimit);
+			playerManager.updateRFPlayerLabel (tPlayer);
+		}
+	}
+	
 	public void updatePlayerListeners (String aMessage) {
 		playerManager.updatePlayerListeners (aMessage);
 	}
@@ -2384,6 +2399,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void updateRoundFrame () {
 		if (roundManagerIsValid ()) {
+			updateCertificateLimit ();
 			roundManager.updateRoundFrame ();
 			roundManager.updateAllListenerPanels ();
 			roundManager.setListenerPanels (true);
