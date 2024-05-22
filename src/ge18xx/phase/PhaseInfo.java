@@ -197,10 +197,7 @@ public class PhaseInfo {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (EN_PREPARED_ACTION.equals (tChildName)) {
-				System.out.println ("Found Prepared Action Node:\n" + tChildNode.toString ());
 				setPreparedActionXML (tChildNode.toString ());
-//				tPreparedAction = new PreparedAction (tChildNode);
-//				setPreparedAction (tPreparedAction);
 			}
 		}
 	}
