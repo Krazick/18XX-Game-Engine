@@ -656,6 +656,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 		tPlayerFormationPhase = PlayerFormationPhase.NO_PLAYER_FORMATION_PHASE;
 		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
+		System.err.println ("Building PlayerPanel, Class Name " + tClassName);
 		try {
 			tPhaseToLoad = Class.forName (tClassName);
 			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
@@ -841,10 +842,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void handleStockValueCalculation () {
 		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
+		gameManager.updateCertificateLimit ();
 	}
 	
 	public void handleFormationComplete () {
 		handleFormationStateChange (ActorI.ActionStates.FormationComplete);
+		gameManager.updateCertificateLimit ();
 	}
 
 	public int getSharesReceived (int aSharesExchanged) {
