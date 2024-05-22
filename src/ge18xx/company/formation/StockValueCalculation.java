@@ -225,6 +225,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		tFormingShareCompany.resetStatus (tNewFormingCoStatus);
 		aStockValueCalculationAction.addChangeCorporationStatusEffect (tFormingShareCompany, 
 						tOldFormingCoStatus, tNewFormingCoStatus);
+		System.out.println ("Ready to close Folding Companies");
 		closeAllFoldingCompanies (aStockValueCalculationAction, tFoldingCorps);
 	}
 	
@@ -264,6 +265,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		tStockValueCalculationAction = new StockValueCalculationAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
 
+		System.out.println ("Completing Forming Company");
 		completeFormingCompany (tStockValueCalculationAction);
 		
 		// Possible special test if none of the folding companies have operated yet, may start CGR if next in order
