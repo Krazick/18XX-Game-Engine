@@ -109,7 +109,7 @@ public class CorporationTableFrame extends XMLFrame {
 		return companies;
 	}
 
-	public int getCountOfOpenCompanies () {
+	public int getCountOfOpen () {
 		return companies.getCountOfOpen ();
 	}
 
