@@ -595,7 +595,6 @@ public class GameInfo {
 		if (canPlayWithXPlayers (aNumPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; tIndex < tPlayerInfoCount; tIndex++) {
-//			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
 				tPlayerInfo = players [tIndex];
 				if (aNumPlayers == tPlayerInfo.getNumPlayers ()) {
 					tPhaseCount = tPlayerInfo.getPhaseCount ();
@@ -627,12 +626,13 @@ public class GameInfo {
 		if (tPhaseName.equals (tCurrentPhaseName)) {
 			tGameManager = phaseManager.getGameManager ();
 			tShareCompanies = tGameManager.getShareCompanies ();
+			
 			tCompanyCount = tShareCompanies.getCountOfOpen ();
 			if (aPlayerInfo.getCompanyCount () == tCompanyCount) {
 				tCertificateLimit = aPlayerInfo.getCertificateLimit ();
 			}
 		}
-		System.out.println ("Current Phase Name " + tCurrentPhaseName + " looking at " + tPhaseName + ", Limit " + tCertificateLimit);
+//		System.out.println ("Current Phase Name " + tCurrentPhaseName + " looking at " + tPhaseName + ", Limit " + tCertificateLimit);
 		
 		return tCertificateLimit;
 	}
