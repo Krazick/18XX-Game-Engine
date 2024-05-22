@@ -52,13 +52,6 @@ public class StockValueCalculationAction extends FormationPhaseAction {
 		tRemoveTokenFromMarketCellEffect = new RemoveTokenFromMarketCellEffect (aActor, aMarketCell, aStackLocation);
 		addEffect (tRemoveTokenFromMarketCellEffect);
 	}
-//	
-//	public void addHideFormationPanelEffect (ActorI aActor) {
-//		HideFormationPanelEffect tHideFormationPanelEffect;
-//		
-//		tHideFormationPanelEffect = new HideFormationPanelEffect (aActor);
-//		addEffect (tHideFormationPanelEffect);
-//	}
 
 	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
