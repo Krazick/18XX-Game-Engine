@@ -41,12 +41,4 @@ public class ChangeFormationPhaseStateAction extends FormationPhaseAction {
 
 		return tSimpleActionReport;
 	}
-
-//	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
-//							ActorI.ActionStates aNewFormationState) {
-//		SetFormationStateEffect tSetFormationStateEffect;
-//		
-//		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
-//		addEffect (tSetFormationStateEffect);
-//	}
 }
