@@ -5,6 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.HideFormationPanelEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
+import ge18xx.round.action.effects.UpdateCertificateLimitEffect;
 import geUtilities.XMLNode;
 
 public class FormationPhaseAction extends ChangeStateAction {
@@ -48,6 +49,14 @@ public class FormationPhaseAction extends ChangeStateAction {
 		
 		tShowFormationPanelEffect = new ShowFormationPanelEffect (aActor);
 		addEffect (tShowFormationPanelEffect);
+	}
+	
+	public void addUpdateCertificateLimitEffect (ActorI aActor, int aOldCertificateLimit, int aNewCertificateLimit) {
+		UpdateCertificateLimitEffect tUpdateCertificateLimitEffect;
+
+		tUpdateCertificateLimitEffect = new UpdateCertificateLimitEffect (aActor, aOldCertificateLimit,
+						aNewCertificateLimit);
+		addEffect (tUpdateCertificateLimitEffect);
 	}
 
 	@Override
