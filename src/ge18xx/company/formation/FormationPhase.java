@@ -801,6 +801,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
 		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+		PlayerManager tPlayerManager;
 		String tOperatingRoundID;
 		ActorI.ActionStates tNewFormationState;
 		
@@ -816,6 +817,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
 			hideFormationPanel ();
 			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (actingPresident);
+			
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayerManager.updateCertificateLimit (tChangeFormationPhaseStateAction);
+
 		} else {
 			setupPlayers ();
 			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
@@ -841,12 +846,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void handleStockValueCalculation () {
 		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
-		gameManager.updateCertificateLimit ();
 	}
 	
 	public void handleFormationComplete () {
 		handleFormationStateChange (ActorI.ActionStates.FormationComplete);
-		gameManager.updateCertificateLimit ();
 	}
 
 	public int getSharesReceived (int aSharesExchanged) {
