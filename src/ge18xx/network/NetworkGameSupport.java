@@ -25,7 +25,7 @@ public interface NetworkGameSupport {
 	public void handleGameActivity (String aGameActivity);
 	public String getPlayersInOrder ();
 	public void randomizePlayerOrder ();
-	public void initiateNetworkGame ();
+	public void initiateNetworkGame (String aGameID);
 	public boolean gameStarted ();
 	public Point getOffsetGEFrame ();
 	public String getClientUserName ();
