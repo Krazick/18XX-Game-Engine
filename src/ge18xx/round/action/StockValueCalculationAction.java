@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.SetParValueEffect;
 import geUtilities.XMLNode;
 
 public class StockValueCalculationAction extends FormationPhaseAction {
-	public final static String NAME = "Stock Value Calculation Finished";
+	public final static String NAME = "Stock Value Calculation";
 
 	public StockValueCalculationAction () {
 		this (NAME);
@@ -34,7 +34,7 @@ public class StockValueCalculationAction extends FormationPhaseAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
 
-		tSimpleActionReport = actor.getName () + " has finished Stock Value Calculation";
+		tSimpleActionReport = actor.getName () + " has finished " + NAME;
 
 		return tSimpleActionReport;
 	}
