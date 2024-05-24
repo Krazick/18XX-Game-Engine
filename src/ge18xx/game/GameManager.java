@@ -1300,8 +1300,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	@Override
-	public void initiateNetworkGame () {
-		initiateGame (getSelectedGame ());
+	public void initiateNetworkGame (String aGameID) {
+		GameInfo tSelectedGame;
+		
+		tSelectedGame = getSelectedGame ();
+		tSelectedGame.setGameID (aGameID);
+		initiateGame (tSelectedGame);
 	}
 
 	@Override
@@ -3212,7 +3216,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public String requestGameSupport (String aRequestGameSupport) {
-		return networkJGameClient.requestGameSupport (gameID, aRequestGameSupport);
+		String tGameSupportResponse;
+		
+		tGameSupportResponse = networkJGameClient.requestGameSupport (gameID, aRequestGameSupport);
+		
+		return tGameSupportResponse;
 	}
 
 	public boolean isLastActionComplete () {

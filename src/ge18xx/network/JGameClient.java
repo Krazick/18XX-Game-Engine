@@ -734,14 +734,20 @@ public class JGameClient extends XMLFrame {
 		if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 			serverHandler.sendUserStart (tGameID);
 		}
-		startsGame ();
+		startsGame (tGameID);
 		updatePlayersAndButtons ();
 	}
 
 	public void startsGame () {
+		String tGameID;
+		tGameID = getGameID ();
+		startsGame (tGameID);
+	}
+	
+	public void startsGame (String aGameID) {
 		swapToGameActivity ();
 		gameStarted = true;
-		gameManager.initiateNetworkGame ();
+		gameManager.initiateNetworkGame (aGameID);
 		updatePlayersAndButtons ();
 	}
 
