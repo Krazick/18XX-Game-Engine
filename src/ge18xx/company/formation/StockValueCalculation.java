@@ -282,6 +282,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerManager.setPlayersToNoAction ();
+		tPlayerManager.updateCertificateLimit (tStockValueCalculationAction);
 		gameManager.addAction (tStockValueCalculationAction);
 		gameManager.updateAllFrames ();
 	}
