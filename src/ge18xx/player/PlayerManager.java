@@ -40,6 +40,7 @@ import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.ClearRoundDividendsAction;
 import ge18xx.round.action.DonePlayerAction;
 import ge18xx.round.action.ExchangeStockAction;
+import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
@@ -1772,6 +1773,21 @@ public class PlayerManager {
 		for (Player tPlayer : players) {
 			tPortfolio = tPlayer.getPortfolio ();
 			aButtonsInfoFrame.fillWithPrivateCheckBoxes (tPortfolio, tPlayer.getName ());
+		}
+	}
+	
+	public void updateCertificateLimit (FormationPhaseAction aFormationPhaseAction) {
+		int tOldCertificateLimit;
+		int tNewCertificateLimit;
+		Player tPlayerOne;
+		
+		tPlayerOne = players.get (0);
+		tOldCertificateLimit = tPlayerOne.getCertificateLimit ();
+		gameManager.updateCertificateLimit ();
+		tNewCertificateLimit = tPlayerOne.getCertificateLimit ();
+		for (Player tPlayer : players) {
+			aFormationPhaseAction.addUpdateCertificateLimitEffect (tPlayer, tOldCertificateLimit,
+							tNewCertificateLimit);
 		}
 	}
 }
