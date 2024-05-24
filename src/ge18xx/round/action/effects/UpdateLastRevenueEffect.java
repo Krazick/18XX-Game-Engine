@@ -33,12 +33,13 @@ public class UpdateLastRevenueEffect extends Effect {
 
 	public UpdateLastRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		int aOldLastRevenue, aNewLastRevenue;
+		int tOldLastRevenue;
+		int tNewLastRevenue;
 
-		aOldLastRevenue = aEffectNode.getThisIntAttribute (AN_OLD_LAST_REVENUE);
-		aNewLastRevenue = aEffectNode.getThisIntAttribute (AN_NEW_LAST_REVENUE);
-		setNewLastRevenue (aNewLastRevenue);
-		setOldLastRevenue (aOldLastRevenue);
+		tOldLastRevenue = aEffectNode.getThisIntAttribute (AN_OLD_LAST_REVENUE);
+		tNewLastRevenue = aEffectNode.getThisIntAttribute (AN_NEW_LAST_REVENUE);
+		setOldLastRevenue (tOldLastRevenue);
+		setNewLastRevenue (tNewLastRevenue);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class UpdateLastRevenueEffect extends Effect {
 		} else {
 			tNewValue = "NO Last Revenue Value";
 		}
-		tReport =  REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
+		tReport = REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
 
 		return tReport;
 	}
@@ -117,6 +118,5 @@ public class UpdateLastRevenueEffect extends Effect {
 		tEffectUndone = true;
 
 		return tEffectUndone;
-
 	}
 }
