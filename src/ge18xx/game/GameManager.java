@@ -2399,7 +2399,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void updateRoundFrame () {
 		if (roundManagerIsValid ()) {
-			updateCertificateLimit ();
 			roundManager.updateRoundFrame ();
 			roundManager.updateAllListenerPanels ();
 			roundManager.setListenerPanels (true);
