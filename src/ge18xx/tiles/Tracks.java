@@ -21,6 +21,7 @@ import geUtilities.XMLElement;
 
 public class Tracks implements Cloneable {
 	List<Track> segments;
+	public static final Tracks NO_TRACKS = null;
 
 	public Tracks () {
 		segments = new LinkedList<> ();
@@ -35,9 +36,10 @@ public class Tracks implements Cloneable {
 	}
 
 	public boolean canAllTracksExit (MapCell aThisMapCell, int aTileOrient) {
-		boolean tCanAllTracksExit = true;
+		boolean tCanAllTracksExit;
 		boolean tTrackCanExit;
 
+		tCanAllTracksExit = true;
 		for (Track tSegment : segments) {
 			tTrackCanExit = tSegment.canThisTrackExit (aThisMapCell, aTileOrient);
 			if (!tTrackCanExit) {
