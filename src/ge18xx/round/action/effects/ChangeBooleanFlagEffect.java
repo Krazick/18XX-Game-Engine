@@ -30,8 +30,13 @@ public class ChangeBooleanFlagEffect extends Effect {
 		setBooleanFlag (aBooleanFlag);
 	}
 
-	public ChangeBooleanFlagEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public ChangeBooleanFlagEffect (XMLNode aEffectNode, GameManager aGameManager, AttributeName aFlagName) {
 		super (aEffectNode, aGameManager);
+		boolean tBooleanFlag;
+		
+		tBooleanFlag = aEffectNode.getThisBooleanAttribute (aFlagName);
+		setBooleanFlag (tBooleanFlag);
+
 		setName (NAME);
 	}
 

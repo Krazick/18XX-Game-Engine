@@ -11,6 +11,7 @@ import geUtilities.XMLNode;
 
 public class BidShareEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Bid On a Share";
+	final static AttributeName AN_HAS_BID_SHARE = new AttributeName ("hasBidShare");
 
 	public BidShareEffect () {
 		super ();
@@ -22,7 +23,7 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 	}
 	
 	public BidShareEffect (XMLNode aEffectNode, GameManager aGameManager) {
-		super (aEffectNode, aGameManager);
+		super (aEffectNode, aGameManager, AN_HAS_BID_SHARE);
 		setName (NAME);
 	}
 
@@ -34,7 +35,7 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
-		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
+		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME, AN_HAS_BID_SHARE);
 
 		return tEffectElement;
 	}

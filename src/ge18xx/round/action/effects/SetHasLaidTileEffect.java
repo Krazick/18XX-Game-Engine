@@ -31,7 +31,8 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	}
 
 	public SetHasLaidTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
-		super (aEffectNode, aGameManager);
+		super (aEffectNode, aGameManager, AN_HAS_LAID_TILE);
+		
 		setName (NAME);
 	}
 

@@ -31,7 +31,7 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	}
 
 	public SetHomeTokensExchangedEffect (XMLNode aEffectNode, GameManager aGameManager) {
-		super (aEffectNode, aGameManager);
+		super (aEffectNode, aGameManager, AN_HOME_TOKENS_EXCHANGED);
 		setName (NAME);
 	}
 
