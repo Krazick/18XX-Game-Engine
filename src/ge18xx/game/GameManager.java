@@ -3099,12 +3099,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public boolean hasTriggerClass () {
-		return phaseManager.hasTriggerClass ();
+		boolean tHasTriggerClass;
+		
+		if (phaseManager != PhaseManager.NO_PHASE_MANAGER) {
+			tHasTriggerClass = phaseManager.hasTriggerClass ();
+		} else {
+			tHasTriggerClass = false;
+		}
+	
+		return tHasTriggerClass;
 	}
-//	
-//	public void handleTriggerClass () {
-//		phaseManager.handleTriggerClass ();
-//	}
 
 	public void showFormationPhaseFrame () {
 		if (hasTriggerClass ()) {
