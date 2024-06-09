@@ -4,6 +4,7 @@ import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ReachedDestinationEffect;
+import ge18xx.round.action.effects.SetCapitalizationLevelEffect;
 import geUtilities.XMLNode;
 
 public class FloatCompanyAction extends CashTransferAction {
@@ -43,6 +44,15 @@ public class FloatCompanyAction extends CashTransferAction {
 			addEffect (tReachedDestinationEffect);
 		}
 	}
-
 	
+	public void addSetCapitalizationLevelEffect (ActorI aActor, int aOldCapitalizationLevel, 
+			int aNewCapitalizationLevel) {
+		SetCapitalizationLevelEffect tSetCapitalizationLevelEffect;
+	
+		if (actor.isACorporation ()) {
+			tSetCapitalizationLevelEffect = new SetCapitalizationLevelEffect (aActor, 
+					aOldCapitalizationLevel, aNewCapitalizationLevel);
+			addEffect (tSetCapitalizationLevelEffect);
+		}
+	}
 }
