@@ -875,6 +875,13 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public void handleCapitalization (FloatCompanyAction aFloatCompanyAction) {
+		int tOldCapitalization;
+		int tNewCapitalization;
+		
+		tOldCapitalization = getDestinationCapitalizationLevel ();
+		setDestinationCapitalizationLevel ();
+		tNewCapitalization = getDestinationCapitalizationLevel ();
+		aFloatCompanyAction.addSetCapitalizationLevelEffect (this, tOldCapitalization, tNewCapitalization);
 		destinationInfo.handleCapitalization (aFloatCompanyAction);
 	}
 

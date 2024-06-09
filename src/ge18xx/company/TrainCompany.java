@@ -298,8 +298,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return trainRevenueFrame;
 	}
 
-	public void floatCompany (int aInitialTreasury) {
+	public void floatCompany () {
 		int tRowIndex;
+		int tInitialTreasury;
 		FloatCompanyAction tFloatCompanyAction;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
@@ -315,14 +316,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tNewState = getStatus ();
 		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
 		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
-		tFloatCompanyAction.addCashTransferEffect (tBank, this, aInitialTreasury);
-		tFloatCompanyAction.setChainToPrevious (true);
-
 		if (hasDestination ()) {
 			handleCapitalization (tFloatCompanyAction);
 		}
+		tInitialTreasury = calculateStartingTreasury ();
+		tFloatCompanyAction.addCashTransferEffect (tBank, this, tInitialTreasury);
+		tFloatCompanyAction.setChainToPrevious (true);
+
 		
-		tBank.transferCashTo (this, aInitialTreasury);
+		tBank.transferCashTo (this, tInitialTreasury);
 		corporationList.addDataElement (treasury, tRowIndex, 9);
 		corporationList.addDataElement (getStatusName (), tRowIndex, 3);
 		corporationList.addAction (tFloatCompanyAction);
@@ -503,7 +505,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tEscrowLabel = new JLabel (tPrefix + "All Paid");
 			} else {
 				tCapitalizationLevel = getDestinationCapitalizationLevel ();
-				if (tCapitalizationLevel == Capitalization.INCREMENTAL_5_MAX) {
+				if (tCapitalizationLevel > Capitalization.INCREMENTAL_0_MAX) {
 					tEscrowAmount = calculateEscrowWithheld ();
 					if (tEscrowAmount > 0) {
 						tEscrowLabel = new JLabel (tPrefix + Bank.formatCash (tEscrowAmount));
