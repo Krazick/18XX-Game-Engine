@@ -34,7 +34,7 @@ import geUtilities.GUI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 
-import geUtilities.ParsingRoutine2I;
+import geUtilities.ParsingRoutine3I;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
@@ -42,8 +42,6 @@ import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
 public class Bank extends GameBank implements CashHolderI {
-	static DecimalFormat decimalFormat;
-	static String format;
 	public static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
 	public static final ElementName EN_BANK_STATE = new ElementName ("Bank");
 	public static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
@@ -53,8 +51,9 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final Bank NO_BANK = null;
 	public static final String NO_FORMAT = null;
 	public static final int NO_BANK_CASH = 0;
+	static DecimalFormat decimalFormat;
+	static String format;
 	private static Logger logger;
-
 	boolean bankIsBroken;
 	int treasury;
 	JLabel bankCashLabel;
@@ -93,7 +92,7 @@ public class Bank extends GameBank implements CashHolderI {
 		decimalFormat = new DecimalFormat (aFormat);
 	}
 	
-	ParsingRoutineI bankParsingRoutine = new ParsingRoutine2I () {
+	ParsingRoutineI bankParsingRoutine = new ParsingRoutine3I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			loadTrainPortfolio (aChildNode);
@@ -102,6 +101,11 @@ public class Bank extends GameBank implements CashHolderI {
 		@Override
 		public void foundItemMatchKey2 (XMLNode aChildNode) {
 			loadRustedTrainPortfolio (aChildNode);
+		}
+		
+		@Override
+		public void foundItemMatchKey3 (XMLNode aChildNode) {
+			loadPortfolio (aChildNode);
 		}
 	};
 	
@@ -359,6 +363,14 @@ public class Bank extends GameBank implements CashHolderI {
 
 		return tXMLElement;
 	}
+	
+	public XMLElement getClosedPortfolioElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = closedPortfolio.getElements (aXMLDocument);
+
+		return tXMLElement;
+	}
 
 	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
 		startPacketFrame = aStartPacket;
@@ -387,11 +399,15 @@ public class Bank extends GameBank implements CashHolderI {
 	public void getStateElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tRustedTrainPortfolioElements;
+		XMLElement tClosedPortfolioElements;
 
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
 		aXMLElement.appendChild (tTrainPortfolioElements);
 		tRustedTrainPortfolioElements = getRustedTrainPortfolioElements (aXMLDocument);
 		aXMLElement.appendChild (tRustedTrainPortfolioElements);
+		tClosedPortfolioElements = getClosedPortfolioElements (aXMLDocument);
+		aXMLElement.appendChild (tClosedPortfolioElements);
+		
 	}
 
 	public boolean hasMustBuyCertificate () {
@@ -427,7 +443,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 		tXMLNodeList = new XMLNodeList (bankParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aBankNode, TrainPortfolio.EN_TRAIN_PORTFOLIO,
-				TrainPortfolio.EN_RUSTED_TRAIN_PORTFOLIO);
+				TrainPortfolio.EN_RUSTED_TRAIN_PORTFOLIO, Portfolio.EN_PORTFOLIO);
 	}
 
 	public void loadCorporations (CorporationList aCorporationList) {
@@ -458,6 +474,11 @@ public class Bank extends GameBank implements CashHolderI {
 	@Override
 	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
 		trainPortfolio.loadTrainStatus (aTrainPortfolioNode);
+	}
+
+	@Override
+	public void loadPortfolio (XMLNode aPortfolioNode) {
+		closedPortfolio.loadPortfolio (aPortfolioNode); 
 	}
 
 	public void loadTrains (GameInfo aActiveGame) {
