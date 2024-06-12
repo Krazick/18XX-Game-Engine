@@ -59,9 +59,6 @@ import geUtilities.XMLNodeList;
 //
 
 public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
-	public static final Player NO_PLAYER = null;
-	public static final String NO_PLAYER_NAME = GUI.EMPTY_STRING;
-	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
@@ -75,17 +72,20 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	public static final AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	public static final AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
-	public static final AttributeName AN_REPAYMENT_FINISHED = new AttributeName ("repaymentFinished");
+	public static final AttributeName AN_CERTIFICATE_LIMIT = new AttributeName ("certificateLimit");
+	public static final String NO_PLAYER_NAME = GUI.EMPTY_STRING;
+	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
 	public static final String BID_LABEL = "Bid";
 	public static final String BUY_BID_LABEL = "Buy-Bid";
 	public static final String EXCHANGE_LABEL = "Exchange";
-	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
 	public static final String NO_SHARE_BOUGHT = null;
 	public static final String DELIMITER = ",";
+	public static final int OWN_ZERO_PERCENT = 0;
+	public static final Player NO_PLAYER = null;
 	
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
@@ -757,7 +757,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLElement tXMLAllPercentBoughtElements;
 		String tCompaniesSold;
 		int tOperatingRoundCount;
-		
 
 		tCompaniesSold = soldCompanies.toString (DELIMITER);
 		tXMLElement = getPlayerElement (aXMLDocument);
@@ -769,6 +768,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
+		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, getCertificateLimit ());
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
@@ -1287,6 +1287,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLNodeList tXMLQueryOfferNodeList;
 		GenericActor tGenericActor;
 		GameManager tGameManager;
+		int tCertificateLimit;
 		// Need to remove any Cash the Player has before setting it.
 
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
@@ -1303,12 +1304,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tState = aPlayerNode.getThisAttribute (AN_AUCTION_STATE);
 		auctionActionState = tGenericActor.getPlayerState (tState);
 		exchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
-		if (exchangedPrezShare.equals ("")) {
+		if (exchangedPrezShare.equals (GUI.EMPTY_STRING)) {
 			exchangedPrezShare = NO_STOCK_TO_SELL;
 		}
 		tSoldCompanies = aPlayerNode.getThisAttribute (AN_SOLD_COMPANIES);
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
-		
+		tCertificateLimit = aPlayerNode.getThisIntAttribute (AN_CERTIFICATE_LIMIT);
+		setCertificateLimit (tCertificateLimit);
 		tXMLAllPercentBoughtNodeList = new XMLNodeList (AllPercentBoughtParsingRoutine);
 		tXMLAllPercentBoughtNodeList.parseXMLNodeList (aPlayerNode, AllPercentBought.EN_ALL_PERCENT_BOUGHT);
 	
