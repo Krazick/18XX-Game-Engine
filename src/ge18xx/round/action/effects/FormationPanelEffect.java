@@ -40,6 +40,7 @@ public class FormationPanelEffect extends Effect {
 		tTriggerClass = tGameManager.getTriggerClass ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
 			tTriggerClass.hideFormationPanel ();
+			tTriggerClass.triggeringHandleDone ();
 		}
 	}
 	
