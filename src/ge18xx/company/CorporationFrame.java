@@ -516,15 +516,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			if (tConfirmedDoneAction) {	
 				tStatusUpdated = corporation.doneAction ();
 				corporation.applyPreparedActions ();
-				if (tStatusUpdated) {
-					corporation.corporationListDoneAction ();
-				}
+			} else {
+				tStatusUpdated = false;
 			}
 			tFormationPhase = gameManager.getFormationPhase ();
 			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
+				tFormationPhase.setTriggeringShareCorporation ((ShareCompany) corporation);
 				if (tFormationPhase.isFormationFrameVisible ()) {
 					tFormationPhase.showFormationFrame ();
 				}
+			} else if (tStatusUpdated) {
+				corporation.corporationListDoneAction ();
 			}
 		}
 		if (UNDO.equals (tCommand)) {
