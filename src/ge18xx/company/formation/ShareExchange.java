@@ -454,20 +454,17 @@ public class ShareExchange extends PlayerFormationPhase {
 		Portfolio tPlayerPortfolio;
 		PortfolioHolderI tCurrentPresident;
 		Bank tBank;
-//		int tOwnsPercentage;
 		int tPercentageForExchange;
 		String tFormingAbbrev;
 		boolean tNewPresident;
 		
 		tBank = gameManager.getBank ();
 		tPlayerPortfolio = player.getPortfolio ();
-//		tOwnsPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
 		tCurrentPresident = aFormingCompany.getPresident ();
 		tFormingAbbrev = aFormingCompany.getAbbrev ();
 		tPercentageForExchange = formationPhase.getPercentageForExchange ();
-		System.out.println ("Share Percentage For each Share Exchanged " + tPercentageForExchange);
+		System.out.println ("Share Percentage for each Share Exchanged " + tPercentageForExchange);
 		tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, tPercentageForExchange * 2, true);
-//		tPresidentCertificate = aFormingCompany.getPresidentCertificate ();
 		tNewPresident = true;
 		if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
 			transferShare (tBank, Bank.IPO, player, tPresidentCertificate, aTransferOwnershipAction);
@@ -489,9 +486,6 @@ public class ShareExchange extends PlayerFormationPhase {
 									tCurrentPresident);
 				}
 			}
-
-//		} else {
-//			tPresidentCertificate = tCurrentPresident.getCertificate (tFormingAbbrev, true);
 		}
 		formationPhase.setFormingPresidentAssigned  (tNewPresident);
 		
