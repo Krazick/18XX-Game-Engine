@@ -53,6 +53,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final AttributeName AN_FORMING_PRESIDENT_ASSIGNED = new AttributeName ("formingPresidentAssigned");
 	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
+	public static final AttributeName AN_TRIGGERING_COMPANY = new AttributeName ("triggeringCompany");
 	public static final AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
@@ -90,7 +91,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	JTextArea notiricationArea;
 
 	StartFormationAction startFormationAction;
-
+	ShareCompany triggeringShareCompany;
 	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
@@ -143,10 +144,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		boolean tNonHomeTokensExchanged;
 		String tState;
 		String tNotificationText;
+		String tTriggeringCompanyAbbrev;
 		Player tPlayer;
 		String tPlayerName;
 		GenericActor tGenericActor;
 		ActorI.ActionStates tFormationState;
+		ShareCompany tTriggeringShareCompany;
 		
 		tCurrentPlayerIndex = aXMLNode.getThisIntAttribute (AN_CURRENT_PLAYER_INDEX);
 		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
@@ -157,7 +160,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tAllPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
 		
 		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
-		
+		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
+		tTriggeringShareCompany = aGameManager.getShareCompany (tTriggeringCompanyAbbrev);
+		setTriggeringShareCorporation (tTriggeringShareCompany);
 		tGenericActor = new GenericActor ();
 		tFormationState = tGenericActor.getPlayerFormationState (tState);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
@@ -181,7 +186,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public XMLElement getFormationElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-
+		String tTriggeringAbbrev;
+		
 		tXMLElement = aXMLDocument.createElement (EN_FORMATION_PHASE);
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
 		tXMLElement.setAttribute (AN_SHARE_FOLD_COUNT, shareFoldCount);
@@ -192,6 +198,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
+		if (triggeringShareCompany == ShareCompany.NO_SHARE_COMPANY) {
+			tTriggeringAbbrev = GUI.EMPTY_STRING;
+		} else {
+			tTriggeringAbbrev = triggeringShareCompany.getAbbrev ();
+		}
+		tXMLElement.setAttribute (AN_TRIGGERING_COMPANY, tTriggeringAbbrev);
 		if (actingPresident != ActorI.NO_ACTOR) {
 			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
 		}
@@ -199,6 +211,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tXMLElement;
 	}
 
+	public void setTriggeringShareCorporation (ShareCompany aTriggeringShareCorporation) {
+		triggeringShareCompany = aTriggeringShareCorporation;
+	}
+	
 	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
 		homeTokensExchanged = aHomeTokenExchanged;
 	}
@@ -213,6 +229,15 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public boolean getNonHomeTokensExchanged () {
 		return nonHomeTokensExchanged;
+	}
+	
+	@Override
+	public void triggeringHandleDone () {
+		if (triggeringShareCompany != ShareCompany.NO_SHARE_COMPANY) {
+			triggeringShareCompany.corporationListDoneAction ();
+		} else {
+			System.err.println ("Trying to Trigger Handle Done, but don't have a Triggering Share Company set.");
+		}
 	}
 	
 	public void buildNotificationJPanel () {
@@ -817,10 +842,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
 			hideFormationPanel ();
 			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (actingPresident);
-			
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateCertificateLimit (tChangeFormationPhaseStateAction);
-
+			triggeringHandleDone ();
 		} else {
 			setupPlayers ();
 			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
