@@ -30,6 +30,10 @@ public class TriggerClass {
 		
 	}
 	
+	public void triggeringHandleDone () {
+		
+	}
+	
 	public void showFormationPanel () {
 		
 	}
