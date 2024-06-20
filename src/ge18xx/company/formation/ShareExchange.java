@@ -665,7 +665,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tToolTip;
 		
 		if (getSharesExchanged () && actingPlayer) {
-			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.ShareExchange))) {
+			if (formationPhase.getFormationState ().equals (ActorI.ActionStates.ShareExchange)) {
 				continueButton.setEnabled (true);
 				tToolTip = "All Shares have been exchanged, proceed to Token Exchange";			
 				continueButton.setToolTipText (tToolTip);
