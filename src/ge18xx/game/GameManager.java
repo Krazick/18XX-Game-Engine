@@ -3098,6 +3098,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		auditFrame.setVisible (true);
 	}
 
+	public boolean triggerPanelExists () {
+		boolean tTriggerPanelExists;
+		
+		if (formationPhase == FormationPhase.NO_FORMATION_PHASE) {
+			tTriggerPanelExists = false;
+		} else {
+			tTriggerPanelExists = true;
+		}
+		
+		return tTriggerPanelExists;
+	}
+	
 	public boolean hasTriggerClass () {
 		boolean tHasTriggerClass;
 		
