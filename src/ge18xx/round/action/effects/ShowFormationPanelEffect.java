@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
@@ -38,6 +39,7 @@ public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
 		boolean tEffectApplied;
 		Player tPresident;
 		PlayerManager tPlayerManager;
+		PhaseManager tPhaseManager;
 		ShareCompany tShareCompany;
 		
 		tEffectApplied = false;
@@ -53,6 +55,8 @@ public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
 
 		if (tPresident != Player.NO_PLAYER) {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
+			tPhaseManager = aRoundManager.getPhaseManager ();
+			tPhaseManager.handleTriggerClass ();
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
