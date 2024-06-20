@@ -281,7 +281,11 @@ public class PhaseManager {
 		boolean tHasTriggerClass;
 		
 		if (aTriggerClass != GUI.NULL_STRING) {
-			tHasTriggerClass = true;
+			if (gameManager.triggerPanelExists ()) {
+				tHasTriggerClass = false;
+			} else {
+				tHasTriggerClass = true;
+			}
 		} else {
 			tHasTriggerClass = false;
 		}
