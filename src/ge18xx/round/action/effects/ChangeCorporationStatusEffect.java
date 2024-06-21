@@ -69,7 +69,7 @@ public class ChangeCorporationStatusEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tActorFullName;
 
-		tActorFullName = actor.getName ();
+		tActorFullName = actor.getAbbrev ();
 		if (actor.isAPrivateCompany ()) {
 			tActorFullName = tActorFullName + " (Private)";
 		}

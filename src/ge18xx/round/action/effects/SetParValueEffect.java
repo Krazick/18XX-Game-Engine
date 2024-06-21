@@ -89,8 +89,8 @@ public class SetParValueEffect extends Effect {
 		} else {
 			tParValue = "NO PAR VALUE";
 		}
-		tReport = REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to " + tParValue;
-		
+		tReport = REPORT_PREFIX + name + " for " + companyAbbrev + " to " + tParValue;
+
 		if (coordinates != GUI.NULL_STRING) {
 			if (! coordinates.equals (GUI.EMPTY_STRING)) {
 				tReport += " at coordinates " + coordinates;
@@ -141,6 +141,9 @@ public class SetParValueEffect extends Effect {
 			tMarketFrame = tGameManager.getMarketFrame ();
 			tMarketCell = tMarket.getMarketCellAtCoordinates (coordinates);
 			tMarketFrame.setParPriceToMarketCell (tShareCompany, parValue, tMarketCell);
+			if (parValue == 0) {
+				tShareCompany.setNoPrice ();
+			}
 			tEffectApplied = true;
 		} else {
 			System.err.println ("Setting Par where Actor is not Player or Share Company");

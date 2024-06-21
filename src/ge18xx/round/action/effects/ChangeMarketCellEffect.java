@@ -139,7 +139,7 @@ public class ChangeMarketCellEffect extends Effect {
 
 		tNewPrice = tNewCell.getValue ();
 
-		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + startCellCoordinates + " ("
+		return (REPORT_PREFIX + name + " for " + actor.getAbbrev () + " from " + startCellCoordinates + " ("
 				+ Bank.formatCash (tStartPrice) + ") location (" + startLocation + ") to " + newCellCoordinates + " ("
 				+ Bank.formatCash (tNewPrice) + ").");
 	}
