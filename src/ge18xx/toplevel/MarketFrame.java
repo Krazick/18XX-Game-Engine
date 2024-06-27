@@ -106,8 +106,12 @@ public class MarketFrame extends XMLFrame {
 				aShareCompany.setParPrice (aParPrice);
 				aShareCompany.setSharePrice (aMarketCell);
 				aMarketCell.addTokenToBottom (tToken);
+			} else {
+				System.err.println ("No Market Token Found to set into Market Frame");
 			}
 			aMarketCell.redrawMarket ();
+		} else {
+			aShareCompany.setParPrice (aParPrice);
 		}
 	}
 
