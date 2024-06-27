@@ -140,6 +140,7 @@ public class SetParValueEffect extends Effect {
 			tGameManager = aRoundManager.getGameManager ();
 			tMarketFrame = tGameManager.getMarketFrame ();
 			tMarketCell = tMarket.getMarketCellAtCoordinates (coordinates);
+			tShareCompany.setParPrice (parValue);
 			tMarketFrame.setParPriceToMarketCell (tShareCompany, parValue, tMarketCell);
 			if (parValue == 0) {
 				tShareCompany.setNoPrice ();
