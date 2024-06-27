@@ -17,6 +17,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import geUtilities.GUI;
 
 public class ParPricesPanel extends ListenerPanel {
 	private static final long serialVersionUID = 1L;
@@ -101,7 +102,7 @@ public class ParPricesPanel extends ListenerPanel {
 			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
 			tPriceLabel = new JLabel (tPrices [tParPriceIndex]);
 			parPrices.add (tPriceLabel);
-			tCompaniesAtParLabel = new JLabel ("");
+			tCompaniesAtParLabel = new JLabel (GUI.EMPTY_STRING);
 			companiesAtPar.add (tCompaniesAtParLabel);
 
 			tParPriceLinePanel = buildParPriceLinePanel (tParPriceIndex, tMinToFloat, tPrice);

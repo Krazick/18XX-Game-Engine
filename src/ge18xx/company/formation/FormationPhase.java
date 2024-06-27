@@ -243,7 +243,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void buildNotificationJPanel () {
 		Color tColor;
 		
-		if (notificationJPanel == null) {
+		if (notificationJPanel == GUI.NO_PANEL) {
 			notificationJPanel = new JPanel ();
 			notiricationArea = new JTextArea (5, 80);
 			notiricationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
