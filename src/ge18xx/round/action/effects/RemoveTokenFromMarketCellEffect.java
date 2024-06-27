@@ -21,6 +21,7 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 
 	public RemoveTokenFromMarketCellEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		setName (NAME);
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 		tMarketCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
 		tStartPrice = tMarketCell.getValue ();
 
-		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + startCellCoordinates + " ("
+		return (REPORT_PREFIX + name + " for " + actor.getAbbrev () + " from " + startCellCoordinates + " ("
 				+ Bank.formatCash (tStartPrice) + ") location (" + startLocation + ").");
 	}
 
