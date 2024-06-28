@@ -1,10 +1,13 @@
 package ge18xx.round.action;
 
+import java.lang.reflect.Constructor;
+
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.Effect;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLNode;
@@ -40,10 +43,13 @@ public class PreparedAction {
 		XMLNode tChildNode;
 		String tChildName;
 		String tTriggeringActorName;
+		String tClassName;
 		NodeList tChildren;
 		Action tAction;
 		int tIndex;
 		int tChildrenCount;
+		Class<?> tActionToLoad;
+		Constructor<?> tActionConstructor;
 
 		tChildren = aPreparedActionNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -63,8 +69,25 @@ public class PreparedAction {
 				tTriggeringActor =  aGameManager.getActor (tTriggeringActorName);
 				setTriggeringActor (tTriggeringActor);
 			} else if (Action.EN_ACTION.equals (tChildName)) {
-				tAction = new Action (tChildNode, aGameManager);
-				setAction (tAction);
+				tClassName = tChildNode.getThisAttribute (Effect.AN_CLASS);
+				try {
+					tActionToLoad = Class.forName (tClassName);
+					tActionConstructor = tActionToLoad.getConstructor (tChildNode.getClass (),
+							aGameManager.getClass ());
+					tAction = (Action) tActionConstructor.newInstance (tChildNode, aGameManager);
+					setAction (tAction);
+					System.out.println ("*** Prepared Action Loaded " + tClassName);
+				} catch (ClassNotFoundException tException) {
+					System.err.println ("Could not find Class for Prepared Action " + tClassName + 
+								" maybe due to Rename and using old Save Game");
+				} catch (Exception tException) {
+					System.err.println ("Caught Exception with message ");
+					System.err.println ("Class name " + tClassName);
+					tException.printStackTrace ();
+				}
+						
+//				tAction = new Action (tChildNode, aGameManager);
+//				setAction (tAction);
 			}
 		}
 		
