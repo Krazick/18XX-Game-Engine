@@ -3,6 +3,7 @@ package ge18xx.network;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,11 @@ class GameSupportHandlerTests {
 		mChatServerHandler = networkTestFactory.buildMockChatServerHandler ();
 	}
 
+	@AfterEach
+	public void teardown () {
+		jGameClient.dispose ();
+	}
+	
 	@Test
 	@DisplayName ("Test Retrieving Game ID from Request")
 	void getGameIDFromRequestTest () {

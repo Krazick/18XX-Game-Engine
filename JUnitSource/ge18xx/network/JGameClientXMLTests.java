@@ -2,6 +2,7 @@ package ge18xx.network;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,14 @@ public class JGameClientXMLTests {
 		mPlayerInputFrame = testFactory.buildPIFMockWithGameSet ();
 		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
+		jGameClient.setVisible (false);
 	}
 
+	@AfterEach
+	public void teardown () {
+		jGameClient.dispose ();
+	}
+	
 	@Test
 	@DisplayName ("Building Game Activity 2 Attributes Tests")
 	public void JGameClientGameActivity2XMLTests () {
