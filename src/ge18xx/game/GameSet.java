@@ -143,6 +143,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		tChatTitle = tGameManager.createFrameTitle (JGameClient.BASE_TITLE);
 		tVersionMismatch = versionCompare (tGameManager);
 		tNetworkGameJClient = new JGameClient (tChatTitle, tGameManager, tVersionMismatch);
+		tNetworkGameJClient.setVisible (true);
 		tGameManager.setNetworkJGameClient (tNetworkGameJClient);
 		tGameManager.setNotifyNetwork (true);
 		tNetworkGameJClient.addLocalPlayer (tPlayerName, false);

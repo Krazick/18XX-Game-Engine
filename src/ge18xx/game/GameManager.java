@@ -1881,6 +1881,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
 		tChatTitle = createFrameTitle (JGameClient.BASE_TITLE);
 		tNetworkJGameClient = new JGameClient (tChatTitle, this, tServerIP, tServerPort);
+		tNetworkJGameClient.setVisible (true);
 		tNetworkJGameClient.addLocalPlayer (clientUserName, true);
 		setNetworkJGameClient (tNetworkJGameClient);
 	}
