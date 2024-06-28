@@ -225,7 +225,6 @@ public class JGameClient extends XMLFrame {
 			gameManager.addNewFrame (this);
 			tNewPoint = gameManager.getOffsetGEFrame ();
 			setLocation (tNewPoint);
-			setVisible (true);
 			logger = gameManager.getLogger ();
 		}
 		handleVersionMismatch (aVersionMismatch);
@@ -249,25 +248,6 @@ public class JGameClient extends XMLFrame {
 		updateFrameTitle (BASE_TITLE);
 	}
 
-//	private boolean setupServerInfo () {
-////		String tServerIPEntered;
-//		boolean tGoodServer;
-
-//		tGoodServer = true;
-//		tServerIPEntered = serverIPField.getText ();
-//		if (Validators.isValidIP (tServerIPEntered)) {
-//			setServerIP (tServerIPEntered);
-//			tGoodServer = true;
-//		} else {
-//			tServerIPEntered = "BAD " + tServerIPEntered;
-//			serverIPField.setText (tServerIPEntered);
-//			tGoodServer = false;
-//		}
-//		setServerPort (DEFAULT_SERVER_PORT);
-		
-//		return tGoodServer;
-//	}
-
 	private boolean setupNewPlayer (String aAction) {
 		boolean tValidNewPlayer = false;
 		String tPlayerName = playerName.getText ();
@@ -289,9 +269,7 @@ public class JGameClient extends XMLFrame {
 	}
 
 	private void setupServerAndPlayer (String aAction) {
-//		if (setupServerInfo ()) {
-			setupNewPlayer (aAction);
-//		}
+		setupNewPlayer (aAction);
 	}
 
 	private void setupActions () {
@@ -845,7 +823,6 @@ public class JGameClient extends XMLFrame {
 	}
 
 	private void connect (String aAction) throws Exception {
-
 		String tPlayerName;
 		boolean tSuccess;
 
