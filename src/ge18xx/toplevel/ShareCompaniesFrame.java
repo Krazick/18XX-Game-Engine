@@ -221,6 +221,14 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		return (super.getCorporationStateElements (aXMLDocument, EN_SHARES));
 	}
 
+	public ShareCompany getShareCompanyByID (int aCompanyID) {
+		ShareCompany tShareCompany;
+
+		tShareCompany = (ShareCompany) companies.getCorporationByID (aCompanyID);
+
+		return tShareCompany;
+	}
+
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;
 
