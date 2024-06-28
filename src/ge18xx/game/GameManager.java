@@ -1050,6 +1050,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
 	}
 
+	public ShareCompany getShareCompanyByID (int aCompanyID) {
+		return shareCompaniesFrame.getShareCompanyByID (aCompanyID);
+	}
+
 	public MinorCompany getMinorCompany (String aCompanyAbbrev) {
 		return minorCompaniesFrame.getMinorCompany (aCompanyAbbrev);
 	}
