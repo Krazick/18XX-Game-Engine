@@ -52,6 +52,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedActions;
+import ge18xx.round.action.StartFormationAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
@@ -862,11 +863,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tDoneAction.addNewActingCorpEffect (this);
 			tDoneAction.addClearTrainsFromMapEffect (this);
+			applyPreparedActions ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
 		}
 		hideFrame ();
-		
+
 		return tStatusUpdated;
 	}
 	
@@ -2173,6 +2175,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	
 	public void applyPreparedAction (PreparedAction aPreparedAction) {
 		Action tAction;
+		StartFormationAction tStartFormationAction;
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		PlayerManager tPlayerManager;
@@ -2185,14 +2188,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tGameManager = getGameManager ();
 		tRoundManager = tGameManager.getRoundManager ();
 		tGameManager.prepareFormationPhase ();
+		tFormationPhase = tGameManager.getFormationPhase ();
 		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
 			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
 			tActingPresident = (Player) tTriggeringCompany.getPresident ();
-			tFormationPhase = tGameManager.getFormationPhase ();
 			tPlayerManager = tGameManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
 			tFormationPhase.setCurrentPlayerIndex (tCurrentPlayerIndex);
+			tFormationPhase.setTriggeringShareCompany (tTriggeringCompany);
 			tFormationPhase.setActingPresident (tActingPresident);
+			if (tAction instanceof StartFormationAction) {
+				tStartFormationAction = (StartFormationAction) tAction;
+				tStartFormationAction.setTriggeringShareCompany (tTriggeringCompany);
+			}
 		}
 
 		tAction.applyAction (tRoundManager);
