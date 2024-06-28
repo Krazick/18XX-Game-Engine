@@ -119,12 +119,15 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		Player tActingPlayer;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		ShareCompany tTriggeringShareCompany;
 
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
+			tTriggeringShareCompany = (ShareCompany) gameManager.getOperatingCompany ();
+
 			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
 			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
-			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany);
+			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany, tTriggeringShareCompany);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayers = tPlayerManager.getPlayers ();
 
@@ -162,7 +165,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
 		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
 		tTriggeringShareCompany = aGameManager.getShareCompany (tTriggeringCompanyAbbrev);
-		setTriggeringShareCorporation (tTriggeringShareCompany);
+		setTriggeringShareCompany (tTriggeringShareCompany);
 		tGenericActor = new GenericActor ();
 		tFormationState = tGenericActor.getPlayerFormationState (tState);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
@@ -211,8 +214,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tXMLElement;
 	}
 
-	public void setTriggeringShareCorporation (ShareCompany aTriggeringShareCorporation) {
-		triggeringShareCompany = aTriggeringShareCorporation;
+	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
+		triggeringShareCompany = aTriggeringShareCompany;
 	}
 	
 	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
