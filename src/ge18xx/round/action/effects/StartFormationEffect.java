@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.formation.FormationPhase;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -13,30 +14,36 @@ import geUtilities.XMLNode;
 public class StartFormationEffect extends Effect {
 	public static final String NAME = "Start Formation";
 	public static final AttributeName AN_FORMING_COMPANY_ID = new AttributeName ("formingCompanyID");
- 	Corporation formingCorporation;
+	public static final AttributeName AN_TRIGGERING_COMPANY_ID = new AttributeName ("triggeringCompanyID");
+	Corporation formingCorporation;
+ 	ShareCompany triggeringShareCompany;
 	
-	public StartFormationEffect () {
-		this (NAME);
-	}
-
-	public StartFormationEffect (String aName) {
-		super (aName);
-	}
-	
-	public StartFormationEffect (ActorI aActor, Corporation aFormingCorporation) {
+	public StartFormationEffect (ActorI aActor, Corporation aFormingCorporation, ShareCompany aTriggeringShareCompany) {
 		super (NAME, aActor);
 		setFormingCorporation (aFormingCorporation);
+		setTriggeringShareCompany (aTriggeringShareCompany);
 	}
 
 	public StartFormationEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		setName (NAME);
-		int tCompanyID;
-		Corporation tFormingCorporation;
 		
-		tCompanyID = aEffectNode.getThisIntAttribute (AN_FORMING_COMPANY_ID);
-		tFormingCorporation = aGameManager.getCorporationByID (tCompanyID);
+		setName (NAME);
+		int tFormingCompanyID;
+		int tTriggeringShareCompanyID;
+		Corporation tFormingCorporation;
+	 	ShareCompany tTriggeringShareCompany;
+	 	FormationPhase tFormationPhase;
+		
+		tFormingCompanyID = aEffectNode.getThisIntAttribute (AN_FORMING_COMPANY_ID);
+		tFormingCorporation = aGameManager.getCorporationByID (tFormingCompanyID);
 		setFormingCorporation (tFormingCorporation);
+		tTriggeringShareCompanyID = aEffectNode.getThisIntAttribute (AN_TRIGGERING_COMPANY_ID);
+		tTriggeringShareCompany = (ShareCompany) aGameManager.getShareCompanyByID (tTriggeringShareCompanyID);
+		setTriggeringShareCompany (tTriggeringShareCompany);
+		tFormationPhase = aGameManager.getFormationPhase ();
+		if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
+			tFormationPhase.setTriggeringShareCompany (tTriggeringShareCompany);
+		}
 	}
 	
 	@Override
@@ -45,27 +52,35 @@ public class StartFormationEffect extends Effect {
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_FORMING_COMPANY_ID, formingCorporation.getID ());
-		
+		tEffectElement.setAttribute (AN_TRIGGERING_COMPANY_ID, triggeringShareCompany.getID ());
+	
 		return tEffectElement;
 	}
 
 	public void setFormingCorporation (Corporation aFormingCorporation) {
 		formingCorporation = aFormingCorporation;
 	}
-	
+
+	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
+		triggeringShareCompany = aTriggeringShareCompany;
+	}
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
-		String tFormingCompanyName;
+		String tFormingCompanyAbbrev;
+		String tTriggeringShareCompanyAbbrev;
 		String tActorName;
 		
 		if (formingCorporation == Corporation.NO_CORPORATION) {
-			tFormingCompanyName = "NO Formation Corporation";
+			tFormingCompanyAbbrev = "NO Formation Corporation";
 		} else {
-			tFormingCompanyName = formingCorporation.getName ();
+			tFormingCompanyAbbrev = formingCorporation.getAbbrev ();
 		}
+		tTriggeringShareCompanyAbbrev = triggeringShareCompany.getAbbrev ();
 		tActorName = actor.getName ();
-		tReport = REPORT_PREFIX + name + " for " + tFormingCompanyName + " by " + tActorName + ".";
+		tReport = REPORT_PREFIX + name + " for " + tFormingCompanyAbbrev + " by " + tActorName + " triggered by " + 
+				tTriggeringShareCompanyAbbrev + ".";
 		
 		return tReport;
 	}

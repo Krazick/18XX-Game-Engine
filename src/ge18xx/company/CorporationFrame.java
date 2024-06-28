@@ -521,7 +521,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 			tFormationPhase = gameManager.getFormationPhase ();
 			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
-				tFormationPhase.setTriggeringShareCorporation ((ShareCompany) corporation);
+				tFormationPhase.setTriggeringShareCompany ((ShareCompany) corporation);
 				if (tFormationPhase.isFormationFrameVisible ()) {
 					tFormationPhase.showFormationFrame ();
 				}

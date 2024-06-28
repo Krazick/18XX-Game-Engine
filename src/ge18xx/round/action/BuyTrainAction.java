@@ -2,6 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeTrainStatusEffect;
@@ -141,10 +142,11 @@ public class BuyTrainAction extends TransferTrainAction {
 		addEffect (tSetFormationStateEffect);
 	}
 	
-	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation) {
+	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation, 
+						ShareCompany aTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
 
-			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation);
+			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
 			addEffect (tStartFormationEffect);
 	}
 }
