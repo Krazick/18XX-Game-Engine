@@ -9,6 +9,12 @@ import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
 import geUtilities.XMLNode;
 
+/* Currently there is no code that calls this. 
+ * This Action is stored as a "Prepared Action" in the 18xx-Games.xml File for when the 
+ * CGR Share Company is formed at the Start of Phase 5, that is triggered by the Purchase 
+ * of the first 6 Train, and the buy Company Completes the DONE Action.
+ * 
+ */
 public class StartFormationAction extends ChangeStateAction {
 	public final static String NAME = "Start Formation";
 	public final static StartFormationAction NO_START_FORMATION_ACTION = null;
@@ -37,9 +43,9 @@ public class StartFormationAction extends ChangeStateAction {
 		tShowFormationPanelEffect = new ShowFormationPanelEffect (aFromActor);
 		addEffect (tShowFormationPanelEffect);
 	}
-
+	
 	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,
-							ActorI.ActionStates aNewFormationState) {
+			ActorI.ActionStates aNewFormationState) {
 		SetFormationStateEffect tSetFormationStateEffect;
 		
 		tSetFormationStateEffect = new SetFormationStateEffect (aFromActor, aOldFormationState, aNewFormationState);
@@ -47,11 +53,11 @@ public class StartFormationAction extends ChangeStateAction {
 	}
 
 	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation, 
-						ShareCompany aTriggeringShareCompany) {
+					ShareCompany aTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
-
+		
 		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, 
-					aTriggeringShareCompany);
+			aTriggeringShareCompany);
 		addEffect (tStartFormationEffect);
 	}
 	
