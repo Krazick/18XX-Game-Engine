@@ -863,9 +863,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tDoneAction.addNewActingCorpEffect (this);
 			tDoneAction.addClearTrainsFromMapEffect (this);
-			applyPreparedActions ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
+			applyPreparedActions ();
 		}
 		hideFrame ();
 
