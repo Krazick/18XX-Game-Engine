@@ -86,8 +86,8 @@ public class ToEffect extends Effect {
 				tActorName = getToActorName ();
 			}
 			tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
+			tEffectElement.setAttribute (AN_TO_NICK_NAME, toNickName);
 		}
-		
 		return tEffectElement;
 	}
 
