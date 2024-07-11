@@ -41,7 +41,27 @@ public class DeleteCertificateEffect extends CreateNewCertificateEffect {
 
 		return tEffectElement;
 	}
-	
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		String tEffectReport;
+		String tFromActorName;
+		
+		tEffectReport = "";
+		if (certificate == Certificate.NO_CERTIFICATE) {
+			tEffectReport = "No Certificate to Delete";
+		} else {
+			tEffectReport += REPORT_PREFIX + name + " of ";
+			tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
+			if (certificate.isPresidentShare ()) {
+				tEffectReport += " (President Share)";
+			}
+			tFromActorName = getFromDisplayName ();
+			tEffectReport += " from " + tFromActorName + ".";
+		}
+		
+		return tEffectReport;
+	}
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
