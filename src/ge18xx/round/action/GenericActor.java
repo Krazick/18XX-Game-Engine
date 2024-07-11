@@ -211,6 +211,8 @@ public class GenericActor implements ActorI {
 			tRoundState = ActionStates.OperatingRound;
 		} else if (aState.equals (ActionStates.AuctionRound.toString ())) {
 			tRoundState = ActionStates.AuctionRound;
+		} else if (aState.equals (ActionStates.FormationRound.toString ())) {
+			tRoundState = ActionStates.FormationRound;
 		}
 
 		return tRoundState;
@@ -218,8 +220,12 @@ public class GenericActor implements ActorI {
 
 	public ActionStates getRT (String aState) {
 		ActionStates tRoundState;
-		ActionStates [] tRoundStates = { ActionStates.NoRound, ActionStates.StockRound, ActionStates.OperatingRound,
-				ActionStates.AuctionRound };
+		ActionStates [] tRoundStates = { 
+				ActionStates.NoRound, 
+				ActionStates.StockRound, 
+				ActionStates.OperatingRound,
+				ActionStates.AuctionRound, 
+				ActionStates.FormationRound };
 
 		tRoundState = ActionStates.NoState;
 		for (ActionStates tRoundState2 : tRoundStates) {
