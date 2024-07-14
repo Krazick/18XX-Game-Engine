@@ -274,7 +274,21 @@ public class Action {
 	}
 
 	public String getActorName () {
-		return actor.getName ();
+		return getFromDisplayName ();
+	}
+	
+	public String getFromDisplayName () {
+		String tDisplayName;
+		
+		tDisplayName = GUI.EMPTY_STRING;
+		
+		if (actor == ActorI.NO_ACTOR) {
+			tDisplayName = "NO-ACTOR";
+		} else {
+			tDisplayName = actor.getName ();
+		}
+
+		return tDisplayName;
 	}
 
 	public Boolean getChainToPrevious () {
@@ -343,8 +357,15 @@ public class Action {
 
 	public String getBriefActionReport () {
 		String tReport;
+		String tActorAbbrev;
 		
-		tReport =  number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + " performed " + name
+		if (actor == ActorI.NO_ACTOR) {
+			tActorAbbrev = "NO-ABBREV";
+		} else {
+			tActorAbbrev = actor.getAbbrev ();
+		}
+		
+		tReport =  number + ". " + roundType + " " + roundID + ": " + tActorAbbrev + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
 		
 		return tReport;
