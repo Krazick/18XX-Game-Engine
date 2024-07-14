@@ -68,12 +68,21 @@ public class ChangeCorporationStatusEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tActorFullName;
+		String tReport;
 
-		tActorFullName = actor.getAbbrev ();
-		if (actor.isAPrivateCompany ()) {
+		if (actor == ActorI.NO_ACTOR) {
+			tActorFullName = "NO-ACTOR";
+		} else if (actor.isAPrivateCompany ()) {
+			tActorFullName = actor.getAbbrev ();
 			tActorFullName = tActorFullName + " (Private)";
+		} else {
+			tActorFullName = getFromDisplayName ();
 		}
-		return (REPORT_PREFIX + name + " for " + tActorFullName + " from " + previousState + " to " + newState + ".");
+		
+		tReport = REPORT_PREFIX + name + " for " + tActorFullName + " from " + previousState + " to " + 
+					newState + ".";
+		
+		return tReport;
 	}
 
 	@Override
