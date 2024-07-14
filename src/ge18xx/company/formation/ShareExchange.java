@@ -245,12 +245,12 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 		tNotification += tExchangeNotification;
 		
-		if (totalExchangeCount > 0) {
-			tFormingCompanyID = gameManager.getFormingCompanyId ();
-			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
-			tFormingAbbrev = getFormingAbbrev ();
-			tPercentage = formationPhase.getPercentageForExchange ();
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
+		tFormingAbbrev = getFormingAbbrev ();
+		tPercentage = formationPhase.getPercentageForExchange ();
 
+		if (totalExchangeCount > 0) {
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
 				if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
@@ -260,6 +260,10 @@ public class ShareExchange extends PlayerFormationPhase {
 									formationPhase.getShareFoldCount ());
 				}
 			}
+		}
+		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
+		gameManager.addAction (tTransferOwnershipAction1);
+		if (totalExchangeCount > 0) {
 			tNewPresident = assignPresident (tBankPortfolio, tPercentage, tFormingCompany, tTransferOwnershipAction2);
 			tNotification += "for " + totalExchangeCount + " Shares of " + tFormingAbbrev;
 			tPresidentName = tFormingCompany.getPresidentName ();
@@ -275,8 +279,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		updateDoneButton (true);
 		formationPhase.rebuildFormationPanel (formationPhase.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
-		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
-		gameManager.addAction (tTransferOwnershipAction1);
 		if (tNewPresident) {
 			tTransferOwnershipAction2.setChainToPrevious (true);
 			gameManager.addAction (tTransferOwnershipAction2);
