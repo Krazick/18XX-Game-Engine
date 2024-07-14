@@ -143,8 +143,11 @@ public class TransferOwnershipEffect extends ToEffect {
 		if (isToActor (Bank.NAME)) {
 			tCorporation = certificate.getCorporation ();
 			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage ());
+			tBank = (Bank) tToHolder;
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
-				tBank = (Bank) tToHolder;
+				tToPortfolio = tBank.getClosedPortfolio ();
+			}
+			if (toNickName.equals (Bank.CLOSED)) {
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
 		}
