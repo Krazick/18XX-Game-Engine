@@ -558,6 +558,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		}
 	}
 	
+	public Player getFormingPresident () {
+		Player tFormingPresident;
+		
+		tFormingPresident = (Player) formingShareCompany.getPresident ();
+
+		return tFormingPresident;
+	}
+	
 	public void updateToFormingPresident (ActorI.ActionStates aFormationState) {
 		PlayerManager tPlayerManager;
 		Player tCurrentPlayer;
@@ -566,23 +574,29 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		ActorI.ActionStates tNewState;
 		ActorI.ActionStates tPrezOldState;
 		ActorI.ActionStates tPrezNewState;
-		int tPresidentIndex;
 		List<Player> tPlayers;
 		ChangeStateAction tChangeStateAction;
+		int tPresidentIndex;
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		tCurrentPlayer = tPlayers.get (currentPlayerIndex);
-		
+		tFormingPresident = getFormingPresident ();
+		tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
+		setActingPresident (tFormingPresident);
+
+		if (currentPlayerIndex < 0) {
+			tCurrentPlayer = tFormingPresident;
+			setCurrentPlayerIndex (tPresidentIndex);
+		} else {
+			tCurrentPlayer = tPlayers.get (currentPlayerIndex);
+		}
 		tOldState = tCurrentPlayer.getPrimaryActionState ();
 		tCurrentPlayer.setPrimaryActionState (formationState);
 		tNewState = tCurrentPlayer.getPrimaryActionState ();;
-		tFormingPresident = (Player) formingShareCompany.getPresident ();
 		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "3", tCurrentPlayer);
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
-
+		
 		if (tFormingPresident != tCurrentPlayer) {
-			tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
 			tPrezOldState = tFormingPresident.getPrimaryActionState ();
 			tFormingPresident.setPrimaryActionState (aFormationState);
 			tPrezNewState = tFormingPresident.getPrimaryActionState ();
@@ -590,7 +604,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			setCurrentPlayerIndex (tPresidentIndex);
 			tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tFormingPresident);
 			gameManager.addAction (tChangeStateAction);
-			setActingPresident (tFormingPresident);
 			rebuildFormationPanel (tPresidentIndex);
 		}
 	}
@@ -830,13 +843,19 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
 		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
 		PlayerManager tPlayerManager;
+		Player tFormingPresident;
 		String tOperatingRoundID;
 		ActorI.ActionStates tNewFormationState;
 		
 		System.out.println ("Formation Phase - " + aNewFormationState.toString ());
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		if (actingPresident == ActorI.NO_ACTOR) {
+			tFormingPresident = getFormingPresident ();
+		} else {
+			tFormingPresident = actingPresident;
+		}
 		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, actingPresident);
+				tOperatingRoundID, tFormingPresident);
 		tChangeFormationPhaseStateAction.setChainToPrevious (true);
 
 		setFormationState (tChangeFormationPhaseStateAction, aNewFormationState);
@@ -844,17 +863,17 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tNewFormationState = getFormationState ();
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
 			hideFormationPanel ();
-			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (actingPresident);
+			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (tFormingPresident);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateCertificateLimit (tChangeFormationPhaseStateAction);
 			triggeringHandleDone ();
 		} else {
-			setupPlayers ();
 			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
 				(tNewFormationState == ActorI.ActionStates.AssetCollection) ||
 				(tNewFormationState == ActorI.ActionStates.StockValueCalculation)) {
 				updateToFormingPresident (tNewFormationState);
 			}
+			setupPlayers ();
 		}
 		gameManager.addAction (tChangeFormationPhaseStateAction);
 	}
