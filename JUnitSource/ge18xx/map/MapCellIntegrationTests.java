@@ -100,11 +100,13 @@ class MapCellIntegrationTests {
 	
 	void buildLayTileEffect () {
 		String tTokens;
+		String tNewTokens;
 		String tBases;
 		
 		tTokens = GUI.EMPTY_STRING;
+		tNewTokens = GUI.EMPTY_STRING;
 		tBases = "TPRR,1";
-		layTileEffect = new LayTileEffect (alphaShareCompany, mapCell, tile120, 0, tTokens, tBases);
+		layTileEffect = new LayTileEffect (alphaShareCompany, mapCell, tile120, 0, tTokens, tBases, tNewTokens);
 	}
 	
 	void verifyMapCellAfterUpgrade () {

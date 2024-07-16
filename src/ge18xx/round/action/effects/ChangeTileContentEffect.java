@@ -86,7 +86,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		return aRoundManager.getTileSet ();
 	}
 
-	public void applyTokens (RoundManager aRoundManager, MapCell aMapCell) {
+	public void applyTokens (RoundManager aRoundManager, MapCell aMapCell, String aTokens) {
 		String [] tTokens;
 		String [] tTokenInfo;
 		String tAbbrev;
@@ -94,11 +94,9 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		int tCityIndex;
 		int tTokenIndex;
 		ShareCompany tShareCompany;
-		String tTheTokens;
 
-		tTheTokens = getTokens ();
-		if (!(Tile.NO_TOKENS.equals (tTheTokens))) {
-			tTokens = tTheTokens.split (";");
+		if (!(Tile.NO_TOKENS.equals (aTokens))) {
+			tTokens = aTokens.split (";");
 			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex"
 			for (String tAToken : tTokens) {
 				tTokenInfo = tAToken.split (",");

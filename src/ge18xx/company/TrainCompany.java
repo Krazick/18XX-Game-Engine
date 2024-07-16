@@ -2254,30 +2254,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReasonForNoBuyTrain;
 	}
 
-//	@Override
-//	public String reasonForNoDividendOptions () {
-//		String tReason;
-//
-//		tReason = commonReason ();
-//		if ((status == ActorI.ActionStates.NotOperated) || 
-//			(status == ActorI.ActionStates.StartedOperations) || 
-//			(status == ActorI.ActionStates.TileLaid) || 
-//			(status == ActorI.ActionStates.Tile2Laid) || 
-//			(status == ActorI.ActionStates.TileUpgraded) || 
-//			(status == ActorI.ActionStates.TileAndStationLaid) || 
-//			(status == ActorI.ActionStates.StationLaid)) {
-//			tReason = REVENUES_NOT_GENERATED;
-//		} else if ((status == ActorI.ActionStates.HoldDividend) || 
-//				(status == ActorI.ActionStates.HalfDividend) ||
-//				(status == ActorI.ActionStates.FullDividend) || 
-//				(status == ActorI.ActionStates.BoughtTrain) ||
-//				(status == ActorI.ActionStates.Operated)) {
-//			tReason = DIVIDENDS_ALREADY_HANDLED;
-//		}
-//
-//		return tReason;
-//	}
-
 	@Override
 	public String reasonForNoDividendPayment () {
 		String tReason;
@@ -2378,6 +2354,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		RemoveTileAction tRemoveTileAction;
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
+		String tNewTileTokens;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
 		ActorI.ActionStates tTargetStatus;
@@ -2399,6 +2376,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tGameManager = getGameManager ();
 		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewStatus = status;
+		tNewTileTokens = aTile.getPlacedTokens ();
 		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
 		tOperatingRoundID = getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
@@ -2412,7 +2390,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tLayTileAction.setChainToPrevious (true);
 		}
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
-					aPreviousTokens, aPreviousBases);
+					aPreviousTokens, aPreviousBases, tNewTileTokens);
 		addRemoveHomeEffect (tLayTileAction, aMapCell);
 		if (tCurrentStatus != tNewStatus) {
 			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);

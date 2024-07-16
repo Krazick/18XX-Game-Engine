@@ -87,6 +87,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NON_PLAYABLE_TILE_SELECTED = "The selected Tile is not Playable on the Selected MapCell.";
 	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
 	private final String NO_VALID_ROTATION = "No Valid Rotation for the selected Upgrade Tile";
+	private final String RESET_ALL_FLAGS = "Reset All Flags";
+	private final String BUILD_GRAPHS = "Build Graphs";
+	private final String CANCEL_TOKEN_MODE = "CancelToken";
+	private final String CANCEL_MODE_LABEL = "Cancel Mode";
+	private final String COMPLETE_TILE_LAY = "Complete Tile Lay";
+	private final String PUT_TILE = "PutTile";
+	private final String PICKUP_TILE = "PickupTile";
+	private final String PUT_TOKEN = "PutToken";
 
 	KButton exitTileButton;
 	KButton putTileButton;
@@ -101,25 +109,16 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JPanel otherButtonsJPanel;
 	JSlider hexScaleSlider;
 	
-	HexMap map;
-	TileSet tileSet;
 	boolean placeTokenMode;
 	boolean selectRouteMode;
+	String companyAbbrev;
+	HexMap map;
+	TileSet tileSet;
 	CorporationList privateCos;
 	CorporationList minorCos;
 	CorporationList shareCos;
-	String companyAbbrev;
 	RouteInformation routeInformation;
 	GameManager gameManager;
-	
-	private String RESET_ALL_FLAGS = "Reset All Flags";
-	private String BUILD_GRAPHS = "Build Graphs";
-	private String CANCEL_TOKEN_MODE = "CancelToken";
-	private String CANCEL_MODE_LABEL = "Cancel Mode";
-	private String COMPLETE_TILE_LAY = "Complete Tile Lay";
-	private String PUT_TILE = "PutTile";
-	private String PICKUP_TILE = "PickupTile";
-	private String PUT_TOKEN = "PutToken";
 	Logger logger;
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {

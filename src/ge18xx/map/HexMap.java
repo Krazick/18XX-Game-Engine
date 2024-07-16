@@ -880,7 +880,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tTokens = tTile.getPlacedTokens ();
 				tBases = tTile.getCorporationBases ();
 				tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, tTile, tNewOrientation,
-						tPreviousOrientation, tTokens, tBases);
+						tPreviousOrientation, tTokens, tBases, tTokens);
 				tRoundManager.addAction (tRotateTileAction);
 			}
 		} else {

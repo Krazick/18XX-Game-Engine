@@ -75,6 +75,7 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		HexMap tGameMap;
 		TileSet tTileSet;
 		GameTile tGameTile;
+		String tTokens;
 		int tTileNumber;
 
 		tEffectUndone = false;
@@ -88,7 +89,8 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		tMapCell.putTile (tTile, orientation);
 		tMapCell.lockTileOrientation ();
 		applyBases (aRoundManager, tMapCell);
-		applyTokens (aRoundManager, tMapCell);
+		tTokens = getTokens ();
+		applyTokens (aRoundManager, tMapCell, tTokens);
 		tGameMap.redrawMap ();
 		tEffectUndone = true;
 

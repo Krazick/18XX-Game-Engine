@@ -32,11 +32,11 @@ public class RotateTileAction extends LayTileAction {
 	}
 
 	public void addRotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aNewOrientation,
-			int aPreviousOrientation, String aTokens, String aBases) {
+			int aPreviousOrientation, String aTokens, String aBases, String aNewTokens) {
 		RotateTileEffect tRotateTileEffect;
 
 		tRotateTileEffect = new RotateTileEffect (aActor, aMapCell, aTile, aNewOrientation, aPreviousOrientation,
-				aTokens, aBases);
+				aTokens, aBases, aNewTokens);
 		addEffect (tRotateTileEffect);
 	}
 

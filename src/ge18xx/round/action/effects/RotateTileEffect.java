@@ -25,8 +25,8 @@ public class RotateTileEffect extends LayTileEffect {
 	}
 
 	public RotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aNewOrientation, int aPreviousOrientation,
-			String aTokens, String aBases) {
-		super (aActor, aMapCell, aTile, aNewOrientation, aTokens, aBases);
+			String aTokens, String aBases, String aNewTileTokens) {
+		super (aActor, aMapCell, aTile, aNewOrientation, aTokens, aBases, aNewTileTokens);
 		setName (NAME);
 		setPreviousOrientation (aPreviousOrientation);
 	}
@@ -77,6 +77,7 @@ public class RotateTileEffect extends LayTileEffect {
 			HexMap aGameMap) {
 		int tNewOrientation;
 		int tCurrentOrientation;
+		String tTokens;
 
 		tCurrentOrientation = aMapCell.getTileOrient ();
 		aMapCell.unlockTileOrientation ();
@@ -89,7 +90,8 @@ public class RotateTileEffect extends LayTileEffect {
 				System.err.println ("Tile was supposed to be Rotated to " + orientation
 						+ " which is NOT the same as current " + tNewOrientation);
 			} else {
-				applyTokens (aRoundManager, aMapCell);
+				tTokens = getTokens ();
+				applyTokens (aRoundManager, aMapCell, tTokens);
 				applyBases (aRoundManager, aMapCell);
 				aEffectApplied = true;
 			}

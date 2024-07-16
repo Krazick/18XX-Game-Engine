@@ -16,7 +16,9 @@ import geUtilities.XMLNode;
 
 public class LayTileEffect extends ChangeTileContentEffect {
 	public final static String NAME = "Lay Tile";
-
+	final static AttributeName AN_NEW_TILE_TOKENS = new AttributeName ("newTileTokens");
+	String newTileTokens;
+	
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
 		this (NAME);
 	}
@@ -26,21 +28,36 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	}
 
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
-			String aBases) {
+			String aBases, String aNewTileTokens) {
 		super (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
+		setNewTileTokens (aNewTileTokens);
 		setName (NAME);
 	}
 
 	public LayTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		String tNewTileTokens;
+
+		tNewTileTokens = aEffectNode.getThisAttribute (AN_NEW_TILE_TOKENS);
+		setNewTileTokens (tNewTileTokens);
+
 		setName (NAME);
 	}
 
+	public void setNewTileTokens (String aNewTileTokens) {
+		newTileTokens = aNewTileTokens;
+	}
+	
+	public String getNewTileTokens () {
+		return newTileTokens;
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
+		tEffectElement.setAttribute (AN_NEW_TILE_TOKENS, getNewTileTokens ());
 
 		return tEffectElement;
 	}
@@ -50,8 +67,8 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		String tBenefitReport = getBenefitEffectReport ();
 
 		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation + " by "
-				+ actor.getName () + " on MapCell " + mapCellID + " New Tokens [ " + getTokens () + " ] New Bases [ "
-				+ getBases () + " ]." + tBenefitReport);
+				+ actor.getName () + " on MapCell " + mapCellID + " Tokens [ " + getTokens () + " ] New Bases [ "
+				+ getBases () + " ]" + " New Tile Tokens [" + getNewTileTokens () + "]." + tBenefitReport);
 	}
 
 	@Override
@@ -70,7 +87,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		// Apply if the Tile Number on the Cell matches
 		if (tTile.getTileNumber () == tileNumber) {
 			tMapCell.putThisTileDown (tTileSet, tTile, orientation);
-			applyTokens (aRoundManager, tMapCell);
+			applyTokens (aRoundManager, tMapCell, newTileTokens);
 			applyBases (aRoundManager, tMapCell);
 			tGameMap.redrawMap ();
 			tEffectApplied = true;

@@ -34,10 +34,10 @@ public class LayTileAction extends ChangeMapAction {
 	}
 
 	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
-			String aTokens, String aBases) {
+			String aTokens, String aBases, String aNewTileTokens) {
 		LayTileEffect tTileLayEffect;
 
-		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
+		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases, aNewTileTokens);
 		addEffect (tTileLayEffect);
 	}
 
