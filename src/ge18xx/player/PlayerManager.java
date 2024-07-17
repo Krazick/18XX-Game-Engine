@@ -785,7 +785,6 @@ public class PlayerManager {
 		CashHolderI tPayCashTo;
 		int tCapitalizationLevel;
 		int tSharesSold;
-//		CorporationList tCorporationList;
 		ShareCompany tShareCompany;
 		
 		tShareCompany = aCertificate.getShareCompany ();
@@ -800,12 +799,15 @@ public class PlayerManager {
 		} else if (! tShareCompany.hasDestination ()) {
 			tPayCashTo = aBank;
 		} else if (tShareCompany.hasReachedDestination ()) {
-			tPayCashTo = tShareCompany;
+			tCapitalizationLevel = getCapitalizationLevel (tShareCompany);
+			if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
+				tPayCashTo = aBank;
+			} else {
+				tPayCashTo = tShareCompany;
+			}
 		} else {
 			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
-//			tCorporationList = gameManager.getShareCompanies ();
-//			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
-			tCapitalizationLevel = gameManager.getCapitalizationLevel (tSharesSold);
+			tCapitalizationLevel = getCapitalizationLevel (tShareCompany);
 			if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
 				tPayCashTo = aBank;
 			} else if (tCapitalizationLevel < tSharesSold){
@@ -816,6 +818,16 @@ public class PlayerManager {
 		}
 		
 		return tPayCashTo;
+	}
+	
+	private int getCapitalizationLevel (ShareCompany aShareCompany) {
+		int tCapitalizationLevel;
+		int tSharesSold;
+
+		tSharesSold = aShareCompany.getPercentOwned ()/10 + 1;
+		tCapitalizationLevel = gameManager.getCapitalizationLevel (tSharesSold);
+
+		return tCapitalizationLevel;
 	}
 	
 	private Portfolio getSourcePortfolio (Certificate aCertificateToBuy) {
