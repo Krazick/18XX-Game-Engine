@@ -2348,14 +2348,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void showMinorCompanies () {
+		minorCompaniesFrame.setLocation (getOffsetRoundFrame ());
+		minorCompaniesFrame.setSize (1250, 300);
 		minorCompaniesFrame.showFrame ();
 	}
 
 	public void showPrivateCompanies () {
+		privatesFrame.setLocation (getOffsetRoundFrame ());
+		privatesFrame.setSize (1250, 300);
 		privatesFrame.showFrame ();
 	}
 
 	public void showShareCompanies () {
+		shareCompaniesFrame.setLocation (getOffsetRoundFrame ());
+		shareCompaniesFrame.setSize (1250, 300);
 		shareCompaniesFrame.showFrame ();
 	}
 
