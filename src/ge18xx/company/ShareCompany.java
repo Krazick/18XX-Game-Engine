@@ -101,6 +101,7 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
+		int tSharePrice;
 
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getDestinationLabel (), aRowIndex, tCurrentColumn++);
@@ -108,7 +109,8 @@ public class ShareCompany extends TokenCompany {
 		parPriceColumn = tCurrentColumn;
 		aCorporationList.addDataElement (getSParPrice (), aRowIndex, tCurrentColumn++);
 		sharePriceColumn = tCurrentColumn;
-		aCorporationList.addDataElement (getSharePrice (), aRowIndex, tCurrentColumn++);
+		tSharePrice = getSharePrice ();
+		aCorporationList.addDataElement (tSharePrice, aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getLoanCount (), aRowIndex, tCurrentColumn++);
 
 		return tCurrentColumn;
@@ -791,11 +793,15 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public int getSharePrice () {
+		int tSharePrice;
+		
 		if (sharePrice == MarketCell.NO_MARKET_CELL) {
-			return MarketCell.NO_STOCK_PRICE;
+			tSharePrice = MarketCell.NO_STOCK_PRICE;
 		} else {
-			return sharePrice.getValue ();
+			tSharePrice = sharePrice.getValue ();
 		}
+		
+		return tSharePrice;
 	}
 
 	public MarketCell getSharePriceMarketCell () {
