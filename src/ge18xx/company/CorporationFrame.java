@@ -448,6 +448,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tSourceTitle;
 		KButton tSourceButton;
 		FormationPhase tFormationPhase;
+		MapFrame tMapFrame;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
 
@@ -532,6 +533,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (UNDO.equals (tCommand)) {
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
+			tMapFrame = getMapFrame ();
+			tMapFrame.resetAllModes ();
 		}
 		if (ButtonsInfoFrame.EXPLAIN.equals (tCommand)) {
 			handleExplainButtons ();
