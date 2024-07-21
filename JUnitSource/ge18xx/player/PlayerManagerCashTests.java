@@ -17,6 +17,7 @@ import ge18xx.company.Coupon;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -36,11 +37,11 @@ class PlayerManagerCashTests {
 	PlayerManager playerManager;
 	PrivateCompany mPrivateCompany;
 	Certificate mCertificate;
-	GameManager gameManager;
+	GameManager mGameManager;
 	RoundManager roundManager;
 	Bank mBank;
 	BankPool mBankPool;
-	StockRound stockRound;
+	StockRound mStockRound;
 	String bankName;
 	Portfolio bankPoolPortfolio;
 	Portfolio bankPortfolio;
@@ -50,21 +51,21 @@ class PlayerManagerCashTests {
 	void setUp () throws Exception {
 		bankName = "PM Mock Bank";
 		gameTestFactory = new GameTestFactory ();
-		gameManager = gameTestFactory.buildGameManager ();
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 		gameInfo = gameTestFactory.buildGameInfo (2);
-		gameManager.setGameInfo (gameInfo);
+		mGameManager.setGameInfo (gameInfo);
 		
-		playerTestFactory = new PlayerTestFactory (gameManager);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
 		bankTestFactory = new BankTestFactory ();
 		roundTestFactory = new RoundTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		certificateTestFactory = new CertificateTestFactory ();
 		
-		mBank = bankTestFactory.buildBankMock (gameManager, bankName);
+		mBank = bankTestFactory.buildBankMock (mGameManager, bankName);
 		bankPortfolio = new Portfolio (mBank);
 		Mockito.when (mBank.getPortfolio ()).thenReturn (bankPortfolio);
 		
-		mBankPool = bankTestFactory.buildBankPoolMock (gameManager, bankName);
+		mBankPool = bankTestFactory.buildBankPoolMock (mGameManager, bankName);
 		
 		bankPoolPortfolio = new Portfolio (mBankPool);
 		Mockito.when (mBankPool.getPortfolio ()).thenReturn (bankPoolPortfolio);
@@ -73,8 +74,10 @@ class PlayerManagerCashTests {
 		
 		mCertificate = certificateTestFactory.buildCertificateMock ();
 		playerManager = playerTestFactory.buildPlayerManager ();
-		roundManager = roundTestFactory.buildRoundManager (gameManager, playerManager);
-		stockRound = roundTestFactory.buildStockRound (playerManager, roundManager);
+		roundManager = roundTestFactory.buildRoundManager (mGameManager, playerManager);
+		mStockRound = roundTestFactory.buildStockRoundMock (playerManager, roundManager);
+		Mockito.when (mStockRound.getBank ()).thenReturn (mBank);
+		playerManager.setStockRound (mStockRound);
 	}
 
 	@Test
@@ -180,13 +183,11 @@ class PlayerManagerCashTests {
 		Portfolio tSourcePortfolio;
 		ShareCompany tShareCompany;
 		Certificate tShareCertificate;
-		Bank mBank;
 		Coupon mNextTrain;
 		
 		mNextTrain = Mockito.mock (Coupon.class);
 		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
 
-		mBank = playerManager.getBank ();
 		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
 
 		tSourcePortfolio = mBank.getPortfolio ();
@@ -202,17 +203,21 @@ class PlayerManagerCashTests {
 	}
 	
 	@Test
-	@DisplayName ("For Operated Non-Destinated Share Company Pay Cash To Test")
+	@DisplayName ("For Operated Destinated Share Company Pay Cash To Test")
 	void forDestinationedShareGetPayCashToTest () {
 		CashHolderI tCashHolder;
 		Portfolio tSourcePortfolio;
 		ShareCompany tShareCompany;
 		Certificate tShareCertificate;
 		String tResult = "Buffalo, Brantford & Goderich Railway";
-		Bank tBank;
-		
-		tBank = playerManager.getBank ();
-		tSourcePortfolio = tBank.getPortfolio ();
+		Coupon mNextTrain;
+
+		mNextTrain = Mockito.mock (Coupon.class);
+		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
+
+		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
+
+		tSourcePortfolio = mBank.getPortfolio ();
 		
 		tShareCompany = companyTestFactory.buildAShareCompany (3);
 		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
@@ -220,8 +225,61 @@ class PlayerManagerCashTests {
 		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
 							tSourcePortfolio);
 		
-		tCashHolder = playerManager.getPayCashTo (tBank, tShareCertificate, tSourcePortfolio);
+		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
 		assertEquals (tResult, tCashHolder.getName ());		
 	}
 
+	@Test
+	@DisplayName ("For Operated Destinated Share Company with Full Capitalization Pay Cash To Test")
+	void forDestinationedFullCapShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		String tResult = "PM Mock Bank";
+		Coupon mNextTrain;
+
+		mNextTrain = Mockito.mock (Coupon.class);
+		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
+
+		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
+
+		tSourcePortfolio = mBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (3);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCompany.setReachedDestination (true);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		Mockito.when (mGameManager.getCapitalizationLevel (Mockito.anyInt ())).thenReturn (Capitalization.INCREMENTAL_10_MAX);
+		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
+		assertEquals (tResult, tCashHolder.getName ());		
+	}
+
+	@Test
+	@DisplayName ("For Operated Non-Destinated Share Company with Full Capitalizaiton Pay Cash To Test")
+	void forNonDestinationedFullCapShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		String tResult = "PM Mock Bank";
+		Coupon mNextTrain;
+
+		mNextTrain = Mockito.mock (Coupon.class);
+		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
+
+		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
+
+		tSourcePortfolio = mBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (3);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCompany.setReachedDestination (false);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		Mockito.when (mGameManager.getCapitalizationLevel (Mockito.anyInt ())).thenReturn (Capitalization.INCREMENTAL_10_MAX);
+		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
+		assertEquals (tResult, tCashHolder.getName ());		
+	}
 }
