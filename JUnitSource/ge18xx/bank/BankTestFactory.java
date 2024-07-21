@@ -18,17 +18,17 @@ public class BankTestFactory {
 		return tBank;
 	}
 
-	public Bank buildBankMock (GameManager mGameManager) {
+	public Bank buildBankMock (GameManager aGameManager) {
 		Bank mBank;
 
 		mBank = Mockito.mock (Bank.class);
 		Mockito.when (mBank.getAbbrev ()).thenReturn ("Bank Mock");
-		mGameManager.setBank (mBank);
+		aGameManager.setBank (mBank);
 		
 		return mBank;
 	}
 	
-	public Bank buildBankMock (GameManager mGameManager, String aBankName) {
+	public Bank buildBankMock (GameManager aGameManager, String aBankName) {
 		Bank mBank;
 
 		mBank = Mockito.mock (Bank.class);
@@ -36,12 +36,12 @@ public class BankTestFactory {
 		Mockito.when (mBank.getName ()).thenReturn (aBankName);
 		Mockito.when (mBank.isABank ()).thenReturn (true);
 		Mockito.when (mBank.isABankPool ()).thenReturn (false);
-		mGameManager.setBank (mBank);
+		aGameManager.setBank (mBank);
 		
 		return mBank;
 	}
 	
-	public BankPool buildBankPoolMock (GameManager mGameManager, String aBankPoolName) {
+	public BankPool buildBankPoolMock (GameManager aGameManager, String aBankPoolName) {
 		BankPool mBankPool;
 
 		mBankPool = Mockito.mock (BankPool.class);
@@ -50,7 +50,7 @@ public class BankTestFactory {
 		Mockito.when (mBankPool.isABank ()).thenReturn (true);
 		Mockito.when (mBankPool.isABankPool ()).thenReturn (true);
 		
-		mGameManager.setBankPool (mBankPool);
+		aGameManager.setBankPool (mBankPool);
 		
 		return mBankPool;
 	}
@@ -96,5 +96,4 @@ public class BankTestFactory {
 
 		return mBankPool;
 	}
-
 }
