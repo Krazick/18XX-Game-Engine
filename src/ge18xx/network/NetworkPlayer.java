@@ -69,8 +69,9 @@ public class NetworkPlayer {
 	}
 
 	public static boolean validPlayerName (String aPlayerName) {
-		boolean tValidName = true;
+		boolean tValidName;
 
+		tValidName = true;
 		if ((aPlayerName != null) && (aPlayerName.length () > 0)) {
 			if (!aPlayerName.matches ("[A-Za-z][A-Za-z0-9_]*")) {
 				tValidName = false;
