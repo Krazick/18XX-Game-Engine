@@ -230,7 +230,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public JMenuBar getJMenuBar () {
-		return this.game18XXFrame.getJMenuBar ();
+		return game18XXFrame.getJMenuBar ();
 	}
 	
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
@@ -2813,7 +2813,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		Config tConfigData;
 
 		tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
-		tConfigFileName = getConfigFileName ();
+		tConfigFileName = game18XXFrame.getConfigFileName (clientUserName);
 		tConfigFile = new File (tConfigFileName);
 		showConfigFileInfo (tConfigFile, "Loading Config File from");
 		
@@ -2850,16 +2850,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		showConfigFileInfo (tConfigFile, "Config File Saved");
 	}
 
-	public String getConfigFileName () {
-		String tConfigFileName;
-
-		tConfigFileName = "ge18xx." + clientUserName + ".cfg.xml";
-		
-		return tConfigFileName;
-	}
-
 	public File getConfigFile () {
-		return new File (getConfigFileName ());
+		return new File (game18XXFrame.getConfigFileName (clientUserName));
 	}
 
 	private void applyConfigSettings () {

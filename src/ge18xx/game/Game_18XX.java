@@ -349,13 +349,35 @@ public class Game_18XX extends XMLFrame {
 			enableGameStartItems ();
 			okButton.requestFocusInWindow ();
 			okButton.setEnabled (true);
-			okButton.setToolTipText (GUI.EMPTY_STRING);
+			okButton.setToolTipText (GUI.EMPTY_STRING);	
 		} else if (!(tClientName.equals (GUI.EMPTY_STRING))) {
 			clientUserName.setText ("INVALID NAME");
 			clientUserName.requestFocusInWindow ();
 			okButton.setEnabled (false);
 			okButton.setToolTipText ("Client User Name enter is Invalid");
 		}
+	}
+	
+	public boolean configFileExists () {
+		boolean tConfigFileExists;
+		String tConfigFileName;
+		String tClientName;
+		File tConfigFile;
+		
+		tClientName = clientUserName.getText ();
+		tConfigFileName = getConfigFileName (tClientName);
+		tConfigFile = new File (tConfigFileName);
+		tConfigFileExists = tConfigFile.exists ();
+
+		return tConfigFileExists;
+	}
+
+	public String getConfigFileName (String aClientName) {
+		String tConfigFileName;
+
+		tConfigFileName = "ge18xx." + aClientName + ".cfg.xml";
+		
+		return tConfigFileName;
 	}
 
 	private void setupFrameActions () {
@@ -374,6 +396,10 @@ public class Game_18XX extends XMLFrame {
 			@Override
 			public void keyReleased (KeyEvent e) {
 				enableGameStartItems ();
+				if (configFileExists ()) {
+					setupNewGameManager ();
+					okButton.setDefaultCapable (true);
+				}
 			}
 		});
 
