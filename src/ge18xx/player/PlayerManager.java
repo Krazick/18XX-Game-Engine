@@ -122,10 +122,11 @@ public class PlayerManager {
 	}
 	
 	public String getPlayersInOrder () {
-		String tPlayersInOrder = "";
+		String tPlayersInOrder;
 
+		tPlayersInOrder = GUI.EMPTY_STRING;
 		for (Player tPlayer : players) {
-			if (tPlayersInOrder != "") {
+			if (tPlayersInOrder != GUI.EMPTY_STRING) {
 				tPlayersInOrder += ", ";
 			}
 			tPlayersInOrder += tPlayer.getName ();
@@ -135,8 +136,9 @@ public class PlayerManager {
 	}
 
 	public Player getPlayerWhoTriggeredAuction () {
-		Player tPlayer = Player.NO_PLAYER;
+		Player tPlayer;
 
+		tPlayer = Player.NO_PLAYER;
 		for (Player tAPlayer : players) {
 			if (tAPlayer.getTriggeredAuction ()) {
 				tPlayer = tAPlayer;
@@ -153,7 +155,8 @@ public class PlayerManager {
 	public boolean canBeExchanged (Corporation aCorporation) {
 		boolean tCanBeExchanged;
 		Player tCurrentPresident;
-		int tPercentOwned, tPresidentPercent;
+		int tPercentOwned;
+		int tPresidentPercent;
 		Portfolio tPresidentsPortfolio;
 		Certificate tPresidentCertificate;
 
@@ -316,8 +319,9 @@ public class PlayerManager {
 	}
 
 	public Bank getBank () {
-		Bank tBank = Bank.NO_BANK;
+		Bank tBank;
 
+		tBank = Bank.NO_BANK;
 		if (stockRound != Round.NO_ROUND) {
 			tBank = stockRound.getBank ();
 		}
@@ -342,9 +346,10 @@ public class PlayerManager {
 	}
 
 	public List<ActionStates> getPlayerAuctionStates () {
-		List<ActionStates> aAuctionStates = new LinkedList<> ();
+		List<ActionStates> aAuctionStates;
 		ActorI.ActionStates tActionState;
 
+		aAuctionStates = new LinkedList<> ();
 		for (Player tPlayer : players) {
 			tActionState = tPlayer.getAuctionActionState ();
 			aAuctionStates.add (tActionState);
@@ -354,10 +359,12 @@ public class PlayerManager {
 	}
 
 	public void resetPlayerAuctionStates (List<ActionStates> aAuctionStates) {
-		int tPlayerCount = players.size ();
-		int tStateCount = aAuctionStates.size ();
+		int tPlayerCount;
+		int tStateCount;
 		Player tPlayer;
 
+		tPlayerCount = players.size ();
+		tStateCount = aAuctionStates.size ();
 		if (tPlayerCount == tStateCount) {
 			for (int tIndex = 0; tIndex < tStateCount; tIndex++) {
 				tPlayer = players.get (tIndex);
@@ -628,9 +635,10 @@ public class PlayerManager {
 	}
 
 	public boolean nextShareHasBids (Certificate aCertificateToBuy) {
-		boolean tNextShareHasBids = false;
+		boolean tNextShareHasBids;
 		Bank tBank;
 
+		tNextShareHasBids = false;
 		tBank = stockRound.getBank ();
 		if (tBank.isInStartPacket (aCertificateToBuy)) {
 			// Capture whether next share available has bids on it -- if So, after Sale,
@@ -669,9 +677,11 @@ public class PlayerManager {
 		int tParPrice;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
-		boolean tCanBuyStock = true;
-		boolean tChainToPrevious = false;
+		boolean tCanBuyStock;
+		boolean tChainToPrevious;
 
+		tCanBuyStock = true;
+		tChainToPrevious = false;
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
 
@@ -834,7 +844,8 @@ public class PlayerManager {
 		Portfolio tSourcePortfolio;
 		Bank tBank;
 		BankPool tBankPool;
-		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		Portfolio tBankPortfolio;
+		Portfolio tBankPoolPortfolio;
 
 		tBank = getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
@@ -1464,22 +1475,29 @@ public class PlayerManager {
 
 	public void sellAction (Player aPlayer) {
 		SellStockAction tSellStockAction;
-		Player.ActionStates tOldState, tNewState;
+		Player.ActionStates tOldState;
+		Player.ActionStates tNewState;
 		List<Certificate> tCertificatesToSell;
-		Portfolio tBankPoolPortfolio, tPlayerPortfolio;
+		Portfolio tBankPoolPortfolio;
+		Portfolio tPlayerPortfolio;
 		Bank tBank;
 		BankPool tBankPool;
-		int tCashValue, tSharesBeingSold;
-		MarketCell tMarketCell, tNewMarketCell;
+		MarketCell tMarketCell;
+		MarketCell tNewMarketCell;
 		MarketCell tStartMarketCell;
-		int tStartLocation, tNewLocation;
 		Token tToken;
 		ShareCompany tShareCompany;
 		ShareCompany tCompanyBeingSold;
 		String tCompanyAbbrev;
 		String tExchangedShare;
-		Player tCurrentPresident, tNewPresident;
-		boolean tForceSell, tNormalSale;
+		Player tCurrentPresident;
+		Player tNewPresident;
+		int tCashValue;
+		int tSharesBeingSold;
+		int tStartLocation;
+		int tNewLocation;
+		boolean tForceSell;
+		boolean tNormalSale;
 
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
