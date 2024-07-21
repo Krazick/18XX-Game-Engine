@@ -56,6 +56,15 @@ public class RoundTestFactory {
 
 		return tStockRound;
 	}
+	
+	public StockRound buildStockRoundMock (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+		StockRound mStockRound;
+
+		mStockRound = Mockito.mock (StockRound.class);
+		Mockito.when (mStockRound.getType ()).thenReturn ("Stock Round Mock");
+
+		return mStockRound;
+	}
 
 	public OperatingRound buildOperatingRound (RoundManager aRoundManager) {
 		OperatingRound tOperatingRound;
