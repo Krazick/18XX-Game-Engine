@@ -21,6 +21,7 @@ import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.train.Train;
+import geUtilities.GUI;
 import swingDelays.KButton;
 
 public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemListener {
@@ -116,8 +117,8 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		buildButtonJPanel ();
 
 		mainJPanel.add (infoJPanel);
-		mainJPanel.add (stockCertificatesJPanel);
 		mainJPanel.add (buttonJPanel);
+		mainJPanel.add (stockCertificatesJPanel);
 		updateButtons ();
 	}
 	
@@ -156,11 +157,11 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		presidentalCashNeededLabel = new JLabel ("XXX");
 		updatePresidentalCashNeeded ();
 		addLabelAndSpace (presidentalCashNeededLabel);
-		totalLiquidAssetLabel = new JLabel ("");
+		totalLiquidAssetLabel = new JLabel (GUI.EMPTY_STRING);
 		addLabelAndSpace (totalLiquidAssetLabel);
-		totalSelectedAssetLabel = new JLabel ("");
+		totalSelectedAssetLabel = new JLabel (GUI.EMPTY_STRING);
 		addLabelAndSpace (totalSelectedAssetLabel);
-		saleLimitReasons = new JLabel ("");
+		saleLimitReasons = new JLabel (GUI.EMPTY_STRING);
 		addLabelAndSpace (saleLimitReasons);
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
@@ -168,9 +169,11 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		tCouponPanel = mustBuyCoupon.buildCouponInfoPanel (false);
 		tCouponAndButtonPanel = new JPanel ();
 		tCouponAndButtonPanel.setLayout (new BoxLayout (tCouponAndButtonPanel, BoxLayout.X_AXIS));
+		tCouponAndButtonPanel.add (Box.createHorizontalGlue ());
 		tCouponAndButtonPanel.add (tCouponPanel);
-		tCouponAndButtonPanel.add (Box.createHorizontalStrut (10));
+		tCouponAndButtonPanel.add (Box.createHorizontalStrut (20));
 		tCouponAndButtonPanel.add (doBuyButton);
+		tCouponAndButtonPanel.add (Box.createHorizontalGlue ());
 		updateBuyCouponButton ();
 		
 		infoJPanel.add (tCouponAndButtonPanel);
@@ -250,7 +253,6 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		} else {
 			totalSelectedAssetLabel.setText ("No Selected Certificates");
 		}
-
 	}
 
 	private void setExchangedCompany (ShareCompany aShareCompany) {
@@ -260,12 +262,19 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
+		buttonJPanel.add (Box.createHorizontalGlue ());
 		doBuyButton = setupButton (forceAction, BUY_ACTION, false);
+		buttonJPanel.add (Box.createHorizontalGlue ());
 		doSellButton = setupButton (Player.SELL_LABEL, SELL_ACTION);
+		buttonJPanel.add (Box.createHorizontalGlue ());
 		exchangeButton = setupButton (Player.EXCHANGE_LABEL, EXCHANGE_ACTION);
-		undoButton = setupButton ("Undo", UNDO_ACTION);
+		buttonJPanel.add (Box.createHorizontalGlue ());
+		undoButton = setupButton (UNDO_ACTION, UNDO_ACTION);
+		buttonJPanel.add (Box.createHorizontalGlue ());
 		declareBankruptcyButton = setupButton ("Declare Bankruptcy", DECLARE_BANKRUPTCY_ACTION);
-		cancelButton = setupButton ("Cancel", CANCEL_ACTION);
+		buttonJPanel.add (Box.createHorizontalGlue ());
+		cancelButton = setupButton (CANCEL_ACTION, CANCEL_ACTION);
+		buttonJPanel.add (Box.createHorizontalGlue ());
 	}
 
 	private KButton setupButton (String aLabel, String aActionCommand) {
@@ -372,11 +381,13 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 		tLiquidCertificateValue += calculateOtherLiquidStock (tCertificatesCanBeSold, tReasons);
 
-		tAllReasons = "";
+		tAllReasons = GUI.EMPTY_STRING;
 		for (String tAReason : tReasons) {
 			tAllReasons += "<li>" + tAReason + "</li>";
 		}
-		tAllReasons = "<html><ul>" + tAllReasons + "</ul></html>";
+		if (tAllReasons != GUI.EMPTY_STRING) {
+			tAllReasons = "<html><ul>" + tAllReasons + "</ul></html>";
+		}
 		setSaleLimitReasons (tAllReasons);
 
 		return tLiquidCertificateValue;
