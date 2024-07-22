@@ -60,6 +60,7 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 import geUtilities.xml.LoadableXMLI;
 import swingTweaks.KButton;
+import swingTweaks.KCollapsiblePanel;
 import geUtilities.ElementName;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
@@ -135,10 +136,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	 * @return the JPanel to add to the JFrame
 	 *
 	 */
-	public JPanel buildCompanyJPanel (boolean aAllCompanies) {
-		JPanel tCompanyJPanel;
+	public KCollapsiblePanel buildCompanyJPanel (boolean aAllCompanies) {
+		KCollapsiblePanel tCompanyJPanel;
 		JPanel tCorpInfoJPanel;
-		String tBoxLabel;
+		String tBoxLabel; 
 
 		tBoxLabel = getThisTypeName () + " Companies";
 		if (aAllCompanies) {
@@ -146,8 +147,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		} else {
 			tBoxLabel += " in Operating Order";
 		}
-		tCompanyJPanel = new JPanel ();
-		tCompanyJPanel.setBorder (BorderFactory.createTitledBorder (tBoxLabel));
+		tCompanyJPanel = new KCollapsiblePanel ();
+		tCompanyJPanel.setTitle (tBoxLabel);
+//		tCompanyJPanel.setBorder (BorderFactory.createTitledBorder (tBoxLabel));
 		tCompanyJPanel.setLayout (new BoxLayout (tCompanyJPanel, BoxLayout.X_AXIS));
 
 		sortByOperatingOrder ();

@@ -4,13 +4,14 @@ import java.awt.LayoutManager;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+//import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
+import swingTweaks.KCollapsiblePanel;
 
 public class AllCorporationsPanel extends ListenerPanel {
 	private static final long serialVersionUID = 1L;
@@ -95,7 +96,7 @@ public class AllCorporationsPanel extends ListenerPanel {
 	}
 
 	public void buildCorpListPanel (CorporationList aCorporationList) {
-		JPanel tCompanyJPanel;
+		KCollapsiblePanel tCompanyJPanel;
 		int tCorporationCount;
 		
 		tCorporationCount = aCorporationList.getCorporationCount ();
