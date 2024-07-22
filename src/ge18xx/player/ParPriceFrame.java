@@ -30,7 +30,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ParPriceFrame extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;

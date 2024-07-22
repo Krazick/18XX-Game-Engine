@@ -28,8 +28,8 @@ import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
 import ge18xx.round.action.AuctionStateChangeAction;
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.GUI;
-import swingDelays.KButton;
 
 public class AuctionFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

@@ -1,8 +1,7 @@
 package ge18xx.round;
 
 import ge18xx.company.Certificate;
-
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class FastBuyButton extends KButton {
 	private static final long serialVersionUID = 1L;

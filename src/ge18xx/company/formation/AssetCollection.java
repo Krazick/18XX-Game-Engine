@@ -31,7 +31,7 @@ import ge18xx.round.action.TransferTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class AssetCollection extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;

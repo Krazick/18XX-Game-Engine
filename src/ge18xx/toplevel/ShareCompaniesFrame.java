@@ -30,7 +30,7 @@ import ge18xx.round.action.ChangeMarketCellAction;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

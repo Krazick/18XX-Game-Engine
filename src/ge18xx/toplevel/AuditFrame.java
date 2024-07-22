@@ -26,7 +26,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
 
 import geUtilities.xml.XMLFrame;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	private static final long serialVersionUID = 1L;

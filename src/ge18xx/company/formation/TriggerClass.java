@@ -8,8 +8,7 @@ import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 
 import geUtilities.GUI;
-
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class TriggerClass {
 	public static final TriggerClass NO_TRIGGER_CLASS = null;

@@ -33,7 +33,7 @@ import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TokenExchangeFinishedAction;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 // TODO:
 // 

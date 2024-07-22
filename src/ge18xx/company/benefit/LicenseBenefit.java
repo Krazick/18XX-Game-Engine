@@ -21,8 +21,8 @@ import ge18xx.round.action.effects.Effect;
 
 import geUtilities.AttributeName;
 import geUtilities.GUI;
-import swingDelays.KButton;
 import geUtilities.XMLNode;
+import swingTweaks.KButton;
 
 public class LicenseBenefit extends Benefit {
 	public static final AttributeName AN_LICENSE_COST = new AttributeName ("licenseCost");

@@ -22,7 +22,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.PurchaseOfferAction;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class BuyItemFrame extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;

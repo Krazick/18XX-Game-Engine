@@ -13,7 +13,7 @@ import ge18xx.map.MapCell;
 
 import geUtilities.AttributeName;
 import geUtilities.XMLNode;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class CattlePlacementBenefit extends MapBenefit {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");

@@ -19,7 +19,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLNode;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class TokenPlacementBenefit extends MapBenefit {
 	public static final AttributeName AN_EXTRA = new AttributeName ("extra");

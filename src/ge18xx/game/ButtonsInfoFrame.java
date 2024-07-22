@@ -23,7 +23,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
 import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ButtonsInfoFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

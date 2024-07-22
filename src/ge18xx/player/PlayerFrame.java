@@ -19,9 +19,9 @@ import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
-import swingDelays.KButton;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
 	private static final long serialVersionUID = 1L;

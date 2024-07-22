@@ -24,7 +24,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

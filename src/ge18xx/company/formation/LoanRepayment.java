@@ -18,7 +18,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentHandledAction;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class LoanRepayment extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;

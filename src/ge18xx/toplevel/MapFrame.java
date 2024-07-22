@@ -17,8 +17,6 @@ import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
-import swingDelays.KButton;
-
 //
 //  MapFrame.java
 //  rails_18xx
@@ -61,6 +59,7 @@ import ge18xx.train.RouteSegment;
 
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;

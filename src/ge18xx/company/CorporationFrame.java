@@ -39,9 +39,9 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
-import swingDelays.KButton;
 
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;

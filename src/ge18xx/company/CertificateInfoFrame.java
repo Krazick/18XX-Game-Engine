@@ -16,8 +16,8 @@ import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.GUI;
-import swingDelays.KButton;
 
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

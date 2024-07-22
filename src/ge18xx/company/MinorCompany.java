@@ -13,10 +13,10 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-import swingDelays.KButton;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
+import swingTweaks.KButton;
 
 //
 //  MinorCompany.java

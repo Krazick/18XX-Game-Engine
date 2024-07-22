@@ -40,12 +40,12 @@ import ge18xx.round.action.WinAuctionAction;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-import swingDelays.KButton;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
+import swingTweaks.KButton;
 
 //
 //  Certificate.java

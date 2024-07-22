@@ -22,7 +22,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.train.Train;
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;

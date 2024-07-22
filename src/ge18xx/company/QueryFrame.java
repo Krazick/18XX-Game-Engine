@@ -18,7 +18,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.ToEffect;
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

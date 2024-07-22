@@ -11,8 +11,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 
 import geUtilities.XMLNode;
-
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {
 	public static final String NAME = "EXCHANGE";

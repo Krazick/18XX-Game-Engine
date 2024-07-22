@@ -48,13 +48,13 @@ import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
-import swingDelays.KButton;
 
 public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;

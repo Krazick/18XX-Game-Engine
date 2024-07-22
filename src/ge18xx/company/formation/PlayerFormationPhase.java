@@ -26,7 +26,7 @@ import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class PlayerFormationPhase extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;

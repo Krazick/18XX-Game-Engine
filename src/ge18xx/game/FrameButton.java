@@ -3,7 +3,7 @@ package ge18xx.game;
 import javax.swing.JCheckBox;
 
 import geUtilities.GUI;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class FrameButton {
 	public final static FrameButton NO_FRAME_BUTTON = null;

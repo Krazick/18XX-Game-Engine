@@ -26,11 +26,11 @@ import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
 import geUtilities.WordWrapping;
-import swingDelays.KButton;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
+import swingTweaks.KButton;
 
 //
 //  Private.java

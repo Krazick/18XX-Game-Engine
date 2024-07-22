@@ -27,8 +27,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 
 import geUtilities.xml.XMLFrame;
+import swingTweaks.KButton;
 import geUtilities.GUI;
-import swingDelays.KButton;
 
 public class RoundFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

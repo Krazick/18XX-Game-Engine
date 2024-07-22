@@ -14,11 +14,10 @@ import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-import swingDelays.KButton;
-
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
+import swingTweaks.KButton;
 
 public class Benefits {
 	public static final ElementName EN_BENEFITS = new ElementName ("Benefits");

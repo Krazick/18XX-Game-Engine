@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class Initialization extends JFrame {
 	private static final long serialVersionUID = 1L;

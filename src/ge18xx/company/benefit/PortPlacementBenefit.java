@@ -16,7 +16,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import geUtilities.AttributeName;
 import geUtilities.XMLNode;
-import swingDelays.KButton;
+import swingTweaks.KButton;
 
 public class PortPlacementBenefit extends MapBenefit {
 	public static final AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
