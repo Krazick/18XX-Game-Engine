@@ -335,6 +335,7 @@ public class ShareCompany extends TokenCompany {
 			
 			// Transfer all Cash to the Bank
 			// Transfer all Trains to the BankPool
+			// Transfer all Certificates to Closed Portfolio
 			// Close any Private Corporations owned by the Company (Licenses owned by other Corps still active)
 			// Add Action that has all the Effects required
 		}
