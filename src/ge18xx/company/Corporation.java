@@ -725,40 +725,46 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 	
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
-		Certificate tCertificate;
-		CertificateHolderI tCertificateHolder;
-		Portfolio tOwnerPortfolio;
-		PortfolioHolderI tOwner;
-		Bank tBank;
-		int tCertificateCount;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
-		Portfolio tClosedPortfolio;
-
+		
 		tOldState = getActionStatus ();
-
 		if (tOldState.equals (ActorI.ActionStates.Closed)) {
 			appendErrorReport ("The Corporation " + name + " is already Closed... don't need to close again");
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
 			tNewState = getActionStatus ();
-			tBank = corporationList.getBank ();
+			aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
 			removeBenefitButtons ();
-			tCertificateCount = corporationCertificates.getCertificateTotalCount ();
-			tClosedPortfolio = tBank.getClosedPortfolio ();
-			if (tCertificateCount > 0) {
-				for (int tIndex = 0; tIndex < tCertificateCount; tIndex++) {
-					tCertificate = corporationCertificates.getCertificate (tIndex);
-					tCertificateHolder = tCertificate.getOwner ();
-					tOwnerPortfolio = (Portfolio) tCertificateHolder;
-					tOwner = tOwnerPortfolio.getPortfolioHolder ();
-					tClosedPortfolio.transferOneCertificateOwnership (tOwnerPortfolio, tCertificate);
-					aTransferOwnershipAction.addTransferOwnershipEffect (tOwner, tCertificate, tBank);
-					aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
-				}
-			}
+			transferCertificatesToClosed (aTransferOwnershipAction);
 			updateListeners (CORPORATION_STATUS_CHANGE);
 		} else {
 			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
+		}
+	}
+
+	public void transferCertificatesToClosed (TransferOwnershipAction aTransferOwnershipAction) {
+		Certificate tCertificate;
+		CertificateHolderI tCertificateHolder;
+		Portfolio tClosedPortfolio;
+		Portfolio tOwnerPortfolio;
+		PortfolioHolderI tOwner;
+		Bank tBank;
+		String tFromName;
+		int tCertificateCount;
+		
+		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
+		if (tCertificateCount > 0) {
+			tBank = corporationList.getBank ();
+			tClosedPortfolio = tBank.getClosedPortfolio ();
+			for (int tIndex = 0; tIndex < tCertificateCount; tIndex++) {
+				tCertificate = corporationCertificates.getCertificate (tIndex);
+				tCertificateHolder = tCertificate.getOwner ();
+				tOwnerPortfolio = (Portfolio) tCertificateHolder;
+				tOwner = tOwnerPortfolio.getPortfolioHolder ();
+				tClosedPortfolio.transferOneCertificateOwnership (tOwnerPortfolio, tCertificate);
+				tFromName = tOwner.getName ();
+				aTransferOwnershipAction.addTransferOwnershipEffect (tOwner, tFromName, tCertificate, tBank, Bank.CLOSED);
+			}
 		}
 	}
 	
