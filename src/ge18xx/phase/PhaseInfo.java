@@ -82,11 +82,6 @@ public class PhaseInfo {
 	String preparedActionXML;
 	PreparedAction preparedAction;
 	
-	public PhaseInfo () {
-		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
-				false, false, false, false, null, 0);
-	}
-
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName;
 		int tSubName;
