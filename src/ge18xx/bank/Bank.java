@@ -65,13 +65,13 @@ public class Bank extends GameBank implements CashHolderI {
 		String tFormatted;
 
 		if (format != NO_FORMAT) {
-			if (format.equals ("")) {
+			if (format.equals (GUI.EMPTY_STRING)) {
 				tFormatted = String.valueOf (aCashAmount);
 			} else {
 				tFormatted = decimalFormat.format (aCashAmount);
 			}
 		} else {
-			tFormatted = "" + aCashAmount;
+			tFormatted = GUI.EMPTY_STRING + aCashAmount;
 		}
 
 		return tFormatted;
