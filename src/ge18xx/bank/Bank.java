@@ -64,14 +64,10 @@ public class Bank extends GameBank implements CashHolderI {
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
 
-		if (format != NO_FORMAT) {
-			if (format.equals (GUI.EMPTY_STRING)) {
-				tFormatted = String.valueOf (aCashAmount);
-			} else {
-				tFormatted = decimalFormat.format (aCashAmount);
-			}
+		if (format.equals (GUI.EMPTY_STRING)) {
+			tFormatted = String.valueOf (aCashAmount);
 		} else {
-			tFormatted = GUI.EMPTY_STRING + aCashAmount;
+			tFormatted = decimalFormat.format (aCashAmount);
 		}
 
 		return tFormatted;
@@ -118,7 +114,7 @@ public class Bank extends GameBank implements CashHolderI {
 		trainPortfolio.setPortfolioHolder (this);
 		treasury = aTreasury;
 		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
-		setFormat ("");
+		setFormat (GUI.EMPTY_STRING);
 		setBankCashLabel (null);
 		tClosedPortfolio = new Portfolio (this);
 		setClosedPortfolio (tClosedPortfolio);
@@ -589,7 +585,7 @@ public class Bank extends GameBank implements CashHolderI {
 		closedPortfolio = aClosedPortfolio;
 	}
 
-	private void setFormat (String aFormat) {
+	void setFormat (String aFormat) {
 		setStaticFormat (aFormat);
 	}
 
