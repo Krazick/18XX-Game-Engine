@@ -127,7 +127,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
 		if (tAllowedOwners != GUI.NULL_STRING) {
-			allowedOwners = tAllowedOwners.split (",");
+			allowedOwners = tAllowedOwners.split (GUI.COMMA);
 		}
 		
 		setCorporation (aCorporation);
