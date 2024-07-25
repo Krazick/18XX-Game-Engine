@@ -281,7 +281,6 @@ public class License extends Coupon {
 	@Override
 	public void addAttributes (XMLElement aXMLElement) {
 		super.addAttributes (aXMLElement);
-//		aXMLElement.setAttribute (AN_LICENSE_NAME, getName ());
 		aXMLElement.setAttribute (AN_BENEFIT_VALUE, getBenefitValue ());
 		aXMLElement.setAttribute (AN_MAP_CELL_IDS, getMapCellIDs ());
 		aXMLElement.setAttribute (AN_LICENSE_TYPE, type.toString ());
