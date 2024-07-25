@@ -103,7 +103,7 @@ public class License extends Coupon {
 		boolean tIsPortLicense;
 		
 		tIsPortLicense = aXMLNode.getThisBooleanAttribute (PortLicense.AN_PORT_LICENSE);
-		tTypeName = aXMLNode.getThisAttribute (AN_LICENSE_TYPE, "Port");
+		tTypeName = aXMLNode.getThisAttribute (AN_LICENSE_TYPE, LicenseTypes.PORT.toString ());
 		tBenefitValue = aXMLNode.getThisIntAttribute (AN_BENEFIT_VALUE, NO_VALUE);
 		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL_IDS);
 		setBenefitValue (tBenefitValue);
