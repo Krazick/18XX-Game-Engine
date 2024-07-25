@@ -212,7 +212,7 @@ public class CompanyTestFactory {
 		return mCorporationFrame;
 	}
 	
-	private CorporationList buildCorporationListMock (GameManager mGameManager, PhaseInfo mPhaseInfo) {
+	public CorporationList buildCorporationListMock (GameManager mGameManager, PhaseInfo mPhaseInfo) {
 		CorporationList mCorporationList;
 		JPanel mJPanel;
 		
