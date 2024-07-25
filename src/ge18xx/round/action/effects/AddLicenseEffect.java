@@ -17,6 +17,7 @@ public class AddLicenseEffect extends ToEffect {
 	public final static String NAME = SHORT_NAME + "License";
 	final static AttributeName AN_LICENSE = new AttributeName ("License");
 	License license;
+	String mapCellIDs;
 	
 	public AddLicenseEffect () {
 		this (NAME);
@@ -40,6 +41,7 @@ public class AddLicenseEffect extends ToEffect {
 		int tBenefitValue;
 		int tLicensePrice;
 		String tLicenseName;
+		String tMapCellIDs;
 		boolean tIsPortLicense;
 		PortLicense tPortLicense;
 		License tOtherLicense;
@@ -47,7 +49,9 @@ public class AddLicenseEffect extends ToEffect {
 		tBenefitValue = aEffectNode.getThisIntAttribute (License.AN_BENEFIT_VALUE);
 		tLicenseName = aEffectNode.getThisAttribute (License.AN_LICENSE_NAME);
 		tIsPortLicense = aEffectNode.getThisBooleanAttribute (PortLicense.AN_PORT_LICENSE);
-		tLicensePrice = aEffectNode.getThisIntAttribute (License.AN_LICENSE_PRICE);
+		tLicensePrice = aEffectNode.getThisIntAttribute (License.AN_PRICE);
+		tMapCellIDs = aEffectNode.getThisAttribute (License.AN_MAP_CELL_IDS);
+		setMapCellIDs (tMapCellIDs);
 		if (tIsPortLicense) {
 			tPortLicense = new PortLicense (tLicenseName, tBenefitValue);
 			setLicense (tPortLicense);
@@ -57,6 +61,10 @@ public class AddLicenseEffect extends ToEffect {
 		}
 	}
 
+	public void setMapCellIDs (String aMapCellIDs) {
+		mapCellIDs = aMapCellIDs;
+	}
+	
 	public void setLicense (License aLicense) {
 		license = aLicense;
 	}
@@ -73,7 +81,8 @@ public class AddLicenseEffect extends ToEffect {
 		tEffectElement.setAttribute (License.AN_BENEFIT_VALUE, license.getBenefitValue ());
 		tEffectElement.setAttribute (License.AN_LICENSE_NAME, license.getName ());
 		tEffectElement.setAttribute (PortLicense.AN_PORT_LICENSE, license.isPortLicense ());
-		tEffectElement.setAttribute (License.AN_LICENSE_PRICE, license.getPrice ());
+		tEffectElement.setAttribute (License.AN_PRICE, license.getPrice ());
+		tEffectElement.setAttribute (License.AN_MAP_CELL_IDS, license.getMapCellIDs ());
 
 		return tEffectElement;
 	}
