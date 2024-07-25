@@ -9,9 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
+import geUtilities.AttributeName;
+import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
 public class Coupon {
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_PRICE = new AttributeName ("price");
+	public static final int NO_VALUE = 0;
 	String name;
 	int price;
 	JLabel costLabel;
@@ -22,7 +27,13 @@ public class Coupon {
 	}
 	
 	public Coupon (XMLNode aXMLNode) {
-	
+		String tName;
+		int tPrice;
+		
+		tName = aXMLNode.getThisAttribute (AN_NAME);
+		setName (tName);
+		tPrice = aXMLNode.getThisIntAttribute (AN_PRICE, NO_VALUE);
+		setPrice (tPrice);
 	}
 	
 	public int getPrice () {
@@ -40,7 +51,14 @@ public class Coupon {
 	public void setName (String aName) {
 		name = aName;
 	}
-
+	
+	public void addAttributes (XMLElement aXMLElement) {
+		aXMLElement.setAttribute (AN_NAME, name);
+		if (price != NO_VALUE) {
+			aXMLElement.setAttribute (AN_PRICE, price);
+		}
+	}
+	
 	public JPanel buildCouponInfoPanel (boolean aBorrowed) {
 		JPanel tCouponInfoPanel;
 		Border tCouponInfoBorder;
