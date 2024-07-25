@@ -1509,7 +1509,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		tPresident = getPresident ();
 		if (tPresident != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
-			tPresidentName = tPresident.getName ();
+			if (tPresident.isACorporation ()) {
+				tPresidentName = tPresident.getAbbrev ();
+			} else {
+				tPresidentName = tPresident.getName ();
+			}
 		} else {
 			tPresidentName = Bank.NAME;
 		}
