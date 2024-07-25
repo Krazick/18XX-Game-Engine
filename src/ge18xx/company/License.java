@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ge18xx.bank.Bank;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -19,9 +20,9 @@ public class License extends Coupon {
 	public static final AttributeName AN_LICENSE_TYPE = new AttributeName ("type");
 	public static final License NO_LICENSE = null;
 	public static final ArrayList<License> NO_LICENSES = null;
-	public static final String NO_NAME = "";
+	public static final String NO_NAME = GUI.EMPTY_STRING;
 	public static final String NO_TYPE_NAME = "No Type";
-	public static final String NO_MAP_CELL_IDS = "";
+	public static final String NO_MAP_CELL_IDS = GUI.EMPTY_STRING;
 	int benefitValue;
 	boolean isPortLicense;
 	boolean isBridgeLicense;
@@ -69,15 +70,15 @@ public class License extends Coupon {
 		LicenseTypes tLicenseType;
 		
 		tLicenseType = getTypeFromName (aName);
-		setValues (tLicenseType, aPrice, aBenefitValue);
+		setValues (tLicenseType, aBenefitValue);
 	}
 	
 	public License (LicenseTypes aType, int aPrice, int aBenefitValue) {
 		super (aType.toString (), aPrice);
-		setValues (aType, aPrice, aBenefitValue);
+		setValues (aType, aBenefitValue);
 	}
 	
-	public void setValues (LicenseTypes aType, int aPrice, int aBenefitValue) {
+	public void setValues (LicenseTypes aType, int aBenefitValue) {
 		boolean tIsPortLicense;
 		
 		setType (aType);
