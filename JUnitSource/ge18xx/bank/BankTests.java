@@ -52,7 +52,7 @@ class BankTests {
 		bank.setup (gameInfo);
 	}
 
-	@SuppressWarnings ("static-access")
+
 	@Test
 	@DisplayName ("Format Int Cash with Bank")
 	void formatIntCashTest () {
@@ -60,19 +60,18 @@ class BankTests {
 		String tFormattedCash;
 		
 		tCashAmount = 1203;
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("$ 1,203", tFormattedCash);
 		
 		bank.setFormat (GUI.EMPTY_STRING);
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("1203", tFormattedCash);
 
 		bank.setFormat ("£ ###,###");
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("£ 1,203", tFormattedCash);
 	}
 	
-	@SuppressWarnings ("static-access")
 	@Test
 	@DisplayName ("Format String Cash with Bank")
 	void formatStringCashTest () {
@@ -80,15 +79,15 @@ class BankTests {
 		String tFormattedCash;
 		
 		tCashAmount = "1203";
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("$ 1,203", tFormattedCash);
 		
 		bank.setFormat (GUI.EMPTY_STRING);
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("1203", tFormattedCash);
 
 		bank.setFormat ("£ ###,###");
-		tFormattedCash = bank.formatCash (tCashAmount);
+		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("£ 1,203", tFormattedCash);
 	}
 
