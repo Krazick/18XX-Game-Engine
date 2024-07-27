@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.CorporationList;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -54,7 +55,6 @@ class BankTests {
 
 		bank.setup (gameInfo);
 	}
-
 
 	@Test
 	@DisplayName ("Format Int Cash with Bank")
@@ -113,6 +113,32 @@ class BankTests {
 		bank.addCash (-200);
 		assertEquals (-100, bank.getCash ());
 		assertTrue (bank.isBroken ());
-
+	}
+	
+	@Test
+	@DisplayName ("Transfer Cash between CashHolder and Bank")
+	void transferCashToTest () {
+		ShareCompany tShareCompany;
+		int tCashAmount1;
+		int tCashAmount2;
+		int tTransferAmount;
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (1);
+		tCashAmount1 = 1050;
+		bank.addCash (tCashAmount1);
+		assertEquals (1050, bank.getCash ());
+		tTransferAmount = 250;
+		tCashAmount2 = 500;
+		tShareCompany.addCash (tCashAmount2);
+		assertEquals (500, tShareCompany.getCash ());
+		
+		bank.transferCashTo (tShareCompany, tTransferAmount);
+		assertEquals (800, bank.getCash ());
+		assertEquals (750, tShareCompany.getCash ());
+		
+		tTransferAmount = 75;
+		tShareCompany.transferCashTo (bank, tTransferAmount);
+		assertEquals (875, bank.getCash ());
+		assertEquals (675, tShareCompany.getCash ());
 	}
 }

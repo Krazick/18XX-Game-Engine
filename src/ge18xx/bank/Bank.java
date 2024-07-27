@@ -87,7 +87,11 @@ public class Bank extends GameBank implements CashHolderI {
 		format = aFormat;
 		decimalFormat = new DecimalFormat (aFormat);
 	}
-	
+
+	void setFormat (String aFormat) {
+		setStaticFormat (aFormat);
+	}
+
 	ParsingRoutineI bankParsingRoutine = new ParsingRoutine3I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -137,20 +141,19 @@ public class Bank extends GameBank implements CashHolderI {
 		updateListeners (BANK_CASH_CHANGED + " by " + aAmount);
 	}
 
+	@Override
+	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
+		aToHolder.addCash (aAmount);
+		addCash (-aAmount);
+		updateBankCashLabel ();
+	}
+
 	public void addClosedCertificate (Certificate aCertificate) {
 		closedPortfolio.addCertificate (aCertificate);
 	}
 
 	public void addRustedTrain (Train aTrain) {
 		rustedTrainsPortfolio.addTrain (aTrain);
-	}
-
-	public void applyDiscount () {
-		startPacketFrame.applyDiscount ();
-	}
-
-	public boolean availableShareHasBids () {
-		return startPacketFrame.availableShareHasBids ();
 	}
 
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer) {
@@ -214,10 +217,10 @@ public class Bank extends GameBank implements CashHolderI {
 		startPacketFrame.loadStartPacketWithCertificates (portfolio);
 	}
 
-
 	public void discardExcessTrains (BuyTrainAction aBuyTrainAction) {
 		BankPool tBankPool;
-		CorporationList tShareCorporationList, tMinorCorporationList;
+		CorporationList tShareCorporationList;
+		CorporationList tMinorCorporationList;
 
 		tBankPool = gameManager.getBankPool ();
 
@@ -280,6 +283,8 @@ public class Bank extends GameBank implements CashHolderI {
 		return closedPortfolio;
 	}
 
+	/* Methods dealing with fetching from the startPacketFrame */
+	
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
@@ -292,8 +297,67 @@ public class Bank extends GameBank implements CashHolderI {
 		return tCurrentHolder;
 	}
 
+	public void applyDiscount () {
+		startPacketFrame.applyDiscount ();
+	}
+
+	public boolean availableShareHasBids () {
+		return startPacketFrame.availableShareHasBids ();
+	}
+
+	public boolean isInStartPacket (Certificate aCertificate) {
+		return startPacketFrame.hasThisCertificate (aCertificate);
+	}
+
+	public boolean isStartPacketPortfolioEmpty () {
+		return startPacketFrame.isStartPacketPortfolioEmpty ();
+	}
+
+	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
+		startPacketFrame = aStartPacket;
+	}
+
+	public StartPacketFrame getStartPacketFrame () {
+		return startPacketFrame;
+	}
+
 	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
 		return startPacketFrame.getFreeCertificateWithThisCertificate (aThisCertificate);
+	}
+
+	public Certificate getMustSellCertificate () {
+		return startPacketFrame.getMustSellCertificate ();
+	}
+	
+	public Certificate getMustBuyCertificate () {
+		return startPacketFrame.getMustBuyCertificate ();
+	}
+
+	public Certificate getPrivateForAuction () {
+		return startPacketFrame.getPrivateForAuction ();
+	}
+
+	public boolean hasMustBuyCertificate () {
+		boolean tMustBuy;
+
+		tMustBuy = false;
+		if (startPacketFrame != StartPacketFrame.NO_START_PACKET) {
+			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
+		}
+
+		return tMustBuy;
+	}
+
+	public StartPacketPortfolio getStartPacketPortfolio () {
+		StartPacketPortfolio tStartPacketPortfolio;
+
+		if (startPacketFrame == StartPacketFrame.NO_START_PACKET) {
+			tStartPacketPortfolio = StartPacketPortfolio.NO_START_PACKET;
+		} else {
+			tStartPacketPortfolio = startPacketFrame.getStartPacketPortfolio ();
+		}
+
+		return tStartPacketPortfolio;
 	}
 
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
@@ -310,24 +374,12 @@ public class Bank extends GameBank implements CashHolderI {
 		return tCertificate;
 	}
 
-	public Certificate getMustSellCertificate () {
-		return startPacketFrame.getMustSellCertificate ();
-	}
-	
-	public Certificate getMustBuyCertificate () {
-		return startPacketFrame.getMustBuyCertificate ();
-	}
-
 	public Coupon getNextAvailableTrain () {
 		Coupon tTrain;
 
 		tTrain = trainPortfolio.getNextAvailableTrain ();
 
 		return tTrain;
-	}
-
-	public Certificate getPrivateForAuction () {
-		return startPacketFrame.getPrivateForAuction ();
 	}
 
 	/**
@@ -368,30 +420,6 @@ public class Bank extends GameBank implements CashHolderI {
 		return tXMLElement;
 	}
 
-	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
-		startPacketFrame = aStartPacket;
-	}
-
-	public StartPacketFrame getStartPacketFrame () {
-		return startPacketFrame;
-	}
-//
-//	public String getStartPacketFrameName () {
-//		return startPacketFrame.getName ();
-//	}
-
-	public StartPacketPortfolio getStartPacketPortfolio () {
-		StartPacketPortfolio tStartPacketPortfolio;
-
-		if (startPacketFrame == StartPacketFrame.NO_START_PACKET) {
-			tStartPacketPortfolio = StartPacketPortfolio.NO_START_PACKET;
-		} else {
-			tStartPacketPortfolio = startPacketFrame.getStartPacketPortfolio ();
-		}
-
-		return tStartPacketPortfolio;
-	}
-
 	public void getStateElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tRustedTrainPortfolioElements;
@@ -405,30 +433,8 @@ public class Bank extends GameBank implements CashHolderI {
 		aXMLElement.appendChild (tClosedPortfolioElements);
 	}
 
-	public boolean hasMustBuyCertificate () {
-		boolean tMustBuy = false;
-
-		if (startPacketFrame != XMLFrame.NO_XML_FRAME) {
-			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
-		}
-
-		return tMustBuy;
-	}
-
-//	public boolean hasMustSell () {
-//		return startPacketFrame.hasMustSell ();
-//	}
-//
 	public boolean isBroken () {
 		return bankIsBroken;
-	}
-
-	public boolean isInStartPacket (Certificate aCertificate) {
-		return startPacketFrame.hasThisCertificate (aCertificate);
-	}
-
-	public boolean isStartPacketPortfolioEmpty () {
-		return startPacketFrame.isStartPacketPortfolioEmpty ();
 	}
 
 	public void loadBankState (XMLNode aBankNode) {
@@ -444,8 +450,10 @@ public class Bank extends GameBank implements CashHolderI {
 	public void loadCorporations (CorporationList aCorporationList) {
 		Corporation tCorporation;
 		Certificate tCertificate;
-		int tCorporationCount, tCertificateCount;
-		int tCorporationIndex, tCertificateIndex;
+		int tCorporationCount;
+		int tCertificateCount;
+		int tCorporationIndex;
+		int tCertificateIndex;
 
 		tCorporationCount = aCorporationList.getRowCount ();
 		for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
@@ -477,7 +485,9 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public void loadTrains (GameInfo aActiveGame) {
-		int tTrainIndex, tTrainCount, tTrainQty;
+		int tTrainIndex;
+		int tTrainCount;
+		int tTrainQty;
 		TrainInfo tTrainInfo;
 
 		tTrainCount = aActiveGame.getTrainCount ();
@@ -557,7 +567,8 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void rustAllTrainsNamed (String aTrainName, BuyTrainAction aBuyTrainAction) {
 		BankPool tBankPool;
-		CorporationList tShareCorporationList, tMinorCorporationList;
+		CorporationList tShareCorporationList;
+		CorporationList tMinorCorporationList;
 		TrainPortfolio tTrainPortfolio;
 
 		tBankPool = gameManager.getBankPool ();
@@ -584,10 +595,6 @@ public class Bank extends GameBank implements CashHolderI {
 		closedPortfolio = aClosedPortfolio;
 	}
 
-	void setFormat (String aFormat) {
-		setStaticFormat (aFormat);
-	}
-
 	public void setRustedTrainsPortfolio (TrainPortfolio aRustedTrainsPortfolio) {
 		rustedTrainsPortfolio = aRustedTrainsPortfolio;
 	}
@@ -606,13 +613,6 @@ public class Bank extends GameBank implements CashHolderI {
 		loadCorporations (tCorpList);
 		loadTrains (aActiveGame);
 		createStartPacket (gameManager);
-	}
-
-	@Override
-	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
-		aToHolder.addCash (aAmount);
-		addCash (-aAmount);
-		updateBankCashLabel ();
 	}
 
 	public void updateBankCashLabel () {
