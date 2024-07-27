@@ -1,6 +1,9 @@
 package ge18xx.bank;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -91,4 +94,25 @@ class BankTests {
 		assertEquals ("£ 1,203", tFormattedCash);
 	}
 
+	@Test
+	@DisplayName ("Add Cash to the Bank")
+	void addCashToBankTest () {
+		int tCashAmount;
+		
+		tCashAmount = 12000;
+		assertEquals (0, bank.getCash ());
+		bank.addCash (tCashAmount);
+		assertEquals (12000, bank.getCash ());
+		bank.addCash (0);
+		assertEquals (12000, bank.getCash ());
+		bank.addCash (-1000);
+		assertEquals (11000, bank.getCash ());
+		bank.addCash (-10900);
+		assertEquals (100, bank.getCash ());
+		assertFalse (bank.isBroken ());
+		bank.addCash (-200);
+		assertEquals (-100, bank.getCash ());
+		assertTrue (bank.isBroken ());
+
+	}
 }
