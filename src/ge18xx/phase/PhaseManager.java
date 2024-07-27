@@ -162,9 +162,11 @@ public class PhaseManager {
 	}
 	
 	public String getCurrentOffBoard () {
-		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();
-		String tCurrentOffBoard = "";
+		PhaseInfo tCurrentPhaseInfo;
+		String tCurrentOffBoard;
 
+		tCurrentPhaseInfo = getCurrentPhaseInfo ();
+		tCurrentOffBoard = GUI.EMPTY_STRING;
 		if (tCurrentPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCurrentOffBoard = tCurrentPhaseInfo.getOffBoard ();
 		}
@@ -375,8 +377,9 @@ public class PhaseManager {
 
 	public boolean canBuyTrainInPhase () {
 		PhaseInfo tPhaseInfo;
-		boolean tCanBuyTrainInPhase = false;
+		boolean tCanBuyTrainInPhase;
 
+		tCanBuyTrainInPhase = false;
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCanBuyTrainInPhase = tPhaseInfo.canBuyTrainInPhase ();
@@ -387,8 +390,9 @@ public class PhaseManager {
 
 	public boolean isUpgradeAllowed (String aTileColor) {
 		PhaseInfo tCurrentPhaseInfo;
-		boolean tUpgradeAllowed = true;
+		boolean tUpgradeAllowed;
 
+		tUpgradeAllowed = true;
 		tCurrentPhaseInfo = getCurrentPhaseInfo ();
 		tUpgradeAllowed = tCurrentPhaseInfo.isUpgradeAllowed (aTileColor);
 
