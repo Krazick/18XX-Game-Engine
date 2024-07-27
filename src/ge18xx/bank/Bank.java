@@ -375,10 +375,10 @@ public class Bank extends GameBank implements CashHolderI {
 	public StartPacketFrame getStartPacketFrame () {
 		return startPacketFrame;
 	}
-
-	public String getStartPacketFrameName () {
-		return startPacketFrame.getName ();
-	}
+//
+//	public String getStartPacketFrameName () {
+//		return startPacketFrame.getName ();
+//	}
 
 	public StartPacketPortfolio getStartPacketPortfolio () {
 		StartPacketPortfolio tStartPacketPortfolio;
@@ -403,7 +403,6 @@ public class Bank extends GameBank implements CashHolderI {
 		aXMLElement.appendChild (tRustedTrainPortfolioElements);
 		tClosedPortfolioElements = getClosedPortfolioElements (aXMLDocument);
 		aXMLElement.appendChild (tClosedPortfolioElements);
-		
 	}
 
 	public boolean hasMustBuyCertificate () {
@@ -416,10 +415,10 @@ public class Bank extends GameBank implements CashHolderI {
 		return tMustBuy;
 	}
 
-	public boolean hasMustSell () {
-		return startPacketFrame.hasMustSell ();
-	}
-
+//	public boolean hasMustSell () {
+//		return startPacketFrame.hasMustSell ();
+//	}
+//
 	public boolean isBroken () {
 		return bankIsBroken;
 	}

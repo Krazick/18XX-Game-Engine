@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.bank.StartPacketFrame;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
@@ -839,11 +840,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tBankName;
 		String tBankPoolName;
 		String tStartPacketFrameName;
+		StartPacketFrame tStartPacketFrame;
 		
 		tActor = ActorI.NO_ACTOR;
 		tBankName = bank.getName ();
 		tBankPoolName = bankPool.getName ();
-		tStartPacketFrameName = bank.getStartPacketFrameName ();
+		tStartPacketFrame = bank.getStartPacketFrame ();
+		tStartPacketFrameName = tStartPacketFrame.getName ();
 		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
 		} else {
@@ -1291,7 +1294,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public boolean hasMustSell () {
-		return bank.hasMustSell ();
+		StartPacketFrame tStartPacketFrame;
+		boolean tHasMustSell;
+		
+		tStartPacketFrame = bank.getStartPacketFrame ();
+		tHasMustSell = tStartPacketFrame.hasMustSell ();
+		
+		return tHasMustSell;
+//		return bank.hasMustSell ();
 	}
 
 	public Certificate getMustSellCertificate () {
