@@ -195,9 +195,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		}
 	}
 
-	public void clearCityInfoCorporation () {
-		cityInfo.clearCorporation ();
-	}
+//	public void clearCityInfoCorporation () {
+//		cityInfo.clearCorporation ();
+//	}
 
 	public boolean clearCityInfoCorporation (Corporation aCorporation) {
 		boolean tClearedCorporation;
@@ -437,7 +437,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public int getRevenueCount () {
-		return (revenues.getRevenueCount ());
+		return revenues.getRevenueCount ();
 	}
 
 	public boolean getSelected (int aIndex) {
@@ -449,11 +449,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public RevenueCenterType getRevenueCenterType () {
-		return (type);
+		return type;
 	}
 
 	public int getTypeToInt () {
-		return (type.getType ());
+		return type.getType ();
 	}
 
 	public boolean isCity () {
@@ -610,11 +610,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public boolean setStation (Token aStation) {
-		return (false);
+		return false;
 	}
 
 	public boolean setStation (int aIndex, Token aStation) {
-		return (false);
+		return false;
 	}
 
 	public void setTileType (TileType aTileType) {
@@ -660,8 +660,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getToolTip () {
-		String tToolTip = "";
+		String tToolTip;
 
+		tToolTip = GUI.EMPTY_STRING;
 		if (type.isPrivateRailway ()) {
 			tToolTip = "Private Railway: " + name + "<br>";
 		}
@@ -670,7 +671,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getTokenToolTip () {
-		return "";
+		return GUI.EMPTY_STRING;
 	}
 
 	@Override
