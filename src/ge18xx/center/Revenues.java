@@ -48,7 +48,7 @@ public class Revenues extends Feature {
 	List<Revenue> revenues;
 
 	public Revenues () {
-		initializeRevenues ();
+		revenues = new LinkedList<Revenue> ();
 		setValues (Revenue.NO_REVENUE_VALUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
 	}
 
@@ -58,7 +58,7 @@ public class Revenues extends Feature {
 		int tRevenueCount;
 		int tRevenueIndex;
 
-		initializeRevenues ();
+		revenues = new LinkedList<Revenue> ();
 		if (aRevenues != NO_REVENUES) {
 			tRevenueCount = aRevenues.getRevenueCount ();
 			for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
@@ -74,17 +74,13 @@ public class Revenues extends Feature {
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase) {
-		initializeRevenues ();
+		revenues = new LinkedList<Revenue> ();
 		setValues (aValue, aLocation, aPhase, LAYOUT_CIRCLE);
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase, int aLayoutStyle) {
-		initializeRevenues ();
-		setValues (aValue, aLocation, aPhase, aLayoutStyle);
-	}
-
-	private void initializeRevenues () {
 		revenues = new LinkedList<Revenue> ();
+		setValues (aValue, aLocation, aPhase, aLayoutStyle);
 	}
 	
 	public void addRevenue (Revenue aRevenue) {
@@ -245,8 +241,8 @@ public class Revenues extends Feature {
 		}
 	}
 
-	private int drawRevenueSplit (int aWidth, int aHeight, String aValueLabel, int aValue, int aXc, int aYc, int aRevenueShownCount,
-			Graphics2D aGraphics2D) {
+	private int drawRevenueSplit (int aWidth, int aHeight, String aValueLabel, int aValue, int aXc, int aYc, 
+			int aRevenueShownCount, Graphics2D aGraphics2D) {
 		int tBoxWidth;
 		int tXUpperLeft;
 		int tYUpperLeft;
@@ -338,8 +334,9 @@ public class Revenues extends Feature {
 
 	public int getLayoutFromName (String aName) {
 		int index;
-		int thisLayout = LAYOUT_CIRCLE;
+		int thisLayout;
 
+		thisLayout = LAYOUT_CIRCLE;
 		if (aName != null) {
 			for (index = MIN_LAYOUT_STYLE; index <= MAX_LAYOUT_STYLE; index++) {
 				if (aName.equals (LAYOUT_NAMES [index])) {
@@ -352,10 +349,12 @@ public class Revenues extends Feature {
 	}
 
 	public int getValue () {
-		int tValue = 0;
+		int tValue;
 		int tPossibleValue;
-		boolean tValueFound = false;
+		boolean tValueFound;
 
+		tValue = 0;
+		tValueFound = false;
 		for (Revenue tRevenue : revenues) {
 			tPossibleValue = tRevenue.getValue ();
 			if (tPossibleValue > 0) {
@@ -390,73 +389,24 @@ public class Revenues extends Feature {
 
 	public int getValueIndex (int aIndex) {
 		int tValue;
-		int tCurrentIndex = 0;
 
-		tValue = 0;
-		for (Revenue tRevenue : revenues) {
-			if (tCurrentIndex == aIndex) {
-				tValue = tRevenue.getValue ();
-			}
-			tCurrentIndex++;
-		}
+		tValue = revenues.get (aIndex).getValue ();
 
 		return tValue;
-	}
-
-	public String getValueToString () {
-		String tValue = "";
-
-		for (Revenue tRevenue : revenues) {
-			tValue = tRevenue.getValueToString ();
-		}
-
-		return tValue;
-	}
-
-	public int getPhase () {
-		int tPhase = 0;
-
-		for (Revenue tRevenue : revenues) {
-			tPhase = tRevenue.getPhase ();
-		}
-
-		return tPhase;
 	}
 
 	public int getPhaseIndex (int aIndex) {
-		int tPhase = 0;
-		int tCurrentIndex = 0;
+		int tPhase;
 
-		for (Revenue tRevenue : revenues) {
-			if (tCurrentIndex == aIndex) {
-				tPhase = tRevenue.getPhase ();
-			}
-			tCurrentIndex++;
-		}
+		tPhase = revenues.get (aIndex).getPhase ();
 
 		return tPhase;
 	}
 
 	public String getPhaseIndexToString (int aIndex) {
-		String tPhase = "";
-		int tCurrentIndex = 0;
+		String tPhase;
 
-		for (Revenue tRevenue : revenues) {
-			if (tCurrentIndex == aIndex) {
-				tPhase = tRevenue.getPhaseToString ();
-			}
-			tCurrentIndex++;
-		}
-
-		return tPhase;
-	}
-
-	public String getPhaseToString () {
-		String tPhase = "";
-
-		for (Revenue tRevenue : revenues) {
-			tPhase = tRevenue.getPhaseToString ();
-		}
+		tPhase = revenues.get (aIndex).getPhaseToString ();
 
 		return tPhase;
 	}
@@ -466,15 +416,9 @@ public class Revenues extends Feature {
 	}
 
 	public String getValueIndexToString (int aIndex) {
-		String tValue = "";
-		int tCurrentIndex = 0;
+		String tValue;
 
-		for (Revenue tRevenue : revenues) {
-			if (tCurrentIndex == aIndex) {
-				tValue = tRevenue.getValueToString ();
-			}
-			tCurrentIndex++;
-		}
+		tValue = revenues.get (aIndex).getValueToString ();
 
 		return tValue;
 	}
