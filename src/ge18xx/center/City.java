@@ -31,6 +31,7 @@ import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
@@ -101,12 +102,12 @@ public class City extends RevenueCenter implements Cloneable {
 	@Override
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		int tIndex;
+		int tTokenIndex;
+		String tAbbrev;
+		String tMapCellID;
 		XMLElement tXMLTokenState;
 		MapToken tMapToken;
 		TokenCompany tTokenCompany;
-		String tAbbrev;
-		String tMapCellID;
-		int tTokenIndex;
 
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasMapTokenAtStation (tIndex)) {
@@ -133,9 +134,10 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public boolean cityHasOpenStation () {
-		boolean tHasOpenStation = false;
+		boolean tHasOpenStation;
 		int tIndex;
 
+		tHasOpenStation = false;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasNoMapTokenAtStation (tIndex)) {
 				tHasOpenStation = true;
@@ -167,9 +169,10 @@ public class City extends RevenueCenter implements Cloneable {
 	
 	@Override
 	public boolean cityHasAnyStation () {
-		boolean tHasAnyStation = false;
+		boolean tHasAnyStation;
 		int tIndex;
 
+		tHasAnyStation = false;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasMapTokenAtStation (tIndex)) {
 				tHasAnyStation = true;
@@ -199,9 +202,10 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public boolean cityHasStation (MapToken aMapToken) {
-		boolean tHasStation = false;
+		boolean tHasStation;
 		int tCorpID;
 
+		tHasStation = false;
 		if (canPlaceStation ()) {
 			tCorpID = aMapToken.getCorporationID ();
 			tHasStation = cityHasStation (tCorpID);
@@ -217,7 +221,7 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public boolean cityOrTown () {
-		return (type.cityOrTown ());
+		return type.cityOrTown ();
 	}
 
 	public void clearAllStations () {
@@ -340,14 +344,17 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
-		boolean tContainingPoint = false;
-		int X1, Y1;
-		int tTempWidth = aHex.getCityWidth ();
+		boolean tContainingPoint;
+		int X1;
+		int Y1;
+		int tTempWidth;
 		int tWidth;
 		Point tDisplace;
 		Rectangle tRectangle;
 		Location tLocation;
 
+		tContainingPoint = false;
+		tTempWidth = aHex.getCityWidth ();
 		tLocation = location.rotateLocation (aTileOrient);
 		tDisplace = tLocation.calcCenter (aHex);
 
@@ -407,9 +414,10 @@ public class City extends RevenueCenter implements Cloneable {
 	public void draw (Graphics aGrapics, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
 			Feature2 aSelectedFeature) {
 		Color tCityColor;
-		Location tLocation = location.rotateLocation (aTileOrient);
+		Location tLocation;
 		int tType;
 
+		tLocation = location.rotateLocation (aTileOrient);
 		tType = type.getType ();
 		switch (tType) {
 		case RevenueCenterType.NO_REVENUE_CENTER: 		/* No City */
@@ -542,10 +550,11 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public void drawACity (Graphics aGraphics, double Xc, double Yc, Hex aHex, int aLocation, int aType, Color aCityColor,
 			int aTileOrient, boolean drawValue, int hexXc, int hexYc, int aTokenIndex) {
-		Location tLocation = new Location (aLocation);
+		Location tLocation;
 		int XCenter;
 		int YCenter;
 		
+		tLocation = new Location (aLocation);
 		XCenter = Double.valueOf (Xc).intValue ();
 		YCenter = Double.valueOf (Yc).intValue ();
 		drawACity (aGraphics, XCenter, YCenter, aHex, tLocation, aType, aCityColor, aTileOrient, drawValue, hexXc, hexYc,
@@ -847,7 +856,8 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public void drawMultipleCityBox (Graphics g, int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3) {
-		int xp[], yp[];
+		int xp[];
+		int yp[];
 
 		xp = new int [5];
 		yp = new int [5];
@@ -866,7 +876,8 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public void drawMultipleCityBox (Graphics g, int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4,
 			int Y4, int X5, int Y5) {
-		int xp[], yp[];
+		int xp[];
+		int yp[];
 
 		xp = new int [7];
 		yp = new int [7];
@@ -889,7 +900,8 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public void drawMultipleCityBox (Graphics g, int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4,
 			int Y4, int X5, int Y5, int X6, int Y6, int X7, int Y7) {
-		int xp[], yp[];
+		int xp[];
+		int yp[];
 
 		xp = new int [9];
 		yp = new int [9];
@@ -935,7 +947,8 @@ public class City extends RevenueCenter implements Cloneable {
 
 	public void drawTheCity (Graphics g, Color aCityColor, int X1, int Y1, int X2, int Y2, boolean drawValue, Hex aHex,
 			int Xc, int Yc, int aTileOrientation, int aTokenIndex) {
-		int width, height;
+		int width;
+		int height;
 		int tCorpID;
 		boolean tDrawToken;
 		boolean tIsCorporationBase;
@@ -982,11 +995,15 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public void drawSelectionMarker (Graphics g, int Xc, int Yc, Hex aHex, Location aLocation, int aRCType) {
-		int X1, Y1, X2, Y2;
-		int temp = aHex.getCityWidth ();
+		int X1;
+		int Y1;
+		int X2;
+		int Y2;
+		int temp;
 		int width;
 		Point tDisplace;
 
+		temp = aHex.getCityWidth ();
 		tDisplace = aLocation.calcCenter (aHex);
 		X1 = Xc - temp;
 		Y1 = Yc - temp;
@@ -1042,7 +1059,8 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public int firstFreeStation () {
-		int tFirstFree, tIndex;
+		int tFirstFree;
+		int tIndex;
 
 		tFirstFree = NOT_VALID_STATION;
 		if (canPlaceStation ()) {
@@ -1057,7 +1075,8 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public int getFreeStationCount () {
-		int tFreeCount, tIndex;
+		int tFreeCount;
+		int tIndex;
 
 		tFreeCount = 0;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
@@ -1070,17 +1089,19 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public int getMaxStations () {
-		return (type.getMaxStations ());
+		return type.getMaxStations ();
 	}
 
 	public int getMaxStations (int aRevenueCenterType) {
-		RevenueCenterType cityType = new RevenueCenterType (aRevenueCenterType);
+		RevenueCenterType cityType;
 
+		cityType = new RevenueCenterType (aRevenueCenterType);
+		
 		return cityType.getMaxStations ();
 	}
 
 	public String getNumberToString () {
-		return (Integer.valueOf (stationCount).toString ());
+		return Integer.valueOf (stationCount).toString ();
 	}
 
 	@Override
@@ -1114,7 +1135,7 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public boolean isDestination () {
-		return (type.isDestination ());
+		return type.isDestination ();
 	}
 
 	@Override
@@ -1217,7 +1238,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 		}
 
-		return (tPlacedStation);
+		return tPlacedStation;
 	}
 
 	@Override
@@ -1251,9 +1272,10 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public boolean setStation (int aStationIndex, MapToken aStation) {
-		boolean tStationSet = false;
+		boolean tStationSet;
 		MapCell tMapCell;
 
+		tStationSet = false;
 		if (canPlaceStation ()) {
 			if (stationIndexInRange (aStationIndex)) {
 				if (!mapCellHasStation (aStation)) {
@@ -1272,7 +1294,7 @@ public class City extends RevenueCenter implements Cloneable {
 			logger.error ("Can Place Station Failed");
 		}
 
-		return (tStationSet);
+		return tStationSet;
 	}
 
 	public void setValues (int aType, int aNumber, int aID, int aLocation, String aName, int aValue) {
@@ -1301,12 +1323,13 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public String getTokenToolTip () {
-		String tTokenToolTip = "";
+		String tTokenToolTip;
 
+		tTokenToolTip = GUI.EMPTY_STRING;
 		if (stationCount > 0) {
 			for (MapToken tMapToken : corpStations) {
 				if (tMapToken != MapToken.NO_MAP_TOKEN) {
-					if (!("".equals (tTokenToolTip))) {
+					if (!(GUI.EMPTY_STRING.equals (tTokenToolTip))) {
 						tTokenToolTip += ",";
 					}
 					tTokenToolTip += tMapToken.getCorporationAbbrev ();
