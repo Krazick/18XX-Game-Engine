@@ -106,11 +106,6 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		return cities.size ();
 	}
 
-	@Override
-	public String getTypeName () {
-		return "City List";
-	}
-
 	public void loadJTable () {
 		int tColCount;
 		int tRowCount;
@@ -136,6 +131,11 @@ public class CityList extends InformationTable implements LoadableXMLI {
 	}
 
 	@Override
+	public String getTypeName () {
+		return "City List";
+	}
+
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLCityListRoot;
@@ -145,22 +145,6 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		tXMLNodeList.parseXMLNodeList (XMLCityListRoot, CityInfo.EN_CITY_INFO);
 		loadJTable ();
 	}
-//
-//	public int maxColCount (int aRowIndex) {
-//		int tColCount;
-//		int tRowIndex;
-//
-//		tColCount = 0;
-//		tRowIndex = 0;
-//		for (CityInfo tCityInfo : cities) {
-//			if (tRowIndex == aRowIndex) {
-//				tColCount = tCityInfo.fieldCount ();
-//			}
-//			tRowIndex++;
-//		}
-//
-//		return tColCount;
-//	}
 
 	ParsingRoutineI CityInfoParsingRoutine = new ParsingRoutineI () {
 		@Override
@@ -175,8 +159,4 @@ public class CityList extends InformationTable implements LoadableXMLI {
 			}
 		}
 	};
-
-	@Override
-	public void foundItemMatchKey1 (XMLNode aChildNode) {
-	}
 }
