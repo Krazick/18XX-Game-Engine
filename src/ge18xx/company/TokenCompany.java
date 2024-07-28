@@ -309,8 +309,9 @@ public abstract class TokenCompany extends TrainCompany {
 		int tAbbrevWidth;
 		int tAbbrevHeight;
 		int tFontSize;
-		int tScale = Hex.getScale ();
+		int tScale;
 
+		tScale = Hex.getScale ();
 		tCurrentFont = g.getFont ();
 		if (aHomeX) {
 			tFontSize = tScale + 1;

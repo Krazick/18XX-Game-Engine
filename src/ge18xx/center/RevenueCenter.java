@@ -195,10 +195,6 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		}
 	}
 
-//	public void clearCityInfoCorporation () {
-//		cityInfo.clearCorporation ();
-//	}
-
 	public boolean clearCityInfoCorporation (Corporation aCorporation) {
 		boolean tClearedCorporation;
 
@@ -221,8 +217,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 	@Override
 	public RevenueCenter clone () {
-		RevenueCenter tRevenueCenter = (RevenueCenter) super.clone ();
+		RevenueCenter tRevenueCenter;
 		
+		tRevenueCenter = (RevenueCenter) super.clone ();
 		tRevenueCenter.id = id;
 		tRevenueCenter.name = name;
 		tRevenueCenter.revenues = revenues.clone ();
@@ -258,28 +255,28 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return tXMLElement;
 	}
 
-	public void draw (Graphics g, int Xc, int Yc, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
-		draw (g, Xc, Yc, NO_ROTATION, aHex, onTile, aSelectedFeature);
-		drawName (g, Xc, Yc, aHex);
+	public void draw (Graphics aGraphics, int aXc, int aYc, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
+		draw (aGraphics, aXc, aYc, NO_ROTATION, aHex, onTile, aSelectedFeature);
+		drawName (aGraphics, aXc, aYc, aHex);
 	}
 
-	public void drawDestination (Graphics g, int X1, int Y1, int width, int height) {
-		cityInfo.drawDestination (g, X1, Y1, width, height, false);
+	public void drawDestination (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight) {
+		cityInfo.drawDestination (aGraphics, aX1, aY1, aWidth, aHeight, false);
 	}
 	
-	public void drawCorporationBase (Graphics g, int X1, int Y1, int width, int height) {
-		cityInfo.drawCorporationBase (g, X1, Y1, width, height, true);
+	public void drawCorporationBase (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight) {
+		cityInfo.drawCorporationBase (aGraphics, aX1, aY1, aWidth, aHeight, true);
 	}
 
-	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {
+	public void drawName (Graphics aGraphics, int aXc, int aYc, Hex aHex) {
 		if (validCityInfo ()) {
-//			cityInfo.drawName (g, Xc, Yc, aHex);
+//			cityInfo.drawName (aGraphics, aXc, aYc, aHex);
 		}
 	}
 
-	public void drawValue (Graphics aGraphics, int aXCenter, int aYCenter, Hex aHex, int aTileOrient) {
+	public void drawValue (Graphics aGraphics, int aXC, int aYC, Hex aHex, int aTileOrient) {
 		if (revenues.isValidLocation ()) {
-			revenues.draw (aGraphics, aXCenter, aYCenter, aHex, aTileOrient, tileType);
+			revenues.draw (aGraphics, aXC, aYC, aHex, aTileOrient, tileType);
 		}
 	}
 
@@ -312,7 +309,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public int getCenterCount () {
-		return (type.getCenterCount ());
+		return type.getCenterCount ();
 	}
 
 	protected boolean validCityInfo () {
@@ -346,7 +343,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public String getDestCompanyAbbrev () {
 		String tAbbrev;
 
-		tAbbrev = null;
+		tAbbrev = GUI.NULL_STRING;
 		if (isCorporationBase ()) {
 			if (isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
