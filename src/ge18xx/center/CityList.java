@@ -112,7 +112,8 @@ public class CityList extends InformationTable implements LoadableXMLI {
 	}
 
 	public void loadJTable () {
-		int tColCount, tRowCount;
+		int tColCount;
+		int tRowCount;
 		int tRowIndex;
 
 		tColCount = getColCount ();
@@ -144,20 +145,22 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		tXMLNodeList.parseXMLNodeList (XMLCityListRoot, CityInfo.EN_CITY_INFO);
 		loadJTable ();
 	}
-
-	public int maxColCount (int aRowIndex) {
-		int tColCount = 0;
-		int tRowIndex = 0;
-
-		for (CityInfo tCityInfo : cities) {
-			if (tRowIndex == aRowIndex) {
-				tColCount = tCityInfo.fieldCount ();
-			}
-			tRowIndex++;
-		}
-
-		return tColCount;
-	}
+//
+//	public int maxColCount (int aRowIndex) {
+//		int tColCount;
+//		int tRowIndex;
+//
+//		tColCount = 0;
+//		tRowIndex = 0;
+//		for (CityInfo tCityInfo : cities) {
+//			if (tRowIndex == aRowIndex) {
+//				tColCount = tCityInfo.fieldCount ();
+//			}
+//			tRowIndex++;
+//		}
+//
+//		return tColCount;
+//	}
 
 	ParsingRoutineI CityInfoParsingRoutine = new ParsingRoutineI () {
 		@Override
