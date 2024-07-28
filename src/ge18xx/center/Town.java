@@ -50,7 +50,7 @@ public class Town extends RevenueCenter {
 
 	@Override
 	public boolean cityOrTown () {
-		return (true);
+		return true;
 	}
 
 	@Override
