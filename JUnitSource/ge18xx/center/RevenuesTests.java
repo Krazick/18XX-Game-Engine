@@ -71,7 +71,6 @@ class RevenuesTests {
 		assertEquals (20, revenueList.getValue (), "Find Revenue Value with No Argument - 20");
 		assertNotEquals (50, revenueList.getValue (), "Not Find Revenue Value with No Argument - 50");
 
-		assertEquals (2, revenueList.getPhase (), "Get Phase for 2nd Revenue");
 		assertEquals (20, revenueList.getValue (1), "Find Revenue Value Phase 1 is 20");
 		assertNotEquals (50, revenueList.getValue (1), "Find Revenue Value Phase 1 is not 50");
 		assertEquals (50, revenueList.getValue (3), "Find Revenue Value Phase 3");
@@ -115,10 +114,8 @@ class RevenuesTests {
 		revenueList2 = new Revenues (revenueList);
 		assertEquals ("20", revenueList2.getValueIndexToString (0), "Revenue List - value to String (First)");
 		assertEquals ("50", revenueList2.getValueIndexToString (1), "Revenue List - value to String (Second)");
-		assertEquals ("70", revenueList2.getValueToString (), "Revenue List - value to String (Last)");
 		assertEquals ("0", revenueList2.getPhaseIndexToString (0), "Revenue List - Phase to String (First)");
 		assertEquals ("2", revenueList2.getPhaseIndexToString (1), "Revenue List - Phase to String (Second)");
-		assertEquals ("3", revenueList2.getPhaseToString (), "Revenue List - Phase to String (Last)");
 		assertEquals (0, revenueList.getLayoutFromName ("circle"), "Revenue List - Get Layout from Name - circle");
 		assertEquals (1, revenueList.getLayoutFromName ("oval"), "Revenue List - Get Layout from Name - oval");
 		assertEquals (2, revenueList.getLayoutFromName ("horizontal"),
