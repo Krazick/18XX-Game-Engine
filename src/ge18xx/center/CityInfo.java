@@ -23,6 +23,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
+import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
@@ -179,8 +180,12 @@ public class CityInfo implements Cloneable {
 	}
 
 	private void drawLabel (Graphics g, int Xc, int Yc, String aLabel) {
-		int width, height, X1, Y1;
-		Font tCurrentFont, tNewFont;
+		int width;
+		int height;
+		int X1;
+		int Y1;
+		Font tCurrentFont;
+		Font tNewFont;
 
 		tCurrentFont = g.getFont ();
 		tNewFont = new Font ("Dialog", Font.PLAIN, 10);
@@ -195,7 +200,8 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 		Point xy;
 
 		if (name != null) {
@@ -219,8 +225,12 @@ public class CityInfo implements Cloneable {
 		Point tPoint2;
 		Location tLocation1;
 		Location tLocation2;
-		int tX1, tY1, tX2, tY2;
-		int tXLabel, tYLabel;
+		int tX1;
+		int tY1;
+		int tX2;
+		int tY2;
+		int tXLabel;
+		int tYLabel;
 		int tPointTemp = aHex.getCityWidth () / 3;
 		int tWidthHeight;
 		Paint tTerrainFillPaint;
@@ -285,7 +295,7 @@ public class CityInfo implements Cloneable {
 		if (isCorporationBase ()) {
 			return corporation.getAbbrev ();
 		} else {
-			return "";
+			return GUI.EMPTY_STRING;
 		}
 	}
 
@@ -386,7 +396,7 @@ public class CityInfo implements Cloneable {
 	public void setCorporation (String aCorporationAbbrev) {
 		Corporation tCorporation;
 
-		if (aCorporationAbbrev != null) {
+		if (aCorporationAbbrev != GUI.NULL_STRING) {
 			tCorporation = mapCell.getCorporation (aCorporationAbbrev);
 			setCorporation (tCorporation);
 		}
