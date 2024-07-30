@@ -35,7 +35,6 @@ public class Revenues extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final AttributeName AN_LAYOUT = new AttributeName ("layout");
 	public static final Revenues NO_REVENUES = null;
-	public static final int LIRA_SYMBOL = -1;
 	public static final int LAYOUT_CIRCLE = 0;
 	public static final int LAYOUT_OVAL = 1;
 	public static final int LAYOUT_HORIZONTAL = 2;
