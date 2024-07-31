@@ -123,6 +123,12 @@ public class MinorCompany extends TokenCompany {
 		return formUpgrade;
 	}
 	
+	// Minor Company will override
+	@Override
+	public boolean canHoldDividend () {
+		return false;
+	}
+
 	public String getFormPhase () {
 		return formPhase;
 	}

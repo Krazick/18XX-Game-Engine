@@ -534,6 +534,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 
+	// Minor Company will override
+	public boolean canHoldDividend () {
+		return true;
+	}
+	
 	// Train Company will override
 	public boolean didOperateTrains () {
 		return false;
