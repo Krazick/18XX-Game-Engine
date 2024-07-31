@@ -86,6 +86,8 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
 	public static final String HAVE_ENOUGH_CASH = "Enough cash to buy the Train, can't sell stock";
 	public static final String NO_SALE_FIRST_STOCK_ROUND = "Can't sell Stock in First Stock Round";
+	public static final String SELECT_PAR_PRICE = "Select Par Price for Purchase";
+	public static final String CERTIFICATE_NOT_SELECTED = "Certificate not Selected for Purchase";
 	public static final String NO_PAR_PRICE = "???";
 	public static final String BANK_POOL_AT_LIMIT = " at Share Limit";
 	public static final String BANK_POOL_OWNER = "Bank";
@@ -362,7 +364,8 @@ public class Certificate implements Comparable<Certificate> {
 		tToolTip = GUI.EMPTY_STRING;
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			updateSellCheckBox (aCheckBoxLabel, aItemListener, aGameManager, tCertificateInfoJPanel);
-		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
+		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || 
+					aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
 				tCertificateFlags.setEnabled (false);			
 				if (! tCertificateFlags.playerHasEnoughCash ()) {
@@ -593,8 +596,17 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public void enableParValuesCombo (boolean aEnable) {
+		String tToolTip;
+
+		if (aEnable) {
+			tToolTip = Certificate.SELECT_PAR_PRICE;
+		} else {
+			tToolTip = Certificate.CERTIFICATE_NOT_SELECTED;
+		}
+
 		if (parValuesCombo != GUI.NO_COMBO_BOX) {
 			parValuesCombo.setEnabled (aEnable);
+			parValuesCombo.setToolTipText (tToolTip);
 			if (!aEnable) {
 				if (parValuesCombo.getItemCount () > 0) {
 					parValuesCombo.setSelectedIndex (0);
@@ -1550,7 +1562,8 @@ public class Certificate implements Comparable<Certificate> {
 
 		tIsSelectedToBuy = false;
 		if (isSelected ()) {
-			if (checkBox.getText ().equals (Player.BUY_LABEL) || checkBox.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
+			if (checkBox.getText ().equals (Player.BUY_LABEL) || 
+				checkBox.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
 				tIsSelectedToBuy = true;
 			}
 		}

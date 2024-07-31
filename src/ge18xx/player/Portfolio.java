@@ -2080,6 +2080,7 @@ public class Portfolio implements CertificateHolderI {
 					if (tSourceButton == tCheckedButton) {
 						tIsSelected = tCheckedButton.isSelected ();
 						tCertificate.enableParValuesCombo (tIsSelected);
+
 						tHandled = true;
 					} else if (tSourceButton == tComboBox) {
 						tParPrice = tCertificate.getComboParValue ();
