@@ -1123,6 +1123,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (aTrainCount == 0) {
 				tEnabled = true;
 				tToolTip = "Corporation has no Trains to Operate to generate Revenue.";
+			} else if (corporation.canHoldDividend ()) {
+				tEnabled = false;
+				payNoDividendButton.setText ("Minor cannot Hold Dividends");
+				tToolTip = "Minor must distribute dividends to Owner and Minor Corp";
 			} else if (corporation.canPayDividend ()) {
 				tEnabled = true;
 				tRevenue = corporation.getThisRevenue ();
