@@ -2,7 +2,7 @@ package ge18xx.round;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-
+import ge18xx.company.MinorCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.round.action.ActorI;
@@ -293,6 +293,7 @@ public class OperatingRound extends Round {
 	public int getNextCompanyToOperate (CorporationList aTrainCompanies) {
 		TrainCompany tTrainCompany;
 		ShareCompany tShareCompany;
+		MinorCompany tMinorCompany;
 		int tNextCompanyToOperate;
 		
 		tNextCompanyToOperate = aTrainCompanies.getNextToOperate ();
@@ -303,6 +304,9 @@ public class OperatingRound extends Round {
 					if (tTrainCompany.isAShareCompany ()) {
 						tShareCompany = (ShareCompany) tTrainCompany;
 						tShareCompany.floatCompany ();
+					} else if (tTrainCompany.isAMinorCompany ()) {
+						tMinorCompany = (MinorCompany) tTrainCompany;
+						tMinorCompany.floatCompany ();
 					} else {
 						System.err.println ("The Train Company trying to float is not a Share Company");
 					}
