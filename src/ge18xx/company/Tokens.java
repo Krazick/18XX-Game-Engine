@@ -248,7 +248,8 @@ public class Tokens {
 		for (tTokenIndex = 0; tTokenIndex < tTokenCount; tTokenIndex++) {
 			tTokenInfo = tokens.get (tTokenIndex);
 			if (! tTokenInfo.isUsed ()) {
-				if (! tTokenInfo.isHomeToken ()) {
+				if (tTokenInfo.isMapToken ()) {
+//				if (! tTokenInfo.isHomeToken ()) {
 					tAvailableTokenCount++;
 				}
 			}
