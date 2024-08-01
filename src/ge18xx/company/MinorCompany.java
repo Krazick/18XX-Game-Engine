@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 
@@ -99,7 +100,7 @@ public class MinorCompany extends TokenCompany {
 		Certificate tCertificate;
 		
 		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
-		tPrice = new JLabel ("Price: " + getValue ());
+		tPrice = new JLabel ("Price: " + Bank.formatCash (getValue ()));
 		tCorpInfoJPanel.add (tPrice);
 		
 		tCertificate = corporationCertificates.getCertificate (0);
@@ -110,6 +111,16 @@ public class MinorCompany extends TokenCompany {
 		return tCorpInfoJPanel;
 	}
 
+	@Override
+	public void floatCompany () {
+		Token tMarketToken;
+		
+		super.floatCompany ();
+		
+		tMarketToken = tokens.getMarketToken ();
+		tokens.setTokenUsed (tMarketToken, true);
+	}
+	
 	@Override
 	public int getAllowedTileLays () {
 		int tAllowedTileLays;
