@@ -109,13 +109,6 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 		return tNewButtonText;
 	}
-
-//	private void handlePlaceToken () {
-//		ShareCompany tShareCompany;
-//		
-//		tShareCompany = (ShareCompany) getOwningCompany ();
-//		handlePlaceToken (tShareCompany);
-//	}
 	
 	private void handlePlaceToken (ShareCompany aShareCompany) {
 		HexMap tMap;
@@ -241,5 +234,4 @@ public class TokenPlacementBenefit extends MapBenefit {
 		
 		return tBenefitLabel;
 	}
-
 }

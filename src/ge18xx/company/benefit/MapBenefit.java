@@ -232,10 +232,11 @@ public class MapBenefit extends Benefit {
 
 	@Override
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
-		Benefit tMatchedBenefit = NO_BENEFIT;
+		Benefit tMatchedBenefit;
 		Benefit tMatchedNameBenefit;
 		String tMapCellID;
 
+		tMatchedBenefit = NO_BENEFIT;
 		tMatchedNameBenefit = super.findMatchedBenefit (aBenefitNode);
 		if (tMatchedNameBenefit != NO_BENEFIT) {
 			tMapCellID = aBenefitNode.getThisAttribute (AN_MAPCELL);

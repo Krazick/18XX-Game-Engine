@@ -103,12 +103,13 @@ public class TilePlacementBenefit extends MapBenefit {
 	}
 
 	private boolean ownerHasEnoughCash () {
-		boolean tOwnerHasEnoughCash = false;
+		boolean tOwnerHasEnoughCash;
 		TrainCompany tTrainCompany;
 		HexMap tMap;
 		MapCell tMapCell;
 		int tCost;
 
+		tOwnerHasEnoughCash = false;
 		tTrainCompany = getOwningCompany ();
 		if (tTrainCompany != Corporation.NO_CORPORATION) {
 			tMap = getMap ();
@@ -123,9 +124,10 @@ public class TilePlacementBenefit extends MapBenefit {
 	}
 
 	private boolean ownerLaidTile () {
-		boolean tOwnerLaidTile = false;
+		boolean tOwnerLaidTile;
 		TrainCompany tTrainCompany;
 
+		tOwnerLaidTile = false;
 		tTrainCompany = getOwningCompany ();
 		if (tTrainCompany != Corporation.NO_CORPORATION) {
 			if (tTrainCompany.hasLaidTile ()) {
