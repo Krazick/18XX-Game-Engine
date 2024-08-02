@@ -337,6 +337,7 @@ public class Certificate implements Comparable<Certificate> {
 		String tCompanyAbbrev;
 		String tBoughtShare;
 		String tToolTip;
+		String tGroupName;
 		int tDiscount;
 
 		if (aPlayer != Player.NO_PLAYER) {
@@ -395,7 +396,11 @@ public class Certificate implements Comparable<Certificate> {
 				}
 				if (checkBox == GUI.NO_CHECK_BOX) {
 					checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
-					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
+					tGroupName = getCompanyAbbrev () + " Share";
+					if (isAMinorCompany ()) {
+						tGroupName = getCorpType () + " " + tGroupName;
+					}
+					setFrameButton (checkBox, tGroupName);
 				} else {
 					updateCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
 				}
