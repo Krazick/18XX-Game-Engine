@@ -617,7 +617,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
 		borrowTrainButton = setupButton (BORROW_TRAIN, BORROW_TRAIN);
-//		returnBorrowedTrainButton = setupButton (RETURN_BORROWED_TRAIN, RETURN_BORROWED_TRAIN);
 		operateTrainButton = setupButton (OPERATE_TRAIN, OPERATE_TRAIN);
 		payNoDividendButton = setupButton (PAY_NO_DIVIDEND, PAY_NO_DIVIDEND);
 		payHalfDividendButton = setupButton (PAY_HALF_DIVIDEND, PAY_HALF_DIVIDEND);
@@ -656,10 +655,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				addButton (payLoanInterestButton);
 			}
 		}
-//		if (corporation.canBorrowTrainNow ()) {
-//			tVisible = true;
-//			addButton (returnBorrowedTrainButton, tVisible);
-//		}
 		addButton (payNoDividendButton);
 		if (corporation.canPayHalfDividend ()) {
 			addButton (payHalfDividendButton);
@@ -703,7 +698,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.addButton (aButton);
 	}
 	
-//	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
 	public void fillOtherCorpsJPanel () {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
@@ -773,9 +767,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void fillPrivatesPanel () { // To show Privates that are owned by the Players
 		GameManager tGameManager;
+		ShareCompany tShareCompany;
 		int tCountOpenPrivates;
 		int tCountPlayerOwnedPrivates;
-		ShareCompany tShareCompany;
 
 		if (corporation.isAShareCompany ()) {
 			tGameManager = corporation.getGameManager ();
@@ -907,7 +901,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updatePlaceTokenButton ();
 		updateBorrowTrainButton ();
 		updateOperateTrainButton (tTrainCount);
-//		updateReturnBorrowedTrainButton ();
 		if (corporation.gameHasLoans ()) {
 			updateGetLoanButton ();
 			updatePayLoanInterestButton ();
