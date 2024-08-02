@@ -61,11 +61,13 @@ public class ShareCompany extends TokenCompany {
 	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
+	public static final AttributeName AN_GROUP = new AttributeName ("group");
 	public static final ShareCompany NO_SHARE_COMPANY = null;
 	public static final String NO_START_CELL = null;
 	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
 	public static final int NO_LOANS = 0;
+	public static final int NO_GROUP = 0;
 	List<KButton> specialButtons;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
@@ -74,6 +76,7 @@ public class ShareCompany extends TokenCompany {
 	int loanCount;
 	int parPriceColumn;
 	int sharePriceColumn;
+	int group;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
@@ -82,6 +85,7 @@ public class ShareCompany extends TokenCompany {
 		super (aChildNode, aCorporationList);
 		int tParPrice;
 		int tLoanCount;
+		int tGroup;
 		boolean tLoanTaken;
 		boolean tRepaymentHandled;
 		String tStartCell;
@@ -91,11 +95,13 @@ public class ShareCompany extends TokenCompany {
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
+		tGroup = aChildNode.getThisIntAttribute (AN_GROUP, NO_GROUP);
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
 		tRepaymentHandled = aChildNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED);
 		setNoPrice ();
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
 					tRepaymentHandled, tStartCell);
+		setGroup (tGroup);
 	}
 
 	@Override
@@ -975,6 +981,10 @@ public class ShareCompany extends TokenCompany {
 		return loanTaken;
 	}
 
+	public void setGroup (int aGroup) {
+		group = aGroup;
+	}
+	
 	public void setNoPrice () {
 		setParPrice (NO_PAR_PRICE);
 		setSharePrice (MarketCell.NO_SHARE_PRICE);
@@ -1064,6 +1074,10 @@ public class ShareCompany extends TokenCompany {
 	
 	public void setDestinationCapitalizationLevel (int aCapitalizationLevel) {
 		destinationInfo.setCapitalizationLevel (aCapitalizationLevel);
+	}
+	
+	public int getGroup () {
+		return group;
 	}
 	
 	@Override
