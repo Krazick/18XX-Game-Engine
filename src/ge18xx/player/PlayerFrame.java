@@ -25,14 +25,14 @@ import geUtilities.WrapLayout;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
 	private static final long serialVersionUID = 1L;
-	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
-	public static final String STOCK_SELECTED_FOR_BUY = "A Stock has been selected to be Bought";
-	public static final String STOCK_SELECTED_FOR_BUY2 = "Another Stock has been selected to be Bought";
-	public static final String STOCK_SELECTED_FOR_SALE = "At least one Stock has been selected to be Sold";
-	public static final String NO_STOCK_SELECTED_FOR_SALE = "No Stocks have been selected to Sell";
-	public static final String NO_STOCK_SELECTED_FOR_SALE2 = "No Stock or Private have been selected to be Bought or Private to Bid upon.";
-	public static final String STOCK_SELECTED_FOR_EXCHANGE = "A President Share has been selected to be Exchanged";
-	public static final String STOCK_SELECTED_FOR_BID = "A Private has been selected to be Bid On";
+	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid upon";
+	public static final String CERTIFICATE_SELECTED_FOR_BUY = "A Certificate has been selected to be Bought";
+	public static final String CERTIFICATE_SELECTED_FOR_BUY2 = "Another Certificate has been selected to be Bought";
+	public static final String CERTIFICATE_SELECTED_FOR_SALE = "At least one Certificate has been selected to be Sold";
+	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE = "No Certificates have been selected to Sell";
+	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE2 = "No Certificate have been selected to be Bought or to Bid upon.";
+	public static final String CERTIFICATE_SELECTED_FOR_EXCHANGE = "A President Share has been selected to be Exchanged";
+	public static final String CERTIFICATE_SELECTED_FOR_BID = "A Private has been selected to be Bid On";
 	public static final String PRIVATE_SELECTED_FOR_EXCHANGE = "A Private/Minor has been selected to be Exchanged";
 	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
@@ -43,7 +43,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String NO_TOUCH_PASS = "Cannot sell Certificates bought this stock round (no-touch-pass)";
 	public static final String MUST_EXCHANGE = "Must Exchange President Share before selecting stock to sell";
 	public static final String WILL_OVERFILL = "Stocks selected to be Sold will Overfill BankPool";
-	public static final String DIFFERENT_COMPANIES = "Stocks selected to sell are different companies, sell one company stock at a time";
+	public static final String DIFFERENT_COMPANIES = "Certificates selected to sell are different companies, sell one company stock at a time";
 	public static final String DONE = "Done";
 	public static final String UNDO = "Undo";
 	public static final String PASS = "Pass";
@@ -575,16 +575,16 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		if (! handledWaiting (passButton)) {
 			if (hasSelectedStocksToBuy ()) {
 				passButton.setEnabled (false);
-				passButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+				passButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
 			} else if (hasSelectedStocksToSell ()) {
 				passButton.setEnabled (false);
-				passButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+				passButton.setToolTipText (CERTIFICATE_SELECTED_FOR_SALE);
 			} else if (hasSelectedPrezToExchange ()) {
 				passButton.setEnabled (false);
-				passButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
+				passButton.setToolTipText (CERTIFICATE_SELECTED_FOR_EXCHANGE);
 			} else if (hasSelectedPrivateToBidOn ()) {
 				passButton.setEnabled (false);
-				passButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+				passButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BID);
 			} else if (player.isParPriceFrameActive ()) {
 				passButton.setEnabled (false);
 				passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
@@ -643,7 +643,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				} else if (aStocksToSellSame) {
 					if (aCanSellSelectedStocks) {
 						sellButton.setEnabled (aStocksToSell);
-						sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+						sellButton.setToolTipText (CERTIFICATE_SELECTED_FOR_SALE);
 					} else {
 						sellButton.setEnabled (false);
 						sellButton.setToolTipText (NO_TOUCH_PASS);
@@ -654,7 +654,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				}
 			} else {
 				sellButton.setEnabled (aStocksToSell);
-				sellButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
+				sellButton.setToolTipText (NO_CERTIFICATE_SELECTED_FOR_SALE);
 			}
 		}
 	}
@@ -772,7 +772,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				buyBidButton.setEnabled (false);
 				buyBidButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
 				buyBidButton.setText (Player.BUY_LABEL);
-				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+				enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 			} else {
 				if (tCountSharesToBuy > 1) {
 					tCertificate = player.getSelectedCertificateToBuy ();
@@ -780,27 +780,27 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 						if (tCertificate.canBuyMultiple ()) {
 
 							buyBidButton.setEnabled (aStocksToBuy);
-							buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+							buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
 							buyBidButton.setText (Player.BUY_LABEL);
-							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+							enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 						} else {
 							buyBidButton.setEnabled (false);
 							buyBidButton.setToolTipText ("Can only buy 1 Certificate for this company");
 							buyBidButton.setText (Player.BUY_LABEL);
-							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+							enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 
 						}
 					} else {
 						buyBidButton.setEnabled (aStocksToBuy);
-						buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+						buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
 						buyBidButton.setText (Player.BUY_LABEL);
-						enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+						enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 					}
 				} else {
 					buyBidButton.setEnabled (aStocksToBuy);
-					buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+					buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
 					buyBidButton.setText (Player.BUY_LABEL);
-					enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+					enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 				}
 			}
 		} else {
@@ -808,15 +808,15 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				buyBidButton.setEnabled (false);
 				buyBidButton.setToolTipText ("Select only one Company's Stock to bid on at a time");
 				buyBidButton.setText (Player.BID_LABEL);
-				enableSelectedButton (STOCK_SELECTED_FOR_BID);
+				enableSelectedButton (CERTIFICATE_SELECTED_FOR_BID);
 			} else if (aPrivateToBidOn) {
 				buyBidButton.setEnabled (aPrivateToBidOn);
-				buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+				buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BID);
 				buyBidButton.setText (Player.BID_LABEL);
-				enableSelectedButton (STOCK_SELECTED_FOR_BID);
+				enableSelectedButton (CERTIFICATE_SELECTED_FOR_BID);
 			} else {
 				buyBidButton.setEnabled (aStocksToBuy);
-				buyBidButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
+				buyBidButton.setToolTipText (NO_CERTIFICATE_SELECTED_FOR_SALE2);
 				buyBidButton.setText (Player.BUY_BID_LABEL);
 			}
 		}
