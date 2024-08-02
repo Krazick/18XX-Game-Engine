@@ -7,9 +7,10 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
+import ge18xx.company.ShareCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
-
+import geUtilities.GUI;
 import geUtilities.XMLNode;
 import swingTweaks.KButton;
 
@@ -66,9 +67,13 @@ public class ExchangeBenefit extends CertificateBenefit {
 			tPlayer = (Player) tHolder;
 			tBenefitInUse = tPlayer.getBenefitInUse ();
 			tBenefitInUseName = tBenefitInUse.getName ();
-			if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+			if ((tBenefitInUse.isRealBenefit ()) && 
+				(!NAME.equals (tBenefitInUseName))) {
 				disableButton ();
-				setToolTip ("Another Benefit is currently in Use");
+				setToolTip ("Another Benefit is currently in Use.");
+			} else if (! companyIsFormed ()) {
+				disableButton ();
+				setToolTip ("Share Company must be Formed before Exchange.");		
 			} else if (! hasShareInBank ()) {
 				disableButton ();
 				setToolTip ("Company has no Shares in Bank for Exchange.");
@@ -77,17 +82,18 @@ public class ExchangeBenefit extends CertificateBenefit {
 				setToolTip ("Player cannot exceed Corp Share Limit.");
 			} else {
 				enableButton ();
-				setToolTip ("");
+				setToolTip (GUI.EMPTY_STRING);
 			}
 		}
 	}
 
 	protected boolean playerAtShareLimit () {
-		boolean tPlayerAtShareLimit = false;
+		boolean tPlayerAtShareLimit;
 		Player tPlayer;
 		Certificate tCertificate;
 		String tShareAbbrev;
 
+		tPlayerAtShareLimit = false;
 		tCertificate = getShareCertificate ();
 		tShareAbbrev = tCertificate.getCompanyAbbrev ();
 		tPlayer = (Player) privateCompany.getOwner ();
@@ -96,10 +102,23 @@ public class ExchangeBenefit extends CertificateBenefit {
 		return tPlayerAtShareLimit;
 	}
 
+	protected boolean companyIsFormed () {
+		boolean tCompanyIsFormed;
+		ShareCompany tShareCompany;
+		Certificate tCertificate;
+		
+		tCertificate = getShareCertificate ();
+		tShareCompany = tCertificate.getShareCompany ();
+		tCompanyIsFormed = tShareCompany.isFormed ();
+		
+		return tCompanyIsFormed;
+	}
+	
 	protected boolean hasShareInBank () {
-		boolean tHasShareInBank = false;
+		boolean tHasShareInBank;
 		Certificate tCertificate;
 
+		tHasShareInBank = false;
 		tCertificate = getShareCertificate ();
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tHasShareInBank = true;
@@ -135,7 +154,8 @@ public class ExchangeBenefit extends CertificateBenefit {
 		Certificate tShareCertificate;
 		
 		tShareCertificate = getShareCertificate ();
-		tLabelText = "Exchange for " + tShareCertificate.getPercentage () + "% of " + tShareCertificate.getCompanyAbbrev ();
+		tLabelText = "Exchange for " + tShareCertificate.getPercentage () + "% of " + 
+						tShareCertificate.getCompanyAbbrev ();
 		if (tShareCertificate.isPresidentShare ()) {
 			tLabelText += " President";
 		}
