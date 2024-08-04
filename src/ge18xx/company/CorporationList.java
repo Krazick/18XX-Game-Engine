@@ -98,7 +98,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		tAnyCanOperate = false;
 		for (Corporation tCorporation : corporations) {
-			tAnyCanOperate = tAnyCanOperate || tCorporation.canOperate ();
+			tAnyCanOperate = tAnyCanOperate || tCorporation.canOperate () || tCorporation.hasOperated ();
 		}
 
 		return tAnyCanOperate;
