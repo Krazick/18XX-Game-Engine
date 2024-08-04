@@ -2287,6 +2287,17 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		govtRailway = aGovtRailway;
 	}
 
+	public boolean hasOperated () {
+		boolean tHasOperated;
+		
+		tHasOperated = false;
+		if (status == ActorI.ActionStates.Operated) {
+			tHasOperated = true;
+		}
+		
+		return tHasOperated;
+	}
+	
 	public boolean canOperate () {
 		boolean tCanOperate;
 
