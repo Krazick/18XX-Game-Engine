@@ -1958,6 +1958,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return game18XXFrame.getGEVersion ();
 	}
 
+	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, XMLElement aSaveGameElement) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = aXMLSaveGame.addElements (aXMLDocument);
+		aSaveGameElement.appendChild (tXMLElement);
+	}
+	
 	public void saveGame () {
 		XMLDocument tXMLDocument;
 		XMLElement tXMLElement;
@@ -1974,8 +1981,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 
 		/* Save the Basic Game Information */
-		tXMLElement = activeGame.getElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (activeGame, tXMLDocument, tSaveGameElement);
 
 		/* Save the Player Names Information */
 		tXMLElement = playerManager.getPlayerElements (tXMLDocument);
