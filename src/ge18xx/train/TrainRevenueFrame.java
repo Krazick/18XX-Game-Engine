@@ -300,10 +300,12 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void handleCommitAllRevenues () {
 		int tAllTrainRevenue;
-
+		int tPriorRevenue;
+		
 		tAllTrainRevenue = addAllTrainRevenues ();
+		tPriorRevenue = trainCompany.getThisRevenue ();
 		trainCompany.setThisRevenue (tAllTrainRevenue);
-		trainCompany.trainsOperated (tAllTrainRevenue);
+		trainCompany.trainsOperated (tAllTrainRevenue, tPriorRevenue);
 		copyAllRoutesToPrevious ();
 		setVisible (false);
 	}
