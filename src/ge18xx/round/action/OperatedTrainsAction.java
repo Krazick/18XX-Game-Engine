@@ -28,10 +28,10 @@ public class OperatedTrainsAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
-	public void addGeneratedRevenueEffect (ActorI aActor, int aRevenue, int aTrainCount) {
+	public void addGeneratedRevenueEffect (ActorI aActor, int aRevenue, int aTrainCount, int aPriorRevenue) {
 		GeneratedRevenueEffect tGeneratedRevenueEffect;
 
-		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aRevenue, aTrainCount);
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aRevenue, aTrainCount, aPriorRevenue);
 		addEffect (tGeneratedRevenueEffect);
 	}
 
