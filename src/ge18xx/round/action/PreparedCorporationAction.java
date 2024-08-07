@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.GeneratedRevenueEffect;
 import ge18xx.round.action.effects.GetLoanEffect;
 import ge18xx.round.action.effects.UpdateLastRevenueEffect;
 import geUtilities.XMLNode;
@@ -29,13 +30,22 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
+	public void addGeneratedThisRevenueEffect (ActorI aActor, int aNewThisRevenue, int aTrainCount,
+							int aOldThisRevenue) {
+		GeneratedRevenueEffect tGeneratedRevenueEffect;
+
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aNewThisRevenue, aTrainCount, 
+									aOldThisRevenue);
+		addEffect (tGeneratedRevenueEffect);
+	}
+
 	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewLastRevenue, int aOldLastRevenue) {
 		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
 
 		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
-	
+
 	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
 		GetLoanEffect tGetLoanEffect;
 
