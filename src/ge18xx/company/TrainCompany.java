@@ -347,6 +347,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tNewStatus;
 		int tCurrentRevenue;
 		int tPreviousRevenue;
+		int tTrainCount;
 		ShareCompany tShareCompany;
 
 		tPreviousStatus = getActionStatus ();
@@ -360,9 +361,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
 		tCurrentRevenue = thisRevenue;
 		tPreviousRevenue = lastRevenue;
-
+		tTrainCount = getTrainCount ();
 		setLastRevenue (thisRevenue);
 		setThisRevenue (NO_REVENUE_GENERATED);
+		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, thisRevenue, tTrainCount, 
+								tCurrentRevenue);
 		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
 		}
@@ -2444,7 +2447,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		benefitInUse.completeBenefitInUse (aOwningCompany);
 	}
 
-	public void trainsOperated (int aRevenue) {
+	public void trainsOperated (int aRevenue, int aPriorRevenue) {
 		OperatedTrainsAction tOperatedTrainsAction;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
@@ -2457,10 +2460,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tNewStatus = getStatus ();
 			tTrainCount = getTrainCount ();
 			tOperatingRoundID = getOperatingRoundID ();
-			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-					this);
+			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, 
+					tOperatingRoundID, this);
 			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aRevenue, tTrainCount);
+			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aRevenue, tTrainCount, aPriorRevenue);
 			tOperatedTrainsAction.setChainToPrevious (true);
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tOperatedTrainsAction);
