@@ -1136,6 +1136,21 @@ public class RoundManager implements ActionListener {
 		return tCanBuyTrainInPhase;
 	}
 
+	public Corporation getCompanyByID (int tCorporationID) {
+		CorporationList tShareCorporationList;
+		CorporationList tMinorCorporationList;
+		Corporation tCorporation;
+		
+		tShareCorporationList = operatingRound.getShareCompanies ();
+		tCorporation = tShareCorporationList.getCorporationByID (tCorporationID);
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tMinorCorporationList = operatingRound.getMinorCompanies ();
+			tCorporation = tMinorCorporationList.getCorporationByID (tCorporationID);
+		}
+		
+		return tCorporation;
+	}
+
 	public Corporation getOperatingCompany () {
 		return operatingRound.getOperatingCompany ();
 	}
