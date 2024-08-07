@@ -34,7 +34,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
-public class GameInfo {
+public class GameInfo implements XMLSaveGameI {
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
@@ -531,19 +531,19 @@ public class GameInfo {
 			tVariantEffectXMLElement = tVariantEffect.getEffectElement (aXMLDocument);
 			tXMLElement.appendChild (tVariantEffectXMLElement);
 		}
-
+		
 		return tXMLElement;
 	}
 
 	public void printActiveVariants () {
 		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
-			if (activeVariantEffects.size () > 0) {
+			if (activeVariantEffects.isEmpty ()) {
+				System.err.println ("No Variant Effects Found in List");
+			} else {
 				System.out.println ("Variant Effects to be Active:");		// PRINTLOG
 				for (VariantEffect tVariantEffect : activeVariantEffects) {
 					System.out.println ("Variant Effect " + tVariantEffect.getAction ());
 				}
-			} else {
-				System.err.println ("No Variant Effects Found in List");
 			}
 		} else {
 			System.err.println ("No Variant Effects Active");
@@ -668,8 +668,9 @@ public class GameInfo {
 	public String getStatus () {
 		return status;
 	}
-
-	public XMLElement getElements (XMLDocument aXMLDocument) {
+	
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tGameVariantEffects;
 
@@ -677,8 +678,10 @@ public class GameInfo {
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
 		tGameVariantEffects = getGameVariantsXMLElement (aXMLDocument);
-		tXMLElement.appendChild (tGameVariantEffects);
-
+		if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
+			tXMLElement.appendChild (tGameVariantEffects);
+		}
+		
 		return tXMLElement;
 	}
 
@@ -965,4 +968,5 @@ public class GameInfo {
 	public void setTestingFlag (boolean aGameTestFlag) {
 		gameTestFlag = aGameTestFlag;
 	}
+
 }
