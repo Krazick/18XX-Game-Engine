@@ -1974,7 +1974,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 
 		/* Save the Basic Game Information */
-		tXMLElement = activeGame.getGameInfoElement (tXMLDocument);
+		tXMLElement = activeGame.getElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
 
 		/* Save the Player Names Information */

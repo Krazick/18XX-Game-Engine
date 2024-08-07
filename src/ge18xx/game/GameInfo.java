@@ -669,7 +669,7 @@ public class GameInfo {
 		return status;
 	}
 
-	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
+	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tGameVariantEffects;
 
