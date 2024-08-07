@@ -43,7 +43,6 @@ public interface NetworkGameSupport {
 	public Logger getLogger ();
 	public String getXMLBaseDirectory ();
 	public XMLElement getGameVariantsXMLElement ();
-//	public GameInfo getSelectedGame ();
 	
 	public void setGameID (String aGameID);
 	public String getGameID ();
@@ -51,8 +50,4 @@ public interface NetworkGameSupport {
 
 	public String getGEVersion ();
 	public String getEnvironmentVersionInfo ();
-
-//	public JGameClient getNetworkJGameClient ();
-//	public PlayerInputFrame getPlayerInputFrame ();
-//	public GameSet getGameSet ();
 }
