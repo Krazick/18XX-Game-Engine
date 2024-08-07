@@ -1146,6 +1146,7 @@ public class ShareCompany extends TokenCompany {
 		return tHasBoughtTrain;
 	}
 
+	@Override
 	public boolean hasOperated () {
 		boolean tHasOperated;
 		
