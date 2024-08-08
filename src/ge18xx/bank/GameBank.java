@@ -14,6 +14,7 @@ import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -29,7 +30,7 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
-public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
+public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGameI {
 	protected GameManager gameManager;
 	protected String name;
 	protected Portfolio portfolio;

@@ -39,6 +39,7 @@ import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -68,7 +69,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
-public class MapFrame extends XMLFrame implements ActionListener {
+public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
 	public static final String NO_COMPANY = "NO_COMPANY";
 	public static final String BASE_TITLE = "Map";
@@ -511,7 +512,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return map;
 	}
 
-	public XMLElement getMapStateElements (XMLDocument aXMLDocument) {
+	public XMLElement addElements (XMLDocument aXMLDocument) {
 		return (map.getMapStateElements (aXMLDocument));
 	}
 

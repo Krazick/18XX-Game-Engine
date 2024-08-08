@@ -23,6 +23,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -45,7 +46,7 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
-public class FormationPhase extends TriggerClass implements ActionListener {
+public class FormationPhase extends TriggerClass implements ActionListener, XMLSaveGameI {
 	public static final ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");
 	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
@@ -187,7 +188,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		}
 	}
 	
-	public XMLElement getFormationElements (XMLDocument aXMLDocument) {
+	public XMLElement addElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		String tTriggeringAbbrev;
 		

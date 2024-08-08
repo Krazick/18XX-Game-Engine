@@ -23,6 +23,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.phase.PhaseInfo;
@@ -52,7 +53,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
-public class RoundManager implements ActionListener {
+public class RoundManager implements ActionListener, XMLSaveGameI {
 	public static final ElementName EN_ROUNDS = new ElementName ("Rounds");
 	public static final AttributeName AN_CURRENT_OR = new AttributeName ("currentOR");
 	public static final AttributeName AN_OR_COUNT = new AttributeName ("maxOR");
@@ -325,8 +326,44 @@ public class RoundManager implements ActionListener {
 		roundFrame.updateDoButtonText (aActionButtonLabel);
 	}
 
-	public XMLElement getActionElements (XMLDocument aXMLDocument) {
-		return actionManager.getActionElements (aXMLDocument);
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
+		XMLElement tXMLElement;
+		String tType;
+		
+		tType = aEN_Type.toString ();
+		if (tType.equals (Action.EN_ACTIONS.toString ())) {
+			tXMLElement = addActionElements (aXMLDocument);
+		} else if (tType.equals (EN_ROUNDS.toString ())) {
+			tXMLElement = addRoundState (aXMLDocument);
+		} else {
+			tXMLElement = XMLElement.NO_XML_ELEMENT;
+		}
+		
+		return tXMLElement;
+	}
+
+	public XMLElement addActionElements (XMLDocument aXMLDocument) {
+		return actionManager.getActionElements (aXMLDocument);		
+	}
+	
+	public XMLElement addRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tXMLStockElement;
+		XMLElement tXMLOperatingElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_ROUNDS);
+		tXMLElement.setAttribute (AN_CURRENT_OR, currentOR);
+		tXMLElement.setAttribute (AN_OR_COUNT, operatingRoundCount);
+		tXMLElement.setAttribute (AN_ADDED_OR, addedOR);
+		tXMLElement.setAttribute (AN_CURRENT_ROUND_TYPE, getCurrentRoundType ().toString ());
+		tXMLStockElement = stockRound.getRoundState (aXMLDocument);
+		tXMLElement.appendChild (tXMLStockElement);
+
+		tXMLOperatingElement = operatingRound.getRoundState (aXMLDocument);
+		tXMLElement.appendChild (tXMLOperatingElement);
+
+		return tXMLElement;
 	}
 
 	public ActionManager getActionManager () {
@@ -536,25 +573,6 @@ public class RoundManager implements ActionListener {
 
 	public PlayerManager getPlayerManager () {
 		return stockRound.getPlayerManager ();
-	}
-
-	public XMLElement getRoundState (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-		XMLElement tXMLStockElement;
-		XMLElement tXMLOperatingElement;
-
-		tXMLElement = aXMLDocument.createElement (EN_ROUNDS);
-		tXMLElement.setAttribute (AN_CURRENT_OR, currentOR);
-		tXMLElement.setAttribute (AN_OR_COUNT, operatingRoundCount);
-		tXMLElement.setAttribute (AN_ADDED_OR, addedOR);
-		tXMLElement.setAttribute (AN_CURRENT_ROUND_TYPE, getCurrentRoundType ().toString ());
-		tXMLStockElement = stockRound.getRoundState (aXMLDocument);
-		tXMLElement.appendChild (tXMLStockElement);
-
-		tXMLOperatingElement = operatingRound.getRoundState (aXMLDocument);
-		tXMLElement.appendChild (tXMLOperatingElement);
-
-		return tXMLElement;
 	}
 
 	public String getARType () {

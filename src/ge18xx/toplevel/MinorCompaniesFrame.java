@@ -16,8 +16,6 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 
 import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class MinorCompaniesFrame extends CorporationTableFrame {
 	private static final long serialVersionUID = 1L;
@@ -30,10 +28,14 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 		super (aFrameName, CorporationList.TYPE_NAMES [1], aRoundManager);
 	}
 
-	@Override
-	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
-		return (super.getCorporationStateElements (aXMLDocument, EN_MINORS));
-	}
+//	@Override	
+//	public XMLElement addElements (XMLDocument aXMLDocument) {
+//		XMLElement tXMLElement;
+//		
+//		tXMLElement = super.addElements (aXMLDocument, EN_MINORS);
+//		
+//		return tXMLElement;
+//	}
 
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		super.fixLoadedRoutes (aMapFrame, "Minor");

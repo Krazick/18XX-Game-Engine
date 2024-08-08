@@ -216,10 +216,14 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		return companies.getCorporationState (aCorpStateName);
 	}
 
-	@Override
-	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
-		return (super.getCorporationStateElements (aXMLDocument, EN_SHARES));
-	}
+//	@Override	
+//	public XMLElement addElements (XMLDocument aXMLDocument) {
+//		XMLElement tXMLElement;
+//		
+//		tXMLElement = super.addElements (aXMLDocument, EN_SHARES);
+//		
+//		return tXMLElement;
+//	}
 
 	public ShareCompany getShareCompanyByID (int aCompanyID) {
 		ShareCompany tShareCompany;

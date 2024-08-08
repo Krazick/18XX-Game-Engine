@@ -44,6 +44,7 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.SavedGames;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.GameEngineManager;
@@ -56,7 +57,7 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
-public class JGameClient extends XMLFrame {
+public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
 	private static final String DEFAULT_REMOTE_SERVER_IP = "71.178.230.211";
@@ -1304,7 +1305,7 @@ public class JGameClient extends XMLFrame {
 		tVerticalBar.addAdjustmentListener (scroller);
 	}
 
-	public XMLElement getNetworkElement (XMLDocument aXMLDocument) {
+	public XMLElement addElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_NETWORK_GAME);

@@ -670,7 +670,7 @@ public class GameInfo implements XMLSaveGameI {
 	}
 	
 	@Override
-	public XMLElement addElements (XMLDocument aXMLDocument) {
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tXMLElement;
 		XMLElement tGameVariantEffects;
 

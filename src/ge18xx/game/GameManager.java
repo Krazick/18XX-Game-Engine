@@ -67,7 +67,7 @@ import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
-import ge18xx.toplevel.CorporationTableFrame;
+//import ge18xx.toplevel.CorporationTableFrame;
 //import ge18xx.toplevel.FrameInfoSupport;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
@@ -1958,16 +1958,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return game18XXFrame.getGEVersion ();
 	}
 
-	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, XMLElement aSaveGameElement) {
+	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, XMLElement aSaveGameElement, 
+							ElementName aEN_TYPE) {
 		XMLElement tXMLElement;
 		
-		tXMLElement = aXMLSaveGame.addElements (aXMLDocument);
-		aSaveGameElement.appendChild (tXMLElement);
+		if (aXMLSaveGame != XMLSaveGameI.NO_XML_SAVE_GAME) {
+			tXMLElement = aXMLSaveGame.addElements (aXMLDocument, aEN_TYPE);
+			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
+				aSaveGameElement.appendChild (tXMLElement);
+			}
+		}
 	}
-	
+
 	public void saveGame () {
 		XMLDocument tXMLDocument;
-		XMLElement tXMLElement;
 		XMLElement tSaveGameElement;
 		String tFullActionReport;
 
@@ -1976,59 +1980,48 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
 
 		if (isNetworkGame ()) {
-			tXMLElement = networkJGameClient.getNetworkElement (tXMLDocument);
-			tSaveGameElement.appendChild (tXMLElement);
+			addElements (networkJGameClient, tXMLDocument, tSaveGameElement, JGameClient.EN_NETWORK_GAME);
 		}
 
 		/* Save the Basic Game Information */
-		addElements (activeGame, tXMLDocument, tSaveGameElement);
+		addElements (activeGame, tXMLDocument, tSaveGameElement, GameInfo.EN_GAME_INFO);
 
 		/* Save the Player Names Information */
-		tXMLElement = playerManager.getPlayerElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (playerManager, tXMLDocument, tSaveGameElement, Player.EN_PLAYERS);
 
 		/* Save the Phase Index (Current Phase) */
-		tXMLElement = phaseManager.getPhaseElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (phaseManager, tXMLDocument, tSaveGameElement, PhaseManager.EN_PHASE);
 
 		/* Save the Actions performed */
-		tXMLElement = roundManager.getActionElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (roundManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
 
 		/* Save the Round Information, Stock and Operating */
-		tXMLElement = roundManager.getRoundState (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (roundManager, tXMLDocument, tSaveGameElement, RoundManager.EN_ROUNDS);
 
 		/* Save the Player Status, Cash, Bids, and Portfolio */
-		tXMLElement = playerManager.getPlayerStateElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (playerManager, tXMLDocument, tSaveGameElement, Player.EN_PLAYER_STATES);
 
 		/* Save the current Bank Balance, and Rusted Train Portfolio */
-		tXMLElement = bank.getBankStateElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (bank, tXMLDocument, tSaveGameElement, Bank.EN_BANK_STATE);
 
 		/* Save the Bank Pool Stock Portfolio and Train Portfolio */
-		tXMLElement = bankPool.getBankPoolStateElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (bankPool, tXMLDocument, tSaveGameElement, BankPool.EN_BANK_POOL_STATE);
 
 		/* Save the Tokens on the Market */
-		tXMLElement = marketFrame.getMarketStateElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (marketFrame, tXMLDocument, tSaveGameElement, Market.EN_MARKET);
 
 		/* Save the Privates, Minors, and Share Company Information */
-		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, privatesFrame);
-		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, minorCompaniesFrame);
-		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, shareCompaniesFrame);
+		addElements (privatesFrame, tXMLDocument, tSaveGameElement, PrivatesFrame.EN_PRIVATES);
+		addElements (minorCompaniesFrame, tXMLDocument, tSaveGameElement, MinorCompaniesFrame.EN_MINORS);
+		addElements (shareCompaniesFrame, tXMLDocument, tSaveGameElement, ShareCompaniesFrame.EN_SHARES);
 
 		/* Also need to save the Map Information */
 		/* Save The Tile Placements, Orientations, and Token Placements */
-		tXMLElement = mapFrame.getMapStateElements (tXMLDocument);
-		tSaveGameElement.appendChild (tXMLElement);
+		addElements (mapFrame, tXMLDocument, tSaveGameElement, HexMap.EN_MAP);
 		
 		/* Save the FormationPhase */
 		if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
-			tXMLElement = formationPhase.getFormationElements (tXMLDocument);
-			tSaveGameElement.appendChild (tXMLElement);
+			addElements (formationPhase, tXMLDocument, tSaveGameElement, FormationPhase.EN_FORMATION_PHASE);
 		}
 		
 		// Append Save Game Element to Document just before outputing it.
@@ -2051,18 +2044,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		} catch (Exception tException) {
 			System.err.println (tException);
 			tException.printStackTrace ();
-		}
-	}
-
-	public void appendCompanyFrameXML (XMLElement aSaveGameElement, XMLDocument aXMLDocument,
-			CorporationTableFrame aCorporationTableFrame) {
-		XMLElement tXMLElement;
-
-		if (aCorporationTableFrame != CorporationTableFrame.NO_CORP_TABLE_FRAME) {
-			tXMLElement = aCorporationTableFrame.getCorporationStateElements (aXMLDocument);
-			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
-				aSaveGameElement.appendChild (tXMLElement);
-			}
 		}
 	}
 

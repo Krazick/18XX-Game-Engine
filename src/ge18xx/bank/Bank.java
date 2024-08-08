@@ -235,7 +235,8 @@ public class Bank extends GameBank implements CashHolderI {
 		return bankCashLabel;
 	}
 
-	public XMLElement getBankStateElements (XMLDocument aXMLDocument) {
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_BANK_STATE);

@@ -25,6 +25,7 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
 import ge18xx.round.OperatingRound;
@@ -47,7 +48,7 @@ import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
-
+import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
@@ -57,7 +58,7 @@ import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 import geUtilities.XMLNodeList;
 
-public class PlayerManager {
+public class PlayerManager implements XMLSaveGameI {
 	public static final String NO_PLAYER_NAME = null;
 	public static final List<Player> NO_PLAYERS = null;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
@@ -476,20 +477,37 @@ public class PlayerManager {
 		return tIsCompanyFormationState;
 	}
 	
-	public XMLElement getPlayerElements (XMLDocument tXMLDocument) {
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
+		XMLElement tXMLElement;
+		String tType;
+		
+		tType = aEN_Type.toString ();
+		if (tType.equals (Player.EN_PLAYERS.toString ())) {
+			tXMLElement = addPlayerElements (aXMLDocument);
+		} else if (tType.equals (Player.EN_PLAYER_STATES.toString ())) {
+			tXMLElement = addPlayerStateElements (aXMLDocument);
+		} else {
+			tXMLElement = XMLElement.NO_XML_ELEMENT;
+		}
+		
+		return tXMLElement;	
+	}
+
+	public XMLElement addPlayerElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tPlayerElement;
 
-		tXMLElement = tXMLDocument.createElement (Player.EN_PLAYERS);
+		tXMLElement = aXMLDocument.createElement (Player.EN_PLAYERS);
 		for (Player tPlayer : players) {
-			tPlayerElement = tPlayer.getPlayerElement (tXMLDocument);
+			tPlayerElement = tPlayer.getPlayerElement (aXMLDocument);
 			tXMLElement.appendChild (tPlayerElement);
 		}
 
 		return tXMLElement;
 	}
 
-	public XMLElement getPlayerStateElements (XMLDocument aXMLDocument) {
+	public XMLElement addPlayerStateElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tPlayerStateElement;
 

@@ -5,6 +5,7 @@ import javax.swing.JTable;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.game.XMLSaveGameI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
@@ -15,7 +16,7 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.XMLNode;
 
-public class CorporationTableFrame extends XMLFrame {
+public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_COMPANIES = new ElementName ("Companies");
 	public static final CorporationTableFrame NO_CORP_TABLE_FRAME = null;
@@ -55,18 +56,19 @@ public class CorporationTableFrame extends XMLFrame {
 		companies.closeCompany (aCompanyID, aTransferOwnershipAction);
 	}
 
-	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
+	public XMLElement addElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLCompaniesStates;
 
-		tXMLCompaniesStates = getCorporationStateElements (aXMLDocument, EN_COMPANIES);
+		tXMLCompaniesStates = addElements (aXMLDocument, EN_COMPANIES);
 
 		return tXMLCompaniesStates;
 	}
 
-	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument, ElementName aEN_TYPE) {
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_TYPE) {
 		XMLElement tXMLCompaniesStates;
 
-		tXMLCompaniesStates = null;
+		tXMLCompaniesStates = XMLElement.NO_XML_ELEMENT;
 		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			if (companies.getCorporationCount () > 0) {
 				tXMLCompaniesStates = aXMLDocument.createElement (aEN_TYPE);

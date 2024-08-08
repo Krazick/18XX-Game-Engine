@@ -20,8 +20,6 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 
 import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class PrivatesFrame extends CorporationTableFrame {
 	private static final long serialVersionUID = 1L;
@@ -57,10 +55,14 @@ public class PrivatesFrame extends CorporationTableFrame {
 		return tPrivatesJPanel;
 	}
 
-	@Override
-	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
-		return (super.getCorporationStateElements (aXMLDocument, EN_PRIVATES));
-	}
+//	@Override	
+//	public XMLElement addElements (XMLDocument aXMLDocument, String aType) {
+//		XMLElement tXMLElement;
+//		
+//		tXMLElement = super.addElements (aXMLDocument, EN_PRIVATES);
+//		
+//		return tXMLElement;
+//	}
 	
 	public void fillCertificateInfo (GameManager aGameManager) {
 		PrivateCompany tPrivateCompany;
