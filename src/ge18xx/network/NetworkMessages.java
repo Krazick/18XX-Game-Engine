@@ -112,7 +112,7 @@ public class NetworkMessages {
 	public String toString () {
 		String tMessage;
 
-		tMessage = xmlDocument.toString ();
+		tMessage = xmlDocument.toXMLString ();
 		tMessage = tMessage.replace (GUI.NEWLINE, "");
 		tMessage = tMessage.replaceAll ("> *<", "><");
 

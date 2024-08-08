@@ -230,7 +230,7 @@ public class Action {
 		tGameActivityElement = tXMLDocument.createElement (aElementName);
 		tGameActivityElement.appendChild (tActionElement);
 		tXMLDocument.appendChild (tGameActivityElement);
-		tXMLFormat = tXMLDocument.toString ();
+		tXMLFormat = tXMLDocument.toXMLString ();
 		tXMLFormatClean = tXMLFormat.replaceAll (">[ \t\n\f\r]+<", "><");
 
 		return tXMLFormatClean;
