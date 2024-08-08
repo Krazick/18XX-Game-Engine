@@ -84,7 +84,6 @@ import geUtilities.GameFrameConfig;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import geUtilities.AttributeName;
-import geUtilities.Checksum;
 import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
