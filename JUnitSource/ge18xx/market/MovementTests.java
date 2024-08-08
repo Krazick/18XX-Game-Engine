@@ -96,7 +96,7 @@ class MovementTests {
 		tXMLDocument = new XMLDocument ();
 		tXMLElement = moveUp.createElement (tXMLDocument, tEN_Name);
 		tXMLDocument.appendChild (tXMLElement);
-		assertEquals (tExpected, tXMLDocument.toString ());
+		assertEquals (tExpected, tXMLDocument.toXMLString ());
 
 		tXMLNode = tXMLDocument.getDocumentNode ();
 		tParsedMovement = new Movement (tXMLNode);

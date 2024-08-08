@@ -151,7 +151,7 @@ class MapTokenTests {
 
 		tXMLElement = mapToken2.getTokenElement (tXMLDocument);
 		tXMLDocument.appendChild (tXMLElement);
-		assertEquals ("<Token abbrev=\"MC2\" location=\"50\" mapCellID=\"T1\"/>\n", tXMLDocument.toString ());
+		assertEquals ("<Token abbrev=\"MC2\" location=\"50\" mapCellID=\"T1\"/>\n", tXMLDocument.toXMLString ());
 	}
 	
 	@Test
@@ -180,7 +180,7 @@ class MapTokenTests {
 		tXMLDocument = new XMLDocument ();
 		tXMLElement = mapToken3.getTokenElement (tXMLDocument);
 		tXMLDocument.appendChild (tXMLElement);
-		assertEquals ("<Token abbrev=\"MC3\" connectedSides=\"|0|1|3|4|\" location=\"50\" mapCellID=\"T3\"/>\n", tXMLDocument.toString ());
+		assertEquals ("<Token abbrev=\"MC3\" connectedSides=\"|0|1|3|4|\" location=\"50\" mapCellID=\"T3\"/>\n", tXMLDocument.toXMLString ());
 	}
 
 }

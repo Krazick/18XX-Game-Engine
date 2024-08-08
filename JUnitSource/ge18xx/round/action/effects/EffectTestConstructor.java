@@ -87,7 +87,7 @@ class EffectTestConstructor {
 		tXMLElement = effectBeta.getEffectElement (tXMLDocument, tAN_TEST);
 		tFullElement.appendChild (tXMLElement);
 		tXMLDocument.appendChild (tFullElement);
-		tXMLFormatted = tXMLDocument.toString ();
+		tXMLFormatted = tXMLDocument.toXMLString ();
 		tExpected += "<EnTest>\n";
 		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" fromName=\"\" isAPrivate=\"false\" name=\"Generic\" order=\"1\" toActor=\"TFBuster\"/>\n";
 		tExpected += "</EnTest>\n";

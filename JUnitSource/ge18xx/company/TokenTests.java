@@ -162,6 +162,6 @@ class TokenTests {
 		tXMLDocument = new XMLDocument ();
 		tXMLElement = token.getTokenElement (tXMLDocument);
 		tXMLDocument.appendChild (tXMLElement);
-		assertEquals ("<Token abbrev=\"MC1\"/>\n", tXMLDocument.toString ());
+		assertEquals ("<Token abbrev=\"MC1\"/>\n", tXMLDocument.toXMLString ());
 	}
 }
