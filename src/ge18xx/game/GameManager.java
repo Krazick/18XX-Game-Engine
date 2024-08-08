@@ -84,6 +84,7 @@ import geUtilities.GameFrameConfig;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import geUtilities.AttributeName;
+import geUtilities.Checksum;
 import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
@@ -2026,7 +2027,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
-
+		System.out.println ("Document Checksum [" + tXMLDocument.MD5 () + "]");
+		
 		tXMLDocument.outputXML (saveFile);
 
 		tFullActionReport = roundManager.getFullActionReport ();
