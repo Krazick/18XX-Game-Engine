@@ -52,11 +52,16 @@ public abstract class Effect {
 
 	Effect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
+		setNames (aActor.getName ());
+//		setFromName (aActor.getName ());
+//		setNickName (aActor.getName ());
 	}
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
-		setNickName (aFromName);
+		setNames (aFromName);
+//		setFromName (aFromName);
+//		setNickName (aFromName);
 	}
 
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {
@@ -76,7 +81,52 @@ public abstract class Effect {
 		}
 		setOrder (1);
 	}
+	
+	Effect (XMLNode aEffectNode, GameManager aGameManager) {
+		String tEffectName;
+		String tActorName;
+		ActorI tActor;
+		String tBenefitPrivateAbbrev;
+		String tBenefitName;
+		String tFromName;
+		boolean tBenefitUsed;
+		boolean tIsAPrivate;
+		int tOrder;
 
+		tOrder = aEffectNode.getThisIntAttribute (AN_ORDER, 0);
+		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
+		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
+		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME, tActorName);
+		setNames (tFromName);
+		
+		if (tActorName == ActorI.NO_NAME) {
+			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
+		}
+		
+		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
+
+		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
+		setName (tEffectName);
+		setActor (tActor);
+		setOrder (tOrder);
+
+		tBenefitPrivateAbbrev = aEffectNode.getThisAttribute (AN_BENEFIT_PRIVATE_ABBREV);
+		tBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
+		tBenefitUsed = aEffectNode.getThisBooleanAttribute (AN_BENEFIT_USED);
+		if (tBenefitName == Benefit.NO_BENEFIT_NAME) {
+			setNoBenefitInUse ();
+		} else {
+			setBenefitPrivateAbbrev (tBenefitPrivateAbbrev);
+			setBenefitName (tBenefitName);
+			setBenefitUsed (tBenefitUsed);
+		}
+	}
+
+	private void setNames (String aFromName) {
+		setFromName (aFromName);
+		setNickName (aFromName);
+	}
+	
 	/**
 	 * This method should be called after the Action has been parsed by the Constructor given
 	 * an XMLNode of the Data. This is to allow special case Effects to correct for not finding an object
@@ -166,9 +216,10 @@ public abstract class Effect {
 	}
 	
 	protected String getBenefitEffectReport () {
-		String tBenefitEffectReport = "";
+		String tBenefitEffectReport;
 		String tUsed;
 
+		tBenefitEffectReport = GUI.EMPTY_STRING;
 		if (benefitName.length () > 0) {
 			if (getBenefitUsed ()) {
 				tUsed = " Used ";
@@ -206,7 +257,7 @@ public abstract class Effect {
 		
 		if (benefitValid ()) {
 			tBenefit = getBenefitWithName (aRoundManager);
-			// TODO -- 
+
 			tBenefit.setUsed (true);
 		}
 	}
@@ -216,7 +267,7 @@ public abstract class Effect {
 		
 		if (benefitValid ()) {
 			tBenefit = getBenefitWithName (aRoundManager);
-			// TODO -- 
+
 			tBenefit.undoUse ();
 		}
 	}
@@ -229,47 +280,6 @@ public abstract class Effect {
 		return tBenefit;
 	}
 	
-	Effect (XMLNode aEffectNode, GameManager aGameManager) {
-		String tEffectName;
-		String tActorName;
-		ActorI tActor;
-		String tBenefitPrivateAbbrev;
-		String tBenefitName;
-		String tFromName;
-		boolean tBenefitUsed;
-		boolean tIsAPrivate;
-		int tOrder;
-
-		tOrder = aEffectNode.getThisIntAttribute (AN_ORDER, 0);
-		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
-		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
-		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME, tActorName);
-		setFromName (tFromName);
-		if (tActorName == ActorI.NO_NAME) {
-			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
-		}
-		
-		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
-
-		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
-//		if (tActor == ActorI.NO_ACTOR) {
-//			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
-//		}
-		setName (tEffectName);
-		setActor (tActor);
-		setOrder (tOrder);
-
-		tBenefitPrivateAbbrev = aEffectNode.getThisAttribute (AN_BENEFIT_PRIVATE_ABBREV);
-		tBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
-		tBenefitUsed = aEffectNode.getThisBooleanAttribute (AN_BENEFIT_USED);
-		if (tBenefitName == Benefit.NO_BENEFIT_NAME) {
-			setNoBenefitInUse ();
-		} else {
-			setBenefitPrivateAbbrev (tBenefitPrivateAbbrev);
-			setBenefitName (tBenefitName);
-			setBenefitUsed (tBenefitUsed);
-		}
-	}
 
 	public boolean actorIsSet () {
 		boolean tActorSet;
