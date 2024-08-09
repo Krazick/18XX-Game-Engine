@@ -23,12 +23,6 @@ public class EscrowToPlayerEffect extends Effect {
 	String holderName;
 	Certificate certificate;
 
-	public EscrowToPlayerEffect () {
-		super (NAME, ActorI.NO_ACTOR);
-		setActor (ActorI.NO_ACTOR);
-		setEscrow (Escrow.NO_ESCROW);
-	}
-
 	public EscrowToPlayerEffect (ActorI aActor, Escrow aEscrow) {
 		super (NAME, aActor);
 		setEscrow (aEscrow);
@@ -47,6 +41,7 @@ public class EscrowToPlayerEffect extends Effect {
 		tCertificate = aGameManager.getCertificate (tCertificateName, 100, true);
 		tCash = aEffectNode.getThisIntAttribute (AN_ESCROW_TO_PLAYER_CASH);
 		tHolderName = aEffectNode.getThisAttribute (AN_ESCROW_HOLDER_NAME);
+		setCash (tCash);
 		escrow = new Escrow (tCertificate, tCash);
 		escrow.setName (tHolderName);
 		setHolderName (tHolderName);
