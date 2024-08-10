@@ -17,7 +17,7 @@ import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Town extends RevenueCenter {
 	public static final Town NO_TOWN = null;

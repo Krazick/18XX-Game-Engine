@@ -6,12 +6,12 @@ import java.awt.TexturePaint;
 import java.io.IOException;
 
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class TileType implements Cloneable, LoadableXMLI {
 	public static final ElementName EN_TILE_TYPE = new ElementName ("TileType");

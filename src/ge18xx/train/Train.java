@@ -33,7 +33,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Train extends Coupon implements Comparable<Object> {
 	public static final ElementName EN_TRAIN = new ElementName ("Train");

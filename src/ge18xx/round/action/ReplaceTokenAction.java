@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.RemoveTokenEffect;
 import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.round.action.effects.SetNonHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ReplaceTokenAction extends LayTokenAction {
 	public final static String NAME = "Replace Token";

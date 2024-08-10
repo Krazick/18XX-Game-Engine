@@ -11,8 +11,8 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
 
 import geUtilities.GUI;
-import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 public class CompanyTestFactory {
 	public final TokenCompanyConcrete NO_TOKEN_COMPANY = null;

@@ -8,8 +8,8 @@ import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class Tokens {
 	public static final ElementName EN_TOKENS = new ElementName ("Tokens");

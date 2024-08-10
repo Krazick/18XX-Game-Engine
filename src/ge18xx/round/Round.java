@@ -14,7 +14,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public abstract class Round implements ActorI {
 	public final static String NAME = "Round";

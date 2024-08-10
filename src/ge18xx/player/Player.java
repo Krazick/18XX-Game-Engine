@@ -30,6 +30,7 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
@@ -39,6 +40,8 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
@@ -47,8 +50,6 @@ import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 //
 //  Player.java
@@ -1400,14 +1401,38 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			buyAction (tCertificatesToBuy);
 	
 			if (tNextShareHasBids) {
-				setTriggeredAuction (true); // Set the Triggered Auction Flag.
-				playerManager.startAuctionRound (tCreateNewAuctionAction);
+				startAuctionRound (tCreateNewAuctionAction);
+//				setTriggeredAuction (true); // Set the Triggered Auction Flag.
+//				playerManager.startAuctionRound (tCreateNewAuctionAction);
 			}
 		}
 		playerFrame.updateButtons ();
 		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - BOUGHT");
 	}
 
+	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+		ChangeRoundAction tChangeRoundAction;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		boolean tTriggeredAuction;
+		
+		tRoundManager = playerManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getStockRound ();
+		tRoundType = tCurrentRound.getRoundType ();
+		tRoundID = tCurrentRound.getID ();
+		tTriggeredAuction = true;
+		
+		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
+		tChangeRoundAction = new ChangeRoundAction (tRoundType, tRoundID, tCurrentRound);
+		tChangeRoundAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
+		tChangeRoundAction.setChainToPrevious (true);
+		playerManager.addAction (tChangeRoundAction);
+		
+		playerManager.startAuctionRound (aCreateNewAuctionAction);
+
+	}
 	public List<Benefit> getOwnerTypeBenefits () {
 		List<Benefit> tOwnerTypeBenefits;
 		

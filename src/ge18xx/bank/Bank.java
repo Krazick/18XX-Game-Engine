@@ -30,6 +30,8 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.GUI;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
@@ -38,8 +40,6 @@ import geUtilities.ParsingRoutine3I;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class Bank extends GameBank implements CashHolderI {
 	public static final AttributeName AN_BANK_CASH = new AttributeName ("cash");

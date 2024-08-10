@@ -11,7 +11,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public abstract class Effect {
 	public static final ElementName EN_EFFECTS = new ElementName ("Effects");
@@ -53,15 +53,11 @@ public abstract class Effect {
 	Effect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
 		setNames (aActor.getName ());
-//		setFromName (aActor.getName ());
-//		setNickName (aActor.getName ());
 	}
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
 		setNames (aFromName);
-//		setFromName (aFromName);
-//		setNickName (aFromName);
 	}
 
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {

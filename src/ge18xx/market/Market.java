@@ -27,13 +27,13 @@ import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
 import ge18xx.toplevel.MarketFrame;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class Market extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;

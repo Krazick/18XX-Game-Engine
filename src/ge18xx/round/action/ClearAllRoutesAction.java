@@ -4,7 +4,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ClearAllRoutesAction extends RouteAction {
 	public static final String NAME = "Clear All Routes";

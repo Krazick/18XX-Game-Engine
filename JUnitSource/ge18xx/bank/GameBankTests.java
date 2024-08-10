@@ -33,8 +33,8 @@ import ge18xx.train.TrainTestFactory;
 
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 @DisplayName ("Game Bank Tests")
 class GameBankTests {

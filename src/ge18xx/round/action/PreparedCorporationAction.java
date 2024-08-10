@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
 import ge18xx.round.action.effects.GetLoanEffect;
 import ge18xx.round.action.effects.UpdateLastRevenueEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PreparedCorporationAction extends ChangeStateAction {
 	public final static String NAME = "Prepared Corporation";

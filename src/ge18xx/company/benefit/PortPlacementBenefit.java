@@ -15,7 +15,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class PortPlacementBenefit extends MapBenefit {

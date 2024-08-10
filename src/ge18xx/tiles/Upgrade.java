@@ -14,7 +14,7 @@ import ge18xx.map.Location;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Upgrade {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

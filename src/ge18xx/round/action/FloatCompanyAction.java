@@ -5,7 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ReachedDestinationEffect;
 import ge18xx.round.action.effects.SetCapitalizationLevelEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class FloatCompanyAction extends CashTransferAction {
 	public final static String NAME = "Float Company";

@@ -8,7 +8,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.train.Train;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class StartRouteEffect extends ChangeRouteEffect {
 	public static final String NAME = "Start Route Effect";

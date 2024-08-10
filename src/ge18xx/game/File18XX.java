@@ -2,7 +2,7 @@ package ge18xx.game;
 
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class File18XX {
 	public static final ElementName EN_FILES = new ElementName ("Files");

@@ -16,7 +16,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class Benefits {

@@ -10,7 +10,7 @@ import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SetTrainCountVEffect extends VariantEffect {
 	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");

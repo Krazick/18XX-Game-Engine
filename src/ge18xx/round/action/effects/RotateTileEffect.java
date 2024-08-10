@@ -9,7 +9,7 @@ import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RotateTileEffect extends LayTileEffect {
 	public static final String NAME = "Rotate Tile";

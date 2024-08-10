@@ -17,7 +17,7 @@ import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.round.action.effects.UpgradeTrainEffect;
 import ge18xx.train.Train;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class BuyTrainAction extends TransferTrainAction {
 	public final static String NAME = "Buy Train";

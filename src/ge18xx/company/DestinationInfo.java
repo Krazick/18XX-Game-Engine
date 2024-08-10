@@ -8,7 +8,7 @@ import ge18xx.round.action.FloatCompanyAction;
 import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class DestinationInfo {
 	public static final DestinationInfo NO_DESTINATION_INFO = null;

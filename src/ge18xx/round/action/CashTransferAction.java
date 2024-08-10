@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class CashTransferAction extends ChangeStateAction {
 	public final static String NAME = "Cash Transfer";

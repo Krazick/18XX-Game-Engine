@@ -8,8 +8,8 @@ import geUtilities.ElementName;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class Escrow implements CashHolderI {
 	public static final ElementName EN_ESCROW = new ElementName ("Escrow");

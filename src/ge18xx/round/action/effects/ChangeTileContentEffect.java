@@ -11,7 +11,7 @@ import ge18xx.tiles.TileSet;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeTileContentEffect extends ChangeTileEffect {
 	public static final String NAME = "Change Tile Contents";

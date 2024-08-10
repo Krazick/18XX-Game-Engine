@@ -12,7 +12,7 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class LayTileEffect extends ChangeTileContentEffect {
 	public final static String NAME = "Lay Tile";

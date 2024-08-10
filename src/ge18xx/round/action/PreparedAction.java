@@ -10,7 +10,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PreparedAction {
 	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");

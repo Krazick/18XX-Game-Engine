@@ -9,7 +9,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeRouteEffect extends Effect {
 	final static AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");

@@ -55,8 +55,8 @@ import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class PlayerManager implements XMLSaveGameI {
 	public static final String NO_PLAYER_NAME = null;

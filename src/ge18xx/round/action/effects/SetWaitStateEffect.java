@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
 	public final static String NAME = "Set Wait State";

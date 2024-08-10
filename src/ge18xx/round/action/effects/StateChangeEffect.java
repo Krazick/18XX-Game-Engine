@@ -9,7 +9,7 @@ import ge18xx.round.action.GenericActor;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class StateChangeEffect extends Effect {
 	public static final AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");

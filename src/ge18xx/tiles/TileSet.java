@@ -26,14 +26,14 @@ import javax.swing.JLabel;
 import ge18xx.map.Hex18XX;
 import ge18xx.toplevel.TileTrayFrame;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;

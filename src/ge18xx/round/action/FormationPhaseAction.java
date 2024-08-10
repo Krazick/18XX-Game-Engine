@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.HideFormationPanelEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.UpdateCertificateLimitEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class FormationPhaseAction extends ChangeStateAction {
 	public final static String NAME = "Formation Phase";

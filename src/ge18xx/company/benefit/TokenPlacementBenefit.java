@@ -18,7 +18,7 @@ import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class TokenPlacementBenefit extends MapBenefit {

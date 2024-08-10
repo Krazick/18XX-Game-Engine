@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeBooleanFlagEffect extends Effect {
 	public final static String NAME = "Change Boolean Flag";
@@ -66,5 +66,4 @@ public class ChangeBooleanFlagEffect extends Effect {
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-
 }

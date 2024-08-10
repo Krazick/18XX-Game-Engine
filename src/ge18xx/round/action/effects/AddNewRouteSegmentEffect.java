@@ -7,7 +7,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 	public static final String NAME = "New Route Segment";

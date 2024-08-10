@@ -11,7 +11,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 // User Preference to allow Confirmation of Decisions before the action is completed
 // Examples:

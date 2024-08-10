@@ -21,12 +21,12 @@ import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class StartPacketFrame extends XMLFrame implements LoadableXMLI, PortfolioHolderLoaderI {
 	private static final long serialVersionUID = 1L;

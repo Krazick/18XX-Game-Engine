@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Action {
 	public final static ElementName EN_ACTIONS = new ElementName ("Actions");
@@ -127,9 +128,7 @@ public class Action {
 		String tEffectNodeName;
 		String tClassName;
 		Effect tEffect;
-		Class<?> tEffectToLoad;
-		Constructor<?> tEffectConstructor;
-
+		
 		tEffectsChildren = aActionNode.getChildNodes ();
 		tEffectsNodeCount = tEffectsChildren.getLength ();
 		tClassName = "NO-CLASS";
@@ -147,11 +146,10 @@ public class Action {
 							// Use Reflections to identify the OptionEffect to create, and call the
 							// constructor with the XMLNode and Game Manager
 							tClassName = tEffectNode.getThisAttribute (Effect.AN_CLASS);
-							tEffectToLoad = Class.forName (tClassName);
-							tEffectConstructor = tEffectToLoad.getConstructor (tEffectNode.getClass (),
-									aGameManager.getClass ());
-							tEffect = (Effect) tEffectConstructor.newInstance (tEffectNode, aGameManager);
-							addEffect (tEffect);
+							tEffect = getConstructor (aGameManager, tEffectNode, tClassName, aActionName, aNumber);
+							if (tEffect != Effect.NO_EFFECT) {
+								addEffect (tEffect);
+							}
 						}
 					}
 				}
@@ -162,9 +160,34 @@ public class Action {
 					"Could not find Class for Effect " + tClassName + " due to Rename and using old Save Game");
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception with message ");
-			System.err.println ("Class name " + tClassName + " Action Name " + aActionName + " Action Number " + aNumber);
+			System.err.println ("Class name " + tClassName + " Action Name " + aActionName + 
+					" Action Number " + aNumber);
 			tException.printStackTrace ();
 		}
+	}
+
+	private Effect getConstructor (GameManager aGameManager, XMLNode aEffectNode, String aClassName, 
+									String aActionName, int aActionNumber)
+			throws ClassNotFoundException, InstantiationException, 
+					IllegalAccessException, InvocationTargetException {
+		Effect tEffect;
+		Class<?> tEffectToLoad;
+		Constructor<?> tEffectConstructor;
+		
+		tEffectToLoad = Class.forName (aClassName);
+		tEffect = Effect.NO_EFFECT;
+		try {
+			tEffectConstructor = tEffectToLoad.getConstructor (aEffectNode.getClass (),
+					aGameManager.getClass ());
+			tEffect = (Effect) tEffectConstructor.newInstance (aEffectNode, aGameManager);
+		} catch (NoSuchMethodException tNoSuchMethodException) {
+			System.err.println ("Caught Exception with message ");
+			System.err.println ("Class name " + aClassName + " Action Name " + aActionName + 
+						" Action Number " + aActionNumber);
+			tNoSuchMethodException.printStackTrace ();
+		}
+		
+		return tEffect;
 	}
 
 	private void postParse () {

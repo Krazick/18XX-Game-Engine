@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.train.Train;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class TransferTrainAction extends TransferOwnershipAction {
 	public final static String NAME = "Transfer Train";

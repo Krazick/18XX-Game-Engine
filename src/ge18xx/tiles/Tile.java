@@ -42,8 +42,8 @@ import geUtilities.GUI;
 import geUtilities.ParsingRoutine3I;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class Tile implements Comparable<Object>, Cloneable {
 	public static final ElementName EN_TILE = new ElementName ("Tile");

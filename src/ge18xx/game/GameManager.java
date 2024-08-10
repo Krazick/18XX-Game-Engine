@@ -83,6 +83,7 @@ import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.FileGEFilter;
@@ -93,7 +94,6 @@ import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
 
 // TODO -- Create an abstract 'GameEngineManager' Super Class that holds non-specific Game information like:
 //   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific

@@ -8,7 +8,7 @@ import ge18xx.phase.PhaseManager;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AddPhaseVEffect extends PhaseInfoVEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");

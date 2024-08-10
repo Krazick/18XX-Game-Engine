@@ -1,7 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SoldOutAdjustmentAction extends ChangeMarketCellAction {
 	public final static String NAME = "Sold Out Adjustment";

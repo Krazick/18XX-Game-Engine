@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class EscrowChangeEffect extends Effect {
 	public final static String NAME = "Auction Escrow Change";

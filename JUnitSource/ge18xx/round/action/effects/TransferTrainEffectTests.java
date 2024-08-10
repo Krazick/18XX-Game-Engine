@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,12 +14,10 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
-import ge18xx.round.action.ActorI;
 import ge18xx.train.Train;
 
 @DisplayName ("Transfer Train Effect Constructor Tests")
 class TransferTrainEffectTests {
-	TransferTrainEffect effectAlpha;
 	TransferTrainEffect effectBeta;
 	ShareCompany actorBeta;
 	ShareCompany actorGamma;
@@ -40,7 +37,6 @@ class TransferTrainEffectTests {
 		companyTestFactory = new CompanyTestFactory (testFactory);
 		gameManager = testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
-		effectAlpha = new TransferTrainEffect ();
 		actorBeta = companyTestFactory.buildAShareCompany (1);
 		actorGamma = companyTestFactory.buildAShareCompany (2);
 		actorZeta = companyTestFactory.buildAShareCompany (companyTestFactory.NO_COMPANY_INDEX);
@@ -50,13 +46,10 @@ class TransferTrainEffectTests {
 
 	@Test
 	@DisplayName ("Simple Constructor Tests")
-	void test () {
+	void simpleConstructorTests () {
 		String tReportResult = "--Effect: Transfer Train named Test2 from Test Pennsylvania to Test Baltimore and Ohio.";
 		ShareCompany tShareActor;
 		ShareCompany tToShareActor;
-
-		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
-		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
 
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Train", effectBeta.getName ());

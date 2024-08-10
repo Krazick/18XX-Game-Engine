@@ -7,7 +7,7 @@ import ge18xx.train.Train;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class UpgradeTrainEffect extends TransferTrainEffect {
 	public static final String NAME = "Upgrade Train";

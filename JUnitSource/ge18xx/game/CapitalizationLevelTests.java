@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 class CapitalizationLevelTests {
 	Capitalization capitalization1830;

@@ -8,7 +8,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class License extends Coupon {
 	public static final ElementName EN_LICENSES = new ElementName ("Licenses");

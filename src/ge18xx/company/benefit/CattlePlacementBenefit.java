@@ -12,7 +12,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class CattlePlacementBenefit extends MapBenefit {

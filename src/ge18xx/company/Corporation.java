@@ -61,6 +61,8 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
@@ -68,8 +70,6 @@ import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public abstract class Corporation extends Observable implements PortfolioHolderLoaderI, 
 										ParsingRoutineI, Comparable<Corporation> {

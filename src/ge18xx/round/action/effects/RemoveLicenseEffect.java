@@ -5,7 +5,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RemoveLicenseEffect extends AddLicenseEffect {
 	public final static String SHORT_NAME = "Remove ";

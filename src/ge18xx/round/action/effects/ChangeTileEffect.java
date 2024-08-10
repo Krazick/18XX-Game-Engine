@@ -9,7 +9,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeTileEffect extends ChangeMapEffect {
 	public static final String NAME = "Change Tile";

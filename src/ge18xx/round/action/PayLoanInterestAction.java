@@ -4,7 +4,7 @@ import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ReduceRevenueEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PayLoanInterestAction extends CashTransferAction {
 	public final static String NAME = "Pay Loan Interest";

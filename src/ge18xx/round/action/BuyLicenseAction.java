@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class BuyLicenseAction extends TransferOwnershipAction {
 	public final static String NAME = "Buy License";

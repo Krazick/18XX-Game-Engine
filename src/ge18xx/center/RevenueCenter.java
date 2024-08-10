@@ -27,7 +27,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public abstract class RevenueCenter extends Feature implements Cloneable {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

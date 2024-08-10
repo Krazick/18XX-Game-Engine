@@ -31,8 +31,8 @@ import geUtilities.ParsingRoutineIO;
 import geUtilities.ParsingRoutineIOO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class TrainPortfolio implements TrainHolderI {
 	public static final ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");

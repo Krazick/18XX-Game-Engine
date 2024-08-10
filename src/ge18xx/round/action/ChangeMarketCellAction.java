@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.ReturnTrainEffect;
 import ge18xx.train.Train;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeMarketCellAction extends TransferOwnershipAction {
 	public final static String NAME = "Change Market Cell";

@@ -18,7 +18,7 @@ import ge18xx.bank.Bank;
 import ge18xx.tiles.Feature;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Rebate extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");

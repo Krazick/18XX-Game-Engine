@@ -10,7 +10,7 @@ import ge18xx.train.TrainInfo;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AddTrainVEffect extends VariantEffect {
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");

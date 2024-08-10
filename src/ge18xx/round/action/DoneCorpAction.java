@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.EndCorpActionsEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class DoneCorpAction extends Action {
 	public final static String NAME = "Done";

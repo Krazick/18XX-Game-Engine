@@ -4,7 +4,7 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class StartStockEffect extends Effect {
 	public static final String NAME = "Start Stock";

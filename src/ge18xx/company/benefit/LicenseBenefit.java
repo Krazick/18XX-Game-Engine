@@ -21,7 +21,7 @@ import ge18xx.round.action.effects.Effect;
 
 import geUtilities.AttributeName;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class LicenseBenefit extends Benefit {

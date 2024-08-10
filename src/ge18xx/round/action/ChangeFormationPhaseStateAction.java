@@ -1,8 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-//import ge18xx.round.action.effects.SetFormationStateEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeFormationPhaseStateAction extends FormationPhaseAction {
 	public final static String NAME = "Change Formation Phase State";

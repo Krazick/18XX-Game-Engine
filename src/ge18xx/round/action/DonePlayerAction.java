@@ -6,7 +6,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ExchangePrezShareEffect;
 import ge18xx.round.action.effects.NewPriorityPlayerEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class DonePlayerAction extends ChangeStateAction {
 	public final static String NAME = "Done Player";

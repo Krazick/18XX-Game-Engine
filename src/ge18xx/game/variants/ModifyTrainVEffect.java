@@ -5,7 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.train.TrainInfo;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ModifyTrainVEffect extends VariantEffect {
 	public static final String NAME = "Modify Train";

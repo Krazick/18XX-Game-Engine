@@ -5,7 +5,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.ExchangePrezShareEffect;
 import ge18xx.round.action.effects.ExchangeShareEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ExchangeStockAction extends TransferOwnershipAction {
 	public final static String NAME = "Exchange Stock";

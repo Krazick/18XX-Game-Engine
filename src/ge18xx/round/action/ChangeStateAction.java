@@ -11,8 +11,8 @@ import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
 
 public class ChangeStateAction extends ChangePlayerAction {
 	public final static String NAME = "Change State";

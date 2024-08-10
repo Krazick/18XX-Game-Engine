@@ -6,7 +6,7 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ClearSoldCompanyEffect extends Effect {
 	public final static String NAME = "Add Clear Sold Company";

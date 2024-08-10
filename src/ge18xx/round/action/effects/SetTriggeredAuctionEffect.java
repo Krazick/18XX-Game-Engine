@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
@@ -9,33 +9,33 @@ import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set Has Laid Tile";
-	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
+public class SetTriggeredAuctionEffect extends ChangeBooleanFlagEffect {
+	public final static String NAME = "Set Triggered Auction";
+	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
 
-	public SetHasLaidTileEffect (String aName) {
+	public SetTriggeredAuctionEffect (String aName) {
 		super (aName);
-	}
-
-	public SetHasLaidTileEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
-	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
-		super (NAME, aActor, aHasLaidTile);
-	}
-
-	public SetHasLaidTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
-		super (aEffectNode, aGameManager, AN_HAS_LAID_TILE);
-		
 		setName (NAME);
 	}
 
+	public SetTriggeredAuctionEffect (String aName, ActorI aActor) {
+		super (aName, aActor);
+	}
+
+	public SetTriggeredAuctionEffect (ActorI aActor, boolean aTriggeredAuction) {
+		super (NAME, aActor, aTriggeredAuction);
+	}
+
+	public SetTriggeredAuctionEffect (XMLNode aEffectNode, GameManager aGameManager) {
+		super (aEffectNode, aGameManager, AN_TRIGGERED_AUCTION);
+		setName (NAME);
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
-		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN, AN_HAS_LAID_TILE);
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN, AN_TRIGGERED_AUCTION);
 
 		return tEffectElement;
 	}
@@ -53,15 +53,15 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		TrainCompany tTrainCompany;
+		Player tPlayer;
 
 		tEffectApplied = false;
-		if (actor.isATrainCompany ()) {
-			tTrainCompany = (TrainCompany) actor;
-			tTrainCompany.setHasLaidTile (getBooleanFlag ());
+		if (actor.isAPlayer ()) {
+			tPlayer = (Player) actor;
+			tPlayer.setTriggeredAuction (getBooleanFlag ());
 			tEffectApplied = true;
 		} else {
-			setApplyFailureReason ("The provided Actor " + actor.getName () + " is not a Train Company");
+			setApplyFailureReason ("The provided Actor " + actor.getName () + " is not a Player");
 		}
 
 		return tEffectApplied;
@@ -70,14 +70,14 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		TrainCompany tTrainCompany;
+		Player tPlayer;
 
 		tEffectUndone = false;
 		if (actor.isATrainCompany ()) {
-			tTrainCompany = (TrainCompany) actor;
-			tTrainCompany.setHasLaidTile (! getBooleanFlag ());
+			tPlayer = (Player) actor;
+			tPlayer.setTriggeredAuction (! getBooleanFlag ());
 		} else {
-			setUndoFailureReason ("The provided Actor " + actor.getName () + " is not a Train Company");
+			setUndoFailureReason ("The provided Actor " + actor.getName () + " is not a Player");
 		}
 		tEffectUndone = true;
 

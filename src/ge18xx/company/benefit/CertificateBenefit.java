@@ -12,7 +12,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public abstract class CertificateBenefit extends Benefit {
 	public static final AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");

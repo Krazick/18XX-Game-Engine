@@ -36,8 +36,8 @@ import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");

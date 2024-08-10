@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.StartStockEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class StartStockAction extends Action {
 	public final static String NAME = "Start Stock";

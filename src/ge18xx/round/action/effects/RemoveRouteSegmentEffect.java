@@ -11,7 +11,7 @@ import ge18xx.train.TrainRevenueFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RemoveRouteSegmentEffect extends ChangeRouteEffect {
 	final static AttributeName AN_SEGMENT_INDEX = new AttributeName ("segmentIndex");

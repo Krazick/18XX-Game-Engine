@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ClearExchangePrezShareEffect extends ExchangePrezShareEffect {
 	public final static String NAME = "Clear Exchange President Share";

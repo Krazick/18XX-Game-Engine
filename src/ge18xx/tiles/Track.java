@@ -18,7 +18,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Track implements Cloneable {
 	public static final ElementName EN_TRACK = new ElementName ("Track");

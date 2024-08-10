@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.effects.ClearExchangePrezShareEffect;
 import ge18xx.round.action.effects.SoldCompanyEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SellStockAction extends ChangeMarketCellAction {
 	public final static String NAME = "Sell Stock";

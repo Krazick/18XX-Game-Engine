@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class UpdateCertificateLimitEffect extends Effect {
 	public static final AttributeName AN_OLD_CERTIFICATE_LIMIT = new AttributeName ("oldCertificateLimit");

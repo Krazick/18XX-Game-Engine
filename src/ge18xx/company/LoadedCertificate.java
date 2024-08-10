@@ -1,6 +1,6 @@
 package ge18xx.company;
 
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class LoadedCertificate {
 	boolean isPresidentShare;

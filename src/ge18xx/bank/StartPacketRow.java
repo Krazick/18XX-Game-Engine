@@ -19,8 +19,8 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
 	public static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");

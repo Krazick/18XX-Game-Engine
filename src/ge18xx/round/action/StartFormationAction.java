@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 /* Currently there is no code that calls this. 
  * This Action is stored as a "Prepared Action" in the 18xx-Games.xml File for when the 

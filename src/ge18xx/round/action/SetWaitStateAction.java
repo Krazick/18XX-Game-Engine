@@ -6,7 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetWaitStateEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SetWaitStateAction extends Action {
 	public final static String NAME = "Set Wait State";

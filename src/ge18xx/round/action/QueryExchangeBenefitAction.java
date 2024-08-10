@@ -6,7 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class QueryExchangeBenefitAction extends Action {
 	public final static String NAME = "Query Exchange Benefit";

@@ -11,7 +11,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {

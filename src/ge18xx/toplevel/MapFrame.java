@@ -60,14 +60,14 @@ import ge18xx.train.RouteSegment;
 
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import swingTweaks.KButton;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private static final long serialVersionUID = 1L;

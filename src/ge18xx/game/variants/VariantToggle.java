@@ -1,7 +1,7 @@
 package ge18xx.game.variants;
 
 import ge18xx.game.GameManager;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class VariantToggle extends VariantAll {
 	public VariantToggle (XMLNode aXMLNode) {

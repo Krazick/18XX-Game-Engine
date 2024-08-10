@@ -59,6 +59,8 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import swingTweaks.KButton;
 
 import geUtilities.ElementName;
@@ -67,8 +69,6 @@ import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 //  Should be able to specify this as a Generic Class, where the TYPE extends Corporation
 

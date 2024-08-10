@@ -50,12 +50,12 @@ import ge18xx.tiles.TileType;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
 
 public class HexMap extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;

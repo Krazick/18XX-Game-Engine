@@ -5,7 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 	public final static String NAME = "Change Priority Player";

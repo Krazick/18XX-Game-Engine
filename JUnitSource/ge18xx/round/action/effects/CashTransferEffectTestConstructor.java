@@ -22,10 +22,8 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
-
-
-import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 @DisplayName ("CashTransferEffect Constructor Tests")
 class CashTransferEffectTestConstructor {

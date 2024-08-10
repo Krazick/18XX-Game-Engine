@@ -5,8 +5,8 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
+import geUtilities.xml.XMLNode;
 import ge18xx.round.action.GenericActor;
-import geUtilities.XMLNode;
 
 public class AuctionStateChangeEffect extends StateChangeEffect {
 	public final static String NAME = "Auction State Change";

@@ -10,7 +10,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {
 	public final static ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");

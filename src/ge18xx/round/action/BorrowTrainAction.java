@@ -6,7 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.BorrowTrainEffect;
 import ge18xx.train.Train;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class BorrowTrainAction extends TransferTrainAction {
 	public final static String NAME = "Borrow Train";

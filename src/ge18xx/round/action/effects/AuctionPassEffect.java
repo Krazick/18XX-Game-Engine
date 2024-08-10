@@ -5,7 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AuctionPassEffect extends AuctionStateChangeEffect {
 	public final static String NAME = "Auction Pass";

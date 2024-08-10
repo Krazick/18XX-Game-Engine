@@ -7,7 +7,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
 	public static final String NAME = "Show Formation Panel";

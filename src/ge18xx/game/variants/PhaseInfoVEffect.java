@@ -6,7 +6,7 @@ import ge18xx.game.GameManager;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PhaseInfoVEffect extends VariantEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");

@@ -15,8 +15,8 @@ import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class StartPacketItem implements ParsingRoutineI {
 	public static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");

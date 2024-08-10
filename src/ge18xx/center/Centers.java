@@ -33,7 +33,7 @@ import ge18xx.tiles.TileType;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;

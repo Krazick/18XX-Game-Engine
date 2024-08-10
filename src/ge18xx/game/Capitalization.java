@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 
 import geUtilities.AttributeName;
 import geUtilities.ElementName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Capitalization {
 	public static final ElementName EN_CAPITALIZATIONS = new ElementName ("Capitalizations");

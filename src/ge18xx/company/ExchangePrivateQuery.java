@@ -7,7 +7,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ExchangePrivateQuery extends QueryOffer {
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");

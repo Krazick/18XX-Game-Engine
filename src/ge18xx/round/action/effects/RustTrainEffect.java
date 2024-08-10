@@ -11,7 +11,7 @@ import ge18xx.train.TrainPortfolio;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RustTrainEffect extends TransferTrainEffect {
 	final static AttributeName AN_TRAIN_STATUS = new AttributeName ("trainStatus");

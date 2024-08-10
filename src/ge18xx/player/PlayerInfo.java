@@ -3,7 +3,7 @@ package ge18xx.player;
 import ge18xx.phase.PhaseInfo;
 import geUtilities.AttributeName;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 //
 //  PlayerInfo.java

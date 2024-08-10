@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SyncActionNumberEffect extends Effect {
 	public static final AttributeName AN_NEW_ACTION_NUMBER = new AttributeName ("newActionNumber");

@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.AuctionBidChangeEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowChangeEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AuctionRaiseAction extends AuctionStateChangeAction {
 	public final static String NAME = "Auction Raise";

@@ -2,7 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class QueryActorAction extends SetWaitStateAction {
 	public final static String NAME = "Query Actor";

@@ -8,7 +8,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class NodeInformation {
 	final static AttributeName AN_LOCATION = new AttributeName ("location");

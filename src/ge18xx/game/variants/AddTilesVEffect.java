@@ -5,7 +5,7 @@ import ge18xx.tiles.TileType;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class AddTilesVEffect extends VariantEffect {
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");

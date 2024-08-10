@@ -8,9 +8,8 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
 import ge18xx.toplevel.TileTrayFrame;
-
-import geUtilities.XMLNode;
 import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 public class TilesTestFactory {
 	GameTestFactory gameTestFactory;

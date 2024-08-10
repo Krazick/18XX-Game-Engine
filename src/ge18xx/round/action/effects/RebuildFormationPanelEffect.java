@@ -5,7 +5,7 @@ import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RebuildFormationPanelEffect extends FormationPanelEffect {
 	public final static String NAME = "Rebuild Formation Panel";

@@ -13,7 +13,7 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class TilePlacementBenefit extends MapBenefit {

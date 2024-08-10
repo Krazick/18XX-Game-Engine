@@ -13,7 +13,7 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class MapBenefit extends Benefit {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");

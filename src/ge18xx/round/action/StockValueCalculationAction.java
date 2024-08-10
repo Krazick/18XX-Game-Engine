@@ -7,7 +7,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RemoveTokenFromMarketCellEffect;
 import ge18xx.round.action.effects.SetParValueEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class StockValueCalculationAction extends FormationPhaseAction {
 	public final static String NAME = "Stock Value Calculation";

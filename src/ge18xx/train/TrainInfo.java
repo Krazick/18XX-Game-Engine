@@ -5,7 +5,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 //
 //  TrainInfo.java

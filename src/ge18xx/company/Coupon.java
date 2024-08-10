@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 import ge18xx.bank.Bank;
 import geUtilities.AttributeName;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class Coupon {
 	public static final AttributeName AN_NAME = new AttributeName ("name");

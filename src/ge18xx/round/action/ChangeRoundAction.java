@@ -3,8 +3,9 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
+import ge18xx.round.action.effects.SetTriggeredAuctionEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ChangeRoundAction extends ChangeStateAction {
 	public final static String NAME = "Change Round";
@@ -36,6 +37,13 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 		tClearSoldCompanyEfect = new ClearSoldCompanyEffect (aActor, aSoldCompanies, aRoundID);
 		addEffect (tClearSoldCompanyEfect);
+	}
+
+	public void addSetTriggeredAuctionEffect (ActorI aActor, boolean tTriggeredAuction) {
+		SetTriggeredAuctionEffect tSetTriggeredAuctionEffect;
+
+		tSetTriggeredAuctionEffect = new SetTriggeredAuctionEffect (aActor, tTriggeredAuction);
+		addEffect (tSetTriggeredAuctionEffect);
 	}
 
 	@Override

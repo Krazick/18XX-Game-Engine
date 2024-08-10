@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class UndoLastAction extends Action {
 	public static final String NAME = "Undo Last";

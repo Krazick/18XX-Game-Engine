@@ -30,14 +30,14 @@ import ge18xx.game.variants.VariantEffect;
 import ge18xx.network.JGameClient;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 import swingTweaks.KButton;
 import geUtilities.ElementName;
 import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
 
 public class GameSet implements LoadableXMLI, ActionListener {
 	public static final ElementName EN_GAMES = new ElementName ("Games");

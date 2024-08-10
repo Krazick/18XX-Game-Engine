@@ -31,8 +31,8 @@ import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class GameInfo implements XMLSaveGameI {
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");

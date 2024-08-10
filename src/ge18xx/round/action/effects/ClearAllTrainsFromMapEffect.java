@@ -7,7 +7,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ClearAllTrainsFromMapEffect extends Effect {
 	public final static String NAME = "Clear All Trains From Map";

@@ -11,7 +11,7 @@ import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PayFullDividendAction extends ChangeMarketCellAction {
 	public final static String NAME = "Pay Full Dividend";

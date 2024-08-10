@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetParValueEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class SetParValueAction extends SetWaitStateAction {
 	public final static String NAME = "Set Par Value";

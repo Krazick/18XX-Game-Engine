@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ReachedDestinationEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ReachedDestinationAction extends CashTransferAction {
 	public final static String NAME = "Reached Destionation";

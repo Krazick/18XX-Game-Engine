@@ -8,7 +8,7 @@ import geUtilities.AttributeName;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PurchasePrivateOffer extends QueryOffer {
 	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");

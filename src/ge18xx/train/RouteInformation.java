@@ -25,8 +25,8 @@ import geUtilities.ElementName;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
-import geUtilities.XMLNodeList;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");

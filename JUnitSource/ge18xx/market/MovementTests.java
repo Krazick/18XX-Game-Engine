@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import geUtilities.ElementName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 @DisplayName ("Movement Class Tests")
 class MovementTests {

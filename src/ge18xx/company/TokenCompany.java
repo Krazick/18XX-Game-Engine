@@ -32,7 +32,7 @@ import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public abstract class TokenCompany extends TrainCompany {
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");

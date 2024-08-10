@@ -6,7 +6,7 @@ import ge18xx.bank.Bank;
 import geUtilities.AttributeName;
 import geUtilities.GUI;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RoundDividends {
 	public static final AttributeName AN_DIVIDENDS = new AttributeName ("dividends");

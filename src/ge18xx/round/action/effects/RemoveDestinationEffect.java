@@ -11,7 +11,7 @@ import ge18xx.round.action.RemoveDestinationsAction;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RemoveDestinationEffect extends ChangeMapEffect {
 	public final static String NAME = "Remove Destination";

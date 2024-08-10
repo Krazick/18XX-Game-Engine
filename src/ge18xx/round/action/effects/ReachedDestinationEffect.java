@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
 import geUtilities.XMLDocument;
 import geUtilities.XMLElement;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class ReachedDestinationEffect extends Effect {
 	public final static String NAME = "Reached Destination";

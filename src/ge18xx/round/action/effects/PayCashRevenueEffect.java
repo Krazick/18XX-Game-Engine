@@ -3,7 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.AttributeName;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PayCashRevenueEffect extends PayCashDividendEffect {
 	public final static String NAME = "Pay Cash Revenue";

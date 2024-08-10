@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.RemoveDestinationEffect;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RemoveDestinationsAction extends ChangeMapAction {
 	public final static String NAME = "Remove Destinations";

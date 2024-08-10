@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PurchaseOfferEffect;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class PurchaseOfferAction extends QueryActorAction {
 	public final static String NAME = "Purchase Offer";

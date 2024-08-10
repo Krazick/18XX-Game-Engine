@@ -35,10 +35,10 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLNode;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");

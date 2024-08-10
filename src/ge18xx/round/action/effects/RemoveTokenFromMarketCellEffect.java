@@ -9,7 +9,7 @@ import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.XMLNode;
+import geUtilities.xml.XMLNode;
 
 public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
 	public final static String NAME = "Remove Token from Market Cell";
