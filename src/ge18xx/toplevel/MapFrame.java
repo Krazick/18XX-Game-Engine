@@ -57,17 +57,16 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
-
+import geUtilities.xml.ElementName;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import swingTweaks.KButton;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private static final long serialVersionUID = 1L;

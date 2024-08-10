@@ -1,10 +1,10 @@
 package ge18xx.train;
 
 import ge18xx.tiles.Gauge;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 //

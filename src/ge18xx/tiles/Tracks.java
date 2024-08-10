@@ -16,8 +16,8 @@ import java.util.List;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class Tracks implements Cloneable {
 	List<Track> segments;

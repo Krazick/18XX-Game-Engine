@@ -31,8 +31,8 @@ import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileType;
 
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class Centers implements Cloneable {

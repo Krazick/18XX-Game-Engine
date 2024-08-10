@@ -27,9 +27,9 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ChangeMarketCellAction;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import swingTweaks.KButton;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {

@@ -5,9 +5,9 @@ import org.w3c.dom.NodeList;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class AddPhaseVEffect extends PhaseInfoVEffect {

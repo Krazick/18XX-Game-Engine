@@ -8,8 +8,8 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLNode;
 
 public class PreparedAction {

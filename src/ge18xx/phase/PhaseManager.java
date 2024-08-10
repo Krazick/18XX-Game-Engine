@@ -12,11 +12,11 @@ import ge18xx.game.XMLSaveGameI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class PhaseManager implements XMLSaveGameI {

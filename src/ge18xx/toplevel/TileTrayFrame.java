@@ -13,10 +13,9 @@ import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
-
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

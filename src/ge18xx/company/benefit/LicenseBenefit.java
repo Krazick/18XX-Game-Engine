@@ -18,9 +18,8 @@ import ge18xx.round.action.BuyLicenseAction;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
-
-import geUtilities.AttributeName;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 

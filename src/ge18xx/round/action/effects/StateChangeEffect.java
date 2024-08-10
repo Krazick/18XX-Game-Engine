@@ -6,9 +6,9 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class StateChangeEffect extends Effect {

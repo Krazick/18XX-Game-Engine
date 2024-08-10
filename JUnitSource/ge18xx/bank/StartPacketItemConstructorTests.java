@@ -24,7 +24,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerTestFactory;
-import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
 
 @DisplayName ("Start Packet Item Constructor Tests")

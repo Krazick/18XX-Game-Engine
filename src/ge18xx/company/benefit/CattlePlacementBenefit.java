@@ -10,8 +10,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
-
-import geUtilities.AttributeName;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 

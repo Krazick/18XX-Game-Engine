@@ -5,9 +5,9 @@ import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class AddBankCashVEffect extends VariantEffect {

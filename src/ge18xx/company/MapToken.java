@@ -2,9 +2,9 @@ package ge18xx.company;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class MapToken extends Token {
 	public final static AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");

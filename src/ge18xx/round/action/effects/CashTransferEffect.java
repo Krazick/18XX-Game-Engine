@@ -6,9 +6,9 @@ import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.AuditFrame;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class CashTransferEffect extends ToEffect {

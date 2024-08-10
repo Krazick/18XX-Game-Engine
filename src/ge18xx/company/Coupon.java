@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
-import geUtilities.AttributeName;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class Coupon {

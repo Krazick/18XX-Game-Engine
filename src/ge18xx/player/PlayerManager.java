@@ -48,13 +48,13 @@ import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

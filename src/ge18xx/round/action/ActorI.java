@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import geUtilities.AttributeName;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 
 public interface ActorI {
 	public static final AttributeName AN_ACTOR_NAME = new AttributeName ("actor");

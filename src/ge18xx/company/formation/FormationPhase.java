@@ -32,6 +32,10 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import ge18xx.round.action.BuyTrainAction;
@@ -40,11 +44,7 @@ import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class FormationPhase extends TriggerClass implements ActionListener, XMLSaveGameI {
 	public static final ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");

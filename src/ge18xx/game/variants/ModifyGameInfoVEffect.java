@@ -2,8 +2,8 @@ package ge18xx.game.variants;
 
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ModifyGameInfoVEffect extends VariantEffect {

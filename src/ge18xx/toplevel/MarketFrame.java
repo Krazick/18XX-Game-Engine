@@ -17,11 +17,11 @@ import ge18xx.game.XMLSaveGameI;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.StockRound;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class MarketFrame extends XMLFrame implements XMLSaveGameI {
 	public static final String BASE_TITLE = "Market";

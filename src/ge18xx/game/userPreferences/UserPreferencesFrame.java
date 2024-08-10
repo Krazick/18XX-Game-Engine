@@ -15,11 +15,11 @@ import javax.swing.JTabbedPane;
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class UserPreferencesFrame extends XMLFrame {
 	public static final ElementName EN_USER_PREFERENCES = new ElementName ("UserPreferences");

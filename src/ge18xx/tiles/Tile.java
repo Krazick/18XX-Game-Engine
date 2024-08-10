@@ -36,12 +36,12 @@ import ge18xx.map.Vertex;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutine3I;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

@@ -29,13 +29,13 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

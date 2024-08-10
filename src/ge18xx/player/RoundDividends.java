@@ -3,9 +3,9 @@ package ge18xx.player;
 import java.util.Arrays;
 
 import ge18xx.bank.Bank;
-import geUtilities.AttributeName;
 import geUtilities.GUI;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RoundDividends {

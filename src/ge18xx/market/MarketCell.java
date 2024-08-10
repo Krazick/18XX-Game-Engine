@@ -27,11 +27,11 @@ import ge18xx.company.TokenStack;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

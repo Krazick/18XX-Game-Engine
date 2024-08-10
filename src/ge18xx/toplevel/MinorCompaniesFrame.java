@@ -14,8 +14,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.MinorCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
-
-import geUtilities.ElementName;
+import geUtilities.xml.ElementName;
 
 public class MinorCompaniesFrame extends CorporationTableFrame {
 	private static final long serialVersionUID = 1L;

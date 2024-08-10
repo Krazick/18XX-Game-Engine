@@ -3,10 +3,10 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

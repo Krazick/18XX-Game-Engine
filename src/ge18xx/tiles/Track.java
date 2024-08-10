@@ -14,10 +14,10 @@ import java.awt.geom.Area;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class Track implements Cloneable {

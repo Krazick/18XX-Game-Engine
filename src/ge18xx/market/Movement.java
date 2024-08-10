@@ -1,17 +1,9 @@
 package ge18xx.market;
 
-//
-//  Movement.java
-//  18XX_JAVA
-//
-//  Created by Mark Smith on 11/3/06.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
-//
-
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 class Movement {

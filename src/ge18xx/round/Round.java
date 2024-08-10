@@ -11,9 +11,9 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public abstract class Round implements ActorI {

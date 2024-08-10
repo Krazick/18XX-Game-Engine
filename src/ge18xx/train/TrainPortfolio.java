@@ -23,14 +23,13 @@ import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.toplevel.MapFrame;
-
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.ParsingRoutineIOO;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

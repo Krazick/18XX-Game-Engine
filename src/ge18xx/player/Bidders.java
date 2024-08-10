@@ -7,10 +7,10 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

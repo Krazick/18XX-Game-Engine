@@ -36,10 +36,10 @@ import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.tiles.Tile;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 

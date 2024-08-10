@@ -16,9 +16,8 @@ import ge18xx.game.GameManager;
 //
 
 import ge18xx.tiles.TileSet;
-
+import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLFrame;
-import geUtilities.XMLDocument;
 
 public class TileDefinitionFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

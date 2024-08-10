@@ -5,9 +5,9 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.FloatCompanyAction;
-import geUtilities.AttributeName;
 import geUtilities.GUI;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class DestinationInfo {

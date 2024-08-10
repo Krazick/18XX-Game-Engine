@@ -9,12 +9,11 @@ import ge18xx.game.XMLSaveGameI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
-
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;

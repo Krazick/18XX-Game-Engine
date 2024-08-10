@@ -15,8 +15,8 @@ import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TilesTestFactory;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 class MapTokenTests {
 	CompanyTestFactory companyTestFactory;

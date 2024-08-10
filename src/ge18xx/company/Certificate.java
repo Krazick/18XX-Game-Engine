@@ -36,13 +36,12 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
-
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import swingTweaks.KButton;

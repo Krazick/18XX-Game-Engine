@@ -6,10 +6,10 @@ import ge18xx.company.MinorCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.round.action.ActorI;
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {

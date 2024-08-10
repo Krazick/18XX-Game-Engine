@@ -2,26 +2,7 @@ package ge18xx.map;
 
 import java.awt.Point;
 
-//
-//  Location.java
-//  Java_18XX
-//
-//  Created by Mark Smith on 11/18/06.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
-//
-
-//  0 -  5 Actual Side of Hexagon
-//  6 - 11 Near Side [NS] (Inside Hexagon)
-// 12 - 17 Near Corner [NC] (Inside Hexagon)
-// 18 - 23 Far (from) Side [FS] (Inside Hexagon)
-// 24 - 29 Far (from) Corner [FCL] (Inside Hexagon)
-// 30 - 35 Far (from) Corner [FCR] (Inside Hexagon)
-// 36 - 39 Near Center [NCNTR] (only 4 locations here)
-// 40 - 45 Adjacent to Side [ADJSIDE] (Inside Hexagon)
-// 50      Center City Clocation
-// 99      Dead End Location
-
-import geUtilities.AttributeName;
+import geUtilities.xml.AttributeName;
 
 public class Location implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");

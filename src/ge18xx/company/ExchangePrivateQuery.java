@@ -3,10 +3,10 @@ package ge18xx.company;
 import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ExchangePrivateQuery extends QueryOffer {

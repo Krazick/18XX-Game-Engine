@@ -39,17 +39,17 @@ import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
 import geUtilities.ParsingRoutineIO;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 //
 //  Player.java

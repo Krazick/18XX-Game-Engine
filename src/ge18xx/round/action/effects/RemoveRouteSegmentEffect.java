@@ -8,9 +8,9 @@ import ge18xx.round.action.ActorI;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainRevenueFrame;
-import geUtilities.AttributeName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RemoveRouteSegmentEffect extends ChangeRouteEffect {

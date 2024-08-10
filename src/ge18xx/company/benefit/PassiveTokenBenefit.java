@@ -9,9 +9,8 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.Action;
 import ge18xx.toplevel.MapFrame;
-
-import geUtilities.AttributeName;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 
 public class PassiveTokenBenefit extends FreeLicenseBenefit {

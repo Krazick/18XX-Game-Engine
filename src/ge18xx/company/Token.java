@@ -2,18 +2,10 @@ package ge18xx.company;
 
 import java.awt.Graphics;
 
-//
-//  Token.java
-//  Game_18XX
-//
-//  Created by Mark Smith on 12/31/07.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
-//
-
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");

@@ -4,10 +4,10 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class PurchasePrivateOffer extends QueryOffer {

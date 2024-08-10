@@ -4,13 +4,13 @@ import java.awt.Point;
 
 import org.apache.logging.log4j.Logger;
 
+import geUtilities.xml.XMLElement;
 //import ge18xx.game.GameInfo;
 //import ge18xx.game.GameSet;
 //import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.XMLFrame;
 import geUtilities.FileUtils;
 import geUtilities.GUI;
-import geUtilities.XMLElement;
 
 public interface NetworkGameSupport {
 	public static final String NO_GAME_ID = "NOID";

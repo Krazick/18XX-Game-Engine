@@ -30,10 +30,9 @@ import ge18xx.player.PortfolioTestFactory;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.train.TrainTestFactory;
-
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
-import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 @DisplayName ("Game Bank Tests")

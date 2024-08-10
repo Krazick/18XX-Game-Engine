@@ -10,11 +10,11 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

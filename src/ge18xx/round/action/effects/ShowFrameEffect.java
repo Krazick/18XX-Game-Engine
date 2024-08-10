@@ -3,12 +3,12 @@ package ge18xx.round.action.effects;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
-import geUtilities.AttributeName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class ShowFrameEffect extends Effect {
 	public static final AttributeName AN_XMLFRAME_TITLE = new AttributeName ("xmlFrameTitle");

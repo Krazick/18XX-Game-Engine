@@ -29,17 +29,16 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.GUI;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
-
 import geUtilities.ParsingRoutine3I;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class Bank extends GameBank implements CashHolderI {
 	public static final AttributeName AN_BANK_CASH = new AttributeName ("cash");

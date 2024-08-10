@@ -11,7 +11,7 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
 
 import geUtilities.GUI;
-import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
 
 public class CompanyTestFactory {

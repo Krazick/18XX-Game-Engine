@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.w3c.dom.NodeList;
 
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLNode;
 
 public class Capitalization {

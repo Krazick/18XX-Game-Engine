@@ -5,13 +5,13 @@ import java.awt.Paint;
 import java.awt.TexturePaint;
 import java.io.IOException;
 
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
 
 public class TileType implements Cloneable, LoadableXMLI {
 	public static final ElementName EN_TILE_TYPE = new ElementName ("TileType");

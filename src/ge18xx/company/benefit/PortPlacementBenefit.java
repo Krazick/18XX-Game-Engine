@@ -14,7 +14,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
-import geUtilities.AttributeName;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 

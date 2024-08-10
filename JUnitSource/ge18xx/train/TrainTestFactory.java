@@ -5,7 +5,7 @@ import org.mockito.Mockito;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameTestFactory;
-import geUtilities.utilites.UtilitiesTestFactory;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
 
 public class TrainTestFactory {

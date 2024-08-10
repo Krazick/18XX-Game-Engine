@@ -18,8 +18,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
-
-import geUtilities.ElementName;
+import geUtilities.xml.ElementName;
 
 public class PrivatesFrame extends CorporationTableFrame {
 	private static final long serialVersionUID = 1L;

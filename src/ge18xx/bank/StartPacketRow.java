@@ -14,11 +14,10 @@ import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
-
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 

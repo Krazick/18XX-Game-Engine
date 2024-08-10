@@ -14,13 +14,13 @@ import java.util.List;
 //
 
 import ge18xx.toplevel.InformationTable;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.LoadableXMLI;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
-import geUtilities.ElementName;
 import geUtilities.ParsingRoutineI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class CityList extends InformationTable implements LoadableXMLI {
 	/**

@@ -11,9 +11,9 @@ import org.w3c.dom.NodeList;
 //
 
 import ge18xx.map.Location;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLNode;
 
 public class Upgrade {

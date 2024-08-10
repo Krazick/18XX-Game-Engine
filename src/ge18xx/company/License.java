@@ -3,11 +3,11 @@ package ge18xx.company;
 import java.util.ArrayList;
 
 import ge18xx.bank.Bank;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class License extends Coupon {

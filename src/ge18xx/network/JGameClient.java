@@ -47,15 +47,15 @@ import ge18xx.game.SavedGames;
 import ge18xx.game.XMLSaveGameI;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
 import geUtilities.xml.GameEngineManager;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
-import geUtilities.AttributeName;
-import geUtilities.ElementName;
 import geUtilities.GUI;
-import geUtilities.XMLDocument;
-import geUtilities.XMLElement;
 
 public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
