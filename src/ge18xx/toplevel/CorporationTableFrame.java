@@ -5,7 +5,6 @@ import javax.swing.JTable;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
@@ -14,6 +13,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 
 public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;

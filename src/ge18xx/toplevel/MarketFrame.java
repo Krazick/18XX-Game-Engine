@@ -13,7 +13,6 @@ import java.awt.BorderLayout;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.game.GameManager;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.StockRound;
@@ -22,6 +21,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 
 public class MarketFrame extends XMLFrame implements XMLSaveGameI {
 	public static final String BASE_TITLE = "Market";

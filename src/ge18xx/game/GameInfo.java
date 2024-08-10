@@ -33,6 +33,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import geUtilities.xml.XMLSaveGameI;
 
 public class GameInfo implements XMLSaveGameI {
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");

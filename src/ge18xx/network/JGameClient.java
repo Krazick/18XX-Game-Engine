@@ -44,7 +44,6 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.SavedGames;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.AttributeName;
@@ -54,6 +53,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 

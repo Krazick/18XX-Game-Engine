@@ -8,7 +8,6 @@ import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
@@ -18,6 +17,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 
 public class PhaseManager implements XMLSaveGameI {
 	public static final PhaseManager NO_PHASE_MANAGER = null;

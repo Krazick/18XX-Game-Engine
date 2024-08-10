@@ -25,7 +25,6 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
 import ge18xx.round.OperatingRound;
@@ -57,6 +56,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import geUtilities.xml.XMLSaveGameI;
 
 public class PlayerManager implements XMLSaveGameI {
 	public static final String NO_PLAYER_NAME = null;

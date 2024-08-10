@@ -14,7 +14,6 @@ import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -29,6 +28,7 @@ import geUtilities.MessageBean;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 
 public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGameI {
 	protected GameManager gameManager;

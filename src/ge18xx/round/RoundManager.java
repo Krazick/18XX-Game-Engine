@@ -23,7 +23,6 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
-import ge18xx.game.XMLSaveGameI;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.phase.PhaseInfo;
@@ -51,6 +50,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import geUtilities.xml.XMLSaveGameI;
 import geUtilities.ParsingRoutine2I;
 
 public class RoundManager implements ActionListener, XMLSaveGameI {
