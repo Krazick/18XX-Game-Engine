@@ -85,6 +85,8 @@ import geUtilities.FrameInfoSupport;
 import geUtilities.GUI;
 import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
+import geUtilities.utilites.Checksum;
+import geUtilities.utilites.Checksums;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.GameEngineManager;
@@ -137,6 +139,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	Logger logger;
 	FileUtils fileUtils;
 	FileGEFilter fileGEFilter;
+	Checksums checksums;
 
 	// 18XX Game Specific Objects
 	GameInfo activeGame;
@@ -1957,6 +1960,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return game18XXFrame.getGEVersion ();
 	}
 
+	public Checksums getChecksums () {
+		return checksums;
+	}
+	
 	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, XMLElement aSaveGameElement, 
 							ElementName aEN_TYPE) {
 		XMLElement tXMLElement;
@@ -1980,6 +1987,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		if (isNetworkGame ()) {
 			addElements (networkJGameClient, tXMLDocument, tSaveGameElement, JGameClient.EN_NETWORK_GAME);
+			if (checksums == Checksums.NO_CHECKSUMS) {
+				checksums = new Checksums ();
+			}
 		}
 
 		/* Save the Basic Game Information */
@@ -2025,7 +2035,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
-		System.out.println ("Document Checksum [" + tXMLDocument.MD5 () + "]");
+		addChecksum (EN_GAME, tXMLDocument.MD5 ());
+		checksums.printChecksums ();
 		
 		tXMLDocument.outputXML (saveFile);
 
@@ -2033,6 +2044,22 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		outputToFile (tFullActionReport, autoSaveActionReportFile);
 	}
 
+	public void addChecksum (ElementName aEN_Name, String aChecksumValue) {
+		Checksum tChecksum;
+		String tGameID;
+		String tClientName;
+		String tNodeName;
+		int tActionNumber;
+		
+		tGameID = getGameID ();
+		tClientName = getClientUserName ();
+		tNodeName = aEN_Name.getString ();
+		tActionNumber = roundManager.getLastActionNumber ();
+		
+		tChecksum = new Checksum (tGameID, tClientName, tNodeName, aChecksumValue, tActionNumber);
+		checksums.add (tChecksum);
+	}
+	
 	/* Update to use the method in the File Utils */
 	public void outputToFile (String aReport, File aFile) {
 		FileWriter tFWout;
