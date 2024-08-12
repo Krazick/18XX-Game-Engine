@@ -81,7 +81,8 @@ public abstract class ServerHandler implements Runnable {
 		setContinueRunning (tContinueRunning);
 	}
 
-	boolean establishSocketConnection () throws UnknownHostException, IOException, SocketException, ConnectException {
+	boolean establishSocketConnection () throws UnknownHostException, IOException, 
+							SocketException, ConnectException {
 		InetAddress tIPAddress;
 		boolean tGoodConnection;
 
