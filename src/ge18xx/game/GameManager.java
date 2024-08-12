@@ -2035,8 +2035,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
-		addChecksum (EN_GAME, tXMLDocument);
-		checksums.printChecksums ();
+		if (isNetworkGame ()) {
+			addChecksum (EN_GAME, tXMLDocument);
+			checksums.printChecksums ();
+		}
 		
 		tXMLDocument.outputXML (saveFile);
 
@@ -2052,6 +2054,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tClientName;
 		String tNodeName;
 		String tXMLChecksum;
+//		String tGameSupportResponse;
 		int tActionNumber;
 		int tPlayerIndex;
 		int tPlayerCount;
@@ -2061,7 +2064,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tClientName = getClientUserName ();
 		tNodeName = aEN_Name.getString ();
 		tActionNumber = roundManager.getLastActionNumber ();
-//		tPlayerIndex = playerManager.getCurrentPlayerIndex ();
 		tPlayerIndex = playerManager.getPlayerIndex (clientUserName);
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionNumber);
@@ -2069,7 +2071,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		checksums.add (tChecksum);
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
+		
+//		tGameSupportResponse = requestGameSupport (tXMLChecksum);
 		System.out.println (tXMLChecksum);
+//		System.out.println ("Game Support Response [" + tGameSupportResponse + "]");
 	}
 	
 	/* Update to use the method in the File Utils */
