@@ -520,6 +520,34 @@ public class PlayerManager implements XMLSaveGameI {
 		return tXMLElement;
 	}
 
+	public int getCurrentPlayerIndex () {
+		int tPlayerIndex;
+		Player tCurrentPlayer;
+		
+		tCurrentPlayer = getCurrentPlayer ();
+		tPlayerIndex = getPlayerIndex (tCurrentPlayer);
+		
+		return tPlayerIndex;
+	}
+	
+	public int getPlayerIndex (String aPlayerName) {
+		int tPlayerIndex;
+		int tPlayerCount;
+		int tFoundPlayerIndex;
+		Player tThisPlayer;
+
+		tPlayerCount = getPlayerCount ();
+		tFoundPlayerIndex = NO_PLAYER_INDEX;
+		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+			tThisPlayer = getPlayer (tPlayerIndex);
+			if (aPlayerName.equals (tThisPlayer.getName ())) {
+				tFoundPlayerIndex = tPlayerIndex;
+			}
+		}
+
+		return tFoundPlayerIndex;
+	}
+	
 	public int getPlayerIndex (Player aPlayer) {
 		int tPlayerIndex;
 		int tPlayerCount;
