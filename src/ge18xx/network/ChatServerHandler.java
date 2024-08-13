@@ -36,10 +36,12 @@ public class ChatServerHandler extends ServerHandler {
 
 	@Override
 	public void handleServerCommands (String aCommand) {
-		String tMessage = aCommand.substring (1, aCommand.length () - 1);
-		String tName, tShortened;
+		String tMessage;
+		String tName;
+		String tShortened;
 		boolean tAddToChat;
 
+		tMessage = aCommand.substring (1, aCommand.length () - 1);
 		logger.info ("Handling Server Commands [" + aCommand + "]");
 		if (tMessage.startsWith ("Server: ")) {
 			tShortened = tMessage.substring (8);
