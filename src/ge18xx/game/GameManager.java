@@ -79,14 +79,14 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
+import geUtilities.Checksum;
+import geUtilities.Checksums;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
 import geUtilities.FrameInfoSupport;
 import geUtilities.GUI;
 import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
-import geUtilities.utilites.Checksum;
-import geUtilities.utilites.Checksums;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.GameEngineManager;
@@ -2037,7 +2037,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLDocument.appendChild (tSaveGameElement);
 		if (isNetworkGame ()) {
 			addChecksum (EN_GAME, tXMLDocument);
-			checksums.printChecksums ();
+//			checksums.printChecksums ();
 		}
 		
 		tXMLDocument.outputXML (saveFile);
@@ -2049,6 +2049,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
 		Checksum tChecksum;
 		XMLElement tChecksumXMLElement;
+		ActionManager tActionManager;
 		String tChecksumValue;
 		String tGameID;
 		String tClientName;
@@ -2072,9 +2073,51 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
 		
-//		tGameSupportResponse = requestGameSupport (tXMLChecksum);
-		System.out.println (tXMLChecksum);
-//		System.out.println ("Game Support Response [" + tGameSupportResponse + "]");
+//		System.out.println (tXMLChecksum);
+		tActionManager = roundManager.getActionManager ();
+		tActionManager.sendGameActivity (tXMLChecksum, true);
+	}
+	
+	public void addAdditionalChecksum (XMLNode aChecksumNode) {
+		int tActionNumber;
+		int tPlayerIndex;
+		int tChecksumIndex;
+		String tChecksumValue;
+		String tGameID;
+		String tClientName;
+		String tNodeName;
+		Checksum tChecksum;
+		
+		
+		// <Checksum actionNumber="105" checksum="94e731e3c1c8a99e1b1986704add0878" clientName="David" gameID="2024-08-13-0841" nodeName="Game" playerIndex="2"/>
+		System.out.print ("Identified " + aChecksumNode.getXMLElement ().toXMLString ());
+		tActionNumber = aChecksumNode.getThisIntAttribute (Action.AN_NUMBER);
+		tPlayerIndex = aChecksumNode.getThisIntAttribute (Checksum.AN_PLAYER_INDEX);
+		tChecksumValue = aChecksumNode.getThisAttribute (Checksum.AN_CHECKSUM);
+		tGameID = aChecksumNode.getThisAttribute (Checksum.AN_GAME_ID);
+		tClientName = aChecksumNode.getThisAttribute (Checksum.AN_CLIENT_NAME);
+		tNodeName = aChecksumNode.getThisAttribute (Checksum.AN_NODE_NAME);
+		
+		tChecksumIndex = checksums.findIndexFor (tActionNumber);
+		tChecksum = checksums.get (tChecksumIndex);
+		if (tGameID.equals (tChecksum.getGameID ())) {
+			if (tActionNumber == tChecksum.getActionNumber ()) {
+				if (tNodeName.equals (tChecksum.getNodeName ())) {
+					if (tClientName.equals (tChecksum.getClientName ())) {
+						System.err.println ("Client Name " + tNodeName + " does match");
+					} else {
+						tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+					}
+				} else {
+					System.err.println ("Node Name " + tNodeName + " does not match");
+				}
+			} else {
+				System.err.println ("Action Number " + tActionNumber + " does not match");
+			}
+		} else {
+			System.err.println ("Game ID " + tGameID + " does not match");
+		}
+		System.out.println (checksums.getDetailAllChecksums ());
 	}
 	
 	/* Update to use the method in the File Utils */
@@ -2680,11 +2723,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void handleGameActivity (String aGameActivity) {
 		XMLDocument tXMLGameActivity;
 		XMLNode tXMLGameActivityNode;
-		XMLNode tActionNode;
-		NodeList tActionChildren;
-		int tActionNodeCount;
-		int tActionIndex;
-		String tActionNodeName;
+		XMLNode tActivityNode;
+		NodeList tActivityChildren;
+		int tActivityNodeCount;
+		int tActivityIndex;
+		String tActivityNodeName;
 		String tGANodeName;
 		String tBroadcast;
 		String tPlayerOrder;
@@ -2694,26 +2737,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLGameActivityNode = tXMLGameActivity.getDocumentNode ();
 		tGANodeName = tXMLGameActivityNode.getNodeName ();
 		if (JGameClient.EN_GAME_ACTIVITY.equals (tGANodeName)) {
-			tActionChildren = tXMLGameActivityNode.getChildNodes ();
-			tActionNodeCount = tActionChildren.getLength ();
+			tActivityChildren = tXMLGameActivityNode.getChildNodes ();
+			tActivityNodeCount = tActivityChildren.getLength ();
 			try {
-				for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
-					tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
-					tActionNodeName = tActionNode.getNodeName ();
-					if (Action.EN_ACTION.equals (tActionNodeName)) {
-						sendNetworkAction (tActionNode);
-					} else if (JGameClient.EN_GAME_SELECTION.equals (tActionNodeName)) {
-						networkJGameClient.handleGameSelection (tActionNode, playerInputFrame);
-					} else if (JGameClient.EN_PLAYER_ORDER.equals (tActionNodeName)) {
-						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
-						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
+				for (tActivityIndex = 0; tActivityIndex < tActivityNodeCount; tActivityIndex++) {
+					tActivityNode = new XMLNode (tActivityChildren.item (tActivityIndex));
+					tActivityNodeName = tActivityNode.getNodeName ();
+					if (Action.EN_ACTION.equals (tActivityNodeName)) {
+						sendNetworkAction (tActivityNode);
+					} else if (Checksum.EN_CHECKSUM.equals (tActivityNodeName)) {
+						addAdditionalChecksum (tActivityNode);
+					} else if (JGameClient.EN_GAME_SELECTION.equals (tActivityNodeName)) {
+						networkJGameClient.handleGameSelection (tActivityNode, playerInputFrame);
+					} else if (JGameClient.EN_PLAYER_ORDER.equals (tActivityNodeName)) {
+						tPlayerOrder = tActivityNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
+						tBroadcast = tActivityNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
-					} else if (ActionManager.EN_REMOVE_ACTION.equals (tActionNodeName)) {
+					} else if (ActionManager.EN_REMOVE_ACTION.equals (tActivityNodeName)) {
 						// RemoveAction should be ignored
-					} else if (XMLNode.XML_TEXT_TAG.equals (tActionNodeName)) {
+					} else if (XMLNode.XML_TEXT_TAG.equals (tActivityNodeName)) {
 						// If a #text Node, ignore -- it is empty
 					} else {
-						logger.error ("Node Name is [" + tActionNodeName + "] which is Unrecognized");
+						logger.error ("Node Name is [" + tActivityNodeName + "] which is Unrecognized");
 					}
 				}
 			} catch (Exception tException) {
