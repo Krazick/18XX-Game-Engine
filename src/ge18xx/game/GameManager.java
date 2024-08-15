@@ -66,6 +66,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
+import ge18xx.toplevel.ChecksumAuditFrame;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
@@ -165,14 +166,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	UserPreferencesFrame userPreferencesFrame;
 	
 	AuctionFrame auctionFrame;
+	AuditFrame auditFrame;
+	ChecksumAuditFrame checksumAuditFrame;
+	CitiesFrame citiesFrame;
+	FrameInfoSupport frameInfoFrame;
 	MapFrame mapFrame;
 	MarketFrame marketFrame;
-	CitiesFrame citiesFrame;
-	TileTrayFrame tileTrayFrame;
-	AuditFrame auditFrame;
-	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
-	FrameInfoSupport frameInfoFrame;
+	TileDefinitionFrame tileDefinitionFrame;
+	TileTrayFrame tileTrayFrame;
 
 	// Other Frames include:
 		// RoundFrame 				-- held by RoundManager
@@ -474,6 +476,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tFullTitle = createFrameTitle ("Audit");
 			tAuditFrame = new AuditFrame (tFullTitle, this);
 			setAuditFrame (tAuditFrame);
+		}
+	}
+	
+	private void createChecksumAuditFrame () {
+		ChecksumAuditFrame tChecksumAuditFrame;
+		String tFullTitle;
+
+		if (gameIsStarted ()) {
+			tFullTitle = createFrameTitle ("Checksum Audit");
+			tChecksumAuditFrame = new ChecksumAuditFrame (tFullTitle, this);
+			setChecksumAuditFrame (tChecksumAuditFrame);
 		}
 	}
 
@@ -1149,6 +1162,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return auditFrame;
 	}
 
+	public ChecksumAuditFrame getChecksumAuditFrame () {
+		return checksumAuditFrame;
+	}
+	
 	public MapFrame getMapFrame () {
 		return mapFrame;
 	}
@@ -1420,6 +1437,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			
 			gameStarted = true;
 			createAuditFrame ();
+			createChecksumAuditFrame ();
 			applyConfigSettings ();
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
@@ -2275,6 +2293,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addNewFrame (aXMLFrame);
 	}
 
+	private void setChecksumAuditFrame (XMLFrame aXMLFrame) {
+		checksumAuditFrame = (ChecksumAuditFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
 	private void setUserPreferencesFrame (XMLFrame aXMLFrame) {
 		userPreferencesFrame = (UserPreferencesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -3183,6 +3206,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		auditFrame.refreshAuditTable (true);
 		auditFrame.setVisible (true);
 	}
+	
+	public void showChecksumAuditFrame () {
+		checksumAuditFrame.refreshAuditTable ();
+		checksumAuditFrame.setVisible (true);
+	}
 
 	public boolean triggerPanelExists () {
 		boolean tTriggerPanelExists;
@@ -3240,6 +3268,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return formationPhase;
 	}
 	
+	public void fillChecksumAuditFrame () {
+		int tChecksumIndex;
+		int tChecksumCount;
+		Checksum tChecksum;
+		
+		if (checksums != null) { 
+			tChecksumCount = checksums.size ();
+			for (tChecksumIndex = 0; tChecksumIndex < tChecksumCount; tChecksumIndex++) {
+				tChecksum = checksums.get (tChecksumIndex);
+				checksumAuditFrame.addRow (tChecksum);
+			}
+		}
+	}
+
 	public void fillAuditFrame (String aActorName) {
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}

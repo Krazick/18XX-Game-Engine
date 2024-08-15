@@ -270,6 +270,22 @@ public class ActionManager {
 		return tAction;
 	}
 
+	public Action getActionWithNumber (int aActionNumber) {
+		Action tAction;
+		int tActionCount;
+		int tActionIndex;
+		
+		tActionCount = getActionCount ();
+		for (tActionIndex = 0; tActionIndex < tActionCount; tActionIndex++) {
+			tAction = getActionAt (tActionIndex);
+			if (tAction.getNumber () == aActionNumber) {
+				return tAction;
+			}
+		}
+		
+		return Action.NO_ACTION;
+	}
+	
 	public int getActionCount () {
 		return actions.size ();
 	}

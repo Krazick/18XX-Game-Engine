@@ -100,6 +100,7 @@ public class Game_18XX extends XMLFrame {
 	protected Action showRoundFrameAction;
 	protected Action showShareCompaniesAction;
 	protected Action showAuditFrameAction;
+	protected Action showChecksumAuditFrameAction;
 	protected Action showFormationPhaseFrameAction;
 	protected Action resendLastActions;
 	
@@ -585,6 +586,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showChecksumAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showFormationPhaseFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
@@ -630,6 +632,8 @@ public class Game_18XX extends XMLFrame {
 		showChatClientAction = new showChatClientActionClass (resourceBundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resourceBundle.getString ("showRoundFrameItem"), null);
 		showAuditFrameAction = new showAuditFrameActionClass (resourceBundle.getString ("showAuditFrameItem"), null);
+		showChecksumAuditFrameAction = 
+				new showChecksumAuditFrameActionClass (resourceBundle.getString ("showChecksumAuditFrameItem"), null);
 		showFormationPhaseFrameAction = new showFormationPhaseFrameActionClass (
 				resourceBundle.getString ("showFormationPhaseFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (
@@ -1021,6 +1025,20 @@ public class Game_18XX extends XMLFrame {
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showAuditFrame ();
+		}
+	}
+
+	public class showChecksumAuditFrameActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public showChecksumAuditFrameActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+
+		@Override
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showChecksumAuditFrame ();
 		}
 	}
 

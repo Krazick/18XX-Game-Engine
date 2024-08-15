@@ -34,17 +34,13 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public static final int NO_CREDIT = 0;
 	public static final int NO_DEBIT = 0;
 	private String REFRESH_LIST = "REFRESH LIST";
-	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
 	private String BANK_PREFIX = "Bank";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
 	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
 	JTable auditTable;
-	JComboBox<String> companyCombo;
-	JComboBox<String> playerCombo;
 	JComboBox<String> actorsCombo;
 	KButton refreshList;
-	KButton lineGraph;
 	ActorI.ActorTypes actorType;
 	CorporationList companies;
 	int actorBalance;
@@ -81,8 +77,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private JPanel buildNorthComponents () {
 		JPanel tNorthComponents = new JPanel ();
 
-		companyCombo = new JComboBox<> ();
-		playerCombo = new JComboBox<> ();
 		actorsCombo = new JComboBox<> ();
 		tNorthComponents.add (actorsCombo);
 		updateActorsComboBox ();
@@ -91,12 +85,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		refreshList.setActionCommand (REFRESH_LIST);
 		refreshList.addActionListener (this);
 		tNorthComponents.add (refreshList);
-
-		lineGraph = new KButton ("Draw Line Graph");
-		lineGraph.setActionCommand (DRAW_LINE_GRAPH);
-		lineGraph.addActionListener (this);
-		tNorthComponents.add (lineGraph);
-		lineGraph.setVisible (false);
 
 		return tNorthComponents;
 	}
@@ -240,16 +228,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		return tIsPlayer;
 	}
 
-	public boolean setSelectedPlayer () {
-		String tPlayerName;
-		boolean tPlayer;
-
-		tPlayerName = (String) playerCombo.getSelectedItem ();
-		tPlayer = setSelectedPlayer (tPlayerName);
-
-		return tPlayer;
-	}
-
 	private boolean setSelectedPlayer (String aPlayerName) {
 		boolean tPlayer = true;
 
@@ -310,13 +288,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		setActorBalance (aStartingCash);
 	}
 
-	public void setSelectedShareCompany () {
-		String tCompanyAbbrev;
-
-		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		setSelectedShareCompany (tCompanyAbbrev);
-	}
-
 	private void setSelectedShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;
 
@@ -325,22 +296,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		setActorAbbrev (tShareCompany.getAbbrev ());
 		setActorType (ActorI.ActorTypes.ShareCompany);
 		setActorBalance (0);
-	}
-
-	public boolean isPlayerInComboBox (String aPlayerName) {
-		boolean tPlayerInComboBox = false;
-		int tCount, tIndex;
-		String tPlayerFound;
-
-		tCount = playerCombo.getItemCount ();
-		for (tIndex = 0; tIndex < tCount; tIndex++) {
-			tPlayerFound = playerCombo.getItemAt (tIndex);
-			if (tPlayerFound.equals (aPlayerName)) {
-				tPlayerInComboBox = true;
-			}
-		}
-
-		return tPlayerInComboBox;
 	}
 
 	public void updateActorsComboBox () {
@@ -445,10 +400,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		tThisComboBox = source;
 		if (tThisComboBox.equals (actorsCombo)) {
 			tPlayer = setSelectedActor ();
-		} else if (tThisComboBox.equals (companyCombo)) {
-			setSelectedShareCompany ();
-		} else if (tThisComboBox.equals (playerCombo)) {
-			tPlayer = setSelectedPlayer ();
 		}
 
 		refreshAuditTable (tPlayer);
