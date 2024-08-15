@@ -2037,7 +2037,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLDocument.appendChild (tSaveGameElement);
 		if (isNetworkGame ()) {
 			addChecksum (EN_GAME, tXMLDocument);
-//			checksums.printChecksums ();
+			System.out.println ("Checksum: " + checksums.getDetailAllChecksums ());
 		}
 		
 		tXMLDocument.outputXML (saveFile);
