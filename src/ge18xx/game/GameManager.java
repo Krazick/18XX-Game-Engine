@@ -2037,7 +2037,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLDocument.appendChild (tSaveGameElement);
 		if (isNetworkGame ()) {
 			addChecksum (EN_GAME, tXMLDocument);
-			System.out.println ("Checksum: " + checksums.getDetailAllChecksums ());
 		}
 		
 		tXMLDocument.outputXML (saveFile);
@@ -2055,7 +2054,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tClientName;
 		String tNodeName;
 		String tXMLChecksum;
-//		String tGameSupportResponse;
 		int tActionNumber;
 		int tPlayerIndex;
 		int tPlayerCount;
@@ -2073,7 +2071,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
 		
-//		System.out.println (tXMLChecksum);
 		tActionManager = roundManager.getActionManager ();
 		tActionManager.sendGameActivity (tXMLChecksum, true);
 	}
@@ -2088,10 +2085,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tNodeName;
 		Checksum tChecksum;
 		
-		
-		// <Checksum actionNumber="105" checksum="94e731e3c1c8a99e1b1986704add0878" clientName="David" gameID="2024-08-13-0841" nodeName="Game" playerIndex="2"/>
-		System.out.print ("Identified " + aChecksumNode.getXMLElement ().toXMLString ());
-		tActionNumber = aChecksumNode.getThisIntAttribute (Action.AN_NUMBER);
+		tActionNumber = aChecksumNode.getThisIntAttribute (Checksum.AN_ACTION_NUMBER);
 		tPlayerIndex = aChecksumNode.getThisIntAttribute (Checksum.AN_PLAYER_INDEX);
 		tChecksumValue = aChecksumNode.getThisAttribute (Checksum.AN_CHECKSUM);
 		tGameID = aChecksumNode.getThisAttribute (Checksum.AN_GAME_ID);
@@ -2100,24 +2094,27 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tChecksumIndex = checksums.findIndexFor (tActionNumber);
 		tChecksum = checksums.get (tChecksumIndex);
-		if (tGameID.equals (tChecksum.getGameID ())) {
-			if (tActionNumber == tChecksum.getActionNumber ()) {
-				if (tNodeName.equals (tChecksum.getNodeName ())) {
-					if (tClientName.equals (tChecksum.getClientName ())) {
-						System.err.println ("Client Name " + tNodeName + " does match");
+		if (tChecksum != Checksum.NO_CHECKSUM) {
+			if (tGameID.equals (tChecksum.getGameID ())) {
+				if (tActionNumber == tChecksum.getActionNumber ()) {
+					if (tNodeName.equals (tChecksum.getNodeName ())) {
+						if (tClientName.equals (tChecksum.getClientName ())) {
+							System.err.println ("Client Name " + tNodeName + " does match");
+						} else {
+							tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+						}
 					} else {
-						tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+						System.err.println ("Node Name " + tNodeName + " does not match");
 					}
 				} else {
-					System.err.println ("Node Name " + tNodeName + " does not match");
+					System.err.println ("Action Number " + tActionNumber + " does not match");
 				}
 			} else {
-				System.err.println ("Action Number " + tActionNumber + " does not match");
+				System.err.println ("Game ID " + tGameID + " does not match");
 			}
 		} else {
-			System.err.println ("Game ID " + tGameID + " does not match");
+			System.err.println ("Could not find Checksum with Action Number" + tActionNumber);			
 		}
-		System.out.println (checksums.getDetailAllChecksums ());
 	}
 	
 	/* Update to use the method in the File Utils */
