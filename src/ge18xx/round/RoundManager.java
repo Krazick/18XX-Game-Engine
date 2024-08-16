@@ -1329,6 +1329,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tCurrentPlayer.doneAction ();
 	}
 
+	public int getLastActionIndex () {
+		return actionManager.getLastActionIndex ();
+	}
+
 	public int getLastActionNumber () {
 		return actionManager.getLastActionNumber ();
 	}
