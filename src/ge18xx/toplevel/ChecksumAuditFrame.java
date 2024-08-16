@@ -9,7 +9,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-//import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -29,6 +28,8 @@ import geUtilities.Checksum;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 
+// TODO:  Move this to the GE Utilities external Package.
+
 public class ChecksumAuditFrame extends XMLFrame implements ItemListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	public ChecksumAuditFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
 		
+		JPanel tNorthComponents;
 		int tTotalWidth;
 		int tColumnCount;		
 		int [] tColumnWidths;
@@ -52,11 +54,9 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tColumnWidths = buildColumnWidths (tColumnCount);
 		tTotalWidth = getTotalWidth (tColumnWidths);
 		
-		// Header Line:   Game ID   Client Name
 		buildAuditTable (tColumnNames, tColumnWidths, tTotalWidth);
 
-		// Test Components
-		JPanel tNorthComponents = buildNorthComponents ();
+		tNorthComponents = buildNorthComponents ();
 
 		add (tNorthComponents, BorderLayout.NORTH);
 	}
@@ -78,7 +78,6 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	public int [] buildColumnWidths (int aColumnCount) {
 		int [] tColumnWidths;
 		int tColumnIndex;
-		// = { 50, 50, 110, 1000, 50, 50, 70 };
 
 		tColumnWidths = new int [aColumnCount];
 		tColumnWidths [0] = 50;
@@ -117,15 +116,19 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	}
 	
 	/**
-	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) 
+	 * with the static BASE_TITLE provided
 	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
 
 	private JPanel buildNorthComponents () {
-		JPanel tNorthComponents = new JPanel ();
-
+		JPanel tNorthComponents;
+		
+		tNorthComponents = new JPanel ();
+		
+		// TODO: Add components 'Game Name' 'Game ID', 'Client Name'
 		refreshList = new KButton ("Refresh List");
 		refreshList.setActionCommand (REFRESH_LIST);
 		refreshList.addActionListener (this);
@@ -156,7 +159,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
 			setHeaderColumnAlign (tIndex, tHeaderColor, SwingConstants.CENTER);
 			tColumnModel.getColumn (tIndex).setMaxWidth (aColWidths [tIndex]);
-			if (tIndex > 3) {
+			if (tIndex != 3) {
 				setCellColumnAlign (tIndex, tCellColor, SwingConstants.CENTER);
 			}
 		}
@@ -182,15 +185,12 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tHeaderRenderer = new DefaultTableCellRenderer ();
 		tHeaderRenderer.setHorizontalAlignment (aAlignment);
 		tHeaderRenderer.setBackground (aHeaderColor);
-		tBorder = BorderFactory.createLineBorder (Color.black, 1);
+		tBorder = BorderFactory.createLineBorder (Color.black, 3);
 		tHeaderRenderer.setBorder (tBorder);
-		checksumAuditTable.getColumnModel ().
-			getColumn (aColumnIndex).
+		checksumAuditTable.getColumnModel ().getColumn (aColumnIndex).
 			setHeaderRenderer ((TableCellRenderer) tHeaderRenderer);
 	}
 
-//	public void addRow (int aActionNumber, String aNodeName, int aEffectCount, String aActionReport, 
-//				String [] aChecksums) {
 	public void addRow (Checksum aChecksum) {
 		GameManager tGameManager;
 		ActionManager tActionManager;
@@ -202,13 +202,15 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		int tItemCount;
 		int tItemIndex;
 		int tActionNumber;
+		int tActionIndex;
 		int tEffectCount;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tRoundManager = tGameManager.getRoundManager ();
 		tActionManager = tRoundManager.getActionManager ();
-		tActionNumber = aChecksum.getActionNumber ();
-		tAction = tActionManager.getActionWithNumber (tActionNumber);
+		tActionIndex = aChecksum.getActionIndex ();
+		tAction = tActionManager.getActionAt (tActionIndex);
+		tActionNumber = tAction.getNumber ();
 		tChecksums = aChecksum.getChecksums ();
 		tEffectCount = tAction.getEffectCount ();
 		tActionReport = tAction.getSimpleActionReport ();
@@ -226,7 +228,8 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	}
 
 	public void removeAllRows () {
-		int tRowCount, tRowIndex;
+		int tRowCount;
+		int tRowIndex;
 
 		tRowCount = checksumAuditModel.getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
