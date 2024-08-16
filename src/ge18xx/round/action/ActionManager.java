@@ -69,7 +69,7 @@ public class ActionManager {
 	public int getActionNumber () {
 		return actionNumber;
 	}
-
+	
 	public int getLastActionNumber () {
 		int tLastActionNumber;
 		Action tLastAction;
@@ -305,6 +305,10 @@ public class ActionManager {
 		}
 
 		return tAction;
+	}
+
+	public int getLastActionIndex () {
+		return getLastActionIndex (PREVIOUS_ACTION);
 	}
 
 	public int getLastActionIndex (int aActionOffset) {
