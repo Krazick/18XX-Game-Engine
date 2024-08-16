@@ -27,7 +27,7 @@ public class StartAuctionAction extends Action {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
 
-		tSimpleActionReport = actor.getName () + " started Auction Action.";
+		tSimpleActionReport = actor.getName () + " start Auction Round Action.";
 
 		return tSimpleActionReport;
 	}
