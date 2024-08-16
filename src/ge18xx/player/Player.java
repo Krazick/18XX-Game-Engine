@@ -38,6 +38,7 @@ import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
+import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.WinAuctionAction;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -1411,7 +1412,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		ChangeRoundAction tChangeRoundAction;
+		StartAuctionAction tStartAuctionAction;
 		RoundManager tRoundManager;
 		Round tCurrentRound;
 		ActorI.ActionStates tRoundType;
@@ -1425,10 +1426,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tTriggeredAuction = true;
 		
 		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
-		tChangeRoundAction = new ChangeRoundAction (tRoundType, tRoundID, tCurrentRound);
-		tChangeRoundAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
-		tChangeRoundAction.setChainToPrevious (true);
-		playerManager.addAction (tChangeRoundAction);
+		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
+		tStartAuctionAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
+		tStartAuctionAction.setChainToPrevious (true);
+		playerManager.addAction (tStartAuctionAction);
 		
 		playerManager.startAuctionRound (aCreateNewAuctionAction);
 
