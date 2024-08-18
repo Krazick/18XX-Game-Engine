@@ -26,7 +26,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 
 import checksum.CellColorRenderer;
-import geUtilities.Checksum;
+import checksum.Checksum;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 

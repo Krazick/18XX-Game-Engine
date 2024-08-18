@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
+import checksum.Checksum;
+import checksum.Checksums;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
@@ -80,8 +82,6 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
-import geUtilities.Checksum;
-import geUtilities.Checksums;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
 import geUtilities.FrameInfoSupport;
