@@ -20,6 +20,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/log4j/apache-log4j-2.18.0-bin"/>
-	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/geUtilities.jar"/>
+	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/geUtilities.jar" sourcepath="/Game Engine Utilities/src/checksum"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

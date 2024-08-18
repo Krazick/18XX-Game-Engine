@@ -2086,6 +2086,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
 		checksums.add (tChecksum);
+		checksumAuditFrame.addRow (tChecksum);
+
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
 		
