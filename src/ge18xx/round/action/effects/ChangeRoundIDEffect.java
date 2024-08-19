@@ -85,7 +85,6 @@ public class ChangeRoundIDEffect extends Effect {
 		Round tRound;
 
 		tEffectApplied = false;
-		System.err.println ("Apply " + name + " of " + newRoundID + " to " + actor.getName ());
 		tRound = aRoundManager.getRoundByTypeName (actor.getName ());
 		if (tRound == Round.NO_ROUND) {
 			System.err.println ("Actor " + actor.getName () + " is not a recognized Round Instance");
@@ -106,7 +105,6 @@ public class ChangeRoundIDEffect extends Effect {
 		Round tRound;
 
 		tEffectUndone = false;
-		System.err.println ("Undo " + name + " of " + oldRoundID + " from " + actor.getName ());
 		tRound = aRoundManager.getRoundByTypeName (actor.getName ());
 		if (tRound == Round.NO_ROUND) {
 			System.out.println ("Actor " + actor.getName () + " is not a recognized Round Instance");

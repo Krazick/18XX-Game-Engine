@@ -44,7 +44,7 @@ public class UndoLastAction extends Action {
 		boolean tActionUndone;
 
 		tActionUndone = true;
-		System.out.println ("Performing Undo Action for UndoAction Action");
+		System.out.println ("Performing " + NAME + " Action");
 
 		return tActionUndone;
 	}
