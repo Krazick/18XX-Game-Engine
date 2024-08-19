@@ -533,19 +533,21 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		KButton tThisButton;
 
 		tActingBidderIndex = NO_BIDDER_INDEX;
-		tBidderCount = certificateToAuction.getNumberOfBidders ();
-
-		tThisButton = (KButton) aEvent.getSource ();
-		if (tBidderCount > 0) {
-			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
-				if (tThisButton.equals (bidderRaiseButtons [tBidderIndex])) {
-					tActingBidderIndex = tBidderIndex;
-				} else if (tThisButton.equals (bidderPassButtons [tBidderIndex])) {
-					tActingBidderIndex = tBidderIndex;
+		if (certificateToAuction != Certificate.NO_CERTIFICATE) {
+			tBidderCount = certificateToAuction.getNumberOfBidders ();
+	
+			tThisButton = (KButton) aEvent.getSource ();
+			if (tBidderCount > 0) {
+				for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
+					if (tThisButton.equals (bidderRaiseButtons [tBidderIndex])) {
+						tActingBidderIndex = tBidderIndex;
+					} else if (tThisButton.equals (bidderPassButtons [tBidderIndex])) {
+						tActingBidderIndex = tBidderIndex;
+					}
 				}
 			}
 		}
-
+		
 		return tActingBidderIndex;
 	}
 
