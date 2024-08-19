@@ -1746,7 +1746,7 @@ public class PlayerManager implements XMLSaveGameI {
 					tCurrentPlayer.showPlayerFrame ();
 				}
 			}
-			gameManager.autoSaveGame ();
+			gameManager.autoSaveGame (! GameManager.ADD_CHECKSUM);
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}

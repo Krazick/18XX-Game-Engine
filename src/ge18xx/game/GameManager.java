@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
-import checksum.Checksum;
-import checksum.Checksums;
+//import checksum.Checksum;
+//import checksum.Checksums;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
@@ -68,7 +68,9 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
+import ge18xx.toplevel.Checksum;
 import ge18xx.toplevel.ChecksumAuditFrame;
+import ge18xx.toplevel.Checksums;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
@@ -115,6 +117,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
 	public static final GameManager NO_GAME_MANAGER = null;
+	public static final boolean ADD_CHECKSUM = true;
 	public static final String NO_GAME_NAME = "<NONE>";
 	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
@@ -1995,6 +1998,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void saveGame () {
+		saveGame (ADD_CHECKSUM);
+	}
+	
+	public void saveGame (boolean aAddChecksum) {
 		XMLDocument tXMLDocument;
 		XMLElement tSaveGameElement;
 		String tFullActionReport;
@@ -2054,7 +2061,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
 		if (isNetworkGame ()) {
-			addChecksum (EN_GAME, tXMLDocument);
+			if (aAddChecksum) {
+				addChecksum (tXMLDocument);
+			}
 		}
 		
 		tXMLDocument.outputXML (saveFile);
@@ -2063,6 +2072,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		outputToFile (tFullActionReport, autoSaveActionReportFile);
 	}
 
+	public void addChecksum (XMLDocument aXMLDocument) {
+		addChecksum (EN_GAME, aXMLDocument);
+	}
+	
 	public void addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
 		Checksum tChecksum;
 		XMLElement tChecksumXMLElement;
@@ -2122,19 +2135,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 							System.err.println ("Client Name " + tNodeName + " does match");
 						} else {
 							tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+							checksumAuditFrame.refreshAuditTable ();
 						}
 					} else {
 						System.err.println ("Node Name " + tNodeName + " does not match");
 					}
 				} else {
-					System.err.println ("Action Number " + tActionIndex + " does not match");
+					System.err.println ("Action Index " + tActionIndex + " does not match");
 				}
 			} else {
 				System.err.println ("Game ID " + tGameID + " does not match");
 			}
 		} else {
-			System.err.println ("Could not find Checksum with Action Number" + tActionIndex);			
+			System.err.println ("Could not find Checksum with Action Index" + tActionIndex);			
 		}
+	}
+	
+	public void removeChecksumFor (int aActionIndex) {
+		System.out.println ("Game Manager is now removing Checksum (Index " + aActionIndex + ") from checksums, which has " + checksums.size () + "Rows.");
+		checksums.removeActionIndex (aActionIndex);
+		System.out.println ("Game Manager has removed a Checksum (Index " + aActionIndex + ") from checksums, which has " + checksums.size () + "Rows.");
+		checksumAuditFrame.refreshAuditTable ();
+		System.out.println ("Game Manager has refreshed Audit Table, checksums has " + checksums.size () + "Rows.");
 	}
 	
 	/* Update to use the method in the File Utils */
@@ -2152,12 +2174,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
+		autoSaveGame (ADD_CHECKSUM);
+	}
+	
+	public void autoSaveGame (boolean aAddChecksum) {
 		File tPriorSave;
 
 		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
 		if (gameStarted) {
-			saveGame ();
+			saveGame (aAddChecksum);
 		}
 		saveFile = tPriorSave;
 	}

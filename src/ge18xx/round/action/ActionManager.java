@@ -393,11 +393,16 @@ public class ActionManager {
 
 	public void removeLastAction () {
 		Action tLastAction;
-
+		int tActionIndex;
+		
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
-		actions.remove (actions.size () - 1);
-
+		tActionIndex = actions.size () - 1;
+		if (gameManager.isNetworkGame ()) {
+			gameManager.removeChecksumFor (tActionIndex);			
+		}
+		actions.remove (tActionIndex);
+		
 		resetLastActionNumber ();
 	}
 
@@ -480,7 +485,7 @@ public class ActionManager {
 		tLastActionUndone = undoLastAction (aRoundManager, true);
 		aRoundManager.updateAllFrames ();
 		removeUndoneActionsFromNetwork ();
-		gameManager.autoSaveGame ();
+		gameManager.autoSaveGame (! GameManager.ADD_CHECKSUM);
 		
 		return tLastActionUndone;
 	}
@@ -525,6 +530,7 @@ public class ActionManager {
 		Action tAction;
 		int tExpectedActionNumber;
 		int tThisActionNumber;
+		boolean tAddChecksum;
 		String tActionFailureMessage;
 
 		// When handling incomming Network Actions, we DO NOT want to notify other
@@ -548,11 +554,16 @@ public class ActionManager {
 						if (tThisActionNumber == tExpectedActionNumber) {
 							setActionNumber (tExpectedActionNumber);
 						}
+						if (tAction instanceof UndoLastAction) {
+							tAddChecksum = (! GameManager.ADD_CHECKSUM);
+						} else {
+							tAddChecksum = GameManager.ADD_CHECKSUM;
+						}
 						actions.add (tAction);
 						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From "
-								+ tAction.getActor ().getName ());
+								+ tAction.getActor ().getName () + " Add Checksum " + tAddChecksum);
 						applyAction (tAction);
-						gameManager.autoSaveGame ();
+						gameManager.autoSaveGame (tAddChecksum);
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
 						// Game Activity Frame
 						appendActionReport (tAction);
