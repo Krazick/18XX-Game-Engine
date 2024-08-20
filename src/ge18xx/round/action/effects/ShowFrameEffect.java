@@ -30,9 +30,11 @@ public class ShowFrameEffect extends Effect {
 
 	public ShowFrameEffect (String aName, ActorI aActor, XMLFrame aXMLFrame) {
 		super (aName, aActor);
+		GameManager tGameManager;
 		
 		setXMLFrame (aXMLFrame);
-		setXMLFrameTitle (aXMLFrame.getTitle ());
+		tGameManager = (GameManager) aXMLFrame.getGameManager ();
+		setXMLFrameTitle (tGameManager, aXMLFrame.getTitle ());
 	}
 
 	public ShowFrameEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -44,25 +46,21 @@ public class ShowFrameEffect extends Effect {
 		XMLFrame tXMLFrame;
 
 		tXMLFrameTitle = aEffectNode.getThisAttribute (AN_XMLFRAME_TITLE);
-		tXMLFrame = aGameManager.getXMLFrameName (tXMLFrameTitle);
-		if (tXMLFrame != XMLFrame.NO_XML_FRAME) {
-			setXMLFrame (tXMLFrame);
-			setXMLFrameTitle (tXMLFrameTitle);
-		}
+		setXMLFrameTitle (aGameManager, tXMLFrameTitle);	// Always set the Title of the Frame
+		tXMLFrame = aGameManager.getXMLFrameNamed (tXMLFrameTitle);
+		setXMLFrame (tXMLFrame);				// Set the XML Frame, and if not found it will be NO_FRAME anyway
 	}
 
 	private void setXMLFrame (XMLFrame aXMLFrame) {
 		xmlFrame = aXMLFrame;
 	}
 
-	public void setXMLFrameTitle (String aXMLFrameTitle) {
+	public void setXMLFrameTitle (GameManager aGameManager, String aXMLFrameTitle) {
 		String tClientUserName;
 		String tBriefName;
-		GameManager tGameManager;
 		
 		if (aXMLFrameTitle != GUI.EMPTY_STRING) {
-			tGameManager = (GameManager) xmlFrame.getGameManager ();
-			tClientUserName = tGameManager.getClientUserName ();
+			tClientUserName = aGameManager.getClientUserName ();
 			tBriefName = aXMLFrameTitle.replaceAll (" \\(" + tClientUserName + "\\)", "");
 			xmlFrameTitle = tBriefName;
 		}
