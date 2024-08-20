@@ -2152,11 +2152,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void removeChecksumFor (int aActionIndex) {
-		System.out.println ("Game Manager is now removing Checksum (Index " + aActionIndex + ") from checksums, which has " + checksums.size () + "Rows.");
 		checksums.removeActionIndex (aActionIndex);
-		System.out.println ("Game Manager has removed a Checksum (Index " + aActionIndex + ") from checksums, which has " + checksums.size () + "Rows.");
 		checksumAuditFrame.refreshAuditTable ();
-		System.out.println ("Game Manager has refreshed Audit Table, checksums has " + checksums.size () + "Rows.");
 	}
 	
 	/* Update to use the method in the File Utils */
@@ -3145,7 +3142,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		networkJGameClient.appendToGameActivity (aGameActivity);
 	}
 
-	public XMLFrame getXMLFrameName (String aXMLFrameTitle) {
+	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
 		XMLFrame tXMLFrameFound;
 		String tFrameTitle;
 
