@@ -65,6 +65,7 @@ public abstract class Effect {
 
 		setName (aName);
 		setActor (aActor);
+		setNames (aActor.getName ());
 		if (aBenefitInUse == NO_BENEFIT_IN_USE) {
 			setNoBenefitInUse ();
 		} else if (aBenefitInUse.isRealBenefit ()) {
