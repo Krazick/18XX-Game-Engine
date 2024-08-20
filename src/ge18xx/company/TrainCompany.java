@@ -1996,6 +1996,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tStatusUpdated;
 		boolean tMovementStock;
 		int tRevenueGenerated;
+		int tPriorRevenue;
+		int tTrainCount;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		Bank tBank;
@@ -2007,6 +2009,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tRevenueGenerated = 0;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
 			tRevenueGenerated = thisRevenue;
+		} else {
+			setThisRevenue (tRevenueGenerated);
 		}
 		tCurrentStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
@@ -2022,6 +2026,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
 			}
+			tPriorRevenue = getThisRevenue ();
+			tTrainCount = this.getTrainCount ();
+			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tRevenueGenerated, tTrainCount, tPriorRevenue);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
 				returnBorrowedTrain (tPayNoDividendAction);
