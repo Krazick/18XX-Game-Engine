@@ -12,7 +12,9 @@
                 <attribute name="Main-Class" value="ge18xx.game.Game_18XX"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="${dir.buildfile}/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/geUtilities.jar"/>
+            <fileset dir="${dir.workspace}/JARS/log4j/apache-log4j-2.18.0-bin"/>
+           <fileset dir="${dir.buildfile}/target/classes"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-api/2.17.2/log4j-api-2.17.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-core/2.17.2/log4j-core-2.17.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar"/>
