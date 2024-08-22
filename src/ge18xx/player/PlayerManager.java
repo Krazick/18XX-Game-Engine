@@ -1273,9 +1273,11 @@ public class PlayerManager implements XMLSaveGameI {
 						tNewCorporationStatus);
 			}
 			tPortfolioHolder = tShareCompany.getPresident ();
-			if (tPortfolioHolder.isAPlayer ()) {
-				tCurrentPresident = (Player) tPortfolioHolder;
-				handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
+			if (tPortfolioHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
+				if (tPortfolioHolder.isAPlayer ()) {
+					tCurrentPresident = (Player) tPortfolioHolder;
+					handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
+				}
 			}
 			addAction (tExchangeStockAction);
 		}
