@@ -19,8 +19,8 @@ import geUtilities.GUI;
 
 public abstract class ServerHandler implements Runnable {
 	public static final ServerHandler NO_SERVER_HANDLER = null;
-	private static final int DefaultTimeout = 12000;
-	private static final int DefaultSleep = 60000;
+	private static final int DEFAULT_TIMOUT = 12000;
+	private static final int DEFAULT_SLEEP = 60000;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
@@ -52,7 +52,7 @@ public abstract class ServerHandler implements Runnable {
 		tXMLBaseDir = gameManager.getXMLBaseDirectory ();
 		System.setProperty ("log4j.configurationFile", tXMLBaseDir + "log4j2.xml");
 		logger = LogManager.getLogger (ServerHandler.class);
-		logger.info ("Logger setup in Server Handler");
+		loggerInfo ("Logger setup in Server Handler");
 	}
 
 	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager)
@@ -89,7 +89,7 @@ public abstract class ServerHandler implements Runnable {
 		Socket tSocket = new Socket ();
 		tIPAddress = InetAddress.getByName (host);
 		logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
-		tSocket.connect (new InetSocketAddress (tIPAddress, port), DefaultTimeout);
+		tSocket.connect (new InetSocketAddress (tIPAddress, port), DEFAULT_TIMOUT);
 		logger.info ("Socket Connection Established");
 		tSocket.setKeepAlive (true);
 		setValues (tSocket);
@@ -184,7 +184,7 @@ public abstract class ServerHandler implements Runnable {
 				}
 			}
 			try {
-				Thread.sleep (DefaultSleep);
+				Thread.sleep (DEFAULT_SLEEP);
 			} catch (InterruptedException tException3) {
 				log ("Exception thrown when Sleeping after SocketTimeout/IO Exception) ", tException3);
 			}
@@ -229,16 +229,16 @@ public abstract class ServerHandler implements Runnable {
 
 	// Abstract Classes to handle Content from the Server --
 
-	protected abstract void handleServerMessage (String tString);
+	protected abstract void handleServerMessage (String aString);
 
 	protected abstract void handleServerCommands (String aString);
 
 	// Generate Client Requests to the Server ---
 
-	public void println (String tString) {
+	public void println (String aString) {
 		if (out != null) {
-			tString = tString.replaceAll ("\r", "").replaceAll (GUI.NEWLINE, "");
-			out.println (tString);
+			aString = aString.replaceAll ("\r", "").replaceAll (GUI.NEWLINE, "");
+			out.println (aString);
 		}
 	}
 
@@ -247,7 +247,21 @@ public abstract class ServerHandler implements Runnable {
 	private void log (String aMessage, Exception aException) {
 		System.err.println (aMessage);
 		aException.printStackTrace ();
-		logger.error (aMessage, aException);
+		loggerError (aMessage, aException);
+	}
+
+	public void loggerInfo (String aMessage) {
+		if (! aMessage.equals ("[Server: <GSResponse><Heartbeat></GSResponse>]")) {
+			logger.info (aMessage);
+		}
+	}
+	
+	public void loggerError (String aErrorMessage) {
+		logger.error (aErrorMessage);
+	}
+	
+	public void loggerError (String aErrorMessage, Exception aException) {
+		logger.error (aErrorMessage, aException);
 	}
 
 	public void closeAll () {

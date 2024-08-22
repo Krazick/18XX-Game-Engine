@@ -30,10 +30,10 @@ public class ChatServerHandler extends ServerHandler {
 	}
 
 	@Override
-	public void handleServerMessage (String tMessage) {
-		jClient.handleServerMessage (tMessage);
+	public void handleServerMessage (String aMessage) {
+		jClient.handleServerMessage (aMessage);
 	}
-
+	
 	@Override
 	public void handleServerCommands (String aCommand) {
 		String tMessage;
@@ -42,7 +42,8 @@ public class ChatServerHandler extends ServerHandler {
 		boolean tAddToChat;
 
 		tMessage = aCommand.substring (1, aCommand.length () - 1);
-		logger.info ("Handling Server Commands [" + aCommand + "]");
+
+		loggerInfo ("Handling Server Commands [" + aCommand + "]");
 		if (tMessage.startsWith ("Server: ")) {
 			tShortened = tMessage.substring (8);
 			tAddToChat = true;
@@ -75,7 +76,7 @@ public class ChatServerHandler extends ServerHandler {
 			} else if (tShortened.endsWith (" Starts the Game")) {
 				jClient.startsGame ();
 			} else {
-				System.err.println ("Received Command that wasn't Matched [" + tMessage + "]");
+				loggerError ("Received Command that wasn't Matched [" + tMessage + "]");
 			}
 			if (tAddToChat) {
 				appendToChat (tShortened);
@@ -190,7 +191,8 @@ public class ChatServerHandler extends ServerHandler {
 	public boolean isValidGameID (String aGameID) {
 		boolean tIsValidGameID = false;
 
-		if (!(aGameID.equals (JGameClient.NO_GAME_ID) || aGameID.equals (JGameClient.EMPTY_GAME_ID))) {
+		if (! (aGameID.equals (JGameClient.NO_GAME_ID) || 
+			   aGameID.equals (JGameClient.EMPTY_GAME_ID))) {
 			tIsValidGameID = true;
 		}
 
