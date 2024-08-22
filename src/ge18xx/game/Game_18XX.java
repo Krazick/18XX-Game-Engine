@@ -36,6 +36,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 //
 //Game_18XX.java
@@ -195,8 +197,7 @@ public class Game_18XX extends XMLFrame {
 		
 		try {
 			tJarFile = new File
-						(Game_18XX.class.getProtectionDomain ().getCodeSource (). 
-								getLocation (). toURI ());
+						(Game_18XX.class.getProtectionDomain ().getCodeSource ().getLocation ().toURI ());
 			tJarDirectory = tJarFile.getParent ();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -1237,6 +1238,20 @@ public class Game_18XX extends XMLFrame {
 		return tResourceBundle;
 	}
 
+	private static void startGUIThread (ResourceBundle aResourceBundle) {
+	    //Schedule a job for the event dispatch thread:
+        //creating and showing this application's GUI.
+		
+        SwingUtilities.invokeLater (new Runnable () {
+        		@Override
+			public void run () {
+        			//Turn off metal's use of bold fonts
+        			UIManager.put ("swing.boldMetal", Boolean.FALSE);
+    				new Game_18XX (aResourceBundle);
+            }
+        });
+	}
+	
 	public static void main (String aArgs []) {
 		ResourceBundle tResourceBundle;
 		boolean tLaunchGameEngine;
@@ -1254,7 +1269,8 @@ public class Game_18XX extends XMLFrame {
 		
 		if (tLaunchGameEngine) {
 			if (tResourceBundle != null) {
-				new Game_18XX (tResourceBundle);
+				startGUIThread (tResourceBundle);
+//				new Game_18XX (tResourceBundle);
 			} else {
 				System.err.println ("Resource Bundle for " + RESOURCE_NAME + " not found");
 			}
