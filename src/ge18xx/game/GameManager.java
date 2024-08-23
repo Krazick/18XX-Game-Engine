@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import checksum.Checksum;
+import checksum.ChecksumCalc;
 import checksum.Checksums;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -2078,6 +2079,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
 		Checksum tChecksum;
+		ChecksumCalc tChecksumCalc;
 		XMLElement tChecksumXMLElement;
 		ActionManager tActionManager;
 		String tChecksumValue;
@@ -2085,11 +2087,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tClientName;
 		String tNodeName;
 		String tXMLChecksum;
+		String tXMLString;
+		String tTrimmedXMLString;
 		int tActionIndex;
 		int tPlayerIndex;
 		int tPlayerCount;
 		
+//		tChecksumCalc = new ChecksumCalc ();
+//		tXMLString = aXMLDocument.toXMLString ();
+//		tTrimmedXMLString = tChecksumCalc.stripWhitespaceFromXML (tXMLString);
+//		tChecksumValue = tChecksumCalc.MD5 (tTrimmedXMLString);
 		tChecksumValue = aXMLDocument.MD5 ();
+		
 		tGameID = getGameID ();
 		tClientName = getClientUserName ();
 		tNodeName = aEN_Name.getString ();
@@ -2152,8 +2161,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void removeChecksumFor (int aActionIndex) {
-		checksums.removeActionIndex (aActionIndex);
-		checksumAuditFrame.refreshAuditTable ();
+		if (checksums != Checksums.NO_CHECKSUMS) {
+			checksums.removeActionIndex (aActionIndex);
+			checksumAuditFrame.refreshAuditTable ();
+		}
 	}
 	
 	/* Update to use the method in the File Utils */
