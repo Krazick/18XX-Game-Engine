@@ -299,7 +299,8 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 			handleResetPlayerStates (tSetParValueAction);
 		}
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
-
+		player.sortShareCompanies ();
+		
 		stockRound.addAction (tSetParValueAction);
 	}
 
