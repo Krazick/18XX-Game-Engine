@@ -9,6 +9,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -147,8 +148,10 @@ public class TransferOwnershipEffect extends ToEffect {
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
-			if (toNickName.equals (Bank.CLOSED)) {
-				tToPortfolio = tBank.getClosedPortfolio ();
+			if (toNickName != GUI.NULL_STRING) {
+				if (toNickName.equals (Bank.CLOSED)) {
+					tToPortfolio = tBank.getClosedPortfolio ();
+				}
 			}
 		}
 
