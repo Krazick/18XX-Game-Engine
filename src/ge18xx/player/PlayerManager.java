@@ -715,6 +715,7 @@ public class PlayerManager implements XMLSaveGameI {
 		Certificate tCertificateToBuy;
 		String tCompanyAbbrev;
 		String tCoordinates;
+		String tPriorBoughtShare;
 		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
 		Portfolio tPlayerPortfolio;
@@ -808,8 +809,9 @@ public class PlayerManager implements XMLSaveGameI {
 			// is buying the Private, not a Player)
 			if (STOCK_BUY_IN.StockRound.equals (aRoundBuying)) {
 				tCompanyAbbrev = tCertificateToBuy.getCompanyAbbrev ();
+				tPriorBoughtShare = aPlayer.boughtShare ();
 				aPlayer.setBoughtShare (tCompanyAbbrev);
-				aBuyStockAction.addBoughtShareEffect (aPlayer, tCompanyAbbrev);
+				aBuyStockAction.addBoughtShareEffect (aPlayer, tCompanyAbbrev, tPriorBoughtShare);
 				tNewState = aPlayer.getPrimaryActionState ();
 				aBuyStockAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 				stockRound.updateRFPlayerLabel (aPlayer);
@@ -1175,7 +1177,7 @@ public class PlayerManager implements XMLSaveGameI {
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 		
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
-		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT);
+		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT, tNextPlayer.boughtShare ());
 		tBidShare = false;
 		tNextPlayer.setBidShare (tBidShare);
 		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
