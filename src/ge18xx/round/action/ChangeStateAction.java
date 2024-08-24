@@ -71,10 +71,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 		addEffect (tBidShareEffect);
 	}
 
-	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
+	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare, String aPriorBoughtShare) {
 		BoughtShareEffect tBoughtShareEffect;
 
-		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
+		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare, aPriorBoughtShare);
 		addEffect (tBoughtShareEffect);
 	}
 

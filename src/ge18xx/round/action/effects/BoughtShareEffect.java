@@ -13,29 +13,39 @@ import geUtilities.xml.XMLNode;
 public class BoughtShareEffect extends Effect {
 	public final static String NAME = "Bought Share";
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
+	final static AttributeName AN_PRIOR_BOUGHT_SHARE = new AttributeName ("priorBoughtShare");
 	String boughtShare;
+	String priorBoughtShare;
 
 	public BoughtShareEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public BoughtShareEffect (ActorI aActor, String aBoughtShare) {
+	public BoughtShareEffect (ActorI aActor, String aBoughtShare, String aPriorBoughtShare) {
 		super (NAME, aActor);
 		setBoughtShare (aBoughtShare);
+		setPriorBoughtShare (aPriorBoughtShare);
 	}
 
 	public BoughtShareEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tBoughtShare;
+		String tPriorBoughtShare;
 		setName (NAME);
 
 		tBoughtShare = aEffectNode.getThisAttribute (AN_BOUGHT_SHARE);
 		setBoughtShare (tBoughtShare);
+		tPriorBoughtShare = aEffectNode.getThisAttribute (AN_PRIOR_BOUGHT_SHARE);
+		setPriorBoughtShare (tPriorBoughtShare);
 	}
 
 	public String getBoughtShare () {
 		return boughtShare;
+	}
+
+	public String getPriorBoughtShare () {
+		return priorBoughtShare;
 	}
 
 	public void setBoughtShare (String aBoughtShare) {
@@ -48,12 +58,23 @@ public class BoughtShareEffect extends Effect {
 		}
 	}
 
+	public void setPriorBoughtShare (String aPriorBoughtShare) {
+		if (aPriorBoughtShare == GUI.NULL_STRING) {
+			priorBoughtShare = aPriorBoughtShare;
+		} else if (aPriorBoughtShare.equals (GUI.EMPTY_STRING)) {
+			priorBoughtShare = GUI.NULL_STRING;
+		} else {
+			priorBoughtShare = aPriorBoughtShare;
+		}
+	}
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
+		tEffectElement.setAttribute (AN_PRIOR_BOUGHT_SHARE, priorBoughtShare);
 
 		return tEffectElement;
 	}
@@ -66,7 +87,7 @@ public class BoughtShareEffect extends Effect {
 			tReport = REPORT_PREFIX + actor.getName () + " is clearing the " + name + " flag.";
 		} else {
 			tReport = REPORT_PREFIX + actor.getName () + " " + name + " a share of stock (" + 
-						boughtShare + ") this Stock Round.";
+						boughtShare + ") this Stock Round. Prior Value (" + priorBoughtShare + ")";
 		}
 
 		return tReport;
@@ -103,7 +124,7 @@ public class BoughtShareEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
+			tPlayer.setBoughtShare (priorBoughtShare);
 			tEffectUndone = true;
 		} else {
 			setUndoFailureReason ("This is not a Player");

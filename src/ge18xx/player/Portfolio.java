@@ -2290,10 +2290,13 @@ public class Portfolio implements CertificateHolderI {
 										tPrevAbbrev = tAbbrev;
 										if (tCorpIndex == aFastBuyIndex) {
 											tPlayerCash = aPlayer.getCash ();
-											tCertParValue = tShareCompany.getParPrice ();
-											if (tPlayerCash >= tCertParValue) {
-												tBank = tCorporation.getBank ();
-												tCertToBuy = tBank.getCertificateFromCorp (tCorporation, ! REMOVE_CERTIFICATE);
+											if (tShareCompany.hasParPrice ()) {
+												tCertParValue = tShareCompany.getParPrice ();
+												if (tPlayerCash >= tCertParValue) {
+													tBank = tCorporation.getBank ();
+													tCertToBuy = tBank.getCertificateFromCorp (tCorporation, 
+																	! REMOVE_CERTIFICATE);
+												}
 											}
 										}
 										tCorpIndex++;
