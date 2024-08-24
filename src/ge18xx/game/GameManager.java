@@ -418,9 +418,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (tCorporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) tCorporation;
 		} else {
-			tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
-		if ((aSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
+		if ((aSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
 			tParPriceSet = true;
 			setParPrice (tShareCompany, aSelectedParPrice);
 			aParPriceFrame.setParValueAction (aSelectedParPrice, tShareCompany, true);
@@ -2092,6 +2092,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		int tActionIndex;
 		int tPlayerIndex;
 		int tPlayerCount;
+		int tFoundIndex;
 		
 //		tChecksumCalc = new ChecksumCalc ();
 //		tXMLString = aXMLDocument.toXMLString ();
@@ -2107,6 +2108,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+		tFoundIndex = checksums.findIndexFor (tActionIndex);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRow (tChecksum);
 
@@ -3309,7 +3311,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		int tChecksumCount;
 		Checksum tChecksum;
 		
-		if (checksums != null) { 
+		if (checksums != Checksums.NO_CHECKSUMS) { 
 			tChecksumCount = checksums.size ();
 			for (tChecksumIndex = 0; tChecksumIndex < tChecksumCount; tChecksumIndex++) {
 				tChecksum = checksums.get (tChecksumIndex);

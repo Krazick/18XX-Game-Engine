@@ -33,9 +33,9 @@ import swingTweaks.KButton;
 
 public class ChecksumAuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	private static final long serialVersionUID = 1L;
-
-	public static final String BASE_TITLE = "Checksum Audit";
+	private static final int STARTING_COLUMN_COUNT = 4;
 	private String REFRESH_LIST = "REFRESH LIST";
+	public static final String BASE_TITLE = "Checksum Audit";
 	DefaultTableModel checksumAuditModel;
 	JTable checksumAuditTable;
 	KButton refreshList;
@@ -56,8 +56,6 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tColumnCount = tColumnNames.length;
 		tColumnWidths = buildColumnWidths (tColumnCount);
 		tTotalWidth = getTotalWidth (tColumnWidths);
-		
-		checksumAuditModel = new DefaultTableModel (0, tColumnCount);
 		
 		buildAuditTable (tColumnNames, tColumnWidths, tTotalWidth);
 
@@ -105,16 +103,16 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 
 		tPlayerManager = aGameManager.getPlayerManager ();
 		tPlayerCount = tPlayerManager.getPlayerCount ();
-		tColumnName = new String [tPlayerCount + 4];
+		tColumnName = new String [tPlayerCount + STARTING_COLUMN_COUNT];
 		
 		tColumnName [0] = "#";
 		tColumnName [1] = "Node";
 		tColumnName [2] = "# of Effects";
-		tColumnName [3] = "Action / Event";
+		tColumnName [3] = "Action Report";
 		
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
-			tColumnName [4 + tPlayerIndex] = tPlayer.getName ();
+			tColumnName [tPlayerIndex + STARTING_COLUMN_COUNT] = tPlayer.getName ();
 		}
 
 		return tColumnName;
@@ -141,13 +139,13 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		
 		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (gameName);
-		tNorthComponents.add (Box.createVerticalStrut (10));
+//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		tNorthComponents.add (gameID);
-		tNorthComponents.add (Box.createVerticalStrut (10));
+//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		tNorthComponents.add (clientName);
-		tNorthComponents.add (Box.createVerticalStrut (10));
+//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		
 		refreshList = new KButton ("Refresh List");
@@ -161,16 +159,21 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	}
 
 	private void buildAuditTable (String [] aColumnNames, int [] aColumnWidths, int aTotalWidth) {
+		CellColorRenderer tColorCellRenderer;
 		TableColumnModel tColumnModel;
 		Color tHeaderColor;
-		CellColorRenderer tColorCellRenderer;
+		int tColumnCount;
 		
-		tColorCellRenderer = new CellColorRenderer (4);
-
-		checksumAuditTable = new JTable ();
-
+		tColorCellRenderer = new CellColorRenderer (STARTING_COLUMN_COUNT);
+		
+		tColumnCount = aColumnNames.length;
+		checksumAuditModel = new DefaultTableModel (0, tColumnCount);
 		checksumAuditModel.setColumnIdentifiers (aColumnNames);
-		checksumAuditTable.setModel (checksumAuditModel);
+
+//  		checksumAuditTable = new JTable ();
+//		checksumAuditTable.setModel (checksumAuditModel);
+		
+		checksumAuditTable = new JTable (checksumAuditModel);
 		checksumAuditTable.setGridColor (Color.BLACK);
 		checksumAuditTable.setShowGrid (true);
 		checksumAuditTable.setShowVerticalLines (true);
@@ -238,27 +241,17 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			tChecksums = aChecksum.getChecksums ();
 			tEffectCount = tAction.getEffectCount ();
 			tActionReport = tAction.getSimpleActionReport ();
-			tItemCount = 4 + tChecksums.length;
+			tItemCount = STARTING_COLUMN_COUNT + tChecksums.length;
 			
 			tDataRow = new Object [tItemCount];
 			tDataRow [0] = tActionNumber;
 			tDataRow [1] = aChecksum.getNodeName ();
 			tDataRow [2] = tEffectCount;
 			tDataRow [3] = tActionReport;
-			for (tItemIndex = 4; tItemIndex < tItemCount; tItemIndex++) {
-				tDataRow [tItemIndex] = tChecksums [tItemIndex - 4];
+			for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < tItemCount; tItemIndex++) {
+				tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];
 			}
 	 		checksumAuditModel.insertRow (0, tDataRow);
-		}
-	}
-
-	public void removeAllRows () {
-		int tRowCount;
-		int tRowIndex;
-
-		tRowCount = checksumAuditModel.getRowCount ();
-		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-			checksumAuditModel.removeRow (0);
 		}
 	}
 	
@@ -287,5 +280,15 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tGameManager = (GameManager) gameEngineManager;
 		removeAllRows ();
 		tGameManager.fillChecksumAuditFrame ();
+	}
+	
+	public void removeAllRows () {
+		int tRowCount;
+		int tRowIndex;
+
+		tRowCount = checksumAuditModel.getRowCount ();
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			checksumAuditModel.removeRow (0);
+		}
 	}
 }
