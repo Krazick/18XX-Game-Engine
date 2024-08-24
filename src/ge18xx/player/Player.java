@@ -1491,7 +1491,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		ActorI.ActionStates tRoundType;
 		BuyStockAction tBuyStockAction;
 		String tRoundID;
-
+		
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
 		
@@ -1500,7 +1500,19 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy,
 				PlayerManager.STOCK_BUY_IN.StockRound, tBuyStockAction);
+		sortShareCompanies ();
+		
 		playerManager.addAction (tBuyStockAction);
+	}
+
+	public void sortShareCompanies () {
+		GameManager tGameManager;
+		CorporationList tCorporationList;
+		
+		tGameManager = getGameManager ();
+		tCorporationList = tGameManager.getShareCompanies ();
+		tCorporationList.sortByOperatingOrder ();
+		tGameManager.updateRoundFrame ();
 	}
 
 	public void updatePercentBought (List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
