@@ -699,6 +699,7 @@ public class Certificate implements Comparable<Certificate> {
 		Border tRegionBorder;
 		Border tInnerBorder;
 		Border tCorporateColorBorder;
+		Color tBorderColor;
 		Color tRegionColor;
 		Color tInnerColor;
 
@@ -711,7 +712,12 @@ public class Certificate implements Comparable<Certificate> {
 			tCertInfoBorder = BorderFactory.createCompoundBorder (tRegionBorder, tCorporateColorBorder);
 			tCertInfoBorder2 = BorderFactory.createCompoundBorder (tCertInfoBorder, tInnerBorder);
 		} else {
-			tRegionBorder = BorderFactory.createLineBorder (Color.BLACK);
+			if (bidders.hasBidders ()) {
+				tBorderColor = Color.RED;
+			} else {
+				tBorderColor = Color.BLACK;
+			}
+			tRegionBorder = BorderFactory.createLineBorder (tBorderColor);
 			tInnerBorder = BorderFactory.createLineBorder (tInnerColor, 5);
 			tCertInfoBorder2 = BorderFactory.createCompoundBorder (tRegionBorder, tInnerBorder);
 		}
