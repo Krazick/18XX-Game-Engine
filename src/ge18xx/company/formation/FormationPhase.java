@@ -517,7 +517,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 	}
 
 	@Override
-	public int updateToNextPlayer (List<Player> aPlayers) {
+	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
 		Player tNextPlayer;
 		Player tFirstPresident;
 		Player tCurrentPlayer;
@@ -542,7 +542,9 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 		tFirstPresident = findActingPresident ();
 		
 		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
-		gameManager.addAction (tChangeStateAction);
+		if (aAddAction) {
+			gameManager.addAction (tChangeStateAction);
+		}
 		
 		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
 		
@@ -840,7 +842,27 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 			handleStockValueCalculation ();
 		}
 	}
+
+	public void handleFoldIntoFormingCompany () {
+		handleFormationStateChange (ActorI.ActionStates.ShareExchange);
+	}
+
+	public void handleTokenExchange () {
+		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
+	}
+
+	public void handleAssetCollection () {
+		handleFormationStateChange (ActorI.ActionStates.AssetCollection);
+	}
 	
+	public void handleStockValueCalculation () {
+		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
+	}
+	
+	public void handleFormationComplete () {
+		handleFormationStateChange (ActorI.ActionStates.FormationComplete);
+	}
+
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
 		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
 		PlayerManager tPlayerManager;
@@ -877,26 +899,6 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 			setupPlayers ();
 		}
 		gameManager.addAction (tChangeFormationPhaseStateAction);
-	}
-
-	public void handleFoldIntoFormingCompany () {
-		handleFormationStateChange (ActorI.ActionStates.ShareExchange);
-	}
-
-	public void handleTokenExchange () {
-		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
-	}
-
-	public void handleAssetCollection () {
-		handleFormationStateChange (ActorI.ActionStates.AssetCollection);
-	}
-	
-	public void handleStockValueCalculation () {
-		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
-	}
-	
-	public void handleFormationComplete () {
-		handleFormationStateChange (ActorI.ActionStates.FormationComplete);
 	}
 
 	public int getSharesReceived (int aSharesExchanged) {
