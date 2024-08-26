@@ -42,7 +42,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
-			tPlayerIndex = updateToNextPlayer (aRoundManager);
+			tPlayerIndex = updateToNextPlayer (aRoundManager, false);
 			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
@@ -50,7 +50,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		return tEffectApplied;
 	}
 
-	public int updateToNextPlayer (RoundManager aRoundManager) {
+	public int updateToNextPlayer (RoundManager aRoundManager, boolean aAddAction) {
 		GameManager tGameManager;
 		PlayerManager tPlayerManager;
 		TriggerClass tTriggerClass;
@@ -65,7 +65,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
 			tToPlayerIndex = getPlayerIndex (tPlayers, toActor.getName ());
 			if (tToPlayerIndex == PlayerManager.NO_PLAYER_INDEX) {
-				tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers);
+				tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers, aAddAction);
 			} else {
 				tTriggerClass.setCurrentPlayerIndex (tToPlayerIndex);
 				tNextPlayerIndex = tToPlayerIndex;
