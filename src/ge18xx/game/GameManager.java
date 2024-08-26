@@ -22,7 +22,11 @@ import org.w3c.dom.NodeList;
 
 import checksum.Checksum;
 import checksum.ChecksumCalc;
-import checksum.Checksums;
+//import checksum.Checksums;
+
+import ge18xx.toplevel.ChecksumAuditFrame;
+import ge18xx.toplevel.Checksums;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
@@ -69,9 +73,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
-//import ge18xx.toplevel.Checksum;
-import ge18xx.toplevel.ChecksumAuditFrame;
-//import ge18xx.toplevel.Checksums;
+
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
@@ -2079,7 +2081,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
 		Checksum tChecksum;
-		ChecksumCalc tChecksumCalc;
 		XMLElement tChecksumXMLElement;
 		ActionManager tActionManager;
 		String tChecksumValue;
@@ -2087,18 +2088,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tClientName;
 		String tNodeName;
 		String tXMLChecksum;
-		String tXMLString;
-		String tTrimmedXMLString;
 		int tActionIndex;
 		int tPlayerIndex;
 		int tPlayerCount;
 		int tFoundIndex;
 		
-//		tChecksumCalc = new ChecksumCalc ();
-//		tXMLString = aXMLDocument.toXMLString ();
-//		tTrimmedXMLString = tChecksumCalc.stripWhitespaceFromXML (tXMLString);
-//		tChecksumValue = tChecksumCalc.MD5 (tTrimmedXMLString);
-		tChecksumValue = aXMLDocument.MD5 ();
+		tChecksumValue = aXMLDocument.MD5 (ChecksumCalc.STRIP_WHITESPACE);
 		
 		tGameID = getGameID ();
 		tClientName = getClientUserName ();
