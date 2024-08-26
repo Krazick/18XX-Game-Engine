@@ -49,7 +49,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 
 	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aFormationPhase, Player aPlayer, 
 							Player aActingPresident) {
-		String tActingPresidentName;
+//		String tActingPresidentName;
 		Color tBackgroundColor;
 		Color tBorderColor;
 		Border tActingBorder;
@@ -58,8 +58,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		formationPhase = aFormationPhase;
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
-			tActingPresidentName = aActingPresident.getName ();
-			if (gameManager.notIsNetworkAndIsThisClient (tActingPresidentName)) {
+//			tActingPresidentName = aActingPresident.getName ();
+//			if (gameManager.notIsNetworkAndIsThisClient (tActingPresidentName)) {
+			if (isActingPlayer (aActingPresident)) {
 				tBackgroundColor = gameManager.getAlertColor ();
 				tBorderColor = gameManager.getAlertColor ();
 				actingPlayer = true;
@@ -76,6 +77,16 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tActingBorder = BorderFactory.createLineBorder (tBorderColor, 3);
 		buildPlayerJPanel (actingPlayer, tActingBorder);
 		setBackground (tBackgroundColor);
+	}
+	
+	public boolean isActingPlayer (Player aActingPresident) {
+		boolean tIsActingPlayer;
+		String tActingPresidentName;
+		
+		tActingPresidentName = aActingPresident.getName ();
+		tIsActingPlayer = gameManager.notIsNetworkAndIsThisClient (tActingPresidentName);
+
+		return tIsActingPlayer;
 	}
 	
 	public void buildPlayerJPanel (boolean aActingPlayer, Border aActingBorder) {
@@ -309,10 +320,12 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	public void handlePlayerDone () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		boolean tAddAction;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		formationPhase.updateToNextPlayer (tPlayers);
+		tAddAction = true;
+		formationPhase.updateToNextPlayer (tPlayers, tAddAction);
 	}
 	
 	public void handlePlayerUndo () {
