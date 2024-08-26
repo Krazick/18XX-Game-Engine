@@ -192,6 +192,16 @@ public class TransferOwnershipAction extends CashTransferAction {
 
 		return tIsPrivateTransferred;
 	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport;
+
+		tSimpleActionReport = GUI.EMPTY_STRING;
+		tSimpleActionReport = actor.getName () + " transfers items between actors";
+
+		return tSimpleActionReport;
+	}
 
 	protected String getBuySaleSimpleReport (String aVerb1, String aVerb2) {
 		int tCount;
