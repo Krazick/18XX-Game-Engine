@@ -346,10 +346,12 @@ public class LoanRepayment extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		boolean tAddAction;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		formationPhase.updateToNextPlayer (tPlayers);
+		tAddAction = true;
+		formationPhase.updateToNextPlayer (tPlayers, tAddAction);
 	}
 
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
