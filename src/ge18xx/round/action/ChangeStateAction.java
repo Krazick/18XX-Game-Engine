@@ -99,8 +99,9 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getOldState () {
-		String tOldState = GUI.EMPTY_STRING;
+		String tOldState;
 
+		tOldState = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
 			if (tOldState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof StateChangeEffect) {
@@ -113,17 +114,18 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getNewState () {
-		String tOldState = GUI.EMPTY_STRING;
+		String tNewState;
 
+		tNewState = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tOldState.equals (GUI.EMPTY_STRING)) {
+			if (tNewState.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof StateChangeEffect) {
-					tOldState = ((StateChangeEffect) tEffect).getNewState ().toString ();
+					tNewState = ((StateChangeEffect) tEffect).getNewState ().toString ();
 				}
 			}
 		}
 
-		return tOldState;
+		return tNewState;
 	}
 
 	public String getOldCorpState () {
@@ -155,9 +157,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	}
 
 	public String getActorNames () {
-		String tActorNames = GUI.EMPTY_STRING;
+		String tActorNames;
 		String tActorName;
 
+		tActorNames = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof StateChangeEffect) {
 				tActorName = ((StateChangeEffect) tEffect).getActorName ();
@@ -177,9 +180,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = GUI.EMPTY_STRING;
-		String tOldState, tNewState;
+		String tSimpleActionReport;
+		String tOldState;
+		String tNewState;
 
+		tSimpleActionReport = GUI.EMPTY_STRING;
 		tOldState = getOldState ();
 		tNewState = getNewState ();
 		if (!tNewState.equals (tOldState)) {
@@ -194,8 +199,9 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 	@Override
 	public boolean allNullEffects () {
-		boolean tAllNullEffects = true;
+		boolean tAllNullEffects;
 
+		tAllNullEffects = true;
 		for (Effect tEffect : effects) {
 			if (!tEffect.nullEffect ()) {
 				tAllNullEffects = false;
