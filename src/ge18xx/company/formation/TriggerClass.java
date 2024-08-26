@@ -37,7 +37,7 @@ public class TriggerClass {
 		
 	}
 	
-	public int updateToNextPlayer (List<Player> aPlayers) {
+	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
 		return 0;
 	}
 	
