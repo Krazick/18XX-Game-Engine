@@ -37,7 +37,9 @@ public class ShareExchange extends PlayerFormationPhase {
 	public ShareExchange (GameManager aGameManager, FormationPhase aShareExchange, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aShareExchange, aPlayer, aActingPresident);
-		closeFormingCompanySecondIssue ();
+		if (isActingPlayer (aActingPresident)) {
+			closeFormingCompanySecondIssue ();
+		}
 	}
 	
 	@Override
@@ -557,7 +559,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			tFormingCompany = (ShareCompany) tCorporation;
 			tFormingAbbrev = tFormingCompany.getAbbrev ();
 			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-					tOperatingRoundID, player);
+					tOperatingRoundID, tBank);
 			tCertificate = Certificate.NO_CERTIFICATE;
 			tMoreCerts = true;
 			tFromName = Bank.IPO;
@@ -573,7 +575,13 @@ public class ShareExchange extends PlayerFormationPhase {
 			if (tCertificate != Certificate.NO_CERTIFICATE) {
 				transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
 			}
-			gameManager.addAction (tTransferOwnershipAction);
+			if (tTransferOwnershipAction.getEffectCount () > 0) {
+				gameManager.addAction (tTransferOwnershipAction);
+				System.out.println ("*** Added 2nd Issue move to CLOSED -- Action " + 
+						tTransferOwnershipAction.getNumber () + " with " + 
+						tTransferOwnershipAction.getEffectCount () + " Effects" +
+						", Actor " + player.getName ());
+			}
 		}
 	}
 	
