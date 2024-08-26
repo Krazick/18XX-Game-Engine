@@ -7,15 +7,15 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
-public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
+public class SetFormationStateEffect extends StateChangeEffect {
 	public final static String NAME = "Set Formation State";
 
-	public SetFormationStateEffect () {
-		super ();
-		setName (NAME);
-		setPreviousState (ActorI.ActionStates.NoState);
-		setNewState (ActorI.ActionStates.NoState);
-	}
+//	public SetFormationStateEffect () {
+//		super ();
+//		setName (NAME);
+//		setPreviousState (ActorI.ActionStates.NoState);
+//		setNewState (ActorI.ActionStates.NoState);
+//	}
 
 	public SetFormationStateEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 			ActorI.ActionStates aNewState) {
