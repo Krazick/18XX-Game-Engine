@@ -10,12 +10,14 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.FinishAuctionEffect;
+import ge18xx.round.action.effects.HideFrameEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
-import ge18xx.round.action.effects.RemoveAllBids;
+import ge18xx.round.action.effects.RemoveAllBidsEffect;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import geUtilities.GUI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class WinAuctionAction extends BuyStockAction {
@@ -36,6 +38,13 @@ public class WinAuctionAction extends BuyStockAction {
 		setName (NAME);
 	}
 
+	public void addHideFrameEffect (ActorI aActor, XMLFrame aXMLAuctionFrame) {
+		HideFrameEffect tHideFrameEffect;
+		
+		tHideFrameEffect = new HideFrameEffect (aActor, aXMLAuctionFrame);
+		addEffect (tHideFrameEffect);
+	}
+	
 	public void addRefundEscrowEffect (ActorI aActor, EscrowHolderI aEscrowHolder, int aBidAmount) {
 		RefundEscrowEffect tRefundEscrowEffect;
 
@@ -51,9 +60,9 @@ public class WinAuctionAction extends BuyStockAction {
 	}
 
 	public void addRemoveAllBidsEffect (ActorI aActor, Certificate aCertificate) {
-		RemoveAllBids tRemoveAllBids;
+		RemoveAllBidsEffect tRemoveAllBids;
 
-		tRemoveAllBids = new RemoveAllBids (aActor, aCertificate);
+		tRemoveAllBids = new RemoveAllBidsEffect (aActor, aCertificate);
 		addEffect (tRemoveAllBids);
 	}
 	
@@ -152,4 +161,10 @@ public class WinAuctionAction extends BuyStockAction {
 
 		return tActionApplied;
 	}
+	
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		return super.undoAction (aRoundManager);
+	}
+
 }
