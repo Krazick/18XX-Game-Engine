@@ -78,7 +78,8 @@ class EffectTestConstructor {
 		XMLDocument tXMLDocument;
 		AttributeName tAN_TEST = new AttributeName ("anTest");
 		ElementName tEN_TEST = new ElementName ("EnTest");
-		XMLElement tXMLElement, tFullElement;
+		XMLElement tXMLElement;
+		XMLElement tFullElement;
 		String tXMLFormatted;
 		String tExpected = "";
 
@@ -89,7 +90,7 @@ class EffectTestConstructor {
 		tXMLDocument.appendChild (tFullElement);
 		tXMLFormatted = tXMLDocument.toXMLString ();
 		tExpected += "<EnTest>\n";
-		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" fromName=\"\" isAPrivate=\"false\" name=\"Generic\" order=\"1\" toActor=\"TFBuster\"/>\n";
+		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" fromName=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" order=\"1\" toActor=\"TFBuster\" toNickName=\"\"/>\n";
 		tExpected += "</EnTest>\n";
 
 		assertEquals (tExpected, tXMLFormatted);
