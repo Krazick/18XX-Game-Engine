@@ -516,7 +516,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tConfirmedDoneAction = confirmDoneAction ();
 			if (tConfirmedDoneAction) {	
 				tStatusUpdated = corporation.doneAction ();
-				corporation.applyPreparedActions ();
+//				corporation.applyPreparedActions ();
 			} else {
 				tStatusUpdated = false;
 			}
