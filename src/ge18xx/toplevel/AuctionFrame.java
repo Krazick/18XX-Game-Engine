@@ -180,7 +180,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	private void completeAuction () {
-		boolean tNextShareHasBids;
+//		boolean tNextShareHasBids;
 		Player tPlayer;
 
 		// Transfer Certificate to Highest Bidder
@@ -197,10 +197,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tPlayer = getHighestBidder ();
 
 		setBidderJPanelColor (tPlayer.getName (), false);
-		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, true);
-		if (!tNextShareHasBids) {
-			hideAuctionFrame ();
-		}
+		tPlayer.finishAuction (certificateToAuction, this, true);
 	}
 
 	private Player getHighestBidder () {
@@ -214,16 +211,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	private void undoLastAction () {
-		boolean tLastActionUndone;
-
 		auctionRound.wasLastActionStartAuction ();
-		tLastActionUndone = auctionRound.undoLastAction ();
+		auctionRound.undoLastAction ();
 		updateBidderJPanels ();
 		auctionRound.updateAllFrames ();
-
-		if (tLastActionUndone) {
-			hideAuctionFrame ();
-		}
 	}
 
 	private void raiseBid (int aActingBidderIndex) {
