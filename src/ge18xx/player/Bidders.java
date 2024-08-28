@@ -7,6 +7,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -68,8 +69,9 @@ public class Bidders {
 	}
 
 	public String getBidderNames () {
-		String tBidderNames = "";
+		String tBidderNames;
 
+		tBidderNames = GUI.EMPTY_STRING;
 		for (Bidder tBidder : bidders) {
 			if (tBidderNames.length () > 0) {
 				tBidderNames += ", ";
@@ -81,9 +83,10 @@ public class Bidders {
 	}
 
 	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLBidders = NO_XML_BIDDERS;
+		XMLElement tXMLBidders;
 		XMLElement tXMLBidderElement;
 
+		tXMLBidders = NO_XML_BIDDERS;
 		if (bidders.size () > 0) {
 			tXMLBidders = aXMLDocument.createElement (EN_BIDDERS);
 			for (Bidder tBidder : bidders) {
@@ -132,10 +135,12 @@ public class Bidders {
 	}
 
 	public int getHighestBid () {
-		int tHighestBid = certificate.getValue ();
-		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
+		int tHighestBid;
+		int tNumberOfBidders;
 
+		tHighestBid = certificate.getValue ();
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidAt = getBidAt (tBidderIndex);
@@ -149,10 +154,14 @@ public class Bidders {
 	}
 
 	public int getLowestBidderIndex () {
-		int tLowestBid = certificate.getValue ();
-		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
-		int tLowestBidderIndex = NO_BIDDER;
+		int tLowestBid;
+		int tNumberOfBidders;
+		int tLowestBidderIndex;
+		
+		tLowestBid = certificate.getValue ();
+		tNumberOfBidders = getNumberOfBidders ();
+		tLowestBidderIndex = NO_BIDDER;
 
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
@@ -168,11 +177,14 @@ public class Bidders {
 	}
 
 	public int getHighestBidderIndex () {
-		int tHighestBid = certificate.getValue ();
-		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
-		int tHighestBidderIndex = NO_BIDDER;
+		int tHighestBid;
+		int tNumberOfBidders;
+		int tHighestBidderIndex;
 
+		tHighestBid = certificate.getValue ();
+		tNumberOfBidders = getNumberOfBidders ();
+		tHighestBidderIndex = NO_BIDDER;
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidAt = getBidAt (tBidderIndex);
@@ -188,9 +200,11 @@ public class Bidders {
 
 	public int getRaiseAmount (int aBidderIndex) {
 		int tRaiseAmount;
-		int tCurrentBid = getBidAt (aBidderIndex);
-		int tHighestBid = getHighestBid ();
+		int tCurrentBid;
+		int tHighestBid ;
 
+		tCurrentBid = getBidAt (aBidderIndex);
+		tHighestBid = getHighestBid ();
 		tRaiseAmount = (tHighestBid + PlayerManager.BID_INCREMENT) - tCurrentBid;
 
 		return tRaiseAmount;
@@ -224,10 +238,11 @@ public class Bidders {
 	}
 
 	public void removeBidder (CashHolderI aCashHolder) {
-		int tNumberOfBidders = getNumberOfBidders ();
+		int tNumberOfBidders;
 		CashHolderI tBidder;
 		Player tPlayer;
 
+		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = getCashHolderAt (tBidderIndex);
