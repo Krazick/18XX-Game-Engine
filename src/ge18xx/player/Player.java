@@ -40,6 +40,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.WinAuctionAction;
+import ge18xx.toplevel.AuctionFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -433,11 +434,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tExceedsThisCorpLimit;
 	}
 
-	public boolean finishAuction (Certificate aCertificateToBuy, boolean aCreateNewAuctionAction) {
+	public boolean finishAuction (Certificate aCertificateToBuy, AuctionFrame aAuctionFrame, 
+					boolean aCreateNewAuctionAction) {
 		boolean tNextShareHasBids;
+		String tRoundID;
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
-		String tRoundID;
+
 		List<Certificate> tCertificatesToBuy;
 		Certificate tFreeCertificate;
 		Bank tBank;
@@ -461,6 +464,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (mustSetParPrice (tFreeCertificate)) {
 			setAllWaitStateEffects (tWinAuctionAction);
 		}
+		if (! tNextShareHasBids) {
+			aAuctionFrame.hideFrame ();
+			tWinAuctionAction.addHideFrameEffect (this, aAuctionFrame);
+		}
+		
 		playerManager.addAction (tWinAuctionAction);
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
 		returnToStockRound ();
