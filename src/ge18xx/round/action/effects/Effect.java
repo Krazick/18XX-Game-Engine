@@ -52,7 +52,9 @@ public abstract class Effect {
 
 	Effect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
-		setNames (aActor.getName ());
+		if (aActor != ActorI.NO_ACTOR) {
+			setNames (aActor.getName ());
+		}
 	}
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
@@ -65,7 +67,9 @@ public abstract class Effect {
 
 		setName (aName);
 		setActor (aActor);
-		setNames (aActor.getName ());
+		if (aActor != ActorI.NO_ACTOR) {
+			setNames (aActor.getName ());
+		}
 		if (aBenefitInUse == NO_BENEFIT_IN_USE) {
 			setNoBenefitInUse ();
 		} else if (aBenefitInUse.isRealBenefit ()) {
@@ -331,7 +335,7 @@ public abstract class Effect {
 	}
 
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (" " + REPORT_PREFIX + name + " for " + getActorName () + ".");
+		return (REPORT_PREFIX + name + " for " + getActorName () + ".");
 	}
 
 	public void printEffectReport (RoundManager aRoundManager) {
