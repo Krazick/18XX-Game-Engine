@@ -127,30 +127,42 @@ public class StateChangeEffect extends Effect {
 			tStockRound = aRoundManager.getStockRound ();
 			actor.resetPrimaryActionState (newState);
 			tStockRound.updateRFPlayerLabel (tPlayer);
+			tEffectApplied = true;
 		} else if (actor.isAStockRound ()) {
 			if (newState == ActorI.ActionStates.AuctionRound) {
 				aRoundManager.startAuctionRound (tNewAuctionAction);
+				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				aRoundManager.startOperatingRound ();
+				tEffectApplied = true;
+			} else {
+				setApplyFailureReason ("The Current State is a Stock Round, New state of " + newState.toString () +
+						" is not allowed");
 			}
 		} else if (actor.isAAuctionRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
 				tStockRoundID = aRoundManager.getStockRoundID ();
 				aRoundManager.resumeStockRound (tStockRoundID);
+				tEffectApplied = true;
+			} else {
+				setApplyFailureReason ("The Current State is a Auction Round, New state of " + newState.toString () +
+						" is not allowed");
 			}
 		} else if (actor.isAOperatingRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
 				aRoundManager.startStockRound ();
+				tEffectApplied = true;
+			} else {
+				setApplyFailureReason ("The Current State is a Operating Round, New state of " + newState.toString () +
+						" is not allowed");
 			}
 		} else if (actor.isABank ()) {
 			setApplyFailureReason ("The Actor is a Bank, which does not have a State to Change");
 		} else if (actor.isACorporation ()) {
 			setApplyFailureReason ("The Actor is a Corporation, and should not have a State Change Effect");
 		}
-		tEffectApplied = true;
 
 		return tEffectApplied;
-
 	}
 
 	@Override
@@ -168,17 +180,26 @@ public class StateChangeEffect extends Effect {
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		} else if (actor.isAOperatingRound ()) {
 			if (previousState == ActorI.ActionStates.OperatingRound) {
-				aRoundManager.setRoundToOperatingRound ();
+				aRoundManager.setRoundType (previousState);
 				tEffectUndone = true;
 			} else if (previousState == ActorI.ActionStates.StockRound) {
-				aRoundManager.setRoundToStockRound ();
+				aRoundManager.setRoundType (previousState);
+				tEffectUndone = true;
+			} else if (previousState == ActorI.ActionStates.AuctionRound) {
+				aRoundManager.setRoundType (previousState);
 				tEffectUndone = true;
 			} else {
 				setUndoFailureReason ("The Actor is a Operating Round, and previous State is " + previousState.name ());
 			}
 		} else if (actor.isAStockRound ()) {
-			if (previousState == ActorI.ActionStates.StockRound) {
-				aRoundManager.setRoundToStockRound ();
+			if (previousState == ActorI.ActionStates.OperatingRound) {
+				aRoundManager.setRoundType (previousState);
+				tEffectUndone = true;
+			} else if (previousState == ActorI.ActionStates.StockRound) {
+				aRoundManager.setRoundType (previousState);
+				tEffectUndone = true;
+			} else if (previousState == ActorI.ActionStates.AuctionRound) {
+				aRoundManager.setRoundType (previousState);
 				tEffectUndone = true;
 			} else {
 				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " + previousState.name ());
@@ -201,10 +222,12 @@ public class StateChangeEffect extends Effect {
 
 	@Override
 	public boolean nullEffect () {
-		boolean tNullEffect = false;
+		boolean tNullEffect;
 
 		if (previousState.equals (newState)) {
 			tNullEffect = true;
+		} else {
+			tNullEffect = false;
 		}
 
 		return tNullEffect;
