@@ -9,7 +9,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class RemoveAllBids extends Effect {
+public class RemoveAllBidsEffect extends Effect {
 	public final static String NAME = "Remove All Bids";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
@@ -18,19 +18,19 @@ public class RemoveAllBids extends Effect {
 	int percentage;
 	boolean isPresident;
 
-	public RemoveAllBids () {
+	public RemoveAllBidsEffect () {
 		this (NAME);
 	}
 
-	public RemoveAllBids (String aName) {
+	public RemoveAllBidsEffect (String aName) {
 		super (aName);
 	}
 
-	public RemoveAllBids (ActorI aActor, Certificate aCertificate) {
+	public RemoveAllBidsEffect (ActorI aActor, Certificate aCertificate) {
 		this (NAME, aActor, aCertificate);
 	}
 
-	public RemoveAllBids (String aName, ActorI aActor, Certificate aCertificate) {
+	public RemoveAllBidsEffect (String aName, ActorI aActor, Certificate aCertificate) {
 		super (aName, aActor);
 
 		String tCompanyAbbrev = aCertificate.getCompanyAbbrev ();
@@ -42,7 +42,7 @@ public class RemoveAllBids extends Effect {
 		setIsPresident (tIsPresident);
 	}
 
-	public RemoveAllBids (XMLNode aEffectNode, GameManager aGameManager) {
+	public RemoveAllBidsEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 
@@ -97,9 +97,13 @@ public class RemoveAllBids extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		Certificate tCertificate;
-		boolean tEffectApplied = false;
+		boolean tEffectApplied;
 
+		tEffectApplied = false;
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
+		// TODO: Need to capture all Bidders and save to allow for Undo to restore them.
+		// Save for each Bidder, the Actor Name, the Bidder Index, and the Bid Amount
+		
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeAllBids ();
 			tEffectApplied = true;
@@ -110,6 +114,11 @@ public class RemoveAllBids extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		return true;
+		boolean tEffectUndone;
+
+		// TODO:  Need to restore all Bidders
+		tEffectUndone = true;
+		
+		return tEffectUndone;
 	}
 }
