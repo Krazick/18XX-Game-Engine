@@ -94,4 +94,9 @@ public class AuctionRaiseAction extends AuctionStateChangeAction {
 
 		return tActionApplied;
 	}
+	
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		return super.undoAction (aRoundManager);
+	}
 }
