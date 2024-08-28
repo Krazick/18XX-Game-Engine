@@ -78,6 +78,15 @@ public class RoundTestFactory {
 
 		return tOperatingRound;
 	}
+	
+	public OperatingRound buildOperatingRoundMock (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+		OperatingRound mOperatingRound;
+
+		mOperatingRound = Mockito.mock (OperatingRound.class);
+		Mockito.when (mOperatingRound.getType ()).thenReturn ("Operating Round Mock");
+
+		return mOperatingRound;
+	}
 
 	public AuctionRound buildAuctionRound (RoundManager aRoundManager) {
 		AuctionRound tAuctionRound;
@@ -86,4 +95,14 @@ public class RoundTestFactory {
 
 		return tAuctionRound;
 	}
+	
+	public AuctionRound buildAuctionRoundMock (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+		AuctionRound mAuctionRound;
+
+		mAuctionRound = Mockito.mock (AuctionRound.class);
+		Mockito.when (mAuctionRound.getType ()).thenReturn ("Auction Round Mock");
+
+		return mAuctionRound;
+	}
+
 }
