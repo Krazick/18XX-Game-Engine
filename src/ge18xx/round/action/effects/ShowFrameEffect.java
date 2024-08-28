@@ -76,12 +76,13 @@ public class ShowFrameEffect extends Effect {
 	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied = false;
+		boolean tEffectApplied;
 
+		tEffectApplied = false;
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (true);
+			tEffectApplied = true;
 		}
-		tEffectApplied = true;
 
 		return tEffectApplied;
 	}
@@ -98,7 +99,7 @@ public class ShowFrameEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + actor.getName () + " Show " + xmlFrameTitle + ".");
+		return (REPORT_PREFIX + name + xmlFrameTitle + ".");
 	}
 
 	@Override
@@ -113,8 +114,8 @@ public class ShowFrameEffect extends Effect {
 		tEffectApplied = false;
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (false);
+			tEffectApplied = true;
 		}
-		tEffectApplied = true;
 
 		return tEffectApplied;
 	}
