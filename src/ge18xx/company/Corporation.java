@@ -855,33 +855,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		clearAllTrainsFromMap (true);
 		hideFrame ();
 	}
-
-	public boolean doneAction () {
-		boolean tStatusUpdated;
-		ActorI.ActionStates tCurrentStatus;
-		ActorI.ActionStates tNewStatus;
-		DoneCorpAction tDoneAction;
-		OperatingRound tOperatingRound;
-		String tOperatingRoundID;
-
-		tCurrentStatus = status;
-		tStatusUpdated = updateStatus (ActorI.ActionStates.Operated);
-		if (tStatusUpdated) {
-			clearAllTrainsFromMap (false);
-			tNewStatus = status;
-			tOperatingRoundID = getOperatingRoundID ();
-			tDoneAction = new DoneCorpAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tDoneAction.addNewActingCorpEffect (this);
-			tDoneAction.addClearTrainsFromMapEffect (this);
-			tOperatingRound = corporationList.getOperatingRound ();
-			tOperatingRound.addAction (tDoneAction);
-			applyPreparedActions ();
-		}
-		hideFrame ();
-
-		return tStatusUpdated;
-	}
 	
 	public void corporationListDoneAction () {
 		corporationList.doneAction (this);
@@ -2170,6 +2143,36 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		}
 		updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
 		
+		return tStatusUpdated;
+	}
+
+	public boolean doneAction () {
+		boolean tStatusUpdated;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
+		DoneCorpAction tDoneAction;
+		OperatingRound tOperatingRound;
+		String tOperatingRoundID;
+
+		tCurrentStatus = status;
+		tStatusUpdated = updateStatus (ActorI.ActionStates.Operated);
+		if (tStatusUpdated) {
+			clearAllTrainsFromMap (false);
+			tNewStatus = status;
+			tOperatingRoundID = getOperatingRoundID ();
+			tDoneAction = new DoneCorpAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			tDoneAction.addNewActingCorpEffect (this);
+			tDoneAction.addClearTrainsFromMapEffect (this);
+			// If we need to do a Formation Round, add effect here to the Done Action to set the new Round State
+			// to the Formation Round State. 
+			
+			tOperatingRound = corporationList.getOperatingRound ();
+			tOperatingRound.addAction (tDoneAction);
+			applyPreparedActions ();
+		}
+		hideFrame ();
+
 		return tStatusUpdated;
 	}
 
