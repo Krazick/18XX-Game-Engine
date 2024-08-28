@@ -187,9 +187,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.addNewFrame (roundFrame);
 		roundFrame.setFrameToConfigDetails (gameManager);
 		setCurrentOR (0);
-		setORCount (0);
+		setOperatingRoundCount (0);
 		addedOR = false;
-		setRoundType (ActorI.ActionStates.StockRound);
 	}
 
 	public RoundFrame getRoundFrame () {
@@ -806,12 +805,58 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
+	public void revalidateRoundFrame () {
+		roundFrame.repaint ();
+		roundFrame.revalidate ();
+	}
+
+	public void updateAllListenerPanels () {
+		roundFrame.updateAllListenerPanels ();
+	}
+	
+	// Functions to Change from one Round Type to another
+	
+	public void updateRoundFrame () {
+		int tRoundID;
+
+		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
+			operatingRound.sortByOperatingOrder ();
+
+			if (isStockRound ()) {
+				updateAllCorporationsBox ();
+				tRoundID = stockRound.getIDPart1 ();
+				roundFrame.setStockRoundInfo (gameName, tRoundID);
+			}
+			if (isOperatingRound ()) {
+				tRoundID = operatingRound.getIDPart1 ();
+				roundFrame.setOperatingRound (gameName, tRoundID, currentOR, operatingRoundCount);
+				updateOperatingCorporationFrame ();
+				operatingRound.updateActionLabel ();
+			}
+			if (isAAuctionRound ()) {
+				tRoundID = auctionRound.getIDPart1 ();
+
+				roundFrame.setAuctionRound (gameName, tRoundID);
+			}
+			roundFrame.updateAll ();
+		}
+	}
+	
+	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
+		setRoundType (aRoundType);
+	}
+	
+	// May not need the next 3 methods anymore 8/27/2024
 	public void setRoundToOperatingRound () {
 		setRoundType (ActorI.ActionStates.OperatingRound);
 	}
 
 	public void setRoundToStockRound () {
 		setRoundType (ActorI.ActionStates.StockRound);
+	}
+
+	public void setRoundToAuctionRound () {
+		setRoundType (ActorI.ActionStates.AuctionRound);
 	}
 
 	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
@@ -837,25 +882,35 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		revalidateRoundFrame ();
 	}
 
-	public void setOperatingRoundCount () {
-		int tOperatingRoundsCount;
-		PhaseInfo tCurrentPhase;
-		PhaseManager tPhaseManager;
+	public void setRoundToStockRound (int aRoundIDPart1) {
+		String tOldRoundID;
+		String tNewRoundID;
+		boolean tCreateNewAction;
 
-		tPhaseManager = gameManager.getPhaseManager ();
-		tCurrentPhase = tPhaseManager.getCurrentPhaseInfo ();
-		tOperatingRoundsCount = tCurrentPhase.getOperatingRoundsCount ();
-		setORCount (tOperatingRoundsCount);
-		revalidateRoundFrame ();
+		tCreateNewAction = true;
+		tOldRoundID = stockRound.getID ();
+		stockRound.setID (aRoundIDPart1, 1);
+		tNewRoundID = stockRound.getID ();
+		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
+				tCreateNewAction);
+
+		stockRound.clearAllPlayerPasses ();
+
+		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
 
-	public void setORCount (int aORCount) {
-		operatingRoundCount = aORCount;
-	}
+	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
+		String tOldRoundID;
+		String tNewRoundID;
+		int tRoundID;
 
-	public void revalidateRoundFrame () {
-		roundFrame.repaint ();
-		roundFrame.revalidate ();
+		tOldRoundID = auctionRound.getID ();
+		tRoundID = incrementRoundIDPart1 (auctionRound);
+		tNewRoundID = tRoundID + "";
+		auctionRound.setID (tOldRoundID);
+		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, tOldRoundID, tNewRoundID,
+				aCreateNewAuctionAction);
+		roundFrame.setAuctionRound (gameName, tRoundID);
 	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundType, Round aNewRound,
@@ -892,106 +947,24 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
-	public void updateAllListenerPanels () {
-		roundFrame.updateAllListenerPanels ();
+	public void setOperatingRoundCount () {
+		int tOperatingRoundsCount;
+		PhaseInfo tCurrentPhase;
+		PhaseManager tPhaseManager;
+
+		tPhaseManager = gameManager.getPhaseManager ();
+		tCurrentPhase = tPhaseManager.getCurrentPhaseInfo ();
+		tOperatingRoundsCount = tCurrentPhase.getOperatingRoundsCount ();
+		setOperatingRoundCount (tOperatingRoundsCount);
+		revalidateRoundFrame ();
 	}
+
+	public void setOperatingRoundCount (int aORCount) {
+		operatingRoundCount = aORCount;
+	}
+
+	// End of functions to deal with changing Rounds from one type to another
 	
-	public void updateRoundFrame () {
-		int tRoundID;
-
-		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
-			operatingRound.sortByOperatingOrder ();
-
-			if (isStockRound ()) {
-				updateAllCorporationsBox ();
-				tRoundID = stockRound.getIDPart1 ();
-				roundFrame.setStockRoundInfo (gameName, tRoundID);
-			}
-			if (isOperatingRound ()) {
-				tRoundID = operatingRound.getIDPart1 ();
-				roundFrame.setOperatingRound (gameName, tRoundID, currentOR, operatingRoundCount);
-				updateOperatingCorporationFrame ();
-				operatingRound.updateActionLabel ();
-			}
-			if (isAAuctionRound ()) {
-				tRoundID = auctionRound.getIDPart1 ();
-
-				roundFrame.setAuctionRound (gameName, tRoundID);
-			}
-			roundFrame.updateAll ();
-		}
-	}
-
-	public void setRoundToStockRound (int aRoundIDPart1) {
-		String tOldRoundID;
-		String tNewRoundID;
-		boolean tCreateNewAction = true;
-
-		tOldRoundID = stockRound.getID ();
-		stockRound.setID (aRoundIDPart1, 1);
-		tNewRoundID = stockRound.getID ();
-		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
-				tCreateNewAction);
-
-		stockRound.clearAllPlayerPasses ();
-
-		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
-	}
-
-	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
-		String tOldRoundID;
-		String tNewRoundID;
-		int tRoundID;
-
-		tOldRoundID = auctionRound.getID ();
-		tRoundID = incrementRoundIDPart1 (auctionRound);
-		tNewRoundID = tRoundID + "";
-		auctionRound.setID (tOldRoundID);
-		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, tOldRoundID, tNewRoundID,
-				aCreateNewAuctionAction);
-		roundFrame.setAuctionRound (gameName, tRoundID);
-	}
-
-	public void showFrame () {
-		roundFrame.setVisible (true);
-	}
-
-	public void showAuctionFrame () {
-		auctionRound.showAuctionFrame ();
-	}
-
-	public void showCurrentPlayerFrame () {
-		stockRound.showCurrentPlayerFrame ();
-	}
-
-	public boolean companyStartedOperating () {
-		return operatingRound.companyStartedOperating ();
-	}
-
-	public void prepareCorporation () {
-		operatingRound.prepareCorporation ();
-	}
-
-	public void showCurrentCompanyFrame () {
-		operatingRound.showCurrentCompanyFrame ();
-	}
-
-	public void showMap () {
-		gameManager.showMap ();
-	}
-
-	public void bringMapToFront () {
-		gameManager.bringMapToFront ();
-	}
-
-	public void showTileTray () {
-		gameManager.showTileTray ();
-	}
-
-	public void bringTileTrayToFront () {
-		gameManager.bringTileTrayToFront ();
-	}
-
 	public void resetOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
 		setRoundType (ActorI.ActionStates.OperatingRound);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
@@ -1052,6 +1025,46 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound.prepareStockRound ();
 		roundFrame.updateAll ();
 		updateAllListenerPanels ();
+	}
+	
+	public void showFrame () {
+		roundFrame.setVisible (true);
+	}
+
+	public void showAuctionFrame () {
+		auctionRound.showAuctionFrame ();
+	}
+
+	public void showCurrentPlayerFrame () {
+		stockRound.showCurrentPlayerFrame ();
+	}
+
+	public boolean companyStartedOperating () {
+		return operatingRound.companyStartedOperating ();
+	}
+
+	public void prepareCorporation () {
+		operatingRound.prepareCorporation ();
+	}
+
+	public void showCurrentCompanyFrame () {
+		operatingRound.showCurrentCompanyFrame ();
+	}
+
+	public void showMap () {
+		gameManager.showMap ();
+	}
+
+	public void bringMapToFront () {
+		gameManager.bringMapToFront ();
+	}
+
+	public void showTileTray () {
+		gameManager.showTileTray ();
+	}
+
+	public void bringTileTrayToFront () {
+		gameManager.bringTileTrayToFront ();
 	}
 
 	public boolean bankIsBroken () {
