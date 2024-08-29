@@ -2583,12 +2583,13 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public String getSidesInUse () {
-		String tSidesInUse = "";
+		String tSidesInUse;
 
+		tSidesInUse = GUI.EMPTY_STRING;
 		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			if (trainUsingSide [tSideIndex] > 0) {
-				if (tSidesInUse != "") {
-					tSidesInUse += ", ";
+				if (tSidesInUse != GUI.EMPTY_STRING) {
+					tSidesInUse += GUI.COMMA_SPACE;
 				}
 				tSidesInUse += tSideIndex + ": " + trainUsingSide [tSideIndex];
 			}

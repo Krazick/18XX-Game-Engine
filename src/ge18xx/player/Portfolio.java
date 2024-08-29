@@ -946,7 +946,7 @@ public class Portfolio implements CertificateHolderI {
 		tBidderNames = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tBidderNames.length () > 0) {
-				tBidderNames += ", ";
+				tBidderNames += GUI.COMMA_SPACE;
 			}
 			tBidderNames += tCertificate.getBidderNames ();
 		}

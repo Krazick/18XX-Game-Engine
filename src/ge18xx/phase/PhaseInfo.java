@@ -5,6 +5,7 @@ import java.util.Comparator;
 import org.w3c.dom.NodeList;
 
 import ge18xx.round.action.PreparedAction;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -290,7 +291,7 @@ public class PhaseInfo {
 	}
 
 	public String getTiles () {
-		return String.join (", ", tiles);
+		return String.join (GUI.COMMA_SPACE, tiles);
 	}
 
 	public int getSubName () {

@@ -219,7 +219,7 @@ public class ParPricesPanel extends ListenerPanel {
 							if (tCompaniesAtPrice [tParPriceIndex] == null) {
 								tCompaniesAtPrice [tParPriceIndex] = tShareCompany.getAbbrev ();
 							} else {
-								tCompaniesAtPrice [tParPriceIndex] += ", " + tShareCompany.getAbbrev ();
+								tCompaniesAtPrice [tParPriceIndex] += GUI.COMMA_SPACE + tShareCompany.getAbbrev ();
 							}
 						}
 					}

@@ -183,7 +183,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tLicenses = GUI.EMPTY_STRING;
 		for (License tLicense : licenses) {
 			if (!tLicenses.equals (GUI.EMPTY_STRING)) {
-				tLicenses += ", ";
+				tLicenses += GUI.COMMA_SPACE;
 			}
 			tLicenses += tLicense.getName ();
 		}

@@ -165,7 +165,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 			if (tEffect instanceof StateChangeEffect) {
 				tActorName = ((StateChangeEffect) tEffect).getActorName ();
 				if (!tActorNames.contains (tActorName)) {
-					tActorNames += tActorName + ", ";
+					tActorNames += tActorName + GUI.COMMA_SPACE;
 				}
 			}
 		}

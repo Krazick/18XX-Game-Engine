@@ -16,6 +16,7 @@ import java.util.List;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
@@ -115,16 +116,19 @@ public class Tracks implements Cloneable {
 	}
 
 	public String getToolTip () {
-		String tTip = "";
-		String tPriorTip = "X";
-		String tThisTip = "";
+		String tTip;
+		String tPriorTip;
+		String tThisTip;
 
+		tTip = GUI.EMPTY_STRING;
+		tPriorTip = "X";
+		tThisTip = GUI.EMPTY_STRING;
 		for (Track tSegment : segments) {
 			if (tSegment.getGauge ().useNameInToolTip ()) {
 				tThisTip = tSegment.getGaugeName ();
 				if (tPriorTip != tThisTip) {
-					if (tTip != "") {
-						tTip += ", ";
+					if (tTip != GUI.EMPTY_STRING) {
+						tTip += GUI.COMMA_SPACE;
 					}
 					tTip += tThisTip;
 					tPriorTip = tThisTip;
@@ -132,7 +136,7 @@ public class Tracks implements Cloneable {
 			}
 		}
 
-		if (!tTip.equals ("")) {
+		if (!tTip.equals (GUI.EMPTY_STRING)) {
 			tTip = "Gauge: " + tTip + "<br>";
 		}
 
@@ -140,8 +144,9 @@ public class Tracks implements Cloneable {
 	}
 
 	public boolean isTrackOnSide (int aSide) {
-		boolean tIsTrackOnSide = false;
-
+		boolean tIsTrackOnSide;
+		
+		tIsTrackOnSide = false;
 		for (Track tSegment : segments) {
 			if (tSegment.isTrackToSide (aSide)) {
 				tIsTrackOnSide = true;
@@ -152,8 +157,9 @@ public class Tracks implements Cloneable {
 	}
 
 	public boolean isTrackToSide (int aSide) {
-		boolean tIsTrackToSide = false;
+		boolean tIsTrackToSide;
 
+		tIsTrackToSide = false;
 		for (Track tSegment : segments) {
 			if (tSegment.isTrackToSide (aSide)) {
 				tIsTrackToSide = true;

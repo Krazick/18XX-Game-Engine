@@ -28,6 +28,49 @@ public class Bidders {
 		certificate = aCertificate;
 	}
 
+	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLBidders;
+		XMLElement tXMLBidderElement;
+
+		tXMLBidders = NO_XML_BIDDERS;
+		if (bidders.size () > 0) {
+			tXMLBidders = aXMLDocument.createElement (EN_BIDDERS);
+			for (Bidder tBidder : bidders) {
+				tXMLBidderElement = tBidder.getElements (aXMLDocument);
+				tXMLBidders.appendChild (tXMLBidderElement);
+			}
+		}
+
+		return tXMLBidders;
+	}
+	
+	public void addBidderInfo (XMLNode aBiddersNode) {
+		XMLNodeList tXMLBiddersNodeList;
+
+		tXMLBiddersNodeList = new XMLNodeList (bidderParsingRoutine);
+		tXMLBiddersNodeList.parseXMLNodeList (aBiddersNode, Bidder.EN_BIDDER);
+	}
+
+	ParsingRoutineI bidderParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aBidderNode) {
+			CashHolderI tCashHolder;
+			String tBidderName;
+			int tCash;
+
+			tBidderName = aBidderNode.getThisAttribute (Player.AN_NAME);
+			tCash = aBidderNode.getThisIntAttribute (Player.AN_CASH);
+			if (!hasBidOnThisCert (tBidderName)) {
+				tCashHolder = certificate.getCashHolderByName (tBidderName);
+				if (tCashHolder != ActorI.NO_ACTOR) {
+					addBidderInfo (tCashHolder, tCash);
+				} else {
+					System.err.println ("Failed to Find Bidder named " + tBidderName);
+				}
+			}
+		}
+	};
+
 	public void addBidderInfo (CashHolderI aCashHolder, int aAmount) {
 		Bidder tBidder;
 
@@ -74,28 +117,12 @@ public class Bidders {
 		tBidderNames = GUI.EMPTY_STRING;
 		for (Bidder tBidder : bidders) {
 			if (tBidderNames.length () > 0) {
-				tBidderNames += ", ";
+				tBidderNames += GUI.COMMA_SPACE;
 			}
 			tBidderNames += tBidder.getName ();
 		}
 
 		return tBidderNames;
-	}
-
-	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLBidders;
-		XMLElement tXMLBidderElement;
-
-		tXMLBidders = NO_XML_BIDDERS;
-		if (bidders.size () > 0) {
-			tXMLBidders = aXMLDocument.createElement (EN_BIDDERS);
-			for (Bidder tBidder : bidders) {
-				tXMLBidderElement = tBidder.getElements (aXMLDocument);
-				tXMLBidders.appendChild (tXMLBidderElement);
-			}
-		}
-
-		return tXMLBidders;
 	}
 
 	public Bidder getBidderAt (int aIndex) {
@@ -373,31 +400,4 @@ public class Bidders {
 
 		return tTotalEscrows;
 	}
-
-	public void addBidderInfo (XMLNode aBiddersNode) {
-		XMLNodeList tXMLBiddersNodeList;
-
-		tXMLBiddersNodeList = new XMLNodeList (bidderParsingRoutine);
-		tXMLBiddersNodeList.parseXMLNodeList (aBiddersNode, Bidder.EN_BIDDER);
-	}
-
-	ParsingRoutineI bidderParsingRoutine = new ParsingRoutineI () {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aBidderNode) {
-			String tBidderName;
-			int tCash;
-			CashHolderI tCashHolder;
-
-			tBidderName = aBidderNode.getThisAttribute (Bidder.AN_NAME);
-			tCash = aBidderNode.getThisIntAttribute (Bidder.AN_CASH);
-			if (!hasBidOnThisCert (tBidderName)) {
-				tCashHolder = certificate.getCashHolderByName (tBidderName);
-				if (tCashHolder != ActorI.NO_ACTOR) {
-					addBidderInfo (tCashHolder, tCash);
-				} else {
-					System.err.println ("Failed to Find Bidder named " + tBidderName);
-				}
-			}
-		}
-	};
 }

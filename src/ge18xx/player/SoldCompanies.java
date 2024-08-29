@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import geUtilities.GUI;
+
 public class SoldCompanies {
 	public static final JLabel NO_SOLD_COMPANIES = null;
 	List<String> soldCompanies;
@@ -86,7 +88,7 @@ public class SoldCompanies {
 		String tSoldCompanies;
 
 		if (soldCompanies.size () > 0) {
-			tSoldCompanies = "Sold: " + uniqueCompanies (", ");
+			tSoldCompanies = "Sold: " + uniqueCompanies (GUI.COMMA_SPACE);
 			tSoldCompaniesLabel = new JLabel (tSoldCompanies);
 		}
 

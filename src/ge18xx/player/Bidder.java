@@ -2,15 +2,12 @@ package ge18xx.player;
 
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
-import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
 public class Bidder implements ActorI {
 	public static final ElementName EN_BIDDER = new ElementName ("Bidder");
-	public static final AttributeName AN_CASH = new AttributeName ("cash");
-	public static final AttributeName AN_NAME = new AttributeName ("name");
 	CashHolderI cashHolder;
 	int amount;
 
@@ -18,13 +15,27 @@ public class Bidder implements ActorI {
 		Player tPlayer;
 		
 		if (aBidder.isAPlayer ()) {
-			cashHolder = aBidder;
+			setCashHolder (aBidder);
 			setAmount (aAmount);
 			tPlayer = (Player) cashHolder;
 			tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
 		} else {
 			System.err.println ("Bidder is not a Player, can't set Auction State.");
 		}
+	}
+	
+	public XMLElement getElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_BIDDER);
+		tXMLElement.setAttribute (Player.AN_CASH, amount);
+		tXMLElement.setAttribute (Player.AN_NAME, cashHolder.getName ());
+
+		return tXMLElement;
+	}
+
+	private void setCashHolder (CashHolderI aBidder) {
+		cashHolder = aBidder;
 	}
 
 	public CashHolderI getCashHolder () {
@@ -53,16 +64,6 @@ public class Bidder implements ActorI {
 		tStateName = tPlayer.auctionActionState.toString ();
 		
 		return tStateName;
-	}
-
-	public XMLElement getElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = aXMLDocument.createElement (EN_BIDDER);
-		tXMLElement.setAttribute (AN_CASH, amount);
-		tXMLElement.setAttribute (AN_NAME, cashHolder.getName ());
-
-		return tXMLElement;
 	}
 
 	public boolean hasPassed () {

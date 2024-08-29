@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ge18xx.network.JGameClient;
+import geUtilities.GUI;
 
 public class SavedGame {
 	String gameName;
@@ -207,7 +208,7 @@ public class SavedGame {
 		if (players.size () > 0) {
 			for (String tPlayer : players) {
 				if (tPlayers.length () > 0) {
-					tPlayers += ", ";
+					tPlayers += GUI.COMMA_SPACE;
 				}
 				tPlayers += tPlayer;
 			}

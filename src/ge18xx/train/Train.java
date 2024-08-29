@@ -47,7 +47,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final AttributeName AN_STATUS = new AttributeName ("status");
 	public static final String NO_TRAIN_NAME = null;
 	public static final String MISSING_NAME = "MISSING";
-	public static final String NO_TILE_INFO = "";
+	public static final String NO_TILE_INFO = GUI.EMPTY_STRING;
 	public static final String TYPE_NAME = "Train";
 	public static final Train NO_TRAIN = null;
 	public static final int MAX_STOPS = 30;

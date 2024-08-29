@@ -131,7 +131,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 				if (tShareCompany != Corporation.NO_CORPORATION) {
 					if (tShareCompany.willFold ()) {
 						if (! GUI.EMPTY_STRING.equals (tTokenLocations)) {
-							tTokenLocations += ", ";
+							tTokenLocations += GUI.COMMA_SPACE;
 						}
 						tTokenLocation = collectHomeTokenInfo (tShareCompany);
 						tSimpleTokenInfo = getSimpleTokenInfo (tTokenLocation);

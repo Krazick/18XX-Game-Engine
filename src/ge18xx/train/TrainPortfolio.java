@@ -477,12 +477,12 @@ public class TrainPortfolio implements TrainHolderI {
 				tTrainList += tTrain.getName ();
 				tTrainIndex++;
 				if (tTrainIndex < trains.size ()) {
-					tTrainList += ", ";
+					tTrainList += GUI.COMMA_SPACE;
 				}
 			}
 			if (tTrainIndex < tTrainLimit) {
 				for (tIndex = tTrainIndex; tIndex < tTrainLimit; tIndex++) {
-					tTrainList += ", X";
+					tTrainList += GUI.COMMA_SPACE + "X";
 				}
 			}
 			tTrainList += ")";
@@ -777,7 +777,7 @@ public class TrainPortfolio implements TrainHolderI {
 			for (tIndex2 = 0; tIndex2 < tCount2; tIndex2++) {
 				tNameAndQuantity += getTrainAndCount (tNames [tIndex2], tQuantities [tIndex2]);
 				if ((tIndex2 + 1) < tCount2) {
-					tNameAndQuantity += ", ";
+					tNameAndQuantity += GUI.COMMA_SPACE;
 				}
 			}
 		}
@@ -794,7 +794,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tTrainStatusForOrder;
 
 		tTrainStatusForOrder = Train.NO_ORDER;
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.getOrder () == aOrder) {
 					tTrainStatusForOrder = tTrain.getStatus ();

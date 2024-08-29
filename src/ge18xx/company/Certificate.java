@@ -104,10 +104,10 @@ public class Certificate implements Comparable<Certificate> {
 	boolean secondIssue;
 	int percentage;
 	String [] allowedOwners = null;
+	Bidders bidders;
 	FrameButton frameButton;
 	Corporation corporation;
 	CertificateHolderI owner;
-	Bidders bidders;
 	CertificateInfoFrame infoFrame;
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
@@ -116,56 +116,95 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tSecondIssue;
 		int tPercentage;
 		
-		tAllowedOwners = null;
 		tIsPresidentShare = aNode.getThisBooleanAttribute (AN_DIRECTOR);
-		setIsPresidentShare (tIsPresidentShare);
-		
-		tSecondIssue = aNode.getThisBooleanAttribute (AN_SECOND_ISSUE);
-		setSecondIssue (tSecondIssue);
-		
 		tPercentage = aNode.getThisIntAttribute (AN_PERCENTAGE);
-		setPercentage (tPercentage);
+		tSecondIssue = aNode.getThisBooleanAttribute (AN_SECOND_ISSUE);
 		
+//		tAllowedOwners = GUI.NULL_STRING;
 		tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
 		if (tAllowedOwners != GUI.NULL_STRING) {
 			allowedOwners = tAllowedOwners.split (GUI.COMMA);
 		}
 		
-		setCorporation (aCorporation);
-		setOwner (CertificateHolderI.NO_OWNER);
-		setParValuesCombo (GUI.NO_COMBO_BOX);
-		setCheckBox (GUI.NO_CHECK_BOX);
-		setFrameButton (checkBox, GUI.EMPTY_STRING);
-		bidders = new Bidders (this);
+		setValues (aCorporation, tIsPresidentShare, tPercentage);
+//		setCorporation (aCorporation);
+//		setIsPresidentShare (tIsPresidentShare);
+//		setPercentage (tPercentage);
+		setSecondIssue (tSecondIssue);
+
+		initCommon (CertificateHolderI.NO_OWNER);
+//		setOwner (CertificateHolderI.NO_OWNER);
+//		setCheckBox (GUI.NO_CHECK_BOX);
+//		setFrameButton (checkBox, GUI.EMPTY_STRING);
+//		setParValuesCombo (GUI.NO_COMBO_BOX);
+//		bidders = new Bidders (this);
 	}
 	
 	public Certificate (Certificate aCertificate) {
-		Corporation tCorporation;
+//		Corporation tCorporation;
 		
 		if (aCertificate != NO_CERTIFICATE) {
-			setIsPresidentShare (aCertificate.isPresidentShare ());
-			setSecondIssue (aCertificate.isSecondIssue ());
-			setPercentage (aCertificate.getPercentage ());
+//			tCorporation = aCertificate.getCorporation ();
+			setValues (aCertificate.getCorporation (), aCertificate.isPresidentShare (), aCertificate.getPercentage ());
+//			setCorporation (tCorporation);
+//			setIsPresidentShare (aCertificate.isPresidentShare ());
+//			setPercentage (aCertificate.getPercentage ());
 			allowedOwners = aCertificate.allowedOwners.clone ();
+			setSecondIssue (aCertificate.isSecondIssue ());
 			
-			tCorporation = aCertificate.getCorporation ();
-			setCorporation (tCorporation);
-			setOwner (aCertificate.getOwner ());
-			setCheckBox (GUI.NO_CHECK_BOX);
-			setFrameButton (checkBox, GUI.EMPTY_STRING);
-			setParValuesCombo (GUI.NO_COMBO_BOX);
-			bidders = new Bidders (this);
+//			setOwner (aCertificate.getOwner ());
+			initCommon (aCertificate.getOwner ());
 		}
 	}
 
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
-		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
-		setParValuesCombo (GUI.NO_COMBO_BOX);
-		setCheckBox (GUI.NO_CHECK_BOX);
-		setFrameButton (checkBox, GUI.EMPTY_STRING);
+		setValues (aCorporation, aIsPresidentShare, aPercentage);
+		initCommon (aOwner);
+//		setCheckBox (GUI.NO_CHECK_BOX);
+//		setParValuesCombo (GUI.NO_COMBO_BOX);
+//		setFrameButton (checkBox, GUI.EMPTY_STRING);
 	}
 	
+	public void setValues (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage) {
+		setCorporation (aCorporation);
+		setIsPresidentShare (aIsPresidentShare);
+		setPercentage (aPercentage);
+//		setOwner (aOwner);
+//		bidders = new Bidders (this);
+	}
+
+	private void initCommon (CertificateHolderI aOwner) {
+		setOwner (aOwner);
+		setCheckBox (GUI.NO_CHECK_BOX);
+		setFrameButton (checkBox, GUI.EMPTY_STRING);
+		setParValuesCombo (GUI.NO_COMBO_BOX);
+		setBidders (new Bidders (this));
+//		bidders = new Bidders (this);
+	}
+
+	public void addBiddersInfo (XMLNode aCertificateNode) {
+		XMLNodeList tXMLBiddersNodeList;
+
+		tXMLBiddersNodeList = new XMLNodeList (biddersParsingRoutine);
+		tXMLBiddersNodeList.parseXMLNodeList (aCertificateNode, Bidders.EN_BIDDERS);
+	}
+
+	ParsingRoutineI biddersParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
+			bidders.addBidderInfo (aBiddersNode);
+		}
+	};
+	
+	public CashHolderI getCashHolderByName (String aBidderName) {
+		CashHolderI tCashHolder;
+
+		tCashHolder = corporation.getCashHolderByName (aBidderName);
+
+		return tCashHolder;
+	}
+
 	public void setupInfoBuffon () {
 		infoButton = new KButton ("Info");
 		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
@@ -1123,10 +1162,6 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean valueEqualsDiscount () {
 		return (getValue () == getDiscount ());
 	}
-	
-	public boolean hasBidders () {
-		return bidders.hasBidders ();
-	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
@@ -1712,6 +1747,18 @@ public class Certificate implements Comparable<Certificate> {
 	public void setCorporation (Corporation aCorporation) {
 		corporation = aCorporation;
 	}
+	
+	public void setBidders (Bidders aBidders) {
+		bidders = aBidders;
+	}
+	
+	public Bidders getBidders () {
+		return bidders;
+	}
+	
+	public boolean hasBidders () {
+		return bidders.hasBidders ();
+	}
 
 	public boolean auctionIsOver () {
 		return bidders.auctionIsOver ();
@@ -1806,15 +1853,6 @@ public class Certificate implements Comparable<Certificate> {
 			checkBox.setEnabled (aEnabledState);
 			checkBox.setToolTipText (aToolTip);
 		}
-	}
-
-	public void setValues (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
-			CertificateHolderI aOwner) {
-		setCorporation (aCorporation);
-		setIsPresidentShare (aIsPresidentShare);
-		setPercentage (aPercentage);
-		setOwner (aOwner);
-		bidders = new Bidders (this);
 	}
 
 	private void setPercentage (int aPercentage) {
@@ -1964,28 +2002,6 @@ public class Certificate implements Comparable<Certificate> {
 		}
 
 		return tIsMatchingCertificate;
-	}
-
-	public void addBiddersInfo (XMLNode aCertificateNode) {
-		XMLNodeList tXMLBiddersNodeList;
-
-		tXMLBiddersNodeList = new XMLNodeList (biddersParsingRoutine);
-		tXMLBiddersNodeList.parseXMLNodeList (aCertificateNode, Bidders.EN_BIDDERS);
-	}
-
-	ParsingRoutineI biddersParsingRoutine = new ParsingRoutineI () {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
-			bidders.addBidderInfo (aBiddersNode);
-		}
-	};
-
-	public CashHolderI getCashHolderByName (String aBidderName) {
-		CashHolderI tCashHolder;
-
-		tCashHolder = corporation.getCashHolderByName (aBidderName);
-
-		return tCashHolder;
 	}
 
 	public void printAllBiddersEscrows () {

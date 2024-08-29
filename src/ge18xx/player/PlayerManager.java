@@ -128,7 +128,7 @@ public class PlayerManager implements XMLSaveGameI {
 		tPlayersInOrder = GUI.EMPTY_STRING;
 		for (Player tPlayer : players) {
 			if (tPlayersInOrder != GUI.EMPTY_STRING) {
-				tPlayersInOrder += ", ";
+				tPlayersInOrder += GUI.COMMA_SPACE;
 			}
 			tPlayersInOrder += tPlayer.getName ();
 		}

@@ -143,7 +143,7 @@ public class ShareExchange extends PlayerFormationPhase {
 						if ((tFoldingCompanyIndex + 1) == foldingCompanyCount) {
 							tShareExchangeText += " and ";
 						} else {
-							tShareExchangeText += ", ";
+							tShareExchangeText += GUI.COMMA_SPACE;
 						}
 					}
 					tShareExchangeText += aShareExchange.get (tFoldingCompanyIndex);
