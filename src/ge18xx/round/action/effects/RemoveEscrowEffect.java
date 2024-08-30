@@ -81,9 +81,11 @@ public class RemoveEscrowEffect extends Effect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied = false;
-		EscrowHolderI tHolder = (EscrowHolderI) actor;
+		boolean tEffectApplied;
+		EscrowHolderI tHolder;
 
+		tEffectApplied = false;
+		tHolder = (EscrowHolderI) actor;
 		tHolder.removeEscrow (escrow, Escrows.ESCROW_CLOSE_MATCH);
 		tEffectApplied = true;
 
@@ -92,6 +94,14 @@ public class RemoveEscrowEffect extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		return true;
+		boolean tEffectUndone;
+		EscrowHolderI tHolder;
+
+		tEffectUndone = false;
+		tHolder = (EscrowHolderI) actor;
+		tHolder.addEscrow (escrow);
+		tEffectUndone = true;
+		
+		return tEffectUndone;
 	}
 }
