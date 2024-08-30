@@ -460,10 +460,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy,
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
-		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
+//		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
 		
 		tBidders = aCertificateToBuy.getBidders ();
-		aCertificateToBuy.removeBidders ();
+		aCertificateToBuy.removeAllBidders ();
 		tWinAuctionAction.addRemoveBiddersEffect (this, aCertificateToBuy, tBidders);
 		
 		tWinAuctionAction.addFinishAuctionEffect (this);
@@ -1727,6 +1727,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return escrows.addEscrowInfo (aCertificate, aAmount);
 	}
 
+	public void addEscrow (Escrow aEscrow) {
+		escrows.addEscrow (aEscrow);
+	}
+	
 	@Override
 	public boolean removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
 		return escrows.removeEscrow (aEscrow, aMatchCriteria);
