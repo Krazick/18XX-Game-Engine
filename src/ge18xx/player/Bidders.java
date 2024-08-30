@@ -310,7 +310,7 @@ public class Bidders {
 				tBidder = (Player) getCashHolderAt (0);
 				tBid = getBidAt (0);
 				tBidder.refundEscrow (certificate, tBid, aWinAuctionAction);
-				bidders.remove (0);
+//				bidders.remove (0);
 				tBidder.updatePlayerJPanel ();
 			}
 		}
