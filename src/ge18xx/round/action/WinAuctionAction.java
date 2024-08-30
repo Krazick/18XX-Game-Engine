@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
+import ge18xx.player.Bidders;
 import ge18xx.player.Escrow;
 import ge18xx.player.EscrowHolderI;
 import ge18xx.player.PlayerFrame;
@@ -13,6 +14,7 @@ import ge18xx.round.action.effects.FinishAuctionEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.RemoveAllBidsEffect;
+import ge18xx.round.action.effects.RemoveBiddersEffect;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
@@ -64,6 +66,13 @@ public class WinAuctionAction extends BuyStockAction {
 
 		tRemoveAllBids = new RemoveAllBidsEffect (aActor, aCertificate);
 		addEffect (tRemoveAllBids);
+	}
+	
+	public void addRemoveBiddersEffect (ActorI aActor, Certificate aCertificate, Bidders aBidders) {
+		RemoveBiddersEffect tRemoveBiddersEffect;
+		
+		tRemoveBiddersEffect = new RemoveBiddersEffect (aActor, aCertificate, aBidders);
+		addEffect (tRemoveBiddersEffect);
 	}
 	
 	@Override
