@@ -105,7 +105,7 @@ public class RemoveAllBidsEffect extends Effect {
 		// Save for each Bidder, the Actor Name, the Bidder Index, and the Bid Amount
 		
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
-			tCertificate.removeAllBids ();
+			tCertificate.removeAllBidders ();
 			tEffectApplied = true;
 		}
 

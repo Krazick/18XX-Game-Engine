@@ -66,7 +66,7 @@ public class RemoveBiddersEffect extends Effect {
 		bidders = new Bidders (tCertificate);
 		addBiddersInfo (aEffectNode);
 		System.out.println ("Bidder Count " + bidders.getCount () + " Bidders " + bidders.getBidderNames ());
-		tCertificate.removeBidders ();
+		tCertificate.removeAllBidders ();
 	}
 	
 	public void addBiddersInfo (XMLNode aBiddersNode) {
@@ -134,13 +134,10 @@ public class RemoveBiddersEffect extends Effect {
 
 		tEffectApplied = false;
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
-		// TODO: Need to capture all Bidders and save to allow for Undo to restore them.
-		// Save for each Bidder, the Actor Name, the Bidder Index, and the Bid Amount
-		
 		tBidders = tCertificate.getBidders ();
 		setBidders (tBidders);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
-			tCertificate.removeBidders ();
+			tCertificate.removeAllBidders ();
 			tEffectApplied = true;
 		}
 
