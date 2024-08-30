@@ -185,12 +185,12 @@ public class Certificate implements Comparable<Certificate> {
 
 	public void addBiddersInfo (XMLNode aCertificateNode) {
 		XMLNodeList tXMLBiddersNodeList;
-
+		
 		tXMLBiddersNodeList = new XMLNodeList (biddersParsingRoutine);
 		tXMLBiddersNodeList.parseXMLNodeList (aCertificateNode, Bidders.EN_BIDDERS);
 	}
 
-	ParsingRoutineI biddersParsingRoutine = new ParsingRoutineI () {
+	public ParsingRoutineI biddersParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
 			bidders.addBidderInfo (aBiddersNode);
@@ -1824,6 +1824,10 @@ public class Certificate implements Comparable<Certificate> {
 		bidders.refundBids (aWinAuctionAction);
 	}
 
+	public void removeBidders () {
+		setBidders (Bidders.NO_BIDDERS);
+	}
+	
 	public void removeAllBids () {
 		bidders.removeAllBids ();
 	}
