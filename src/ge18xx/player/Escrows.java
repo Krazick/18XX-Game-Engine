@@ -31,7 +31,8 @@ public class Escrows {
 	}
 
 	public XMLElement getEscrowXML (XMLDocument aXMLDocument) {
-		XMLElement tXMLEscrows, tXMLEscrowElement;
+		XMLElement tXMLEscrows;
+		XMLElement tXMLEscrowElement;
 
 		tXMLEscrows = aXMLDocument.createElement (EN_ESCROWS);
 		for (Escrow tEscrow : escrows) {
@@ -87,8 +88,9 @@ public class Escrows {
 	}
 
 	public Escrow getEscrowMatching (String aEscrowName) {
-		Escrow tFoundEscrow = Escrow.NO_ESCROW;
+		Escrow tFoundEscrow;
 
+		tFoundEscrow = Escrow.NO_ESCROW;
 		for (Escrow tEscrow : escrows) {
 			if (tEscrow.getName ().equals (aEscrowName)) {
 				tFoundEscrow = tEscrow;
@@ -99,10 +101,12 @@ public class Escrows {
 	}
 
 	public Escrow getEscrowFor (Certificate aCertificate) {
-		Escrow tEscrow = Escrow.NO_ESCROW;
+		Escrow tEscrow;
 		Escrow tThisEscrow;
-		int tEscrowCount = escrows.size ();
+		int tEscrowCount;
 
+		tEscrow = Escrow.NO_ESCROW;
+		tEscrowCount = escrows.size ();
 		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
 			tThisEscrow = escrows.get (tEscrowIndex);
 			if (aCertificate.equals (tThisEscrow.getCertificate ())) {
@@ -132,10 +136,12 @@ public class Escrows {
 	}
 
 	public int getTotalEscrow () {
-		int tEscrowCount = escrows.size ();
+		int tEscrowCount;
+		int tTotalEscrow;
 		Escrow tThisEscrow;
-		int tTotalEscrow = 0;
 
+		tEscrowCount = escrows.size ();
+		tTotalEscrow = 0;
 		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
 			tThisEscrow = escrows.get (tEscrowIndex);
 			tTotalEscrow += tThisEscrow.getCash ();
@@ -179,12 +185,15 @@ public class Escrows {
 	}
 
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
-		Escrow tEscrow = getMatchingEscrow (aCertificate);
+		Escrow tEscrow;
 
-		tEscrow.transferCashTo (escrowHolder, aBidAmount);
-		aWinAuctionAction.addRefundEscrowEffect (tEscrow, escrowHolder, aBidAmount);
-		removeEscrow (tEscrow);
-		aWinAuctionAction.addRemoveEscrowEffect (escrowHolder, tEscrow);
+		tEscrow = getMatchingEscrow (aCertificate);
+		if (tEscrow != Escrow.NO_ESCROW) {
+			tEscrow.transferCashTo (escrowHolder, aBidAmount);
+			aWinAuctionAction.addRefundEscrowEffect (tEscrow, escrowHolder, aBidAmount);
+			removeEscrow (tEscrow);
+			aWinAuctionAction.addRemoveEscrowEffect (escrowHolder, tEscrow);
+		}
 	}
 
 	public void removeAllEscrows () {
@@ -192,12 +201,15 @@ public class Escrows {
 	}
 
 	public Escrow getMatchingEscrow (String aActorName) {
-		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
+		Escrow tFoundEscrow;
 		String tEscrowName;
-		int tEscrowCount = escrows.size ();
+		int tEscrowCount;
 		boolean tEscrowMatched;
-		boolean tEscrowWasFound = false;
+		boolean tEscrowWasFound;
 
+		tFoundEscrow = Escrow.NO_ESCROW;
+		tEscrowCount = escrows.size ();
+		tEscrowWasFound = false;
 		if (tEscrowCount > 0) {
 			for (Escrow tEscrow : escrows) {
 				// Find an Escrow Name that matches for this Player, and return the first. Don't
@@ -243,6 +255,10 @@ public class Escrows {
 		return tEscrow;
 	}
 
+	public void addEscrow (Escrow aEscrow) {
+		escrows.add (aEscrow);
+	}
+	
 	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
 		Escrow tEscrow;
 
@@ -256,9 +272,10 @@ public class Escrows {
 	}
 
 	public void raiseBid (Certificate aCertificate, int aRaise) {
-		int tEscrowCount = escrows.size ();
+		int tEscrowCount;
 		Escrow tFoundEscrow;
 
+		tEscrowCount = escrows.size ();
 		if (tEscrowCount > 0) {
 			tFoundEscrow = getEscrowFor (aCertificate);
 			escrowHolder.transferCashTo (tFoundEscrow, aRaise);
@@ -270,11 +287,14 @@ public class Escrows {
 	}
 
 	public boolean removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
-		int tEscrowCount = escrows.size ();
+		int tEscrowCount;
 		Escrow tEscrow;
-		String tPassedEscrowCompany, tFoundEscrowCompany;
-		boolean tEscrowRemoved = false;
+		String tPassedEscrowCompany;
+		String tFoundEscrowCompany;
+		boolean tEscrowRemoved;
 
+		tEscrowCount = escrows.size ();
+		tEscrowRemoved = false;
 		if (tEscrowCount > 0) {
 			tPassedEscrowCompany = aEscrow.getCompanyAbbrev ();
 			for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
