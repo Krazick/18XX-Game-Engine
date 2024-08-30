@@ -1727,6 +1727,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return escrows.addEscrowInfo (aCertificate, aAmount);
 	}
 
+	@Override
 	public void addEscrow (Escrow aEscrow) {
 		escrows.addEscrow (aEscrow);
 	}
