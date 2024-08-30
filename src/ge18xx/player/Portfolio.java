@@ -1916,7 +1916,7 @@ public class Portfolio implements CertificateHolderI {
 
 	public void removeAllBids () {
 		for (Certificate tCertificate : certificates) {
-			tCertificate.removeAllBids ();
+			tCertificate.removeAllBidders ();
 		}
 	}
 
