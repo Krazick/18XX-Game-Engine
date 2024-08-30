@@ -1172,9 +1172,11 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
 		tXMLElement.setAttribute (AN_SECOND_ISSUE, secondIssue);
 		tXMLElement.setAttribute (AN_PERCENTAGE, percentage);
-		tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);
-		if (tXMLBidders != Bidders.NO_XML_BIDDERS) {
-			tXMLElement.appendChild (tXMLBidders);
+		if (bidders != Bidders.NO_BIDDERS) {
+			tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);
+			if (tXMLBidders != Bidders.NO_XML_BIDDERS) {
+				tXMLElement.appendChild (tXMLBidders);
+			}
 		}
 
 		return tXMLElement;
@@ -1823,13 +1825,9 @@ public class Certificate implements Comparable<Certificate> {
 	public void refundBids (WinAuctionAction aWinAuctionAction) {
 		bidders.refundBids (aWinAuctionAction);
 	}
-
-	public void removeBidders () {
-		setBidders (Bidders.NO_BIDDERS);
-	}
 	
-	public void removeAllBids () {
-		bidders.removeAllBids ();
+	public void removeAllBidders () {
+		setBidders (new Bidders (this));
 	}
 
 	public void setBiddersAsRaiseBid () {
