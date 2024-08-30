@@ -438,6 +438,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 					boolean aCreateNewAuctionAction) {
 		boolean tNextShareHasBids;
 		String tRoundID;
+		Bidders tBidders;
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
 
@@ -460,6 +461,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
 		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
+		
+		tBidders = aCertificateToBuy.getBidders ();
+		aCertificateToBuy.removeBidders ();
+		tWinAuctionAction.addRemoveBiddersEffect (this, aCertificateToBuy, tBidders);
+		
 		tWinAuctionAction.addFinishAuctionEffect (this);
 		if (mustSetParPrice (tFreeCertificate)) {
 			setAllWaitStateEffects (tWinAuctionAction);
