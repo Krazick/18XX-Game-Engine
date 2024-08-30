@@ -316,7 +316,7 @@ public class Bidders {
 		}
 	}
 
-	public void removeAllBids () {
+	public void removeAllBidders () {
 		int tNumberOfBidders;
 		
 		tNumberOfBidders = getNumberOfBidders ();
