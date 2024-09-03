@@ -12,18 +12,34 @@ public class Bidder implements ActorI {
 	int amount;
 
 	public Bidder (CashHolderI aBidder, int aAmount) {
+		this (aBidder, aAmount, false);
+//		Player tPlayer;
+//		
+//		if (aBidder.isAPlayer ()) {
+//			setCashHolder (aBidder);
+//			setAmount (aAmount);
+//			tPlayer = (Player) cashHolder;
+//			tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
+//		} else {
+//			System.err.println ("Bidder is not a Player, can't set Auction State.");
+//		}
+	}
+	
+	public Bidder (CashHolderI aBidder, int aAmount, boolean aUpdateBidder) {
 		Player tPlayer;
 		
 		if (aBidder.isAPlayer ()) {
 			setCashHolder (aBidder);
 			setAmount (aAmount);
-			tPlayer = (Player) cashHolder;
-			tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+			if (aUpdateBidder) {
+				tPlayer = (Player) cashHolder;
+				tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
+			}
 		} else {
 			System.err.println ("Bidder is not a Player, can't set Auction State.");
 		}
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
@@ -72,7 +88,7 @@ public class Bidder implements ActorI {
 		
 		tPlayer = (Player) cashHolder;
 		
-		tHasPassed = (tPlayer.getAuctionActionState () == ActorI.ActionStates.AuctionPass);
+		tHasPassed = (tPlayer.getAuctionActionState () == ActorI.ActionStates.AuctionPassed);
 		
 		return tHasPassed;
 	}
@@ -81,7 +97,7 @@ public class Bidder implements ActorI {
 		Player tPlayer;
 		
 		tPlayer = (Player) cashHolder;
-		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPass);
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPassed);
 	}
 
 	public void raiseBid (Certificate aCertificate, int aRaise) {
@@ -90,7 +106,7 @@ public class Bidder implements ActorI {
 		tPlayer = (Player) cashHolder;
 		setAmount (amount + aRaise);
 		tPlayer.raiseBid (aCertificate, aRaise);
-		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
 	}
 
 	public boolean hasActed () {
