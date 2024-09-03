@@ -1440,14 +1440,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tTriggeredAuction = true;
 		
 		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
+		playerManager.startAuctionRound (aCreateNewAuctionAction);
+		
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
 		tStartAuctionAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
+				
 		tStartAuctionAction.setChainToPrevious (true);
+	
 		playerManager.addAction (tStartAuctionAction);
-		
-		playerManager.startAuctionRound (aCreateNewAuctionAction);
-
 	}
+	
 	public List<Benefit> getOwnerTypeBenefits () {
 		List<Benefit> tOwnerTypeBenefits;
 		
