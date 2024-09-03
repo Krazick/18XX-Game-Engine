@@ -12,6 +12,7 @@ public class PayCashRevenueEffect extends PayCashDividendEffect {
 
 	public PayCashRevenueEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, int aOperatingRoundPart2) {
 		super (aFromActor, aToActor, aCashAmount, aOperatingRoundPart2);
+		setName (NAME);
 	}
 	
 	public PayCashRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
