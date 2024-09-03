@@ -61,13 +61,13 @@ public class AuctionRound extends Round {
 	}
 
 	public void showAuctionFrame () {
-		gameManager.showAuctionFrame ();
+		auctionFrame.showFrame ();
 	}
 
 	public void startAuctionRound () {
 		roundManager.addPrivateToAuction ();
 		roundManager.setAuctionFrameLocation ();
-		showAuctionFrame ();
+		auctionFrame.showFrame ();
 	}
 	
 	@Override
