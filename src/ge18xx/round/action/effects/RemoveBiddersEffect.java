@@ -93,7 +93,9 @@ public class RemoveBiddersEffect extends Effect {
 		tEffectElement.setAttribute (AN_PERCENTAGE, getPercentage ());
 		tEffectElement.setAttribute (AN_IS_PRESIDENT, isPresident ());
 		tBiddersElement = bidders.getOnlyBiddersElement (aXMLDocument);
-		tEffectElement.appendChild (tBiddersElement);
+		if (tBiddersElement != XMLElement.NO_XML_ELEMENT) {
+			tEffectElement.appendChild (tBiddersElement);
+		}
 		
 		return tEffectElement;
 	}
@@ -130,12 +132,12 @@ public class RemoveBiddersEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		Certificate tCertificate;
 		boolean tEffectApplied;
-		Bidders tBidders;
+//		Bidders tBidders;
 
 		tEffectApplied = false;
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
-		tBidders = tCertificate.getBidders ();
-		setBidders (tBidders);
+//		tBidders = tCertificate.getBidders ();
+//		setBidders (tBidders);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeAllBidders ();
 			tEffectApplied = true;
