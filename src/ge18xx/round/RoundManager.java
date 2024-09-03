@@ -975,6 +975,13 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
 
+	// TODO -- Lowest Bidder needs to have the auctionState set to 'Bidder' like the
+	// AuctionFrame Class/addPrivateToAuction Method does. 
+	// Note for setting up this Auction, the individual Effects to set each Player state to are
+	// NOT being created as independent Effects to be applied to remote clients. 
+	// This whole Auction Setup should be revised so each separate Effect is documented
+	// in an Action to be consistent with the whole game system. This will improve the Undo Functionality.
+	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		setRoundToAuctionRound (aCreateNewAuctionAction);
 		auctionRound.startAuctionRound ();
