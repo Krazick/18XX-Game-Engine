@@ -74,7 +74,7 @@ public class Bidders {
 	public void addBidderInfo (CashHolderI aCashHolder, int aAmount) {
 		Bidder tBidder;
 
-		tBidder = new Bidder (aCashHolder, aAmount);
+		tBidder = new Bidder (aCashHolder, aAmount, false);
 		bidders.add (tBidder);
 	}
 
@@ -340,7 +340,7 @@ public class Bidders {
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
-				tBidder.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+				tBidder.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
 			}
 		}
 	}
@@ -357,7 +357,7 @@ public class Bidders {
 				tAsBidder = bidders.get (tBidderIndex);
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
 				if (tBidder.equals (aPlayer)) {
-					tBidder.setAuctionActionState (ActorI.ActionStates.AuctionPass);
+					tBidder.setAuctionActionState (ActorI.ActionStates.AuctionPassed);
 					tAsBidder.passBid ();
 				}
 			}

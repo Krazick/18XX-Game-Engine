@@ -276,7 +276,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setBidShare (boolean aBidShare) {
 		bidShare = aBidShare;
 		if (bidShare) {
-			setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+			setAuctionActionState (ActorI.ActionStates.AuctionRaised);
 			primaryActionState = ActionStates.Bid;
 		}
 	}
@@ -1003,7 +1003,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public boolean hasPassedInAuction () {
-		return auctionActionState == ActionStates.AuctionPass;
+		return auctionActionState == ActionStates.AuctionPassed;
 	}
 
 	public boolean hasSelectedOneToExchange () {
@@ -1610,7 +1610,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		tCanPass = false;
 		if (auctionActionState == ActionStates.NoAction) {
-			setAuctionActionState (ActionStates.AuctionPass);
+			setAuctionActionState (ActionStates.AuctionPassed);
 			tCanPass = true;
 		} else {
 			System.err.println ("Player has acted in Auction already, can't Pass");
@@ -1982,7 +1982,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCheapestEscrow = escrows.getCheapestEscrow ();
 		tCertificate = tCheapestEscrow.getCertificate ();
 		tCertificate.setAsPassForBidder (this);
-		setAuctionActionState (ActorI.ActionStates.AuctionPass);
+		setAuctionActionState (ActorI.ActionStates.AuctionPassed);
 	}
 
 	public Point getOffsetRoundFramePoint () {

@@ -653,7 +653,7 @@ public class PlayerManager implements XMLSaveGameI {
 				addAction (tBidStockAction);
 				// Need to set the default Auction Action State to a Raise for use in Action
 				// Frame
-				aPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+				aPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
 				aPlayer.updatePlayerInfo ();
 				stockRound.updateRFPlayerLabel (aPlayer);
 			} else {

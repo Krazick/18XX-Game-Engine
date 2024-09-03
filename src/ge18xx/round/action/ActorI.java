@@ -71,8 +71,8 @@ public interface ActorI {
 		
 		// Player Auction States
 		Bidder ("Bidder"), 
-		AuctionPass ("Auction Passed"),
-		AuctionRaise ("Auction Raised"), 
+		AuctionPassed ("Auction Passed"),
+		AuctionRaised ("Auction Raised"), 
 		NotBidder ("Not a Bidder"),
 
 		// Player Formation States

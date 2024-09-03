@@ -66,10 +66,10 @@ public class GenericActor implements ActorI {
 			tPlayerState = ActionStates.Bid;
 		} else if (aState.equals (ActionStates.Bidder.toString ())) {
 			tPlayerState = ActionStates.Bidder;
-		} else if (aState.equals (ActionStates.AuctionPass.toString ())) {
-			tPlayerState = ActionStates.AuctionPass;
-		} else if (aState.equals (ActionStates.AuctionRaise.toString ())) {
-			tPlayerState = ActionStates.AuctionRaise;
+		} else if (aState.equals (ActionStates.AuctionPassed.toString ())) {
+			tPlayerState = ActionStates.AuctionPassed;
+		} else if (aState.equals (ActionStates.AuctionRaised.toString ())) {
+			tPlayerState = ActionStates.AuctionRaised;
 		} else if (aState.equals (ActionStates.NotBidder.toString ())) {
 			tPlayerState = ActionStates.NotBidder;
 		} else if (aState.equals (ActionStates.WaitState.toString ())) {

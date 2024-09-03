@@ -238,7 +238,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tRaiseAmount = certificateToAuction.getRaiseAmount (aActingBidderIndex);
 		certificateToAuction.raiseBidFor (aActingBidderIndex);
 		tNewBidAmount = certificateToAuction.getBidAt (aActingBidderIndex);
-		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
 
 		tEscrow.setCash (tNewBidAmount);
 		tNewBidderState = tPlayer.getAuctionActionState ();
@@ -363,7 +363,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tOldBidderState = tPlayer.getAuctionActionState ();
 		certificateToAuction.passBidFor (aActingBidderIndex);
 
-		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPass);
+		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionPassed);
 
 		tNewBidderState = tPlayer.getAuctionActionState ();
 		tAuctionPassAction.addAuctionPassEffect (tPlayer, tOldBidderState, tNewBidderState);
@@ -985,9 +985,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			} else {
 				tPlayer = (Player) certificateToAuction.getCashHolderAt (aBidderIndex);
 				tLastAction = tPlayer.getAuctionActionState ();
-				if (ActorI.ActionStates.AuctionPass.equals (tLastAction)) {
+				if (ActorI.ActionStates.AuctionPassed.equals (tLastAction)) {
 					tSuffixLabel = PASSED;
-				} else if (ActorI.ActionStates.AuctionRaise.equals (tLastAction)) {
+				} else if (ActorI.ActionStates.AuctionRaised.equals (tLastAction)) {
 					tSuffixLabel = RAISED;
 				} else if (ActorI.ActionStates.Bidder.equals (tLastAction)) {
 					tSuffixLabel = BIDDING;
