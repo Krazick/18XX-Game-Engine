@@ -547,11 +547,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void addPrivateToAuction (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
-		Player tPlayer;
 		int tBidderCount;
 		int tHighestBidderIndex;
-		int tLowestBidderIndex;
-
 		updateAuctionItemInfo (aCertificateToAuction, aFreeCertificate);
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
@@ -571,10 +568,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			certificateToAuction.setBiddersAsRaiseBid ();
 			tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 
-			// Find the Lowest Bidder and set the state to NoAction
-			tLowestBidderIndex = certificateToAuction.getLowestBidderIndex ();
-			tPlayer = (Player) certificateToAuction.getCashHolderAt (tLowestBidderIndex);
-			tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
+			updateStateForLowestBidder ();
 
 			// Empty out the Bidders Box of all "one Bidder Box"s in case of undo/redo.. or
 			// followup auctions.
@@ -585,6 +579,20 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev ()
 					+ " with NO Bidders!!!");
 		}
+	}
+
+	public void updateStateForLowestBidder () {
+		Player tPlayer;
+		int tLowestBidderIndex;
+		
+		// Find the Lowest Bidder and set the state to Bidder so they will be the first to bid
+		// in the Auction. 
+		tLowestBidderIndex = certificateToAuction.getLowestBidderIndex ();
+		tPlayer = (Player) certificateToAuction.getCashHolderAt (tLowestBidderIndex);
+		tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
+		System.out.println ("Update Player " + tPlayer.getName () + " to " + 
+							tPlayer.getAuctionActionState ().toString ());
+	
 	}
 
 	private void fillBiddersPanel (int aBidderCount, int aHighestBidderIndex) {
