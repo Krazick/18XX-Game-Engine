@@ -480,9 +480,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean hasMustBuyCertificate () {
-		boolean tMustBuy = false;
+		boolean tMustBuy;
 		Certificate tCertificate;
 
+		tMustBuy = false;
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
@@ -497,8 +498,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean noMustSellLeft () {
-		boolean tNoMustSellLeft = true;
+		boolean tNoMustSellLeft;
 
+		tNoMustSellLeft = true;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getMustSell ()) {
 				tNoMustSellLeft = false;
@@ -509,10 +511,11 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean hasMustSell () {
-		boolean tHasMustSell = false;
+		boolean tHasMustSell;
 		Certificate tCertificate;
 		Corporation tCorporation;
 
+		tHasMustSell = false;
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
@@ -529,9 +532,10 @@ public class Portfolio implements CertificateHolderI {
 
 	public Certificate getMustSellCertificate () {
 		Certificate tCertificate;
-		Certificate tThisCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tThisCertificate;
 		Corporation tCorporation;
 
+		tThisCertificate = Certificate.NO_CERTIFICATE;
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
