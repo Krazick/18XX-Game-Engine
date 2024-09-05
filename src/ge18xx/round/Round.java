@@ -140,7 +140,8 @@ public abstract class Round implements ActorI {
 
 	public void setID (String aID) {
 		String tIDs[];
-		int tID1, tID2;
+		int tID1;
+		int tID2;
 
 		tIDs = aID.split ("\\.");
 		tID1 = Integer.parseInt (tIDs [0]);
