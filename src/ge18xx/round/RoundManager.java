@@ -676,15 +676,15 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tIDPart1;
 	}
 
-	public void incrementStockRound () {
-		int tIDPart1;
-		int tIDPart2;
-
-		tIDPart1 = incrementRoundIDPart1 (stockRound);
-		tIDPart2 = stockRound.getIDPart2 ();
-		stockRound.setID (tIDPart1, tIDPart2);
-		roundFrame.setFrameLabel (gameName, " " + tIDPart1);
-	}
+//	public void incrementStockRound () {
+//		int tIDPart1;
+//		int tIDPart2;
+//
+//		tIDPart1 = incrementRoundIDPart1 (stockRound);
+//		tIDPart2 = stockRound.getIDPart2 ();
+//		stockRound.setID (tIDPart1, tIDPart2);
+//		roundFrame.setFrameLabel (gameName, " " + tIDPart1);
+//	}
 
 	public boolean isAAuctionRound () {
 		return (currentRoundType == ActorI.ActionStates.AuctionRound);
