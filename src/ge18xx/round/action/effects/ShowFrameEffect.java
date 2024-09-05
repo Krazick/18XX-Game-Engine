@@ -74,6 +74,18 @@ public class ShowFrameEffect extends Effect {
 		return xmlFrameTitle;
 	}
 	
+	public boolean isCorporationFrame () {
+		boolean tIsCorporationFrame;
+		
+		if (xmlFrameTitle.contains ("Corporation Frame")) {
+			tIsCorporationFrame = true;
+		} else {
+			tIsCorporationFrame = false;
+		}
+		
+		return tIsCorporationFrame;
+	}
+	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -82,6 +94,10 @@ public class ShowFrameEffect extends Effect {
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (true);
 			tEffectApplied = true;
+		} else if (isCorporationFrame ()) {
+			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("XMLFrame titled " + xmlFrameTitle + " is NULL");
 		}
 
 		return tEffectApplied;
@@ -99,7 +115,7 @@ public class ShowFrameEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + xmlFrameTitle + ".");
+		return (REPORT_PREFIX + name + " " + xmlFrameTitle + ".");
 	}
 
 	@Override
@@ -109,14 +125,18 @@ public class ShowFrameEffect extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied;
+		boolean tEffectUndone;
 
-		tEffectApplied = false;
+		tEffectUndone = false;
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (false);
-			tEffectApplied = true;
+			tEffectUndone = true;
+		} else if (isCorporationFrame ()) {
+			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("XMLFrame titled " + xmlFrameTitle + " is NULL");
 		}
 
-		return tEffectApplied;
+		return tEffectUndone;
 	}
 }
