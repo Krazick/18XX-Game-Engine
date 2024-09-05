@@ -1438,6 +1438,7 @@ public class PlayerManager implements XMLSaveGameI {
 	};
 
 	public void passAction (Player aPlayer) {
+		RoundManager tRoundManager;
 		PassAction tPassAction;
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
@@ -1462,20 +1463,23 @@ public class PlayerManager implements XMLSaveGameI {
 			stockRound.updateRFPlayerLabel (aPlayer);
 			
 			if (tHaveAllPassed) {
+				tRoundManager = getRoundManager ();
 				// Test result -- if True, continue
 				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock
 				// Round
 				if (!stockRound.canStartOperatingRound ()) {
 					applyDiscountIfMustSell (aPlayer, tPassAction);
+					tRoundManager.incrementRoundIDPart1 (stockRound);
 				}
+				moveToNextPlayer (tNextPlayerIndex, tPassAction);
+				addAction (tPassAction);
 				if (!stockRound.startOperatingRound ()) {
 					clearAllPlayerPasses ();
-					moveToNextPlayer (tNextPlayerIndex, tPassAction);
 				}
 			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
+				addAction (tPassAction);
 			}
-			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
