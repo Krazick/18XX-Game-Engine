@@ -1059,11 +1059,6 @@ public class ShareCompany extends TokenCompany {
 		setValues (aLoanCount, aLoanTaken, aStartCell);
 		setRepaymentHandled (aRepaymentHandled);
 	}
-
-	@Override
-	public int getDestinationCapitalizationLevel () {
-		return destinationInfo.getCapitalizationLevel ();
-	}
 	
 	public void setDestinationCapitalizationLevel () {
 		int tCapitalizationLevel;
@@ -1075,7 +1070,12 @@ public class ShareCompany extends TokenCompany {
 	public void setDestinationCapitalizationLevel (int aCapitalizationLevel) {
 		destinationInfo.setCapitalizationLevel (aCapitalizationLevel);
 	}
-	
+
+	@Override
+	public int getDestinationCapitalizationLevel () {
+		return destinationInfo.getCapitalizationLevel ();
+	}
+
 	public int getGroup () {
 		return group;
 	}
@@ -1083,8 +1083,14 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public int calculateStartingTreasury () {
 		int tStartingTreasury;
-
-		tStartingTreasury = getDestinationCapitalizationLevel () * getParPrice ();
+		int tCapitalizationLevel;
+		
+		if (hasDestination ()) {
+			tCapitalizationLevel = getDestinationCapitalizationLevel ();
+		} else {
+			tCapitalizationLevel = getCapitalizationLevel ();
+		}
+		tStartingTreasury = tCapitalizationLevel * getParPrice ();
 
 		return tStartingTreasury;
 	}
