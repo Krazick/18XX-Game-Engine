@@ -1110,7 +1110,7 @@ public class ShareCompany extends TokenCompany {
 	public int getSharesSold () {
 		int tSharesSold;
 
-		tSharesSold = getPlayerOrCorpOwnedPercentage () / 10;
+		tSharesSold = getPlayerOrCorpOwnedPercentage () / PhaseInfo.STANDARD_SHARE_SIZE;
 
 		return tSharesSold;
 	}
