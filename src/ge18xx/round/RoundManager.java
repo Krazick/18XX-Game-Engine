@@ -929,7 +929,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 		if (!applyingAction ()) {
 			if (aCreateNewAction) {
-				if (!tRoundID.equals ("0.0")) {
+				if (!tRoundID.equals (Round.NO_ID_STRING)) {
 					tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tRoundID, aCurrentRound);
 					tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
 					if (! aOldRoundID.equals (aNewRoundID)) {
@@ -1046,10 +1046,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound.showCurrentPlayerFrame ();
 	}
 
-	public boolean companyStartedOperating () {
-		return operatingRound.companyStartedOperating ();
-	}
-
 	public void prepareCorporation () {
 		operatingRound.prepareCorporation ();
 	}
@@ -1072,10 +1068,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void bringTileTrayToFront () {
 		gameManager.bringTileTrayToFront ();
-	}
-
-	public boolean bankIsBroken () {
-		return gameManager.bankIsBroken ();
 	}
 
 	@Override
@@ -1122,20 +1114,58 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
-	public boolean applyingAction () {
-		return gameManager.applyingAction ();
+	// Game Manager handles with Boolean Return
+
+	public boolean canBuyTrainInPhase () {
+		boolean tCanBuyTrainInPhase;
+
+		tCanBuyTrainInPhase = gameManager.canBuyTrainInPhase ();
+
+		return tCanBuyTrainInPhase;
+	}
+
+	public boolean bankIsBroken () {
+		return gameManager.bankIsBroken ();
 	}
 
 	public boolean canStartOperatingRound () {
 		return gameManager.canStartOperatingRound ();
 	}
 
+	public boolean isLoading () {
+		return gameManager.gameIsStarted ();
+	}
+
+	public boolean isNetworkGame () {
+		return gameManager.isNetworkGame ();
+	}
+
+	public boolean getNotifyNetwork () {
+		return gameManager.getNotifyNetwork ();
+	}
+
+	public boolean applyingAction () {
+		return gameManager.applyingAction ();
+	}
+
+	// Operating Round handles with Boolean Return
+	
 	public boolean operatingRoundIsDone () {
 		return operatingRound.roundIsDone ();
 	}
 
+	public boolean companyStartedOperating () {
+		return operatingRound.companyStartedOperating ();
+	}
+
+	// Action Manager handles with Boolean Return
+	
 	public boolean undoLastAction () {
 		return actionManager.undoLastAction (this);
+	}
+
+	public boolean wasLastActionStartAuction () {
+		return actionManager.wasLastActionStartAuction ();
 	}
 
 	public void updateAllCorporationsBox () {
@@ -1158,20 +1188,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.updateAllFrames ();
 	}
 
-	public boolean wasLastActionStartAuction () {
-		return actionManager.wasLastActionStartAuction ();
-	}
-
 	public void sendToReportFrame (String aReport) {
 		actionManager.appendBorderedReport (aReport);
-	}
-
-	public boolean canBuyTrainInPhase () {
-		boolean tCanBuyTrainInPhase;
-
-		tCanBuyTrainInPhase = gameManager.canBuyTrainInPhase ();
-
-		return tCanBuyTrainInPhase;
 	}
 
 	public Corporation getCompanyByID (int tCorporationID) {
@@ -1226,20 +1244,12 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getClientUserName ();
 	}
 
-	public boolean isNetworkGame () {
-		return gameManager.isNetworkGame ();
-	}
-
 	public void updateAuctionFrame () {
 		gameManager.updateAuctionFrame ();
 	}
 
 	public void printAllPlayersInfo () {
 		gameManager.printAllPlayersInfo ();
-	}
-
-	public boolean getNotifyNetwork () {
-		return gameManager.getNotifyNetwork ();
 	}
 
 	public void showRoundFrame () {
@@ -1389,10 +1399,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public CorporationList getPrivates () {
 		return gameManager.getPrivates ();
-	}
-
-	public boolean isLoading () {
-		return gameManager.gameIsStarted ();
 	}
 
 	public void handleQueryBenefits () {
