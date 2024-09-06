@@ -1,13 +1,17 @@
 package ge18xx.round;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.PlayerInputFrame;
 
@@ -19,6 +23,9 @@ class SetRoundTypeTests {
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
 	OperatingRound operatingRound;
+	OperatingRound mOperatingRound;
+	PlayerTestFactory playerTestFactory;
+	PlayerManager mPlayerManager;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -34,6 +41,9 @@ class SetRoundTypeTests {
 		roundManager = roundTestFactory.buildRoundManager (gameManager);
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		operatingRound = roundTestFactory.buildOperatingRound (roundManager);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
+		mPlayerManager = playerTestFactory.buildPlayerManagerMock (3);
+		mOperatingRound = roundTestFactory.buildOperatingRoundMock (mPlayerManager,  roundManager);
 	}
 
 	@Test
@@ -64,5 +74,24 @@ class SetRoundTypeTests {
 		roundManager.setRoundTypeTo (ActorI.ActionStates.AuctionRound);
 		tCurrentRoundType = roundManager.getCurrentRoundType ();
 		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
+	}
+	
+	@Test
+	@DisplayName ("Testing the calls to gameManager boolean tests")
+	void verifyingGameManagerBooleanTests () {
+		roundManager.setGameManager (mGameManager);
+		roundManager.setOperatingRound (mOperatingRound);
+		
+		Mockito.when (mGameManager.applyingAction ()).thenReturn (true);
+		roundManager.applyingAction ();
+		Mockito.verify (mGameManager, times (1)).applyingAction ();
+		
+		Mockito.when (mGameManager.canStartOperatingRound ()).thenReturn (true);
+		roundManager.canStartOperatingRound ();
+		Mockito.verify (mGameManager, times (1)).canStartOperatingRound ();
+
+		Mockito.when (mOperatingRound.roundIsDone ()).thenReturn (true);
+		roundManager.operatingRoundIsDone ();
+		Mockito.verify (mOperatingRound, times (1)).roundIsDone ();
 	}
 }
