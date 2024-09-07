@@ -1106,14 +1106,14 @@ public class ShareCompany extends TokenCompany {
 		return tCapitalizationAmount;
 	}
 
-	@Override
-	public int getSharesSold () {
-		int tSharesSold;
-
-		tSharesSold = getPlayerOrCorpOwnedPercentage () / PhaseInfo.STANDARD_SHARE_SIZE;
-
-		return tSharesSold;
-	}
+//	@Override
+//	public int getSharesSold () {
+//		int tSharesSold;
+//
+//		tSharesSold = getPlayerOrCorpOwnedPercentage () / PhaseInfo.STANDARD_SHARE_SIZE;
+//
+//		return tSharesSold;
+//	}
 
 	@Override
 	public boolean shouldFloat () {
