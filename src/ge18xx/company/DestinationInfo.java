@@ -17,6 +17,7 @@ public class DestinationInfo {
 	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_ESCROW = new AttributeName ("escrow");
+	public static final String NO_DESTINATION_LABEL = "NO DESTINATION";
 	// TODO:
 	// Should take the location, and MapCell and make a sub-item "Destination" that is an array.
 	// This will allow for 1853 to support multiple Destinations (setup in the initial contract
@@ -46,7 +47,7 @@ public class DestinationInfo {
 		if (tDestinationLocation == Location.NO_LOCATION) {
 			setLocation (Location.NO_LOC);
 			setReached (true);
-			setLabel ("NONE");
+			setLabel (NO_DESTINATION_LABEL);
 		} else {
 			tLocation = new Location (tDestinationLocation);
 			setLocation (tLocation);
