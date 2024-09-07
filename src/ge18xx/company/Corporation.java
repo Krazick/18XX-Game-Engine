@@ -177,8 +177,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		String tHomeType;
 		String tActorType;
 		
-		corporationCertificates = new Portfolio (this);
-		portfolio = new Portfolio (this);
+		setCorporationCertificates (new Portfolio (this));
+		setPortfolio (new Portfolio (this));
 		id = aXMLNode.getThisIntAttribute (AN_ID);
 
 		tName = aXMLNode.getThisAttribute (AN_NAME);
@@ -206,6 +206,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setBenefitInUse (Benefit.FAKE_BENEFIT);
 	}
 
+	protected void setCorporationCertificates (Portfolio aCorporationCertificates) {
+		corporationCertificates = aCorporationCertificates;
+	}
+	
+	protected void setPortfolio (Portfolio aPortfolio) {
+		portfolio = aPortfolio;
+	}
+	
 	public void setTriggerFormation (boolean aTriggerFormation) {
 		triggerFormation = aTriggerFormation;
 	}
