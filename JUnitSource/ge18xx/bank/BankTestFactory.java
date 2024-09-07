@@ -3,24 +3,65 @@ package ge18xx.bank;
 import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
+import ge18xx.game.GameTestFactory;
 
 public class BankTestFactory {
-
+	GameTestFactory gameTestFactory;
+	GameManager gameManager;
+	
 	public BankTestFactory () {
 		// Nothing really to construct here.
 	}
 
+	public Bank buildBank () {
+		Bank tBank;
+		
+		buildGameManager ();
+		tBank = buildBank (gameManager);
+		
+		return tBank;
+	}
+	
+	public void buildGameManager () {
+		GameManager tGameManager;
+		
+		if (gameTestFactory == null) {
+			gameTestFactory = new GameTestFactory ();
+			tGameManager = gameTestFactory.buildGameManager ();
+			setGameManager (tGameManager);
+		}
+	}
+	
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	public GameManager getGameManager () {
+		return gameManager;
+	}
+	
 	public Bank buildBank (GameManager aGameManager) {
 		Bank tBank;
 
-		tBank = new Bank (0, aGameManager);
+		setGameManager (aGameManager);
+		tBank = new Bank (0, gameManager);
 
 		return tBank;
 	}
 
+	public Bank buildBankMock () {
+		Bank mBank;
+		
+		buildGameManager ();
+		mBank = buildBankMock (gameManager);
+		
+		return mBank;
+	}
+	
 	public Bank buildBankMock (GameManager aGameManager) {
 		Bank mBank;
 
+		setGameManager (aGameManager);
 		mBank = Mockito.mock (Bank.class);
 		Mockito.when (mBank.getAbbrev ()).thenReturn ("Bank Mock");
 		aGameManager.setBank (mBank);
