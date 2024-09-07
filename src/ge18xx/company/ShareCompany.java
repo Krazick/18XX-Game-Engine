@@ -410,7 +410,7 @@ public class ShareCompany extends TokenCompany {
 		String tDestinationLabel;
 		
 		if (destinationInfo == DestinationInfo.NO_DESTINATION_INFO) {
-			tDestinationLabel = "NONE";
+			tDestinationLabel = DestinationInfo.NO_DESTINATION_LABEL;
 		} else {
 			tDestinationLabel = destinationInfo.getLabel ();
 		}
@@ -700,14 +700,14 @@ public class ShareCompany extends TokenCompany {
 		return tSharesOwned;
 	}
 	
-	@Override
-	public int getSharesOwnedByPlayerOrCorp () {
-		int tSharesOwned;
-		
-		tSharesOwned = getPlayerOrCorpOwnedPercentage ()/ PhaseInfo.STANDARD_SHARE_SIZE;
-
-		return tSharesOwned;
-	}
+//	@Override
+//	public int getSharesOwnedByPlayerOrCorp () {
+//		int tSharesOwned;
+//		
+//		tSharesOwned = getPlayerOrCorpOwnedPercentage ()/ PhaseInfo.STANDARD_SHARE_SIZE;
+//
+//		return tSharesOwned;
+//	}
 
 	public int getMustRedeemLoanCount () {
 		int tLoanCount;
@@ -1046,17 +1046,21 @@ public class ShareCompany extends TokenCompany {
 		return tMarketCell;
 	}
 
-	private void setValues (int aLoanCount, boolean aLoanTaken, String aStartCell) {
-		setLoanCount (aLoanCount);
-		setLoanTaken (aLoanTaken);
-		startCell = aStartCell;
-	}
+//	private void setValues (int aLoanCount, boolean aLoanTaken, String aStartCell) {
+//		setLoanCount (aLoanCount);
+//		setLoanTaken (aLoanTaken);
+//		startCell = aStartCell;
+//	}
 
 	private void setValues (int aParPrice, MarketCell aSharePrice, int aLoanCount,
 							boolean aLoanTaken, boolean aRepaymentHandled, String aStartCell) {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
-		setValues (aLoanCount, aLoanTaken, aStartCell);
+//		setValues (aLoanCount, aLoanTaken, aStartCell);
+		setLoanCount (aLoanCount);
+		setLoanTaken (aLoanTaken);
+		startCell = aStartCell;
+
 		setRepaymentHandled (aRepaymentHandled);
 	}
 	
@@ -1105,15 +1109,6 @@ public class ShareCompany extends TokenCompany {
 
 		return tCapitalizationAmount;
 	}
-
-//	@Override
-//	public int getSharesSold () {
-//		int tSharesSold;
-//
-//		tSharesSold = getPlayerOrCorpOwnedPercentage () / PhaseInfo.STANDARD_SHARE_SIZE;
-//
-//		return tSharesSold;
-//	}
 
 	@Override
 	public boolean shouldFloat () {
@@ -1236,7 +1231,6 @@ public class ShareCompany extends TokenCompany {
 
 		return tCorpInfoJPanel;
 	}
-	
 	
 	@Override
 	public int getCurrentValue () {
