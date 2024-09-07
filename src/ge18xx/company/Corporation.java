@@ -1438,7 +1438,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public int getPresidentOwnedPercent () {
-		
 		PortfolioHolderI tPresident;
 		int tPresidentOwnedPercent;
 		
