@@ -56,7 +56,6 @@ public class DestinationInfo {
 			tDestinationLabel = aXMLNode.getThisAttribute (AN_DESTINATION);
 			setLabel (tDestinationLabel);
 		}
-
 	}
 	
 	public boolean hasDestination () {
