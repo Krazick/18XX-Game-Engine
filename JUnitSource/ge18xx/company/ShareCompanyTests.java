@@ -82,7 +82,7 @@ class ShareCompanyTests {
 	
 	@Test
 	@DisplayName ("Get Capitalization Level for Non-Destination Company Tests")
-	void getShareCompanyNDCapitalizationLevelTests () {
+	void getNDShareCompanyCapitalizationLevelTests () {
 		CorporationList mCorporationList;
 		
 		mCorporationList = companyTestFactory.getCorporationListMock ();
@@ -98,7 +98,7 @@ class ShareCompanyTests {
 	
 	@Test
 	@DisplayName ("Get Capitalization Level for Destination Company Tests")
-	void getShareCompanyDCapitalizationLevelTests () {
+	void getDShareCompanyCapitalizationLevelTests () {
 		CorporationList mDCorporationList;
 		
 		mDCorporationList = companyTestFactory.getCorporationListMock ();
@@ -122,5 +122,44 @@ class ShareCompanyTests {
 		Mockito.when (mDCorporationList.getCapitalizationLevel (5)).thenReturn (5);
 		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (50);
 		assertEquals (5, destinationShareCompany.getCapitalizationLevel ());
+	}
+	
+	@Test
+	@DisplayName ("Calculating Starting Treasury Tests")
+	void calculatingNDShareCompanyTreasuryTests () {
+		CorporationList mCorporationList;
+		
+		mCorporationList = companyTestFactory.getCorporationListMock ();
+		Mockito.when (mCorporationList.getCapitalizationLevel (6)).thenReturn (10);
+		noDestinationShareCompany.setCorporationList (mCorporationList);
+		noDestinationShareCompany.setParPrice (90);
+		Mockito.when (mNoDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (noDestinationShareCompany)).thenReturn (60);
+		assertEquals (900, noDestinationShareCompany.calculateStartingTreasury ());
+		
+		Mockito.when (mCorporationList.getCapitalizationLevel (3)).thenReturn (0);
+		noDestinationShareCompany.setParPrice (82);
+		Mockito.when (mNoDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (noDestinationShareCompany)).thenReturn (30);
+		assertEquals (0, noDestinationShareCompany.calculateStartingTreasury ());
+	}
+	
+	@Test
+	@DisplayName ("Calculating Starting Treasry for Destination Company Tests")
+	void calculatingDShareCompanyStartingTreasuryTests () {
+		CorporationList mDCorporationList;
+		
+		mDCorporationList = companyTestFactory.getCorporationListMock ();
+		Mockito.when (mDCorporationList.getCapitalizationLevel (6)).thenReturn (10);
+		destinationShareCompany.setCorporationList (mDCorporationList);
+		destinationShareCompany.setParPrice (100);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (60);
+		assertEquals (0, destinationShareCompany.calculateStartingTreasury ());
+		destinationShareCompany.setDestinationCapitalizationLevel (5);
+		assertEquals (500, destinationShareCompany.calculateStartingTreasury ());
+		
+		Mockito.when (mDCorporationList.getCapitalizationLevel (2)).thenReturn (2);
+		destinationShareCompany.setDestinationCapitalizationLevel (2);
+		destinationShareCompany.setParPrice (75);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (20);
+		assertEquals (150, destinationShareCompany.calculateStartingTreasury ());
 	}
 }
