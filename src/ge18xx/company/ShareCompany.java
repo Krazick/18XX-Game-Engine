@@ -1037,17 +1037,10 @@ public class ShareCompany extends TokenCompany {
 		return tMarketCell;
 	}
 
-//	private void setValues (int aLoanCount, boolean aLoanTaken, String aStartCell) {
-//		setLoanCount (aLoanCount);
-//		setLoanTaken (aLoanTaken);
-//		startCell = aStartCell;
-//	}
-
 	private void setValues (int aParPrice, MarketCell aSharePrice, int aLoanCount,
 							boolean aLoanTaken, boolean aRepaymentHandled, String aStartCell) {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
-//		setValues (aLoanCount, aLoanTaken, aStartCell);
 		setLoanCount (aLoanCount);
 		setLoanTaken (aLoanTaken);
 		startCell = aStartCell;
