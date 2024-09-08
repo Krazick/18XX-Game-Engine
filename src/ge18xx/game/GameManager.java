@@ -546,7 +546,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 
-	public void loadColorScheme (String tBaseDir, MapFrame tMapFrame) {
+	public void loadColorScheme (String aBaseDir, MapFrame aMapFrame) {
 		String tFullURL;
 		XMLDocument tXMLDocument;
 		
@@ -554,8 +554,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLDocument = new XMLDocument (tFullURL);
 
 		try {
-			tMapFrame.loadXMLColorScheme (tXMLDocument, tMapFrame.getTerrain ());
-			tMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
+			aMapFrame.loadXMLColorScheme (tXMLDocument, aMapFrame.getTerrain ());
+			aMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
 		} catch (Exception tException) {
 			logger.error ("Problem Loading Color Scheme: " + tException);
 			tException.printStackTrace ();
