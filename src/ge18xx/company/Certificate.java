@@ -120,39 +120,22 @@ public class Certificate implements Comparable<Certificate> {
 		tPercentage = aNode.getThisIntAttribute (AN_PERCENTAGE);
 		tSecondIssue = aNode.getThisBooleanAttribute (AN_SECOND_ISSUE);
 		
-//		tAllowedOwners = GUI.NULL_STRING;
 		tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
 		if (tAllowedOwners != GUI.NULL_STRING) {
 			allowedOwners = tAllowedOwners.split (GUI.COMMA);
 		}
 		
 		setValues (aCorporation, tIsPresidentShare, tPercentage);
-//		setCorporation (aCorporation);
-//		setIsPresidentShare (tIsPresidentShare);
-//		setPercentage (tPercentage);
 		setSecondIssue (tSecondIssue);
 
 		initCommon (CertificateHolderI.NO_OWNER);
-//		setOwner (CertificateHolderI.NO_OWNER);
-//		setCheckBox (GUI.NO_CHECK_BOX);
-//		setFrameButton (checkBox, GUI.EMPTY_STRING);
-//		setParValuesCombo (GUI.NO_COMBO_BOX);
-//		bidders = new Bidders (this);
 	}
 	
 	public Certificate (Certificate aCertificate) {
-//		Corporation tCorporation;
-		
 		if (aCertificate != NO_CERTIFICATE) {
-//			tCorporation = aCertificate.getCorporation ();
 			setValues (aCertificate.getCorporation (), aCertificate.isPresidentShare (), aCertificate.getPercentage ());
-//			setCorporation (tCorporation);
-//			setIsPresidentShare (aCertificate.isPresidentShare ());
-//			setPercentage (aCertificate.getPercentage ());
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setSecondIssue (aCertificate.isSecondIssue ());
-			
-//			setOwner (aCertificate.getOwner ());
 			initCommon (aCertificate.getOwner ());
 		}
 	}
@@ -161,17 +144,12 @@ public class Certificate implements Comparable<Certificate> {
 			CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage);
 		initCommon (aOwner);
-//		setCheckBox (GUI.NO_CHECK_BOX);
-//		setParValuesCombo (GUI.NO_COMBO_BOX);
-//		setFrameButton (checkBox, GUI.EMPTY_STRING);
 	}
 	
 	public void setValues (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage) {
 		setCorporation (aCorporation);
 		setIsPresidentShare (aIsPresidentShare);
 		setPercentage (aPercentage);
-//		setOwner (aOwner);
-//		bidders = new Bidders (this);
 	}
 
 	private void initCommon (CertificateHolderI aOwner) {
@@ -180,7 +158,6 @@ public class Certificate implements Comparable<Certificate> {
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setBidders (new Bidders (this));
-//		bidders = new Bidders (this);
 	}
 
 	public void addBiddersInfo (XMLNode aCertificateNode) {
