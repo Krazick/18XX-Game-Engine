@@ -32,14 +32,18 @@ public class CompanyTestFactory {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		mCorporationList = Mockito.mock (CorporationList.class);
+		setCorporationList (Mockito.mock (CorporationList.class));
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 	}
 
+	public void setCorporationList (CorporationList aCorporationList) {
+		mCorporationList = aCorporationList;
+	}
+	
 	/**
 	 * Builds the Company Test Factory using the provided GameTest Factory, and getting the Utilities Test Factory
 	 *
-	 * @param aGameTestFactory A Game Test Factory to be attacheck to this Company Test Factory
+	 * @param aGameTestFactory A Game Test Factory to be attached to this Company Test Factory
 	 *
 	 */
 	
@@ -47,6 +51,8 @@ public class CompanyTestFactory {
 		gameTestFactory = aGameTestFactory;
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		setCorporationList (Mockito.mock (CorporationList.class));
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 	}
 
 	/**
@@ -223,11 +229,6 @@ public class CompanyTestFactory {
 		Mockito.when (mCorporationList.getTrainLimit (Mockito.anyBoolean())).thenReturn (3);
 		mJPanel = Mockito.mock (JPanel.class);
 		Mockito.when (mCorporationList.buildFullCorpsJPanel (null, NO_TOKEN_COMPANY, mGameManager, false)).thenReturn (mJPanel);
-//		buildFullCorpsJPanel (this, corporation,
-//				tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);	
-		
-//		buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
-//				GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason)
 		
 		return mCorporationList;
 	}
@@ -263,7 +264,7 @@ public class CompanyTestFactory {
 				+ "	</Share>\n";
 
 		ShareCompany tShareCompany;
-		CorporationList mCorporationList;
+		CorporationList mtCorporationList;
 		GameManager mGameManager;
 		PhaseInfo mPhaseInfo;
 		
@@ -271,15 +272,18 @@ public class CompanyTestFactory {
 		
 		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
-		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
-
+		mtCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
+		Mockito.when (mtCorporationList.getGameManager ()).thenReturn (mGameManager);
+		if (mCorporationList == CorporationList.NO_CORPORATION_LIST) {
+			setCorporationList (mCorporationList);
+		}
+		
 		if (aCompanyIndex == 1) {
-			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mtCorporationList);
 		} else if (aCompanyIndex == 2) {
-			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mtCorporationList);
 		} else if (aCompanyIndex == 3) {
-			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mtCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
