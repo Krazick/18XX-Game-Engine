@@ -12,12 +12,14 @@ import org.mockito.Mockito;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankTestFactory;
+import ge18xx.game.GameTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioTestFactory;
 
 @DisplayName ("Share Company Class Tests")
 class ShareCompanyTests {
 	BankTestFactory bankTestFactory;
+	GameTestFactory gameTestFactory;
 	CompanyTestFactory companyTestFactory;
 	PortfolioTestFactory portfolioTestFactory;
 	ShareCompany noDestinationShareCompany;
@@ -28,9 +30,10 @@ class ShareCompanyTests {
 	
 	@BeforeEach
 	void setUp () throws Exception {
+		gameTestFactory = new GameTestFactory ();
 		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank ();
-		companyTestFactory = new CompanyTestFactory ();
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		portfolioTestFactory = new PortfolioTestFactory ();
 		noDestinationShareCompany = companyTestFactory.buildAShareCompany (1);
 		mNoDestinationPortfolio = portfolioTestFactory.buildPortfolioMock (noDestinationShareCompany);
@@ -75,5 +78,49 @@ class ShareCompanyTests {
 		assertEquals (2, destinationShareCompany.getSharesOwned ());
 		assertTrue (destinationShareCompany.hasDestination ());
 		assertEquals ("N17", destinationShareCompany.getDestinationLabel ());
+	}
+	
+	@Test
+	@DisplayName ("Get Capitalization Level for Non-Destination Company Tests")
+	void getShareCompanyNDCapitalizationLevelTests () {
+		CorporationList mCorporationList;
+		
+		mCorporationList = companyTestFactory.getCorporationListMock ();
+		Mockito.when (mCorporationList.getCapitalizationLevel (6)).thenReturn (10);
+		noDestinationShareCompany.setCorporationList (mCorporationList);
+		Mockito.when (mNoDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (noDestinationShareCompany)).thenReturn (60);
+		assertEquals (10, noDestinationShareCompany.getCapitalizationLevel ());
+		
+		Mockito.when (mCorporationList.getCapitalizationLevel (3)).thenReturn (0);
+		Mockito.when (mNoDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (noDestinationShareCompany)).thenReturn (30);
+		assertEquals (0, noDestinationShareCompany.getCapitalizationLevel ());
+	}
+	
+	@Test
+	@DisplayName ("Get Capitalization Level for Destination Company Tests")
+	void getShareCompanyDCapitalizationLevelTests () {
+		CorporationList mDCorporationList;
+		
+		mDCorporationList = companyTestFactory.getCorporationListMock ();
+		Mockito.when (mDCorporationList.getCapitalizationLevel (6)).thenReturn (10);
+		destinationShareCompany.setCorporationList (mDCorporationList);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (60);
+		assertEquals (10, destinationShareCompany.getCapitalizationLevel ());
+		
+		Mockito.when (mDCorporationList.getCapitalizationLevel (2)).thenReturn (2);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (20);
+		assertEquals (2, destinationShareCompany.getCapitalizationLevel ());
+		
+		Mockito.when (mDCorporationList.getCapitalizationLevel (3)).thenReturn (3);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (30);
+		assertEquals (3, destinationShareCompany.getCapitalizationLevel ());
+
+		Mockito.when (mDCorporationList.getCapitalizationLevel (4)).thenReturn (4);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (40);
+		assertEquals (4, destinationShareCompany.getCapitalizationLevel ());
+		
+		Mockito.when (mDCorporationList.getCapitalizationLevel (5)).thenReturn (5);
+		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (50);
+		assertEquals (5, destinationShareCompany.getCapitalizationLevel ());
 	}
 }
