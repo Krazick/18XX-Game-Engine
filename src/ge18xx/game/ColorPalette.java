@@ -19,8 +19,8 @@ public class ColorPalette implements LoadableXMLI {
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final ColorPalette NO_PALETTE = null;
-	public ElementName EN_Tier1 = new ElementName ("TerrainFeatures");
-	public ElementName EN_Tier2 = new ElementName ("Terrain");
+	public ElementName EN_Tier1;
+	public ElementName EN_Tier2;
 	static Paint [] [] paints = null;
 	int maxID;
 	
