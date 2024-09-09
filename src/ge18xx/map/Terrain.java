@@ -106,7 +106,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	public Terrain (XMLNode aNode) {
 		String tTerrainName;
-		int tTerrain, tCost, tLocation;
+		int tTerrain;
+		int tCost;
+		int tLocation;
 
 		tTerrainName = aNode.getThisAttribute (AN_TYPE);
 		if (tTerrainName != null) {
@@ -261,8 +263,11 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public void drawRiver (Graphics g, int Xc, int Yc, Hex aHex, Paint aPaint) {
-		int X1, Y1;
-		int width, height, index;
+		int X1;
+		int Y1;
+		int width;
+		int height;
+		int index;
 		int tTrackWidth;
 		int halfTW;
 		Graphics2D tGraphics2D;
@@ -372,7 +377,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 		boolean tIsMountainous;
 		
 		
-		tIsMountainous = ((terrain == HILL) || (terrain == MOUNTAIN) || (terrain == HIMALAYA));
+		tIsMountainous = ((terrain == HILL) || 
+						(terrain == MOUNTAIN) || 
+						(terrain == HIMALAYA));
 		
 		return tIsMountainous;
 	}
@@ -390,8 +397,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public boolean isRiver () {
-		boolean tIsRiver = false;
+		boolean tIsRiver;
 
+		tIsRiver = false;
 		switch (terrain) {
 
 		case RIVER:
@@ -409,7 +417,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	public boolean isSelectable () {
 		boolean tIsSelectable;
 
-		 tIsSelectable = true;
+		tIsSelectable = true;
 		switch (terrain) {
 
 		case OFF_BOARD_BLACK:
@@ -563,7 +571,8 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	public void setValues (int aTerrain, int aCost) {
 		setPaints ();
-		if ((aTerrain >= MIN_TERRAIN) && (aTerrain <= MAX_TERRAIN)) {
+		if ((aTerrain >= MIN_TERRAIN) && 
+			(aTerrain <= MAX_TERRAIN)) {
 			terrain = aTerrain;
 			setCost (aCost);
 		} else {
