@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
-import ge18xx.player.CashHolderI;
 import geUtilities.GUI;
 
 class TrainPortfolioTests {
@@ -145,8 +144,8 @@ class TrainPortfolioTests {
 	
 	@Test
 	@DisplayName ("Get CashHolder from TrainPortfolio test") 
-	void trainPortfolioCashCholderTest () {
-		assertEquals (CashHolderI.NO_CASH_HOLDER, trainPortfolio.getCashHolder ());
+	void trainPortfolioCashHolderTest () {
+		assertEquals (TrainCompany.NO_CASH_HOLDER, trainPortfolio.getCashHolder ());
 	}
 	
 	@Test
