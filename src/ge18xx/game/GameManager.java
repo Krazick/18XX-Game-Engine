@@ -52,6 +52,9 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkGameSupportTier2;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
+import ge18xx.player.Bidder;
+import ge18xx.player.Bidders;
+import ge18xx.player.CashHolderI;
 import ge18xx.player.Escrow;
 import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
@@ -158,6 +161,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	Bank bank;
 	TriggerClass triggerClass;
 	FormationPhase formationPhase;
+	ColorPalette biddersPalette;
 
 	// Various Frames the Game Manager tracks -- 
 	// Consider adding to a "FrameManager" Class
@@ -556,10 +560,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		try {
 			aMapFrame.loadXMLColorScheme (tXMLDocument, aMapFrame.getTerrain ());
 			aMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
+			
+			biddersPalette = new ColorPalette (Bidders.EN_BIDDERS, Bidder.EN_BIDDER);
+			biddersPalette.loadXML (tXMLDocument, biddersPalette);
+			
 		} catch (Exception tException) {
 			logger.error ("Problem Loading Color Scheme: " + tException);
 			tException.printStackTrace ();
 		}
+	}
+
+	public ColorPalette getBiddersPalette () {
+		return biddersPalette;
 	}
 
 	private void createMarket () {

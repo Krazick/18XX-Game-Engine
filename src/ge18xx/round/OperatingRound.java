@@ -108,13 +108,13 @@ public class OperatingRound extends Round {
 
 	public boolean updateForNextToOperate (CorporationList aCompanies) {
 		boolean tFoundNextToOperate;
-		TrainCompany tTrainCompany;
+		Corporation tTrainCompany;
 		int tNextShareToOperate;
 
 		tFoundNextToOperate = false;
 		tNextShareToOperate = aCompanies.getNextToOperate ();
 		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tNextShareToOperate);
+			tTrainCompany = (Corporation) aCompanies.getCorporation (tNextShareToOperate);
 			roundManager.updateActionLabel (tTrainCompany);
 			tFoundNextToOperate = true;
 		}
@@ -125,12 +125,12 @@ public class OperatingRound extends Round {
 	public boolean updateForCurrentlyOperating (CorporationList aCompanies) {
 		boolean tFoundCurrentOperating;
 		int tCurrentlyOperating;
-		TrainCompany tTrainCompany;
+		Corporation tTrainCompany;
 		
 		tFoundCurrentOperating = false;
 		tCurrentlyOperating = aCompanies.getCurrentlyOperating ();
 		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
-			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tCurrentlyOperating);
+			tTrainCompany = (Corporation) aCompanies.getCorporation (tCurrentlyOperating);
 			roundManager.updateActionLabel (tTrainCompany);
 			tFoundCurrentOperating = true;
 		}

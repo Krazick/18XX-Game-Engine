@@ -12,9 +12,9 @@ import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenInfo.TokenType;
-import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
+import ge18xx.player.CashHolderI;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.AttributeName;
@@ -39,7 +39,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		TrainCompany tTrainCompany;
+		CashHolderI tTrainCompany;
 		ShareCompany tShareCompany;
 
 		tActionCommand = aEvent.getActionCommand ();
@@ -59,13 +59,13 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		configure (aPrivateCompany, aButtonRow, tOwningCompany);
 	}
 
-	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow, TrainCompany aOperatingCompany) {
+	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow, Corporation aOperatingCompany) {
 		KButton tPlaceTokenButton;
 		
 		super.configure (aPrivateCompany, aButtonRow);
@@ -151,7 +151,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	private boolean hasTokenOnTile () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 		boolean tHasTokenOnTile;
 		MapCell tMapCell;
 
@@ -163,7 +163,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	private boolean hasTokens () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 		boolean tHasTokens;
 		int tTokenCount;
 
@@ -189,13 +189,13 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		updateButton (tOwningCompany);
 	}
 	
-	public void updateButton (TrainCompany aOperatingCompany) {
+	public void updateButton (Corporation aOperatingCompany) {
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-import ge18xx.company.TrainCompany;
+import ge18xx.player.CashHolderI;
 import ge18xx.player.Portfolio;
 import ge18xx.train.TrainPortfolio;
 
@@ -48,7 +48,7 @@ public class AllCorporationsPanel extends ListenerPanel {
 		int tCorporationCount;
 		
 		addMessage (Corporation.CORPORATION_STATUS_CHANGE);
-		addMessage (TrainCompany.CORPORATION_CASH_CHANGED);
+		addMessage (CashHolderI.CORPORATION_CASH_CHANGED);
 		addMessage (Portfolio.CERTIFICATE_ADDED);
 		addMessage (Portfolio.CERTIFICATE_REMOVED);
 		addMessage (TrainPortfolio.ADDED_TRAIN);

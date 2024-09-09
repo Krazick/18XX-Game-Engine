@@ -246,7 +246,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		tOwnedPercent = corporation.buildPercentOwned ();
 		corporationAllInfoJPanel.setBorder (BorderFactory.createTitledBorder (
-				BorderFactory.createLineBorder (((TrainCompany) corporation).getBgColor (), 2),
+				BorderFactory.createLineBorder (((Corporation) corporation).getBgColor (), 2),
 				" Information For " + corporation.getName () + " " + tOwnedPercent + " "));
 	}
 

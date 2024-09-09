@@ -17,9 +17,9 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
+import ge18xx.company.TrainCompany;
 import ge18xx.company.Coupon;
 import ge18xx.company.PurchaseTrainOffer;
-import ge18xx.company.TrainCompany;
 import ge18xx.game.FrameButton;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;

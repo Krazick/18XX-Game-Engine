@@ -6,12 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.License;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
-import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import geUtilities.xml.AttributeName;
@@ -140,7 +140,7 @@ public class PortPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		MapCell tSelectedMapCell;

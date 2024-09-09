@@ -23,6 +23,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.game.ColorPalette;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
@@ -718,7 +719,7 @@ public class Certificate implements Comparable<Certificate> {
 		Color tBorderColor;
 		Color tRegionColor;
 		Color tInnerColor;
-
+		
 		tInnerColor = new Color (237, 237, 237);
 		if (corporation.isAShareCompany ()) {
 			tRegionColor = getRegionColor ();
@@ -728,17 +729,29 @@ public class Certificate implements Comparable<Certificate> {
 			tCertInfoBorder = BorderFactory.createCompoundBorder (tRegionBorder, tCorporateColorBorder);
 			tCertInfoBorder2 = BorderFactory.createCompoundBorder (tCertInfoBorder, tInnerBorder);
 		} else {
-			if (bidders.hasBidders ()) {
-				tBorderColor = Color.RED;
-			} else {
-				tBorderColor = Color.BLACK;
-			}
+			tBorderColor = getBidderColor ();
 			tRegionBorder = BorderFactory.createLineBorder (tBorderColor);
 			tInnerBorder = BorderFactory.createLineBorder (tInnerColor, 5);
 			tCertInfoBorder2 = BorderFactory.createCompoundBorder (tRegionBorder, tInnerBorder);
 		}
 
 		return tCertInfoBorder2;
+	}
+
+	public Color getBidderColor () {
+		Color tBorderColor;
+		ColorPalette tBiddersPalette;
+		GameManager tGameManager;
+		Corporation tCorporation;
+		int tBidderCount;
+		
+		tCorporation = getCorporation ();
+		tGameManager = tCorporation.getGameManager ();
+		tBiddersPalette = tGameManager.getBiddersPalette ();
+		tBidderCount = bidders.getCount ();
+		tBorderColor = (Color) tBiddersPalette.getPaint (tBidderCount);
+		
+		return tBorderColor;
 	}
 
 	public Border getCorporateBorder () {
@@ -795,6 +808,7 @@ public class Certificate implements Comparable<Certificate> {
 		Border tLoweredBevel;
 		Border tBevelBorder;
 		Color tInnerColor;
+		Color tBorderColor;
 		String tPrivatePresident;
 		String tSharePresident;
 
@@ -808,7 +822,8 @@ public class Certificate implements Comparable<Certificate> {
 			tBevelBorder = BorderFactory.createCompoundBorder (tRaisedBevel, tLoweredBevel);
 			tPanelBorder = BorderFactory.createCompoundBorder (tBevelBorder, tInnerBorder);
 		} else {
-			tOuterBorder = BorderFactory.createLineBorder (Color.black, 1);
+			tBorderColor = getBidderColor ();
+			tOuterBorder = BorderFactory.createLineBorder (tBorderColor, 1);
 			tPanelBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
 		}
 

@@ -3,13 +3,13 @@ package ge18xx.company;
 import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
-
 import geUtilities.GUI;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
@@ -491,6 +491,11 @@ public class CompanyTestFactory {
 		
 		@Override
 		public void completeBenefitInUse (Corporation aOwningCompany) {
+		}
+
+		@Override
+		public Border setupBackgroundBorder (int aWidth) {
+			return null;
 		}
 
 	}

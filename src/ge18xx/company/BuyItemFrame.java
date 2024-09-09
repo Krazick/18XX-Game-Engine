@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
+import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.PurchaseOfferAction;
@@ -254,16 +255,16 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		return tGetPrice;
 	}
 
-	protected boolean samePresident (ActorI aOwningActor, TrainCompany aBuyingTrainCompany) {
+	protected boolean samePresident (ActorI aOwningActor, Corporation aBuyingTrainCompany) {
 		boolean tSamePresident;
 		String tPresidentName, tOwningPresidentName;
-		TrainCompany tOwningTrainCompany;
+		Corporation tOwningTrainCompany;
 		Player tOwningPlayer;
 
 		tSamePresident = false;
 		tPresidentName = aBuyingTrainCompany.getPresidentName ();
 		if (aOwningActor.isATrainCompany ()) {
-			tOwningTrainCompany = (TrainCompany) aOwningActor;
+			tOwningTrainCompany = (Corporation) aOwningActor;
 			tOwningPresidentName = tOwningTrainCompany.getPresidentName ();
 			if (tOwningPresidentName.equals (tPresidentName)) {
 				tSamePresident = true;
@@ -303,7 +304,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		trainCompany.addAction (tPurchaseOfferAction);
 	}
 
-	protected boolean needToMakeOffer (ActorI aOwningActor, TrainCompany aBuyingCompany) {
+	protected boolean needToMakeOffer (ActorI aOwningActor, Corporation aBuyingCompany) {
 		boolean tNeedToMakeOffer = true;
 		GameManager tGameManager;
 
@@ -433,7 +434,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	}
 
 	protected int getCurrentOwnerCash () {
-		TrainCompany tTrainCompany;
+		CashHolderI tTrainCompany;
 		Player tPlayer;
 		int tCurrentOwnerCash;
 
@@ -442,7 +443,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			tPlayer = (Player) currentOwner;
 			tCurrentOwnerCash = tPlayer.getCash ();
 		} else if (currentOwner.isATrainCompany ()) {
-			tTrainCompany = (TrainCompany) currentOwner;
+			tTrainCompany = (CashHolderI) currentOwner;
 			tCurrentOwnerCash = tTrainCompany.getCash ();
 		}
 

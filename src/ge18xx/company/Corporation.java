@@ -2460,11 +2460,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public int compareCanOperate (Corporation aCorporation) {
 		boolean tCanOperate1, tCanOperate2;
 		int tCompareCanOperate;
-		TrainCompany tCompany1, tCompany2;
+		Corporation tCompany1, tCompany2;
 
 		if (isAShareCompany ()) {
-			tCompany1 = (TrainCompany) this;
-			tCompany2 = (TrainCompany) aCorporation;
+			tCompany1 = (Corporation) this;
+			tCompany2 = (Corporation) aCorporation;
 			tCanOperate1 = tCompany1.canOperate ();
 			tCanOperate2 = tCompany2.canOperate ();
 			tCompareCanOperate = 0;
@@ -2784,6 +2784,29 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tCorpBorder = BorderFactory.createLineBorder (Color.black, 1);
 
 		return tCorpBorder;
+	}
+
+	protected Border setupBackgroundBorder (int aWidth) {
+		Border tBackgroundBorder;
+		Color tBackgroundColor;
+
+		tBackgroundColor = new Color (237, 237, 237);
+		tBackgroundBorder = BorderFactory.createLineBorder (tBackgroundColor, aWidth);
+
+		return tBackgroundBorder;
+	}
+	
+	protected Border setupOuterBorder (Color aBGColor) {
+		Border tOuterBorder;
+		int tThickness;
+	
+		tThickness = 2;
+		if (isSoldOut ()) {
+			tThickness = 4;
+		}
+		tOuterBorder = BorderFactory.createLineBorder (aBGColor, tThickness);
+	
+		return tOuterBorder;
 	}
 
 	@Override

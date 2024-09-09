@@ -122,7 +122,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tFrameButton;
 	}
 
-	public void verifyCanBuyTrain (TrainCompany aTrainCompany, TrainCheckboxInfo aTrainActionCheckboxInfo) {
+	public void verifyCanBuyTrain (CashHolderI aTrainCompany, TrainCheckboxInfo aTrainActionCheckboxInfo) {
 		boolean tCanBuyTrain;
 		boolean tHasCash;
 		String tCompanyAbbrev;
@@ -1136,11 +1136,11 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public String getTrainSummary () {
-		String tTrainSummary = "";
+		String tTrainSummary = GUI.EMPTY_STRING;
 		String tTrainInfo;
-		String tPreviousName = "";
-		String tCurrentName = "";
-		String tCost = "";
+		String tPreviousName = GUI.EMPTY_STRING;
+		String tCurrentName = GUI.EMPTY_STRING;
+		String tCost = GUI.EMPTY_STRING;
 		int tDiscountCost;
 		int tCount = 0;
 		String tRustInfo = TrainInfo.NO_RUST;

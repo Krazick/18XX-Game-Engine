@@ -1005,7 +1005,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JScrollPane tScrollCorpPane;
 		Color tFgColor;
 		Color tBgColor;
-		TrainCompany tTrainCompany;
+		Corporation tTrainCompany;
 		Border tBorder;
 
 		tOtherCorpsInfoJPanel = new JPanel ();
@@ -1019,7 +1019,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tOtherCorpsInfoJPanel.add (tOtherCorpInfoJPanel);
 			} else {
 				if (aBuyingCorporation.isATrainCompany ()) {
-					tTrainCompany = (TrainCompany) aBuyingCorporation;
+					tTrainCompany = (Corporation) aBuyingCorporation;
 					tBgColor = tTrainCompany.getBgColor ();
 					tFgColor = tTrainCompany.getFgColor ();
 				} else {

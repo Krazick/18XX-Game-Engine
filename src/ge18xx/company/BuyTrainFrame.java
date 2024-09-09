@@ -115,7 +115,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		boolean tVisible;
 		boolean tEnabled;
 		boolean tFixedPrice;
-		TrainCompany tCurrentCompanyOwner;
+		Corporation tCurrentCompanyOwner;
 
 		tPresidentName = trainCompany.getPresidentName ();
 		tTrainName = train.getName ();
@@ -129,7 +129,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tEnabled = true;
 		tToolTip = trainCompany.getAbbrev () + " can choose the price to pay for the Train.";
 		if (currentOwner.isATrainCompany ()) {
-			tCurrentCompanyOwner = (TrainCompany) currentOwner;
+			tCurrentCompanyOwner = (Corporation) currentOwner;
 			if (tCurrentCompanyOwner.mustPayFullPrice () ) {
 				tLowPrice = train.getPrice ();
 				tHighPrice = train.getPrice ();

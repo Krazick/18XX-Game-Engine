@@ -39,7 +39,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
-import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.CloseCompanyAction;
@@ -2428,7 +2427,7 @@ public class MapCell implements Comparator<Object> {
 		return tPrivateAbbrev;
 	}
 
-	public boolean privatePreventsTileLay (CorporationList privateCos, TrainCompany tOperatingTrainCompany) {
+	public boolean privatePreventsTileLay (CorporationList privateCos, Corporation tOperatingTrainCompany) {
 		boolean tPrivatePrevents = false;
 		PrivateCompany tPrivateCompany;
 

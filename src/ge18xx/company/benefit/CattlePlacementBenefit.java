@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
-import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
@@ -120,7 +120,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		MapCell tSelectedMapCell;

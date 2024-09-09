@@ -621,7 +621,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tBevelBorder2 = BorderFactory.createCompoundBorder (tBevelBorder1, tSamePrezBorder);
 			tPanelBorder = BorderFactory.createCompoundBorder (tSamePrezBorder, tBevelBorder2);
 		} else {
-			tOuterBorder = setupOuterBorder ();
+			tOuterBorder = setupOuterBorder (bgColor);
 			tPanelBorder = BorderFactory.createCompoundBorder (tOuterBorder, tBackgroundBorder);
 		}
 
@@ -636,34 +636,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tOuterBorder;
 	}
 
-	private Border setupOuterBorder () {
-		Border tOuterBorder;
-		int tThickness;
-
-		tThickness = 2;
-		if (isSoldOut ()) {
-			tThickness = 4;
-		}
-		tOuterBorder = BorderFactory.createLineBorder (bgColor, tThickness);
-
-		return tOuterBorder;
-	}
-
-	private Border setupBackgroundBorder (int aWidth) {
-		Border tBackgroundBorder;
-		Color tBackgroundColor;
-
-		tBackgroundColor = new Color (237, 237, 237);
-		tBackgroundBorder = BorderFactory.createLineBorder (tBackgroundColor, aWidth);
-
-		return tBackgroundBorder;
-	}
-
+//	@Override
+//	protected Border setupBackgroundBorder (int aWidth) {
+//		Border tBackgroundBorder;
+//		Color tBackgroundColor;
+//
+//		tBackgroundColor = new Color (237, 237, 237);
+//		tBackgroundBorder = BorderFactory.createLineBorder (tBackgroundColor, aWidth);
+//
+//		return tBackgroundBorder;
+//	}
+//
 	@Override
 	public Border setupBorder () {
-		Border tCorpBorder, tOuterBorder, tInnerBorder;
+		Border tCorpBorder;
+		Border tOuterBorder;
+		Border tInnerBorder;
 
-		tOuterBorder = setupOuterBorder ();
+		tOuterBorder = setupOuterBorder (bgColor);
 		tInnerBorder = setupBackgroundBorder (2);
 		tCorpBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
 

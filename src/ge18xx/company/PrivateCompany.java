@@ -1,13 +1,16 @@
 package ge18xx.company;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
@@ -263,6 +266,23 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tPrivateCertJPanel = tPresidentCertificate.buildPrivateCertJPanel (aItemListener, aAvailableCash);
 
 		return tPrivateCertJPanel;
+	}
+
+	@Override
+	public Border setupBorder () {
+		Border tCorpBorder;
+		Border tOuterBorder;
+		Border tInnerBorder;
+		Color tBidderColor;
+		Certificate tPresidentCertificate;
+
+		tPresidentCertificate = getPresidentCertificate ();
+		tBidderColor = tPresidentCertificate.getBidderColor ();
+		tOuterBorder = setupOuterBorder (tBidderColor);
+		tInnerBorder = setupBackgroundBorder (1);
+		tCorpBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
+
+		return tCorpBorder;
 	}
 
 	@Override

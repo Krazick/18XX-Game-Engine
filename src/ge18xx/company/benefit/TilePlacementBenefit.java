@@ -110,7 +110,7 @@ public class TilePlacementBenefit extends MapBenefit {
 
 		tOwnerHasEnoughCash = false;
 		tTrainCompany = getOwningCompany ();
-		if (tTrainCompany != Corporation.NO_CORPORATION) {
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 			tMap = getMap ();
 			tMapCell = tMap.getMapCellForID (mapCellID);
 			tCost = tMapCell.getCostToLayTile ();
@@ -128,7 +128,7 @@ public class TilePlacementBenefit extends MapBenefit {
 
 		tOwnerLaidTile = false;
 		tTrainCompany = getOwningCompany ();
-		if (tTrainCompany != Corporation.NO_CORPORATION) {
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 			if (tTrainCompany.hasLaidTile ()) {
 				tOwnerLaidTile = true;
 			}
@@ -155,7 +155,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	private void handlePlaceTile () {
 		HexMap tMap;
 		MapCell tMapCell;
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -180,7 +180,7 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void abortUse () {
-		TrainCompany tOwningCompany;
+		Corporation tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		resetBenefitInUse (tOwningCompany);

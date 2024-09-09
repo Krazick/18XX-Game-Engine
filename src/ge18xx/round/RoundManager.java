@@ -1276,18 +1276,18 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 	}
 
-	public void updateActionLabel (TrainCompany aTrainCompany) {
+	public void updateActionLabel (Corporation aCorporation) {
 		String tDoActionLabel;
 		
 		tDoActionLabel = "DO THIS COMPANY";
-		if (aTrainCompany.shouldOperate ()) {
-			tDoActionLabel = aTrainCompany.getDoLabel ();
+		if (aCorporation.shouldOperate ()) {
+			tDoActionLabel = aCorporation.getDoLabel ();
 		}
-		if (aTrainCompany.isOperating ()) {
-			tDoActionLabel = aTrainCompany.getOperatingLabel ();
+		if (aCorporation.isOperating ()) {
+			tDoActionLabel = aCorporation.getOperatingLabel ();
 		}
 		setButtonLabel (tDoActionLabel);
-		if (isNetworkAndIsThisClient (aTrainCompany.getPresidentName ())) {
+		if (isNetworkAndIsThisClient (aCorporation.getPresidentName ())) {
 			enableActionButton (true);
 		} else {
 			enableActionButton (false);
