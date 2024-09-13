@@ -24,6 +24,7 @@ class SetRoundTypeTests {
 	RoundManager roundManager;
 	OperatingRound operatingRound;
 	OperatingRound mOperatingRound;
+	StockRound stockRound;
 	PlayerTestFactory playerTestFactory;
 	PlayerManager mPlayerManager;
 
@@ -31,6 +32,7 @@ class SetRoundTypeTests {
 	void setUp () throws Exception {
 		String tClientName;
 		PlayerInputFrame mPlayerInputFrame;
+		RoundFrame mRoundFrame;
 
 		tClientName = "RMTestBuster";
 		gameTestFactory = new GameTestFactory ();
@@ -44,6 +46,12 @@ class SetRoundTypeTests {
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (3);
 		mOperatingRound = roundTestFactory.buildOperatingRoundMock (mPlayerManager,  roundManager);
+		Mockito.when (mOperatingRound.getID ()).thenReturn ("1.1");
+		roundManager.setOperatingRound (mOperatingRound);
+		stockRound = roundTestFactory.buildStockRound (mPlayerManager, roundManager);
+		roundManager.setStockRound (stockRound);
+		mRoundFrame = roundTestFactory.buildRoundFrameMock ();
+		roundManager.setRoundFrame (mRoundFrame);
 	}
 
 	@Test
@@ -55,6 +63,8 @@ class SetRoundTypeTests {
 		tCurrentRoundType = roundManager.getCurrentRoundType ();
 		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
 
+		stockRound.setIDPart1 (1);
+		stockRound.setIDPart2 (0);
 		roundManager.setRoundToStockRound ();
 		tCurrentRoundType = roundManager.getCurrentRoundType ();
 		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundType);
