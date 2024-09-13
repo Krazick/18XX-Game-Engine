@@ -94,7 +94,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 		setRounds (aPrivates, aMinors, aShares);
 		setOtherRoundInfo ();
-		setRoundToStockRound (1);
+		stockRound.setIDPart1 (0);
+		stockRound.setIDPart2 (0);
+		setRoundToStockRound ();
 
 		stockRound.setStartingPlayer ();
 	}
@@ -851,9 +853,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setRoundType (ActorI.ActionStates.OperatingRound);
 	}
 
-	public void setRoundToStockRound () {
-		setRoundType (ActorI.ActionStates.StockRound);
-	}
+//	public void setRoundToStockRound () {
+//		setRoundType (ActorI.ActionStates.StockRound);
+//	}
 
 	public void setRoundToAuctionRound () {
 		setRoundType (ActorI.ActionStates.AuctionRound);
@@ -882,21 +884,26 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		revalidateRoundFrame ();
 	}
 
-	public void setRoundToStockRound (int aRoundIDPart1) {
+	public void setRoundToStockRound () {
 		String tOldRoundID;
 		String tNewRoundID;
 		boolean tCreateNewAction;
-
+		int tRoundIDPart1;
+		
 		tCreateNewAction = true;
 		tOldRoundID = stockRound.getID ();
-		stockRound.setID (aRoundIDPart1, 1);
+		
+		incrementRoundIDPart1 (stockRound);
+
+//		stockRound.setID (aRoundIDPart1, 1);
 		tNewRoundID = stockRound.getID ();
+		tRoundIDPart1 = stockRound.getIDPart1 ();
 		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
 				tCreateNewAction);
 
 		stockRound.clearAllPlayerPasses ();
 
-		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
+		roundFrame.setStockRoundInfo (gameName, tRoundIDPart1);
 	}
 
 	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
@@ -1021,13 +1028,13 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void startStockRound () {
-		int tIDPart1;
+//		int tIDPart1;
 
 		if (bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
-		tIDPart1 = incrementRoundIDPart1 (stockRound);
-		setRoundToStockRound (tIDPart1);
+//		tIDPart1 = incrementRoundIDPart1 (stockRound);
+		setRoundToStockRound ();
 		gameManager.bringMarketToFront ();
 		stockRound.prepareStockRound ();
 		roundFrame.updateAll ();
