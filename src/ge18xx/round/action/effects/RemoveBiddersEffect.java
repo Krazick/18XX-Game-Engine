@@ -65,7 +65,6 @@ public class RemoveBiddersEffect extends Effect {
 		tCertificate = aGameManager.getCertificate (tCompanyAbbrev, tPercentage, tIsPresident);
 		bidders = new Bidders (tCertificate);
 		addBiddersInfo (aEffectNode);
-		System.out.println ("Bidder Count " + bidders.getCount () + " Bidders " + bidders.getBidderNames ());
 		tCertificate.removeAllBidders ();
 	}
 	
@@ -132,12 +131,9 @@ public class RemoveBiddersEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		Certificate tCertificate;
 		boolean tEffectApplied;
-//		Bidders tBidders;
 
 		tEffectApplied = false;
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
-//		tBidders = tCertificate.getBidders ();
-//		setBidders (tBidders);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeAllBidders ();
 			tEffectApplied = true;
