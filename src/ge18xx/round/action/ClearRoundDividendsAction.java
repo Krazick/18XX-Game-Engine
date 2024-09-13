@@ -7,7 +7,6 @@ import geUtilities.xml.XMLNode;
 
 public class ClearRoundDividendsAction extends Action {
 	public final static String NAME = "Clear Round Dividends";
-	int aPreviousAount;
 	
 	public ClearRoundDividendsAction (String aName) {
 		super (aName);
