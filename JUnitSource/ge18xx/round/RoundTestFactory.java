@@ -1,5 +1,9 @@
 package ge18xx.round;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+
 import org.mockito.Mockito;
 
 import ge18xx.company.CorporationList;
@@ -8,27 +12,25 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
 
 public class RoundTestFactory {
+	GameManager gameManager;
+	GameTestFactory gameTestFactory;
+	String clientName;
 
 	public RoundTestFactory () {
 
 	}
 
 	public RoundManager buildRoundManager () {
-		String tClientName;
+		clientName = "RTFBuster";
 
-		tClientName = "RTFBuster";
-
-		return buildRoundManager (tClientName);
+		return buildRoundManager (clientName);
 	}
 
 	public RoundManager buildRoundManager (String aClientName) {
-		GameManager tGameManager;
-		GameTestFactory tGameTestFactory;
+		gameTestFactory = new GameTestFactory ();
+		gameManager = gameTestFactory.buildGameManager (aClientName);
 
-		tGameTestFactory = new GameTestFactory ();
-		tGameManager = tGameTestFactory.buildGameManager (aClientName);
-
-		return buildRoundManager (tGameManager);
+		return buildRoundManager (gameManager);
 	}
 
 	public RoundManager buildRoundManager (GameManager aGameManager) {
@@ -62,6 +64,7 @@ public class RoundTestFactory {
 
 		mStockRound = Mockito.mock (StockRound.class);
 		Mockito.when (mStockRound.getType ()).thenReturn ("Stock Round Mock");
+		Mockito.when (mStockRound.getID ()).thenReturn ("1");
 
 		return mStockRound;
 	}
@@ -105,4 +108,27 @@ public class RoundTestFactory {
 		return mAuctionRound;
 	}
 
+	public RoundFrame buildRoundFrame () {
+		RoundManager tRoundManager;
+		RoundFrame tRoundFrame;
+		String tTitle;
+		
+		gameTestFactory = new GameTestFactory ();
+		gameManager = gameTestFactory.buildGameManager ();
+		tTitle = "RoundTestFactory Title";
+		tRoundManager = buildRoundManager ();
+		
+		tRoundFrame = new RoundFrame (tTitle, tRoundManager, gameManager);
+		
+		return tRoundFrame;
+	}
+	
+	public RoundFrame buildRoundFrameMock () {
+		RoundFrame mRoundFrame;
+		
+		mRoundFrame = Mockito.mock (RoundFrame.class);
+		doNothing ().when (mRoundFrame).setStockRoundInfo (anyString (), anyInt ());
+
+		return mRoundFrame;
+	}
 }
