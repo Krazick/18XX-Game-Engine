@@ -44,6 +44,7 @@ import ge18xx.round.action.FormationPhaseAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
+import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
@@ -300,9 +301,18 @@ public class PlayerManager implements XMLSaveGameI {
 	 *
 	 */
 	public void clearAllPercentBought () {
+		SetPercentBoughtAction tSetPercentBoughtAction;
+		String tStockRoundID;
+		Bank tBank;
+		
+		tStockRoundID = getStockRoundID ();
+		tBank = getBank ();
+		tSetPercentBoughtAction = new SetPercentBoughtAction (ActorI.ActionStates.StockRound, tStockRoundID, tBank);
 		for (Player tPlayer : players) {
-			tPlayer.clearAllPercentBought ();
+			tPlayer.clearAllPercentBought (tSetPercentBoughtAction);
 		}
+		tSetPercentBoughtAction.setChainToPrevious (true);
+		addAction (tSetPercentBoughtAction);
 	}
 
 	public boolean didAnyoneBuy () {
