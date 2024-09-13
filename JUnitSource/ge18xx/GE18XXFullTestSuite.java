@@ -1,6 +1,5 @@
 package ge18xx;
 
-import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
@@ -22,7 +21,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 		"ge18xx.round.actions.effects", 
 		"ge18xx.tiles", 
 		"ge18xx.train" })
-@SelectClasses ({ ge18xx.round.AllRoundManagerTestSuite.class })
+
 class GE18XXFullTestSuite {
 
 }
