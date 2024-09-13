@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
@@ -13,33 +12,32 @@ import geUtilities.xml.XMLNode;
 public class SetPercentBoughtEffect extends Effect {
 	public final static String NAME = "Set Percent Bought";
 	public final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	public final static AttributeName AN_PERCENT_BOUGHT = new AttributeName ("percentBought");
+	public final static AttributeName AN_PREVIOUS_PERCENT_BOUGHT = new AttributeName ("previousPercentBought");
+	public final static AttributeName AN_NEW_PERCENT_BOUGHT = new AttributeName ("newPercentBought");
 	String companyAbbrev;
-	int percent;
+	int previousPercent;
+	int newPercent;
 
-	public SetPercentBoughtEffect () {
-		super ();
-		setName (NAME);
-		setCompanyAbbrev (Corporation.NO_NAME_STRING);
-		setPercent (0);
-	}
-
-	public SetPercentBoughtEffect (ActorI aActor, String aCompanyAbbrev, int aPercent) {
+	public SetPercentBoughtEffect (ActorI aActor, String aCompanyAbbrev, int aPreviousPercent, int aNewPercent) {
 		super (NAME, aActor);
 		setCompanyAbbrev (aCompanyAbbrev);
-		setPercent (aPercent);
+		setPreviousPercent (aPreviousPercent);
+		setNewPercent (aNewPercent);
 	}
 
 	public SetPercentBoughtEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		
 		String tCompanyAbbrev;
-		int tPercent;
+		int tPreviousPercent;
+		int tNewPercent;
 		
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		setCompanyAbbrev (tCompanyAbbrev);
-		tPercent = aEffectNode.getThisIntAttribute (AN_PERCENT_BOUGHT);
-		setPercent (tPercent);
+		tPreviousPercent = aEffectNode.getThisIntAttribute (AN_PREVIOUS_PERCENT_BOUGHT);
+		setPreviousPercent (tPreviousPercent);
+		tNewPercent = aEffectNode.getThisIntAttribute (AN_NEW_PERCENT_BOUGHT);
+		setNewPercent (tNewPercent);
 	}
 	
 	@Override
@@ -48,8 +46,9 @@ public class SetPercentBoughtEffect extends Effect {
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
-		tEffectElement.setAttribute (AN_PERCENT_BOUGHT, percent);
-
+		tEffectElement.setAttribute (AN_PREVIOUS_PERCENT_BOUGHT, previousPercent);
+		tEffectElement.setAttribute (AN_NEW_PERCENT_BOUGHT, newPercent);
+		
 		return tEffectElement;
 	}
 
@@ -61,12 +60,20 @@ public class SetPercentBoughtEffect extends Effect {
 		companyAbbrev = aCompanyAbbrev;
 	}
 	
-	public void setPercent (int aPercent) {
-		percent = aPercent;
+	public void setPreviousPercent (int aPreviousPercent) {
+		previousPercent = aPreviousPercent;
 	}
 	
-	public int getPercent () {
-		return percent;
+	public void setNewPercent (int aNewPercent) {
+		newPercent = aNewPercent;
+	}
+	
+	public int getPreviousPercent () {
+		return previousPercent;
+	}
+	
+	public int getNewPercent () {
+		return newPercent;
 	}
 	
 	@Override
@@ -76,7 +83,7 @@ public class SetPercentBoughtEffect extends Effect {
 		tPlayer = (Player) getActor ();
 
 		return (REPORT_PREFIX + name + " for " + tPlayer.getName () + " Company Abbrev " + companyAbbrev + 
-				" " + percent + "%.");
+				" from " + previousPercent + "% to " + newPercent + "%.");
 	}
 
 	@Override
@@ -90,7 +97,7 @@ public class SetPercentBoughtEffect extends Effect {
 		Player tPlayer;
 
 		tPlayer = (Player) getActor ();
-		tPlayer.addPercentBought (companyAbbrev, percent);
+		tPlayer.setPercentBought (companyAbbrev, newPercent);
 		tEffectApplied = true;
 
 		return tEffectApplied;
@@ -102,7 +109,7 @@ public class SetPercentBoughtEffect extends Effect {
 		Player tPlayer;
 
 		tPlayer = (Player) getActor ();
-		tPlayer.addPercentBought (companyAbbrev, -percent);
+		tPlayer.setPercentBought (companyAbbrev, previousPercent);
 		tEffectUndone = true;
 
 		return tEffectUndone;
