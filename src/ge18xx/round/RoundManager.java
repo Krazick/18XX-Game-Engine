@@ -1028,12 +1028,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void startStockRound () {
-//		int tIDPart1;
-
 		if (bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
-//		tIDPart1 = incrementRoundIDPart1 (stockRound);
 		setRoundToStockRound ();
 		gameManager.bringMarketToFront ();
 		stockRound.prepareStockRound ();
