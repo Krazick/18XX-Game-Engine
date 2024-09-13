@@ -37,6 +37,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.WinAuctionAction;
@@ -212,8 +213,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		roundDividends.clear ();
 	}
 	
-	public void clearAllPercentBought () {
-		allPercentBought.clear ();
+	public void clearAllPercentBought (SetPercentBoughtAction aSetPercentBoughtAction) {
+		allPercentBought.clear (aSetPercentBoughtAction, this);
 	}
 
 	@Override
@@ -223,6 +224,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void addPercentBought (String aAbbrev, int aPercent) {
 		allPercentBought.addPercentBought (aAbbrev, aPercent);
+	}
+	
+	public void setPercentBought (String aAbbrev, int aPercent) {
+		allPercentBought.setPercentBought (aAbbrev, aPercent);
+		if (aPercent == AllPercentBought.ZERO_PERCENT) {
+			allPercentBought.removeZeroPercents ();
+		}
 	}
 	
 	public int getPercentBought (String aAbbrev) {
@@ -1534,6 +1542,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void updatePercentBought (List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
 		String tAbbrev;
 		int tPercentBought;
+		int tPreviousPercent;
+		int tNewPercent;
 
 		tPercentBought = 0;
 		tAbbrev = GUI.EMPTY_STRING;
@@ -1544,8 +1554,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		if (tPercentBought > 0) {
+			tPreviousPercent = allPercentBought.getPercentFor (tAbbrev);
 			allPercentBought.addPercentBought (tAbbrev, tPercentBought);
-			aBuyStockAction.addSetPercentBoughtEffect (this, tAbbrev, tPercentBought);
+			tNewPercent = allPercentBought.getPercentFor (tAbbrev);
+			aBuyStockAction.addSetPercentBoughtEffect (this, tAbbrev, tPreviousPercent, tNewPercent);
 		}
 	}
 	

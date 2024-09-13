@@ -1,5 +1,6 @@
 package ge18xx.player;
 
+import ge18xx.round.action.SetPercentBoughtAction;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -47,6 +48,10 @@ public class PercentBought {
 		}
 		
 		return tIsAbbrev;
+	}
+	
+	public void addSetPercentBoughtEffect (SetPercentBoughtAction aSetPercentBoughtAction, Player aPlayer, int aNewPercent) {
+		aSetPercentBoughtAction.addSetPercentBoughtEffect (aPlayer, abbrev, percent, aNewPercent);
 	}
 	
 	public XMLElement getElement (XMLDocument aXMLDocument) {
