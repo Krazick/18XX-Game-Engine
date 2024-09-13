@@ -3,6 +3,7 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.round.action.SetPercentBoughtAction;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -12,12 +13,25 @@ import geUtilities.xml.XMLNodeList;
 
 public class AllPercentBought {
 	public static final ElementName EN_ALL_PERCENT_BOUGHT = new ElementName ("AllPercentBought");
+	public static final int ZERO_PERCENT = 0;
 	List<PercentBought> allPercentBought;
 	
 	public AllPercentBought () {
 		allPercentBought = new LinkedList<PercentBought> ();
 	}
 
+	public void setPercentBought (String aAbbrev, int aPercentBought) {
+		if (allPercentBought.isEmpty ()) {
+			addNewPercentBought (aAbbrev, aPercentBought);
+		} else {
+			if (containsAbbrev (aAbbrev)) {
+				setPercent (aAbbrev, aPercentBought);
+			} else {
+				addNewPercentBought (aAbbrev, aPercentBought);
+			}
+		}
+	}
+	
 	public void addPercentBought (String aAbbrev, int aPercentBought) {
 		if (allPercentBought.isEmpty ()) {
 			addNewPercentBought (aAbbrev, aPercentBought);
@@ -46,7 +60,28 @@ public class AllPercentBought {
 				allPercentBought.remove (tPercentBought);
 			}
 		}
+	}
+	
+	public void setPercent (String aAbbrev, int aPercentBought) {
+		for (PercentBought tPercentBought : allPercentBought) {
+			if (tPercentBought.isAbbrev (aAbbrev)) {
+				tPercentBought.setPercent (aPercentBought);
+			}
+		}
+	}
 
+	public void removeZeroPercents () {
+		int tCount;
+		int tIndex;
+		PercentBought tPercentBought;
+		
+		tCount = allPercentBought.size () - 1;
+		for (tIndex = tCount; tIndex >= 0; tIndex--) {
+			tPercentBought = allPercentBought.get (tIndex);
+			if (tPercentBought.getPercent () == ZERO_PERCENT) {
+				allPercentBought.remove (tIndex);
+			}
+		}
 	}
 	
 	public void addPercent (String aAbbrev, int aPercentBought) {
@@ -92,7 +127,10 @@ public class AllPercentBought {
 		return tFoundPercent;
 	}
 	
-	public void clear () {
+	public void clear (SetPercentBoughtAction aSetPercentBoughtAction, Player aPlayer) {
+		for (PercentBought tPercentBought : allPercentBought) {
+			tPercentBought.addSetPercentBoughtEffect (aSetPercentBoughtAction, aPlayer, ZERO_PERCENT);
+		}
 		allPercentBought.clear ();
 	}
 	
