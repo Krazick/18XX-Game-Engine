@@ -2165,7 +2165,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				System.err.println ("Game ID " + tGameID + " does not match");
 			}
 		} else {
-			System.err.println ("Could not find Checksum with Action Index" + tActionIndex);			
+			System.err.println ("Could not find Checksum with Action Index " + tActionIndex);			
 		}
 	}
 	
