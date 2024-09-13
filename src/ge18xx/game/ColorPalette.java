@@ -25,9 +25,27 @@ public class ColorPalette implements LoadableXMLI {
 	int maxID;
 	
 	public ColorPalette (ElementName aEN_Tier1, ElementName aEN_Tier2) {
+		setValues (aEN_Tier1, aEN_Tier2);
+	}
+	
+	public ColorPalette (String aTier1Name, String aTier2Name) {
+		ElementName tEN_Tier1;
+		ElementName tEN_Tier2;
+		
+		tEN_Tier1 = new ElementName (aTier1Name);
+		tEN_Tier2 = new ElementName (aTier2Name);
+		
+		setValues (tEN_Tier1, tEN_Tier2);
+	}
+
+	private void setValues (ElementName aEN_Tier1, ElementName aEN_Tier2) {
 		EN_Tier1 = aEN_Tier1;
 		EN_Tier2 = aEN_Tier2;
 		maxID = 0;
+	}
+	
+	public String getName () {
+		return EN_Tier1.toString ();
 	}
 	
 	@Override
@@ -90,7 +108,6 @@ public class ColorPalette implements LoadableXMLI {
 			if (EN_Tier1.equals (tChildName1)) {
 				tChildren2 = tChildNode1.getChildNodes ();
 				tChildrenCount2 = tChildren2.getLength ();
-				System.out.println ("Color Palette for " + EN_Tier1.toString () + " Count " + tChildrenCount2);
 				tPaintCount = (tChildrenCount2 - 1)/2;
 				paints = new Paint [tPaintCount] [2];
 				
@@ -101,7 +118,6 @@ public class ColorPalette implements LoadableXMLI {
 						parseColor (tChildNode2);
 					}
 				}
-				System.out.println ("Color Palette Max ID is " + maxID);
 			}
 		}
 	}
