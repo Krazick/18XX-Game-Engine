@@ -54,7 +54,6 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Bidder;
 import ge18xx.player.Bidders;
-import ge18xx.player.CashHolderI;
 import ge18xx.player.Escrow;
 import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
@@ -2103,7 +2102,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		int tActionIndex;
 		int tPlayerIndex;
 		int tPlayerCount;
-		int tFoundIndex;
+//		int tFoundIndex;
 		
 		tChecksumValue = aXMLDocument.MD5 (ChecksumCalc.STRIP_WHITESPACE);
 		
@@ -2115,7 +2114,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-		tFoundIndex = checksums.findIndexFor (tActionIndex);
+//		tFoundIndex = checksums.findIndexFor (tActionIndex);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRow (tChecksum);
 
