@@ -27,6 +27,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 
 import geUtilities.GUI;
@@ -284,7 +285,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		return tParPriceSet;
 	}
 
-	public void setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
+	public SetParValueAction setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
 		SetParValueAction tSetParValueAction;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -295,24 +296,44 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tCoordinates = GUI.EMPTY_STRING;
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates);
-		if (gameManager.isNetworkGame ()) {
-			handleResetPlayerStates (tSetParValueAction);
-		}
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
-		player.sortShareCompanies ();
+
+		handleResetPlayerStates (tSetParValueAction);
 		
-		stockRound.addAction (tSetParValueAction);
+//		stockRound.addAction (tSetParValueAction);
+		
+		return tSetParValueAction;
 	}
 
+	public SetParValueEffect buildSetParValueEffect (int aParPrice, ShareCompany aShareCompany) {
+		SetParValueAction tSetParValueAction;
+		SetParValueEffect tSetParValueEffect;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		String tCoordinates;
+	
+		tRoundType = stockRound.getRoundType ();
+		tRoundID = stockRound.getID ();
+		tCoordinates = GUI.EMPTY_STRING;
+		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
+		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates);
+		tSetParValueEffect = (SetParValueEffect) tSetParValueAction.getEffect (0);
+		
+		return tSetParValueEffect;
+	}
+	
 	private void handleResetPlayerStates (SetParValueAction aSetParValueAction) {
 		WinAuctionAction tWinAuctionAction;
 
-		tWinAuctionAction = getLastWinAuctionAction ();
-		if (tWinAuctionAction != Action.NO_ACTION) {
-			if (IsCorrectAction (tWinAuctionAction)) {
-				aSetParValueAction.resetPlayerStatesAfterWait (tWinAuctionAction);
+		if (gameManager.isNetworkGame ()) {
+			tWinAuctionAction = getLastWinAuctionAction ();
+			if (tWinAuctionAction != Action.NO_ACTION) {
+				if (IsCorrectAction (tWinAuctionAction)) {
+					aSetParValueAction.resetPlayerStatesAfterWait (tWinAuctionAction);
+				}
 			}
 		}
+		player.sortShareCompanies ();
 	}
 
 	private boolean IsCorrectAction (Action aAction) {
