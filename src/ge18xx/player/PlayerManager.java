@@ -1057,7 +1057,6 @@ public class PlayerManager implements XMLSaveGameI {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
 		parPriceFrame.setParPriceFrameActive (false);
-//		parPriceFrame.setParValueAction (aParPrice, aShareCompany, false);
 		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
 		
 		return tSetParValueEffect;
