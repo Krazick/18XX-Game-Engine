@@ -51,7 +51,9 @@ public class PercentBought {
 	}
 	
 	public void addSetPercentBoughtEffect (SetPercentBoughtAction aSetPercentBoughtAction, Player aPlayer, int aNewPercent) {
-		aSetPercentBoughtAction.addSetPercentBoughtEffect (aPlayer, abbrev, percent, aNewPercent);
+		if (percent != aNewPercent) {
+			aSetPercentBoughtAction.addSetPercentBoughtEffect (aPlayer, abbrev, percent, aNewPercent);
+		}
 	}
 	
 	public XMLElement getElement (XMLDocument aXMLDocument) {
