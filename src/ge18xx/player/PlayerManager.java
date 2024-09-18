@@ -208,6 +208,7 @@ public class PlayerManager implements XMLSaveGameI {
 		int tORIndex;
 		int tMaxORs;
 		int tPreviousAmount;
+		int tEffectCount;
 		OperatingRound tOperatingRound;
 		RoundManager tRoundManager;
 		
@@ -226,9 +227,12 @@ public class PlayerManager implements XMLSaveGameI {
 				}
 			}
 		}
-		if (!gameManager.applyingAction ()) {
-			tClearRoundDividendsAction.setChainToPrevious (true);
-			addAction (tClearRoundDividendsAction);
+		tEffectCount = tClearRoundDividendsAction.getEffectCount ();
+		if (tEffectCount > 0) {
+			if (!gameManager.applyingAction ()) {
+				tClearRoundDividendsAction.setChainToPrevious (true);
+				addAction (tClearRoundDividendsAction);
+			}
 		}
 	}
 	
@@ -312,8 +316,12 @@ public class PlayerManager implements XMLSaveGameI {
 		for (Player tPlayer : players) {
 			tPlayer.clearAllPercentBought (tSetPercentBoughtAction);
 		}
-		tSetPercentBoughtAction.setChainToPrevious (true);
-		addAction (tSetPercentBoughtAction);
+		if (tSetPercentBoughtAction.getEffectCount () > 0) {
+			tSetPercentBoughtAction.setChainToPrevious (true);
+			addAction (tSetPercentBoughtAction);
+		} else {
+			System.err.println ("No Effects in the SetPercentBoughtAction");
+		}
 	}
 
 	public boolean didAnyoneBuy () {
