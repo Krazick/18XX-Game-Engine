@@ -16,7 +16,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 
-class WaitForResponseFrameTests {
+public class WaitForResponseFrameTests {
 	PlayerTestFactory playerTestFactory;
 	GameTestFactory gameTestFactory;
 	GameManager mGameManager;

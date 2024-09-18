@@ -24,7 +24,7 @@ import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 
-class ChangeMapEffectTests {
+public class ChangeMapEffectTests {
 	ChangeMapEffect effectAlpha;
 	ChangeMapEffect effectBeta;
 	ChangeMapEffect effectGamma;

@@ -32,7 +32,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
 
 @DisplayName ("Transfer Ownership Effect Constructor Tests")
-class TransferOwnershipEffectTestConstructor {
+public class TransferOwnershipEffectTestConstructor {
 	TransferOwnershipEffect effectAlpha;
 	TransferOwnershipEffect effectBeta;
 	ShareCompany companyBeta;

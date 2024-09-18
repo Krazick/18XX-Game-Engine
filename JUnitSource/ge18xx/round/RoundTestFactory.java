@@ -86,7 +86,6 @@ public class RoundTestFactory {
 		OperatingRound mOperatingRound;
 
 		mOperatingRound = Mockito.mock (OperatingRound.class);
-		Mockito.when (mOperatingRound.getType ()).thenReturn ("Operating Round Mock");
 
 		return mOperatingRound;
 	}
@@ -103,9 +102,40 @@ public class RoundTestFactory {
 		AuctionRound mAuctionRound;
 
 		mAuctionRound = Mockito.mock (AuctionRound.class);
-		Mockito.when (mAuctionRound.getType ()).thenReturn ("Auction Round Mock");
 
 		return mAuctionRound;
+	}
+
+	public FormationRound buildFormationRound (RoundManager aRoundManager) {
+		FormationRound tFormationRound;
+
+		tFormationRound = new FormationRound (aRoundManager);
+
+		return tFormationRound;
+	}
+	
+	public FormationRound buildFormationRoundMock (RoundManager aRoundManager) {
+		FormationRound mFormationRound;
+
+		mFormationRound = Mockito.mock (FormationRound.class);
+
+		return mFormationRound;
+	}
+
+	public ContractBidRound buildContractBidRound (RoundManager aRoundManager) {
+		ContractBidRound tContractBidRound;
+
+		tContractBidRound = new ContractBidRound (aRoundManager);
+
+		return tContractBidRound;
+	}
+	
+	public ContractBidRound buildContractBidRoundMock (RoundManager aRoundManager) {
+		ContractBidRound mContractBidRound;
+
+		mContractBidRound = Mockito.mock (ContractBidRound.class);
+
+		return mContractBidRound;
 	}
 
 	public RoundFrame buildRoundFrame () {

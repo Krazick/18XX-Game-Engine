@@ -22,7 +22,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 
 @DisplayName ("Response to Offer Effect Constructor Tests")
-class ResponseOfferEffectTestConstructor {
+public class ResponseOfferEffectTestConstructor {
 	ResponseOfferEffect effectAlpha;
 	ResponseOfferEffect effectBeta;
 	ResponseOfferEffect effectChi;

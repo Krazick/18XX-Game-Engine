@@ -17,4 +17,9 @@ public class FormationRound extends Round {
 	public boolean isAFormationRound () {
 		return true;
 	}
+	
+	@Override
+	public String getType () {
+		return NAME;
+	}
 }

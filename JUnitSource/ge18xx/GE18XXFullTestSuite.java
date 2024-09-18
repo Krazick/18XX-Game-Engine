@@ -21,7 +21,6 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 		"ge18xx.round.actions.effects", 
 		"ge18xx.tiles", 
 		"ge18xx.train" })
-
-class GE18XXFullTestSuite {
+public class GE18XXFullTestSuite {
 
 }

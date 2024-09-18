@@ -26,7 +26,7 @@ import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
 
 @DisplayName ("CashTransferEffect Constructor Tests")
-class CashTransferEffectTestConstructor {
+public class CashTransferEffectTestConstructor {
 	CashTransferEffect effectAlpha;
 	CashTransferEffect effectBeta;
 	Player actorBeta;

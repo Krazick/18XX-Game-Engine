@@ -17,7 +17,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 
 @DisplayName ("ToEffect Constructor Tests")
-class ToEffectTestConstructor {
+public class ToEffectTestConstructor {
 	ToEffect effectAlpha;
 	ToEffect effectBeta;
 	Player actorBeta;

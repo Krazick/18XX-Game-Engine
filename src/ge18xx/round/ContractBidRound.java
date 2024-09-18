@@ -2,7 +2,7 @@ package ge18xx.round;
 
 public class ContractBidRound extends Round {
 	public static final ContractBidRound NO_CONTRACT_BID_ROUND = null;
-	public static final String NAME = "Contract Round";
+	public static final String NAME = "Contract Bid Round";
 
 	public ContractBidRound (RoundManager aRoundManager) {
 		super (aRoundManager);
@@ -17,5 +17,10 @@ public class ContractBidRound extends Round {
 	@Override
 	public boolean isAContractBidRound () {
 		return true;
+	}
+	
+	@Override
+	public String getType () {
+		return NAME;
 	}
 }

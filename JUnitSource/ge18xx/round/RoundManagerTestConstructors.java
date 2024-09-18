@@ -20,7 +20,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Round Manager Constructor Tests")
-class RoundManagerTestConstructors {
+public class RoundManagerTestConstructors {
 	GameManager gameManager;
 	GameManager mGameManager;
 	GameTestFactory gameTestFactory;
@@ -107,15 +107,26 @@ class RoundManagerTestConstructors {
 		StockRound tStockRound;
 		OperatingRound tOperatingRound;
 		AuctionRound tAuctionRound;
+		FormationRound tFormationRound;
+		ContractBidRound tContractBidRound;
 
 		tPlayerTestFactory = new PlayerTestFactory (gameManager);
 		tPlayerManager = tPlayerTestFactory.buildPlayerManager ();
+		
 		tStockRound = roundTestFactory.buildStockRound (tPlayerManager, roundManager);
 		roundManager.setStockRound (tStockRound);
+		
 		tAuctionRound = roundTestFactory.buildAuctionRound (roundManager);
 		roundManager.setAuctionRound (tAuctionRound);
+		
 		tOperatingRound = roundTestFactory.buildOperatingRound (roundManager);
 		roundManager.setOperatingRound (tOperatingRound);
+		
+		tFormationRound = roundTestFactory.buildFormationRound (roundManager);
+		roundManager.setFormationRound (tFormationRound);
+		
+		tContractBidRound = roundTestFactory.buildContractBidRound (roundManager);
+		roundManager.setContractBidRound (tContractBidRound);
 
 		roundManager.setRoundType (ActorI.ActionStates.StockRound);
 		tActor = roundManager.getActor ("Stock Round");
@@ -128,6 +139,14 @@ class RoundManagerTestConstructors {
 		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
 		tActor = roundManager.getActor ("Operating Round");
 		assertTrue (tActor.isAOperatingRound ());
+
+		roundManager.setRoundType (ActorI.ActionStates.FormationRound);
+		tActor = roundManager.getActor ("Formation Round");
+		assertTrue (tActor.isAFormationRound ());
+
+		roundManager.setRoundType (ActorI.ActionStates.ContractBidRound);
+		tActor = roundManager.getActor ("Contract Bid Round");
+		assertTrue (tActor.isAContractBidRound ());
 
 		tActor = roundManager.getActor ("RoundManager Tester");
 		assertNull (tActor);

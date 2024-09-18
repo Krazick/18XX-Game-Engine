@@ -17,7 +17,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.train.Train;
 
 @DisplayName ("Transfer Train Effect Constructor Tests")
-class TransferTrainEffectTests {
+public class TransferTrainEffectTests {
 	TransferTrainEffect effectBeta;
 	ShareCompany actorBeta;
 	ShareCompany actorGamma;

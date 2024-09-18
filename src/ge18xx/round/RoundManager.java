@@ -144,6 +144,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		actionManager = aActionManager;
 	}
 
+	// Initialize each of the Round Types if they have not been set yet.
+	
 	public void setRounds (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
 
@@ -159,6 +161,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
+	// Set each of the various Round Types
 	public void setOperatingRound (OperatingRound aOperatingRound) {
 		operatingRound = aOperatingRound;
 	}
@@ -169,6 +172,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void setAuctionRound (AuctionRound aAuctionRound) {
 		auctionRound = aAuctionRound;
+	}
+
+	public void setFormationRound (FormationRound aFormationRound) {
+		formationRound = aFormationRound;
+	}
+
+	public void setContractBidRound (ContractBidRound aContractBidRound) {
+		contractBidRound = aContractBidRound;
 	}
 
 	public void addPrivateToAuction () {
@@ -387,6 +398,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			tActor = operatingRound;
 		} else if (auctionRound.isActor (aActorName)) {
 			tActor = auctionRound;
+		} else if (formationRound.isActor (aActorName)) {
+			tActor = formationRound;
+		} else if (contractBidRound.isActor (aActorName)) {
+			tActor = contractBidRound;
 		}
 
 		return tActor;
@@ -599,53 +614,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return stockRound.getPlayerManager ();
 	}
 
-	public String getARType () {
-		String tRoundType;
-
-		tRoundType = ">>NO Auction Round Set<<";
-		if (auctionRound != AuctionRound.NO_AUCTION_ROUND) {
-			tRoundType = auctionRound.getType ();
-		}
-
-		return tRoundType;
-	}
-
-	public String getORType () {
-		String tRoundType;
-
-		tRoundType = ">>NO Operating Round Set<<";
-		if (operatingRound != OperatingRound.NO_OPERATING_ROUND) {
-			tRoundType = operatingRound.getType ();
-		}
-
-		return tRoundType;
-	}
-
-	public String getSRType () {
-		String tRoundType;
-
-		tRoundType = ">>NO Stock Round Set<<";
-		if (stockRound != StockRound.NO_STOCK_ROUND) {
-			tRoundType = stockRound.getType ();
-		}
-
-		return tRoundType;
-	}
-
 	public String getRoundType () {
 		String tRoundType;
 
-		if (currentRoundType == ActorI.ActionStates.StockRound) {
-			tRoundType = getSRType ();
-		} else if (currentRoundType == ActorI.ActionStates.OperatingRound) {
-			tRoundType = getORType ();
-		} else if (currentRoundType == ActorI.ActionStates.AuctionRound) {
-			tRoundType = getARType ();
-		} else if (currentRoundType == ActorI.ActionStates.Bankrupt) {
-			tRoundType = "BANKRUPT";
-		} else {
-			tRoundType = "UNKOWN";
-		}
+		tRoundType = currentRoundType.toString ();
 
 		return tRoundType;
 	}
@@ -711,6 +683,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public boolean isStockRound () {
 		return (currentRoundType == ActorI.ActionStates.StockRound);
+	}
+
+	public boolean isFormationRound () {
+		return (currentRoundType == ActorI.ActionStates.FormationRound);
+	}
+
+	public boolean isContractBidRound () {
+		return (currentRoundType == ActorI.ActionStates.ContractBidRound);
 	}
 
 	public boolean isBankrupt () {
@@ -860,6 +840,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
 		setRoundType (aRoundType);
 	}
+
+	public void setRoundToAuctionRound () {
+		setRoundType (ActorI.ActionStates.AuctionRound);
+	}
 	
 	// May not need the next 3 methods anymore 8/27/2024
 	public void setRoundToOperatingRound () {
@@ -870,8 +854,12 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 //		setRoundType (ActorI.ActionStates.StockRound);
 //	}
 
-	public void setRoundToAuctionRound () {
-		setRoundType (ActorI.ActionStates.AuctionRound);
+	public void setRoundToFormationRound () {
+		setRoundType (ActorI.ActionStates.FormationRound);
+	}
+
+	public void setRoundToContractBidRound () {
+		setRoundType (ActorI.ActionStates.ContractBidRound);
 	}
 
 	public void setRoundToOperatingRound (Round aCurrentRound, int aRoundIDPart1, int aRoundIDPart2) {

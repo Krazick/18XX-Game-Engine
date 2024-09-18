@@ -16,15 +16,17 @@ import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Set Round Type Tests")
-class SetRoundTypeTests {
+public class SetRoundTypeTests {
 	GameManager gameManager;
 	GameManager mGameManager;
 	GameTestFactory gameTestFactory;
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
-	OperatingRound operatingRound;
 	OperatingRound mOperatingRound;
 	StockRound stockRound;
+	AuctionRound auctionRound;
+	FormationRound formationRound;
+	ContractBidRound contractBidRound;
 	PlayerTestFactory playerTestFactory;
 	PlayerManager mPlayerManager;
 
@@ -42,14 +44,27 @@ class SetRoundTypeTests {
 		roundTestFactory = new RoundTestFactory ();
 		roundManager = roundTestFactory.buildRoundManager (gameManager);
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		operatingRound = roundTestFactory.buildOperatingRound (roundManager);
+		
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (3);
+		
 		mOperatingRound = roundTestFactory.buildOperatingRoundMock (mPlayerManager,  roundManager);
+		Mockito.when (mOperatingRound.getType ()).thenReturn ("Operating Round");
 		Mockito.when (mOperatingRound.getID ()).thenReturn ("1.1");
 		roundManager.setOperatingRound (mOperatingRound);
+
 		stockRound = roundTestFactory.buildStockRound (mPlayerManager, roundManager);
 		roundManager.setStockRound (stockRound);
+		
+		auctionRound = roundTestFactory.buildAuctionRound (roundManager);
+		roundManager.setAuctionRound (auctionRound);
+		
+		formationRound = roundTestFactory.buildFormationRound (roundManager);
+		roundManager.setFormationRound (formationRound);
+		
+		contractBidRound = roundTestFactory.buildContractBidRound (roundManager);
+		roundManager.setContractBidRound (contractBidRound);
+	
 		mRoundFrame = roundTestFactory.buildRoundFrameMock ();
 		roundManager.setRoundFrame (mRoundFrame);
 	}
@@ -58,7 +73,7 @@ class SetRoundTypeTests {
 	@DisplayName ("Setting the Round to an Different Types")
 	void SetRoundManagerToTypesTest () {
 		ActorI.ActionStates tCurrentRoundType;
-		
+
 		roundManager.setRoundToOperatingRound ();
 		tCurrentRoundType = roundManager.getCurrentRoundType ();
 		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
@@ -84,6 +99,40 @@ class SetRoundTypeTests {
 		roundManager.setRoundTypeTo (ActorI.ActionStates.AuctionRound);
 		tCurrentRoundType = roundManager.getCurrentRoundType ();
 		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
+
+		roundManager.setRoundTypeTo (ActorI.ActionStates.FormationRound);
+		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		assertEquals (ActorI.ActionStates.FormationRound, tCurrentRoundType);
+
+		roundManager.setRoundTypeTo (ActorI.ActionStates.ContractBidRound);
+		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		assertEquals (ActorI.ActionStates.ContractBidRound, tCurrentRoundType);
+	}
+	
+	@Test
+	@DisplayName ("Verifying the getRoundType method")
+	void verifyingGetRoundTypes () {
+		String tRoundType;
+		
+		roundManager.setRoundToStockRound ();
+		tRoundType = roundManager.getRoundType ();
+		assertEquals ("Stock Round", tRoundType);
+		
+		roundManager.setRoundToOperatingRound ();
+		tRoundType = roundManager.getRoundType ();
+		assertEquals ("Operating Round", tRoundType);
+		
+		roundManager.setRoundToAuctionRound ();
+		tRoundType = roundManager.getRoundType ();
+		assertEquals ("Auction Round", tRoundType);
+		
+		roundManager.setRoundToFormationRound ();
+		tRoundType = roundManager.getRoundType ();
+		assertEquals ("Formation Round", tRoundType);
+		
+		roundManager.setRoundToContractBidRound ();
+		tRoundType = roundManager.getRoundType ();
+		assertEquals ("Contract Bid Round", tRoundType);
 	}
 	
 	@Test

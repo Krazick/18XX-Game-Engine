@@ -22,7 +22,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
 @DisplayName ("Effect Constructor Tests")
-class EffectTestConstructor {
+public class EffectTestConstructor {
 	ToEffect effectAlpha;
 	ToEffect effectBeta;
 	Player actorBeta;
