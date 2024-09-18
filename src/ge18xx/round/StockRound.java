@@ -23,10 +23,6 @@ public class StockRound extends Round {
 	int priorityPlayerIndex;
 	int startRoundPriorityIndex;
 
-	public StockRound () {
-		super (null);
-	}
-
 	public StockRound (PlayerManager aPlayerManager, RoundManager aRoundManager) {
 		super (aRoundManager);
 		setPlayerManager (aPlayerManager);
@@ -84,6 +80,26 @@ public class StockRound extends Round {
 	@Override
 	public String getID () {
 		return getIDPart1 () + "";
+	}
+
+	@Override
+	public void setID (String aID) {
+		super.setID (aID);
+	}
+
+	@Override
+	public void setID (int aIDPart1, int aIDPart2) {
+		super.setID (aIDPart1, aIDPart2);
+	}
+
+	@Override
+	public void setIDPart1 (int aIDPart1) {
+		super.setIDPart1 (aIDPart1);
+	}
+	
+	@Override
+	public void setIDPart2 (int aIDPart2) {
+		super.setIDPart2 (aIDPart2);
 	}
 
 	@Override
@@ -172,7 +188,7 @@ public class StockRound extends Round {
 		// Could have this effect be applied on 'setCurrentPlayer' method, with the
 		// ChangeStateAction
 		playerManager.clearAllExchangedShares ();
-		playerManager.clearAllPercentBought ();
+//		playerManager.clearAllPercentBought ();
 		setCurrentPlayer (getPriorityIndex (), true);
 		setStartRoundPriorityIndex (getPriorityIndex ());
 	}
