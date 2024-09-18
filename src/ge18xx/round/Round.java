@@ -23,6 +23,8 @@ public abstract class Round implements ActorI {
 	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
 	public final static Round NO_ROUND = null;
 	public final static String NO_ID_STRING = "0.0";
+	public static final int START_ID1 = 0;
+	public static final int START_ID2 = 1;
 	public static final int NO_ID = 0;
 	int idPart1;
 	int idPart2;
@@ -149,7 +151,7 @@ public abstract class Round implements ActorI {
 		if (tIDs.length == 2) {
 			tID2 = Integer.parseInt (tIDs [1]);
 		} else {
-			tID2 = 1;
+			tID2 = START_ID2;
 		}
 		setID (tID1, tID2);
 	}
@@ -167,14 +169,14 @@ public abstract class Round implements ActorI {
 		idPart2 = aIDPart2;
 	}
 
-	public void setPrimaryActionState (ActorI.ActionStates aPreviousState) {
-		if (aPreviousState == ActorI.ActionStates.StockRound) {
-			startStockRound ();
-		}
-		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
-			startOperatingRound ();
-		}
-	}
+//	public void setPrimaryActionState (ActorI.ActionStates aPreviousState) {
+//		if (aPreviousState == ActorI.ActionStates.StockRound) {
+//			startStockRound ();
+//		}
+//		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
+//			startOperatingRound ();
+//		}
+//	}
 
 	@Override
 	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
@@ -208,7 +210,10 @@ public abstract class Round implements ActorI {
 	}
 
 	public boolean startOperatingRound () {
-		roundManager.startOperatingRound ();
+		Round tCurrentRound;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		roundManager.startOperatingRound (tCurrentRound);
 
 		return true;
 	}
