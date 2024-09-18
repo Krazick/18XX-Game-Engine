@@ -1684,11 +1684,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void setPrimaryActionState (ActionStates aPrimaryActionState) {
-		if (aPrimaryActionState == ActionStates.NoAction) {
-			clearPrimaryActionState ();
-		} else {
-			primaryActionState = aPrimaryActionState;
-		}
+		primaryActionState = aPrimaryActionState;
 	}
 
 	public void setRFPlayerLabel (String aText) {
