@@ -91,6 +91,7 @@ public interface ActorI {
 		OperatingRound ("Operating Round", "OR"), 
 		AuctionRound ("Auction Round", "AR"),
 		FormationRound ("Formation Round", "FR"),
+		ContractBidRound ("Contract Bid Round", "CBR"),
 
 		// Corporation States
 		Unowned ("Unowned"), 
@@ -207,6 +208,14 @@ public interface ActorI {
 	}
 
 	public default boolean isAAuctionRound () {
+		return false;
+	}
+
+	public default boolean isAFormationRound () {
+		return false;
+	}
+
+	public default boolean isAContractBidRound () {
 		return false;
 	}
 
