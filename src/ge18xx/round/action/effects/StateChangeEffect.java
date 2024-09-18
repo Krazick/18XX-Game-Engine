@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
@@ -116,6 +117,8 @@ public class StateChangeEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		StockRound tStockRound;
+		Round tCurrentRound;
+		Player tPlayer;
 		boolean tEffectApplied;
 		boolean tNewAuctionAction;
 		int tStockRoundID;
@@ -123,7 +126,7 @@ public class StateChangeEffect extends Effect {
 		tEffectApplied = false;
 		tNewAuctionAction = false;
 		if (actor.isAPlayer ()) {
-			Player tPlayer = (Player) actor;
+			tPlayer = (Player) actor;
 			tStockRound = aRoundManager.getStockRound ();
 			actor.resetPrimaryActionState (newState);
 			tStockRound.updateRFPlayerLabel (tPlayer);
@@ -133,7 +136,8 @@ public class StateChangeEffect extends Effect {
 				aRoundManager.startAuctionRound (tNewAuctionAction);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
-				aRoundManager.startOperatingRound ();
+				tCurrentRound = aRoundManager.getCurrentRound ();
+				aRoundManager.startOperatingRound (tCurrentRound);
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Stock Round, New state of " + newState.toString () +
