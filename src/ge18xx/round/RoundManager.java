@@ -67,6 +67,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	StockRound stockRound;
 	OperatingRound operatingRound;
 	AuctionRound auctionRound;
+	FormationRound formationRound;
+	ContractBidRound contractBidRound;
+	
 	ActionManager actionManager;
 	ActorI.ActionStates currentRoundType;
 	RoundFrame roundFrame;
@@ -89,13 +92,12 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getJMenuBar ();
 	}
 	
-	public void initiateGame (CorporationList aPrivates, CorporationList aMinors,
-			CorporationList aShares) {
-
+	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
+		// In 1853, Need to start with a Contract Bid Round
 		setRounds (aPrivates, aMinors, aShares);
 		setOtherRoundInfo ();
-		stockRound.setIDPart1 (0);
-		stockRound.setIDPart2 (0);
+		stockRound.setIDPart1 (Round.START_ID1);
+		stockRound.setIDPart2 (Round.START_ID2);
 		setRoundToStockRound ();
 
 		stockRound.setStartingPlayer ();
@@ -468,6 +470,27 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getEscrowMatching (aEscrowName);
 	}
 
+	public Round getCurrentRound () {
+		Round tCurrentRound;
+		
+		if (currentRoundType == ActorI.ActionStates.StockRound) {
+			tCurrentRound = stockRound;
+		} else if (currentRoundType == ActorI.ActionStates.OperatingRound) {
+			tCurrentRound = operatingRound;
+		} else if (currentRoundType == ActorI.ActionStates.AuctionRound) {
+			tCurrentRound = auctionRound;
+		} else if (currentRoundType == ActorI.ActionStates.FormationRound) {
+			tCurrentRound = formationRound;
+		} else if (currentRoundType == ActorI.ActionStates.ContractBidRound) {
+			tCurrentRound = contractBidRound;
+		} else {
+			System.err.println ("Current Round of " + currentRoundType.toString () + " NOT Recognized");
+			tCurrentRound = Round.NO_ROUND;
+		}
+		
+		return tCurrentRound;
+	}
+	
 	public String getCurrentRoundOf () {
 		return roundFrame.getCurrentRoundOf ();
 	}
@@ -678,16 +701,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tIDPart1;
 	}
 
-//	public void incrementStockRound () {
-//		int tIDPart1;
-//		int tIDPart2;
-//
-//		tIDPart1 = incrementRoundIDPart1 (stockRound);
-//		tIDPart2 = stockRound.getIDPart2 ();
-//		stockRound.setID (tIDPart1, tIDPart2);
-//		roundFrame.setFrameLabel (gameName, " " + tIDPart1);
-//	}
-
 	public boolean isAAuctionRound () {
 		return (currentRoundType == ActorI.ActionStates.AuctionRound);
 	}
@@ -861,24 +874,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setRoundType (ActorI.ActionStates.AuctionRound);
 	}
 
-	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
+	public void setRoundToOperatingRound (Round aCurrentRound, int aRoundIDPart1, int aRoundIDPart2) {
 		String tOldOperatingRoundID;
 		String tNewOperatingRoundID;
-		Round tCurrentRound;
 		boolean tCreateNewAction;
 
 		tCreateNewAction = true;
-		if (aRoundIDPart2 == 1) {
+		if (aRoundIDPart2 == Round.START_ID2) {
 			setOperatingRoundCount ();
-			tCurrentRound = stockRound;
-		} else {
-			tCurrentRound = operatingRound;
 		}
 		tOldOperatingRoundID = operatingRound.getID ();
 		setCurrentOR (aRoundIDPart2);
 		operatingRound.setID (aRoundIDPart1, currentOR);
 		tNewOperatingRoundID = operatingRound.getID ();
-		changeRound (tCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, tOldOperatingRoundID,
+		changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, tOldOperatingRoundID,
 				tNewOperatingRoundID, tCreateNewAction);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 		revalidateRoundFrame ();
@@ -895,7 +904,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		
 		incrementRoundIDPart1 (stockRound);
 
-//		stockRound.setID (aRoundIDPart1, 1);
 		tNewRoundID = stockRound.getID ();
 		tRoundIDPart1 = stockRound.getIDPart1 ();
 		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
@@ -995,14 +1003,16 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame.updatePassButton ();
 	}
 
-	public void startOperatingRound () {
+	public void startOperatingRound (Round aCurrentRound) {
 		int tIDPart1;
 		int tIDPart2;
 
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
-		tIDPart2 = 1;
-		setRoundToOperatingRound (tIDPart1, tIDPart2);
+		tIDPart2 = Round.START_ID2;
+		setRoundToOperatingRound (aCurrentRound, tIDPart1, tIDPart2);
 		playerManager.clearAllPlayerDividends ();
+		playerManager.clearAllPercentBought ();
+
 		// If no Minor of Share company operates, the Operating Round failed to
 		// start,
 		// Revenues were paid by Private Companies
@@ -1022,7 +1032,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			// Otherwise, we need to go to another Operating Round, incrementing from the
 			// current OR.
 			tIDPart1 = operatingRound.getIDPart1 ();
-			setRoundToOperatingRound (tIDPart1, currentOR + 1);
+			setRoundToOperatingRound (stockRound, tIDPart1, currentOR + 1);
 			operatingRound.startOperatingRound ();
 		}
 	}
