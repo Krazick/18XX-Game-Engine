@@ -24,7 +24,7 @@ public class OperatingRound extends Round {
 	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates,
 			CorporationList aMinors, CorporationList aShares) {
 		super (aRoundManager);
-		setID (0, 0);
+		setID (START_ID1, START_ID2);
 		privateCompanies = aPrivates;
 		minorCompanies = aMinors;
 		shareCompanies = aShares;
