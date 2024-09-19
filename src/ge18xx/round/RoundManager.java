@@ -95,6 +95,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
 		// In 1853, Need to start with a Contract Bid Round
 		setRounds (aPrivates, aMinors, aShares);
+		setRoundType (ActorI.ActionStates.StockRound);
 		setOtherRoundInfo ();
 		stockRound.setIDPart1 (Round.START_ID1);
 		stockRound.setIDPart2 (Round.START_ID2);
