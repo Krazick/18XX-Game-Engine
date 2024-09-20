@@ -149,8 +149,11 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void buildHeaderJPanel () {
+		ParPricesPanel tParPricesPanel;
+		
 		buildRoundInfoJPanel ();
-		parPricesPanel = new ParPricesPanel (roundManager);
+		tParPricesPanel = new ParPricesPanel (roundManager);
+		setParPricesPanel (tParPricesPanel);
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
 		listenerPanels.add (parPricesPanel);
 		listenerPanels.add (trainSummaryPanel);
@@ -171,6 +174,10 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
 
+	public void setParPricesPanel (ParPricesPanel aParPricesPanel) {
+		parPricesPanel = aParPricesPanel;
+	}
+	
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
 		String tGameState;
@@ -446,11 +453,17 @@ public class RoundFrame extends XMLFrame {
 	public void updatePhaseLabel () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tCurrentPhaseInfo;
+		String tPhaseInfoName;
 
 		tPhaseManager = roundManager.getPhaseManager ();
 		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
 
-		phaseLabel.setText ("Current Game Phase is " + tCurrentPhaseInfo.getFullName ());
+		if (tCurrentPhaseInfo == null) {
+			tPhaseInfoName = "NONE SPECIFIED";
+		} else {
+			tPhaseInfoName = tCurrentPhaseInfo.getFullName ();
+		}
+		phaseLabel.setText ("Current Game Phase is " + tPhaseInfoName);
 	}
 
 	public void enableActionButton (boolean aEnableActionButton) {
