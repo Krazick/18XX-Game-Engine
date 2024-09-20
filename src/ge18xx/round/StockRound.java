@@ -28,38 +28,120 @@ public class StockRound extends Round {
 		setPlayerManager (aPlayerManager);
 	}
 
+	@Override
+	public void loadRound (XMLNode aRoundNode) {
+		super.loadRound (aRoundNode);
+		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
+		priorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
+	}
+
+	public void setPlayerManager (PlayerManager aPlayerManager) {
+		playerManager = aPlayerManager;
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
+			playerManager.setStockRound (this);
+		}
+	}
+
+	public XMLElement getRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_STOCK_ROUND);
+		setRoundAttributes (tXMLElement);
+		tXMLElement.setAttribute (AN_CURRENT_PLAYER, currentPlayerIndex);
+		tXMLElement.setAttribute (AN_PRIORITY_PLAYER, priorityPlayerIndex);
+
+		return tXMLElement;
+	}
+
 	public void setStartingPlayer () {
 		setCurrentPlayer (FIRST_PLAYER, false);
 		setPriorityPlayer (FIRST_PLAYER);
 		setStartRoundPriorityIndex (FIRST_PLAYER);
 	}
 
-	public void clearAllPlayerPasses () {
-		playerManager.clearAllPlayerPasses ();
+	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
+		 ChangeStateAction tChangeStateAction;
+		 Player tCurrentPlayer;
+		 
+		 tCurrentPlayer = getCurrentPlayer ();
+		 tChangeStateAction = new DonePlayerAction (getRoundType (), getID (), tCurrentPlayer);
+		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
+	}
+	
+	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious, ChangeStateAction aChangeStateAction) {
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		Player tPlayer;
+
+		tPlayer = playerManager.getPlayer (aPlayerIndex);
+		if (tPlayer != Player.NO_PLAYER) {
+			setCurrentPlayerIndex (aPlayerIndex);
+			tOldState = tPlayer.getPrimaryActionState ();
+			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
+			tNewState = tPlayer.getPrimaryActionState ();
+			
+			aChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+		}
+	}
+
+	public void setCurrentPlayerIndex (int aPlayerIndex) {
+		currentPlayerIndex = aPlayerIndex;
+		roundManager.setCurrentPlayerLabel ();
+	}
+
+	public void setPriorityPlayer (int aPriorityIndex) {
+		priorityPlayerIndex = aPriorityIndex;
+	}
+
+	public void setStartRoundPriorityIndex (int aPriorityIndex) {
+		startRoundPriorityIndex = aPriorityIndex;
+	}
+
+	// Methods to ask this (StockRound) Class to handle
+
+	public void updateStockRoundWindow () {
+		updateRoundFrame ();
 	}
 
 	@Override
-	public void clearAllAuctionStates () {
-		playerManager.clearAllAuctionStates ();
+	public String getName () {
+		return NAME;
 	}
 
-	public void clearAllSoldCompanies () {
-		playerManager.clearAllSoldCompanies ();
-	}
-
-	public Player getCurrentPlayer () {
-		Player tPlayer;
-
-		tPlayer = Player.NO_PLAYER;
-		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-			tPlayer = playerManager.getPlayer (currentPlayerIndex);
-		}
-
-		return tPlayer;
+	@Override
+	public String getType () {
+		return NAME;
 	}
 
 	public int getCurrentPlayerIndex () {
 		return currentPlayerIndex;
+	}
+
+	public PlayerManager getPlayerManager () {
+		return playerManager;
+	}
+
+	public int getPriorityIndex () {
+		return priorityPlayerIndex;
+	}
+	
+	public int getStartRoundPriorityIndex () {
+		return startRoundPriorityIndex;
+	}
+
+	@Override
+	public ActorI.ActionStates getRoundType () {
+		return ActorI.ActionStates.StockRound;
+	}
+
+	@Override
+	public boolean isAStockRound () {
+		return true;
+	}
+
+	@Override
+	public String getStateName () {
+		return getRoundType ().toString ();
 	}
 
 	public String getCurrentPlayerName () {
@@ -102,9 +184,36 @@ public class StockRound extends Round {
 		super.setIDPart2 (aIDPart2);
 	}
 
+	// Methods that ask PlayerManager to handle 
+	
+	public void clearAllPlayerPasses () {
+		playerManager.clearAllPlayerPasses ();
+	}
+
 	@Override
-	public String getName () {
-		return NAME;
+	public void clearAllAuctionStates () {
+		playerManager.clearAllAuctionStates ();
+	}
+
+	public void clearAllSoldCompanies () {
+		playerManager.clearAllSoldCompanies ();
+	}
+	
+	public void showCurrentPlayerFrame () {
+		playerManager.showPlayerFrame (currentPlayerIndex);
+	}
+
+	// Methods that ask PlayerManager to handle and RETURN something
+	
+	public Player getCurrentPlayer () {
+		Player tPlayer;
+
+		tPlayer = Player.NO_PLAYER;
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
+			tPlayer = playerManager.getPlayer (currentPlayerIndex);
+		}
+
+		return tPlayer;
 	}
 
 	public int getNextPlayerIndex () {
@@ -118,6 +227,18 @@ public class StockRound extends Round {
 		return tNextPlayer;
 	}
 
+	@Override
+	public boolean roundIsDone () {
+		boolean tRoundDone;
+
+		tRoundDone = false;
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
+			tRoundDone = playerManager.haveAllPassed ();
+		}
+
+		return tRoundDone;
+	}
+
 	public int getPlayerCount () {
 		return playerManager.getPlayerCount ();
 	}
@@ -126,57 +247,11 @@ public class StockRound extends Round {
 		return playerManager.getPlayer (aIndex);
 	}
 
-	public PlayerManager getPlayerManager () {
-		return playerManager;
-	}
-
-	public int getPriorityIndex () {
-		return priorityPlayerIndex;
-	}
-
-	public XMLElement getRoundState (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = aXMLDocument.createElement (EN_STOCK_ROUND);
-		setRoundAttributes (tXMLElement);
-		tXMLElement.setAttribute (AN_CURRENT_PLAYER, currentPlayerIndex);
-		tXMLElement.setAttribute (AN_PRIORITY_PLAYER, priorityPlayerIndex);
-
-		return tXMLElement;
-	}
-
-	@Override
-	public void loadRound (XMLNode aRoundNode) {
-		super.loadRound (aRoundNode);
-		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
-		priorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
-	}
-
-	@Override
-	public ActorI.ActionStates getRoundType () {
-		return ActorI.ActionStates.StockRound;
-	}
-
-	@Override
-	public String getStateName () {
-		return getRoundType ().toString ();
-	}
-
-	@Override
-	public String getType () {
-		return NAME;
-	}
-
 	public void printRoundInfo () {
 		System.out.println (" " + NAME + " " + idPart1);	// PRINTLOG
 		System.out.println ("  Player Count " + playerManager.getPlayerCount ());
 		System.out.println ("  Current Player Index " + currentPlayerIndex);
 		System.out.println ("  Priority Player Index " + priorityPlayerIndex);
-	}
-
-	public void setCurrentPlayerIndex (int aPlayerIndex) {
-		currentPlayerIndex = aPlayerIndex;
-		roundManager.setCurrentPlayerLabel ();
 	}
 
 	public void prepareStockRound () {
@@ -191,66 +266,6 @@ public class StockRound extends Round {
 //		playerManager.clearAllPercentBought ();
 		setCurrentPlayer (getPriorityIndex (), true);
 		setStartRoundPriorityIndex (getPriorityIndex ());
-	}
-
-	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
-		 ChangeStateAction tChangeStateAction;
-		 Player tCurrentPlayer;
-		 
-		 tCurrentPlayer = getCurrentPlayer ();
-		 tChangeStateAction = new DonePlayerAction (getRoundType (), getID (), tCurrentPlayer);
-		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
-	}
-	
-	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious, ChangeStateAction aChangeStateAction) {
-		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
-		Player tPlayer;
-
-		tPlayer = playerManager.getPlayer (aPlayerIndex);
-		if (tPlayer != Player.NO_PLAYER) {
-			setCurrentPlayerIndex (aPlayerIndex);
-			tOldState = tPlayer.getPrimaryActionState ();
-			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
-			tNewState = tPlayer.getPrimaryActionState ();
-			
-			aChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
-		}
-	}
-
-	public void setPlayerManager (PlayerManager aPlayerManager) {
-		playerManager = aPlayerManager;
-		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-			playerManager.setStockRound (this);
-		}
-	}
-
-	public void setPriorityPlayer (int aPriorityIndex) {
-		priorityPlayerIndex = aPriorityIndex;
-	}
-
-	public void setStartRoundPriorityIndex (int aPriorityIndex) {
-		startRoundPriorityIndex = aPriorityIndex;
-	}
-	
-	public int getStartRoundPriorityIndex () {
-		return startRoundPriorityIndex;
-	}
-	
-	public void showCurrentPlayerFrame () {
-		playerManager.showPlayerFrame (currentPlayerIndex);
-	}
-
-	@Override
-	public boolean roundIsDone () {
-		boolean tRoundDone;
-
-		tRoundDone = false;
-		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-			tRoundDone = playerManager.haveAllPassed ();
-		}
-
-		return tRoundDone;
 	}
 
 	public void endStockRound () {
@@ -281,15 +296,6 @@ public class StockRound extends Round {
 
 		tPlayerIndex = playerManager.getPlayerIndex (aPlayer);
 		roundManager.updateRFPlayerLabel (aPlayer, priorityPlayerIndex, tPlayerIndex);
-	}
-
-	public void updateStockRoundWindow () {
-		updateRoundFrame ();
-	}
-
-	@Override
-	public boolean isAStockRound () {
-		return true;
 	}
 
 	public void passStockAction () {
