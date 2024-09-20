@@ -2303,7 +2303,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addNewFrame (aXMLFrame);
 	}
 
-	private void setMinorCompaniesFrame (XMLFrame aXMLFrame) {
+	public void setMinorCompaniesFrame (XMLFrame aXMLFrame) {
 		minorCompaniesFrame = (MinorCompaniesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
@@ -2317,12 +2317,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return activeGame.hasTestGraphs ();
 	}
 
-	private void setPrivatesFrame (XMLFrame aXMLFrame) {
+	public void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 
-	private void setShareCompaniesFrame (XMLFrame aXMLFrame) {
+	public void setShareCompaniesFrame (XMLFrame aXMLFrame) {
 		shareCompaniesFrame = (ShareCompaniesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
