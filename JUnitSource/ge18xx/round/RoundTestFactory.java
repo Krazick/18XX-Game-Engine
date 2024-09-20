@@ -10,10 +10,13 @@ import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
+
 
 public class RoundTestFactory {
-	GameManager gameManager;
 	GameTestFactory gameTestFactory;
+	PlayerTestFactory playerTestFactory;
+	GameManager gameManager;
 	String clientName;
 
 	public RoundTestFactory () {
@@ -139,20 +142,34 @@ public class RoundTestFactory {
 	}
 
 	public RoundFrame buildRoundFrame () {
+		PlayerManager tPlayerManager;
 		RoundManager tRoundManager;
 		RoundFrame tRoundFrame;
 		String tTitle;
 		
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager ();
+		playerTestFactory = new PlayerTestFactory (gameManager);
+		tPlayerManager = playerTestFactory.buildPlayerManager ();
 		tTitle = "RoundTestFactory Title";
-		tRoundManager = buildRoundManager ();
+		tRoundManager = buildRoundManager (gameManager, tPlayerManager);
 		
 		tRoundFrame = new RoundFrame (tTitle, tRoundManager, gameManager);
 		
 		return tRoundFrame;
 	}
 	
+	public RoundFrame buildRoundFrame (GameManager aGameManager, RoundManager aRoundManager) {
+		RoundFrame tRoundFrame;
+		String tTitle;
+		
+		tTitle = "RoundTestFactory Title";
+
+		tRoundFrame = new RoundFrame (tTitle, aRoundManager, aGameManager);
+		
+		return tRoundFrame;
+	}
+
 	public RoundFrame buildRoundFrameMock () {
 		RoundFrame mRoundFrame;
 		
