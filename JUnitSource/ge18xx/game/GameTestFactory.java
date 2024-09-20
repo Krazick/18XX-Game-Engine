@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import org.mockito.Mockito;
 
 import ge18xx.phase.PhaseInfo;
+import ge18xx.phase.PhaseManager;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.TileTrayFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
@@ -185,6 +186,14 @@ public class GameTestFactory {
 		return tGameInfo;
 	}
 	
+	public PhaseManager buildPhaseManagerMock () {
+		PhaseManager mPhaseManager;
+		
+		mPhaseManager  = Mockito.mock (PhaseManager.class);
+		
+		return mPhaseManager;
+	}
+
 	public PhaseInfo buildPhaseInfoMock () {
 		PhaseInfo mPhaseInfo;
 		
