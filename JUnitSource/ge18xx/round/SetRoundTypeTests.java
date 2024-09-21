@@ -23,6 +23,7 @@ public class SetRoundTypeTests {
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
 	OperatingRound mOperatingRound;
+	OperatingRound operatingRound;
 	StockRound stockRound;
 	AuctionRound auctionRound;
 	FormationRound formationRound;
@@ -49,9 +50,10 @@ public class SetRoundTypeTests {
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (3);
 		
 		mOperatingRound = roundTestFactory.buildOperatingRoundMock (mPlayerManager,  roundManager);
-		Mockito.when (mOperatingRound.getType ()).thenReturn ("Operating Round");
 		Mockito.when (mOperatingRound.getID ()).thenReturn ("1.1");
 		roundManager.setOperatingRound (mOperatingRound);
+
+		operatingRound = roundTestFactory.buildOperatingRound (roundManager);
 
 		stockRound = roundTestFactory.buildStockRound (mPlayerManager, roundManager);
 		roundManager.setStockRound (stockRound);
@@ -134,7 +136,27 @@ public class SetRoundTypeTests {
 		tRoundType = roundManager.getRoundType ();
 		assertEquals ("Contract Bid Round", tRoundType);
 	}
-	
+	@Test
+	@DisplayName ("Verifying the getStateName method")
+	void verifyingGetStateNames () {
+		String tStateName;
+		
+		tStateName = stockRound.getStateName ();
+		assertEquals ("Stock Round", tStateName);
+		
+		tStateName = operatingRound.getStateName ();
+		assertEquals ("Operating Round", tStateName);
+		
+		tStateName = auctionRound.getStateName ();
+		assertEquals ("Auction Round", tStateName);
+		
+		tStateName = formationRound.getStateName ();
+		assertEquals ("Formation Round", tStateName);
+		
+		tStateName = contractBidRound.getStateName ();
+		assertEquals ("Contract Bid Round", tStateName);
+	}
+
 	@Test
 	@DisplayName ("Testing the calls to gameManager boolean tests")
 	void verifyingGameManagerBooleanTests () {
