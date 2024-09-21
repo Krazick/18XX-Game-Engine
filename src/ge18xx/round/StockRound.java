@@ -99,10 +99,6 @@ public class StockRound extends Round {
 
 	// Methods to ask this (StockRound) Class to handle
 
-	public void updateStockRoundWindow () {
-		updateRoundFrame ();
-	}
-
 	@Override
 	public String getName () {
 		return NAME;
@@ -135,13 +131,13 @@ public class StockRound extends Round {
 	}
 
 	@Override
-	public boolean isAStockRound () {
-		return true;
+	public String getStateName () {
+		return getRoundType ().toString ();
 	}
 
 	@Override
-	public String getStateName () {
-		return getRoundType ().toString ();
+	public boolean isAStockRound () {
+		return true;
 	}
 
 	public String getCurrentPlayerName () {
@@ -182,6 +178,10 @@ public class StockRound extends Round {
 	@Override
 	public void setIDPart2 (int aIDPart2) {
 		super.setIDPart2 (aIDPart2);
+	}
+
+	public void updateStockRoundWindow () {
+		updateRoundFrame ();
 	}
 
 	// Methods that ask PlayerManager to handle 

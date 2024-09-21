@@ -31,22 +31,107 @@ public class OperatingRound extends Round {
 		setOperatingType (GUI.NULL_STRING);
 	}
 
+	@Override
+	public void loadRound (XMLNode aRoundNode) {
+		super.loadRound (aRoundNode);
+	}
+
 	public void setOperatingType (String aOperatingType) {
 		operatingType = aOperatingType;
 	}
-	
+
+	public XMLElement getRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_OPERATING_ROUND);
+		setRoundAttributes (tXMLElement);
+
+		return tXMLElement;
+	}
+
+	// Methods to ask this (Operating Round) to handle
+
+	@Override
+	public String getName () {
+		return NAME;
+	}
+
+	@Override
+	public String getType () {
+		return NAME;
+	}
+
 	public String currentOperatingType () {
 		return operatingType;
 	}
 	
-	public boolean anyFloatedCompanies () {
-		boolean tAnyFloatedCompanies;
+	public CorporationList getPrivateCompanies () {
+		return privateCompanies;
+	}
+	
+	public CorporationList getMinorCompanies () {
+		return minorCompanies;
+	}
 
-		tAnyFloatedCompanies = false;
-		tAnyFloatedCompanies = tAnyFloatedCompanies || minorCompanies.anyCanOperate ();
-		tAnyFloatedCompanies = tAnyFloatedCompanies || shareCompanies.anyCanOperate ();
+	public CorporationList getShareCompanies () {
+		return shareCompanies;
+	}
 
-		return tAnyFloatedCompanies;
+	@Override
+	public ActorI.ActionStates getRoundType () {
+		return ActorI.ActionStates.OperatingRound;
+	}
+
+	@Override
+	public String getStateName () {
+		return getRoundType ().toString ();
+	}
+
+	@Override
+	public boolean isAOperatingRound () {
+		return true;
+	}
+
+	// Methods to ask Private Companies to handle
+	
+	public int getPrivateCompanyCount () {
+		return privateCompanies.getRowCount ();
+	}
+
+	public void payRevenues () {
+		privateCompanies.payPrivateRevenues (getBank (), this);
+	}
+
+	public void handleQueryBenefits () {
+		privateCompanies.handleQueryBenefits (roundManager.getRoundFrame ());
+	}
+
+	// Methods to ask Minor Companies to handle
+	
+	public int getMinorCompanyCount () {
+		return minorCompanies.getRowCount ();
+	}
+
+	// Methods to ask Share Companies to handle
+
+	public int getShareCompanyCount () {
+		return shareCompanies.getRowCount ();
+	}
+	
+	public String getOperatingOwnerName () {
+		return shareCompanies.getOperatingOwnerName ();
+	}
+
+	public String getOwnerWhoWillOperate () {
+		return shareCompanies.getOwnerWhoWillOperate ();
+	}
+
+	public ShareCompany getShareCompanyIndex (int aIndex) {
+		return (ShareCompany) shareCompanies.getCorporation (aIndex);
+	}
+
+	public void sortByOperatingOrder () {
+		shareCompanies.sortByOperatingOrder ();
 	}
 
 	@Override
@@ -70,6 +155,16 @@ public class OperatingRound extends Round {
 		roundManager.updateRoundFrame ();
 
 		return tStartedOperatingRound;
+	}
+
+	public boolean anyFloatedCompanies () {
+		boolean tAnyFloatedCompanies;
+
+		tAnyFloatedCompanies = false;
+		tAnyFloatedCompanies = tAnyFloatedCompanies || minorCompanies.anyCanOperate ();
+		tAnyFloatedCompanies = tAnyFloatedCompanies || shareCompanies.anyCanOperate ();
+
+		return tAnyFloatedCompanies;
 	}
 
 	public void updateActionLabel () {
@@ -136,84 +231,6 @@ public class OperatingRound extends Round {
 		}
 		
 		return tFoundCurrentOperating;
-	}
-	
-	public CorporationList getMinorCompanies () {
-		return minorCompanies;
-	}
-
-	public int getMinorCompanyCount () {
-		return minorCompanies.getRowCount ();
-	}
-
-	@Override
-	public String getName () {
-		return NAME;
-	}
-
-	public String getOperatingOwnerName () {
-		return shareCompanies.getOperatingOwnerName ();
-	}
-
-	public String getOwnerWhoWillOperate () {
-		return shareCompanies.getOwnerWhoWillOperate ();
-	}
-
-	public CorporationList getPrivateCompanies () {
-		return privateCompanies;
-	}
-
-	public int getPrivateCompanyCount () {
-		return privateCompanies.getRowCount ();
-	}
-
-	@Override
-	public ActorI.ActionStates getRoundType () {
-		return ActorI.ActionStates.OperatingRound;
-	}
-
-	@Override
-	public String getStateName () {
-		return getRoundType ().toString ();
-	}
-
-	public int getShareCompanyCount () {
-		return shareCompanies.getRowCount ();
-	}
-
-	public XMLElement getRoundState (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = aXMLDocument.createElement (EN_OPERATING_ROUND);
-		setRoundAttributes (tXMLElement);
-
-		return tXMLElement;
-	}
-
-	@Override
-	public void loadRound (XMLNode aRoundNode) {
-		super.loadRound (aRoundNode);
-	}
-
-	public CorporationList getShareCompanies () {
-		return shareCompanies;
-	}
-
-	public ShareCompany getShareCompanyIndex (int aIndex) {
-		return (ShareCompany) shareCompanies.getCorporation (aIndex);
-	}
-
-	@Override
-	public String getType () {
-		return NAME;
-	}
-
-	public void payRevenues () {
-		privateCompanies.payPrivateRevenues (getBank (), this);
-	}
-
-	public void handleQueryBenefits () {
-		privateCompanies.handleQueryBenefits (roundManager.getRoundFrame ());
 	}
 
 	public void printRoundInfo () {
@@ -349,14 +366,5 @@ public class OperatingRound extends Round {
 		}
 
 		return tCorporation;
-	}
-
-	public void sortByOperatingOrder () {
-		shareCompanies.sortByOperatingOrder ();
-	}
-
-	@Override
-	public boolean isAOperatingRound () {
-		return true;
 	}
 }
