@@ -1545,14 +1545,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	private String constructASARFileName (String aDirectoryName, String aSuffix) {
-		String tAutoSaveFileName = "";
+		String tAutoSaveFileName;
 
 		if (isNetworkGame ()) {
 			tAutoSaveFileName = constructAutoSaveNetworkDir (aDirectoryName) + getGameName () + "." + getGameID () + "."
 					+ clientUserName;
 		} else {
 			tAutoSaveFileName = aDirectoryName + File.separator + getGameName () + "." + clientUserName;
-
 		}
 		tAutoSaveFileName += aSuffix;
 
@@ -1676,7 +1675,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				handleNetworkAction (tNextAction);
 			}
 		}
-
 	}
 
 	public void printDateTime (String aLabel) {
@@ -1690,10 +1688,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	private boolean loadSavedXMLFile () {
 		List<ActionStates> tAuctionStates;
-		boolean tGoodLoad = false;
+		boolean tGoodLoad;
 		int tLastActionNumber;
 		String tGameName;
 		
+		tGoodLoad = false;
 		setNotifyNetwork (false);
 		if (loadXMLFile (loadSavedFile)) {
 			if (isNetworkGame ()) {
@@ -1760,15 +1759,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public boolean loadXMLSavedGame (XMLDocument aXMLDocument) throws IOException {
-		boolean tLoadedSaveGame;
 		XMLNode tXMLSaveGame;
 		NodeList tChildren;
 		int tChildrenCount;
 		int tIndex;
-		boolean tGameIdentified = false;
-		boolean tPlayersLoaded = false;
-		boolean tGameInitiated = false;
+		boolean tLoadedSaveGame;
+		boolean tGameIdentified;
+		boolean tPlayersLoaded;
+		boolean tGameInitiated;
 
+		tGameIdentified = false;
+		tPlayersLoaded = false;
+		tGameInitiated = false;
 		tLoadedSaveGame = false;
 		if (aXMLDocument.validDocument ()) {
 			playerManager = new PlayerManager (this); 
@@ -2346,15 +2348,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		userPreferencesFrame = (UserPreferencesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
-	private void setFrameInfoFrame (FrameInfoSupport aFrameInfoFrame) {
-		frameInfoFrame = aFrameInfoFrame;
-//		addNewFrame (aXMLFrame);
-	}
 
 	private void setTileDefinitionFrame (XMLFrame aXMLFrame) {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
+	}
+	
+	private void setFrameInfoFrame (FrameInfoSupport aFrameInfoFrame) {
+		frameInfoFrame = aFrameInfoFrame;
 	}
 
 	private void setupGamePieces () {
@@ -2427,8 +2428,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void setAuctionFrameLocation () {
-		Point tNewPoint = getOffsetPlayerFrame ();
+		Point tNewPoint;
 
+		tNewPoint = getOffsetPlayerFrame ();
 		auctionFrame.setLocation (tNewPoint);
 	}
 
