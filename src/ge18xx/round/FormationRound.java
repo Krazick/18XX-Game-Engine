@@ -2,7 +2,7 @@ package ge18xx.round;
 
 import ge18xx.round.action.ActorI;
 
-public class FormationRound extends Round {
+public class FormationRound extends InterruptionRound {
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
 

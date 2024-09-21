@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
 
-public class AuctionRound extends Round {
+public class AuctionRound extends InterruptionRound {
 	public final static String NAME = "Auction Round";
 	public final static AuctionRound NO_AUCTION_ROUND = null;
 	AuctionFrame auctionFrame;
