@@ -66,7 +66,6 @@ public class RoundTestFactory {
 		StockRound mStockRound;
 
 		mStockRound = Mockito.mock (StockRound.class);
-		Mockito.when (mStockRound.getType ()).thenReturn ("Stock Round Mock");
 		Mockito.when (mStockRound.getID ()).thenReturn ("1");
 
 		return mStockRound;
