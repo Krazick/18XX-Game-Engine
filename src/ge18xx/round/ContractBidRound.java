@@ -1,26 +1,23 @@
 package ge18xx.round;
 
+import ge18xx.round.action.ActorI;
+
 public class ContractBidRound extends Round {
 	public static final ContractBidRound NO_CONTRACT_BID_ROUND = null;
 	public static final String NAME = "Contract Bid Round";
 
 	public ContractBidRound (RoundManager aRoundManager) {
 		super (aRoundManager);
+		setName (NAME);
 	}
-	
+
 	@Override
-	public String getName () {
-		return NAME;
+	public ActorI.ActionStates getRoundType () {
+		return ActorI.ActionStates.ContractBidRound;
 	}
-	
 	
 	@Override
 	public boolean isAContractBidRound () {
 		return true;
-	}
-	
-	@Override
-	public String getType () {
-		return NAME;
 	}
 }

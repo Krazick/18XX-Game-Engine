@@ -1,6 +1,7 @@
 package ge18xx.round;
 
 import ge18xx.game.GameManager;
+import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
 
@@ -19,6 +20,7 @@ public class AuctionRound extends Round {
 		gameManager.setAuctionFrame (auctionFrame);
 		gameManager.addNewFrame (auctionFrame);
 		setID (0, 0);
+		setName (NAME);
 	}
 
 	public void setAuctionRoundInAuctionFrame () {
@@ -34,13 +36,8 @@ public class AuctionRound extends Round {
 	}
 
 	@Override
-	public String getName () {
-		return NAME;
-	}
-
-	@Override
-	public String getType () {
-		return NAME;
+	public ActorI.ActionStates getRoundType () {
+		return ActorI.ActionStates.AuctionRound;
 	}
 
 	@Override

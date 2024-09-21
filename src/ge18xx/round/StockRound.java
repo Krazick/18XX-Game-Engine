@@ -26,6 +26,7 @@ public class StockRound extends Round {
 	public StockRound (PlayerManager aPlayerManager, RoundManager aRoundManager) {
 		super (aRoundManager);
 		setPlayerManager (aPlayerManager);
+		setName (NAME);
 	}
 
 	@Override
@@ -33,6 +34,7 @@ public class StockRound extends Round {
 		super.loadRound (aRoundNode);
 		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
 		priorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
+		setName (NAME);
 	}
 
 	public void setPlayerManager (PlayerManager aPlayerManager) {
@@ -101,11 +103,6 @@ public class StockRound extends Round {
 
 	@Override
 	public String getName () {
-		return NAME;
-	}
-
-	@Override
-	public String getType () {
 		return NAME;
 	}
 

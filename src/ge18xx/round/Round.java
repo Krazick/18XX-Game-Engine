@@ -29,6 +29,7 @@ public abstract class Round implements ActorI {
 	int idPart1;
 	int idPart2;
 	RoundManager roundManager;
+	String name;
 
 	public Round (RoundManager aRoundManager) {
 		setRoundManager (aRoundManager);
@@ -52,6 +53,10 @@ public abstract class Round implements ActorI {
 		idPart2 = aIDPart2;
 	}
 
+	public void setName (String aName) {
+		name = aName;
+	}
+	
 	public void loadRound (XMLNode aRoundNode) {
 		int tIDPart1;
 		int tIDPart2;
@@ -80,6 +85,22 @@ public abstract class Round implements ActorI {
 	public void setRoundAttributes (XMLElement aXMLElement) {
 		aXMLElement.setAttribute (AN_ROUND_PART1, idPart1);
 		aXMLElement.setAttribute (AN_ROUND_PART2, idPart2);
+	}
+
+	// Methods to ask this (Round) Class to handle
+
+	@Override
+	public String getName () {
+		return name;
+	}
+
+	@Override
+	public String getAbbrev () {
+		return name;
+	}
+
+	public boolean isActor (String aActorName) {
+		return name.equals (aActorName);
 	}
 
 	// Methods that ask RoundManager to handle
@@ -230,10 +251,6 @@ public abstract class Round implements ActorI {
 		return getRoundType ().toString ();
 	}
 
-	public String getType () {
-		return "Round";
-	}
-
 	public boolean roundIsDone () {
 		return false;
 	}
@@ -247,27 +264,4 @@ public abstract class Round implements ActorI {
 			resetOperatingRound ();
 		}
 	}
-
-	@Override
-	public String getName () {
-		return NAME;
-	}
-
-	@Override
-	public String getAbbrev () {
-		return getName ();
-	}
-
-	public boolean isActor (String aActorName) {
-		return getName ().equals (aActorName);
-	}
-
-//	public void setPrimaryActionState (ActorI.ActionStates aPreviousState) {
-//		if (aPreviousState == ActorI.ActionStates.StockRound) {
-//			startStockRound ();
-//		}
-//		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
-//			startOperatingRound ();
-//		}
-//	}
 }

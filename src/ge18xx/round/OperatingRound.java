@@ -29,11 +29,13 @@ public class OperatingRound extends Round {
 		minorCompanies = aMinors;
 		shareCompanies = aShares;
 		setOperatingType (GUI.NULL_STRING);
+		setName (NAME);
 	}
 
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
+		setName (NAME);
 	}
 
 	public void setOperatingType (String aOperatingType) {
@@ -52,13 +54,8 @@ public class OperatingRound extends Round {
 	// Methods to ask this (Operating Round) to handle
 
 	@Override
-	public String getName () {
-		return NAME;
-	}
-
-	@Override
-	public String getType () {
-		return NAME;
+	public String getStateName () {
+		return getRoundType ().toString ();
 	}
 
 	public String currentOperatingType () {
@@ -80,11 +77,6 @@ public class OperatingRound extends Round {
 	@Override
 	public ActorI.ActionStates getRoundType () {
 		return ActorI.ActionStates.OperatingRound;
-	}
-
-	@Override
-	public String getStateName () {
-		return getRoundType ().toString ();
 	}
 
 	@Override
