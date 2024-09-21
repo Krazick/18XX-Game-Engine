@@ -136,6 +136,7 @@ public class SetRoundTypeTests {
 		tRoundType = roundManager.getRoundType ();
 		assertEquals ("Contract Bid Round", tRoundType);
 	}
+	
 	@Test
 	@DisplayName ("Verifying the getStateName method")
 	void verifyingGetStateNames () {
