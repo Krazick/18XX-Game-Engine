@@ -28,4 +28,22 @@ public class InterruptionRound extends Round {
 	public Round getInterruptedRound () {
 		return interruptedRound;
 	}
+
+	@Override
+	public void finish () {
+		setInterruptionStarted (false);		
+	}
+
+	@Override
+	public void resume () {
+	}
+
+	@Override
+	public void start () {
+		Round tCurrentRound;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		setInterruptedRound (tCurrentRound);
+		setInterruptionStarted (true);
+	}
 }
