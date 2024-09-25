@@ -29,17 +29,12 @@ import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
-import ge18xx.round.AuctionRound;
-import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
-import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
-import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.SetWaitStateAction;
-import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.xml.AttributeName;
@@ -449,6 +444,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		Bidders tBidders;
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
+		RoundManager tRoundManager;
 
 		List<Certificate> tCertificatesToBuy;
 		Certificate tFreeCertificate;
@@ -478,39 +474,41 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (mustSetParPrice (tFreeCertificate)) {
 			setAllWaitStateEffects (tWinAuctionAction);
 		}
-		if (! tNextShareHasBids) {
-			aAuctionFrame.hideFrame ();
-			tWinAuctionAction.addHideFrameEffect (this, aAuctionFrame);
-		}
+//		if (! tNextShareHasBids) {
+//			aAuctionFrame.hideFrame ();
+//			tWinAuctionAction.addHideFrameEffect (this, aAuctionFrame);
+//		}
 		
 		playerManager.addAction (tWinAuctionAction);
+		tRoundManager = playerManager.getRoundManager ();
+		tRoundManager.finishCurrentRound ();
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
-		returnToStockRound ();
+//		returnToStockRound ();
 		
 		return tNextShareHasBids;
 	}
 
-	private void returnToStockRound () {
-		RoundManager tRoundManager;
-		AuctionRound tAuctionRound;
-		StockRound tStockRound;
-		ChangeRoundAction tChangeRoundAction;
-		ActorI.ActionStates tRoundType;
-		String tOldRoundID;
-		String tNewRoundID;
-		
-		tRoundManager = playerManager.getRoundManager ();
-		tAuctionRound = tRoundManager.getAuctionRound ();
-		tStockRound = tRoundManager.getStockRound ();
-		tRoundType = ActorI.ActionStates.AuctionRound;
-		tOldRoundID = tStockRound.getID ();
-		tNewRoundID = tStockRound.getID ();
-
-		tChangeRoundAction = new ChangeRoundAction (ActorI.ActionStates.AuctionRound, "1", tAuctionRound);
-		tChangeRoundAction.addStateChangeEffect (tAuctionRound, tRoundType, ActorI.ActionStates.StockRound);
-		tChangeRoundAction.setChainToPrevious (true);
-		tRoundManager.changeRound (tAuctionRound, ActorI.ActionStates.StockRound, tStockRound, tOldRoundID, tNewRoundID, true);
-	}
+//	private void returnToStockRound () {
+//		RoundManager tRoundManager;
+//		AuctionRound tAuctionRound;
+//		StockRound tStockRound;
+//		ChangeRoundAction tChangeRoundAction;
+//		ActorI.ActionStates tRoundType;
+//		String tOldRoundID;
+//		String tNewRoundID;
+//		
+//		tRoundManager = playerManager.getRoundManager ();
+//		tAuctionRound = tRoundManager.getAuctionRound ();
+//		tStockRound = tRoundManager.getStockRound ();
+//		tRoundType = ActorI.ActionStates.AuctionRound;
+//		tOldRoundID = tStockRound.getID ();
+//		tNewRoundID = tStockRound.getID ();
+//
+//		tChangeRoundAction = new ChangeRoundAction (ActorI.ActionStates.AuctionRound, "1", tAuctionRound);
+//		tChangeRoundAction.addStateChangeEffect (tAuctionRound, tRoundType, ActorI.ActionStates.StockRound);
+//		tChangeRoundAction.setChainToPrevious (true);
+//		tRoundManager.changeRound (tAuctionRound, ActorI.ActionStates.StockRound, tStockRound, tOldRoundID, tNewRoundID, true);
+//	}
 	
 	private boolean mustSetParPrice (Certificate aFreeCertificate) {
 		boolean tMustSetParPrice;
@@ -1407,56 +1405,56 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	 *
 	 */
 	public void buyAction () {
-		Certificate tCertificate;
+//		Certificate tCertificate;
 		List<Certificate> tCertificatesToBuy;
-		boolean tNextShareHasBids;
-		boolean tCreateNewAuctionAction;
+//		boolean tNextShareHasBids;
+//		boolean tCreateNewAuctionAction;
 		boolean tConfirmBuyShare;
 		
 		tConfirmBuyShare = confirmBuyShareAction ();
 		if (tConfirmBuyShare) {	
-			tCreateNewAuctionAction = true;
+//			tCreateNewAuctionAction = true;
 			tCertificatesToBuy = playerManager.getCertificatesToBuy ();
-			tCertificate = tCertificatesToBuy.get (0);
+//			tCertificate = tCertificatesToBuy.get (0);
 	
-			tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
+//			tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
 	
 			buyAction (tCertificatesToBuy);
 	
-			if (tNextShareHasBids) {
-				startAuctionRound (tCreateNewAuctionAction);
+//			if (tNextShareHasBids) {
+//				startAuctionRound (tCreateNewAuctionAction);
 //				setTriggeredAuction (true); // Set the Triggered Auction Flag.
 //				playerManager.startAuctionRound (tCreateNewAuctionAction);
-			}
+//			}
 		}
 		playerFrame.updateButtons ();
 		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - BOUGHT");
 	}
 
-	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		StartAuctionAction tStartAuctionAction;
-		RoundManager tRoundManager;
-		Round tCurrentRound;
-		ActorI.ActionStates tRoundType;
-		String tRoundID;
-		boolean tTriggeredAuction;
-		
-		tRoundManager = playerManager.getRoundManager ();
-		tCurrentRound = tRoundManager.getStockRound ();
-		tRoundType = tCurrentRound.getRoundType ();
-		tRoundID = tCurrentRound.getID ();
-		tTriggeredAuction = true;
-		
-		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
-		playerManager.startAuctionRound (aCreateNewAuctionAction);
-		
-		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
-		tStartAuctionAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
-				
-		tStartAuctionAction.setChainToPrevious (true);
-	
-		playerManager.addAction (tStartAuctionAction);
-	}
+//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+//		StartAuctionAction tStartAuctionAction;
+//		RoundManager tRoundManager;
+//		Round tCurrentRound;
+//		ActorI.ActionStates tRoundType;
+//		String tRoundID;
+//		boolean tTriggeredAuction;
+//		
+//		tRoundManager = playerManager.getRoundManager ();
+//		tCurrentRound = tRoundManager.getStockRound ();
+//		tRoundType = tCurrentRound.getRoundType ();
+//		tRoundID = tCurrentRound.getID ();
+//		tTriggeredAuction = true;
+//		
+//		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
+//		playerManager.startAuctionRound (aCreateNewAuctionAction);
+//		
+//		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
+//		tStartAuctionAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
+//				
+//		tStartAuctionAction.setChainToPrevious (true);
+//	
+//		playerManager.addAction (tStartAuctionAction);
+//	}
 	
 	public List<Benefit> getOwnerTypeBenefits () {
 		List<Benefit> tOwnerTypeBenefits;
