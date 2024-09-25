@@ -25,6 +25,7 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerInfo;
+import ge18xx.round.RoundType;
 import ge18xx.train.TrainInfo;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
@@ -71,6 +72,7 @@ public class GameInfo implements XMLSaveGameI {
 	final AttributeName AN_BANK_POOL_DIVIDENDS = new AttributeName ("bankPoolDividends");
 	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
 	final AttributeName AN_BANK_POOL_NAME = new AttributeName ("bankPoolName");
+	final AttributeName AN_INITIAL_ROUND_TYPE = new AttributeName ("initialRoundType");
 
 	public static final GameInfo NO_GAME_INFO = null;
 	public static final GameInfo [] NO_GAMES = null;
@@ -101,6 +103,7 @@ public class GameInfo implements XMLSaveGameI {
 	int firstTokenCost;
 	int laterTokenCost;
 	int maxRounds;
+	int roundIndex;
 	String currencyFormat;
 	String subTitle;
 	String location;
@@ -111,6 +114,8 @@ public class GameInfo implements XMLSaveGameI {
 	String bankPoolDividends;
 	String ipoDividends;
 	String bankPoolName;
+	String initialRoundType;
+	RoundType [] roundTypes;
 	boolean noTouchPass;
 	boolean operateBeforeSale;
 	boolean hasPrivates;
@@ -124,11 +129,11 @@ public class GameInfo implements XMLSaveGameI {
 	boolean testGraphs;		// For DEBUGing Development testing of new Graphs
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
-	TrainInfo trains [];
-	PlayerInfo players [];
+	TrainInfo [] trains;
+	PlayerInfo [] players;
 	PhaseManager phaseManager;
-	Variant variants [];
-	File18XX files [];
+	Variant [] variants;
+	File18XX [] files;
 	Capitalization capitalizations;
 	private List<VariantEffect> activeVariantEffects;
 
@@ -149,10 +154,6 @@ public class GameInfo implements XMLSaveGameI {
 	}
 
 	public GameInfo (XMLNode aCellNode) {
-		XMLNodeList tXMLNodeList;
-		NodeList tChildren;
-		XMLNode tChildNode;
-		String tChildName;
 		String tGameID;
 		String tStatus;
 		String tName;
@@ -165,16 +166,11 @@ public class GameInfo implements XMLSaveGameI {
 		String tBankPoolDividends;
 		String tIpoDividends;
 		String tBankPoolName;
+		String tInitialRoundType;
 		int tID;
 		int tMinPlayers;
 		int tMaxPlayers;
 		int tBankTotal;
-		int tFileCount;
-		int tChildrenCount;
-		int tIndex;
-		int tVariantCount;
-		int tTrainCount;
-		int tPlayerCount;
 		int tBankPoolShareLimit;
 		int tPlayerShareLimit;
 		int tLoanAmount;
@@ -210,6 +206,7 @@ public class GameInfo implements XMLSaveGameI {
 		tBankPoolDividends = aCellNode.getThisAttribute (AN_BANK_POOL_DIVIDENDS);
 		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
 		tBankPoolName = aCellNode.getThisAttribute (AN_BANK_POOL_NAME, BANK_POOL_NAME);
+		tInitialRoundType = aCellNode.getThisAttribute (AN_INITIAL_ROUND_TYPE);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
@@ -239,6 +236,7 @@ public class GameInfo implements XMLSaveGameI {
 		setFirstTokenCost (tFirstTokenCost);
 		setLaterTokenCost (tLaterTokenCost);
 		setMaxRounds (tMaxRounds);
+		setInitialRoundType (tInitialRoundType);
 		setStatus (tStatus);
 		setDividendPayments (tBankPoolDividends, tIpoDividends, tBankPoolName);
 		setOperateBeforeSale (tOperateBeforeSale);
@@ -253,8 +251,25 @@ public class GameInfo implements XMLSaveGameI {
 		setBankPoolShareLimit (tBankPoolShareLimit);
 		setPlayerShareLimit (tPlayerShareLimit);
 
+		parseChildNodes (aCellNode);
+	}
+
+	private void parseChildNodes (XMLNode aCellNode) {
+		NodeList tChildren;
+		int tChildrenCount;
+		XMLNodeList tXMLNodeList;
+		XMLNode tChildNode;
+		String tChildName;
+		int tFileCount;
+		int tIndex;
+		int tVariantCount;
+		int tTrainCount;
+		int tPlayerCount;
+		int tRoundCount;
+		
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
+
 		setVariants (new Variant [0]);
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
@@ -289,6 +304,12 @@ public class GameInfo implements XMLSaveGameI {
 				tXMLNodeList.parseXMLNodeList (tChildNode, File18XX.EN_FILE);
 			} else if (Capitalization.EN_CAPITALIZATIONS.equals (tChildName)) {
 				capitalizations = new Capitalization (tChildNode);
+			} else if (RoundType.EN_ROUND_TYPES.equals (tChildName)) {
+				tXMLNodeList = new XMLNodeList (roundTypesParsingRoutine);
+				tRoundCount = tXMLNodeList.getChildCount (tChildNode, RoundType.EN_ROUND_TYPE);
+				roundTypes = new RoundType [tRoundCount];
+				roundIndex = 0;
+				tXMLNodeList.parseXMLNodeList (tChildNode, RoundType.EN_ROUND_TYPE);
 			}
 		}
 	}
@@ -342,6 +363,16 @@ public class GameInfo implements XMLSaveGameI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			files [fileIndex++] = new File18XX (aChildNode);
+		}
+	};
+
+	ParsingRoutineI roundTypesParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			RoundType tRoundType;
+			
+			tRoundType = new RoundType (aChildNode);
+			roundTypes [roundIndex++] = tRoundType;
 		}
 	};
 
@@ -795,6 +826,10 @@ public class GameInfo implements XMLSaveGameI {
 		return maxRounds;
 	}
 	
+	public String getInitialRoundType () {
+		return initialRoundType;
+	}
+	
 	public boolean hasMinors () {
 		return hasMinors;
 	}
@@ -869,6 +904,10 @@ public class GameInfo implements XMLSaveGameI {
 	
 	public void setMaxRounds (int aMaxRounds) {
 		maxRounds = aMaxRounds;
+	}
+	
+	public void setInitialRoundType (String aInitialRoundType) {
+		initialRoundType = aInitialRoundType;
 	}
 	
 	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
