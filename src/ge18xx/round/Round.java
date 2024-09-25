@@ -251,6 +251,7 @@ public abstract class Round implements ActorI {
 		return getRoundType ().toString ();
 	}
 
+	// Probably remove this method, the new 'roundEnds' to be used instead
 	public boolean roundIsDone () {
 		return false;
 	}
@@ -263,5 +264,59 @@ public abstract class Round implements ActorI {
 		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
 			resetOperatingRound ();
 		}
+	}
+	
+	// New Methods to support the Generic Version
+	
+	/* This method to be overriden will determine if the Round is completed, and should move to Next Round
+	 * 
+	 * @return True if the round is over, false the round continues
+	 * 
+	 */
+	
+	public boolean ends () {
+		return false;
+	}
+	
+	/* This method to be overriden will handle any cleanup of the round
+	 * 
+	 */
+	
+	public void finish () {
+		
+	}
+	
+	/* This method to be overriden will prepare the round to begin
+	 * 
+	 */
+	
+	public void start () {
+		
+	}
+	
+	/* This method to be overriden will determine if a Round can start
+	 * The Operating Round can start if there is any Private, Minor, or Share
+	 * Company is owned, and has the ability to Operate: (Pay Revenue, 
+	 * Operate, will float, or may float).
+	 * 
+	 */
+	
+	public boolean canStart () {
+		return true;
+	}
+	
+	/* This method will retrieve the Next Round from the RoundType
+	 * This may be overriden by the Operating Round (for example) if
+	 * the round will repeat.
+	 * Need to consider when exactly to test if an Optional Round is allowed
+	 * 
+	 */
+	
+	public Round getNextRound () {
+		Round tNextRound;
+		
+		tNextRound = NO_ROUND;
+		
+		return tNextRound;
 	}
 }
