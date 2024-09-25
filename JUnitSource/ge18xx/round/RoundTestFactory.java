@@ -54,10 +54,10 @@ public class RoundTestFactory {
 		return mRoundManager;
 	}
 
-	public StockRound buildStockRound (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+	public StockRound buildStockRound (RoundManager aRoundManager, PlayerManager aPlayerManager) {
 		StockRound tStockRound;
 
-		tStockRound = new StockRound (aPlayerManager, aRoundManager);
+		tStockRound = new StockRound (aRoundManager, aPlayerManager);
 
 		return tStockRound;
 	}
