@@ -3,7 +3,9 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
+import ge18xx.round.action.effects.HideFrameEffect;
 import geUtilities.GUI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class ChangeRoundAction extends ChangeStateAction {
@@ -36,6 +38,13 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 		tClearSoldCompanyEfect = new ClearSoldCompanyEffect (aActor, aSoldCompanies, aRoundID);
 		addEffect (tClearSoldCompanyEfect);
+	}
+
+	public void addHideFrameEffect (ActorI aActor, XMLFrame aXMLAuctionFrame) {
+		HideFrameEffect tHideFrameEffect;
+		
+		tHideFrameEffect = new HideFrameEffect (aActor, aXMLAuctionFrame);
+		addEffect (tHideFrameEffect);
 	}
 
 	@Override
