@@ -84,54 +84,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		setManagers (aGameManager, aPlayerManager);
+		setCurrentRound (Round.NO_ROUND);
 		logger = gameManager.getLogger ();
-	}
-
-	public Logger getLogger () {
-		return logger;
-	}
-
-	public JMenuBar getJMenuBar () {
-		return gameManager.getJMenuBar ();
-	}
-	
-	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
-		GameInfo tGameInfo;
-		String tInitialRoundType;
-		Round tInitialRound;
-		
-		tGameInfo = gameManager.getActiveGame ();
-		tInitialRoundType = tGameInfo.getInitialRoundType ();
-		
-		// In 1853, Need to start with a Contract Bid Round
-		setRounds (aPrivates, aMinors, aShares);
-		
-		tInitialRound = getRoundByTypeName (tInitialRoundType);
-
-		setRoundType (tInitialRound.getRoundType ());
-		setOtherRoundInfo ();
-		tInitialRound.setIDPart1 (Round.START_ID1);
-		tInitialRound.setIDPart2 (Round.START_ID2);
-		setRoundToStockRound ();
-
-		stockRound.setStartingPlayer ();
-	}
-
-	public boolean isFirstStockRound () {
-		boolean tIsFirstStockRound;
-
-		if (isStockRound ()) {
-			tIsFirstStockRound = stockRound.isFirstRound ();
-		} else {
-			tIsFirstStockRound = false;
-		}
-
-		return tIsFirstStockRound;
-	}
-
-	public void showInitialFrames () {
-		showFrame ();
-		actionManager.showActionReportFrame ();
 	}
 
 	public void setManagers (GameManager aGameManager, PlayerManager aPlayerManager) {
@@ -158,20 +112,66 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		actionManager = aActionManager;
 	}
 
+	public void setCurrentRound (Round aCurrentRound) {
+		currentRound = aCurrentRound;
+	}
+	
+	public Logger getLogger () {
+		return logger;
+	}
+
+	public JMenuBar getJMenuBar () {
+		return gameManager.getJMenuBar ();
+	}
+	
+	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
+		GameInfo tGameInfo;
+		String tInitialRoundType;
+		Round tInitialRound;
+		
+		tGameInfo = gameManager.getActiveGame ();
+		initiateRounds (aPrivates, aMinors, aShares);
+		
+		tInitialRoundType = tGameInfo.getInitialRoundType ();
+		tInitialRound = getRoundByTypeName (tInitialRoundType);
+
+		setRoundType (tInitialRound.getRoundType ());
+		setCurrentRound (tInitialRound);
+		setOtherRoundInfo ();
+		tInitialRound.setIDPart1 (Round.START_ID1);
+		tInitialRound.setIDPart2 (Round.START_ID2);
+		setRoundToStockRound ();
+
+		stockRound.setStartingPlayer ();
+	}
+
+	public boolean isFirstStockRound () {
+		boolean tIsFirstStockRound;
+
+		if (isStockRound ()) {
+			tIsFirstStockRound = stockRound.isFirstRound ();
+		} else {
+			tIsFirstStockRound = false;
+		}
+
+		return tIsFirstStockRound;
+	}
+
+	public void showInitialFrames () {
+		showFrame ();
+		actionManager.showActionReportFrame ();
+	}
+
 	// Initialize each of the Round Types if they have not been set yet.
 	
-	public void setRounds (CorporationList aPrivates, CorporationList aMinors,
+	public void initiateRounds (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
-		
-		// TODO: Cycle through each Round Type in GameInfo, 
-		// if the game has this type, create the Round and set it properly.
-		
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
-			setStockRound (new StockRound (playerManager, this));
+			setStockRound (new StockRound (this, playerManager));
 		}
 		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
 			setAuctionRound (new AuctionRound (this));
-			auctionRound.setAuctionRoundInAuctionFrame ();
+//			auctionRound.setAuctionRoundInAuctionFrame ();
 		}
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
 			setOperatingRound (new OperatingRound (this, aPrivates, aMinors, aShares));
@@ -182,8 +182,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) {
 			setContractBidRound (new ContractBidRound (this));
 		}
-
-
 	}
 
 	// Set each of the various Round Types
@@ -752,7 +750,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		GenericActor tGenericActor;
 
 		currentOR = aRoundStateNode.getThisIntAttribute (AN_CURRENT_OR);
-		operatingRoundCount = aRoundStateNode.getThisIntAttribute (AN_OR_COUNT);
+		operatingRoundCount = aRoundStateNode.getThisIntAttribute (AN_OR_COUNT, 1);
 		addedOR = aRoundStateNode.getThisBooleanAttribute (AN_ADDED_OR);
 		tRoundType = aRoundStateNode.getThisAttribute (AN_CURRENT_ROUND_TYPE);
 		tGenericActor = new GenericActor ();
@@ -969,6 +967,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tRoundID = aCurrentRound.getID ();
 		tCurrentRoundType = getCurrentRoundType ();
 		setRoundType (aNewRoundType);
+		setCurrentRound (aNewRound);
 		tNewRoundType = getCurrentRoundType ();
 
 		if (!applyingAction ()) {
@@ -991,6 +990,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
+	public void finishCurrentRound () {
+		currentRound.finish ();
+	}
+	
 	public void setOperatingRoundCount () {
 		int tOperatingRoundsCount;
 		PhaseInfo tCurrentPhase;
@@ -1027,9 +1030,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// in an Action to be consistent with the whole game system. This will improve the Undo Functionality.
 	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		setRoundToAuctionRound (aCreateNewAuctionAction);
-		auctionRound.startAuctionRound ();
-		roundFrame.updatePassButton ();
+//		setRoundToAuctionRound (aCreateNewAuctionAction);
+//		auctionRound.startAuctionRound ();
+//		roundFrame.updatePassButton ();
 	}
 
 	public void updatePassButton () {
