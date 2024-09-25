@@ -23,7 +23,7 @@ public class StockRound extends Round {
 	int priorityPlayerIndex;
 	int startRoundPriorityIndex;
 
-	public StockRound (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+	public StockRound (RoundManager aRoundManager, PlayerManager aPlayerManager) {
 		super (aRoundManager);
 		setPlayerManager (aPlayerManager);
 		setName (NAME);
@@ -300,5 +300,22 @@ public class StockRound extends Round {
 
 		tPlayer = playerManager.getCurrentPlayer ();
 		tPlayer.passAction ();
+	}
+
+	@Override
+	public void finish () {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume () {
+		roundManager.resumeStockRound (idPart1);
+	}
+
+	@Override
+	public void start () {
+		// TODO Auto-generated method stub
+		
 	}
 }
