@@ -1,6 +1,6 @@
 package ge18xx.round;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.swing.JLabel;
 
@@ -15,12 +15,12 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
-import ge18xx.player.PlayerManager;
-import ge18xx.player.PlayerTestFactory;
+//import ge18xx.player.PlayerManager;
+//import ge18xx.player.PlayerTestFactory;
 import ge18xx.toplevel.FrameTestFactory;
-import ge18xx.toplevel.MinorCompaniesFrame;
-import ge18xx.toplevel.PrivatesFrame;
-import ge18xx.toplevel.ShareCompaniesFrame;
+//import ge18xx.toplevel.MinorCompaniesFrame;
+//import ge18xx.toplevel.PrivatesFrame;
+//import ge18xx.toplevel.ShareCompaniesFrame;
 
 @DisplayName ("Round Frame Tests")
 class RoundFrameTests {
@@ -34,11 +34,11 @@ class RoundFrameTests {
 	
 	@BeforeEach
 	void setUp () throws Exception {
-		PrivatesFrame tPrivatesFrame;
-		MinorCompaniesFrame tMinorCompaniesFrame;
-		ShareCompaniesFrame tShareCompaniesFrame;
-		PlayerTestFactory tPlayerTestFactory;
-		PlayerManager tPlayerManager;
+//		PrivatesFrame tPrivatesFrame;
+//		MinorCompaniesFrame tMinorCompaniesFrame;
+//		ShareCompaniesFrame tShareCompaniesFrame;
+//		PlayerTestFactory tPlayerTestFactory;
+//		PlayerManager tPlayerManager;
 		PhaseManager mPhaseManager;
 		Bank mBank;
 		JLabel tBankCashLabel;
