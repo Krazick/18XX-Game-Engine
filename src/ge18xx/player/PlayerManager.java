@@ -717,11 +717,11 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public void finishAuction (boolean aNextShareHasBids, boolean aCreateNewAuctionAction) {
-		if (aNextShareHasBids) {
-			startAuctionRound (aCreateNewAuctionAction);
-		} else {
-			resumeStockRound ();
-		}
+//		if (aNextShareHasBids) {
+//			startAuctionRound (aCreateNewAuctionAction);
+//		} else {
+//			resumeStockRound ();
+//		}
 		updateAllPlayerFrames ();
 	}
 
