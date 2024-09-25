@@ -561,6 +561,10 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame.nextShareHasBids ();
 	}
 
+	public boolean firstCertificateHasBidders () {
+		return startPacketFrame.firstCertificateHasBidders ();
+	}
+	
 	public boolean removeRustedTrain (String aName) {
 		return rustedTrainsPortfolio.removeTrain (aName);
 	}
