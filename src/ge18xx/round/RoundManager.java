@@ -22,6 +22,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
@@ -64,15 +65,17 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	GameManager gameManager;
 	PlayerManager playerManager;
+	ActionManager actionManager;
+
+	ActorI.ActionStates currentRoundType;
+	RoundFrame roundFrame;
+	Round currentRound;
 	StockRound stockRound;
 	OperatingRound operatingRound;
 	AuctionRound auctionRound;
 	FormationRound formationRound;
 	ContractBidRound contractBidRound;
 	
-	ActionManager actionManager;
-	ActorI.ActionStates currentRoundType;
-	RoundFrame roundFrame;
 	Logger logger;
 	int currentOR;
 	int operatingRoundCount;
@@ -93,12 +96,22 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 	
 	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
+		GameInfo tGameInfo;
+		String tInitialRoundType;
+		Round tInitialRound;
+		
+		tGameInfo = gameManager.getActiveGame ();
+		tInitialRoundType = tGameInfo.getInitialRoundType ();
+		
 		// In 1853, Need to start with a Contract Bid Round
 		setRounds (aPrivates, aMinors, aShares);
-		setRoundType (ActorI.ActionStates.StockRound);
+		
+		tInitialRound = getRoundByTypeName (tInitialRoundType);
+
+		setRoundType (tInitialRound.getRoundType ());
 		setOtherRoundInfo ();
-		stockRound.setIDPart1 (Round.START_ID1);
-		stockRound.setIDPart2 (Round.START_ID2);
+		tInitialRound.setIDPart1 (Round.START_ID1);
+		tInitialRound.setIDPart2 (Round.START_ID2);
 		setRoundToStockRound ();
 
 		stockRound.setStartingPlayer ();
@@ -149,7 +162,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	
 	public void setRounds (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
-
+		
+		// TODO: Cycle through each Round Type in GameInfo, 
+		// if the game has this type, create the Round and set it properly.
+		
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
 			setStockRound (new StockRound (playerManager, this));
 		}
@@ -160,6 +176,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
 			setOperatingRound (new OperatingRound (this, aPrivates, aMinors, aShares));
 		}
+		if (formationRound == FormationRound.NO_FORMATION_ROUND) {
+			setFormationRound (new FormationRound (this));
+		}
+		if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) {
+			setContractBidRound (new ContractBidRound (this));
+		}
+
+
 	}
 
 	// Set each of the various Round Types
@@ -220,6 +244,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void addAction (Action aAction) {
+		boolean tInterruptRound;
+		boolean tInterruptionStarted;
+		
 		// If applying a Network Action, we do -NOT- Need to add the Action again. This
 		// will double-up the Actions, and
 		// During a Reload and Saved Network Game, this messes up the lastAction Number
@@ -229,6 +256,16 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 		gameManager.autoSaveGame ();
 		gameManager.setGameChanged (true);
+		
+//		Time to Check and Handle a Round that will Interrupt. 
+//		Setting the Current Round to the Round that is interrupting to
+		
+		tInterruptRound = auctionRound.interruptRound ();
+		tInterruptionStarted = auctionRound.interruptionStarted ();
+		if (tInterruptRound && !tInterruptionStarted) {
+			System.out.println ("Found Certificate with Bid, need to Start the Interruption to Auction Round");
+			auctionRound.start ();
+		}
 	}
 
 	/**
@@ -392,6 +429,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
 
+		// TODO: Cycle through the different Round Type
+		// If it matches the round by name, return the corresponding Round, given it is not NULL
+		
 		tActor = ActorI.NO_ACTOR;
 		if (stockRound.isActor (aActorName)) {
 			tActor = stockRound;
@@ -992,6 +1032,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame.updatePassButton ();
 	}
 
+	public void updatePassButton () {
+		roundFrame.updatePassButton ();		
+	}
+	
 	public void startOperatingRound (Round aCurrentRound) {
 		int tIDPart1;
 		int tIDPart2;
@@ -1406,5 +1450,29 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void handleQueryBenefits () {
 
+	}
+
+	/* Method will the Next Certificate Available for Purchase/Bid that is in the Bank
+	 * 
+	 * @return the Certificate from the Bank
+	 */
+	public Certificate getNextCertificateWithBid () {
+		Bank tBank;
+		Certificate tCertificate;
+		
+		tBank = gameManager.getBank ();
+		tCertificate = tBank.getPrivateForAuction ();
+		
+		return tCertificate;
+	}
+	
+	public boolean firstCertificateHasBidders () {
+		boolean tNextShareHasBids;
+		Bank tBank;
+		
+		tBank = gameManager.getBank ();
+		tNextShareHasBids = tBank.firstCertificateHasBidders ();
+		
+		return tNextShareHasBids;
 	}
 }
