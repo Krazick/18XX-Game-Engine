@@ -792,6 +792,19 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;
 	}
 
+	public Certificate getNextCertificateWithBid () {
+		Certificate tCertificateToBidOn;
+		Certificate tCertificate;
+		
+		tCertificateToBidOn = Certificate.NO_CERTIFICATE;
+		tCertificate = certificates.get (0);
+		if (tCertificate.isSelectedToBidOn ()) {
+			tCertificateToBidOn = tCertificate;
+		}
+
+		return tCertificateToBidOn;
+	}
+
 	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
 
