@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
@@ -20,6 +22,8 @@ public class SetRoundTypeTests {
 	GameManager gameManager;
 	GameManager mGameManager;
 	GameTestFactory gameTestFactory;
+	BankTestFactory bankTestFactory;
+	Bank mBank;
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
 	OperatingRound mOperatingRound;
@@ -40,11 +44,17 @@ public class SetRoundTypeTests {
 		tClientName = "RMTestBuster";
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager (tClientName);
+		bankTestFactory = new BankTestFactory ();
+		mBank = bankTestFactory.buildBankMock ();
+		Mockito.when (mBank.firstCertificateHasBidders ()).thenReturn (false);
 		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
 		gameManager.setPlayerInputFrame (mPlayerInputFrame);
 		roundTestFactory = new RoundTestFactory ();
 		roundManager = roundTestFactory.buildRoundManager (gameManager);
+		gameManager.setBank (mBank);
+		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		Mockito.when (mGameManager.getBank ()).thenReturn (mBank);
 		
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (3);
