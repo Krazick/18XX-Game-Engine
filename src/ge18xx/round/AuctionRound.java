@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
 
@@ -62,9 +63,9 @@ public class AuctionRound extends InterruptionRound {
 	}
 
 	public void startAuctionRound () {
-		roundManager.addPrivateToAuction ();
-		roundManager.setAuctionFrameLocation ();
-		auctionFrame.showFrame ();
+//		roundManager.addPrivateToAuction ();
+//		roundManager.setAuctionFrameLocation ();
+//		auctionFrame.showFrame ();
 	}
 	
 	@Override
@@ -75,5 +76,48 @@ public class AuctionRound extends InterruptionRound {
 	@Override
 	public String getAbbrev () {
 		return getName ();
+	}
+	
+	// New methods to Check and Handle this Auction Round to Interrupt another Round
+	
+	@Override
+	public void start () {
+		StartAuctionAction tStartAuctionAction;
+		Round tCurrentRound;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+	
+		setInterruptionStarted (true);
+		tCurrentRound = roundManager.getStockRound ();
+		tRoundType = tCurrentRound.getRoundType ();
+		tRoundID = tCurrentRound.getID ();
+
+		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
+		tStartAuctionAction.addSetTriggeredAuctionEffect (this, true);	
+		tStartAuctionAction.setChainToPrevious (true);
+//		addAction (tStartAuctionAction);
+		
+		roundManager.setRoundToAuctionRound (true);
+
+		roundManager.addPrivateToAuction ();
+		roundManager.setAuctionFrameLocation ();
+		auctionFrame.showFrame ();
+		
+		roundManager.updatePassButton ();
+	}
+	
+	@Override
+	public void finish () {
+		setInterruptionStarted (false);
+		auctionFrame.hideFrame ();
+	}
+
+	@Override
+	public boolean interruptRound () {
+		boolean tInterruptRound;
+
+		tInterruptRound = roundManager.firstCertificateHasBidders ();
+		
+		return tInterruptRound;
 	}
 }
