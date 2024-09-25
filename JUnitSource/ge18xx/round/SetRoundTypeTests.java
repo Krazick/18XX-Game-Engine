@@ -65,7 +65,7 @@ public class SetRoundTypeTests {
 
 		operatingRound = roundTestFactory.buildOperatingRound (roundManager);
 
-		stockRound = roundTestFactory.buildStockRound (mPlayerManager, roundManager);
+		stockRound = roundTestFactory.buildStockRound (roundManager, mPlayerManager);
 		roundManager.setStockRound (stockRound);
 		
 		auctionRound = roundTestFactory.buildAuctionRound (roundManager);
