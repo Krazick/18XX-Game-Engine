@@ -268,7 +268,8 @@ public abstract class Round implements ActorI {
 	
 	// New Methods to support the Generic Version
 	
-	/* This method to be overriden will determine if the Round is completed, and should move to Next Round
+	/**
+	 * This method to be overriden will determine if the Round is completed, and should move to Next Round
 	 * 
 	 * @return True if the round is over, false the round continues
 	 * 
@@ -278,21 +279,26 @@ public abstract class Round implements ActorI {
 		return false;
 	}
 	
-	/* This method to be overriden will handle any cleanup of the round
+	/**
+	 *  This method to be overriden will handle any cleanup of the round
 	 * 
 	 */
 	
-	public void finish () {
-		
-	}
+	public abstract void finish ();
 	
+	/**
+	 * This method to be overriden to resume the Round, not starting and preparing from scratch 
+	 * 
+	 */
+	
+	public abstract void resume ();
+	
+	/**
 	/* This method to be overriden will prepare the round to begin
 	 * 
 	 */
 	
-	public void start () {
-		
-	}
+	public abstract void start ();
 	
 	/* This method to be overriden will determine if a Round can start
 	 * The Operating Round can start if there is any Private, Minor, or Share
@@ -305,7 +311,8 @@ public abstract class Round implements ActorI {
 		return true;
 	}
 	
-	/* This method will retrieve the Next Round from the RoundType
+	/**
+	 * This method will retrieve the Next Round from the RoundType
 	 * This may be overriden by the Operating Round (for example) if
 	 * the round will repeat.
 	 * Need to consider when exactly to test if an Optional Round is allowed
