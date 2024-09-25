@@ -422,11 +422,13 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean nextShareHasBids (int aRowAdjustment) {
 		int tCurrentRowsCount;
 		int tFirstActiveRow;
-		boolean tNextShareHasBids = false;
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		int tNextRow;
+		boolean tNextShareHasBids;
+		Certificate tCertificate;
 		StartPacketRow tCurrentPacketRow;
-		StartPacketRow tNextPacketRow;
-
+	
+		tNextShareHasBids = false;
+		tCertificate = Certificate.NO_CERTIFICATE;
 		tCurrentRowsCount = getActiveRowCount ();
 		tFirstActiveRow = getFirstActiveRow ();
 
@@ -435,9 +437,8 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			if (tCurrentPacketRow.isOneLeftInRow ()) {
 				// At least one additional row, and therefore item -- may have bids
 				if (tCurrentRowsCount > 1) {
-					tNextPacketRow = startPacketRows.get (tFirstActiveRow + aRowAdjustment);
-					tCertificate = tNextPacketRow.getCertificateInRow (0);
-					tNextShareHasBids = tCertificate.hasBidders ();
+					tNextRow = tFirstActiveRow + aRowAdjustment;
+					tNextShareHasBids = firstCertificateHasBidders (tNextRow);
 				} else {
 					if (aRowAdjustment == 1) {
 						tNextShareHasBids = false;
@@ -456,6 +457,28 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			}
 		}
 
+		return tNextShareHasBids;
+	}
+
+	public boolean firstCertificateHasBidders () {
+		int tRowIndex;
+		boolean tFirstCertificateHasBidders;
+		
+		tRowIndex = getFirstActiveRow ();
+		tFirstCertificateHasBidders = firstCertificateHasBidders (tRowIndex);
+		
+		return tFirstCertificateHasBidders;
+	}
+	
+	private boolean firstCertificateHasBidders (int aRowIndex) {
+		boolean tNextShareHasBids;
+		Certificate tCertificate;
+		StartPacketRow tNextPacketRow;
+		
+		tNextPacketRow = startPacketRows.get (aRowIndex);
+		tCertificate = tNextPacketRow.getCertificateInRow (0);
+		tNextShareHasBids = tCertificate.hasBidders ();
+		
 		return tNextShareHasBids;
 	}
 
