@@ -113,7 +113,7 @@ public class RoundManagerTestConstructors {
 		tPlayerTestFactory = new PlayerTestFactory (gameManager);
 		tPlayerManager = tPlayerTestFactory.buildPlayerManager ();
 		
-		tStockRound = roundTestFactory.buildStockRound (tPlayerManager, roundManager);
+		tStockRound = roundTestFactory.buildStockRound (roundManager, tPlayerManager);
 		roundManager.setStockRound (tStockRound);
 		
 		tAuctionRound = roundTestFactory.buildAuctionRound (roundManager);
