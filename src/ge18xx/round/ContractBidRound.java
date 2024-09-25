@@ -20,4 +20,22 @@ public class ContractBidRound extends Round {
 	public boolean isAContractBidRound () {
 		return true;
 	}
+
+	@Override
+	public void finish () {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume () {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start () {
+		// TODO Auto-generated method stub
+		
+	}
 }
