@@ -147,7 +147,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 		ActorI tToActor;
 		ActorI tFromActor;
 
-		tRoundType = roundManager.getCurrentRoundType ();
+		tRoundType = roundManager.getCurrentRoundState ();
 		if (tRoundType == ActionStates.OperatingRound) {
 			tRoundID = roundManager.getOperatingRoundID ();
 		} else if (tRoundType == ActionStates.StockRound) {

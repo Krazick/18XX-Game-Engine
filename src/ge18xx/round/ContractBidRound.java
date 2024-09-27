@@ -9,10 +9,11 @@ public class ContractBidRound extends Round {
 	public ContractBidRound (RoundManager aRoundManager) {
 		super (aRoundManager);
 		setName (NAME);
+		setRoundType ();
 	}
 
 	@Override
-	public ActorI.ActionStates getRoundType () {
+	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.ContractBidRound;
 	}
 	

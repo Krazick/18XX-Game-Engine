@@ -13,11 +13,14 @@ public class RoundType {
 	public static final AttributeName AN_INTERRUPTION_ROUND = new AttributeName ("interruptionRound");
 	public static final AttributeName AN_NEXT_ROUND = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
+	public static final AttributeName AN_AFTER_ACTIONS = new AttributeName ("afterActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
-
+	public static final RoundType NO_ROUND_TYPE = null;
+	
 	String name;
 	String nextRound;
 	String interruptionRound;
+	String afterActions;
 	boolean optionalExtra;
 	boolean initialRound;
 	int maxRounds;
@@ -28,15 +31,16 @@ public class RoundType {
 //	<RoundType name="Stock Round" initialRound="true" nextRound="Operating Round"/>
 //	<RoundType name="Stock Round" nextRound="Operating Round"/>
 //	<RoundType name="Operating Round" nextRound="Stock Round" maxRounds="3" optionalExtra="true"/>
-//	<RoundType name="Operating Round"  interruptionRound="Formation Round" nextRound="Stock Round" maxRounds="3" />
+//	<RoundType name="Operating Round" interruptionRound="Formation Round" nextRound="Stock Round" maxRounds="3" />
 //	<RoundType name="Operating Round" nextRound="Stock Round" maxRounds="3" />
-//	<RoundType name="Auction Round" />
+//	<RoundType name="Auction Round" afterActions="Done Player, Win Auction" />
 //	<RoundType name="Formation Round" />
 
 	public RoundType (XMLNode aXMLRoundTypeNode) {
 		String tName;
 		String tNextRound;
 		String tInterruptionRound;
+		String tAfterActions;
 		boolean tOptionalExtra;
 		boolean tInitialRound;
 		int tMaxRounds;
@@ -44,6 +48,7 @@ public class RoundType {
 		tName = aXMLRoundTypeNode.getThisAttribute (AN_NAME);
 		tNextRound = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND);
 		tInterruptionRound = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND);
+		tAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_AFTER_ACTIONS);
 		tOptionalExtra = aXMLRoundTypeNode.getThisBooleanAttribute (AN_OPTIONAL_EXTRA);
 		tInitialRound = aXMLRoundTypeNode.getThisBooleanAttribute (AN_INITIAL_ROUND);
 		tMaxRounds = aXMLRoundTypeNode.getThisIntAttribute (AN_MAX_ROUNDS, 1);
@@ -51,6 +56,7 @@ public class RoundType {
 		setName (tName);
 		setNextRound (tNextRound);
 		setInterruptionRound (tInterruptionRound);
+		setAfterActions (tAfterActions);
 		setOptionalExtra (tOptionalExtra);
 		setInitialRound (tInitialRound);
 		setMaxRounds (tMaxRounds);
@@ -66,6 +72,10 @@ public class RoundType {
 	
 	public void setInterruptionRound (String aInterruptionRound) {
 		interruptionRound = aInterruptionRound;
+	}
+	
+	public void setAfterActions (String aAfterActions) {
+		afterActions = aAfterActions;
 	}
 	
 	public void setOptionalExtra (boolean aOptionalExtra) {
@@ -92,6 +102,10 @@ public class RoundType {
 		return interruptionRound;
 	}
 	
+	public String getAfterActions () {
+		return afterActions;
+	}
+	
 	public boolean getOptionalExtra () {
 		return optionalExtra;
 	}
@@ -102,6 +116,14 @@ public class RoundType {
 	
 	public int getMaxRounds () {
 		return maxRounds;
+	}
+	
+	public boolean isAAfterAction (String aAction) {
+		boolean tIsAAfterAction;
+		
+		tIsAAfterAction = afterActions.contains (aAction);
+		
+		return tIsAAfterAction;
 	}
 	
 	public String getInfo () {

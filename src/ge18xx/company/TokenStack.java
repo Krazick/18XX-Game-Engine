@@ -111,7 +111,7 @@ public class TokenStack {
 			if (tMarketCell != tNewMarketCell) {
 				moveTokenToNewMarketCell (aShareCompany, tMarketCell, tNewMarketCell);
 				tNewLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
-				tSoldOutAdjustmentAction = new SoldOutAdjustmentAction (aStockRound.getRoundType (),
+				tSoldOutAdjustmentAction = new SoldOutAdjustmentAction (aStockRound.getRoundState (),
 						aStockRound.getID (), aStockRound);
 				tSoldOutAdjustmentAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, tStartLocation,
 						tNewMarketCell, tNewLocation);

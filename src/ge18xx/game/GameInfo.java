@@ -27,6 +27,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerInfo;
 import ge18xx.round.RoundType;
 import ge18xx.train.TrainInfo;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -72,7 +73,7 @@ public class GameInfo implements XMLSaveGameI {
 	final AttributeName AN_BANK_POOL_DIVIDENDS = new AttributeName ("bankPoolDividends");
 	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
 	final AttributeName AN_BANK_POOL_NAME = new AttributeName ("bankPoolName");
-	final AttributeName AN_INITIAL_ROUND_TYPE = new AttributeName ("initialRoundType");
+	final AttributeName AN_INITIAL_ROUND_NAME = new AttributeName ("initialRoundName");
 
 	public static final GameInfo NO_GAME_INFO = null;
 	public static final GameInfo [] NO_GAMES = null;
@@ -206,7 +207,7 @@ public class GameInfo implements XMLSaveGameI {
 		tBankPoolDividends = aCellNode.getThisAttribute (AN_BANK_POOL_DIVIDENDS);
 		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
 		tBankPoolName = aCellNode.getThisAttribute (AN_BANK_POOL_NAME, BANK_POOL_NAME);
-		tInitialRoundType = aCellNode.getThisAttribute (AN_INITIAL_ROUND_TYPE);
+		tInitialRoundType = aCellNode.getThisAttribute (AN_INITIAL_ROUND_NAME);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
@@ -546,14 +547,6 @@ public class GameInfo implements XMLSaveGameI {
 		activeVariantEffects = aActiveVariantEffects;
 	}
 	
-	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
-		int tCapitalizationLevel;
-		
-		tCapitalizationLevel = capitalizations.getCapitalizationLevel (aSharesSold, aNextTrainName);
-		
-		return tCapitalizationLevel;
-	}
-	
 	public XMLElement getGameVariantsXMLElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tVariantEffectXMLElement;
@@ -580,6 +573,29 @@ public class GameInfo implements XMLSaveGameI {
 		} else {
 			System.err.println ("No Variant Effects Active");
 		}
+	}
+	
+	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
+		int tCapitalizationLevel;
+		
+		tCapitalizationLevel = capitalizations.getCapitalizationLevel (aSharesSold, aNextTrainName);
+		
+		return tCapitalizationLevel;
+	}
+	
+	public RoundType getRoundType (String aName) {
+		RoundType tFoundRoundType;
+		
+		tFoundRoundType = RoundType.NO_ROUND_TYPE;
+		if (aName != GUI.NULL_STRING) {
+			for (RoundType tRoundType : roundTypes) {
+				if (aName.equals (tRoundType.getName ())) {
+					tFoundRoundType = tRoundType;
+				}
+			}
+		}
+		
+		return tFoundRoundType;
 	}
 
 	public boolean canPayHalfDividend () {

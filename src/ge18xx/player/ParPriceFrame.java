@@ -291,7 +291,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		String tRoundID;
 		String tCoordinates;
 		
-		tRoundType = stockRound.getRoundType ();
+		tRoundType = stockRound.getRoundState ();
 		tRoundID = stockRound.getID ();
 		tCoordinates = GUI.EMPTY_STRING;
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
@@ -312,7 +312,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		String tRoundID;
 		String tCoordinates;
 	
-		tRoundType = stockRound.getRoundType ();
+		tRoundType = stockRound.getRoundState ();
 		tRoundID = stockRound.getID ();
 		tCoordinates = GUI.EMPTY_STRING;
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);

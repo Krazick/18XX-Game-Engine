@@ -208,7 +208,7 @@ public class ShareCompany extends TokenCompany {
 		tNewCapitalizationLevel = Capitalization.INCREMENTAL_10_MAX;
 		setDestinationCapitalizationLevel (tNewCapitalizationLevel);
 		tOperatingRound = corporationList.getOperatingRound ();
-		tReachedDestinationAction = new ReachedDestinationAction (tOperatingRound.getRoundType (), 
+		tReachedDestinationAction = new ReachedDestinationAction (tOperatingRound.getRoundState (), 
 																tOperatingRound.getID (), this);
 		tReachedDestinationAction.setChainToPrevious (true);
 		tReachedDestinationAction.addReachedDestinationEffect (this, tReachedDestination, 
@@ -333,7 +333,7 @@ public class ShareCompany extends TokenCompany {
 			
 			tGameManager = getGameManager ();
 			tRoundManager = tGameManager.getRoundManager ();
-			tRoundType = tRoundManager.getCurrentRoundType ();
+			tRoundType = tRoundManager.getCurrentRoundState ();
 			tRoundID = tRoundManager.getCurrentRoundOf ();
 			tCloseCompanyAction = new CloseCompanyAction (tRoundType, tRoundID, this);
 			tHexMap = tGameManager.getGameMap ();
@@ -558,7 +558,7 @@ public class ShareCompany extends TokenCompany {
 
 		tNewLoanTaken = true;
 		tOperatingRound = corporationList.getOperatingRound ();
-		tGetLoanAction = new GetLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tGetLoanAction = new GetLoanAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
 		tGetLoanAction.addGetLoanEffect (this, loanTaken, tNewLoanTaken);
 		tGetLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
 		tGetLoanAction.addCashTransferEffect (tBank, this, tLoanAmount);
@@ -617,7 +617,7 @@ public class ShareCompany extends TokenCompany {
 		if (updateStatus (ActorI.ActionStates.HandledLoanInterest)) {
 			tNewState = getStatus ();
 			tOperatingRound = corporationList.getOperatingRound ();
-			tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+			tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundState(), tOperatingRound.getID (), this);
 			addNeededCashTransferEffect (tPayLoanInterestAction, aPresidentContribution);
 			tCashPaid = aInterestPayment - aRevenuePayment;
 			transferCashTo (aBank, tCashPaid);
@@ -744,7 +744,7 @@ public class ShareCompany extends TokenCompany {
 				tBank = corporationList.getBank ();
 				tOperatingRound = corporationList.getOperatingRound ();
 				setLoanCount (tNewLoanCount);
-				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
 				addNeededCashTransferEffect (tRedeemLoanAction, aPresidentContribution);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, tOldLoanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);

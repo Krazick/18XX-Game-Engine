@@ -21,12 +21,24 @@ public class InterruptionRound extends Round {
 		return interruptionStarted;
 	}
 	
-	public boolean interruptRound () {
+	public boolean isInterrupting () {
 		return false;
 	}
 	
 	public Round getInterruptedRound () {
 		return interruptedRound;
+	}
+	
+	/**
+	 * This method will return this object which is extended to the actual round needed
+	 * 
+	 * @return this Round 
+	 * 
+	 */
+	
+	@Override
+	public Round getInterruptionRound () {
+		return this;
 	}
 
 	@Override

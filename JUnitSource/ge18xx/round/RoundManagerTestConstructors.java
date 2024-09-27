@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
@@ -26,6 +27,7 @@ public class RoundManagerTestConstructors {
 	GameTestFactory gameTestFactory;
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
+	GameInfo gameInfo;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -35,6 +37,8 @@ public class RoundManagerTestConstructors {
 		tClientName = "RMTestBuster";
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager (tClientName);
+		gameInfo = gameTestFactory.buildGameInfo (1);
+		gameManager.setGameInfo (gameInfo);
 		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
 		gameManager.setPlayerInputFrame (mPlayerInputFrame);
 		roundTestFactory = new RoundTestFactory ();
@@ -87,14 +91,14 @@ public class RoundManagerTestConstructors {
 	@Test
 	@DisplayName ("Test Set and Get Methods")
 	void setAndGetMethodTests () {
-		roundManager.setRoundType (ActorI.ActionStates.StockRound);
-		assertEquals ("Stock Round", roundManager.getCurrentRoundType ().toString ());
+		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
+		assertEquals ("Stock Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isStockRound ());
-		roundManager.setRoundType (ActorI.ActionStates.AuctionRound);
-		assertEquals ("Auction Round", roundManager.getCurrentRoundType ().toString ());
+		roundManager.setCurrentRoundState (ActorI.ActionStates.AuctionRound);
+		assertEquals ("Auction Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isAAuctionRound ());
-		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
-		assertEquals ("Operating Round", roundManager.getCurrentRoundType ().toString ());
+		roundManager.setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+		assertEquals ("Operating Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isOperatingRound ());
 	}
 
@@ -128,23 +132,23 @@ public class RoundManagerTestConstructors {
 		tContractBidRound = roundTestFactory.buildContractBidRound (roundManager);
 		roundManager.setContractBidRound (tContractBidRound);
 
-		roundManager.setRoundType (ActorI.ActionStates.StockRound);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
 		tActor = roundManager.getActor ("Stock Round");
 		assertTrue (tActor.isAStockRound ());
 
-		roundManager.setRoundType (ActorI.ActionStates.AuctionRound);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.AuctionRound);
 		tActor = roundManager.getActor ("Auction Round");
 		assertEquals (tAuctionRound, tActor);
 
-		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 		tActor = roundManager.getActor ("Operating Round");
 		assertTrue (tActor.isAOperatingRound ());
 
-		roundManager.setRoundType (ActorI.ActionStates.FormationRound);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.FormationRound);
 		tActor = roundManager.getActor ("Formation Round");
 		assertTrue (tActor.isAFormationRound ());
 
-		roundManager.setRoundType (ActorI.ActionStates.ContractBidRound);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
 		tActor = roundManager.getActor ("Contract Bid Round");
 		assertTrue (tActor.isAContractBidRound ());
 

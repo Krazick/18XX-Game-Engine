@@ -319,10 +319,10 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setFrameLabel (String aGameName, String aIDLabel) {
-		String tRoundType;
+		String tRoundName;
 
-		tRoundType = roundManager.getRoundType ();
-		frameLabel.setText (aGameName + " " + tRoundType + aIDLabel);
+		tRoundName = roundManager.getRoundName ();
+		frameLabel.setText (aGameName + " " + tRoundName + aIDLabel);
 		revalidate ();
 	}
 

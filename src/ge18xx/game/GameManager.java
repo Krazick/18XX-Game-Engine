@@ -2538,9 +2538,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void updateAllFrames () {
 		updateRoundFrame ();
 		if (roundManagerIsValid () ) {
-			if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
+			if (roundManager.getCurrentRoundState ().equals (ActorI.ActionStates.StockRound)) {
 				updateAllPlayerFrames ();
-			} else if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.OperatingRound)) {
+			} else if (roundManager.getCurrentRoundState ().equals (ActorI.ActionStates.OperatingRound)) {
 				roundManager.updateOperatingCorporationFrame ();
 			}
 		}

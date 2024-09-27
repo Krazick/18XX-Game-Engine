@@ -285,7 +285,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tCorporationStateChanged = false;
 		tOperatingRound = getOperatingRound ();
 		tRoundID = tOperatingRound.getID ();
-		tRoundType = tOperatingRound.getRoundType ();
+		tRoundType = tOperatingRound.getRoundState ();
 		tChangeCorporationStatesAction = new ChangeStateAction (tRoundType, tRoundID, tOperatingRound);
 		tGameManager = getGameManager ();
 		tGameManager.activateAllBeans (false);
@@ -856,7 +856,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						tPlayer.addCashToDividends (tRevenue, tOperatingRoundID2);
 					}
 					aBank.transferCashTo (tOwnerCashHolder, tRevenue);
-					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundType (), tOperatingRoundID,
+					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundState (), tOperatingRoundID,
 							tPrivate);
 					tPayRevenueAction.addPayCashRevenueEffect (aBank, tOwnerCashHolder, tRevenue, tOperatingRoundID2);
 					aOperatingRound.addAction (tPayRevenueAction);

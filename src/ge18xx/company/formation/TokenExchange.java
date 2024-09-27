@@ -530,7 +530,7 @@ public class TokenExchange extends PlayerFormationPhase implements ItemListener 
 		String tRoundID;
 		
 		tRoundManager = gameManager.getRoundManager ();
-		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 	}

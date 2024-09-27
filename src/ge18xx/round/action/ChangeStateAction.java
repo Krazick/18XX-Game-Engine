@@ -219,11 +219,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 		XMLFrame tOperatingCompanyFrame;
 		Corporation tOperatingCompany;
 		
-		aCurrentRoundType = aRoundManager.getCurrentRoundType (); 
+		aCurrentRoundType = aRoundManager.getCurrentRoundState (); 
 
 		tActionUndone = super.undoAction (aRoundManager);
 
-		aPreviousRoundType = aRoundManager.getCurrentRoundType ();
+		aPreviousRoundType = aRoundManager.getCurrentRoundState ();
 		if (aPreviousRoundType.equals (ActorI.ActionStates.StockRound)) {
 
 		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {

@@ -1368,7 +1368,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		tPhase = getCurrentPhase ();
 		tRoundManager = gameManager.getRoundManager ();
 		tActionManager = tRoundManager.getActionManager ();
-		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = gameManager.getOperatingRoundID ();
 		if (routeInformation.isEmpty ()) {
 			if (aSelectedRC != RevenueCenter.NO_CENTER) {

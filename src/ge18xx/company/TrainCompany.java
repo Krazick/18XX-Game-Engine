@@ -314,7 +314,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setStatus (ActorI.ActionStates.NotOperated);
 
 		tNewState = getStatus ();
-		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
 		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
 		if (hasDestination ()) {
 			handleCapitalization (tFloatCompanyAction);
@@ -2791,7 +2791,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBankTrainPortfolio = tBank.getTrainPortfolio ();
 		tTrain = tBankTrainPortfolio.getLastTrain ();
 		tOperatingRound = corporationList.getOperatingRound ();
-		tBorrowTrainAction = new BorrowTrainAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tBorrowTrainAction = new BorrowTrainAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
 		tBorrowTrainAction.addBorrowTrainEffect (tBank, tTrain, this);
 		if (tTrain == Train.NO_TRAIN) {
 			System.err.println ("Selected Borrow Train Button, but could not get Last Train.");

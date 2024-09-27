@@ -27,6 +27,7 @@ public class StockRound extends Round {
 		super (aRoundManager);
 		setPlayerManager (aPlayerManager);
 		setName (NAME);
+		setRoundType ();
 	}
 
 	@Override
@@ -35,6 +36,7 @@ public class StockRound extends Round {
 		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
 		priorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
 		setName (NAME);
+		setRoundType ();
 	}
 
 	public void setPlayerManager (PlayerManager aPlayerManager) {
@@ -66,7 +68,7 @@ public class StockRound extends Round {
 		 Player tCurrentPlayer;
 		 
 		 tCurrentPlayer = getCurrentPlayer ();
-		 tChangeStateAction = new DonePlayerAction (getRoundType (), getID (), tCurrentPlayer);
+		 tChangeStateAction = new DonePlayerAction (getRoundState (), getID (), tCurrentPlayer);
 		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
 	}
 	
@@ -123,13 +125,13 @@ public class StockRound extends Round {
 	}
 
 	@Override
-	public ActorI.ActionStates getRoundType () {
+	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.StockRound;
 	}
 
 	@Override
 	public String getStateName () {
-		return getRoundType ().toString ();
+		return getRoundState ().toString ();
 	}
 
 	@Override

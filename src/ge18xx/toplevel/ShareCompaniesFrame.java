@@ -314,7 +314,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		tGameManager = (GameManager) gameEngineManager;
 		tRoundManager = tGameManager.getRoundManager ();
 		tOperatingRoundID = tGameManager.getOperatingRoundID ();
-		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
 		tChangeMarketCellAction = new ChangeMarketCellAction (tRoundType, tOperatingRoundID, aShareCompany);
 		
 		tOldStackLocation = aOldMarketCell.getTokenLocation (aCompanyAbbrev);

@@ -24,6 +24,7 @@ public class AuctionRound extends InterruptionRound {
 		auctionFrame.setAuctionRound (this);
 		setID (0, 0);
 		setName (NAME);
+		setRoundType ();
 	}
 
 	public void setAuctionFrame (AuctionFrame aAuctionFrame) {
@@ -35,7 +36,7 @@ public class AuctionRound extends InterruptionRound {
 	}
 
 	@Override
-	public ActorI.ActionStates getRoundType () {
+	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.AuctionRound;
 	}
 
@@ -85,7 +86,7 @@ public class AuctionRound extends InterruptionRound {
 		String tRoundID;
 	
 		super.start ();
-		tRoundType = interruptedRound.getRoundType ();
+		tRoundType = interruptedRound.getRoundState ();
 		tRoundID = interruptedRound.getID ();
 
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
@@ -132,8 +133,8 @@ public class AuctionRound extends InterruptionRound {
 		String tNewRoundID;
 		String tCurrentRoundID;
 		
-		tRoundType = getRoundType ();
-		tInterruptedRoundType = interruptedRound.getRoundType ();
+		tRoundType = getRoundState ();
+		tInterruptedRoundType = interruptedRound.getRoundState ();
 		tOldRoundID = interruptedRound.getID ();
 		tNewRoundID = tOldRoundID;
 		tCurrentRoundID = getID ();
@@ -147,11 +148,11 @@ public class AuctionRound extends InterruptionRound {
 	}
 
 	@Override
-	public boolean interruptRound () {
-		boolean tInterruptRound;
+	public boolean isInterrupting () {
+		boolean tIsInterrupting;
 
-		tInterruptRound = roundManager.firstCertificateHasBidders ();
+		tIsInterrupting = roundManager.firstCertificateHasBidders ();
 		
-		return tInterruptRound;
+		return tIsInterrupting;
 	}
 }

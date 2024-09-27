@@ -608,7 +608,7 @@ public class AssetCollection extends PlayerFormationPhase {
 				tShareCompany.removeTrain (tTrain.getName ());
 				tFormingShareCompany.addTrain (tTrain);
 				tRoundManager = gameManager.getRoundManager ();
-				tRoundType = tRoundManager.getCurrentRoundType ();
+				tRoundType = tRoundManager.getCurrentRoundState ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
 				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tFormingShareCompany);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
@@ -642,7 +642,7 @@ public class AssetCollection extends PlayerFormationPhase {
 				tShareCompany.removeTrain (tTrain.getName ());
 				tBankPool.addTrain (tTrain);
 				tRoundManager = gameManager.getRoundManager ();
-				tRoundType = tRoundManager.getCurrentRoundType ();
+				tRoundType = tRoundManager.getCurrentRoundState ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
 				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tBankPool);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
@@ -677,7 +677,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		
 		tEffectCount = 0;
 		tRoundManager = gameManager.getRoundManager ();
-		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		tCashTransferAction = new CashTransferAction (tRoundType, tRoundID, tFormingShareCompany);
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
@@ -719,7 +719,7 @@ public class AssetCollection extends PlayerFormationPhase {
 		
 		tEffectCount = 0;
 		tRoundManager = gameManager.getRoundManager ();
-		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, tFormingShareCompany);
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {

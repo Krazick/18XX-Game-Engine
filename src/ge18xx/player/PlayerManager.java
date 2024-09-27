@@ -185,7 +185,7 @@ public class PlayerManager implements XMLSaveGameI {
 		Player.ActionStates tNewState;
 		ChangeStateAction tChangeStateAction;
 
-		tChangeStateAction = new ChangeStateAction (stockRound.getRoundType (), stockRound.getID (), stockRound);
+		tChangeStateAction = new ChangeStateAction (stockRound.getRoundState (), stockRound.getID (), stockRound);
 		for (Player tPlayer : players) {
 			tOldState = tPlayer.getPrimaryActionState ();
 
@@ -653,7 +653,7 @@ public class PlayerManager implements XMLSaveGameI {
 		if (aPlayer.acts ()) {
 			tCertificateToBidOn = stockRound.getCertificateToBidOn ();
 			if (tCertificateToBidOn.isAPrivateCompany ()) {
-				tBidStockAction = new BidStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
+				tBidStockAction = new BidStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 				tCashValue = tCertificateToBidOn.getHighestBid ();
 				tCashValue += BID_INCREMENT;
 				tBidShare = true;
@@ -1176,7 +1176,7 @@ public class PlayerManager implements XMLSaveGameI {
 		tOldPriorityPlayerIndex = getPriorityPlayerIndex ();
 		tOldPriorityPlayer = getPlayer (tOldPriorityPlayerIndex);
 		
-		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
+		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 		tDonePlayerAction.addNewPriorityPlayerEffect (aPlayer, tOldPriorityPlayerIndex, tNextPlayerIndex);
 
@@ -1235,7 +1235,7 @@ public class PlayerManager implements XMLSaveGameI {
 				tNewPresident = findPlayerWithMost ((ShareCompany) tCorporation, aPlayer);
 				aPlayer.setExchangedPrezShare (tCorporationAbbrev);
 
-				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (), stockRound.getID (),
+				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (),
 						aPlayer);
 				if (gameManager.isOperatingRound ()) {
 					tExchangeStockAction.setChainToPrevious (true);
@@ -1284,7 +1284,7 @@ public class PlayerManager implements XMLSaveGameI {
 		if (tNewCertificate != Certificate.NO_CERTIFICATE) {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
-			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
+			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 			tAbbrev = tShareCompany.getAbbrev ();
 			aPlayer.setExchangedPrezShare (tAbbrev);
 			tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tAbbrev);
@@ -1472,7 +1472,7 @@ public class PlayerManager implements XMLSaveGameI {
 		int tNextPlayerIndex;
 		int tCurrentPlayerIndex;
 
-		tPassAction = new PassAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
+		tPassAction = new PassAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
 
@@ -1596,7 +1596,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 
 		if (tForceSell || tNormalSale) {
-			tSellStockAction = new SellStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
+			tSellStockAction = new SellStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 			if (tForceSell) {
 				aPlayer.setPrimaryActionState (tOldState);
 				tSellStockAction.setChainToPrevious (true);
@@ -1748,7 +1748,7 @@ public class PlayerManager implements XMLSaveGameI {
 
 		tPlayer = players.get (aPlayerIndex);
 		if (! tPlayer.hasActed ()) {
-			tStartStockAction = new StartStockAction (stockRound.getRoundType (), stockRound.getID (), tPlayer);
+			tStartStockAction = new StartStockAction (stockRound.getRoundState (), stockRound.getID (), tPlayer);
 			tStartStockAction.addStartStockEffect (tPlayer);
 			tStartStockAction.setChainToPrevious (true);
 			gameManager.addAction (tStartStockAction);

@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankTestFactory;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
@@ -34,6 +35,7 @@ public class SetRoundTypeTests {
 	ContractBidRound contractBidRound;
 	PlayerTestFactory playerTestFactory;
 	PlayerManager mPlayerManager;
+	GameInfo gameInfo;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -44,6 +46,8 @@ public class SetRoundTypeTests {
 		tClientName = "RMTestBuster";
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager (tClientName);
+		gameInfo = gameTestFactory.buildGameInfo (1);
+		gameManager.setGameInfo (gameInfo);
 		bankTestFactory = new BankTestFactory ();
 		mBank = bankTestFactory.buildBankMock ();
 		Mockito.when (mBank.firstCertificateHasBidders ()).thenReturn (false);
@@ -87,37 +91,37 @@ public class SetRoundTypeTests {
 		ActorI.ActionStates tCurrentRoundType;
 
 		roundManager.setRoundToOperatingRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
 
 		stockRound.setIDPart1 (1);
 		stockRound.setIDPart2 (0);
 		roundManager.setRoundToStockRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundType);
 
 		roundManager.setRoundToAuctionRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.OperatingRound);
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.StockRound);
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundType);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.AuctionRound);
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.FormationRound);
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.FormationRound, tCurrentRoundType);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.ContractBidRound);
-		tCurrentRoundType = roundManager.getCurrentRoundType ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		assertEquals (ActorI.ActionStates.ContractBidRound, tCurrentRoundType);
 	}
 	
@@ -127,23 +131,23 @@ public class SetRoundTypeTests {
 		String tRoundType;
 		
 		roundManager.setRoundToStockRound ();
-		tRoundType = roundManager.getRoundType ();
+		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Stock Round", tRoundType);
 		
 		roundManager.setRoundToOperatingRound ();
-		tRoundType = roundManager.getRoundType ();
+		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Operating Round", tRoundType);
 		
 		roundManager.setRoundToAuctionRound ();
-		tRoundType = roundManager.getRoundType ();
+		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Auction Round", tRoundType);
 		
 		roundManager.setRoundToFormationRound ();
-		tRoundType = roundManager.getRoundType ();
+		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Formation Round", tRoundType);
 		
 		roundManager.setRoundToContractBidRound ();
-		tRoundType = roundManager.getRoundType ();
+		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Contract Bid Round", tRoundType);
 	}
 	

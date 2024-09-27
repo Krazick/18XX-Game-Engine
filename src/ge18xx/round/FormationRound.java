@@ -9,15 +9,28 @@ public class FormationRound extends InterruptionRound {
 	public FormationRound (RoundManager aRoundManager) {
 		super (aRoundManager);
 		setName (NAME);
+		setRoundType ();
 	}
 	
 	@Override
-	public ActorI.ActionStates getRoundType () {
+	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.FormationRound;
 	}
 	
 	@Override
 	public boolean isAFormationRound () {
 		return true;
+	}
+	
+	@Override
+	public boolean isInterrupting () {
+		// TODO: Need to add test if Interruption is required:
+		// for 1856 Purchase of a 6 Train
+		// for 1835 Purchase of 
+		//		a X Train and Formation is Optional
+		//		or Start of OR if PR formation started
+		//		Purchase of Z Train and Formation REQUIRED
+		
+		return false;
 	}
 }

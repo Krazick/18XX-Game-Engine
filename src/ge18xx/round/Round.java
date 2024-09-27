@@ -5,12 +5,14 @@ import java.util.List;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLElement;
@@ -29,6 +31,7 @@ public abstract class Round implements ActorI {
 	int idPart1;
 	int idPart2;
 	RoundManager roundManager;
+	RoundType roundType;
 	String name;
 
 	public Round (RoundManager aRoundManager) {
@@ -55,6 +58,19 @@ public abstract class Round implements ActorI {
 
 	public void setName (String aName) {
 		name = aName;
+	}
+	
+	public void setRoundType () {
+		RoundType tRoundType;
+		GameInfo tGameInfo;
+		
+		if (name == GUI.NULL_STRING) {
+			System.err.println ("Round Name is not set, cannot set Round Type");
+		} else {
+			tGameInfo = roundManager.getGameInfo ();
+			tRoundType = tGameInfo.getRoundType (name);
+			roundType = tRoundType;
+		}
 	}
 	
 	public void loadRound (XMLNode aRoundNode) {
@@ -99,6 +115,10 @@ public abstract class Round implements ActorI {
 		return name;
 	}
 
+	public RoundType getRoundType () {
+		return roundType;
+	}
+	
 	public boolean isActor (String aActorName) {
 		return name.equals (aActorName);
 	}
@@ -242,13 +262,13 @@ public abstract class Round implements ActorI {
 		return (idPart1 == 1);
 	}
 
-	public ActorI.ActionStates getRoundType () {
+	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.NoRound;
 	}
 
 	@Override
 	public String getStateName () {
-		return getRoundType ().toString ();
+		return getRoundState ().toString ();
 	}
 
 	// Probably remove this method, the new 'roundEnds' to be used instead
@@ -267,6 +287,17 @@ public abstract class Round implements ActorI {
 	}
 	
 	// New Methods to support the Generic Version
+	
+	/**
+	 * This method will return NO_ROUND (null) and should be overriden by the InterruptRound Type
+	 * 
+	 * @return NO_ROUND, since this is NOT an Interruption Round.
+	 * 
+	 */
+	
+	public Round getInterruptionRound () {
+		return NO_ROUND;
+	}
 	
 	/**
 	 * This method to be overriden will determine if the Round is completed, and should move to Next Round
