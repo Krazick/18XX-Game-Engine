@@ -474,15 +474,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (mustSetParPrice (tFreeCertificate)) {
 			setAllWaitStateEffects (tWinAuctionAction);
 		}
-//		if (! tNextShareHasBids) {
-//			aAuctionFrame.hideFrame ();
-//			tWinAuctionAction.addHideFrameEffect (this, aAuctionFrame);
-//		}
 		
 		playerManager.addAction (tWinAuctionAction);
+//		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
+		playerManager.updateAllPlayerFrames ();
 		tRoundManager = playerManager.getRoundManager ();
 		tRoundManager.finishCurrentRound ();
-		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
 //		returnToStockRound ();
 		
 		return tNextShareHasBids;

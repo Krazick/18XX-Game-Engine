@@ -52,6 +52,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutine2I;
 
 public class RoundManager implements ActionListener, XMLSaveGameI {
@@ -260,23 +261,28 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void checkAndHandleInterruption (Action aAction) {
 		Round tInterruptionRound;
 		RoundType tCurrentRoundType;
+		RoundType tInterruptionRoundType;
 		boolean tIsInterrupting;
 		boolean tInterruptionStarted;
+		boolean tAfterAction;
 		String tActionName;
 		String tInterruptRoundName;
 
 		tCurrentRoundType = currentRound.getRoundType ();
-		tInterruptionRound = currentRound.getInterruptionRound ();
+		tInterruptRoundName = tCurrentRoundType.getInterruptionRound ();
 		
-		if (tInterruptionRound != Round.NO_ROUND) {
-			tInterruptRoundName = currentRound.getName ();
+		if (tInterruptRoundName != GUI.NULL_STRING) {
+			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
+			tInterruptionRoundType = tInterruptionRound.getRoundType ();
 			tActionName = aAction.getName ();
-			
-			tIsInterrupting = auctionRound.isInterrupting ();
-			tInterruptionStarted = auctionRound.interruptionStarted ();
-			if (tIsInterrupting && !tInterruptionStarted) {
-				System.out.println ("Found Certificate with Bid, need to Start the Interruption to Auction Round");
-				auctionRound.start ();
+			tAfterAction = tInterruptionRoundType.getAfterActions ().contains (tActionName);
+			if (tAfterAction) {
+				tIsInterrupting = tInterruptionRound.isInterrupting ();
+				tInterruptionStarted = tInterruptionRound.interruptionStarted ();
+				if (tIsInterrupting && !tInterruptionStarted) {
+					System.out.println ("Found Certificate with Bid, need to Start the Interruption to Auction Round");
+					auctionRound.start ();
+				}
 			}
 		}
 	}
@@ -671,13 +677,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public PlayerManager getPlayerManager () {
 		return stockRound.getPlayerManager ();
 	}
-//
-//	public RoundType getRoundType () {
-//		RoundType tCurrentRoundType;
-//		
-//		tCurrentRoundType = currentRound.getRou
-//		return tCurrentRoundType;
-//	}
+
+	public RoundType getCurrentRoundType () {
+		RoundType tCurrentRoundType;
+		
+		tCurrentRoundType = currentRound.getRoundType ();
+		
+		return tCurrentRoundType;
+	}
 	
 	public String getRoundName () {
 		String tRoundName;
@@ -995,7 +1002,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setCurrentRoundState (aNewRoundType);
 		setCurrentRound (aNewRound);
 		tNewRoundType = getCurrentRoundState ();
-
+		currentRound.resume ();
 		if (!applyingAction ()) {
 			if (aCreateNewAction) {
 				if (!tRoundID.equals (Round.NO_ID_STRING)) {
@@ -1018,6 +1025,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void finishCurrentRound () {
 		currentRound.finish ();
+		roundFrame.updateAll ();
 	}
 	
 	public void setOperatingRoundCount () {
@@ -1043,8 +1051,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 	}
 
-	public void resumeStockRound (int aRoundIDPart1) {
-		setCurrentRoundState (ActorI.ActionStates.StockRound);
+	public void setStockRoundInfo (int aRoundIDPart1) {
+//		setCurrentRoundState (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
 
