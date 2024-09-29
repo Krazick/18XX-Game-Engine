@@ -180,7 +180,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	private void completeAuction () {
-//		boolean tNextShareHasBids;
 		Player tPlayer;
 
 		// Transfer Certificate to Highest Bidder
