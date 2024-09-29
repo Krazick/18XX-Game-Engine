@@ -150,7 +150,7 @@ public abstract class Round implements ActorI {
 	}
 
 	public void resumeStockRound () {
-		roundManager.resumeStockRound (idPart1);
+		roundManager.setStockRoundInfo (idPart1);
 	}
 	
 	public void startStockRound () {
@@ -356,5 +356,13 @@ public abstract class Round implements ActorI {
 		tNextRound = NO_ROUND;
 		
 		return tNextRound;
+	}
+
+	protected boolean isInterrupting () {
+		return false;
+	}
+
+	protected boolean interruptionStarted () {
+		return false;
 	}
 }
