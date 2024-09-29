@@ -312,7 +312,9 @@ public class StockRound extends Round {
 
 	@Override
 	public void resume () {
-		roundManager.resumeStockRound (idPart1);
+//		roundManager.resumeStockRound (idPart1);
+		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
+		roundManager.setStockRoundInfo (idPart1);
 	}
 
 	@Override
