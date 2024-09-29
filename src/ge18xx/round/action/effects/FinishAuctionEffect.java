@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
@@ -31,11 +32,15 @@ public class FinishAuctionEffect extends Effect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied = false;
-		GameManager tGameManager;
+		boolean tEffectApplied;
+		PlayerManager tPlayerManager;
 		
-		tGameManager = aRoundManager.getGameManager ();
-		tGameManager.finishAuction (false);
+		tEffectApplied = false;
+		
+		tPlayerManager = aRoundManager.getPlayerManager ();
+		tPlayerManager.updateAllPlayerFrames ();
+		aRoundManager.finishCurrentRound ();
+
 		tEffectApplied = true;
 
 		return tEffectApplied;
