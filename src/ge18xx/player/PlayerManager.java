@@ -1717,9 +1717,9 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	public void resumeStockRound () {
-		stockRound.resumeStockRound ();
-	}
+//	public void resumeStockRound () {
+//		stockRound.resumeStockRound ();
+//	}
 
 	public void removeAllEscrows () {
 		for (Player tPlayer : players) {
