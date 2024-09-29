@@ -146,7 +146,7 @@ public class StateChangeEffect extends Effect {
 		} else if (actor.isAAuctionRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
 				tStockRoundID = aRoundManager.getStockRoundID ();
-				aRoundManager.resumeStockRound (tStockRoundID);
+				aRoundManager.setStockRoundInfo (tStockRoundID);
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Auction Round, New state of " + newState.toString () +
