@@ -17,10 +17,12 @@ public class InterruptionRound extends Round {
 		interruptionStarted = aInterruptionStarted;
 	}
 	
+	@Override
 	public boolean interruptionStarted () {
 		return interruptionStarted;
 	}
 	
+	@Override
 	public boolean isInterrupting () {
 		return false;
 	}
