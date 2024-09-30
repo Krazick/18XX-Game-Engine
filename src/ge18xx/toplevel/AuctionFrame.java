@@ -561,6 +561,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 			// Clear the Auction States of All Players
 			clearAllAuctionStates ();
+			
 			// Then set for the Bidders for this Certificate to Raise Bid -- For Multiple
 			// Auctions, need to clear and reset to allow it to detect all proper bidders
 			// are done
