@@ -204,10 +204,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setContractBidRound (ContractBidRound aContractBidRound) {
 		contractBidRound = aContractBidRound;
 	}
-
-	public void addPrivateToAuction () {
-		gameManager.addPrivateToAuction ();
-	}
+//
+//	public void addPrivateToAuction () {
+//		gameManager.addPrivateToAuction ();
+//	}
 
 	public void setAuctionFrameLocation () {
 		gameManager.setAuctionFrameLocation ();
