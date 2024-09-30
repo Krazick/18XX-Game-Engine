@@ -922,10 +922,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 	}
 
-//	public void setRoundToStockRound () {
-//		setRoundType (ActorI.ActionStates.StockRound);
-//	}
-
 	public void setRoundToFormationRound () {
 		setCurrentRoundState (ActorI.ActionStates.FormationRound);
 	}
@@ -1052,7 +1048,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void setStockRoundInfo (int aRoundIDPart1) {
-//		setCurrentRoundState (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
 
@@ -1063,12 +1058,19 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// This whole Auction Setup should be revised so each separate Effect is documented
 	// in an Action to be consistent with the whole game system. This will improve the Undo Functionality.
 	
-	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 //		setRoundToAuctionRound (aCreateNewAuctionAction);
 //		auctionRound.startAuctionRound ();
 //		roundFrame.updatePassButton ();
-	}
+//	}
 
+	public void startRound (ActorI.ActionStates aRoundState) {
+		Round tRound;
+		
+		tRound = this.getRoundByTypeName (aRoundState.toString ());
+		tRound.start ();
+	}
+	
 	public void updatePassButton () {
 		roundFrame.updatePassButton ();		
 	}
