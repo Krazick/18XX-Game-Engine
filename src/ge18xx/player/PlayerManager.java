@@ -1759,9 +1759,9 @@ public class PlayerManager implements XMLSaveGameI {
 		tPlayer.showPlayerFrame ();
 	}
 
-	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		stockRound.startAuctionRound (aCreateNewAuctionAction);
-	}
+//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+//		stockRound.startAuctionRound (aCreateNewAuctionAction);
+//	}
 
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
