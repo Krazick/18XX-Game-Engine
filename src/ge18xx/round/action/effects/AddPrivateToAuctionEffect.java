@@ -14,11 +14,11 @@ import geUtilities.xml.XMLNode;
 public class AddPrivateToAuctionEffect extends Effect {
 	public final static String NAME = "Add Private to Auction";
 	final static AttributeName AN_AUCTION_CERTIFICATE = new AttributeName ("auctionCertificate");
-	String certificateName;
+	String certificateAbbrev;
 	
 	public AddPrivateToAuctionEffect (ActorI aActor, Certificate aAuctionCertificate, Certificate aFreeCertificate) {
 		super (NAME, aActor);
-		setCertificateName (aAuctionCertificate.getCompanyName ());
+		setCertificateAbbrev (aAuctionCertificate.getCompanyAbbrev ());
 	}
 
 	public AddPrivateToAuctionEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -27,7 +27,7 @@ public class AddPrivateToAuctionEffect extends Effect {
 		
 		setName (NAME);
 		tAuctionCertificate = aEffectNode.getThisAttribute (AN_AUCTION_CERTIFICATE);
-		setCertificateName (tAuctionCertificate);
+		setCertificateAbbrev (tAuctionCertificate);
 	}
 	
 	@Override
@@ -35,19 +35,19 @@ public class AddPrivateToAuctionEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (AN_AUCTION_CERTIFICATE, certificateName);
+		tEffectElement.setAttribute (AN_AUCTION_CERTIFICATE, certificateAbbrev);
 
 		return tEffectElement;
 	}
 
-	private void setCertificateName (String aCertificateName) {
-		certificateName = aCertificateName;
+	private void setCertificateAbbrev (String aCertificateAbbrev) {
+		certificateAbbrev = aCertificateAbbrev;
 	}
 
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + certificateName + " from " + actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + certificateAbbrev + " from " + actor.getName () + ".");
 	}
 
 	@Override
@@ -67,18 +67,18 @@ public class AddPrivateToAuctionEffect extends Effect {
 		tEffectApplied = false;
 		tPercentage = 100;
 		tPresidentShare = true;
-		tCertificate = aRoundManager.getCertificate (certificateName, tPercentage, tPresidentShare);
+		tCertificate = aRoundManager.getCertificate (certificateAbbrev, tPercentage, tPresidentShare);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tGameManager = aRoundManager.getGameManager ();
 			tGameManager.addPrivateToAuction ((StartAuctionAction) StartAuctionAction.NO_ACTION);
 			tEffectApplied = true;
 		} else {
-			tFailureReason = "Certificate " + certificateName + " " + tPercentage + "% that is ";
+			tFailureReason = "Certificate for " + certificateAbbrev + " with " + tPercentage + "% that is ";
 			if (! tPresidentShare) {
 				tFailureReason += "NOT ";
 			}
-			tFailureReason += "the President Share";
-			setUndoFailureReason (tFailureReason);
+			tFailureReason += "the President Share was NOT Found";
+			setApplyFailureReason (tFailureReason);
 		}
 
 		return tEffectApplied;
@@ -95,16 +95,16 @@ public class AddPrivateToAuctionEffect extends Effect {
 		tEffectUndone = false;
 		tPercentage = 100;
 		tPresidentShare = true;
-		tCertificate = aRoundManager.getCertificate (certificateName, tPercentage, tPresidentShare);
+		tCertificate = aRoundManager.getCertificate (certificateAbbrev, tPercentage, tPresidentShare);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeBidder ((CashHolderI) actor);
 			tEffectUndone = true;
 		} else {
-			tFailureReason = "Certificate " + certificateName + " " + tPercentage + "% that is ";
+			tFailureReason = "Certificate for " + certificateAbbrev + " for " + tPercentage + "% that is ";
 			if (! tPresidentShare) {
 				tFailureReason += "NOT ";
 			}
-			tFailureReason += "the President Share";
+			tFailureReason += "the President Share was NOT Found";
 			setUndoFailureReason (tFailureReason);
 		}
 
