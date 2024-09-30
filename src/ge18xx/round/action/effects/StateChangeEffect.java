@@ -19,12 +19,6 @@ public class StateChangeEffect extends Effect {
 	ActorI.ActionStates previousState;
 	ActorI.ActionStates newState;
 
-	public StateChangeEffect () {
-		super (NAME);
-		setPreviousState (ActorI.ActionStates.NoAction);
-		setNewState (ActorI.ActionStates.NoAction);
-	}
-
 	public StateChangeEffect (ActorI aActor) {
 		super (NAME, aActor);
 	}
@@ -134,6 +128,7 @@ public class StateChangeEffect extends Effect {
 		} else if (actor.isAStockRound ()) {
 			if (newState == ActorI.ActionStates.AuctionRound) {
 				aRoundManager.startAuctionRound (tNewAuctionAction);
+				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				tCurrentRound = aRoundManager.getCurrentRound ();
