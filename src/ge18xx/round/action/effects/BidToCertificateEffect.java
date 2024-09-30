@@ -17,13 +17,6 @@ public class BidToCertificateEffect extends Effect {
 	String certificateName;
 	int bidAmount;
 
-	public BidToCertificateEffect () {
-		super ();
-		setName (NAME);
-		setActor (ActorI.NO_ACTOR);
-		setCertificateName (Certificate.NO_CERTIFICATE_NAME);
-	}
-
 	public BidToCertificateEffect (ActorI aActor, Certificate aCertificate, int aBidAmount) {
 		super (NAME, aActor);
 		setCertificateName (aCertificate.getCompanyAbbrev ());
