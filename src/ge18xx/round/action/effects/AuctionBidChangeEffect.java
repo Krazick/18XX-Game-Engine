@@ -22,11 +22,6 @@ public class AuctionBidChangeEffect extends Effect {
 	private int newBid;
 	private Certificate certificate;
 
-	public AuctionBidChangeEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public AuctionBidChangeEffect (ActorI aActor, int aOldBid, int aNewBid, Certificate aCertificate) {
 		super (NAME, aActor);
 		oldBid = aOldBid;
