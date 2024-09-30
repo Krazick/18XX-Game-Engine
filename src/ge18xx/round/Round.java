@@ -157,9 +157,9 @@ public abstract class Round implements ActorI {
 		roundManager.startStockRound ();
 	}
 
-	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		roundManager.startAuctionRound (aCreateNewAuctionAction);
-	}
+//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+//		roundManager.startAuctionRound (aCreateNewAuctionAction);
+//	}
 
 	// Methods that ask RoundManager to handle and RETURN something
 
