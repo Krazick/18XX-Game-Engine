@@ -114,11 +114,11 @@ public class StateChangeEffect extends Effect {
 		Round tCurrentRound;
 		Player tPlayer;
 		boolean tEffectApplied;
-		boolean tNewAuctionAction;
+//		boolean tNewAuctionAction;
 		int tStockRoundID;
 
 		tEffectApplied = false;
-		tNewAuctionAction = false;
+//		tNewAuctionAction = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tStockRound = aRoundManager.getStockRound ();
@@ -127,7 +127,7 @@ public class StateChangeEffect extends Effect {
 			tEffectApplied = true;
 		} else if (actor.isAStockRound ()) {
 			if (newState == ActorI.ActionStates.AuctionRound) {
-				aRoundManager.startAuctionRound (tNewAuctionAction);
+//				aRoundManager.startAuctionRound (tNewAuctionAction);
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
