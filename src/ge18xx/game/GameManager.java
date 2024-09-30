@@ -70,6 +70,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -436,13 +437,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tParPriceSet;
 	}
 
-	public void addPrivateToAuction () {
+	public void addPrivateToAuction (StartAuctionAction aStartAuctionAction) {
 		Certificate tCertificate;
 		Certificate tFreeCertificate;
 
 		tCertificate = bank.getPrivateForAuction ();
 		tFreeCertificate = bank.getFreeCertificateWithThisCertificate (tCertificate);
 		auctionFrame.addPrivateToAuction (tCertificate, tFreeCertificate);
+		if (aStartAuctionAction != StartAuctionAction.NO_ACTION) {
+			aStartAuctionAction.addAddPrivateToAuctionEffect (bank, tCertificate, tFreeCertificate);
+		}
 	}
 
 	@Override
@@ -1711,7 +1715,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				// Save the Auction States since 'AddPrivateToAuction' will reset the Player
 				// Auction States Reset After adding the Private to Auction.
 				tAuctionStates = playerManager.getPlayerAuctionStates ();
-				addPrivateToAuction ();
+				addPrivateToAuction ((StartAuctionAction) StartAuctionAction.NO_ACTION);
 				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
 			bank.updateBankCashLabel ();
