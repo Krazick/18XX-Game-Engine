@@ -1,6 +1,8 @@
 package ge18xx.round;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartAuctionAction;
@@ -61,12 +63,6 @@ public class AuctionRound extends InterruptionRound {
 		auctionFrame.showFrame ();
 	}
 
-//	public void startAuctionRound () {
-////		roundManager.addPrivateToAuction ();
-////		roundManager.setAuctionFrameLocation ();
-////		auctionFrame.showFrame ();
-//	}
-	
 	@Override
 	public boolean isAAuctionRound () {
 		return true;
@@ -75,6 +71,26 @@ public class AuctionRound extends InterruptionRound {
 	@Override
 	public String getAbbrev () {
 		return getName ();
+	}
+	
+	public void clearAuctionStates (StartAuctionAction aStartAuctionAction) {
+		
+		PlayerManager tPlayerManager;
+		ActorI.ActionStates tOldAuctionState;
+		ActorI.ActionStates tNewAuctionState;
+		Player tPlayer;
+		int tPlayerCount;
+		int tPlayerIndex;
+		
+		tPlayerManager = roundManager.getPlayerManager ();
+		tPlayerCount = tPlayerManager.getPlayerCount ();
+		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+			tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
+			tOldAuctionState = tPlayer.getAuctionActionState ();
+			tPlayer.setAuctionActionState (ActorI.ActionStates.NoAction);
+			tNewAuctionState = tPlayer.getAuctionActionState ();
+			aStartAuctionAction.addAuctionStateChangeEffect (tPlayer, tOldAuctionState, tNewAuctionState);
+		}
 	}
 	
 	// New methods to Check and Handle this Auction Round to Interrupt another Round
@@ -90,17 +106,16 @@ public class AuctionRound extends InterruptionRound {
 		tRoundID = interruptedRound.getID ();
 
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
-//		tStartAuctionAction.addSetTriggeredAuctionEffect (this, true);	
 		tStartAuctionAction.setChainToPrevious (true);
 		
 		setRoundToThis (true);
-		
+		clearAuctionStates (tStartAuctionAction);
 		gameManager.addPrivateToAuction (tStartAuctionAction);
 		gameManager.setAuctionFrameLocation ();
 
 		roundManager.updatePassButton ();
 		
-		auctionFrame.showFrame ();
+		showAuctionFrame ();
 		
 		addAction (tStartAuctionAction);
 	}
@@ -115,7 +130,6 @@ public class AuctionRound extends InterruptionRound {
 		tOldRoundID = getID ();
 		tRoundID = roundManager.incrementRoundIDPart1 (this);
 		tNewRoundID = tRoundID + "";
-//		setID (tNewRoundID);
 		roundManager.changeRound (interruptedRound, ActorI.ActionStates.AuctionRound, this, tOldRoundID, tNewRoundID,
 				aCreateNewAuctionAction);
 		tGameName = roundManager.getGameName ();
@@ -145,6 +159,7 @@ public class AuctionRound extends InterruptionRound {
 		tChangeRoundAction.addHideFrameEffect (this, auctionFrame);
 		tChangeRoundAction.setChainToPrevious (true);
 		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, true);
+		roundManager.updateRoundFrame ();
 		auctionFrame.hideFrame ();
 	}
 
