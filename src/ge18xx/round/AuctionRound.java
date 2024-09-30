@@ -90,18 +90,19 @@ public class AuctionRound extends InterruptionRound {
 		tRoundID = interruptedRound.getID ();
 
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
-		tStartAuctionAction.addSetTriggeredAuctionEffect (this, true);	
+//		tStartAuctionAction.addSetTriggeredAuctionEffect (this, true);	
 		tStartAuctionAction.setChainToPrevious (true);
-		addAction (tStartAuctionAction);
 		
 		setRoundToThis (true);
 		
-		gameManager.addPrivateToAuction ();
+		gameManager.addPrivateToAuction (tStartAuctionAction);
 		gameManager.setAuctionFrameLocation ();
 
 		roundManager.updatePassButton ();
 		
 		auctionFrame.showFrame ();
+		
+		addAction (tStartAuctionAction);
 	}
 	
 	public void setRoundToThis (boolean aCreateNewAuctionAction) {

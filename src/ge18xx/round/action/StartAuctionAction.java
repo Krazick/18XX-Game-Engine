@@ -1,8 +1,10 @@
 package ge18xx.round.action;
 
+import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.SetTriggeredAuctionEffect;
+import ge18xx.round.action.effects.AddPrivateToAuctionEffect;
+//import ge18xx.round.action.effects.SetTriggeredAuctionEffect;
 import geUtilities.xml.XMLNode;
 
 public class StartAuctionAction extends Action {
@@ -31,11 +33,18 @@ public class StartAuctionAction extends Action {
 
 		return tSimpleActionReport;
 	}
+//	
+//	public void addSetTriggeredAuctionEffect (ActorI aActor, boolean tTriggeredAuction) {
+//		SetTriggeredAuctionEffect tSetTriggeredAuctionEffect;
+//
+//		tSetTriggeredAuctionEffect = new SetTriggeredAuctionEffect (aActor, tTriggeredAuction);
+//		addEffect (tSetTriggeredAuctionEffect);
+//	}
 	
-	public void addSetTriggeredAuctionEffect (ActorI aActor, boolean tTriggeredAuction) {
-		SetTriggeredAuctionEffect tSetTriggeredAuctionEffect;
-
-		tSetTriggeredAuctionEffect = new SetTriggeredAuctionEffect (aActor, tTriggeredAuction);
-		addEffect (tSetTriggeredAuctionEffect);
+	public void addAddPrivateToAuctionEffect (ActorI aActor, Certificate aCertificate, Certificate aFreeCertificate) {
+		AddPrivateToAuctionEffect tAddPrivateToAuctionEffect;
+		
+		tAddPrivateToAuctionEffect = new AddPrivateToAuctionEffect (aActor, aCertificate, aFreeCertificate);
+		addEffect (tAddPrivateToAuctionEffect);
 	}
 }
