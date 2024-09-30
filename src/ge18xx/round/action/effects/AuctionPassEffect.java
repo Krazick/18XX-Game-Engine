@@ -10,11 +10,6 @@ import geUtilities.xml.XMLNode;
 public class AuctionPassEffect extends AuctionStateChangeEffect {
 	public final static String NAME = "Auction Pass";
 
-	public AuctionPassEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public AuctionPassEffect (ActorI aActor, ActionStates aPreviousState, ActionStates aNewState) {
 		super (aActor, aPreviousState, aNewState);
 		setName (NAME);
