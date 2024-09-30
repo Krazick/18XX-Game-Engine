@@ -16,10 +16,6 @@ public class ShowFrameEffect extends Effect {
 	XMLFrame xmlFrame;
 	String xmlFrameTitle;
 
-	public ShowFrameEffect () {
-		this (NAME, ActorI.NO_ACTOR);
-	}
-
 	public ShowFrameEffect (String aName, ActorI aActor) {
 		this (aName, aActor, XMLFrame.NO_XML_FRAME);
 	}
