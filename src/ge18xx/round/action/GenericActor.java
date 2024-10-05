@@ -198,6 +198,7 @@ public class GenericActor implements ActorI {
 	}
 
 //	NoRound, StockRound, OperatingRound, AuctionRound,				// Round States
+//	ContractBidRound, FormationRound
 
 	public ActionStates getRoundType (String aState) {
 		ActionStates tRoundState;
@@ -211,42 +212,45 @@ public class GenericActor implements ActorI {
 			tRoundState = ActionStates.OperatingRound;
 		} else if (aState.equals (ActionStates.AuctionRound.toString ())) {
 			tRoundState = ActionStates.AuctionRound;
+		} else if (aState.equals (ActionStates.ContractBidRound.toString ())) {
+			tRoundState = ActionStates.ContractBidRound;
 		} else if (aState.equals (ActionStates.FormationRound.toString ())) {
 			tRoundState = ActionStates.FormationRound;
 		}
 
 		return tRoundState;
 	}
-
-	public ActionStates getRT (String aState) {
-		ActionStates tRoundState;
-		ActionStates [] tRoundStates = { 
-				ActionStates.NoRound, 
-				ActionStates.StockRound, 
-				ActionStates.OperatingRound,
-				ActionStates.AuctionRound, 
-				ActionStates.FormationRound };
-
-		tRoundState = ActionStates.NoState;
-		for (ActionStates tRoundState2 : tRoundStates) {
-			if (tRoundState == ActionStates.NoState) {
-				tRoundState = getMatchingActionState (aState, tRoundState2);
-			}
-		}
-
-		return tRoundState;
-	}
-
-	public ActionStates getMatchingActionState (String aStateName, ActionStates aActionState) {
-		ActionStates tActionState;
-
-		tActionState = ActionStates.NoState;
-		if (aStateName.equals (aActionState.toString ())) {
-			tActionState = aActionState;
-		}
-
-		return tActionState;
-	}
+//
+//	public ActionStates getRT (String aState) {
+//		ActionStates tRoundState;
+//		ActionStates [] tRoundStates = { 
+//				ActionStates.NoRound, 
+//				ActionStates.StockRound, 
+//				ActionStates.OperatingRound,
+//				ActionStates.AuctionRound, 
+//				ActionStates.ContractBidRound,
+//				ActionStates.FormationRound };
+//
+//		tRoundState = ActionStates.NoState;
+//		for (ActionStates tRoundState2 : tRoundStates) {
+//			if (tRoundState == ActionStates.NoState) {
+//				tRoundState = getMatchingActionState (aState, tRoundState2);
+//			}
+//		}
+//
+//		return tRoundState;
+//	}
+//
+//	public ActionStates getMatchingActionState (String aStateName, ActionStates aActionState) {
+//		ActionStates tActionState;
+//
+//		tActionState = ActionStates.NoState;
+//		if (aStateName.equals (aActionState.toString ())) {
+//			tActionState = aActionState;
+//		}
+//
+//		return tActionState;
+//	}
 
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
