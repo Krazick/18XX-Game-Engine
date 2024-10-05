@@ -126,6 +126,14 @@ public class RoundType {
 		return tIsAAfterAction;
 	}
 	
+	public boolean matches (String aName) {
+		boolean tMatches;
+		
+		tMatches = name.equals (aName);
+		
+		return tMatches;
+	}
+	
 	public String getInfo () {
 		String tInfo;
 		
