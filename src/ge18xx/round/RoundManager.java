@@ -68,7 +68,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	PlayerManager playerManager;
 	ActionManager actionManager;
 
-	ActorI.ActionStates currentRoundState;
 	RoundFrame roundFrame;
 	Round currentRound;
 	StockRound stockRound;
@@ -204,10 +203,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setContractBidRound (ContractBidRound aContractBidRound) {
 		contractBidRound = aContractBidRound;
 	}
-//
-//	public void addPrivateToAuction () {
-//		gameManager.addPrivateToAuction ();
-//	}
 
 	public void setAuctionFrameLocation () {
 		gameManager.setAuctionFrameLocation ();
@@ -238,7 +233,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void setCurrentRoundState (ActorI.ActionStates aNewRoundState) {
-		currentRoundState = aNewRoundState;
+//		currentRoundState = aNewRoundState;
 	}
 
 	public void addAction (Action aAction) {
@@ -247,7 +242,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		// will double-up the Actions, and
 		// During a Reload and Saved Network Game, this messes up the lastAction Number
 		// locally.
-		if (!gameManager.applyingAction ()) {
+		if (! applyingAction ()) {
 			actionManager.addAction (aAction);
 		}
 		gameManager.autoSaveGame ();
@@ -280,7 +275,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 				tIsInterrupting = tInterruptionRound.isInterrupting ();
 				tInterruptionStarted = tInterruptionRound.interruptionStarted ();
 				if (tIsInterrupting && !tInterruptionStarted) {
-					System.out.println ("Found Certificate with Bid, need to Start the Interruption to Auction Round");
 					auctionRound.start ();
 				}
 			}
@@ -340,7 +334,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
-		currentRoundState = ActorI.ActionStates.Bankrupt;
+		setCurrentRoundState (ActorI.ActionStates.Bankrupt);
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
 		gameManager.resetRoundFrameBackgrounds ();
@@ -403,9 +397,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		String tType;
 		
 		tType = aEN_Type.toString ();
-		if (tType.equals (Action.EN_ACTIONS.toString ())) {
-			tXMLElement = addActionElements (aXMLDocument);
-		} else if (tType.equals (EN_ROUNDS.toString ())) {
+//		if (tType.equals (Action.EN_ACTIONS.toString ())) {
+//			tXMLElement = addActionElements (aXMLDocument);
+//		} else 
+		if (tType.equals (EN_ROUNDS.toString ())) {
 			tXMLElement = addRoundState (aXMLDocument);
 		} else {
 			tXMLElement = XMLElement.NO_XML_ELEMENT;
@@ -414,27 +409,56 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tXMLElement;
 	}
 
-	public XMLElement addActionElements (XMLDocument aXMLDocument) {
-		return actionManager.getActionElements (aXMLDocument);		
-	}
+//	public XMLElement addActionElements (XMLDocument aXMLDocument) {
+//		return actionManager.getActionElements (aXMLDocument);		
+//	}
 	
 	public XMLElement addRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		XMLElement tXMLStockElement;
-		XMLElement tXMLOperatingElement;
+//		XMLElement tXMLOperatingElement;
+//		XMLElement tXMLAuctionElement;
+//		XMLElement tXMLFormationElement;
+//		XMLElement tXMLContractBidElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_ROUNDS);
 		tXMLElement.setAttribute (AN_CURRENT_OR, currentOR);
 		tXMLElement.setAttribute (AN_OR_COUNT, operatingRoundCount);
 		tXMLElement.setAttribute (AN_ADDED_OR, addedOR);
 		tXMLElement.setAttribute (AN_CURRENT_ROUND_TYPE, getCurrentRoundState ().toString ());
-		tXMLStockElement = stockRound.getRoundState (aXMLDocument);
-		tXMLElement.appendChild (tXMLStockElement);
+		
+		getRoundState (aXMLDocument, tXMLElement, stockRound);
+		getRoundState (aXMLDocument, tXMLElement, operatingRound);
+		getRoundState (aXMLDocument, tXMLElement, auctionRound);
+		getRoundState (aXMLDocument, tXMLElement, contractBidRound);
+		getRoundState (aXMLDocument, tXMLElement, formationRound);
+		
+//		tXMLAuctionElement = auctionRound.getRoundState (aXMLDocument);
+//		tXMLElement.appendChild (tXMLAuctionElement);
+//		
+//		tXMLFormationElement = formationRound.getRoundState (aXMLDocument);
+//		tXMLElement.appendChild (tXMLFormationElement);
+//		
+//		tXMLContractBidElement = contractBidRound.getRoundState (aXMLDocument);
+//		tXMLElement.appendChild (tXMLContractBidElement);
+//
+//		tXMLOperatingElement = operatingRound.getRoundState (aXMLDocument);
+//		tXMLElement.appendChild (tXMLOperatingElement);
 
-		tXMLOperatingElement = operatingRound.getRoundState (aXMLDocument);
-		tXMLElement.appendChild (tXMLOperatingElement);
-
+		System.out.println (
+							"Client " + gameManager.getClientUserName () + 
+							" Last Action Number " + this.getLastActionNumber () + 
+							" Round State [" + tXMLElement.toXMLString () + "]");
+		
 		return tXMLElement;
+	}
+
+	public void getRoundState (XMLDocument aXMLDocument, XMLElement aXMLElement, Round aRound) {
+		XMLElement tXMLElement;
+		
+		if (gameManager.gameHasRoundType (aRound.getName ())) {
+			tXMLElement = aRound.getRoundState (aXMLDocument);
+			aXMLElement.appendChild (tXMLElement);
+		}
 	}
 
 	public ActionManager getActionManager () {
@@ -546,24 +570,24 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public Round getCurrentRound () {
-		Round tCurrentRound;
+//		Round tCurrentRound;
 		
-		if (currentRoundState == ActorI.ActionStates.StockRound) {
-			tCurrentRound = stockRound;
-		} else if (currentRoundState == ActorI.ActionStates.OperatingRound) {
-			tCurrentRound = operatingRound;
-		} else if (currentRoundState == ActorI.ActionStates.AuctionRound) {
-			tCurrentRound = auctionRound;
-		} else if (currentRoundState == ActorI.ActionStates.FormationRound) {
-			tCurrentRound = formationRound;
-		} else if (currentRoundState == ActorI.ActionStates.ContractBidRound) {
-			tCurrentRound = contractBidRound;
-		} else {
-			System.err.println ("Current Round of " + currentRoundState.toString () + " NOT Recognized");
-			tCurrentRound = Round.NO_ROUND;
-		}
+//		if (currentRoundState == ActorI.ActionStates.StockRound) {
+//			tCurrentRound = stockRound;
+//		} else if (currentRoundState == ActorI.ActionStates.OperatingRound) {
+//			tCurrentRound = operatingRound;
+//		} else if (currentRoundState == ActorI.ActionStates.AuctionRound) {
+//			tCurrentRound = auctionRound;
+//		} else if (currentRoundState == ActorI.ActionStates.FormationRound) {
+//			tCurrentRound = formationRound;
+//		} else if (currentRoundState == ActorI.ActionStates.ContractBidRound) {
+//			tCurrentRound = contractBidRound;
+//		} else {
+//			System.err.println ("Current Round of " + currentRoundState.toString () + " NOT Recognized");
+//			tCurrentRound = Round.NO_ROUND;
+//		}
 		
-		return tCurrentRound;
+		return currentRound;
 	}
 	
 	public String getCurrentRoundOf () {
@@ -571,7 +595,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public ActorI.ActionStates getCurrentRoundState () {
-		return currentRoundState;
+		return currentRound.getRoundState ();
 	}
 
 	public HexMap getGameMap () {
@@ -689,7 +713,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public String getRoundName () {
 		String tRoundName;
 
-		tRoundName = currentRoundState.toString ();
+		tRoundName = currentRound.getName ();
 
 		return tRoundName;
 	}
@@ -746,27 +770,27 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public boolean isAAuctionRound () {
-		return (currentRoundState == ActorI.ActionStates.AuctionRound);
+		return (currentRound.getRoundState () == ActorI.ActionStates.AuctionRound);
 	}
 
 	public boolean isOperatingRound () {
-		return (currentRoundState == ActorI.ActionStates.OperatingRound);
+		return (currentRound.getRoundState () == ActorI.ActionStates.OperatingRound);
 	}
 
 	public boolean isStockRound () {
-		return (currentRoundState == ActorI.ActionStates.StockRound);
+		return (currentRound.getRoundState () == ActorI.ActionStates.StockRound);
 	}
 
 	public boolean isFormationRound () {
-		return (currentRoundState == ActorI.ActionStates.FormationRound);
+		return (currentRound.getRoundState () == ActorI.ActionStates.FormationRound);
 	}
 
 	public boolean isContractBidRound () {
-		return (currentRoundState == ActorI.ActionStates.ContractBidRound);
+		return (currentRound.getRoundState () == ActorI.ActionStates.ContractBidRound);
 	}
 
 	public boolean isBankrupt () {
-		return (currentRoundState == ActorI.ActionStates.Bankrupt);
+		return (currentRound.getRoundState () == ActorI.ActionStates.Bankrupt);
 	}
 
 	public boolean isLastOR () {
@@ -787,7 +811,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		addedOR = aRoundStateNode.getThisBooleanAttribute (AN_ADDED_OR);
 		tRoundType = aRoundStateNode.getThisAttribute (AN_CURRENT_ROUND_TYPE);
 		tGenericActor = new GenericActor ();
-		currentRoundState = tGenericActor.getRoundType (tRoundType);
+		setCurrentRoundState (tGenericActor.getRoundType (tRoundType));
 
 		tXMLNodeList = new XMLNodeList (roundParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aRoundStateNode, StockRound.EN_STOCK_ROUND, OperatingRound.EN_OPERATING_ROUND);
@@ -843,7 +867,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void printRoundInfo () {
 		System.out.println ("Round Manager Information Report");	// PRINTLOG
-		System.out.println ("Currently this is a " + currentRoundState);
+		System.out.println ("Currently this is a " + currentRound.getRoundState ());
 		System.out.println ("Current OR " + currentOR + " Max OR " + operatingRoundCount + " Added OR " + addedOR);
 		stockRound.printRoundInfo ();
 		operatingRound.printRoundInfo ();
@@ -1020,8 +1044,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void finishCurrentRound () {
+		Action tLastAction;
+		
 		currentRound.finish ();
 		roundFrame.updateAll ();
+		if (! applyingAction ()) {
+			tLastAction = getLastAction ();
+			checkAndHandleInterruption (tLastAction);
+		}
 	}
 	
 	public void setOperatingRoundCount () {
