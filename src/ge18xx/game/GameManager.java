@@ -1248,6 +1248,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return roundManager;
 	}
 
+	public boolean gameHasRoundType (String aName) {
+		boolean tGameHasRoundType;
+		
+		tGameHasRoundType = activeGame.gameHasRoundType (aName);
+		
+		return tGameHasRoundType;
+	}
+	
 	public ActorI.ActionStates getRoundType (String aRoundTypeString) {
 		GenericActor tGenericActor;
 
@@ -2025,6 +2033,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		XMLDocument tXMLDocument;
 		XMLElement tSaveGameElement;
 		String tFullActionReport;
+		ActionManager tActionManager;
 
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
@@ -2047,7 +2056,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addElements (phaseManager, tXMLDocument, tSaveGameElement, PhaseManager.EN_PHASE);
 
 		/* Save the Actions performed */
-		addElements (roundManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
+		tActionManager = roundManager.getActionManager ();
+		addElements (tActionManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
 
 		/* Save the Round Information, Stock and Operating */
 		addElements (roundManager, tXMLDocument, tSaveGameElement, RoundManager.EN_ROUNDS);
