@@ -22,8 +22,9 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLSaveGameI;
 
-public class ActionManager {
+public class ActionManager implements XMLSaveGameI {
 	public final static ActionManager NO_ACTION_MANAGER = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
@@ -242,11 +243,12 @@ public class ActionManager {
 		}
 	}
 
-	public XMLElement getActionElements (XMLDocument aXMLDocument) {
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tElements;
 		XMLElement tActionElement;
 
-		tElements = aXMLDocument.createElement (Action.EN_ACTIONS);
+		tElements = aXMLDocument.createElement (aEN_Type);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
 			tElements.appendChild (tActionElement);
