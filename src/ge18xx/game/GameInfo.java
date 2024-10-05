@@ -583,6 +583,19 @@ public class GameInfo implements XMLSaveGameI {
 		return tCapitalizationLevel;
 	}
 	
+	public boolean gameHasRoundType (String aName) {
+		boolean tGameHasRoundType;
+		
+		tGameHasRoundType = false;
+		for (RoundType tRoundType : roundTypes) {
+			if (tRoundType.matches (aName)) {
+				tGameHasRoundType = true;
+			}
+		}
+		
+		return tGameHasRoundType;
+	}
+	
 	public RoundType getRoundType (String aName) {
 		RoundType tFoundRoundType;
 		
