@@ -46,6 +46,7 @@ public class StockRound extends Round {
 		}
 	}
 
+	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 

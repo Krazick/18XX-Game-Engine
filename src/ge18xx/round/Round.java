@@ -15,6 +15,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
@@ -73,6 +74,15 @@ public abstract class Round implements ActorI {
 		}
 	}
 	
+	public XMLElement getRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_ROUND);
+		setRoundAttributes (tXMLElement);
+
+		return tXMLElement;
+	}
+
 	public void loadRound (XMLNode aRoundNode) {
 		int tIDPart1;
 		int tIDPart2;

@@ -1,5 +1,7 @@
 package ge18xx.round;
 
+import ge18xx.bank.Bank;
+import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -8,8 +10,12 @@ import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class AuctionRound extends InterruptionRound {
+	public final static ElementName EN_AUCTION_ROUND = new ElementName ("AuctionRound");
 	public final static String NAME = "Auction Round";
 	public final static AuctionRound NO_AUCTION_ROUND = null;
 	AuctionFrame auctionFrame;
@@ -24,7 +30,6 @@ public class AuctionRound extends InterruptionRound {
 		gameManager.setAuctionFrame (auctionFrame);
 		gameManager.addNewFrame (auctionFrame);
 		auctionFrame.setAuctionRound (this);
-		setID (0, 0);
 		setName (NAME);
 		setRoundType ();
 	}
@@ -74,7 +79,6 @@ public class AuctionRound extends InterruptionRound {
 	}
 	
 	public void clearAuctionStates (StartAuctionAction aStartAuctionAction) {
-		
 		PlayerManager tPlayerManager;
 		ActorI.ActionStates tOldAuctionState;
 		ActorI.ActionStates tNewAuctionState;
@@ -91,6 +95,24 @@ public class AuctionRound extends InterruptionRound {
 			tNewAuctionState = tPlayer.getAuctionActionState ();
 			aStartAuctionAction.addAuctionStateChangeEffect (tPlayer, tOldAuctionState, tNewAuctionState);
 		}
+	}
+	
+	public void updateLowestBidderState (StartAuctionAction aStartAuctionAction) {
+		ActorI.ActionStates tOldAuctionState;
+		ActorI.ActionStates tNewAuctionState;
+		Player tPlayer;
+		int tLowestBidderIndex;
+		Certificate tCertificate;
+		Bank tBank;
+		
+		tBank = gameManager.getBank ();
+		tCertificate = tBank.getPrivateForAuction ();
+		tLowestBidderIndex = tCertificate.getLowestBidderIndex ();
+		tPlayer = (Player) tCertificate.getCashHolderAt (tLowestBidderIndex);
+		tOldAuctionState = tPlayer.getAuctionActionState ();
+		tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
+		tNewAuctionState = tPlayer.getAuctionActionState ();
+		aStartAuctionAction.addAuctionStateChangeEffect (tPlayer, tOldAuctionState, tNewAuctionState);
 	}
 	
 	// New methods to Check and Handle this Auction Round to Interrupt another Round
@@ -110,6 +132,8 @@ public class AuctionRound extends InterruptionRound {
 		
 		setRoundToThis (true);
 		clearAuctionStates (tStartAuctionAction);
+		updateLowestBidderState (tStartAuctionAction);
+		
 		gameManager.addPrivateToAuction (tStartAuctionAction);
 		gameManager.setAuctionFrameLocation ();
 
@@ -170,5 +194,15 @@ public class AuctionRound extends InterruptionRound {
 		tIsInterrupting = roundManager.firstCertificateHasBidders ();
 		
 		return tIsInterrupting;
+	}
+	
+	@Override
+	public XMLElement getRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_AUCTION_ROUND);
+		setRoundAttributes (tXMLElement);
+
+		return tXMLElement;
 	}
 }

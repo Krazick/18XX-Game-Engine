@@ -1,8 +1,12 @@
 package ge18xx.round;
 
 import ge18xx.round.action.ActorI;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class FormationRound extends InterruptionRound {
+	public final static ElementName EN_FORMATION_ROUND = new ElementName ("FormationRound");
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
 
@@ -32,5 +36,15 @@ public class FormationRound extends InterruptionRound {
 		//		Purchase of Z Train and Formation REQUIRED
 		
 		return false;
+	}
+	
+	@Override
+	public XMLElement getRoundState (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_FORMATION_ROUND);
+		setRoundAttributes (tXMLElement);
+
+		return tXMLElement;
 	}
 }
