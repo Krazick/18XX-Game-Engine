@@ -719,6 +719,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 
 	public void startsGame () {
 		String tGameID;
+		
 		tGameID = getGameID ();
 		startsGame (tGameID);
 	}

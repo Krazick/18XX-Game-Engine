@@ -106,7 +106,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		String tRoundID;
 		Player tCurrentPlayer;
 
-		tRoundType = getRoundType (aGameManager);
+		tRoundType = getRoundState (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
 		tOldPlayerState = tCurrentPlayer.getPrimaryActionState ();
@@ -136,7 +136,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		String tRoundID;
 		SetWaitStateAction tResetWaitStateAction;
 
-		tRoundType = getRoundType (aGameManager);
+		tRoundType = getRoundState (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		setWaitStateAction = new SetWaitStateAction (tRoundType, tRoundID, aPlayer);
 		aPlayer.setAllWaitStateEffects (setWaitStateAction);
@@ -148,18 +148,18 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		return tResetWaitStateAction;
 	}
 
-	private ActorI.ActionStates getRoundType (GameManager aGameManager) {
-		ActorI.ActionStates tRoundType;
+	private ActorI.ActionStates getRoundState (GameManager aGameManager) {
+		ActorI.ActionStates tRoundState;
 
 		if (aGameManager.isOperatingRound ()) {
-			tRoundType = ActorI.ActionStates.OperatingRound;
+			tRoundState = ActorI.ActionStates.OperatingRound;
 		} else if (aGameManager.isStockRound ()) {
-			tRoundType = ActorI.ActionStates.StockRound;
+			tRoundState = ActorI.ActionStates.StockRound;
 		} else {
-			tRoundType = ActorI.ActionStates.AuctionRound;
+			tRoundState = ActorI.ActionStates.AuctionRound;
 		}
 
-		return tRoundType;
+		return tRoundState;
 	}
 
 	private String getRoundID (GameManager aGameManager) {

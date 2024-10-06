@@ -1420,7 +1420,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tMinors.removeInactiveCompanies ();
 		tShares = getShareCompanies ();
 		tShares.removeInactiveCompanies ();
-
 	}
 
 	public void initiateGame () {
