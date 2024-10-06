@@ -130,7 +130,7 @@ public class AuctionRound extends InterruptionRound {
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
 		tStartAuctionAction.setChainToPrevious (true);
 		
-		setRoundToThis (true);
+		setRoundToThis (tStartAuctionAction);
 		clearAuctionStates (tStartAuctionAction);
 		updateLowestBidderState (tStartAuctionAction);
 		
@@ -141,10 +141,12 @@ public class AuctionRound extends InterruptionRound {
 		
 		showAuctionFrame ();
 		
-		addAction (tStartAuctionAction);
+		if (! roundManager.applyingAction ()) {
+			addAction (tStartAuctionAction);
+		}
 	}
 	
-	public void setRoundToThis (boolean aCreateNewAuctionAction) {
+	public void setRoundToThis (StartAuctionAction aStartAuctionAction) {
 		String tOldRoundID;
 		String tNewRoundID;
 		String tGameName;
@@ -155,7 +157,7 @@ public class AuctionRound extends InterruptionRound {
 		tRoundID = roundManager.incrementRoundIDPart1 (this);
 		tNewRoundID = tRoundID + "";
 		roundManager.changeRound (interruptedRound, ActorI.ActionStates.AuctionRound, this, tOldRoundID, tNewRoundID,
-				aCreateNewAuctionAction);
+				aStartAuctionAction);
 		tGameName = roundManager.getGameName ();
 		tRoundFrame = roundManager.getRoundFrame ();
 		tRoundFrame.setAuctionRound (tGameName, tRoundID);
@@ -182,7 +184,7 @@ public class AuctionRound extends InterruptionRound {
 		tChangeRoundAction.addStateChangeEffect (this, tRoundType, tInterruptedRoundType);
 		tChangeRoundAction.addHideFrameEffect (this, auctionFrame);
 		tChangeRoundAction.setChainToPrevious (true);
-		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, true);
+		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, tChangeRoundAction);
 		roundManager.updateRoundFrame ();
 		auctionFrame.hideFrame ();
 	}

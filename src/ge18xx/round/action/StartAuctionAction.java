@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.AddPrivateToAuctionEffect;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import geUtilities.xml.XMLNode;
 
-public class StartAuctionAction extends Action {
+public class StartAuctionAction extends ChangeRoundAction {
 	public final static String NAME = "Start Auction";
 
 	public StartAuctionAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
