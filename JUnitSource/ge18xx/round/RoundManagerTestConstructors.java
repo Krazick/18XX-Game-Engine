@@ -25,6 +25,8 @@ public class RoundManagerTestConstructors {
 	GameManager gameManager;
 	GameManager mGameManager;
 	GameTestFactory gameTestFactory;
+	PlayerTestFactory playerTestFactory;
+	PlayerManager playerManager;
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
 	GameInfo gameInfo;
@@ -39,11 +41,13 @@ public class RoundManagerTestConstructors {
 		gameManager = gameTestFactory.buildGameManager (tClientName);
 		gameInfo = gameTestFactory.buildGameInfo (1);
 		gameManager.setGameInfo (gameInfo);
+		playerTestFactory = new PlayerTestFactory (gameManager);
 		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
 		gameManager.setPlayerInputFrame (mPlayerInputFrame);
 		roundTestFactory = new RoundTestFactory ();
 		roundManager = roundTestFactory.buildRoundManager (gameManager);
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		playerManager = playerTestFactory.buildPlayerManager ();
 	}
 
 	@AfterEach
@@ -75,29 +79,46 @@ public class RoundManagerTestConstructors {
 	@Test
 	@DisplayName ("Test Boolean Methods")
 	void booleanMethodTests () {
+		StockRound tStockRound;
+
 		Mockito.when (mGameManager.canPayHalfDividend ()).thenReturn (false);
 		Mockito.when (mGameManager.isPlaceTileMode ()).thenReturn (false);
 		Mockito.when (mGameManager.isPlaceTokenMode ()).thenReturn (false);
+		Mockito.when (mGameManager.getActiveGame ()).thenReturn (gameInfo);
 
 		roundManager.setGameManager (mGameManager);
+		tStockRound = roundTestFactory.buildStockRound (roundManager, playerManager);
+		roundManager.setCurrentRound (tStockRound);
 		assertFalse (roundManager.isPlaceTileMode ());
 		assertFalse (roundManager.isPlaceTokenMode ());
 		assertFalse (roundManager.canPayHalfDividend ());
 		assertFalse (roundManager.isAAuctionRound ());
-		assertFalse (roundManager.isStockRound ());
+		assertTrue (roundManager.isStockRound ());
 		assertFalse (roundManager.isOperatingRound ());
 	}
 
 	@Test
 	@DisplayName ("Test Set and Get Methods")
 	void setAndGetMethodTests () {
-		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
+		StockRound tStockRound;
+		AuctionRound tAuctionRound;
+		OperatingRound tOperatingRound;
+
+		tStockRound = roundTestFactory.buildStockRound (roundManager, playerManager);
+		roundManager.setCurrentRound (tStockRound);
+
 		assertEquals ("Stock Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isStockRound ());
-		roundManager.setCurrentRoundState (ActorI.ActionStates.AuctionRound);
+		
+		tAuctionRound = roundTestFactory.buildAuctionRound (roundManager);
+		roundManager.setCurrentRound (tAuctionRound);
+
 		assertEquals ("Auction Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isAAuctionRound ());
-		roundManager.setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+	
+		tOperatingRound = roundTestFactory.buildOperatingRound (roundManager);
+		roundManager.setCurrentRound (tOperatingRound);
+
 		assertEquals ("Operating Round", roundManager.getCurrentRoundState ().toString ());
 		assertTrue (roundManager.isOperatingRound ());
 	}

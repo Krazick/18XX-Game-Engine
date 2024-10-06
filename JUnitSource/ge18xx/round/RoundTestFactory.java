@@ -12,7 +12,6 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 
-
 public class RoundTestFactory {
 	GameTestFactory gameTestFactory;
 	PlayerTestFactory playerTestFactory;
