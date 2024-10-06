@@ -999,8 +999,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound.clearAllPlayerPasses ();
 
 		roundFrame.setStockRoundInfo (gameName, tRoundIDPart1);
-		if (!applyingAction ()) {
-			addAction (tChangeRoundAction);
+		if (gameManager.gameStarted ()) {
+			if (! applyingAction ()) {
+				addAction (tChangeRoundAction);
+			}
 		}
 	}
 
