@@ -69,7 +69,7 @@ public class PlayerManager implements XMLSaveGameI {
 	public static final int NO_PLAYER_INDEX = -1;
 
 	public enum STOCK_BUY_IN {
-		StockRound, AuctionRound, OperatingRound
+		StockRound, AuctionRound, OperatingRound, FormationRound, ContractBidRound
 	} // Round a Stock Certificate was purchased
 
 	GameManager gameManager;
