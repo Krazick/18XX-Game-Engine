@@ -3201,11 +3201,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		auctionFrame.updateAuctionFrame ();
 	}
 
-	public void finishAuction (boolean aCreateNewAuctionAction) {
-		updateAllFrames ();
-		auctionFrame.setVisible (false);
-		playerManager.finishAuction (bank.availableShareHasBids (), aCreateNewAuctionAction);
-	}
+//	public void finishAuction (boolean aCreateNewAuctionAction) {
+//		updateAllFrames ();
+//		auctionFrame.setVisible (false);
+//		playerManager.finishAuction (bank.availableShareHasBids (), aCreateNewAuctionAction);
+//	}
 
 	public void printAllPlayersInfo () {
 		playerManager.printAllPlayersInfo ();
