@@ -1,5 +1,6 @@
 package ge18xx.round;
 
+import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
@@ -255,17 +256,20 @@ public class StockRound extends Round {
 	}
 
 	public void prepareStockRound () {
-		clearAllSoldCompanies ();
-		// TODO -- for Complete Undo, this 'Clear' should be undoable, so that when a
-		// Force Train Buy the player uses a Prez Stock Exchange that would require 
-		// sale of stock of the company to not be required after undo backs it out.
-		// Very rare situation that could be abused.
-		// Could have this effect be applied on 'setCurrentPlayer' method, with the
-		// ChangeStateAction
-		playerManager.clearAllExchangedShares ();
-//		playerManager.clearAllPercentBought ();
-		setCurrentPlayer (getPriorityIndex (), true);
-		setStartRoundPriorityIndex (getPriorityIndex ());
+//		int tPriorityIndex;
+//		
+//		clearAllSoldCompanies ();
+//		tPriorityIndex = getPriorityIndex ();
+//		
+//		// TODO -- for Complete Undo, this 'Clear' should be undoable, so that when a
+//		// Force Train Buy the player uses a Prez Stock Exchange that would require 
+//		// sale of stock of the company to not be required after undo backs it out.
+//		// Very rare situation that could be abused.
+//		// Could have this effect be applied on 'setCurrentPlayer' method, with the
+//		// ChangeStateAction
+//		playerManager.clearAllExchangedShares ();
+//		setCurrentPlayer (tPriorityIndex, true);
+//		setStartRoundPriorityIndex (tPriorityIndex);
 	}
 
 	public void endStockRound () {
@@ -308,19 +312,41 @@ public class StockRound extends Round {
 	@Override
 	public void finish () {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume () {
-//		roundManager.resumeStockRound (idPart1);
-//		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
 		roundManager.setStockRoundInfo (idPart1);
 	}
 
 	@Override
 	public void start () {
-		// TODO Auto-generated method stub
+		int tPriorityIndex;
+		GameManager tGameManager;
+		RoundFrame tRoundFrame;
 		
+		if (roundManager.bankIsBroken ()) {
+			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
+		}
+		roundManager.setRoundToStockRound ();
+		tGameManager = roundManager.getGameManager ();
+		tGameManager.bringMarketToFront ();
+				
+		// TODO -- for Complete Undo, this 'Clear' should be undoable, so that when a
+		// Force Train Buy the player uses a Prez Stock Exchange that would require 
+		// sale of stock of the company to not be required after undo backs it out.
+		// Very rare situation that could be abused.
+		// Could have this effect be applied on 'setCurrentPlayer' method, with the
+		// ChangeStateAction
+		playerManager.clearAllSoldCompanies ();
+		playerManager.clearAllExchangedShares ();
+		
+		tPriorityIndex = getPriorityIndex ();
+		setCurrentPlayer (tPriorityIndex, true);
+		setStartRoundPriorityIndex (tPriorityIndex);
+		
+		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundFrame.updateAll ();
+		roundManager.updateAllListenerPanels ();
 	}
 }
