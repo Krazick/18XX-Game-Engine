@@ -1402,56 +1402,19 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	 *
 	 */
 	public void buyAction () {
-//		Certificate tCertificate;
 		List<Certificate> tCertificatesToBuy;
-//		boolean tNextShareHasBids;
-//		boolean tCreateNewAuctionAction;
 		boolean tConfirmBuyShare;
 		
 		tConfirmBuyShare = confirmBuyShareAction ();
 		if (tConfirmBuyShare) {	
-//			tCreateNewAuctionAction = true;
 			tCertificatesToBuy = playerManager.getCertificatesToBuy ();
-//			tCertificate = tCertificatesToBuy.get (0);
-	
-//			tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
 	
 			buyAction (tCertificatesToBuy);
 	
-//			if (tNextShareHasBids) {
-//				startAuctionRound (tCreateNewAuctionAction);
-//				setTriggeredAuction (true); // Set the Triggered Auction Flag.
-//				playerManager.startAuctionRound (tCreateNewAuctionAction);
-//			}
 		}
 		playerFrame.updateButtons ();
 		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - BOUGHT");
 	}
-
-//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-//		StartAuctionAction tStartAuctionAction;
-//		RoundManager tRoundManager;
-//		Round tCurrentRound;
-//		ActorI.ActionStates tRoundType;
-//		String tRoundID;
-//		boolean tTriggeredAuction;
-//		
-//		tRoundManager = playerManager.getRoundManager ();
-//		tCurrentRound = tRoundManager.getStockRound ();
-//		tRoundType = tCurrentRound.getRoundType ();
-//		tRoundID = tCurrentRound.getID ();
-//		tTriggeredAuction = true;
-//		
-//		setTriggeredAuction (tTriggeredAuction); // Set the Triggered Auction Flag.
-//		playerManager.startAuctionRound (aCreateNewAuctionAction);
-//		
-//		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, tCurrentRound);
-//		tStartAuctionAction.addSetTriggeredAuctionEffect (this, tTriggeredAuction);
-//				
-//		tStartAuctionAction.setChainToPrevious (true);
-//	
-//		playerManager.addAction (tStartAuctionAction);
-//	}
 	
 	public List<Benefit> getOwnerTypeBenefits () {
 		List<Benefit> tOwnerTypeBenefits;
@@ -1603,7 +1566,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			clearPrimaryActionState ();
 			clearPlayerFlags ();
 			setPrimaryActionState (ActionStates.Pass);
-//			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
 		} else {
 			System.err.println ("Player has acted already, can't Pass");
