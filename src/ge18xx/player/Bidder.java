@@ -13,16 +13,6 @@ public class Bidder implements ActorI {
 
 	public Bidder (CashHolderI aBidder, int aAmount) {
 		this (aBidder, aAmount, false);
-//		Player tPlayer;
-//		
-//		if (aBidder.isAPlayer ()) {
-//			setCashHolder (aBidder);
-//			setAmount (aAmount);
-//			tPlayer = (Player) cashHolder;
-//			tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
-//		} else {
-//			System.err.println ("Bidder is not a Player, can't set Auction State.");
-//		}
 	}
 	
 	public Bidder (CashHolderI aBidder, int aAmount, boolean aUpdateBidder) {
