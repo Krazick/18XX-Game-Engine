@@ -5,6 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ApplyDiscountEffect;
+import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import geUtilities.xml.XMLNode;
 
 public class PassAction extends ChangeStateAction {
@@ -23,6 +24,13 @@ public class PassAction extends ChangeStateAction {
 	public PassAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
+	}
+
+	public void addChangeRoundIDEffect (ActorI aActor, String aOldRoundID, String aNewRoundID) {
+		ChangeRoundIDEffect tChangeRoundIDEffect;
+
+		tChangeRoundIDEffect = new ChangeRoundIDEffect (aActor, aOldRoundID, aNewRoundID);
+		addEffect (tChangeRoundIDEffect);
 	}
 
 	public void addApplyDiscountEffect (ActorI aPlayer, String aCertificateName, int aOldDiscount, int aNewDiscount) {
