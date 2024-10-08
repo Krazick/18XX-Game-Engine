@@ -1469,6 +1469,8 @@ public class PlayerManager implements XMLSaveGameI {
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
 		boolean tHaveAllPassed;
+		String tOldRoundID;
+		String tNewRoundID;
 		int tNextPlayerIndex;
 		int tCurrentPlayerIndex;
 
@@ -1495,7 +1497,10 @@ public class PlayerManager implements XMLSaveGameI {
 				// Round
 				if (!stockRound.canStartOperatingRound ()) {
 					applyDiscountIfMustSell (aPlayer, tPassAction);
+					tOldRoundID = stockRound.getID ();
 					tRoundManager.incrementRoundIDPart1 (stockRound);
+					tNewRoundID = stockRound.getID ();
+					tPassAction.addChangeRoundIDEffect (stockRound, tOldRoundID, tNewRoundID);
 				}
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 				addAction (tPassAction);
