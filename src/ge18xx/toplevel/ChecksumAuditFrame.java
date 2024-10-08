@@ -165,7 +165,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		
 		tColorCellRenderer = new CellColorRenderer (STARTING_COLUMN_COUNT);
 		
-		checksumAuditModel = new DefaultTableModel (aColumnNames, 0);
+		checksumAuditModel = new DefaultTableModel (aColumnNames, aColumnNames.length);
 		
 		checksumAuditTable = new JTable (checksumAuditModel);
 		checksumAuditTable.setGridColor (Color.BLACK);
