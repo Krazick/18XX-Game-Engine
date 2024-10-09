@@ -139,13 +139,10 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		
 		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (gameName);
-//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		tNorthComponents.add (gameID);
-//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		tNorthComponents.add (clientName);
-//		tNorthComponents.add (Box.createVerticalStrut (10));
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		
 		refreshList = new KButton ("Refresh List");
@@ -165,7 +162,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		
 		tColorCellRenderer = new CellColorRenderer (STARTING_COLUMN_COUNT);
 		
-		checksumAuditModel = new DefaultTableModel (aColumnNames, aColumnNames.length);
+		checksumAuditModel = new DefaultTableModel (aColumnNames, 0);
 		
 		checksumAuditTable = new JTable (checksumAuditModel);
 		checksumAuditTable.setGridColor (Color.BLACK);
@@ -210,8 +207,32 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		checksumAuditTable.getColumnModel ().getColumn (aColumnIndex).
 			setHeaderRenderer ((TableCellRenderer) tHeaderRenderer);
 	}
-
+	
+	public void addRowByWorker (Checksum aNewChecksum) {
+//		startSwing (aNewChecksum);
+		addRow (aNewChecksum);
+	}
+	
 	public void addRow (Checksum aChecksum) {
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		Object [] tDataRow;
+		int tPlayerCount;
+		int tItemCount;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tRoundManager = tGameManager.getRoundManager ();
+		tPlayerCount = tRoundManager.getPlayerManager ().getPlayerCount ();
+		tItemCount = STARTING_COLUMN_COUNT + tPlayerCount;
+
+		tDataRow = buildDataRow (aChecksum, tItemCount);
+
+		if (tDataRow != null) {
+			checksumAuditModel.insertRow (0, tDataRow);
+		}
+	}
+	
+	private Object [] buildDataRow (Checksum aChecksum, int aItemCount) {
 		GameManager tGameManager;
 		ActionManager tActionManager;
 		RoundManager tRoundManager;
@@ -219,7 +240,6 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		Object [] tDataRow;
 		String [] tChecksums;
 		String tActionReport;
-		int tItemCount;
 		int tItemIndex;
 		int tActionNumber;
 		int tActionIndex;
@@ -235,19 +255,113 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			tChecksums = aChecksum.getChecksums ();
 			tEffectCount = tAction.getEffectCount ();
 			tActionReport = tAction.getSimpleActionReport ();
-			tItemCount = STARTING_COLUMN_COUNT + tChecksums.length;
 			
-			tDataRow = new Object [tItemCount];
+			tDataRow = new Object [aItemCount];
 			tDataRow [0] = tActionNumber;
 			tDataRow [1] = aChecksum.getNodeName ();
 			tDataRow [2] = tEffectCount;
 			tDataRow [3] = tActionReport;
-			for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < tItemCount; tItemIndex++) {
+			for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < aItemCount; tItemIndex++) {
 				tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];
 			}
-	 		checksumAuditModel.insertRow (0, tDataRow);
+		} else {
+			tDataRow = null;
 		}
+		
+		return tDataRow;
 	}
+
+//	private void startSwing (Checksum aNewChecksum) {
+//		Checksum newChecksum;
+//		 
+//		newChecksum = aNewChecksum;
+//		
+//		SwingWorker<Void, Object []> swingWorker = new SwingWorker<Void, Object []>() {
+//			int itemCount;
+//			
+//			@Override
+//			protected Void doInBackground() throws Exception {
+//				int tPlayerCount;
+//				GameManager tGameManager;
+//				RoundManager tRoundManager;
+//				Object [] tDataRow;
+//				
+//				tGameManager = (GameManager) gameEngineManager;
+//				tRoundManager = tGameManager.getRoundManager ();
+//
+//				tPlayerCount = tRoundManager.getPlayerManager ().getPlayerCount ();
+//				itemCount = STARTING_COLUMN_COUNT + tPlayerCount;
+//
+//				tDataRow = buildDataRow (newChecksum);
+//
+//				if (tDataRow != null) {
+//					publish (tDataRow);
+//				}
+//				
+//				return null;
+//			}
+//			
+//			@Override
+//			protected void process (java.util.List<Object []> aDataRows) {
+//				Object [] tDataRow;
+//				int tDataRowCount;
+//				
+//				tDataRowCount = aDataRows.size ();
+//				tDataRow = aDataRows.get (tDataRowCount - 1);
+//		 		checksumAuditModel.insertRow (0, tDataRow);
+//
+////				SwingUtilities.invokeLater (new Runnable () {
+////					@Override
+////					public void run () {
+//////						addRow (tLastChecksum);
+////				 		checksumAuditModel.insertRow (0, tDataRow);
+////					}
+////				});
+//			}
+//			
+//			private Object [] buildDataRow (Checksum aChecksum) {
+//				GameManager tGameManager;
+//				ActionManager tActionManager;
+//				RoundManager tRoundManager;
+//				Action tAction;
+//				Object [] tDataRow;
+//				String [] tChecksums;
+//				String tActionReport;
+//				int tItemIndex;
+//				int tActionNumber;
+//				int tActionIndex;
+//				int tEffectCount;
+//				
+//				tGameManager = (GameManager) gameEngineManager;
+//				tRoundManager = tGameManager.getRoundManager ();
+//				tActionManager = tRoundManager.getActionManager ();
+//				tActionIndex = aChecksum.getActionIndex ();
+//				tAction = tActionManager.getActionAt (tActionIndex);
+//				if (tAction != Action.NO_ACTION) {
+//					tActionNumber = tAction.getNumber ();
+//					tChecksums = aChecksum.getChecksums ();
+//					tEffectCount = tAction.getEffectCount ();
+//					tActionReport = tAction.getSimpleActionReport ();
+//					
+//					tDataRow = new Object [itemCount];
+//					tDataRow [0] = tActionNumber;
+//					tDataRow [1] = aChecksum.getNodeName ();
+//					tDataRow [2] = tEffectCount;
+//					tDataRow [3] = tActionReport;
+//					for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < itemCount; tItemIndex++) {
+//						tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];
+//					}
+////			 		checksumAuditModel.insertRow (0, tDataRow);
+//				} else {
+//					tDataRow = null;
+//				}
+//				
+//				return tDataRow;
+//			}
+//		};
+//		
+//		swingWorker.execute();
+//	}
 	
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {

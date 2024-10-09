@@ -2131,7 +2131,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
 //		tFoundIndex = checksums.findIndexFor (tActionIndex);
 		checksums.add (tChecksum);
-		checksumAuditFrame.addRow (tChecksum);
+//		checksumAuditFrame.addRow (tChecksum);
+		checksumAuditFrame.addRowByWorker (tChecksum);
 
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
@@ -3336,7 +3337,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tChecksumCount = checksums.size ();
 			for (tChecksumIndex = 0; tChecksumIndex < tChecksumCount; tChecksumIndex++) {
 				tChecksum = checksums.get (tChecksumIndex);
-				checksumAuditFrame.addRow (tChecksum);
+				checksumAuditFrame.addRowByWorker (tChecksum);
 			}
 		}
 	}
