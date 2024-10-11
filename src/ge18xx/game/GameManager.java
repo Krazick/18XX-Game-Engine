@@ -2114,10 +2114,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tClientName;
 		String tNodeName;
 		String tXMLChecksum;
+		int tActionNumber;
 		int tActionIndex;
 		int tPlayerIndex;
 		int tPlayerCount;
-//		int tFoundIndex;
+		int tAuditChecksumIndex;
 		
 		tChecksumValue = aXMLDocument.MD5 (ChecksumCalc.STRIP_WHITESPACE);
 		
@@ -2125,14 +2126,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tClientName = getClientUserName ();
 		tNodeName = aEN_Name.getString ();
 		tActionIndex = roundManager.getLastActionIndex ();
+		tActionNumber = roundManager.getActionNumber ();
 		tPlayerIndex = playerManager.getPlayerIndex (clientUserName);
 		tPlayerCount = playerManager.getPlayerCount ();
-		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex);
+		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex, tActionNumber);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-//		tFoundIndex = checksums.findIndexFor (tActionIndex);
 		checksums.add (tChecksum);
+//		tChecksumIndex = 0;
 //		checksumAuditFrame.addRow (tChecksum);
 		checksumAuditFrame.addRowByWorker (tChecksum);
+		tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
+		checksumAuditFrame.updateChecksumValue (tAuditChecksumIndex, tPlayerIndex, tChecksumValue);
 
 		tChecksumXMLElement = tChecksum.addElements (aXMLDocument, Checksum.EN_CHECKSUM);
 		tXMLChecksum = tChecksumXMLElement.toXMLString ();
@@ -2143,8 +2147,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void addAdditionalChecksum (XMLNode aChecksumNode) {
 		int tActionIndex;
+		int tActionNumber;
 		int tPlayerIndex;
 		int tChecksumIndex;
+		int tAuditChecksumIndex;
 		String tChecksumValue;
 		String tGameID;
 		String tClientName;
@@ -2152,6 +2158,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		Checksum tChecksum;
 		
 		tActionIndex = aChecksumNode.getThisIntAttribute (Checksum.AN_ACTION_INDEX);
+		tActionNumber = aChecksumNode.getThisIntAttribute (Checksum.AN_ACTION_NUMBER);
 		tPlayerIndex = aChecksumNode.getThisIntAttribute (Checksum.AN_PLAYER_INDEX);
 		tChecksumValue = aChecksumNode.getThisAttribute (Checksum.AN_CHECKSUM);
 		tGameID = aChecksumNode.getThisAttribute (Checksum.AN_GAME_ID);
@@ -2168,7 +2175,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 							System.err.println ("Client Name " + tNodeName + " does match");
 						} else {
 							tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-							checksumAuditFrame.refreshAuditTable ();
+							tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
+							checksumAuditFrame.updateChecksumValue (tAuditChecksumIndex, tPlayerIndex, tChecksumValue);
+//							checksumAuditFrame.refreshAuditTable ();
 						}
 					} else {
 						System.err.println ("Node Name " + tNodeName + " does not match");
