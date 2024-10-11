@@ -4,7 +4,6 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
-import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
@@ -49,13 +48,17 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = GUI.EMPTY_STRING;
-		String tOldState, tNewState;
+		String tSimpleActionReport;
+		String tOldState;
+		String tNewState;
 
+		tSimpleActionReport = super.getSimpleActionReport ();
 		tOldState = getOldState ();
 		tNewState = getNewState ();
 		if (!tNewState.equals (tOldState)) {
 			tSimpleActionReport = "Changed " + actor.getName () + " to " + getNewState () + ".";
+		} else {
+			tSimpleActionReport = getName () + " remains as " + tNewState;
 		}
 
 		return tSimpleActionReport;
