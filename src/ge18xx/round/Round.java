@@ -164,9 +164,9 @@ public abstract class Round implements ActorI {
 		roundManager.setStockRoundInfo (idPart1);
 	}
 	
-	public void startStockRound () {
-		roundManager.startStockRound ();
-	}
+//	public void startStockRound () {
+//		roundManager.startStockRound ();
+//	}
 
 //	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 //		roundManager.startAuctionRound (aCreateNewAuctionAction);
@@ -305,7 +305,7 @@ public abstract class Round implements ActorI {
 	// New Methods to support the Generic Version
 	
 	/**
-	 * This method will return NO_ROUND (null) and should be overriden by the InterruptRound Type
+	 * This method will return NO_ROUND (null) and should be overridden by the InterruptRound Type
 	 * 
 	 * @return NO_ROUND, since this is NOT an Interruption Round.
 	 * 
@@ -316,7 +316,7 @@ public abstract class Round implements ActorI {
 	}
 	
 	/**
-	 * This method to be overriden will determine if the Round is completed, and should move to Next Round
+	 * This method to be overridden will determine if the Round is completed, and should move to Next Round
 	 * 
 	 * @return True if the round is over, false the round continues
 	 * 
@@ -327,7 +327,7 @@ public abstract class Round implements ActorI {
 	}
 	
 	/**
-	 *  This method to be overriden will handle any cleanup of the round
+	 *  This method to be overridden will handle any cleanup of the round
 	 * 
 	 */
 	
@@ -336,20 +336,32 @@ public abstract class Round implements ActorI {
 	public abstract void finish (XMLFrame aInterruptionFrame);
 	
 	/**
-	 * This method to be overriden to resume the Round, not starting and preparing from scratch 
+	 *  This method to be overridden will handle the "Undo" of the effects
+	 *  to return the game state before the "finish" method, including 
+	 *  interrupting rounds like Auction and Formation
+	 *  
+	 */
+	
+	public void returnTo (Round aPreviousRound) {
+		
+	}
+
+	/**
+	 * This method to be overridden to resume the Round, not starting and preparing from scratch 
 	 * 
 	 */
 	
 	public abstract void resume ();
 	
 	/**
-	/* This method to be overriden will prepare the round to begin
+	/* This method to be overridden will prepare the round to begin
 	 * 
 	 */
 	
 	public abstract void start ();
 	
-	/* This method to be overriden will determine if a Round can start
+	/**
+	 *  This method to be overridden will determine if a Round can start
 	 * The Operating Round can start if there is any Private, Minor, or Share
 	 * Company is owned, and has the ability to Operate: (Pay Revenue, 
 	 * Operate, will float, or may float).
@@ -362,7 +374,7 @@ public abstract class Round implements ActorI {
 	
 	/**
 	 * This method will retrieve the Next Round from the RoundType
-	 * This may be overriden by the Operating Round (for example) if
+	 * This may be overridden by the Operating Round (for example) if
 	 * the round will repeat.
 	 * Need to consider when exactly to test if an Optional Round is allowed
 	 * 
