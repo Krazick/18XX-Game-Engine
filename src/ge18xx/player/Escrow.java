@@ -104,7 +104,7 @@ public class Escrow implements CashHolderI {
 	}
 
 	public void setName (String aName, int aIndex) {
-		setName (aIndex + getUnindexedName (aName));
+		setName ("[" + aIndex + getUnindexedName (aName) + "]");
 	}
 
 	public static String getUnindexedName (String aName) {
