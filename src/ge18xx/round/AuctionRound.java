@@ -6,7 +6,6 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
@@ -165,28 +164,7 @@ public class AuctionRound extends InterruptionRound {
 	
 	@Override
 	public void finish () {
-		super.finish ();
-		
-		ActorI.ActionStates tRoundType;
-		ActorI.ActionStates tInterruptedRoundType;
-		ChangeRoundAction tChangeRoundAction;
-		String tOldRoundID;
-		String tNewRoundID;
-		String tCurrentRoundID;
-		
-		tRoundType = getRoundState ();
-		tInterruptedRoundType = interruptedRound.getRoundState ();
-		tOldRoundID = interruptedRound.getID ();
-		tNewRoundID = tOldRoundID;
-		tCurrentRoundID = getID ();
-
-		tChangeRoundAction = new ChangeRoundAction (tRoundType, tCurrentRoundID, this);
-		tChangeRoundAction.addStateChangeEffect (this, tRoundType, tInterruptedRoundType);
-		tChangeRoundAction.addHideFrameEffect (this, auctionFrame);
-		tChangeRoundAction.setChainToPrevious (true);
-		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, tChangeRoundAction);
-		roundManager.updateRoundFrame ();
-		auctionFrame.hideFrame ();
+		super.finish (auctionFrame);
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package ge18xx.round;
 
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
+import geUtilities.xml.XMLFrame;
+
 public class InterruptionRound extends Round {
 	Round interruptedRound;
 	boolean interruptionStarted;
@@ -45,7 +49,36 @@ public class InterruptionRound extends Round {
 
 	@Override
 	public void finish () {
+		
+	}
+
+	@Override
+	public void finish (XMLFrame aInterruptionFrame) {
 		setInterruptionStarted (false);		
+		
+		ActorI.ActionStates tRoundType;
+		ActorI.ActionStates tInterruptedRoundType;
+		ChangeRoundAction tChangeRoundAction;
+		String tOldRoundID;
+		String tNewRoundID;
+		String tCurrentRoundID;
+		
+		tRoundType = getRoundState ();
+		tInterruptedRoundType = interruptedRound.getRoundState ();
+		tOldRoundID = interruptedRound.getID ();
+		tNewRoundID = tOldRoundID;
+		tCurrentRoundID = getID ();
+
+		tChangeRoundAction = new ChangeRoundAction (tRoundType, tCurrentRoundID, this);
+		tChangeRoundAction.addStateChangeEffect (this, tRoundType, tInterruptedRoundType);
+		tChangeRoundAction.setChainToPrevious (true);
+		roundManager.updateRoundFrame ();
+		if (aInterruptionFrame != XMLFrame.NO_XML_FRAME) {
+			tChangeRoundAction.addHideFrameEffect (this, aInterruptionFrame);
+			aInterruptionFrame.hideFrame ();
+		}
+		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, tChangeRoundAction);
+		roundManager.addAction (tChangeRoundAction);
 	}
 
 	@Override
