@@ -138,6 +138,7 @@ public class AuctionRound extends InterruptionRound {
 
 		roundManager.updatePassButton ();
 		
+		tStartAuctionAction.addShowFrameEffect (interruptedRound, auctionFrame);
 		showAuctionFrame ();
 		
 		if (! roundManager.applyingAction ()) {
