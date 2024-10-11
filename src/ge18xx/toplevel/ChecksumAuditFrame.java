@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -34,8 +35,10 @@ import swingTweaks.KButton;
 public class ChecksumAuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final int STARTING_COLUMN_COUNT = 4;
-	private String REFRESH_LIST = "REFRESH LIST";
+	private static final String REFRESH_LIST = "REFRESH LIST";
+	private static final String EMPTY_CHECKSUM = "EMPTY";
 	public static final String BASE_TITLE = "Checksum Audit";
+	public static final int INDEX_NOT_FOUND = -1;
 	DefaultTableModel checksumAuditModel;
 	JTable checksumAuditTable;
 	KButton refreshList;
@@ -208,12 +211,12 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			setHeaderRenderer ((TableCellRenderer) tHeaderRenderer);
 	}
 	
-	public void addRowByWorker (Checksum aNewChecksum) {
+	public void addRowByWorker (Checksum aNewChecksum, boolean aAllChecksums) {
 //		startSwing (aNewChecksum);
-		addRow (aNewChecksum);
+		addRow (aNewChecksum, aAllChecksums);
 	}
 	
-	public void addRow (Checksum aChecksum) {
+	public void addRow (Checksum aChecksum, boolean aAllChecksums) {
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		Object [] tDataRow;
@@ -225,14 +228,14 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tPlayerCount = tRoundManager.getPlayerManager ().getPlayerCount ();
 		tItemCount = STARTING_COLUMN_COUNT + tPlayerCount;
 
-		tDataRow = buildDataRow (aChecksum, tItemCount);
+		tDataRow = buildDataRow (aChecksum, tItemCount, aAllChecksums);
 
 		if (tDataRow != null) {
 			checksumAuditModel.insertRow (0, tDataRow);
 		}
 	}
 	
-	private Object [] buildDataRow (Checksum aChecksum, int aItemCount) {
+	private Object [] buildDataRow (Checksum aChecksum, int aItemCount, boolean aAllChecksums) {
 		GameManager tGameManager;
 		ActionManager tActionManager;
 		RoundManager tRoundManager;
@@ -252,7 +255,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tAction = tActionManager.getActionAt (tActionIndex);
 		if (tAction != Action.NO_ACTION) {
 			tActionNumber = tAction.getNumber ();
-			tChecksums = aChecksum.getChecksums ();
+			 tChecksums = aChecksum.getChecksums ();
 			tEffectCount = tAction.getEffectCount ();
 			tActionReport = tAction.getSimpleActionReport ();
 			
@@ -262,7 +265,11 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			tDataRow [2] = tEffectCount;
 			tDataRow [3] = tActionReport;
 			for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < aItemCount; tItemIndex++) {
-				tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];
+				if (aAllChecksums) {
+					tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];		
+				} else {
+					tDataRow [tItemIndex] = EMPTY_CHECKSUM;
+				}
 			}
 		} else {
 			tDataRow = null;
@@ -271,6 +278,31 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		return tDataRow;
 	}
 
+	public int findAuditIndexFor (int aActionNumber) {
+		int tAuditIndex;
+		int tActionNumber;
+		int tRowCount;
+		int tRowIndex;
+		TableModel tTableModel;
+		
+		tTableModel = checksumAuditTable.getModel ();
+		tRowCount = tTableModel.getRowCount ();
+		tAuditIndex = INDEX_NOT_FOUND;
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			tActionNumber = (int) tTableModel.getValueAt (tRowIndex, 0);
+			if (tActionNumber == aActionNumber) {
+				tAuditIndex = tRowIndex;
+			}
+		}
+		
+		return tAuditIndex;
+	}
+	
+	public void updateChecksumValue (int aChecksumIndex, int aPlayerIndex, String aChecksumValue) {
+		checksumAuditTable.setValueAt (aChecksumValue, aChecksumIndex, STARTING_COLUMN_COUNT + aPlayerIndex);
+		repaint ();
+	}
+	
 //	private void startSwing (Checksum aNewChecksum) {
 //		Checksum newChecksum;
 //		 
