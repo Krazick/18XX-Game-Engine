@@ -40,7 +40,7 @@ public class Action {
 	public final static String REPORT_PREFIX = "-";
 	public final static Action NO_ACTION = null;
 	public final static int NO_NUMBER = 0;
-	ActorI.ActionStates roundType;
+	ActorI.ActionStates roundState;
 	protected ActorI actor;
 	String name;
 	String roundID;
@@ -59,7 +59,7 @@ public class Action {
 	}
 
 	public Action (Action aAction) {
-		setValues (aAction.getName (), aAction.getRoundType (), aAction.getRoundID (), 
+		setValues (aAction.getName (), aAction.getRoundState (), aAction.getRoundID (), 
 					aAction.getActor (), aAction.getNumber ());
 	}
 
@@ -277,7 +277,7 @@ public class Action {
 		tActionElement.setAttribute (AN_NAME, getName ());
 		tActionElement.setAttribute (AN_NUMBER, getNumber ());
 		tActionElement.setAttribute (AN_DATE_TIME, dateTime);
-		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundType ().toString ());
+		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundState ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
 		tActionElement.setAttribute (ActorI.AN_ACTOR_NAME, tActorName);
 		tActionElement.setAttribute (AN_CHAIN_PREVIOUS, getChainToPrevious ());
@@ -342,8 +342,8 @@ public class Action {
 		return effects;
 	}
 
-	public ActorI.ActionStates getRoundType () {
-		return roundType;
+	public ActorI.ActionStates getRoundState () {
+		return roundState;
 	}
 
 	public void printActionReport (RoundManager aRoundManager) {
@@ -388,7 +388,7 @@ public class Action {
 			tActorAbbrev = actor.getAbbrev ();
 		}
 		
-		tReport =  number + ". " + roundType + " " + roundID + ": " + tActorAbbrev + " performed " + name
+		tReport =  number + ". " + roundState + " " + roundID + ": " + tActorAbbrev + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
 		
 		return tReport;
@@ -417,7 +417,7 @@ public class Action {
 	}
 
 	public void setRoundType (ActorI.ActionStates aRoundType) {
-		roundType = aRoundType;
+		roundState = aRoundType;
 	}
 
 	public boolean undoAction (RoundManager aRoundManager) {

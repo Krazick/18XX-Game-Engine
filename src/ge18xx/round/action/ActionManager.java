@@ -455,7 +455,7 @@ public class ActionManager implements XMLSaveGameI {
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tLastAction = getLastAction ();
 			tActor = tLastAction.getActor ();
-			tRoundType = tLastAction.getRoundType ();
+			tRoundType = tLastAction.getRoundState ();
 			tRoundID = tLastAction.getRoundID ();
 			tUndoAction = new UndoLastAction (tRoundType, tRoundID, tActor);
 			setNewActionNumber (tUndoAction);
@@ -662,7 +662,7 @@ public class ActionManager implements XMLSaveGameI {
 							tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
 							tDebit = tAction.getEffectDebit (aActorName);
 							tCredit = tAction.getEffectCredit (aActorName);
-							tRoundID = tAction.getRoundType ().toAbbrev () + " " + tAction.getRoundID ();
+							tRoundID = tAction.getRoundState ().toAbbrev () + " " + tAction.getRoundID ();
 							aAuditFrame.addRow (tActionNumber, tRoundID, tActionEventDescription, tDebit, tCredit);
 						}
 					}
@@ -684,7 +684,7 @@ public class ActionManager implements XMLSaveGameI {
 		tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport (aActorName);
 		tDebit = 0;
 		tCredit = aAction.getEffectCredit (aActorName);
-		tRoundID = aAction.getRoundType ().toAbbrev () + " " + aAction.getRoundID ();
+		tRoundID = aAction.getRoundState ().toAbbrev () + " " + aAction.getRoundID ();
 		aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tDebit, tCredit);
 		tAuctionWinner = aAction.getAuctionWinner ();
 		if (aActorName.equals (tAuctionWinner)) {
