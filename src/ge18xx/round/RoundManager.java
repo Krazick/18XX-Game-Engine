@@ -277,7 +277,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 					tIsInterrupting = tInterruptionRound.isInterrupting ();
 					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
 					if (tIsInterrupting && !tInterruptionStarted) {
-						auctionRound.start ();
+						tInterruptionRound.start ();
 					}
 				}
 			} else {
@@ -1020,6 +1020,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 //			aChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
 //		}
 		aChangeRoundAction.setChainToPrevious (true);
+		roundFrame.updateAll ();
 	}
 
 	public void finishCurrentRound () {
@@ -1075,8 +1076,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void startRound (ActorI.ActionStates aRoundState) {
 		Round tRound;
+		String tRoundStateName;
 		
-		tRound = this.getRoundByTypeName (aRoundState.toString ());
+		tRoundStateName = aRoundState.toString ();
+		tRound = getRoundByTypeName (tRoundStateName);
 		tRound.start ();
 	}
 	
@@ -1119,14 +1122,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void startStockRound () {
-//		if (bankIsBroken ()) {
-//			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
-//		}
-//		setRoundToStockRound ();
-//		gameManager.bringMarketToFront ();
-//		stockRound.prepareStockRound ();
-//		roundFrame.updateAll ();
-//		updateAllListenerPanels ();
 		stockRound.start ();
 	}
 	
