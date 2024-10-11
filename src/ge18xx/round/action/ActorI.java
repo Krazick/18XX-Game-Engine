@@ -203,6 +203,10 @@ public interface ActorI {
 		return false;
 	}
 
+	public default boolean isAnyRound () {
+		return false;
+	}
+	
 	public default boolean isAStockRound () {
 		return false;
 	}

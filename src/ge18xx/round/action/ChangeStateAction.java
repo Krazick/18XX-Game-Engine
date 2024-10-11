@@ -40,11 +40,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 		StateChangeEffect tStateChangeEffect;
 		
 		if (aActor.isAPlayer () || 
-			aActor.isAStockRound () || 
-			aActor.isAOperatingRound () ||
-			aActor.isAAuctionRound () ||
-			aActor.isAFormationRound () ||
-			aActor.isAContractBidRound ()) {
+			aActor.isAnyRound ()) {
 			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
 			addEffect (tStateChangeEffect);
 		} else if (aActor.isACorporation ()) {

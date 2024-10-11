@@ -74,7 +74,7 @@ public class StateChangeEffect extends Effect {
 		if (actor != ActorI.NO_ACTOR) {
 			if (actor.isAPlayer ()) {
 				tEffectReport = buildBasicReport (tEffectReport);
-			} else if (actor.isAOperatingRound () || actor.isAStockRound ()) {
+			} else if (actor.isAnyRound ()) {
 				tEffectReport += " from " + previousState + " to " + newState + ".";
 			} else if (actor.isACorporation ()) {
 				tEffectReport = buildBasicReport (tEffectReport);

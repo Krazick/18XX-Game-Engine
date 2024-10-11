@@ -269,6 +269,11 @@ public abstract class Round implements ActorI {
 		return tID;
 	}
 
+	@Override
+	public boolean isAnyRound () {
+		return true;
+	}
+	
 	public boolean isFirstRound () {
 		return (idPart1 == 1);
 	}
