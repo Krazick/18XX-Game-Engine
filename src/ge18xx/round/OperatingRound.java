@@ -10,6 +10,7 @@ import geUtilities.GUI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {
@@ -364,6 +365,12 @@ public class OperatingRound extends Round {
 
 	@Override
 	public void finish () {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finish (XMLFrame aXMLFrame) {
 		// TODO Auto-generated method stub
 		
 	}

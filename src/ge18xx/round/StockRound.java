@@ -10,6 +10,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class StockRound extends Round {
@@ -312,6 +313,12 @@ public class StockRound extends Round {
 	@Override
 	public void finish () {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void finish (XMLFrame aXMLFrame) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

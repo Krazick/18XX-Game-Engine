@@ -4,6 +4,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 
 public class ContractBidRound extends Round {
 	public final static ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
@@ -28,6 +29,12 @@ public class ContractBidRound extends Round {
 
 	@Override
 	public void finish () {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finish (XMLFrame aXMLFrame) {
 		// TODO Auto-generated method stub
 		
 	}

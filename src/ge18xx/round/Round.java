@@ -17,6 +17,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public abstract class Round implements ActorI {
@@ -326,6 +327,8 @@ public abstract class Round implements ActorI {
 	 */
 	
 	public abstract void finish ();
+	
+	public abstract void finish (XMLFrame aInterruptionFrame);
 	
 	/**
 	 * This method to be overriden to resume the Round, not starting and preparing from scratch 
