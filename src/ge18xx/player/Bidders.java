@@ -306,9 +306,10 @@ public class Bidders {
 
 		tNumberOfBidders = getNumberOfBidders ();
 		if (tNumberOfBidders > 0) {
-			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
-				tBidder = (Player) getCashHolderAt (0);
-				tBid = getBidAt (0);
+			tNumberOfBidders--;
+			for (int tBidderIndex = tNumberOfBidders; tBidderIndex >= 0; tBidderIndex--) {
+				tBidder = (Player) getCashHolderAt (tBidderIndex);
+				tBid = getBidAt (tBidderIndex);
 				tBidder.refundEscrow (certificate, tBid, aWinAuctionAction);
 				tBidder.updatePlayerJPanel ();
 			}
