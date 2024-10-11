@@ -113,7 +113,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final int SORT_CO2_BEFORE_CO1 = 100;
 	boolean gameTestFlag = false;
 	boolean govtRailway;
-	boolean triggerFormation;
 	int loanAmount = 0;
 	int loanInterest = 0;
 	int id;
@@ -212,14 +211,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	
 	protected void setPortfolio (Portfolio aPortfolio) {
 		portfolio = aPortfolio;
-	}
-	
-	public void setTriggerFormation (boolean aTriggerFormation) {
-		triggerFormation = aTriggerFormation;
-	}
-	
-	public boolean getTriggerFormation () {
-		return triggerFormation;
 	}
 	
 	public boolean hasHomeCell () {
