@@ -56,6 +56,7 @@ import geUtilities.ParsingRoutineIO;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
@@ -1750,23 +1751,22 @@ public class PlayerManager implements XMLSaveGameI {
 		Player tPlayer;
 		StartStockAction tStartStockAction;
 		RoundManager tRoundManager;
+		XMLFrame tXMLFrame;
 
 		tPlayer = players.get (aPlayerIndex);
 		if (! tPlayer.hasActed ()) {
 			tStartStockAction = new StartStockAction (stockRound.getRoundState (), stockRound.getID (), tPlayer);
+			tRoundManager = gameManager.getRoundManager ();
+			tXMLFrame = tPlayer.getPlayerFrame ();
+			tStartStockAction.addShowFrameEffect (stockRound, tXMLFrame);
 			tStartStockAction.addStartStockEffect (tPlayer);
 			tStartStockAction.setChainToPrevious (true);
 			gameManager.addAction (tStartStockAction);
-			tRoundManager = gameManager.getRoundManager ();
 			tRoundManager.setPlayerDoingAction (true);
 			tRoundManager.updateRoundFrame ();
 		}
 		tPlayer.showPlayerFrame ();
 	}
-
-//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-//		stockRound.startAuctionRound (aCreateNewAuctionAction);
-//	}
 
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
