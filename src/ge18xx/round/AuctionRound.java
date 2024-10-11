@@ -146,6 +146,21 @@ public class AuctionRound extends InterruptionRound {
 		}
 	}
 	
+	@Override
+	public void returnTo (Round aInterruptedRound) {
+		StartAuctionAction tStartAuctionAction;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+
+		tRoundType = interruptedRound.getRoundState ();
+		tRoundID = interruptedRound.getID ();
+
+		super.returnTo (aInterruptedRound);
+		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
+		setRoundToThis (tStartAuctionAction);
+		showAuctionFrame ();
+	}
+	
 	public void setRoundToThis (StartAuctionAction aStartAuctionAction) {
 		String tOldRoundID;
 		String tNewRoundID;
