@@ -589,10 +589,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		// in the Auction. 
 		tLowestBidderIndex = certificateToAuction.getLowestBidderIndex ();
 		tPlayer = (Player) certificateToAuction.getCashHolderAt (tLowestBidderIndex);
-		tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
-		System.out.println ("Update Player " + tPlayer.getName () + " to " + 
-							tPlayer.getAuctionActionState ().toString ());
-	
+		tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);	
 	}
 
 	private void fillBiddersPanel (int aBidderCount, int aHighestBidderIndex) {
