@@ -48,7 +48,6 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
-import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
@@ -1003,8 +1002,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
 		ActorI.ActionStates tCurrentRoundState;
 		ActorI.ActionStates tNewRoundState;
-		AuctionRound tAuctionRound;
-		XMLFrame tAuctionFrame;
+//		AuctionRound tAuctionRound;
+//		XMLFrame tAuctionFrame;
 
 		tCurrentRoundState = getCurrentRoundState ();
 		setCurrentRoundState (aNewRoundState);
@@ -1015,11 +1014,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (! aOldRoundID.equals (aNewRoundID)) {
 			aChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
 		}
-		if (tNewRoundState == ActorI.ActionStates.AuctionRound) {
-			tAuctionRound = (AuctionRound) aNewRound;
-			tAuctionFrame = tAuctionRound.getAuctionFrame ();
-			aChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
-		}
+//		if (tNewRoundState == ActorI.ActionStates.AuctionRound) {
+//			tAuctionRound = (AuctionRound) aNewRound;
+//			tAuctionFrame = tAuctionRound.getAuctionFrame ();
+//			aChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
+//		}
 		aChangeRoundAction.setChainToPrevious (true);
 	}
 
