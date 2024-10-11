@@ -210,6 +210,12 @@ public class StateChangeEffect extends Effect {
 				tPreviousRound.returnTo (tCurrentRound);
 				aRoundManager.setCurrentRoundState (previousState);
 				tEffectUndone = true;
+			} else if (previousState == ActorI.ActionStates.AuctionRound) {
+				tPreviousRound = aRoundManager.getRoundByTypeName (actor.getName ());
+				tCurrentRound = aRoundManager.getCurrentRound ();
+				tPreviousRound.returnTo (tCurrentRound);
+				aRoundManager.setCurrentRoundState (previousState);
+				tEffectUndone = true;
 			} else {
 				setUndoFailureReason ("The Actor is a Auction Round, and previous State is " + previousState.name ());
 				tEffectUndone = false;
