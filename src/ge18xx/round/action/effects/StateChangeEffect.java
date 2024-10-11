@@ -146,7 +146,8 @@ public class StateChangeEffect extends Effect {
 			}
 		} else if (actor.isAOperatingRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
-				aRoundManager.startStockRound ();
+//				aRoundManager.startStockRound ();
+				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Operating Round, New state of " + newState.toString () +
@@ -165,6 +166,8 @@ public class StateChangeEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		StockRound tStockRound;
+		Round tPreviousRound;
+		Round tCurrentRound;
 		Player tPlayer;
 
 		tEffectUndone = false;
@@ -199,6 +202,17 @@ public class StateChangeEffect extends Effect {
 				tEffectUndone = true;
 			} else {
 				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " + previousState.name ());
+			}
+		} else if (actor.isAAuctionRound ()) {
+			if (previousState == ActorI.ActionStates.StockRound) {
+				tPreviousRound = aRoundManager.getRoundByTypeName (actor.getName ());
+				tCurrentRound = aRoundManager.getCurrentRound ();
+				tPreviousRound.returnTo (tCurrentRound);
+				aRoundManager.setCurrentRoundState (previousState);
+				tEffectUndone = true;
+			} else {
+				setUndoFailureReason ("The Actor is a Auction Round, and previous State is " + previousState.name ());
+				tEffectUndone = false;
 			}
 		} else if (actor.isABank ()) {
 			setUndoFailureReason ("The Actor is a Bank, which does not have a State to Change");
