@@ -93,7 +93,7 @@ class EscrowTests {
 		primaryEscrow.setName ("Escrow Test Name");
 		assertEquals ("Escrow Test Name", primaryEscrow.getName ());
 		primaryEscrow.setName ("Escrow Baker", 0);
-		assertEquals ("0) Escrow for Escrow Baker", primaryEscrow.getName ());
+		assertEquals ("[0) Escrow for Escrow Baker]", primaryEscrow.getName ());
 	}
 
 	@Test

@@ -1339,17 +1339,19 @@ public class PlayerManager implements XMLSaveGameI {
 
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
+		String tPlayerName;
 
 		tActor = ActorI.NO_ACTOR;
 		for (Player tPlayer : players) {
 			if (tActor == ActorI.NO_ACTOR) {
-				if (aActorName.equals (tPlayer.getName ())) {
+				tPlayerName = tPlayer.getName ();
+				if (aActorName.equals (tPlayerName)) {
 					tActor = tPlayer;
 				} else {
-					// If the Actor's Name ends with this Player's Name, it could be '#) Escrow for
-					// <PlayerName>'
+					// If the Actor's Name ends with this Player's Name with closing Square Bracket,
+					// it could be '[#) Escrow for <PlayerName>]'
 					// Ask the Player to fetch the matching name (if it exists)
-					if (aActorName.endsWith (tPlayer.getName ())) {
+					if (aActorName.endsWith (tPlayerName + "]")) {
 						tActor = tPlayer.getMatchingEscrow (aActorName);
 						// If the Player does not have the Escrow, it needs to be created and added to
 						// the Player
