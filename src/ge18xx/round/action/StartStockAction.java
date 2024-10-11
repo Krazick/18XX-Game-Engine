@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.StartStockEffect;
 import geUtilities.xml.XMLNode;
 
-public class StartStockAction extends Action {
+public class StartStockAction extends ShowFrameAction {
 	public final static String NAME = "Start Stock";
 
 	public StartStockAction () {
