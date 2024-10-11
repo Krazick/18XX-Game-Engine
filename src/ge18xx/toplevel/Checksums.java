@@ -61,11 +61,32 @@ public class Checksums {
 		
 		return tFoundIndex;
 	}
+
+	public int findAuditIndexFor (int aActionIndex) {
+		int tIndex;
+		int tCount;
+		int tFoundIndex;
+		Checksum tChecksum;
+		
+		tFoundIndex = NOT_FOUND;
+		if (!checksums.isEmpty ()) {
+			tCount = size ();
+			for (tIndex = 0; tIndex < tCount; tIndex++) {
+				tChecksum = checksums.get (tIndex);
+				if (tChecksum.getActionIndex () == aActionIndex) {
+					tFoundIndex = tCount - tIndex;
+				}
+			}
+			
+		}
+		
+		return tFoundIndex;
+	}
 	
 	public void removeActionIndex (int aActionIndex) {
 		int tIndex;
 		
-		tIndex = findIndexFor (aActionIndex);
+		tIndex = findAuditIndexFor (aActionIndex);
 		if (tIndex != NOT_FOUND) {
 			remove (tIndex);
 		}
