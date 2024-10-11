@@ -56,28 +56,29 @@ public class InterruptionRound extends Round {
 	public void finish (XMLFrame aInterruptionFrame) {
 		setInterruptionStarted (false);		
 		
-		ActorI.ActionStates tRoundType;
-		ActorI.ActionStates tInterruptedRoundType;
+		ActorI.ActionStates tRoundState;
+		ActorI.ActionStates tInterruptedRoundState;
 		ChangeRoundAction tChangeRoundAction;
-		String tOldRoundID;
+//		String tInterruptedRoundID;
 		String tNewRoundID;
 		String tCurrentRoundID;
 		
-		tRoundType = getRoundState ();
-		tInterruptedRoundType = interruptedRound.getRoundState ();
-		tOldRoundID = interruptedRound.getID ();
-		tNewRoundID = tOldRoundID;
+		tRoundState = getRoundState ();
+		tInterruptedRoundState = interruptedRound.getRoundState ();
+//		tInterruptedRoundID = interruptedRound.getID ();
+		tNewRoundID = interruptedRound.getID ();
 		tCurrentRoundID = getID ();
 
-		tChangeRoundAction = new ChangeRoundAction (tRoundType, tCurrentRoundID, this);
-		tChangeRoundAction.addStateChangeEffect (this, tRoundType, tInterruptedRoundType);
+		tChangeRoundAction = new ChangeRoundAction (tRoundState, tCurrentRoundID, this);
+//		tChangeRoundAction.addStateChangeEffect (this, tRoundType, tInterruptedRoundType);
 		tChangeRoundAction.setChainToPrevious (true);
 		roundManager.updateRoundFrame ();
 		if (aInterruptionFrame != XMLFrame.NO_XML_FRAME) {
 			tChangeRoundAction.addHideFrameEffect (this, aInterruptionFrame);
 			aInterruptionFrame.hideFrame ();
 		}
-		roundManager.changeRound (this, tInterruptedRoundType, interruptedRound, tOldRoundID, tNewRoundID, tChangeRoundAction);
+		roundManager.changeRound (this, tInterruptedRoundState, interruptedRound, tCurrentRoundID, 
+								tNewRoundID, tChangeRoundAction);
 		roundManager.addAction (tChangeRoundAction);
 	}
 
