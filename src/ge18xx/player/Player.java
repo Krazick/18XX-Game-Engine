@@ -1729,6 +1729,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
+		RoundManager tRoundManager;
+		boolean tInterrupted;
 
 		tActionCommand = aEvent.getActionCommand ();
 
@@ -1756,6 +1758,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		if (ButtonsInfoFrame.EXPLAIN.equals (tActionCommand)) {
 			playerFrame.handleExplainButtons ();
+		}
+		
+		tRoundManager = playerManager.getRoundManager ();
+		tInterrupted = tRoundManager.checkAndHandleInterruption ();
+		if (!tInterrupted) {
+			tRoundManager.checkAndHandleRoundEnds ();
 		}
 		playerManager.updateRoundWindow ();
 	}
