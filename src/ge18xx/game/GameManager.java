@@ -320,10 +320,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean canPayHalfDividend () {
 		return activeGame.canPayHalfDividend ();
 	}
-
-	public boolean canStartOperatingRound () {
-		return bank.canStartOperatingRound ();
-	}
+//
+//	public boolean canStartOperatingRound () {
+//		return bank.canStartOperatingRound ();
+//	}
 
 	public void applyDiscount () {
 		bank.applyDiscount ();
