@@ -38,7 +38,7 @@ public class MyResources extends ListResourceBundle {
 			{ "showRoundFrameItem", "Show Round Frame" },
 			{ "showAuditFrameItem", "Show Audit Frame" },
 			{ "showChecksumAuditFrameItem", "Show Checksum Audit Frame" },
-			{ "showFormationPhaseFrameItem", "Show Formation Phase Frame" },
+			{ "showFormationFrameItem", "Show Formation Frame" },
 			{ "showActionReportFrameItem", "Show Action Report Frame" },
 			{ "showChatClientItem", "Show Chat Client" },
 			{ "resendLastActions", "Resend Last Action(s)" },
