@@ -1808,8 +1808,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				}
 			}
 			if (isInCompanyFormationState ()) {
-				prepareFormationPhase ();
-				showFormationPhaseFrame ();
+				prepareFormation ();
+				showFormationFrame ();
 			}
 			clearClosedCorporations ();
 			fixLoadedRoutes ();
@@ -3303,9 +3303,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tHasTriggerClass;
 	}
 
-	public void showFormationPhaseFrame () {
+	public void showFormationFrame () {
 		if (hasTriggerClass ()) {
-			prepareFormationPhase ();
+			prepareFormation ();
 			if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
 				formationPhase.rebuildFormationPanel ();
 			} else {
@@ -3314,7 +3314,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 
-	public void prepareFormationPhase () {
+	public void prepareFormation () {
 		FormationPhase tFormationPhase;
 		
 		tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
