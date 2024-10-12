@@ -1487,12 +1487,12 @@ public class PlayerManager implements XMLSaveGameI {
 
 			tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
-			tHaveAllPassed = haveAllPassed ();
 			
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 			stockRound.updateRFPlayerLabel (aPlayer);
 			
+			tHaveAllPassed = haveAllPassed ();
 			if (tHaveAllPassed) {
 				tRoundManager = getRoundManager ();
 				// Test result -- if True, continue

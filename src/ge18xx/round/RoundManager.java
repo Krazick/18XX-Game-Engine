@@ -1166,6 +1166,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		String tEventAction;
 		Object tEventSource;
 		FastBuyButton tFastBuyButton;
+		Player tPlayer;
 
 		tEventAction = aEvent.getActionCommand ();
 		if (RoundFrame.CORPORATION_ACTION.equals (tEventAction)) {
@@ -1187,7 +1188,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			showGEFrame ();
 		}
 		if (RoundFrame.PASS_STOCK_ACTION.equals (tEventAction)) {
-			passStockAction ();
+			tPlayer = playerManager.getCurrentPlayer ();
+			tPlayer.passAction ();
+
+//			passStockAction ();
 			updateAllCorporationsBox ();
 		}
 		if (RoundFrame.BUY_STOCK_ACTION.equals (tEventAction)) {
@@ -1431,10 +1435,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public MapFrame getMapFrame () {
 		return gameManager.getMapFrame ();
 	}
-
-	public void passStockAction () {
-		stockRound.passStockAction ();
-	}
+//
+//	public void passStockAction () {
+//		stockRound.passStockAction ();
+//	}
 
 	public void buyStockAction (FastBuyButton aFastBuyButton) {
 		Certificate tCertificate;
