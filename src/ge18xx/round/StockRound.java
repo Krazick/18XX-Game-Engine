@@ -1,9 +1,11 @@
 package ge18xx.round;
 
+import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.DonePlayerAction;
 import geUtilities.xml.AttributeName;
@@ -229,17 +231,17 @@ public class StockRound extends Round {
 		return tNextPlayer;
 	}
 
-	@Override
-	public boolean roundIsDone () {
-		boolean tRoundDone;
-
-		tRoundDone = false;
-		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-			tRoundDone = playerManager.haveAllPassed ();
-		}
-
-		return tRoundDone;
-	}
+//	@Override
+//	public boolean roundIsDone () {
+//		boolean tRoundDone;
+//
+//		tRoundDone = false;
+//		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
+//			tRoundDone = playerManager.haveAllPassed ();
+//		}
+//
+//		return tRoundDone;
+//	}
 
 	public int getPlayerCount () {
 		return playerManager.getPlayerCount ();
@@ -261,7 +263,11 @@ public class StockRound extends Round {
 	}
 
 	public boolean canStartOperatingRound () {
-		return roundManager.canStartOperatingRound ();
+		Bank tBank;
+		
+		tBank = roundManager.getBank ();
+		
+		return tBank.canStartOperatingRound ();
 	}
 
 	@Override
@@ -293,9 +299,41 @@ public class StockRound extends Round {
 //		tPlayer.passAction ();
 //	}
 
+	/**
+	 *  This method will test if the Stock Round will end. 
+	 *  The call if the Round Manager then looks like:
+	 *  
+	 *      if (currentRound.ends ()) { move forward with finishing the Stock Round }
+	 *      
+	 */
+	
+	@Override
+	public boolean ends () {
+		boolean tEnds;
+		
+		tEnds = playerManager.haveAllPassed ();
+		
+		return tEnds;
+	}
+	
 	@Override
 	public void finish () {
-		// TODO Auto-generated method stub
+		String tOldRoundID;
+		String tNewRoundID;
+		ChangeRoundAction tChangeRoundAction;
+		
+		if (! canStartOperatingRound ()) {
+			tChangeRoundAction = new ChangeRoundAction (getRoundState (), getID (), this);
+
+			playerManager.applyDiscountIfMustSell (this, tChangeRoundAction);
+			tOldRoundID = getID ();
+			roundManager.incrementRoundIDPart1 (this);
+			tNewRoundID = getID ();
+			tChangeRoundAction.addChangeRoundIDEffect (this, tOldRoundID, tNewRoundID);
+			
+			addAction (tChangeRoundAction);
+		}
+
 	}
 
 	@Override
@@ -328,6 +366,8 @@ public class StockRound extends Round {
 		// Very rare situation that could be abused.
 		// Could have this effect be applied on 'setCurrentPlayer' method, with the
 		// ChangeStateAction
+		playerManager.clearAllPlayerPasses ();
+		playerManager.clearAllAuctionStates ();
 		playerManager.clearAllSoldCompanies ();
 		playerManager.clearAllExchangedShares ();
 		
