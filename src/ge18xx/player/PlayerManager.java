@@ -36,6 +36,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BidStockAction;
 import ge18xx.round.action.BuyStockAction;
+import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.ClearRoundDividendsAction;
 import ge18xx.round.action.DonePlayerAction;
@@ -1467,13 +1468,13 @@ public class PlayerManager implements XMLSaveGameI {
 	};
 
 	public void passAction (Player aPlayer) {
-		RoundManager tRoundManager;
+//		RoundManager tRoundManager;
 		PassAction tPassAction;
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
 		boolean tHaveAllPassed;
-		String tOldRoundID;
-		String tNewRoundID;
+//		String tOldRoundID;
+//		String tNewRoundID;
 		int tNextPlayerIndex;
 		int tCurrentPlayerIndex;
 
@@ -1494,22 +1495,24 @@ public class PlayerManager implements XMLSaveGameI {
 			
 			tHaveAllPassed = haveAllPassed ();
 			if (tHaveAllPassed) {
-				tRoundManager = getRoundManager ();
+//				tRoundManager = getRoundManager ();
 				// Test result -- if True, continue
 				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock
 				// Round
-				if (!stockRound.canStartOperatingRound ()) {
-					applyDiscountIfMustSell (aPlayer, tPassAction);
-					tOldRoundID = stockRound.getID ();
-					tRoundManager.incrementRoundIDPart1 (stockRound);
-					tNewRoundID = stockRound.getID ();
-					tPassAction.addChangeRoundIDEffect (stockRound, tOldRoundID, tNewRoundID);
-				}
-				moveToNextPlayer (tNextPlayerIndex, tPassAction);
+//				if (!stockRound.canStartOperatingRound ()) {
+//					applyDiscountIfMustSell (aPlayer, tPassAction);
+//					tOldRoundID = stockRound.getID ();
+//					tRoundManager.incrementRoundIDPart1 (stockRound);
+//					tNewRoundID = stockRound.getID ();
+//					tPassAction.addChangeRoundIDEffect (stockRound, tOldRoundID, tNewRoundID);
+//				}
+//				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 				addAction (tPassAction);
-				if (!stockRound.startOperatingRound ()) {
-					clearAllPlayerPasses ();
-				}
+				// TODO -- Need to actually Start the next Round (Operating), and if it fails... 
+				// need to restart the Stock Round to clear all Player Flags, States, and Passes.
+//				if (!stockRound.startOperatingRound ()) {
+//					clearAllPlayerPasses ();
+//				}
 			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 				addAction (tPassAction);
@@ -1519,7 +1522,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	private void applyDiscountIfMustSell (Player aPlayer, PassAction aPassAction) {
+	public void applyDiscountIfMustSell (Round aRound, ChangeRoundAction aChangeRoundAction) {
 		Certificate tCertificate;
 		boolean tMustSell;
 		int tOldDiscount;
@@ -1533,7 +1536,7 @@ public class PlayerManager implements XMLSaveGameI {
 			tOldDiscount = tCertificate.getDiscount ();
 			gameManager.applyDiscount ();
 			tNewDiscount = tCertificate.getDiscount ();
-			aPassAction.addApplyDiscountEffect (aPlayer, tCompanyName, tOldDiscount, tNewDiscount);
+			aChangeRoundAction.addApplyDiscountEffect (aRound, tCompanyName, tOldDiscount, tNewDiscount);
 		}
 	}
 
