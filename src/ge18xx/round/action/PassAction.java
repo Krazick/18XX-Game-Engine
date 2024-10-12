@@ -4,8 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
-import ge18xx.round.action.effects.ApplyDiscountEffect;
-import ge18xx.round.action.effects.ChangeRoundIDEffect;
+
 import geUtilities.xml.XMLNode;
 
 public class PassAction extends ChangeStateAction {
@@ -26,19 +25,19 @@ public class PassAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
-	public void addChangeRoundIDEffect (ActorI aActor, String aOldRoundID, String aNewRoundID) {
-		ChangeRoundIDEffect tChangeRoundIDEffect;
-
-		tChangeRoundIDEffect = new ChangeRoundIDEffect (aActor, aOldRoundID, aNewRoundID);
-		addEffect (tChangeRoundIDEffect);
-	}
-
-	public void addApplyDiscountEffect (ActorI aPlayer, String aCertificateName, int aOldDiscount, int aNewDiscount) {
-		ApplyDiscountEffect tApplyDiscountEffect;
-
-		tApplyDiscountEffect = new ApplyDiscountEffect (aPlayer, aCertificateName, aOldDiscount, aNewDiscount);
-		addEffect (tApplyDiscountEffect);
-	}
+//	public void addChangeRoundIDEffect (ActorI aActor, String aOldRoundID, String aNewRoundID) {
+//		ChangeRoundIDEffect tChangeRoundIDEffect;
+//
+//		tChangeRoundIDEffect = new ChangeRoundIDEffect (aActor, aOldRoundID, aNewRoundID);
+//		addEffect (tChangeRoundIDEffect);
+//	}
+//
+//	public void addApplyDiscountEffect (ActorI aActor, String aCertificateName, int aOldDiscount, int aNewDiscount) {
+//		ApplyDiscountEffect tApplyDiscountEffect;
+//
+//		tApplyDiscountEffect = new ApplyDiscountEffect (aActor, aCertificateName, aOldDiscount, aNewDiscount);
+//		addEffect (tApplyDiscountEffect);
+//	}
 
 	@Override
 	public String getSimpleActionReport () {
