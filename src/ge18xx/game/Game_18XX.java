@@ -103,7 +103,7 @@ public class Game_18XX extends XMLFrame {
 	protected Action showShareCompaniesAction;
 	protected Action showAuditFrameAction;
 	protected Action showChecksumAuditFrameAction;
-	protected Action showFormationPhaseFrameAction;
+	protected Action showFormationFrameAction;
 	protected Action resendLastActions;
 	
 	// More Generic Game Engine Fields
@@ -588,7 +588,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChecksumAuditFrameAction);
-		tMenuIndex = addGameMenu (tMenuIndex, showFormationPhaseFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showFormationFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
 		tMenuIndex = addGameMenu (tMenuIndex, resendLastActions);
@@ -635,8 +635,8 @@ public class Game_18XX extends XMLFrame {
 		showAuditFrameAction = new showAuditFrameActionClass (resourceBundle.getString ("showAuditFrameItem"), null);
 		showChecksumAuditFrameAction = 
 				new showChecksumAuditFrameActionClass (resourceBundle.getString ("showChecksumAuditFrameItem"), null);
-		showFormationPhaseFrameAction = new showFormationPhaseFrameActionClass (
-				resourceBundle.getString ("showFormationPhaseFrameItem"), null);
+		showFormationFrameAction = new showFormationFrameActionClass (
+				resourceBundle.getString ("showFormationFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (
 				resourceBundle.getString ("showActionReportFrameItem"), null);
 		resendLastActions = new resendLastActionsClass (resourceBundle.getString ("resendLastActions"), null);
@@ -766,7 +766,8 @@ public class Game_18XX extends XMLFrame {
 		String tPrivateMenuText = resourceBundle.getString ("showPrivatesItem");
 		String tChatClientText = resourceBundle.getString ("showChatClientItem");
 		String tResendLastActionsText = resourceBundle.getString ("resendLastActions");
-		String tShowFormationPhaseText = resourceBundle.getString ("showFormationPhaseFrameItem");
+		String tShowFormationText = resourceBundle.getString ("showFormationFrameItem");
+		String tShowChecksumAuditFrameText = resourceBundle.getString ("showChecksumAuditFrameItem");
 		String tMenuText;
 		boolean tEnableMenuItem;
 
@@ -797,7 +798,13 @@ public class Game_18XX extends XMLFrame {
 				} else {
 					tEnableMenuItem = false;
 				}
-			} else if (tMenuText.equals (tShowFormationPhaseText)) {
+			} else if (tMenuText.equals (tShowChecksumAuditFrameText)) {
+				if (gameManager.isNetworkGame ()) {
+					tEnableMenuItem = true;
+				} else {
+					tEnableMenuItem = false;
+				}
+			} else if (tMenuText.equals (tShowFormationText)) {
 				if (gameManager.hasTriggerClass ()) {
 					tEnableMenuItem = true;
 				} else {
@@ -1043,17 +1050,17 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public class showFormationPhaseFrameActionClass extends AbstractAction {
+	public class showFormationFrameActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
-		public showFormationPhaseFrameActionClass (String text, KeyStroke shortcut) {
+		public showFormationFrameActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 
 		@Override
 		public void actionPerformed (ActionEvent e) {
-			gameManager.showFormationPhaseFrame ();
+			gameManager.showFormationFrame ();
 		}
 	}
 
