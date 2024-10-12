@@ -256,23 +256,6 @@ public class StockRound extends Round {
 		System.out.println ("  Priority Player Index " + priorityPlayerIndex);
 	}
 
-	public void prepareStockRound () {
-//		int tPriorityIndex;
-//		
-//		clearAllSoldCompanies ();
-//		tPriorityIndex = getPriorityIndex ();
-//		
-//		// TODO -- for Complete Undo, this 'Clear' should be undoable, so that when a
-//		// Force Train Buy the player uses a Prez Stock Exchange that would require 
-//		// sale of stock of the company to not be required after undo backs it out.
-//		// Very rare situation that could be abused.
-//		// Could have this effect be applied on 'setCurrentPlayer' method, with the
-//		// ChangeStateAction
-//		playerManager.clearAllExchangedShares ();
-//		setCurrentPlayer (tPriorityIndex, true);
-//		setStartRoundPriorityIndex (tPriorityIndex);
-	}
-
 	public void endStockRound () {
 		roundManager.fullOwnershipAdjustment ();
 	}
@@ -302,13 +285,13 @@ public class StockRound extends Round {
 		tPlayerIndex = playerManager.getPlayerIndex (aPlayer);
 		roundManager.updateRFPlayerLabel (aPlayer, priorityPlayerIndex, tPlayerIndex);
 	}
-
-	public void passStockAction () {
-		Player tPlayer;
-
-		tPlayer = playerManager.getCurrentPlayer ();
-		tPlayer.passAction ();
-	}
+//
+//	public void passStockAction () {
+//		Player tPlayer;
+//
+//		tPlayer = playerManager.getCurrentPlayer ();
+//		tPlayer.passAction ();
+//	}
 
 	@Override
 	public void finish () {
