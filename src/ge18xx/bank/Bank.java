@@ -321,6 +321,14 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame;
 	}
 
+	public boolean hasMustSell () {
+		boolean tHasMustSell;
+		
+		tHasMustSell = startPacketFrame.hasMustSell ();
+		
+		return tHasMustSell;
+	}
+
 	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
 		return startPacketFrame.getFreeCertificateWithThisCertificate (aThisCertificate);
 	}

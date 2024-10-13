@@ -1399,7 +1399,11 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public boolean hasMustBuyCertificate () {
-		return gameManager.hasMustBuyCertificate ();
+		Bank tBank;
+		
+		tBank = getBank ();
+		
+		return tBank.hasMustBuyCertificate ();
 	}
 
 	public boolean loadPlayers (XMLNode aPlayersNode, GameInfo aActiveGame) {
@@ -1528,13 +1532,15 @@ public class PlayerManager implements XMLSaveGameI {
 		int tOldDiscount;
 		int tNewDiscount;
 		String tCompanyName;
+		Bank tBank;
 		
-		tMustSell = gameManager.hasMustSell ();
+		tBank = getBank ();
+		tMustSell = tBank.hasMustSell ();
 		if (tMustSell) {
-			tCertificate = gameManager.getMustSellCertificate ();
+			tCertificate = tBank.getMustSellCertificate ();
 			tCompanyName = tCertificate.getCompanyAbbrev ();
 			tOldDiscount = tCertificate.getDiscount ();
-			gameManager.applyDiscount ();
+			tBank.applyDiscount ();
 			tNewDiscount = tCertificate.getDiscount ();
 			aChangeRoundAction.addApplyDiscountEffect (aRound, tCompanyName, tOldDiscount, tNewDiscount);
 		}

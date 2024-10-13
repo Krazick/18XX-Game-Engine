@@ -1337,24 +1337,23 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return activeGame.gameHasLicenses ();
 	}
 	
-	public boolean hasMustBuyCertificate () {
-		return bank.hasMustBuyCertificate ();
-	}
+//	public boolean hasMustBuyCertificate () {
+//		return bank.hasMustBuyCertificate ();
+//	}
 
-	public boolean hasMustSell () {
-		StartPacketFrame tStartPacketFrame;
-		boolean tHasMustSell;
-		
-		tStartPacketFrame = bank.getStartPacketFrame ();
-		tHasMustSell = tStartPacketFrame.hasMustSell ();
-		
-		return tHasMustSell;
-//		return bank.hasMustSell ();
-	}
-
-	public Certificate getMustSellCertificate () {
-		return bank.getMustSellCertificate ();
-	}
+//	public boolean hasMustSell () {
+//		StartPacketFrame tStartPacketFrame;
+//		boolean tHasMustSell;
+//		
+//		tStartPacketFrame = bank.getStartPacketFrame ();
+//		tHasMustSell = tStartPacketFrame.hasMustSell ();
+//		
+//		return tHasMustSell;
+//	}
+//
+//	public Certificate getMustSellCertificate () {
+//		return bank.getMustSellCertificate ();
+//	}
 
 	@Override
 	public GameInfo getSelectedGame () {
