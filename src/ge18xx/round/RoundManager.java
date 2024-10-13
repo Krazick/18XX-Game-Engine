@@ -139,8 +139,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setOtherRoundInfo ();
 		tInitialRound.setIDPart1 (Round.START_ID1);
 		tInitialRound.setIDPart2 (Round.START_ID2);
-		setRoundToStockRound ();
-
+		
+		stockRound.setRoundToStockRound ();
 		stockRound.setStartingPlayer ();
 	}
 
@@ -1004,33 +1004,33 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
-	public void setRoundToStockRound () {
-		ChangeRoundAction tChangeRoundAction;
-		ActorI.ActionStates tCurrentRoundState;
-		String tOldRoundID;
-		String tNewRoundID;
-		int tRoundIDPart1;
-		
-		tOldRoundID = stockRound.getID ();
-		
-		incrementRoundIDPart1 (stockRound);
-
-		tNewRoundID = stockRound.getID ();
-		tRoundIDPart1 = stockRound.getIDPart1 ();
-		tCurrentRoundState = getCurrentRoundState ();
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, currentRound.getID (), stockRound);
-		changeRound (currentRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
-				tChangeRoundAction);
-
-		stockRound.clearAllPlayerPasses ();
-
-		roundFrame.setStockRoundInfo (gameName, tRoundIDPart1);
-		if (gameManager.gameStarted ()) {
-			if (! applyingAction ()) {
-				addAction (tChangeRoundAction);
-			}
-		}
-	}
+//	public void setRoundToStockRound () {
+//		ChangeRoundAction tChangeRoundAction;
+//		ActorI.ActionStates tCurrentRoundState;
+//		String tOldRoundID;
+//		String tNewRoundID;
+//		int tRoundIDPart1;
+//		
+//		tOldRoundID = stockRound.getID ();
+//		
+//		incrementRoundIDPart1 (stockRound);
+//
+//		tNewRoundID = stockRound.getID ();
+//		tRoundIDPart1 = stockRound.getIDPart1 ();
+//		tCurrentRoundState = getCurrentRoundState ();
+//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, currentRound.getID (), stockRound);
+//		changeRound (currentRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
+//				tChangeRoundAction);
+//
+//		stockRound.clearAllPlayerPasses ();
+//
+//		roundFrame.setStockRoundInfo (gameName, tRoundIDPart1);
+//		if (gameManager.gameStarted ()) {
+//			if (! applyingAction ()) {
+//				addAction (tChangeRoundAction);
+//			}
+//		}
+//	}
 
 //	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
 //		ChangeRoundAction tChangeRoundAction;
@@ -1262,6 +1262,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 				endOperatingRound ();
 			}
 		}
+		checkAndHandleRoundEnds ();
 	}
 
 	// Game Manager handles with Boolean Return

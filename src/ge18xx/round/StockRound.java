@@ -346,6 +346,42 @@ public class StockRound extends Round {
 	public void resume () {
 		roundManager.setStockRoundInfo (idPart1);
 	}
+	
+	public void setRoundToStockRound () {
+		ChangeRoundAction tChangeRoundAction;
+		ActorI.ActionStates tCurrentRoundState;
+		GameManager tGameManager;
+		RoundFrame tRoundFrame;
+		Round tCurrentRound;
+		String tOldRoundID;
+		String tNewRoundID;
+		String tGameName;
+		int tRoundIDPart1;
+		
+		tOldRoundID = getID ();
+		
+		roundManager.incrementRoundIDPart1 (this);
+
+		tNewRoundID = getID ();
+		tRoundIDPart1 = getIDPart1 ();
+		tCurrentRound = roundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRound.getID (), this);
+		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
+				tChangeRoundAction);
+
+		clearAllPlayerPasses ();
+
+		tGameManager = roundManager.getGameManager ();
+		tRoundFrame = roundManager.getRoundFrame ();
+		tGameName = tGameManager.getActiveGameName ();
+		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
+		if (tGameManager.gameStarted ()) {
+			if (! tGameManager.applyingAction ()) {
+				addAction (tChangeRoundAction);
+			}
+		}
+	}
 
 	@Override
 	public void start () {
@@ -356,7 +392,7 @@ public class StockRound extends Round {
 		if (roundManager.bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
-		roundManager.setRoundToStockRound ();
+		setRoundToStockRound ();
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
 				
