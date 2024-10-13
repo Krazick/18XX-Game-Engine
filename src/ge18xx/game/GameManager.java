@@ -22,7 +22,6 @@ import org.w3c.dom.NodeList;
 
 import checksum.Checksum;
 import checksum.ChecksumCalc;
-//import checksum.Checksums;
 
 import ge18xx.toplevel.ChecksumAuditFrame;
 import ge18xx.toplevel.Checksums;
@@ -319,14 +318,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public boolean canPayHalfDividend () {
 		return activeGame.canPayHalfDividend ();
-	}
-//
-//	public boolean canStartOperatingRound () {
-//		return bank.canStartOperatingRound ();
-//	}
-
-	public void applyDiscount () {
-		bank.applyDiscount ();
 	}
 
 	public void clearAllAuctionStates () {
@@ -1336,24 +1327,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean hasLicenses() {
 		return activeGame.gameHasLicenses ();
 	}
-	
-//	public boolean hasMustBuyCertificate () {
-//		return bank.hasMustBuyCertificate ();
-//	}
-
-//	public boolean hasMustSell () {
-//		StartPacketFrame tStartPacketFrame;
-//		boolean tHasMustSell;
-//		
-//		tStartPacketFrame = bank.getStartPacketFrame ();
-//		tHasMustSell = tStartPacketFrame.hasMustSell ();
-//		
-//		return tHasMustSell;
-//	}
-//
-//	public Certificate getMustSellCertificate () {
-//		return bank.getMustSellCertificate ();
-//	}
 
 	@Override
 	public GameInfo getSelectedGame () {
@@ -1577,11 +1550,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	private File getSelectedFile (File aDirectory, JFileMChooser aChooser, boolean aSaveFile) {
-		File tSelectedFile = null;
+		File tSelectedFile;
 		int tResult;
-		boolean tNotChosenYet = true;
+		boolean tNotChosenYet;
 		File tDirectory = aDirectory;
 
+		tSelectedFile = null;
+		tNotChosenYet = true;
 		aChooser.addChoosableFileFilter (fileGEFilter);
 		aChooser.setAcceptAllFileFilterUsed (true);
 		aChooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
@@ -2174,7 +2149,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 							tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
 							tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
 							checksumAuditFrame.updateChecksumValue (tAuditChecksumIndex, tPlayerIndex, tChecksumValue);
-//							checksumAuditFrame.refreshAuditTable ();
 						}
 					} else {
 						System.err.println ("Node Name " + tNodeName + " does not match");
@@ -2595,10 +2569,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		Train [] tBankAvailableTrains;
 		Train [] tBankPoolAvailableTrains;
 		Train [] tAvailableTrains;
-		int tIndex = 0;
-		int tBankCount = 0;
-		int tBankPoolCount = 0;
+		int tIndex;
+		int tBankCount;
+		int tBankPoolCount;
 
+		tIndex = 0;
+		tBankCount = 0;
+		tBankPoolCount = 0;
 		if (bank != Bank.NO_BANK) {
 			tBankAvailableTrains = bank.getAvailableTrains ();
 			if (tBankAvailableTrains != null) {
@@ -3207,12 +3184,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void updateAuctionFrame () {
 		auctionFrame.updateAuctionFrame ();
 	}
-
-//	public void finishAuction (boolean aCreateNewAuctionAction) {
-//		updateAllFrames ();
-//		auctionFrame.setVisible (false);
-//		playerManager.finishAuction (bank.availableShareHasBids (), aCreateNewAuctionAction);
-//	}
 
 	public void printAllPlayersInfo () {
 		playerManager.printAllPlayersInfo ();
