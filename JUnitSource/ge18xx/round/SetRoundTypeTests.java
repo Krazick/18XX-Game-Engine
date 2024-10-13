@@ -240,9 +240,9 @@ public class SetRoundTypeTests {
 		roundManager.applyingAction ();
 		Mockito.verify (mGameManager, times (1)).applyingAction ();
 		
-		Mockito.when (mGameManager.canStartOperatingRound ()).thenReturn (true);
-		roundManager.canStartOperatingRound ();
-		Mockito.verify (mGameManager, times (1)).canStartOperatingRound ();
+		Mockito.when (mBank.canStartOperatingRound ()).thenReturn (true);
+		mBank.canStartOperatingRound ();
+		Mockito.verify (mBank, times (1)).canStartOperatingRound ();
 
 		Mockito.when (mOperatingRound.roundIsDone ()).thenReturn (true);
 		roundManager.operatingRoundIsDone ();
