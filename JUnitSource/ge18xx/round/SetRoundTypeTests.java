@@ -86,9 +86,9 @@ public class SetRoundTypeTests {
 	}
 
 	@Test
-	@DisplayName ("Setting the Round to an Different Types")
-	void SetRoundManagerToTypesTest () {
-		ActorI.ActionStates tCurrentRoundType;
+	@DisplayName ("Setting the Round to an Different States")
+	void SetRoundManagerToTest () {
+		ActorI.ActionStates tCurrentRoundState;
 		OperatingRound tOperatingRound;
 		AuctionRound tAuctionRound;
 		FormationRound tFormationRound;
@@ -99,8 +99,8 @@ public class SetRoundTypeTests {
 		roundManager.setCurrentRound (tOperatingRound);
 
 		roundManager.setRoundToOperatingRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundState);
 
 		stockRound.setIDPart1 (1);
 		stockRound.setIDPart2 (0);
@@ -108,54 +108,54 @@ public class SetRoundTypeTests {
 		roundManager.setStockRound (stockRound);
 		roundManager.setCurrentRound (stockRound);
 
-		roundManager.setRoundToStockRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundType);
+		stockRound.setRoundToStockRound ();
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundState);
 
 		tAuctionRound = roundTestFactory.buildAuctionRound (roundManager);
 		roundManager.setAuctionRound (tAuctionRound);
 		roundManager.setCurrentRound (tAuctionRound);
 
 		roundManager.setRoundToAuctionRound ();
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundState);
 
 		roundManager.setOperatingRound (tOperatingRound);
 		roundManager.setCurrentRound (tOperatingRound);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.OperatingRound);
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.OperatingRound, tCurrentRoundState);
 
 		roundManager.setStockRound (stockRound);
 		roundManager.setCurrentRound (stockRound);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.StockRound);
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.StockRound, tCurrentRoundState);
 
 		roundManager.setAuctionRound (tAuctionRound);
 		roundManager.setCurrentRound (tAuctionRound);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.AuctionRound);
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.AuctionRound, tCurrentRoundState);
 		
 		tFormationRound = roundTestFactory.buildFormationRound (roundManager);
 		roundManager.setFormationRound (tFormationRound);
 		roundManager.setCurrentRound (tFormationRound);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.FormationRound);
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.FormationRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.FormationRound, tCurrentRoundState);
 		
 		tContractBidRound = roundTestFactory.buildContractBidRound (roundManager);
 		roundManager.setContractBidRound (tContractBidRound);
 		roundManager.setCurrentRound (tContractBidRound);
 
 		roundManager.setRoundTypeTo (ActorI.ActionStates.ContractBidRound);
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		assertEquals (ActorI.ActionStates.ContractBidRound, tCurrentRoundType);
+		tCurrentRoundState = roundManager.getCurrentRoundState ();
+		assertEquals (ActorI.ActionStates.ContractBidRound, tCurrentRoundState);
 	}
 	
 	@Test
@@ -172,7 +172,7 @@ public class SetRoundTypeTests {
 		roundManager.setStockRound (tStockRound);
 		roundManager.setCurrentRound (tStockRound);
 
-		roundManager.setRoundToStockRound ();
+		tStockRound.setRoundToStockRound ();
 		tRoundType = roundManager.getRoundName ();
 		assertEquals ("Stock Round", tRoundType);
 
