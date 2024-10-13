@@ -13,7 +13,7 @@ public class RoundType {
 	public static final AttributeName AN_INTERRUPTION_ROUND = new AttributeName ("interruptionRound");
 	public static final AttributeName AN_NEXT_ROUND = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
-	public static final AttributeName AN_INTERUPTS_AFTER_ACTIONS = new AttributeName ("interuptsAfterActions");
+	public static final AttributeName AN_INTERUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	public static final RoundType NO_ROUND_TYPE = null;
