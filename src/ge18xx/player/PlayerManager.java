@@ -182,25 +182,25 @@ public class PlayerManager implements XMLSaveGameI {
 		return tCanBeExchanged;
 	}
 
-	public void clearAllPlayerPasses () {
+	public void clearAllPlayerPasses (ChangeRoundAction aChangeRoundAction) {
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
-		ChangeStateAction tChangeStateAction;
+//		ChangeStateAction tChangeStateAction;
 
-		tChangeStateAction = new ChangeStateAction (stockRound.getRoundState (), stockRound.getID (), stockRound);
+//		aChangeRoundAction = new ChangeStateAction (stockRound.getRoundState (), stockRound.getID (), stockRound);
 		for (Player tPlayer : players) {
 			tOldState = tPlayer.getPrimaryActionState ();
 
 			tPlayer.clearPrimaryActionState ();
 			tPlayer.clearPlayerFlags ();
 			tNewState = tPlayer.getPrimaryActionState ();
-			if (tChangeStateAction != ChangeStateAction.NO_CHANGE_STATE_ACTION) {
-				tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+			if (aChangeRoundAction != ChangeStateAction.NO_CHANGE_STATE_ACTION) {
+				aChangeRoundAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 			}
 		}
 		if (!gameManager.applyingAction ()) {
-			tChangeStateAction.setChainToPrevious (true);
-			addAction (tChangeStateAction);
+			aChangeRoundAction.setChainToPrevious (true);
+//			addAction (tChangeStateAction);
 		}
 	}
 
