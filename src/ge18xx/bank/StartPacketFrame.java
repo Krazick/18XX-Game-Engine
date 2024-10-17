@@ -475,9 +475,13 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		Certificate tCertificate;
 		StartPacketRow tNextPacketRow;
 		
-		tNextPacketRow = startPacketRows.get (aRowIndex);
-		tCertificate = tNextPacketRow.getCertificateInRow (0);
-		tNextShareHasBids = tCertificate.hasBidders ();
+		if (startPacketRows != null) {
+			tNextPacketRow = startPacketRows.get (aRowIndex);
+			tCertificate = tNextPacketRow.getCertificateInRow (0);
+			tNextShareHasBids = tCertificate.hasBidders ();
+		} else {
+			tNextShareHasBids = false;
+		}
 		
 		return tNextShareHasBids;
 	}
