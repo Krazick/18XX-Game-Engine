@@ -189,10 +189,6 @@ public class StockRound extends Round {
 	}
 
 	// Methods that ask PlayerManager to handle 
-	
-	public void clearAllPlayerPasses () {
-		playerManager.clearAllPlayerPasses ();
-	}
 
 	@Override
 	public void clearAllAuctionStates () {
@@ -231,18 +227,6 @@ public class StockRound extends Round {
 		return tNextPlayer;
 	}
 
-//	@Override
-//	public boolean roundIsDone () {
-//		boolean tRoundDone;
-//
-//		tRoundDone = false;
-//		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-//			tRoundDone = playerManager.haveAllPassed ();
-//		}
-//
-//		return tRoundDone;
-//	}
-
 	public int getPlayerCount () {
 		return playerManager.getPlayerCount ();
 	}
@@ -270,20 +254,20 @@ public class StockRound extends Round {
 		return tBank.canStartOperatingRound ();
 	}
 
-	@Override
-	public boolean startOperatingRound () {
-		boolean tStockRoundStarted;
-
-		tStockRoundStarted = true;
-		if (canStartOperatingRound ()) {
-			endStockRound ();
-			super.startOperatingRound ();
-		} else {
-			tStockRoundStarted = false;
-		}
-
-		return tStockRoundStarted;
-	}
+//	@Override
+//	public boolean startOperatingRound () {
+//		boolean tStockRoundStarted;
+//
+//		tStockRoundStarted = true;
+//		if (canStartOperatingRound ()) {
+//			endStockRound ();
+//			super.startOperatingRound ();
+//		} else {
+//			tStockRoundStarted = false;
+//		}
+//
+//		return tStockRoundStarted;
+//	}
 
 	public void updateRFPlayerLabel (Player aPlayer) {
 		int tPlayerIndex;
@@ -291,13 +275,6 @@ public class StockRound extends Round {
 		tPlayerIndex = playerManager.getPlayerIndex (aPlayer);
 		roundManager.updateRFPlayerLabel (aPlayer, priorityPlayerIndex, tPlayerIndex);
 	}
-//
-//	public void passStockAction () {
-//		Player tPlayer;
-//
-//		tPlayer = playerManager.getCurrentPlayer ();
-//		tPlayer.passAction ();
-//	}
 
 	/**
 	 *  This method will test if the Stock Round will end. 
@@ -346,53 +323,52 @@ public class StockRound extends Round {
 	public void resume () {
 		roundManager.setStockRoundInfo (idPart1);
 	}
-	
-	public void setRoundToStockRound () {
+
+	public ChangeRoundAction setRoundToStockRound () {
 		ChangeRoundAction tChangeRoundAction;
 		ActorI.ActionStates tCurrentRoundState;
-		GameManager tGameManager;
-		RoundFrame tRoundFrame;
+//		GameManager tGameManager;
+//		RoundFrame tRoundFrame;
 		Round tCurrentRound;
 		String tOldRoundID;
 		String tNewRoundID;
-		String tGameName;
-		int tRoundIDPart1;
+//		String tGameName;
+//		int tRoundIDPart1;
 		
-		tOldRoundID = getID ();
-		
-		roundManager.incrementRoundIDPart1 (this);
-
-		tNewRoundID = getID ();
-		tRoundIDPart1 = getIDPart1 ();
 		tCurrentRound = roundManager.getCurrentRound ();
 		tCurrentRoundState = tCurrentRound.getRoundState ();
 		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRound.getID (), this);
+		
+		tOldRoundID = getID ();
+		roundManager.incrementRoundIDPart1 (this);
+		tNewRoundID = getID ();
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
 				tChangeRoundAction);
 
-		clearAllPlayerPasses ();
+//		clearAllPlayerPasses ();
 
-		tGameManager = roundManager.getGameManager ();
-		tRoundFrame = roundManager.getRoundFrame ();
-		tGameName = tGameManager.getActiveGameName ();
-		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
-		if (tGameManager.gameStarted ()) {
-			if (! tGameManager.applyingAction ()) {
-				addAction (tChangeRoundAction);
-			}
-		}
+//		tGameManager = roundManager.getGameManager ();
+//		tRoundFrame = roundManager.getRoundFrame ();
+//		tGameName = tGameManager.getActiveGameName ();
+//		
+//		tRoundIDPart1 = getIDPart1 ();
+//		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
+		return tChangeRoundAction;	
 	}
 
 	@Override
 	public void start () {
+		int tRoundIDPart1;
 		int tPriorityIndex;
+		String tGameName;
 		GameManager tGameManager;
 		RoundFrame tRoundFrame;
+		ChangeRoundAction tChangeRoundAction;
 		
 		if (roundManager.bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
-		setRoundToStockRound ();
+		tChangeRoundAction = setRoundToStockRound ();
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
 				
@@ -402,7 +378,7 @@ public class StockRound extends Round {
 		// Very rare situation that could be abused.
 		// Could have this effect be applied on 'setCurrentPlayer' method, with the
 		// ChangeStateAction
-		playerManager.clearAllPlayerPasses ();
+		playerManager.clearAllPlayerPasses (tChangeRoundAction);
 		playerManager.clearAllAuctionStates ();
 		playerManager.clearAllSoldCompanies ();
 		playerManager.clearAllExchangedShares ();
@@ -412,7 +388,18 @@ public class StockRound extends Round {
 		setStartRoundPriorityIndex (tPriorityIndex);
 		
 		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundIDPart1 = getIDPart1 ();
+		tGameManager = roundManager.getGameManager ();
+		tGameName = tGameManager.getActiveGameName ();
+		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
 		tRoundFrame.updateAll ();
+		
+		if (tGameManager.gameStarted ()) {
+			if (! tGameManager.applyingAction ()) {
+				addAction (tChangeRoundAction);
+			}
+		}
+
 		roundManager.updateAllListenerPanels ();
 	}
 }

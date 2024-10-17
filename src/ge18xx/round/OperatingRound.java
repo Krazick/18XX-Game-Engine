@@ -5,6 +5,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.GUI;
 import geUtilities.xml.ElementName;
@@ -129,9 +130,21 @@ public class OperatingRound extends Round {
 		shareCompanies.sortByOperatingOrder ();
 	}
 
-	@Override
+//	@Override
 	public boolean startOperatingRound () {
 		boolean tStartedOperatingRound;
+		Round tCurrentRound;
+		PlayerManager tPlayerManager;
+		int tIDPart1;
+		int tIDPart2;
+
+		tPlayerManager = roundManager.getPlayerManager ();
+		tCurrentRound = roundManager.getCurrentRound ();
+		tIDPart1 = roundManager.incrementRoundIDPart1 (this);
+		tIDPart2 = Round.START_ID2;
+		roundManager.setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
+		tPlayerManager.clearAllPlayerDividends ();
+		tPlayerManager.clearAllPercentBought ();
 
 		tStartedOperatingRound = true;
 		if (! roundManager.applyingAction ()) {
@@ -233,10 +246,10 @@ public class OperatingRound extends Round {
 	}
 
 	@Override
-	public boolean roundIsDone () {
+	public boolean ends () {
 		boolean tMinorsAreDone;
 		boolean tSharesAreDone;
-		boolean tRoundIsDone;
+		boolean tEnds;
 
 		if (minorCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tMinorsAreDone = minorCompanies.haveAllCompaniesOperated ();
@@ -250,9 +263,9 @@ public class OperatingRound extends Round {
 			tSharesAreDone = true;
 		}
 		
-		tRoundIsDone = tMinorsAreDone && tSharesAreDone;
+		tEnds = tMinorsAreDone && tSharesAreDone;
 
-		return tRoundIsDone;
+		return tEnds;
 	}
 
 	public boolean companyStartedOperating () {
@@ -365,25 +378,42 @@ public class OperatingRound extends Round {
 
 	@Override
 	public void finish () {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void finish (XMLFrame aXMLFrame) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void resume () {
-		// TODO Auto-generated method stub
-		
+	public void resume () {		
 	}
 
 	@Override
 	public void start () {
-		// TODO Auto-generated method stub
-		
+		PlayerManager tPlayerManager;
+		Round tCurrentRound;
+		int tIDPart1;
+		int tIDPart2;
+
+		tIDPart1 = roundManager.incrementRoundIDPart1 (this);
+		tIDPart2 = Round.START_ID2;
+		tPlayerManager = roundManager.getPlayerManager ();
+		tCurrentRound = roundManager.getCurrentRound ();
+		roundManager.setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
+		tPlayerManager.clearAllPlayerDividends ();
+		tPlayerManager.clearAllPercentBought ();
+
+		if (! roundManager.applyingAction ()) {
+			if (getPrivateCompanyCount () > 0) {
+				payRevenues ();
+				handleQueryBenefits ();
+			}
+		}
+		if (anyFloatedCompanies ()) {
+			minorCompanies.clearOperatedStatus ();
+			shareCompanies.clearOperatedStatus ();
+			updateActionLabel ();
+		}
+		roundManager.updateRoundFrame ();
 	}
 }

@@ -222,14 +222,14 @@ public abstract class Round implements ActorI {
 		return roundManager.hasActionsToUndo ();
 	}
 
-	public boolean startOperatingRound () {
-		Round tCurrentRound;
-		
-		tCurrentRound = roundManager.getCurrentRound ();
-		roundManager.startOperatingRound (tCurrentRound);
-
-		return true;
-	}
+//	public boolean startOperatingRound () {
+//		Round tCurrentRound;
+//		
+//		tCurrentRound = roundManager.getCurrentRound ();
+//		roundManager.startOperatingRound (tCurrentRound);
+//
+//		return true;
+//	}
 
 	public String getClientUserName () {
 		return roundManager.getClientUserName ();
@@ -288,9 +288,9 @@ public abstract class Round implements ActorI {
 	}
 
 	// Probably remove this method, the new 'roundEnds' to be used instead
-	public boolean roundIsDone () {
-		return false;
-	}
+//	public boolean roundIsDone () {
+//		return false;
+//	}
 
 	@Override
 	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
@@ -382,8 +382,21 @@ public abstract class Round implements ActorI {
 	
 	public Round getNextRound () {
 		Round tNextRound;
+		String tNextRoundName;
+		boolean tOptionalRound;
 		
 		tNextRound = NO_ROUND;
+		tOptionalRound = roundType.getOptionalExtra ();
+		if (roundManager.isLastOR ()) {
+			tNextRoundName = roundType.getNextRound ();
+		} else if (tOptionalRound) {
+			// TODO ask Priority Player if run an additional Round of the same type (1853 - Operating Round)
+			// But need to limit to a single Optional Round -- Round Manager need to track this.
+			tNextRoundName = getName ();			
+		} else {
+			tNextRoundName = getName ();
+		}
+		tNextRound = roundManager.getRoundByTypeName (tNextRoundName);
 		
 		return tNextRound;
 	}

@@ -265,10 +265,22 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public boolean checkAndHandleRoundEnds () {
 		Action tLastAction;
 		boolean tCurrentRoundEnds;
+		boolean tCheckForEnding;
 		
-		tLastAction = getLastAction ();
-		tCurrentRoundEnds = checkAndHandleRoundEnds (tLastAction);
-
+		tCheckForEnding = true;
+		tCurrentRoundEnds = false;
+		// Need to loop if the Operating Round only does automatic Private Pay Revenues, and no player interaction
+		// when the Round Starts, and then immediately Ends and will go to a different Round.
+		while (tCheckForEnding) {
+			tLastAction = getLastAction ();
+			tCurrentRoundEnds = checkAndHandleRoundEnds (tLastAction);
+			if (tCurrentRoundEnds) {
+				startNextRound ();
+			} else {
+				tCheckForEnding = false;
+			}
+		}
+		
 		return tCurrentRoundEnds;
 	}
 	
@@ -341,6 +353,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tHandledInterruption;
 	}
 	
+	public void startNextRound () {
+		Round tNextRound;
+		
+		tNextRound = currentRound.getNextRound ();
+		System.out.println ("Next Round name is " + tNextRound.getName ());
+		tNextRound.start ();
+//		if (tNextRound.getRoundState () == ActorI.ActionStates.OperatingRound) {
+//			startOperatingRound (currentRound);
+//		} else {
+//			tNextRound.start ();
+//			currentRound.start ();
+//		}
+	}
+	
 	/**
 	 * Append Report String to Action Report Frame
 	 *
@@ -405,9 +431,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.resetRoundFrameBackgrounds ();
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
-		if (operatingRoundIsDone ()) {
-			endOperatingRound ();
-		}
+//		if (operatingRoundIsDone ()) {
+//			endOperatingRound ();
+//		}
 	}
 
 	public void clearAllPlayerSelections () {
@@ -1057,8 +1083,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
 		ActorI.ActionStates tCurrentRoundState;
 		ActorI.ActionStates tNewRoundState;
-//		AuctionRound tAuctionRound;
-//		XMLFrame tAuctionFrame;
 
 		tCurrentRoundState = getCurrentRoundState ();
 		setCurrentRoundState (aNewRoundState);
@@ -1069,11 +1093,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (! aOldRoundID.equals (aNewRoundID)) {
 			aChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
 		}
-//		if (tNewRoundState == ActorI.ActionStates.AuctionRound) {
-//			tAuctionRound = (AuctionRound) aNewRound;
-//			tAuctionFrame = tAuctionRound.getAuctionFrame ();
-//			aChangeRoundAction.addShowFrameEffect (aCurrentRound, tAuctionFrame);
-//		}
 		aChangeRoundAction.setChainToPrevious (true);
 		roundFrame.updateAll ();
 	}
@@ -1156,11 +1175,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		// start,
 		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round
-		if (! operatingRound.startOperatingRound ()) {
-			startStockRound ();
-		}
+		operatingRound.start ();
 	}
 
+	// TODO -- This code needs to be in the 'getNextRound' not trying to find the round and start it
 	public void endOperatingRound () {
 		int tIDPart1;
 
@@ -1246,7 +1264,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			tPlayer = playerManager.getCurrentPlayer ();
 			tPlayer.passAction ();
 
-//			passStockAction ();
 			updateAllCorporationsBox ();
 		}
 		if (RoundFrame.BUY_STOCK_ACTION.equals (tEventAction)) {
@@ -1257,11 +1274,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			}
 			updateAllCorporationsBox ();
 		}
-		if (isOperatingRound ()) {
-			if (operatingRoundIsDone ()) {
-				endOperatingRound ();
-			}
-		}
+//		if (isOperatingRound ()) {
+//			if (operatingRoundIsDone ()) {
+//				endOperatingRound ();
+//			}
+//		}
 		checkAndHandleRoundEnds ();
 	}
 
@@ -1278,10 +1295,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public boolean bankIsBroken () {
 		return gameManager.bankIsBroken ();
 	}
-
-//	public boolean canStartOperatingRound () {
-//		return gameManager.canStartOperatingRound ();
-//	}
 
 	public boolean isLoading () {
 		return gameManager.gameIsStarted ();
@@ -1302,7 +1315,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// Operating Round handles with Boolean Return
 	
 	public boolean operatingRoundIsDone () {
-		return operatingRound.roundIsDone ();
+		return operatingRound.ends ();
 	}
 
 	public boolean companyStartedOperating () {
