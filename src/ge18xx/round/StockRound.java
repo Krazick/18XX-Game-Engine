@@ -254,21 +254,6 @@ public class StockRound extends Round {
 		return tBank.canStartOperatingRound ();
 	}
 
-//	@Override
-//	public boolean startOperatingRound () {
-//		boolean tStockRoundStarted;
-//
-//		tStockRoundStarted = true;
-//		if (canStartOperatingRound ()) {
-//			endStockRound ();
-//			super.startOperatingRound ();
-//		} else {
-//			tStockRoundStarted = false;
-//		}
-//
-//		return tStockRoundStarted;
-//	}
-
 	public void updateRFPlayerLabel (Player aPlayer) {
 		int tPlayerIndex;
 
@@ -295,27 +280,20 @@ public class StockRound extends Round {
 	
 	@Override
 	public void finish () {
-		String tOldRoundID;
-		String tNewRoundID;
-		ChangeRoundAction tChangeRoundAction;
-		
-		if (! canStartOperatingRound ()) {
-			tChangeRoundAction = new ChangeRoundAction (getRoundState (), getID (), this);
+		ChangeStateAction tChangeStateAction;
+		boolean tCanStartNextRound;
 
-			playerManager.applyDiscountIfMustSell (this, tChangeRoundAction);
-			tOldRoundID = getID ();
-			roundManager.incrementRoundIDPart1 (this);
-			tNewRoundID = getID ();
-			tChangeRoundAction.addChangeRoundIDEffect (this, tOldRoundID, tNewRoundID);
-			
-			addAction (tChangeRoundAction);
+		roundManager.fullOwnershipAdjustment ();
+		tCanStartNextRound = canStartNextRound ();
+		if (! tCanStartNextRound) {
+			tChangeStateAction = new ChangeStateAction (getRoundState (), getID (), this);
+			playerManager.applyDiscountIfMustSell (this, tChangeStateAction);
+			addAction (tChangeStateAction);
 		}
-
 	}
 
 	@Override
 	public void finish (XMLFrame aXMLFrame) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -327,13 +305,9 @@ public class StockRound extends Round {
 	public ChangeRoundAction setRoundToStockRound () {
 		ChangeRoundAction tChangeRoundAction;
 		ActorI.ActionStates tCurrentRoundState;
-//		GameManager tGameManager;
-//		RoundFrame tRoundFrame;
 		Round tCurrentRound;
 		String tOldRoundID;
 		String tNewRoundID;
-//		String tGameName;
-//		int tRoundIDPart1;
 		
 		tCurrentRound = roundManager.getCurrentRound ();
 		tCurrentRoundState = tCurrentRound.getRoundState ();
@@ -345,14 +319,6 @@ public class StockRound extends Round {
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
 				tChangeRoundAction);
 
-//		clearAllPlayerPasses ();
-
-//		tGameManager = roundManager.getGameManager ();
-//		tRoundFrame = roundManager.getRoundFrame ();
-//		tGameName = tGameManager.getActiveGameName ();
-//		
-//		tRoundIDPart1 = getIDPart1 ();
-//		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
 		return tChangeRoundAction;	
 	}
 
