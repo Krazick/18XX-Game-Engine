@@ -10,8 +10,8 @@ public class RoundType {
 	public static final ElementName EN_ROUND_TYPE = new ElementName ("RoundType");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_INITIAL_ROUND = new AttributeName ("initialRound");
-	public static final AttributeName AN_INTERRUPTION_ROUND = new AttributeName ("interruptionRound");
-	public static final AttributeName AN_NEXT_ROUND = new AttributeName ("nextRound");
+	public static final AttributeName AN_INTERRUPTION_ROUND_NAME = new AttributeName ("interruptionRound");
+	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
 	public static final AttributeName AN_INTERUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
@@ -19,8 +19,8 @@ public class RoundType {
 	public static final RoundType NO_ROUND_TYPE = null;
 	
 	String name;
-	String nextRound;
-	String interruptionRound;
+	String nextRoundName;
+	String interruptionRoundName;
 	String interuptsAfterActions;
 	String endsAfterActions;
 	boolean optionalExtra;
@@ -40,8 +40,8 @@ public class RoundType {
 
 	public RoundType (XMLNode aXMLRoundTypeNode) {
 		String tName;
-		String tNextRound;
-		String tInterruptionRound;
+		String tNextRoundName;
+		String tInterruptionRoundName;
 		String tInteruptsAfterActions;
 		String tEndsAfterActions;
 		boolean tOptionalExtra;
@@ -49,8 +49,8 @@ public class RoundType {
 		int tMaxRounds;
 		
 		tName = aXMLRoundTypeNode.getThisAttribute (AN_NAME);
-		tNextRound = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND);
-		tInterruptionRound = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND);
+		tNextRoundName = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND_NAME);
+		tInterruptionRoundName = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND_NAME);
 		tInteruptsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_INTERUPTS_AFTER_ACTIONS);
 		tEndsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_ENDS_AFTER_ACTIONS);
 		tOptionalExtra = aXMLRoundTypeNode.getThisBooleanAttribute (AN_OPTIONAL_EXTRA);
@@ -58,8 +58,8 @@ public class RoundType {
 		tMaxRounds = aXMLRoundTypeNode.getThisIntAttribute (AN_MAX_ROUNDS, 1);
 		
 		setName (tName);
-		setNextRound (tNextRound);
-		setInterruptionRound (tInterruptionRound);
+		setNextRoundName (tNextRoundName);
+		setInterruptionRoundName (tInterruptionRoundName);
 		setInteruptsAfterActions (tInteruptsAfterActions);
 		setEndsAfterActions (tEndsAfterActions);
 		setOptionalExtra (tOptionalExtra);
@@ -71,12 +71,12 @@ public class RoundType {
 		name = aName;
 	}
 	
-	public void setNextRound (String aNextRound) {
-		nextRound = aNextRound;
+	public void setNextRoundName (String aNextRound) {
+		nextRoundName = aNextRound;
 	}
 	
-	public void setInterruptionRound (String aInterruptionRound) {
-		interruptionRound = aInterruptionRound;
+	public void setInterruptionRoundName (String aInterruptionRoundName) {
+		interruptionRoundName = aInterruptionRoundName;
 	}
 	
 	public void setInteruptsAfterActions (String aInteruptsAfterActions) {
@@ -103,12 +103,12 @@ public class RoundType {
 		return name;
 	}
 	
-	public String getNextRound () {
-		return nextRound;
+	public String getNextRoundName () {
+		return nextRoundName;
 	}
 	
 	public String getInterruptionRound () {
-		return interruptionRound;
+		return interruptionRoundName;
 	}
 	
 	public String getInteruptsAfterActions () {
@@ -158,9 +158,9 @@ public class RoundType {
 	public String getInfo () {
 		String tInfo;
 		
-		tInfo = "Name: " + name + " NextRound: " + nextRound;
-		if (interruptionRound != GUI.NULL_STRING) {
-			tInfo += " InterruptionRound: "+ interruptionRound;
+		tInfo = "Name: " + name + " NextRound: " + nextRoundName;
+		if (interruptionRoundName != GUI.NULL_STRING) {
+			tInfo += " InterruptionRound: "+ interruptionRoundName;
 		}
 		if (optionalExtra) {
 			tInfo += " Optional Extra Round";
