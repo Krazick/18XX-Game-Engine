@@ -1472,13 +1472,10 @@ public class PlayerManager implements XMLSaveGameI {
 	};
 
 	public void passAction (Player aPlayer) {
-//		RoundManager tRoundManager;
 		PassAction tPassAction;
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
 		boolean tHaveAllPassed;
-//		String tOldRoundID;
-//		String tNewRoundID;
 		int tNextPlayerIndex;
 		int tCurrentPlayerIndex;
 
@@ -1498,35 +1495,19 @@ public class PlayerManager implements XMLSaveGameI {
 			stockRound.updateRFPlayerLabel (aPlayer);
 			
 			tHaveAllPassed = haveAllPassed ();
-			if (tHaveAllPassed) {
-//				tRoundManager = getRoundManager ();
-				// Test result -- if True, continue
-				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock
-				// Round
-//				if (!stockRound.canStartOperatingRound ()) {
-//					applyDiscountIfMustSell (aPlayer, tPassAction);
-//					tOldRoundID = stockRound.getID ();
-//					tRoundManager.incrementRoundIDPart1 (stockRound);
-//					tNewRoundID = stockRound.getID ();
-//					tPassAction.addChangeRoundIDEffect (stockRound, tOldRoundID, tNewRoundID);
-//				}
-//				moveToNextPlayer (tNextPlayerIndex, tPassAction);
-				addAction (tPassAction);
-				// TODO -- Need to actually Start the next Round (Operating), and if it fails... 
-				// need to restart the Stock Round to clear all Player Flags, States, and Passes.
-//				if (!stockRound.startOperatingRound ()) {
-//					clearAllPlayerPasses ();
-//				}
-			} else {
+			if (! tHaveAllPassed) {
+//				addAction (tPassAction);
+//			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
-				addAction (tPassAction);
+//				addAction (tPassAction);
 			}
+			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
 	}
 
-	public void applyDiscountIfMustSell (Round aRound, ChangeRoundAction aChangeRoundAction) {
+	public void applyDiscountIfMustSell (Round aRound, ChangeStateAction aChangeStateAction) {
 		Certificate tCertificate;
 		boolean tMustSell;
 		int tOldDiscount;
@@ -1542,7 +1523,7 @@ public class PlayerManager implements XMLSaveGameI {
 			tOldDiscount = tCertificate.getDiscount ();
 			tBank.applyDiscount ();
 			tNewDiscount = tCertificate.getDiscount ();
-			aChangeRoundAction.addApplyDiscountEffect (aRound, tCompanyName, tOldDiscount, tNewDiscount);
+			aChangeStateAction.addApplyDiscountEffect (aRound, tCompanyName, tOldDiscount, tNewDiscount);
 		}
 	}
 
