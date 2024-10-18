@@ -384,11 +384,17 @@ public abstract class Round implements ActorI {
 		Round tNextRound;
 		String tNextRoundName;
 		boolean tOptionalRound;
+		boolean tCanStartNextRound;
 		
 		tNextRound = NO_ROUND;
 		tOptionalRound = roundType.getOptionalExtra ();
-		if (roundManager.isLastOR ()) {
-			tNextRoundName = roundType.getNextRound ();
+		
+		// If we cannot start the default next round, then repeat the current round with new ID
+		tCanStartNextRound = canStartNextRound ();
+		if (! tCanStartNextRound) {
+			tNextRoundName = getName ();	
+		} else if (roundManager.isLastOR ()) {
+			tNextRoundName = roundType.getNextRoundName ();
 		} else if (tOptionalRound) {
 			// TODO ask Priority Player if run an additional Round of the same type (1853 - Operating Round)
 			// But need to limit to a single Optional Round -- Round Manager need to track this.
@@ -400,7 +406,19 @@ public abstract class Round implements ActorI {
 		
 		return tNextRound;
 	}
+	
+	protected boolean canStartNextRound () {
+		String tNextRoundName;
+		Round tNextRound;
+		Boolean tCanStartNextRound;
+		
+		tNextRoundName = roundType.getNextRoundName ();
+		tNextRound = roundManager.getRoundByTypeName (tNextRoundName);
+		tCanStartNextRound = tNextRound.canStart ();
 
+		return tCanStartNextRound;
+	}
+	
 	protected boolean isInterrupting () {
 		return false;
 	}
