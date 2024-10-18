@@ -251,9 +251,12 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	private int getFirstActiveRow () {
-		int tFirstActiveRow = NO_ACTIVE_ROW;
+		int tFirstActiveRow;
+		int tRowCount;
 
-		for (int tIndex = 0; tIndex < startPacketRows.size (); tIndex++) {
+		tFirstActiveRow = NO_ACTIVE_ROW;
+		tRowCount = startPacketRows.size ();
+		for (int tIndex = 0; tIndex < tRowCount; tIndex++) {
 
 			StartPacketRow tStartPacketRow = startPacketRows.get (tIndex);
 
