@@ -127,6 +127,9 @@ public class StateChangeEffect extends Effect {
 			if (newState == ActorI.ActionStates.AuctionRound) {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
+			} else if (newState == ActorI.ActionStates.StockRound) {
+				aRoundManager.startRound (newState);
+				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				tCurrentRound = aRoundManager.getCurrentRound ();
 				aRoundManager.startOperatingRound (tCurrentRound);
