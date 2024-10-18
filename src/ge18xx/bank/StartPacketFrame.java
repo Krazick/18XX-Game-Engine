@@ -189,11 +189,12 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 		
 	public void enableMustBuyPrivateButton () {
-		boolean enableMustBuyPrivateButton = false;
+		boolean tEnableMustBuyPrivateButton;
 
+		tEnableMustBuyPrivateButton = false;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			if (!enableMustBuyPrivateButton) {
-				enableMustBuyPrivateButton = tStartPacketRow.enableMustBuyPrivateButton ();
+			if (!tEnableMustBuyPrivateButton) {
+				tEnableMustBuyPrivateButton = tStartPacketRow.enableMustBuyPrivateButton ();
 			}
 		}
 	}
@@ -251,6 +252,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	private int getFirstActiveRow () {
+		StartPacketRow tStartPacketRow;
 		int tFirstActiveRow;
 		int tRowCount;
 
@@ -258,7 +260,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		tRowCount = startPacketRows.size ();
 		for (int tIndex = 0; tIndex < tRowCount; tIndex++) {
 
-			StartPacketRow tStartPacketRow = startPacketRows.get (tIndex);
+			tStartPacketRow = startPacketRows.get (tIndex);
 
 			if (! tStartPacketRow.isRowSoldOut (portfolio)) {
 				if (tFirstActiveRow == NO_ACTIVE_ROW) {
@@ -284,8 +286,9 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tCertificate;
 
+		tCertificate = Certificate.NO_CERTIFICATE;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			if (tCertificate == Certificate.NO_CERTIFICATE) {
 				tCertificate = tStartPacketRow.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
@@ -396,11 +399,13 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	public boolean loadStartPacketWithCertificates (Portfolio aBankPortfolio) {
-		boolean tAllCertsLoaded = true;
+		boolean tAllCertsLoaded;
 
+		tAllCertsLoaded = true;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tAllCertsLoaded &= tStartPacketRow.loadWithCertificates (aBankPortfolio, portfolio);
 		}
+		
 		return tAllCertsLoaded;
 	}
 
@@ -468,7 +473,11 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		boolean tFirstCertificateHasBidders;
 		
 		tRowIndex = getFirstActiveRow ();
-		tFirstCertificateHasBidders = firstCertificateHasBidders (tRowIndex);
+		if (tRowIndex == NO_ACTIVE_ROW) {
+			tFirstCertificateHasBidders =  false;
+		} else {
+			tFirstCertificateHasBidders = firstCertificateHasBidders (tRowIndex);
+		}
 		
 		return tFirstCertificateHasBidders;
 	}
@@ -531,7 +540,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		int tRowLocation;
 		boolean tFoundCertificate;
 		
-		tCertificateLocation = "";
+		tCertificateLocation = GUI.EMPTY_STRING;
 		tRowCount = startPacketRows.size ();
 		tFoundCertificate = false;
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
