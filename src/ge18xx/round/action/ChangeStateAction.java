@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
+import ge18xx.round.action.effects.ApplyDiscountEffect;
 import ge18xx.round.action.effects.BidShareEffect;
 import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
@@ -55,6 +56,13 @@ public class ChangeStateAction extends ChangePlayerAction {
 			tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aOldPlayer, aNewPlayer);
 			addEffect (tUpdateToNextPlayerEffect);
 		}
+	}
+
+	public void addApplyDiscountEffect (ActorI aActor, String aCertificateName, int aOldDiscount, int aNewDiscount) {
+		ApplyDiscountEffect tApplyDiscountEffect;
+
+		tApplyDiscountEffect = new ApplyDiscountEffect (aActor, aCertificateName, aOldDiscount, aNewDiscount);
+		addEffect (tApplyDiscountEffect);
 	}
 
 	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
@@ -110,7 +118,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 				}
 			}
 		}
-
+		
 		return tOldState;
 	}
 
@@ -157,6 +165,22 @@ public class ChangeStateAction extends ChangePlayerAction {
 		return tOldState;
 	}
 
+	public String getApplyDiscountReport () {
+		String tReport;
+		
+		tReport = GUI.EMPTY_STRING;
+
+		for (Effect tEffect : effects) {
+			if (tReport.equals (GUI.EMPTY_STRING)) {
+				if (tEffect instanceof ApplyDiscountEffect) {
+					tReport = ((ApplyDiscountEffect) tEffect).getEffectReport ();
+				}
+			}
+		}
+
+		return tReport;
+	}
+
 	public String getActorNames () {
 		String tActorNames;
 		String tActorName;
@@ -191,8 +215,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 		if (!tNewState.equals (tOldState)) {
 			tSimpleActionReport = actor.getName () + " changed state of " + getActorNames () + " from  "
 					+ getOldState () + " to " + getNewState () + ".";
-		} else {
+		} else if (tOldState != GUI.EMPTY_STRING) {
 			tSimpleActionReport = actor.getName () + " state remains [" + tOldState + "]";
+		} else {
+			tSimpleActionReport = getApplyDiscountReport ();
 		}
 
 		return tSimpleActionReport;
