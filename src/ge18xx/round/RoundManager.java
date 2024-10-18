@@ -246,10 +246,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 		gameManager.autoSaveGame ();
 		gameManager.setGameChanged (true);
-		
-//		Time to Check and Handle a Round that will Interrupt. 
-//		Setting the Current Round to the Round that is interrupting to
-		checkAndHandleInterruption (aAction);
 	}
 
 	public boolean checkAndHandleInterruption () {
@@ -431,9 +427,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.resetRoundFrameBackgrounds ();
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
-//		if (operatingRoundIsDone ()) {
-//			endOperatingRound ();
-//		}
 	}
 
 	public void clearAllPlayerSelections () {
@@ -621,24 +614,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getEscrowMatching (aEscrowName);
 	}
 
-	public Round getCurrentRound () {
-//		Round tCurrentRound;
-		
-//		if (currentRoundState == ActorI.ActionStates.StockRound) {
-//			tCurrentRound = stockRound;
-//		} else if (currentRoundState == ActorI.ActionStates.OperatingRound) {
-//			tCurrentRound = operatingRound;
-//		} else if (currentRoundState == ActorI.ActionStates.AuctionRound) {
-//			tCurrentRound = auctionRound;
-//		} else if (currentRoundState == ActorI.ActionStates.FormationRound) {
-//			tCurrentRound = formationRound;
-//		} else if (currentRoundState == ActorI.ActionStates.ContractBidRound) {
-//			tCurrentRound = contractBidRound;
-//		} else {
-//			System.err.println ("Current Round of " + currentRoundState.toString () + " NOT Recognized");
-//			tCurrentRound = Round.NO_ROUND;
-//		}
-		
+	public Round getCurrentRound () {		
 		return currentRound;
 	}
 	
@@ -1030,55 +1006,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 
-//	public void setRoundToStockRound () {
-//		ChangeRoundAction tChangeRoundAction;
-//		ActorI.ActionStates tCurrentRoundState;
-//		String tOldRoundID;
-//		String tNewRoundID;
-//		int tRoundIDPart1;
-//		
-//		tOldRoundID = stockRound.getID ();
-//		
-//		incrementRoundIDPart1 (stockRound);
-//
-//		tNewRoundID = stockRound.getID ();
-//		tRoundIDPart1 = stockRound.getIDPart1 ();
-//		tCurrentRoundState = getCurrentRoundState ();
-//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, currentRound.getID (), stockRound);
-//		changeRound (currentRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
-//				tChangeRoundAction);
-//
-//		stockRound.clearAllPlayerPasses ();
-//
-//		roundFrame.setStockRoundInfo (gameName, tRoundIDPart1);
-//		if (gameManager.gameStarted ()) {
-//			if (! applyingAction ()) {
-//				addAction (tChangeRoundAction);
-//			}
-//		}
-//	}
-
-//	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
-//		ChangeRoundAction tChangeRoundAction;
-//		ActorI.ActionStates tCurrentRoundType;
-//		String tOldRoundID;
-//		String tNewRoundID;
-//		int tRoundID;
-//
-//		tOldRoundID = auctionRound.getID ();
-//		tRoundID = incrementRoundIDPart1 (auctionRound);
-//		tNewRoundID = tRoundID + "";
-//		auctionRound.setID (tOldRoundID);
-//		tCurrentRoundType = getCurrentRoundState ();
-//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, currentRound.getID (), stockRound);
-//		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, tOldRoundID, tNewRoundID,
-//				tChangeRoundAction);
-//		roundFrame.setAuctionRound (gameName, tRoundID);
-//		if (!applyingAction ()) {
-//			addAction (tChangeRoundAction);
-//		}
-//	}
-
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,
 								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
 		ActorI.ActionStates tCurrentRoundState;
@@ -1134,19 +1061,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setStockRoundInfo (int aRoundIDPart1) {
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
-
-	// TODO -- Lowest Bidder needs to have the auctionState set to 'Bidder' like the
-	// AuctionFrame Class/addPrivateToAuction Method does. 
-	// Note for setting up this Auction, the individual Effects to set each Player state to are
-	// NOT being created as independent Effects to be applied to remote clients. 
-	// This whole Auction Setup should be revised so each separate Effect is documented
-	// in an Action to be consistent with the whole game system. This will improve the Undo Functionality.
-	
-//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-//		setRoundToAuctionRound (aCreateNewAuctionAction);
-//		auctionRound.startAuctionRound ();
-//		roundFrame.updatePassButton ();
-//	}
 
 	public void startRound (ActorI.ActionStates aRoundState) {
 		Round tRound;
@@ -1274,11 +1188,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			}
 			updateAllCorporationsBox ();
 		}
-//		if (isOperatingRound ()) {
-//			if (operatingRoundIsDone ()) {
-//				endOperatingRound ();
-//			}
-//		}
 		checkAndHandleRoundEnds ();
 	}
 
@@ -1504,10 +1413,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public MapFrame getMapFrame () {
 		return gameManager.getMapFrame ();
 	}
-//
-//	public void passStockAction () {
-//		stockRound.passStockAction ();
-//	}
 
 	public void buyStockAction (FastBuyButton aFastBuyButton) {
 		Certificate tCertificate;
