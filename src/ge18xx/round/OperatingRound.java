@@ -1,5 +1,6 @@
 package ge18xx.round;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.MinorCompany;
@@ -7,6 +8,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
 import geUtilities.GUI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -377,6 +379,17 @@ public class OperatingRound extends Round {
 	}
 
 	@Override
+	public boolean canStart () {
+		Bank tBank;
+		boolean tCanStart;
+		
+		tBank = getBank ();
+		tCanStart = tBank.canStartOperatingRound ();
+		
+		return tCanStart;
+	}
+	
+	@Override
 	public void finish () {
 	}
 
@@ -386,6 +399,34 @@ public class OperatingRound extends Round {
 
 	@Override
 	public void resume () {		
+	}
+	
+	public void setRoundToOperatingRound (Round aCurrentRound, int aRoundIDPart1, int aRoundIDPart2) {
+		ChangeRoundAction tChangeRoundAction;
+		ActorI.ActionStates tCurrentRoundType;
+		RoundFrame tRoundFrame;
+		String tOldOperatingRoundID;
+		String tNewOperatingRoundID;
+		String tGameName;
+
+		if (aRoundIDPart2 == Round.START_ID2) {
+			roundManager.setOperatingRoundCount ();
+		}
+		tOldOperatingRoundID = getID ();
+		roundManager.setCurrentOR (aRoundIDPart2);
+		setID (aRoundIDPart1, aRoundIDPart2);
+		tNewOperatingRoundID = getID ();
+		tCurrentRoundType = roundManager.getCurrentRoundState ();
+		tGameName = roundManager.getGameName ();
+		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, getID (), aCurrentRound);
+		roundManager.changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, this, tOldOperatingRoundID,
+				tNewOperatingRoundID, tChangeRoundAction);
+		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundFrame.setOperatingRound (tGameName, aRoundIDPart1, aRoundIDPart2, roundManager.getOperatingRoundCount ());
+		tRoundFrame.revalidate ();
+		if (!roundManager.applyingAction ()) {
+			addAction (tChangeRoundAction);
+		}
 	}
 
 	@Override
@@ -399,7 +440,7 @@ public class OperatingRound extends Round {
 		tIDPart2 = Round.START_ID2;
 		tPlayerManager = roundManager.getPlayerManager ();
 		tCurrentRound = roundManager.getCurrentRound ();
-		roundManager.setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
+		setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
 		tPlayerManager.clearAllPlayerDividends ();
 		tPlayerManager.clearAllPercentBought ();
 
