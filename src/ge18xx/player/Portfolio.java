@@ -84,16 +84,16 @@ public class Portfolio implements CertificateHolderI {
 
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
-	int privateIndex;
-	int minorIndex;
-	int shareIndex;
+//	int privateIndex;
+//	int minorIndex;
+//	int shareIndex;
 
 	public Portfolio (PortfolioHolderI aHolder) {
 		certificates = new LinkedList<> ();
 		setHolder (aHolder);
-		privateIndex = NO_COMPONENT_INDEX;
-		minorIndex = NO_COMPONENT_INDEX;
-		shareIndex = NO_COMPONENT_INDEX;
+//		privateIndex = NO_COMPONENT_INDEX;
+//		minorIndex = NO_COMPONENT_INDEX;
+//		shareIndex = NO_COMPONENT_INDEX;
 	}
 
 	@Override
@@ -411,19 +411,19 @@ public class Portfolio implements CertificateHolderI {
 			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, 
 					aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
-			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
+//			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
 			tMinorCertPanel = buildCertificateJPanel (Corporation.MINOR_COMPANY, aSelectedButtonLabel,
 					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tMinorCertPanel);
-			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
+//			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aShares) {
 			tShareCertPanel = buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
 					aSelectedButtonLabel, aItemListener, null, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tShareCertPanel);
-			shareIndex = portfolioInfoJPanel.getComponentCount () - 1;
+//			shareIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 
 		return portfolioInfoJPanel;
@@ -935,9 +935,9 @@ public class Portfolio implements CertificateHolderI {
 		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_PORTFOLIO);
-		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
-		setRealAttributes (tXMLElement, AN_MINOR_INDEX, minorIndex);
-		setRealAttributes (tXMLElement, AN_SHARE_INDEX, shareIndex);
+//		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
+//		setRealAttributes (tXMLElement, AN_MINOR_INDEX, minorIndex);
+//		setRealAttributes (tXMLElement, AN_SHARE_INDEX, shareIndex);
 		for (Certificate tCertficate : certificates) {
 			tXMLCertificateElements = tCertficate.getElement (aXMLDocument);
 			tXMLElement.appendChild (tXMLCertificateElements);
@@ -1275,9 +1275,9 @@ public class Portfolio implements CertificateHolderI {
 	public void loadPortfolio (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
 
-		privateIndex = aXMLNode.getThisIntAttribute (AN_PRIVATE_INDEX, NO_COMPONENT_INDEX);
-		minorIndex = aXMLNode.getThisIntAttribute (AN_MINOR_INDEX, NO_COMPONENT_INDEX);
-		shareIndex = aXMLNode.getThisIntAttribute (AN_SHARE_INDEX, NO_COMPONENT_INDEX);
+//		privateIndex = aXMLNode.getThisIntAttribute (AN_PRIVATE_INDEX, NO_COMPONENT_INDEX);
+//		minorIndex = aXMLNode.getThisIntAttribute (AN_MINOR_INDEX, NO_COMPONENT_INDEX);
+//		shareIndex = aXMLNode.getThisIntAttribute (AN_SHARE_INDEX, NO_COMPONENT_INDEX);
 		tXMLNodeList = new XMLNodeList (certificateParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE);
 	}
