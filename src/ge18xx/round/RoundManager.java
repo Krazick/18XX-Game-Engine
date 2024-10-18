@@ -301,7 +301,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			tEndsAfterAction = tEndsAfterActions.contains (tActionName);
 			if (tEndsAfterAction) {
 				if (currentRound.ends ()) {
-					tNextRoundName = tCurrentRoundType.getNextRound ();
+					tNextRoundName = tCurrentRoundType.getNextRoundName ();
 					tNextRound = getRoundByTypeName (tNextRoundName);
 					currentRound.finish ();
 					System.out.println ("Current Round Type " + tCurrentRoundType.getName () + " is ENDING.");
