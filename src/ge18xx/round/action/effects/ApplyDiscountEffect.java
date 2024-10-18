@@ -12,7 +12,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ApplyDiscountEffect extends Effect {
-	public final static String NAME = "ApplyDiscount";
+	public final static String NAME = "Apply Discount";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_OLD_DISCOUNT = new AttributeName ("oldDiscount");
 	final static AttributeName AN_NEW_DISCOUNT = new AttributeName ("newDiscount");
@@ -91,10 +91,14 @@ public class ApplyDiscountEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + companyAbbrev + " change Discount from "
-				+ Bank.formatCash (oldDiscount) + " to " + Bank.formatCash (newDiscount) + ".");
+		return (REPORT_PREFIX + getEffectReport ());
 	}
 
+	public String getEffectReport () {
+		return (name + " for " + companyAbbrev + " change Discount from "
+				+ Bank.formatCash (oldDiscount) + " to " + Bank.formatCash (newDiscount) + ".");		
+	}
+	
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
