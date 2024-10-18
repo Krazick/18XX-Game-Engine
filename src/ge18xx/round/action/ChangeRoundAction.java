@@ -1,7 +1,6 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import ge18xx.round.action.effects.ApplyDiscountEffect;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
@@ -31,13 +30,6 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 		tChangeRoundIDEffect = new ChangeRoundIDEffect (aActor, aOldRoundID, aNewRoundID);
 		addEffect (tChangeRoundIDEffect);
-	}
-
-	public void addApplyDiscountEffect (ActorI aActor, String aCertificateName, int aOldDiscount, int aNewDiscount) {
-		ApplyDiscountEffect tApplyDiscountEffect;
-
-		tApplyDiscountEffect = new ApplyDiscountEffect (aActor, aCertificateName, aOldDiscount, aNewDiscount);
-		addEffect (tApplyDiscountEffect);
 	}
 
 	public void addClearSoldCompanyEffect (ActorI aActor, String aSoldCompanies, String aRoundID) {
