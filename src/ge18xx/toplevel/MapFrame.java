@@ -511,8 +511,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		return map;
 	}
 
-	public XMLElement addElements (XMLDocument aXMLDocument) {
-		return (map.getMapStateElements (aXMLDocument));
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_TYPE) {
+		return map.getMapStateElements (aXMLDocument);
 	}
 
 	public int getMaxRowCount () {
