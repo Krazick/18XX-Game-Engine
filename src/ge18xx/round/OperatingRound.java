@@ -142,7 +142,7 @@ public class OperatingRound extends Round {
 
 		tPlayerManager = roundManager.getPlayerManager ();
 		tCurrentRound = roundManager.getCurrentRound ();
-		tIDPart1 = roundManager.incrementRoundIDPart1 (this);
+		tIDPart1 = incrementRoundIDPart1 ();
 		tIDPart2 = Round.START_ID2;
 		roundManager.setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
 		tPlayerManager.clearAllPlayerDividends ();
@@ -408,6 +408,7 @@ public class OperatingRound extends Round {
 		String tOldOperatingRoundID;
 		String tNewOperatingRoundID;
 		String tGameName;
+		int tOperatingRoundCount;
 
 		if (aRoundIDPart2 == Round.START_ID2) {
 			roundManager.setOperatingRoundCount ();
@@ -416,13 +417,17 @@ public class OperatingRound extends Round {
 		roundManager.setCurrentOR (aRoundIDPart2);
 		setID (aRoundIDPart1, aRoundIDPart2);
 		tNewOperatingRoundID = getID ();
+		tOperatingRoundCount = roundManager.getOperatingRoundCount ();
 		tCurrentRoundType = roundManager.getCurrentRoundState ();
-		tGameName = roundManager.getGameName ();
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, getID (), aCurrentRound);
+		
+		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tNewOperatingRoundID, aCurrentRound);
 		roundManager.changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, this, tOldOperatingRoundID,
 				tNewOperatingRoundID, tChangeRoundAction);
+		
 		tRoundFrame = roundManager.getRoundFrame ();
-		tRoundFrame.setOperatingRound (tGameName, aRoundIDPart1, aRoundIDPart2, roundManager.getOperatingRoundCount ());
+		tGameName = roundManager.getGameName ();
+
+		tRoundFrame.setOperatingRound (tGameName, aRoundIDPart1, aRoundIDPart2, tOperatingRoundCount);
 		tRoundFrame.revalidate ();
 		if (!roundManager.applyingAction ()) {
 			addAction (tChangeRoundAction);
@@ -436,13 +441,21 @@ public class OperatingRound extends Round {
 		int tIDPart1;
 		int tIDPart2;
 
-		tIDPart1 = roundManager.incrementRoundIDPart1 (this);
-		tIDPart2 = Round.START_ID2;
 		tPlayerManager = roundManager.getPlayerManager ();
 		tCurrentRound = roundManager.getCurrentRound ();
+
+		if (repeatRound) {
+			tIDPart1 = getIDPart1 ();
+			tIDPart2 = getIDPart2 () + 1;
+		} else {
+			tIDPart1 = incrementRoundIDPart1 ();
+			tIDPart2 = Round.START_ID2;
+			tPlayerManager.clearAllPlayerDividends ();
+			tPlayerManager.clearAllPercentBought ();
+		}
+		super.start ();
+
 		setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
-		tPlayerManager.clearAllPlayerDividends ();
-		tPlayerManager.clearAllPercentBought ();
 
 		if (! roundManager.applyingAction ()) {
 			if (getPrivateCompanyCount () > 0) {

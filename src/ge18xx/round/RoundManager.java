@@ -710,17 +710,17 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tCapitalizationLevel;
 	}
 
-	public int getOperatingRoundID1 () {
-		return operatingRound.getIDPart1 ();
-	}
-
-	public int getOperatingRoundID2 () {
-		return operatingRound.getIDPart2 ();
-	}
-
-	public String getOperatingRoundID () {
-		return operatingRound.getID ();
-	}
+//	public int getOperatingRoundID1 () {
+//		return operatingRound.getIDPart1 ();
+//	}
+//
+//	public int getOperatingRoundID2 () {
+//		return operatingRound.getIDPart2 ();
+//	}
+//
+//	public String getOperatingRoundID () {
+//		return operatingRound.getID ();
+//	}
 
 	public PhaseManager getPhaseManager () {
 		return gameManager.getPhaseManager ();
@@ -786,15 +786,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public boolean hasAddedOR () {
 		return addedOR;
-	}
-
-	public int incrementRoundIDPart1 (Round aRound) {
-		int tIDPart1;
-
-		tIDPart1 = aRound.getIDPart1 () + 1;
-		aRound.setIDPart1 (tIDPart1);
-
-		return tIDPart1;
 	}
 
 	public boolean isAAuctionRound () {
@@ -965,26 +956,28 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// Functions to Change from one Round Type to another
 	
 	public void updateRoundFrame () {
-		int tRoundID;
+		String tRoundID;
+		int tORRoundID;
+		int tARRoundID;
 
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
 			if (isStockRound ()) {
 				updateAllCorporationsBox ();
-				tRoundID = stockRound.getIDPart1 ();
+				tRoundID = stockRound.getID ();
 				roundFrame.setStockRoundInfo (gameName, tRoundID);
 			}
 			if (isOperatingRound ()) {
-				tRoundID = operatingRound.getIDPart1 ();
-				roundFrame.setOperatingRound (gameName, tRoundID, currentOR, operatingRoundCount);
+				tORRoundID = operatingRound.getIDPart1 ();
+				roundFrame.setOperatingRound (gameName, tORRoundID, currentOR, operatingRoundCount);
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
 			}
 			if (isAAuctionRound ()) {
-				tRoundID = auctionRound.getIDPart1 ();
+				tARRoundID = auctionRound.getIDPart1 ();
 
-				roundFrame.setAuctionRound (gameName, tRoundID);
+				roundFrame.setAuctionRound (gameName, tARRoundID);
 			}
 			roundFrame.updateAll ();
 		}
@@ -1088,7 +1081,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void setStockRoundInfo (int aRoundIDPart1) {
-		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
+		String tRoundID;
+		
+		tRoundID = aRoundIDPart1 + "";
+		roundFrame.setStockRoundInfo (gameName, tRoundID);
 	}
 
 	public void startRound (ActorI.ActionStates aRoundState) {
@@ -1105,20 +1101,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 	
 	public void startOperatingRound (Round aCurrentRound) {
-		int tIDPart1;
-		int tIDPart2;
+//		int tIDPart1;
+//		int tIDPart2;
 
-		tIDPart1 = incrementRoundIDPart1 (operatingRound);
-		tIDPart2 = Round.START_ID2;
-		setRoundToOperatingRound (aCurrentRound, tIDPart1, tIDPart2);
-		playerManager.clearAllPlayerDividends ();
-		playerManager.clearAllPercentBought ();
+//		tIDPart1 = aCurrentRound.incrementRoundIDPart1 (operatingRound);
+//		tIDPart2 = Round.START_ID2;
+//		setRoundToOperatingRound (aCurrentRound, tIDPart1, tIDPart2);
+//		playerManager.clearAllPlayerDividends ();
+//		playerManager.clearAllPercentBought ();
 
 		// If no Minor of Share company operates, the Operating Round failed to
 		// start,
 		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round
-		operatingRound.start ();
+		aCurrentRound.start ();
 	}
 
 	// TODO -- This code needs to be in the 'getNextRound' not trying to find the round and start it

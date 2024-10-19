@@ -61,6 +61,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
@@ -2621,9 +2622,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public String getOperatingRoundID () {
 		String tOperatingRoundID;
+		Round tCurrentRound;
 
 		if (roundManagerIsValid ()) {
-			tOperatingRoundID = roundManager.getOperatingRoundID ();
+			tCurrentRound = roundManager.getCurrentRound ();
+			tOperatingRoundID = tCurrentRound.getID ();
 		} else {
 			tOperatingRoundID = ">>NONE<<";
 		}
@@ -2633,9 +2636,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public String getStockRoundID () {
 		String tStockRoundID;
+		Round tCurrentRound;
 
 		if (roundManagerIsValid ()) {
-			tStockRoundID = roundManager.getStockRoundID () + "";
+			tCurrentRound = roundManager.getCurrentRound ();
+			tStockRoundID = tCurrentRound.getID ();
 		} else {
 			tStockRoundID = ">>NONE<<";
 		}

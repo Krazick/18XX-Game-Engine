@@ -40,6 +40,7 @@ public abstract class Round implements ActorI {
 	RoundManager roundManager;
 	RoundType roundType;
 	String name;
+	boolean repeatRound;
 
 	public Round (RoundManager aRoundManager) {
 		setRoundManager (aRoundManager);
@@ -62,9 +63,22 @@ public abstract class Round implements ActorI {
 	public void setIDPart2 (int aIDPart2) {
 		idPart2 = aIDPart2;
 	}
+	
+	public int incrementRoundIDPart1 () {
+		int tIDPart1;
+
+		tIDPart1 = getIDPart1 () + 1;
+		setIDPart1 (tIDPart1);
+
+		return tIDPart1;
+	}
 
 	public void setName (String aName) {
 		name = aName;
+	}
+	
+	public void setRepeatRound (boolean aRepeatRound) {
+		repeatRound = aRepeatRound;
 	}
 	
 	public void setRoundType () {
@@ -78,6 +92,10 @@ public abstract class Round implements ActorI {
 			tRoundType = tGameInfo.getRoundType (name);
 			roundType = tRoundType;
 		}
+	}
+	
+	public boolean repeatRound () {
+		return repeatRound;
 	}
 	
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
@@ -363,7 +381,9 @@ public abstract class Round implements ActorI {
 	 * 
 	 */
 	
-	public abstract void start ();
+	public void start () {
+		setRepeatRound (false);
+	}
 	
 	/**
 	 *  This method to be overridden will determine if a Round can start
@@ -390,22 +410,38 @@ public abstract class Round implements ActorI {
 		String tNextRoundName;
 		boolean tOptionalRound;
 		boolean tCanStartNextRound;
+		boolean tRepeatRound;
 		
 		tNextRound = NO_ROUND;
 		tOptionalRound = roundType.getOptionalExtra ();
+		tRepeatRound = false;
 		
 		// If we cannot start the default next round, then repeat the current round with new ID
+		// In current set of 18XX games, this is if Stock Round and all players pass with no privates sold
+		//	Then a Discount is applied to the first Certificate, and reset
 		tCanStartNextRound = canStartNextRound ();
 		if (! tCanStartNextRound) {
-			tNextRoundName = getName ();	
-		} else if (roundManager.isLastOR ()) {
-			tNextRoundName = roundType.getNextRoundName ();
-		} else if (tOptionalRound) {
-			// TODO ask Priority Player if run an additional Round of the same type (1853 - Operating Round)
-			// But need to limit to a single Optional Round -- Round Manager need to track this.
-			tNextRoundName = getName ();			
-		} else {
+			tRepeatRound = true;
+		} else if (roundManager.isLastOR ()) {	// If we are on OR #N of N we still may Repeat
+			if (tOptionalRound) {				// If 1853, we may have an Optional Additional OR
+				if (! roundManager.hasAddedOR ()) {	// But only if we have NOT added it yet
+					// TODO ask Priority Player if run an additional Round of the same type (1853 - Operating Round)
+					// But need to limit to a single Optional Round -- Round Manager need to track this.
+					tRepeatRound = true;
+					// Tell Round Manager that we are adding the OR
+//					roundManager.setAddedOR (true);
+				}
+			}
+			// At this point will be when we Move to the Next Round per the Round Type
+			// Stock Round --> Operating Round, or Operating Round --> Stock Round
+		} else {		// Otherwise this where we are on OR # M or N (where M < N) and we need to Repeat it
+			tRepeatRound = true;
+		}
+		setRepeatRound (tRepeatRound);
+		if (tRepeatRound) {
 			tNextRoundName = getName ();
+		} else {
+			tNextRoundName = roundType.getNextRoundName ();
 		}
 		tNextRound = roundManager.getRoundByTypeName (tNextRoundName);
 		

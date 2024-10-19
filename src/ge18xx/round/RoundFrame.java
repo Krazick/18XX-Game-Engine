@@ -82,6 +82,8 @@ public class RoundFrame extends XMLFrame {
 
 		JMenuBar tJMenuBar;
 		String tGameName;
+		String tRoundID;
+		Round tCurrentRound;
 		
 		setRoundManager (aRoundManager);
 		logger = roundManager.getLogger ();
@@ -95,7 +97,9 @@ public class RoundFrame extends XMLFrame {
 		
 		pack ();
 		tGameName = aGameManager.getActiveGameName ();
-		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
+		tCurrentRound = roundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+		setStockRoundInfo (tGameName, tRoundID);
 		setListenerPanels (false);
 	}
 
@@ -349,7 +353,7 @@ public class RoundFrame extends XMLFrame {
 		return currentRoundOf;
 	}
 
-	public void setStockRoundInfo (String aGameName, int aRoundID) {
+	public void setStockRoundInfo (String aGameName, String aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 		playersInfoPanel.setCurrentPlayerText ();

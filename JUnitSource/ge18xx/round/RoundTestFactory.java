@@ -1,6 +1,5 @@
 package ge18xx.round;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 
@@ -172,7 +171,7 @@ public class RoundTestFactory {
 		RoundFrame mRoundFrame;
 		
 		mRoundFrame = Mockito.mock (RoundFrame.class);
-		doNothing ().when (mRoundFrame).setStockRoundInfo (anyString (), anyInt ());
+		doNothing ().when (mRoundFrame).setStockRoundInfo (anyString (), anyString ());
 
 		return mRoundFrame;
 	}

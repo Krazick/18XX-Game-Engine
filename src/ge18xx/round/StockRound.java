@@ -314,7 +314,7 @@ public class StockRound extends Round {
 		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRound.getID (), this);
 		
 		tOldRoundID = getID ();
-		roundManager.incrementRoundIDPart1 (this);
+		incrementRoundIDPart1 ();
 		tNewRoundID = getID ();
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
 				tChangeRoundAction);
@@ -324,9 +324,10 @@ public class StockRound extends Round {
 
 	@Override
 	public void start () {
-		int tRoundIDPart1;
+//		int tRoundIDPart1;
 		int tPriorityIndex;
 		String tGameName;
+		String tRoundID;
 		GameManager tGameManager;
 		RoundFrame tRoundFrame;
 		ChangeRoundAction tChangeRoundAction;
@@ -334,6 +335,7 @@ public class StockRound extends Round {
 		if (roundManager.bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
+		super.start ();
 		tChangeRoundAction = setRoundToStockRound ();
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
@@ -354,10 +356,10 @@ public class StockRound extends Round {
 		setStartRoundPriorityIndex (tPriorityIndex);
 		
 		tRoundFrame = roundManager.getRoundFrame ();
-		tRoundIDPart1 = getIDPart1 ();
+		tRoundID = getID ();
 		tGameManager = roundManager.getGameManager ();
 		tGameName = tGameManager.getActiveGameName ();
-		tRoundFrame.setStockRoundInfo (tGameName, tRoundIDPart1);
+		tRoundFrame.setStockRoundInfo (tGameName, tRoundID);
 		tRoundFrame.updateAll ();
 		
 		if (tGameManager.gameStarted ()) {

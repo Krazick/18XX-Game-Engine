@@ -170,7 +170,7 @@ public class AuctionRound extends InterruptionRound {
 
 		tOldRoundID = getID ();
 		if (aIncrementRoundID) {
-			tRoundID = roundManager.incrementRoundIDPart1 (this);
+			tRoundID = incrementRoundIDPart1 ();
 			tNewRoundID = tRoundID + "";
 		} else {
 			tRoundID = getIDPart1 ();

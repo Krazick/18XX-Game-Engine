@@ -44,6 +44,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.ListenerPanel;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
@@ -1451,7 +1452,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public String getOperatingRoundID () {
-		return roundManager.getOperatingRoundID ();
+		Round tCurrentRound;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		
+		return tCurrentRound.getID ();
 	}
 
 	public CorporationList getPrivates () {

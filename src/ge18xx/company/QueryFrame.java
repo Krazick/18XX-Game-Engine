@@ -12,12 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.ToEffect;
-import geUtilities.GUI;
 import swingTweaks.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
@@ -143,16 +143,14 @@ public class QueryFrame extends JFrame implements ActionListener {
 	public void sendOfferResponseAction (boolean aResponse) {
 		ResponseOfferAction tResponseOfferAction;
 		ActionStates tRoundType;
-		String tRoundID = GUI.EMPTY_STRING;
+		String tRoundID;
 		ActorI tToActor;
 		ActorI tFromActor;
+		Round tCurrentRound;
 
 		tRoundType = roundManager.getCurrentRoundState ();
-		if (tRoundType == ActionStates.OperatingRound) {
-			tRoundID = roundManager.getOperatingRoundID ();
-		} else if (tRoundType == ActionStates.StockRound) {
-			tRoundID = "" + roundManager.getStockRoundID ();
-		}
+		tCurrentRound = roundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
 
 		// Need to find the original Actor who sent the Purchase Offer, to send back to
 
