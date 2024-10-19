@@ -1162,7 +1162,9 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement = aXMLDocument.createElement (EN_CERTIFICATE);
 		tXMLElement.setAttribute (Corporation.AN_ABBREV, corporation.getAbbrev ());
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
-		tXMLElement.setAttribute (AN_SECOND_ISSUE, secondIssue);
+		if (secondIssue) {
+			tXMLElement.setAttribute (AN_SECOND_ISSUE, secondIssue);
+		}
 		tXMLElement.setAttribute (AN_PERCENTAGE, percentage);
 		if (bidders != Bidders.NO_BIDDERS) {
 			tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);

@@ -32,6 +32,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.Train;
@@ -449,6 +450,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		KButton tSourceButton;
 		FormationPhase tFormationPhase;
 		MapFrame tMapFrame;
+		RoundManager tRoundManager;
+		boolean tInterrupted;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
 
@@ -540,6 +543,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			handleExplainButtons ();
 		}
 		updateInfo ();
+		tRoundManager = gameManager.getRoundManager ();
+		tInterrupted = tRoundManager.checkAndHandleInterruption ();
+		if (!tInterrupted) {
+			tRoundManager.checkAndHandleRoundEnds ();
+		}
 	}
 
 	private boolean confirmDoneAction () {
