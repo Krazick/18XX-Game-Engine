@@ -10,14 +10,14 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import geUtilities.GUI;
-import geUtilities.xml.ElementName;
+//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {
-	public final static ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");
+//	public final static ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");
 	public final static OperatingRound NO_OPERATING_ROUND = null;
 	public final static String NAME = "Operating Round";
 	CorporationList privateCompanies;

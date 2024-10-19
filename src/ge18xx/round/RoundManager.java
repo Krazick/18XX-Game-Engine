@@ -38,7 +38,6 @@ import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeRoundAction;
-import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.MapFrame;
@@ -53,6 +52,7 @@ import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutine2I;
+import geUtilities.ParsingRoutine3I;
 
 public class RoundManager implements ActionListener, XMLSaveGameI {
 	public static final ElementName EN_ROUNDS = new ElementName ("Rounds");
@@ -830,22 +830,34 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void loadRoundStates (XMLNode aRoundStateNode) {
-		XMLNodeList tXMLNodeList;
-		String tRoundType;
-		GenericActor tGenericActor;
+		XMLNodeList tXMLNodeListA;
+		XMLNodeList tXMLNodeListB;
+		String tCurrentRoundName;
+		Round tCurrentRound;
+		boolean tAddedOR;
+		int tCurrentOR;
+		int tOperatingRoundCount;
 
-		currentOR = aRoundStateNode.getThisIntAttribute (AN_CURRENT_OR);
-		operatingRoundCount = aRoundStateNode.getThisIntAttribute (AN_OR_COUNT, 1);
-		addedOR = aRoundStateNode.getThisBooleanAttribute (AN_ADDED_OR);
-		tRoundType = aRoundStateNode.getThisAttribute (AN_CURRENT_ROUND_TYPE);
-		tGenericActor = new GenericActor ();
-		setCurrentRoundState (tGenericActor.getRoundType (tRoundType));
-
-		tXMLNodeList = new XMLNodeList (roundParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aRoundStateNode, StockRound.EN_STOCK_ROUND, OperatingRound.EN_OPERATING_ROUND);
+		tCurrentOR = aRoundStateNode.getThisIntAttribute (AN_CURRENT_OR);
+		tOperatingRoundCount = aRoundStateNode.getThisIntAttribute (AN_OR_COUNT, 1);
+		tAddedOR = aRoundStateNode.getThisBooleanAttribute (AN_ADDED_OR);
+		tCurrentRoundName = aRoundStateNode.getThisAttribute (AN_CURRENT_ROUND_TYPE);
+		
+		tCurrentRound = getRoundByTypeName (tCurrentRoundName);
+		setCurrentRound (tCurrentRound);
+		setCurrentOR (tCurrentOR);
+		setOperatingRoundCount (tOperatingRoundCount);
+		setAddedOR (tAddedOR);
+		
+		tXMLNodeListA = new XMLNodeList (roundParsingRoutineA);
+		tXMLNodeListA.parseXMLNodeList (aRoundStateNode, Round.EN_STOCK_ROUND, Round.EN_OPERATING_ROUND);
+		
+		tXMLNodeListB = new XMLNodeList (roundParsingRoutineB);
+		tXMLNodeListB.parseXMLNodeList (aRoundStateNode, Round.EN_AUCTION_ROUND, Round.EN_FORMATION_ROUND,
+								Round.EN_CONTRACT_BID_ROUND);
 	}
 
-	ParsingRoutine2I roundParsingRoutine = new ParsingRoutine2I () {
+	ParsingRoutine2I roundParsingRoutineA = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRoundNode) {
 			stockRound.loadRound (aRoundNode);
@@ -854,6 +866,23 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		@Override
 		public void foundItemMatchKey2 (XMLNode aRoundNode) {
 			operatingRound.loadRound (aRoundNode);
+		}
+	};
+	
+	ParsingRoutine3I roundParsingRoutineB = new ParsingRoutine3I () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aRoundNode) {
+			auctionRound.loadRound (aRoundNode);
+		}
+
+		@Override
+		public void foundItemMatchKey2 (XMLNode aRoundNode) {
+			formationRound.loadRound (aRoundNode);
+		}
+		
+		@Override
+		public void foundItemMatchKey3 (XMLNode aRoundNode) {
+			contractBidRound.loadRound (aRoundNode);
 		}
 	};
 

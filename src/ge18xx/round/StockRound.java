@@ -9,14 +9,14 @@ import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.DonePlayerAction;
 import geUtilities.xml.AttributeName;
-import geUtilities.xml.ElementName;
+//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class StockRound extends Round {
-	public static final ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
+//	public static final ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
 	public static final AttributeName AN_CURRENT_PLAYER = new AttributeName ("currentPlayer");
 	public static final AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
 	public static final StockRound NO_STOCK_ROUND = null;

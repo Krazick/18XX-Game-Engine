@@ -1,13 +1,13 @@
 package ge18xx.round;
 
 import ge18xx.round.action.ActorI;
-import geUtilities.xml.ElementName;
+//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 
 public class ContractBidRound extends Round {
-	public final static ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
+//	public final static ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
 	public static final ContractBidRound NO_CONTRACT_BID_ROUND = null;
 	public static final String NAME = "Contract Bid Round";
 

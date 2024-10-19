@@ -9,12 +9,12 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
-import geUtilities.xml.ElementName;
+//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
 public class AuctionRound extends InterruptionRound {
-	public final static ElementName EN_AUCTION_ROUND = new ElementName ("AuctionRound");
+//	public final static ElementName EN_AUCTION_ROUND = new ElementName ("AuctionRound");
 	public final static String NAME = "Auction Round";
 	public final static AuctionRound NO_AUCTION_ROUND = null;
 	AuctionFrame auctionFrame;
