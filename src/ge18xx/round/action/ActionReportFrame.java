@@ -77,6 +77,7 @@ public class ActionReportFrame extends XMLFrame {
 
 	private void scrollToBottom () {
 		actionReport.setCaretPosition (actionReport.getDocument ().getLength ());
+		repaint ();
 	}
 
 	private void append (String aReport, SimpleAttributeSet aKeyWord) {
