@@ -1179,7 +1179,6 @@ public class PlayerManager implements XMLSaveGameI {
 		tOldPriorityPlayer = getPlayer (tOldPriorityPlayerIndex);
 		
 		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
-		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 		tDonePlayerAction.addNewPriorityPlayerEffect (aPlayer, tOldPriorityPlayerIndex, tNextPlayerIndex);
 
 		// If this Player Stock Action include exchanging out the President Share, clear
@@ -1200,8 +1199,13 @@ public class PlayerManager implements XMLSaveGameI {
 
 	private void moveToNextPlayer (int aNextPlayerIndex, ChangeStateAction aChangeStateAction) {
 		Player tNextPlayer;
+		Player tCurrentPlayer;
 		boolean tBidShare;
+		int tCurrentPlayerIndex;
 		
+		tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
+		tCurrentPlayer = getCurrentPlayer ();
+		aChangeStateAction.addNewCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, aNextPlayerIndex);
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 		
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
@@ -1477,7 +1481,6 @@ public class PlayerManager implements XMLSaveGameI {
 		Player.ActionStates tNewState;
 		boolean tHaveAllPassed;
 		int tNextPlayerIndex;
-		int tCurrentPlayerIndex;
 
 		tPassAction = new PassAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 		// Get State before acting for saving in the Action Stack.
@@ -1487,19 +1490,14 @@ public class PlayerManager implements XMLSaveGameI {
 			tNewState = aPlayer.getPrimaryActionState ();
 			aPlayer.updatePortfolioInfo ();
 
-			tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
 			
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
-			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 			stockRound.updateRFPlayerLabel (aPlayer);
 			
 			tHaveAllPassed = haveAllPassed ();
 			if (! tHaveAllPassed) {
-//				addAction (tPassAction);
-//			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
-//				addAction (tPassAction);
 			}
 			addAction (tPassAction);
 		} else {
