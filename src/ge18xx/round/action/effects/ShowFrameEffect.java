@@ -70,6 +70,18 @@ public class ShowFrameEffect extends Effect {
 		return xmlFrameTitle;
 	}
 	
+	public boolean isPlayerFrame () {
+		boolean tIsPlayerFrame;
+		
+		if (xmlFrameTitle.contains ("Player Frame")) {
+			tIsPlayerFrame = true;
+		} else {
+			tIsPlayerFrame = false;
+		}
+		
+		return tIsPlayerFrame;
+	}
+
 	public boolean isCorporationFrame () {
 		boolean tIsCorporationFrame;
 		
@@ -87,7 +99,9 @@ public class ShowFrameEffect extends Effect {
 		boolean tEffectApplied;
 
 		tEffectApplied = false;
-		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
+		if (isPlayerFrame ()) {
+			tEffectApplied = true;
+		} else if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (true);
 			tEffectApplied = true;
 		} else if (isCorporationFrame ()) {
