@@ -401,28 +401,30 @@ public class OperatingRound extends Round {
 	public void resume () {		
 	}
 	
-	public void setRoundToOperatingRound (Round aCurrentRound, int aRoundIDPart1, int aRoundIDPart2) {
+	public void setRoundToOperatingRound (Round aCurrentRound, String aOldID, int aRoundIDPart1, int aRoundIDPart2) {
 		ChangeRoundAction tChangeRoundAction;
-		ActorI.ActionStates tCurrentRoundType;
+//		ActorI.ActionStates tCurrentRoundType;
 		RoundFrame tRoundFrame;
-		String tOldOperatingRoundID;
-		String tNewOperatingRoundID;
+		String tNewID;
+//		String tCurrentRoundID;
 		String tGameName;
 		int tOperatingRoundCount;
 
 		if (aRoundIDPart2 == Round.START_ID2) {
 			roundManager.setOperatingRoundCount ();
 		}
-		tOldOperatingRoundID = getID ();
 		roundManager.setCurrentOR (aRoundIDPart2);
 		setID (aRoundIDPart1, aRoundIDPart2);
-		tNewOperatingRoundID = getID ();
+		tNewID = getID ();
 		tOperatingRoundCount = roundManager.getOperatingRoundCount ();
-		tCurrentRoundType = roundManager.getCurrentRoundState ();
 		
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tNewOperatingRoundID, aCurrentRound);
-		roundManager.changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, this, tOldOperatingRoundID,
-				tNewOperatingRoundID, tChangeRoundAction);
+//		tCurrentRoundID = aCurrentRound.getID ();
+//		tCurrentRoundType = roundManager.getCurrentRoundState ();
+//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tCurrentRoundID, aCurrentRound);
+		
+		tChangeRoundAction = buildChangeRoundAction ();
+		roundManager.changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, this, aOldID,
+				tNewID, tChangeRoundAction);
 		
 		tRoundFrame = roundManager.getRoundFrame ();
 		tGameName = roundManager.getGameName ();
@@ -438,12 +440,14 @@ public class OperatingRound extends Round {
 	public void start () {
 		PlayerManager tPlayerManager;
 		Round tCurrentRound;
+		String tOldID;
 		int tIDPart1;
 		int tIDPart2;
 
 		tPlayerManager = roundManager.getPlayerManager ();
 		tCurrentRound = roundManager.getCurrentRound ();
 
+		tOldID = getID ();
 		if (repeatRound) {
 			tIDPart1 = getIDPart1 ();
 			tIDPart2 = getIDPart2 () + 1;
@@ -455,7 +459,7 @@ public class OperatingRound extends Round {
 		}
 		super.start ();
 
-		setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
+		setRoundToOperatingRound (tCurrentRound, tOldID, tIDPart1, tIDPart2);
 
 		if (! roundManager.applyingAction ()) {
 			if (getPrivateCompanyCount () > 0) {

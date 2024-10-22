@@ -12,6 +12,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -68,7 +69,7 @@ public abstract class Round implements ActorI {
 		int tIDPart1;
 
 		tIDPart1 = getIDPart1 () + 1;
-		setIDPart1 (tIDPart1);
+//		setIDPart1 (tIDPart1);
 
 		return tIDPart1;
 	}
@@ -245,14 +246,19 @@ public abstract class Round implements ActorI {
 		return roundManager.hasActionsToUndo ();
 	}
 
-//	public boolean startOperatingRound () {
-//		Round tCurrentRound;
-//		
-//		tCurrentRound = roundManager.getCurrentRound ();
-//		roundManager.startOperatingRound (tCurrentRound);
-//
-//		return true;
-//	}
+	public ChangeRoundAction buildChangeRoundAction () {
+		ChangeRoundAction tChangeRoundAction;
+		Round tCurrentRound;
+		String tCurrentRoundID;
+		ActorI.ActionStates tCurrentRoundState;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tCurrentRoundID = tCurrentRound.getID ();
+		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRoundID, tCurrentRound);
+
+		return tChangeRoundAction;
+	}
 
 	public String getClientUserName () {
 		return roundManager.getClientUserName ();

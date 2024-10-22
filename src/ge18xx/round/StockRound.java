@@ -16,7 +16,6 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class StockRound extends Round {
-//	public static final ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
 	public static final AttributeName AN_CURRENT_PLAYER = new AttributeName ("currentPlayer");
 	public static final AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
 	public static final StockRound NO_STOCK_ROUND = null;
@@ -304,18 +303,25 @@ public class StockRound extends Round {
 
 	public ChangeRoundAction setRoundToStockRound () {
 		ChangeRoundAction tChangeRoundAction;
-		ActorI.ActionStates tCurrentRoundState;
+//		ActorI.ActionStates tCurrentRoundState;
 		Round tCurrentRound;
+//		String tCurrentRoundID;
 		String tOldRoundID;
 		String tNewRoundID;
+		int tIDPart1;
 		
-		tCurrentRound = roundManager.getCurrentRound ();
-		tCurrentRoundState = tCurrentRound.getRoundState ();
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRound.getID (), this);
+//		tCurrentRound = roundManager.getCurrentRound ();
+//		tCurrentRoundState = tCurrentRound.getRoundState ();
+//		tCurrentRoundID = tCurrentRound.getID ();
+//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRoundID, tCurrentRound);
+		tChangeRoundAction = buildChangeRoundAction ();
 		
 		tOldRoundID = getID ();
-		incrementRoundIDPart1 ();
+		tIDPart1 = incrementRoundIDPart1 ();
+		setIDPart1 (tIDPart1);
 		tNewRoundID = getID ();
+		tCurrentRound = roundManager.getCurrentRound ();
+		
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
 				tChangeRoundAction);
 
@@ -324,7 +330,6 @@ public class StockRound extends Round {
 
 	@Override
 	public void start () {
-//		int tRoundIDPart1;
 		int tPriorityIndex;
 		String tGameName;
 		String tRoundID;
