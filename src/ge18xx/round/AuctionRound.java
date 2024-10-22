@@ -14,7 +14,6 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
 public class AuctionRound extends InterruptionRound {
-//	public final static ElementName EN_AUCTION_ROUND = new ElementName ("AuctionRound");
 	public final static String NAME = "Auction Round";
 	public final static AuctionRound NO_AUCTION_ROUND = null;
 	AuctionFrame auctionFrame;
@@ -171,6 +170,7 @@ public class AuctionRound extends InterruptionRound {
 		tOldRoundID = getID ();
 		if (aIncrementRoundID) {
 			tRoundID = incrementRoundIDPart1 ();
+			setIDPart1 (tRoundID);
 			tNewRoundID = tRoundID + "";
 		} else {
 			tRoundID = getIDPart1 ();
