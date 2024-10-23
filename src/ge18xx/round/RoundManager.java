@@ -140,8 +140,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tInitialRound.setIDPart1 (Round.START_ID1);
 		tInitialRound.setIDPart2 (Round.START_ID2);
 		
-		stockRound.setRoundToStockRound ();
-		stockRound.setStartingPlayer ();
+		tInitialRound.start ();
+		tInitialRound.setStartingPlayer ();
 	}
 
 	public boolean isFirstStockRound () {
