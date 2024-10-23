@@ -28,4 +28,13 @@ public class ClearRoundDividendsAction extends Action {
 		tClearRoundDividendEffect = new ClearRoundDividendEffect (aPlayer, aPreviousAmount, aOperatingRoundID);
 		addEffect (tClearRoundDividendEffect);
 	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tReport;
+
+		tReport = NAME + " for all Players";
+		
+		return tReport;
+	}
 }
