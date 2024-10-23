@@ -20,7 +20,6 @@ public class StockRound extends Round {
 	public static final AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
 	public static final StockRound NO_STOCK_ROUND = null;
 	public static final String NAME = "Stock Round";
-	public static final int FIRST_PLAYER = 0;
 	PlayerManager playerManager;
 	int currentPlayerIndex;
 	int priorityPlayerIndex;
@@ -61,6 +60,7 @@ public class StockRound extends Round {
 		return tXMLElement;
 	}
 
+	@Override
 	public void setStartingPlayer () {
 		setCurrentPlayer (FIRST_PLAYER, false);
 		setPriorityPlayer (FIRST_PLAYER);
@@ -163,25 +163,25 @@ public class StockRound extends Round {
 		return getIDPart1 () + "";
 	}
 
-	@Override
-	public void setID (String aID) {
-		super.setID (aID);
-	}
-
-	@Override
-	public void setID (int aIDPart1, int aIDPart2) {
-		super.setID (aIDPart1, aIDPart2);
-	}
-
-	@Override
-	public void setIDPart1 (int aIDPart1) {
-		super.setIDPart1 (aIDPart1);
-	}
-	
-	@Override
-	public void setIDPart2 (int aIDPart2) {
-		super.setIDPart2 (aIDPart2);
-	}
+//	@Override
+//	public void setID (String aID) {
+//		super.setID (aID);
+//	}
+//
+//	@Override
+//	public void setID (int aIDPart1, int aIDPart2) {
+//		super.setID (aIDPart1, aIDPart2);
+//	}
+//
+//	@Override
+//	public void setIDPart1 (int aIDPart1) {
+//		super.setIDPart1 (aIDPart1);
+//	}
+//	
+//	@Override
+//	public void setIDPart2 (int aIDPart2) {
+//		super.setIDPart2 (aIDPart2);
+//	}
 
 	public void updateStockRoundWindow () {
 		updateRoundFrame ();
@@ -358,7 +358,6 @@ public class StockRound extends Round {
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
 				tChangeRoundAction);
 
-		
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
 				

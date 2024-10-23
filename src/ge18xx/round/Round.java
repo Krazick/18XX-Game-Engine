@@ -31,6 +31,7 @@ public abstract class Round implements ActorI {
 	public static final ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
 	public final static AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
 	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
+	public static final int FIRST_PLAYER = 0;
 	public final static Round NO_ROUND = null;
 	public final static String NO_ID_STRING = "0.1";
 	public static final int START_ID1 = 0;
@@ -46,6 +47,9 @@ public abstract class Round implements ActorI {
 	public Round (RoundManager aRoundManager) {
 		setRoundManager (aRoundManager);
 		setID (START_ID1, START_ID2);
+	}
+	
+	public void setStartingPlayer () {
 	}
 
 	public void setRoundManager (RoundManager aRoundManager) {
