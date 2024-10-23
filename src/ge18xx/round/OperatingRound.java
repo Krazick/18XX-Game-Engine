@@ -17,7 +17,6 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {
-//	public final static ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");
 	public final static OperatingRound NO_OPERATING_ROUND = null;
 	public final static String NAME = "Operating Round";
 	CorporationList privateCompanies;
@@ -403,33 +402,33 @@ public class OperatingRound extends Round {
 	
 	public void setRoundToOperatingRound (Round aCurrentRound, String aOldID, int aRoundIDPart1, int aRoundIDPart2) {
 		ChangeRoundAction tChangeRoundAction;
-//		ActorI.ActionStates tCurrentRoundType;
 		RoundFrame tRoundFrame;
 		String tNewID;
-//		String tCurrentRoundID;
 		String tGameName;
-		int tOperatingRoundCount;
+		int tOldORCount;
+		int tNewORCount;
 
+		tChangeRoundAction = buildChangeRoundAction ();
+		tOldORCount = roundManager.getOperatingRoundCount ();
 		if (aRoundIDPart2 == Round.START_ID2) {
 			roundManager.setOperatingRoundCount ();
 		}
+		tNewORCount = roundManager.getOperatingRoundCount ();
+		if (tOldORCount != tNewORCount) {
+			tChangeRoundAction.addChangeMaxORCountEffect (this, tOldORCount, tNewORCount);
+		}
+		
 		roundManager.setCurrentOR (aRoundIDPart2);
 		setID (aRoundIDPart1, aRoundIDPart2);
 		tNewID = getID ();
-		tOperatingRoundCount = roundManager.getOperatingRoundCount ();
 		
-//		tCurrentRoundID = aCurrentRound.getID ();
-//		tCurrentRoundType = roundManager.getCurrentRoundState ();
-//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tCurrentRoundID, aCurrentRound);
-		
-		tChangeRoundAction = buildChangeRoundAction ();
 		roundManager.changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, this, aOldID,
 				tNewID, tChangeRoundAction);
 		
 		tRoundFrame = roundManager.getRoundFrame ();
 		tGameName = roundManager.getGameName ();
 
-		tRoundFrame.setOperatingRound (tGameName, aRoundIDPart1, aRoundIDPart2, tOperatingRoundCount);
+		tRoundFrame.setOperatingRound (tGameName, aRoundIDPart1, aRoundIDPart2, tNewORCount);
 		tRoundFrame.revalidate ();
 		if (!roundManager.applyingAction ()) {
 			addAction (tChangeRoundAction);
