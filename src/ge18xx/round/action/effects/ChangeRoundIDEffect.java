@@ -95,7 +95,7 @@ public class ChangeRoundIDEffect extends Effect {
 			}
 			tEffectApplied = true;
 		}
-
+		
 		return tEffectApplied;
 	}
 
