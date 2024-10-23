@@ -30,13 +30,11 @@ public class ContractBidRound extends Round {
 	@Override
 	public void finish () {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void finish (XMLFrame aXMLFrame) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -50,7 +48,8 @@ public class ContractBidRound extends Round {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
