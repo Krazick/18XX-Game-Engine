@@ -69,7 +69,6 @@ public abstract class Round implements ActorI {
 		int tIDPart1;
 
 		tIDPart1 = getIDPart1 () + 1;
-//		setIDPart1 (tIDPart1);
 
 		return tIDPart1;
 	}
@@ -315,11 +314,6 @@ public abstract class Round implements ActorI {
 	public String getStateName () {
 		return getRoundState ().toString ();
 	}
-
-	// Probably remove this method, the new 'roundEnds' to be used instead
-//	public boolean roundIsDone () {
-//		return false;
-//	}
 
 	@Override
 	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
