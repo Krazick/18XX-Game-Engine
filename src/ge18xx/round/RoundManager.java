@@ -284,10 +284,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		boolean tCurrentRoundEnds;
 		boolean tEndsAfterAction;
 		RoundType tCurrentRoundType;
-		Round tNextRound;
 		String tActionName;
 		String tEndsAfterActions;
-		String tNextRoundName;
 
 		tCurrentRoundEnds = false;
 		tCurrentRoundType = currentRound.getRoundType ();
@@ -297,11 +295,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			tEndsAfterAction = tEndsAfterActions.contains (tActionName);
 			if (tEndsAfterAction) {
 				if (currentRound.ends ()) {
-					tNextRoundName = tCurrentRoundType.getNextRoundName ();
-					tNextRound = getRoundByTypeName (tNextRoundName);
 					currentRound.finish ();
-					System.out.println ("Current Round Type " + tCurrentRoundType.getName () + " is ENDING.");
-					System.out.println ("Next Round Type " + tNextRound.getName () + " needs to START");
 					tCurrentRoundEnds = true;
 				}
 			}
@@ -353,14 +347,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		Round tNextRound;
 		
 		tNextRound = currentRound.getNextRound ();
-		System.out.println ("Next Round name is " + tNextRound.getName ());
 		tNextRound.start ();
-//		if (tNextRound.getRoundState () == ActorI.ActionStates.OperatingRound) {
-//			startOperatingRound (currentRound);
-//		} else {
-//			tNextRound.start ();
-//			currentRound.start ();
-//		}
 	}
 	
 	/**
@@ -929,6 +916,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		currentOR = aCurrentOR;
 	}
 
+	public int getCurrentOR () {
+		return currentOR;
+	}
+	
 	public void setCurrentPlayerLabel () {
 		String tPlayerName;
 
@@ -1009,19 +1000,24 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		ActorI.ActionStates tCurrentRoundType;
 		String tOldOperatingRoundID;
 		String tNewOperatingRoundID;
-
+		int tOldMaxOR;
+		int tNewMaxOR;
+		
+		tCurrentRoundType = getCurrentRoundState ();
+		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, currentRound.getID (), aCurrentRound);
 		if (aRoundIDPart2 == Round.START_ID2) {
+			tOldMaxOR = getOperatingRoundCount ();
 			setOperatingRoundCount ();
+			tNewMaxOR = getOperatingRoundCount ();
+			tChangeRoundAction.addChangeMaxORCountEffect (operatingRound, tOldMaxOR, tNewMaxOR);
 		}
+		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 		tOldOperatingRoundID = operatingRound.getID ();
 		setCurrentOR (aRoundIDPart2);
 		operatingRound.setID (aRoundIDPart1, currentOR);
 		tNewOperatingRoundID = operatingRound.getID ();
-		tCurrentRoundType = getCurrentRoundState ();
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, currentRound.getID (), aCurrentRound);
 		changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, tOldOperatingRoundID,
 				tNewOperatingRoundID, tChangeRoundAction);
-		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 		revalidateRoundFrame ();
 		if (!applyingAction ()) {
 			addAction (tChangeRoundAction);
