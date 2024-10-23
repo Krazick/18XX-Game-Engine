@@ -1276,7 +1276,6 @@ public class PlayerManager implements XMLSaveGameI {
 		ActorI.ActionStates tNewCorporationStatus;
 		Player tCurrentPresident;
 		ShareCompany tShareCompany;
-		String tAbbrev;
 		int tExchangeID;
 		int tExchangePercentage;
 
@@ -1291,9 +1290,9 @@ public class PlayerManager implements XMLSaveGameI {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
 			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
-			tAbbrev = tShareCompany.getAbbrev ();
-			aPlayer.setExchangedPrezShare (tAbbrev);
-			tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tAbbrev);
+//			tAbbrev = tShareCompany.getAbbrev ();
+//			aPlayer.setExchangedPrezShare (tAbbrev);
+//			tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tAbbrev);
 			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
 			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
 			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
@@ -1306,8 +1305,8 @@ public class PlayerManager implements XMLSaveGameI {
 			tNewCertificate.updateCorporationOwnership ();
 			tNewCorporationStatus = tNewCertificate.getCorporationStatus ();
 			if (tCurrentCorporationStatus != tNewCorporationStatus) {
-				tExchangeStockAction.addChangeCorporationStatusEffect (tNewCertificate.getCorporation (), tCurrentCorporationStatus,
-						tNewCorporationStatus);
+				tExchangeStockAction.addChangeCorporationStatusEffect (tNewCertificate.getCorporation (),
+						tCurrentCorporationStatus, tNewCorporationStatus);
 			}
 			tPortfolioHolder = tShareCompany.getPresident ();
 			if (tPortfolioHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
