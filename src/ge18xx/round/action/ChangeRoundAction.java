@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.ChangeMaxORCountEffect;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
@@ -32,6 +33,13 @@ public class ChangeRoundAction extends ChangeStateAction {
 		addEffect (tChangeRoundIDEffect);
 	}
 
+	public void addChangeMaxORCountEffect (ActorI aActor, int aOldMaxORCount, int aNewMaxORCount) {
+		ChangeMaxORCountEffect tChangeMaxORCountEffect;
+		
+		tChangeMaxORCountEffect = new ChangeMaxORCountEffect (aActor, aOldMaxORCount, aNewMaxORCount);
+		addEffect (tChangeMaxORCountEffect);
+	}
+	
 	public void addClearSoldCompanyEffect (ActorI aActor, String aSoldCompanies, String aRoundID) {
 		ClearSoldCompanyEffect tClearSoldCompanyEfect;
 
