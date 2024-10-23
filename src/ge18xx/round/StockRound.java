@@ -303,17 +303,11 @@ public class StockRound extends Round {
 
 	public ChangeRoundAction setRoundToStockRound () {
 		ChangeRoundAction tChangeRoundAction;
-//		ActorI.ActionStates tCurrentRoundState;
 		Round tCurrentRound;
-//		String tCurrentRoundID;
 		String tOldRoundID;
 		String tNewRoundID;
 		int tIDPart1;
 		
-//		tCurrentRound = roundManager.getCurrentRound ();
-//		tCurrentRoundState = tCurrentRound.getRoundState ();
-//		tCurrentRoundID = tCurrentRound.getID ();
-//		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundState, tCurrentRoundID, tCurrentRound);
 		tChangeRoundAction = buildChangeRoundAction ();
 		
 		tOldRoundID = getID ();
@@ -336,12 +330,35 @@ public class StockRound extends Round {
 		GameManager tGameManager;
 		RoundFrame tRoundFrame;
 		ChangeRoundAction tChangeRoundAction;
+		Round tCurrentRound;
+		String tOldRoundID;
+		String tNewRoundID;
+		int tIDPart1;
 		
 		if (roundManager.bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
 		super.start ();
-		tChangeRoundAction = setRoundToStockRound ();
+//		tChangeRoundAction = setRoundToStockRound ();
+		
+		tChangeRoundAction = buildChangeRoundAction ();
+		tGameManager = roundManager.getGameManager ();
+
+		if (! tGameManager.applyingAction ()) {
+			tOldRoundID = getID ();
+			tIDPart1 = getIDPart1 () + 1;
+			setIDPart1 (tIDPart1);
+			tNewRoundID = getID ();
+		} else {
+			tOldRoundID = getID ();
+			tNewRoundID = getID ();
+		}
+		tCurrentRound = roundManager.getCurrentRound ();
+		
+		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
+				tChangeRoundAction);
+
+		
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
 				
@@ -362,7 +379,6 @@ public class StockRound extends Round {
 		
 		tRoundFrame = roundManager.getRoundFrame ();
 		tRoundID = getID ();
-		tGameManager = roundManager.getGameManager ();
 		tGameName = tGameManager.getActiveGameName ();
 		tRoundFrame.setStockRoundInfo (tGameName, tRoundID);
 		tRoundFrame.updateAll ();
