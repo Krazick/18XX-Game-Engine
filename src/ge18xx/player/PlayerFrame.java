@@ -431,10 +431,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		// certificates
 
 		tStock = aPlayer.hasExchangedShare ();
-		tToolTip = "";
+		tToolTip = GUI.EMPTY_STRING;
 		if (tStock != Player.NO_STOCK_TO_SELL) {
 			tPercentage = aPlayer.getMustSellPercent (tStock);
-			tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange";
+			if (tPercentage > 0) {
+				tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + 
+							" Share Company due to Exchange";
+			}
 		} else {
 			tStock = aPlayer.exceedsAnyCorpShareLimit ();
 			if (tStock != Player.NO_STOCK_TO_SELL) {
