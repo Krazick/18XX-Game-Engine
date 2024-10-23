@@ -111,7 +111,6 @@ public class StateChangeEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		StockRound tStockRound;
-		Round tCurrentRound;
 		Player tPlayer;
 		boolean tEffectApplied;
 		int tStockRoundID;
@@ -131,8 +130,9 @@ public class StateChangeEffect extends Effect {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
-				tCurrentRound = aRoundManager.getCurrentRound ();
-				aRoundManager.startOperatingRound (tCurrentRound);
+				aRoundManager.startRound (newState);
+//				tNewRound = aRoundManager.getRoundByTypeName (newState.toString ());
+//				tNewRound.start ();
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Stock Round, New state of " + newState.toString () +
@@ -149,7 +149,6 @@ public class StateChangeEffect extends Effect {
 			}
 		} else if (actor.isAOperatingRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
-//				aRoundManager.startStockRound ();
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else {
