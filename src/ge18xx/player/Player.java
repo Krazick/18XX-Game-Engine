@@ -866,10 +866,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		} else {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
 			tPresident = tShareCompany.getPresident ();
-			if (tPresident.isAPlayer ()) {
-				tPresidentPlayer = (Player) tPresident;
-				tPresidentHasXPercent = tPresidentPlayer.getPercentOwnedOf (tShareCompany);
-				tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
+			if (tPresident != Player.NO_PLAYER) {
+				if (tPresident.isAPlayer ()) {
+					tPresidentPlayer = (Player) tPresident;
+					tPresidentHasXPercent = tPresidentPlayer.getPercentOwnedOf (tShareCompany);
+					tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
+				}
 			}
 		}
 
@@ -1301,6 +1303,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void loadState (XMLNode aPlayerNode) {
 		String tState;
 		String tSoldCompanies;
+		String tExchangedPrezShare;
 		XMLNodeList tXMLAllPercentBoughtNodeList;
 		XMLNodeList tXMLPortfolioNodeList;
 		XMLNodeList tXMLQueryOfferNodeList;
@@ -1322,9 +1325,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		roundDividends.parseDividendAtribute (aPlayerNode);
 		tState = aPlayerNode.getThisAttribute (AN_AUCTION_STATE);
 		auctionActionState = tGenericActor.getPlayerState (tState);
-		exchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
-		if (exchangedPrezShare.equals (GUI.EMPTY_STRING)) {
-			exchangedPrezShare = NO_STOCK_TO_SELL;
+		tExchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
+		if (tExchangedPrezShare.equals (GUI.EMPTY_STRING)) {
+			setExchangedPrezShare (NO_STOCK_TO_SELL);
+		} else {
+			setExchangedPrezShare (tExchangedPrezShare);
 		}
 		tSoldCompanies = aPlayerNode.getThisAttribute (AN_SOLD_COMPANIES);
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
