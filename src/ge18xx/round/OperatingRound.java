@@ -451,7 +451,7 @@ public class OperatingRound extends Round {
 			tIDPart1 = getIDPart1 ();
 			tIDPart2 = getIDPart2 () + 1;
 		} else {
-			tIDPart1 = incrementRoundIDPart1 ();
+			tIDPart1 = getIDPart1 () + 1;
 			tIDPart2 = Round.START_ID2;
 			tPlayerManager.clearAllPlayerDividends ();
 			tPlayerManager.clearAllPercentBought ();
