@@ -321,8 +321,6 @@ public class PlayerManager implements XMLSaveGameI {
 		if (tSetPercentBoughtAction.getEffectCount () > 0) {
 			tSetPercentBoughtAction.setChainToPrevious (true);
 			addAction (tSetPercentBoughtAction);
-		} else {
-			System.err.println ("No Effects in the SetPercentBoughtAction");
 		}
 	}
 
