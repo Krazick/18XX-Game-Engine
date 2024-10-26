@@ -131,41 +131,6 @@ public class OperatingRound extends Round {
 		shareCompanies.sortByOperatingOrder ();
 	}
 
-//	@Override
-	public boolean startOperatingRound () {
-		boolean tStartedOperatingRound;
-		Round tCurrentRound;
-		PlayerManager tPlayerManager;
-		int tIDPart1;
-		int tIDPart2;
-
-		tPlayerManager = roundManager.getPlayerManager ();
-		tCurrentRound = roundManager.getCurrentRound ();
-		tIDPart1 = incrementRoundIDPart1 ();
-		tIDPart2 = Round.START_ID2;
-		roundManager.setRoundToOperatingRound (tCurrentRound, tIDPart1, tIDPart2);
-		tPlayerManager.clearAllPlayerDividends ();
-		tPlayerManager.clearAllPercentBought ();
-
-		tStartedOperatingRound = true;
-		if (! roundManager.applyingAction ()) {
-			if (getPrivateCompanyCount () > 0) {
-				payRevenues ();
-				handleQueryBenefits ();
-			}
-		}
-		if (anyFloatedCompanies ()) {
-			minorCompanies.clearOperatedStatus ();
-			shareCompanies.clearOperatedStatus ();
-			updateActionLabel ();
-		} else {
-			tStartedOperatingRound = false;
-		}
-		roundManager.updateRoundFrame ();
-
-		return tStartedOperatingRound;
-	}
-
 	public boolean anyFloatedCompanies () {
 		boolean tAnyFloatedCompanies;
 

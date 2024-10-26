@@ -503,9 +503,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
-
-		// TODO: Cycle through the different Round Type
-		// If it matches the round by name, return the corresponding Round, given it is not NULL
 		
 		tActor = ActorI.NO_ACTOR;
 		if (stockRound.isActor (aActorName)) {
@@ -696,18 +693,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		
 		return tCapitalizationLevel;
 	}
-
-//	public int getOperatingRoundID1 () {
-//		return operatingRound.getIDPart1 ();
-//	}
-//
-//	public int getOperatingRoundID2 () {
-//		return operatingRound.getIDPart2 ();
-//	}
-//
-//	public String getOperatingRoundID () {
-//		return operatingRound.getID ();
-//	}
 
 	public PhaseManager getPhaseManager () {
 		return gameManager.getPhaseManager ();
@@ -995,35 +980,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
 	}
 
-	public void setRoundToOperatingRound (Round aCurrentRound, int aRoundIDPart1, int aRoundIDPart2) {
-		ChangeRoundAction tChangeRoundAction;
-		ActorI.ActionStates tCurrentRoundType;
-		String tOldOperatingRoundID;
-		String tNewOperatingRoundID;
-		int tOldMaxOR;
-		int tNewMaxOR;
-		
-		tCurrentRoundType = getCurrentRoundState ();
-		tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, currentRound.getID (), aCurrentRound);
-		if (aRoundIDPart2 == Round.START_ID2) {
-			tOldMaxOR = getOperatingRoundCount ();
-			setOperatingRoundCount ();
-			tNewMaxOR = getOperatingRoundCount ();
-			tChangeRoundAction.addChangeMaxORCountEffect (operatingRound, tOldMaxOR, tNewMaxOR);
-		}
-		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
-		tOldOperatingRoundID = operatingRound.getID ();
-		setCurrentOR (aRoundIDPart2);
-		operatingRound.setID (aRoundIDPart1, currentOR);
-		tNewOperatingRoundID = operatingRound.getID ();
-		changeRound (aCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, tOldOperatingRoundID,
-				tNewOperatingRoundID, tChangeRoundAction);
-		revalidateRoundFrame ();
-		if (!applyingAction ()) {
-			addAction (tChangeRoundAction);
-		}
-	}
-
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,
 								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
 		ActorI.ActionStates tCurrentRoundState;
@@ -1094,43 +1050,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	
 	public void updatePassButton () {
 		roundFrame.updatePassButton ();		
-	}
-	
-	public void startOperatingRound (Round aCurrentRound) {
-//		int tIDPart1;
-//		int tIDPart2;
-
-//		tIDPart1 = aCurrentRound.incrementRoundIDPart1 (operatingRound);
-//		tIDPart2 = Round.START_ID2;
-//		setRoundToOperatingRound (aCurrentRound, tIDPart1, tIDPart2);
-//		playerManager.clearAllPlayerDividends ();
-//		playerManager.clearAllPercentBought ();
-
-		// If no Minor of Share company operates, the Operating Round failed to
-		// start,
-		// Revenues were paid by Private Companies
-		// Need to simply restart Stock Round
-		aCurrentRound.start ();
-	}
-
-	// TODO -- This code needs to be in the 'getNextRound' not trying to find the round and start it
-	public void endOperatingRound () {
-		int tIDPart1;
-
-		// If this is the LastOR, go back to Stock Round
-		if (isLastOR ()) {
-			startStockRound ();
-		} else {
-			// Otherwise, we need to go to another Operating Round, incrementing from the
-			// current OR.
-			tIDPart1 = operatingRound.getIDPart1 ();
-			setRoundToOperatingRound (stockRound, tIDPart1, currentOR + 1);
-			operatingRound.startOperatingRound ();
-		}
-	}
-
-	public void startStockRound () {
-		stockRound.start ();
 	}
 	
 	public void showFrame () {
@@ -1244,10 +1163,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	// Operating Round handles with Boolean Return
 	
-	public boolean operatingRoundIsDone () {
-		return operatingRound.ends ();
-	}
-
 	public boolean companyStartedOperating () {
 		return operatingRound.companyStartedOperating ();
 	}
@@ -1489,10 +1404,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public CorporationList getPrivates () {
 		return gameManager.getPrivates ();
-	}
-
-	public void handleQueryBenefits () {
-
 	}
 
 	/* Method will the Next Certificate Available for Purchase/Bid that is in the Bank
