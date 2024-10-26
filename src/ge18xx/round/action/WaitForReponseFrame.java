@@ -1,6 +1,5 @@
 package ge18xx.round.action;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.Point;
@@ -38,7 +37,6 @@ public class WaitForReponseFrame extends JFrame {
 
 		tWaitMessage = new JLabel ("Waiting for Response from " + aPlayerName);
 		setLayout (new FlowLayout (FlowLayout.CENTER));
-		setBackground (Color.GREEN);
 		setSize (400, 100);
 		add (tWaitMessage);
 
@@ -61,7 +59,8 @@ public class WaitForReponseFrame extends JFrame {
 	}
 
 	/**
-	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
+	 * When the Corporation has need to wait for a Response from a Network Player, State is 
+	 * ActorI.ActionStates.WaitingResponse
 	 * Put this thread to sleep, in X second chunks
 	 *
 	 */
