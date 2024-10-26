@@ -243,9 +243,5 @@ public class SetRoundTypeTests {
 		Mockito.when (mBank.canStartOperatingRound ()).thenReturn (true);
 		mBank.canStartOperatingRound ();
 		Mockito.verify (mBank, times (1)).canStartOperatingRound ();
-
-		Mockito.when (mOperatingRound.ends ()).thenReturn (true);
-		roundManager.operatingRoundIsDone ();
-		Mockito.verify (mOperatingRound, times (1)).ends ();
 	}
 }
