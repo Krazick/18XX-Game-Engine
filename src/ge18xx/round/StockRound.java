@@ -34,9 +34,14 @@ public class StockRound extends Round {
 
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
+		int tCurrentPlayerIndex;
+		int tPriorityPlayerIndex;
+		
 		super.loadRound (aRoundNode);
-		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
-		priorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
+		tCurrentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
+		tPriorityPlayerIndex = aRoundNode.getThisIntAttribute (AN_PRIORITY_PLAYER);
+		setCurrentPlayerIndex (tCurrentPlayerIndex);
+		setPriorityPlayerIndex (tPriorityPlayerIndex);
 		setName (NAME);
 		setRoundType ();
 	}
@@ -63,7 +68,7 @@ public class StockRound extends Round {
 	@Override
 	public void setStartingPlayer () {
 		setCurrentPlayer (FIRST_PLAYER, false);
-		setPriorityPlayer (FIRST_PLAYER);
+		setPriorityPlayerIndex (FIRST_PLAYER);
 		setStartRoundPriorityIndex (FIRST_PLAYER);
 	}
 
@@ -97,7 +102,7 @@ public class StockRound extends Round {
 		roundManager.setCurrentPlayerLabel ();
 	}
 
-	public void setPriorityPlayer (int aPriorityIndex) {
+	public void setPriorityPlayerIndex (int aPriorityIndex) {
 		priorityPlayerIndex = aPriorityIndex;
 	}
 
