@@ -1187,7 +1187,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 
 		aPlayer.updatePortfolioInfo ();
-		stockRound.setPriorityPlayer (tNextPlayerIndex);
+		stockRound.setPriorityPlayerIndex (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
 		moveToNextPlayer (tNextPlayerIndex, tDonePlayerAction);
 		
@@ -1288,9 +1288,6 @@ public class PlayerManager implements XMLSaveGameI {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
 			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
-//			tAbbrev = tShareCompany.getAbbrev ();
-//			aPlayer.setExchangedPrezShare (tAbbrev);
-//			tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tAbbrev);
 			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
 			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
 			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
