@@ -30,7 +30,7 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 		tStockRound = aRoundManager.getStockRound ();
 		tPreviousPlayer = tStockRound.getPlayerAtIndex (previousPlayerIndex);
 		tNewPlayer = tStockRound.getPlayerAtIndex (newPlayerIndex);
-		tStockRound.setPriorityPlayer (newPlayerIndex);
+		tStockRound.setPriorityPlayerIndex (newPlayerIndex);
 		tStockRound.updateRFPlayerLabel (tPreviousPlayer);
 		tStockRound.updateRFPlayerLabel (tNewPlayer);
 
@@ -48,7 +48,7 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 		tStockRound = aRoundManager.getStockRound ();
 		tPreviousPlayer = tStockRound.getPlayerAtIndex (previousPlayerIndex);
 		tNewPlayer = tStockRound.getPlayerAtIndex (newPlayerIndex);
-		tStockRound.setPriorityPlayer (previousPlayerIndex);
+		tStockRound.setPriorityPlayerIndex (previousPlayerIndex);
 		tStockRound.updateRFPlayerLabel (tPreviousPlayer);
 		tStockRound.updateRFPlayerLabel (tNewPlayer);
 
