@@ -104,6 +104,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tAnyCanOperate;
 	}
 
+	public boolean anyHaveLoans () {
+		boolean tAnyHaveLoans;
+		
+		tAnyHaveLoans = false;
+		for (Corporation tCorporation : corporations) {
+			tAnyHaveLoans = tAnyHaveLoans || tCorporation.hasOutstandingLoans ();
+		}
+
+		return tAnyHaveLoans;
+	}
+	
 	/**
 	 * Search the corporations for one with this ID. Don't use Abbrev which can be duplicated, for example B&O.
 	 * When found force set the status to unowned.
