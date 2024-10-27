@@ -13,7 +13,7 @@ public class RoundType {
 	public static final AttributeName AN_INTERRUPTION_ROUND_NAME = new AttributeName ("interruptionRound");
 	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
-	public static final AttributeName AN_INTERUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
+	public static final AttributeName AN_INTERRUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	public static final RoundType NO_ROUND_TYPE = null;
@@ -42,7 +42,7 @@ public class RoundType {
 		String tName;
 		String tNextRoundName;
 		String tInterruptionRoundName;
-		String tInteruptsAfterActions;
+		String tInterruptsAfterActions;
 		String tEndsAfterActions;
 		boolean tOptionalExtra;
 		boolean tInitialRound;
@@ -51,7 +51,7 @@ public class RoundType {
 		tName = aXMLRoundTypeNode.getThisAttribute (AN_NAME);
 		tNextRoundName = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND_NAME);
 		tInterruptionRoundName = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND_NAME);
-		tInteruptsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_INTERUPTS_AFTER_ACTIONS);
+		tInterruptsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTS_AFTER_ACTIONS);
 		tEndsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_ENDS_AFTER_ACTIONS);
 		tOptionalExtra = aXMLRoundTypeNode.getThisBooleanAttribute (AN_OPTIONAL_EXTRA);
 		tInitialRound = aXMLRoundTypeNode.getThisBooleanAttribute (AN_INITIAL_ROUND);
@@ -60,7 +60,7 @@ public class RoundType {
 		setName (tName);
 		setNextRoundName (tNextRoundName);
 		setInterruptionRoundName (tInterruptionRoundName);
-		setInteruptsAfterActions (tInteruptsAfterActions);
+		setInterruptsAfterActions (tInterruptsAfterActions);
 		setEndsAfterActions (tEndsAfterActions);
 		setOptionalExtra (tOptionalExtra);
 		setInitialRound (tInitialRound);
@@ -79,7 +79,7 @@ public class RoundType {
 		interruptionRoundName = aInterruptionRoundName;
 	}
 	
-	public void setInteruptsAfterActions (String aInterruptsAfterActions) {
+	public void setInterruptsAfterActions (String aInterruptsAfterActions) {
 		interruptsAfterActions = aInterruptsAfterActions;
 	}
 	
@@ -131,12 +131,12 @@ public class RoundType {
 		return maxRounds;
 	}
 	
-	public boolean isAInteruptsAfterAction (String aAction) {
-		boolean tIsAInteruptsAfterAction;
+	public boolean isAInterruptsAfterAction (String aAction) {
+		boolean tIsAInterruptsAfterAction;
 		
-		tIsAInteruptsAfterAction = interruptsAfterActions.contains (aAction);
+		tIsAInterruptsAfterAction = interruptsAfterActions.contains (aAction);
 		
-		return tIsAInteruptsAfterAction;
+		return tIsAInterruptsAfterAction;
 	}
 	
 	public boolean isAEndsAfterAction (String aAction) {
