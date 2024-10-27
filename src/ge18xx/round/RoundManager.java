@@ -310,11 +310,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		RoundType tInterruptionRoundType;
 		boolean tIsInterrupting;
 		boolean tInterruptionStarted;
-		boolean tInteruptsAfterAction;
+		boolean tInterruptsAfterAction;
 		boolean tHandledInterruption;
 		String tActionName;
 		String tInterruptRoundName;
-		String tInteruptsAfterActions;
+		String tInterruptsAfterActions;
 
 		tCurrentRoundType = currentRound.getRoundType ();
 		tInterruptRoundName = tCurrentRoundType.getInterruptionRound ();
@@ -324,10 +324,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
 			tInterruptionRoundType = tInterruptionRound.getRoundType ();
 			tActionName = aAction.getName ();
-			tInteruptsAfterActions = tInterruptionRoundType.getInteruptsAfterActions ();
-			if (tInteruptsAfterActions != GUI.NULL_STRING) {
-				tInteruptsAfterAction = tInteruptsAfterActions.contains (tActionName);
-				if (tInteruptsAfterAction) {
+			tInterruptsAfterActions = tInterruptionRoundType.getInterruptsAfterActions ();
+			if (tInterruptsAfterActions != GUI.NULL_STRING) {
+				tInterruptsAfterAction = tInterruptsAfterActions.contains (tActionName);
+				if (tInterruptsAfterAction) {
 					tIsInterrupting = tInterruptionRound.isInterrupting ();
 					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
 					if (tIsInterrupting && !tInterruptionStarted) {

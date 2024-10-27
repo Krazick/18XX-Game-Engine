@@ -21,7 +21,7 @@ public class RoundType {
 	String name;
 	String nextRoundName;
 	String interruptionRoundName;
-	String interuptsAfterActions;
+	String interruptsAfterActions;
 	String endsAfterActions;
 	boolean optionalExtra;
 	boolean initialRound;
@@ -79,8 +79,8 @@ public class RoundType {
 		interruptionRoundName = aInterruptionRoundName;
 	}
 	
-	public void setInteruptsAfterActions (String aInteruptsAfterActions) {
-		interuptsAfterActions = aInteruptsAfterActions;
+	public void setInteruptsAfterActions (String aInterruptsAfterActions) {
+		interruptsAfterActions = aInterruptsAfterActions;
 	}
 	
 	public void setEndsAfterActions (String aEndsAfterActions) {
@@ -111,8 +111,8 @@ public class RoundType {
 		return interruptionRoundName;
 	}
 	
-	public String getInteruptsAfterActions () {
-		return interuptsAfterActions;
+	public String getInterruptsAfterActions () {
+		return interruptsAfterActions;
 	}
 	
 	public String getEndsAfterActions () {
@@ -134,7 +134,7 @@ public class RoundType {
 	public boolean isAInteruptsAfterAction (String aAction) {
 		boolean tIsAInteruptsAfterAction;
 		
-		tIsAInteruptsAfterAction = interuptsAfterActions.contains (aAction);
+		tIsAInteruptsAfterAction = interruptsAfterActions.contains (aAction);
 		
 		return tIsAInteruptsAfterAction;
 	}
