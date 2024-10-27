@@ -336,7 +336,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 					}
 				}
 			} else {
-				System.err.println ("Interrupting Round has no AfterActions set");
+				System.err.println (tInterruptRoundName + " (Interrupting) has no AfterActions set");
 			}
 		}
 		
