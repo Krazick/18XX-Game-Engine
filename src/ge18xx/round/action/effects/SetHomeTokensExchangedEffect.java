@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -48,11 +48,11 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		GameManager tGameManager;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		
 		tEffectApplied = false;
 		tGameManager = aRoundManager.getGameManager ();
-		tFormationPhase = (FormationPhase) tGameManager.getTriggerClass ();
+		tFormationPhase = (FormCGR) tGameManager.getTriggerClass ();
 		tFormationPhase.setHomeTokensExchanged (getBooleanFlag ());
 		tEffectApplied = true;
 		
@@ -63,11 +63,11 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		GameManager tGameManager;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 
 		tEffectUndone = false;
 		tGameManager = aRoundManager.getGameManager ();
-		tFormationPhase = (FormationPhase) tGameManager.getTriggerClass ();
+		tFormationPhase = (FormCGR) tGameManager.getTriggerClass ();
 		tFormationPhase.setHomeTokensExchanged (! getBooleanFlag ());
 		tEffectUndone = true;
 

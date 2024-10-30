@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -33,7 +33,7 @@ public class SetFormationStateEffect extends StateChangeEffect {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
 		int tCurrentPlayerIndex;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
@@ -41,7 +41,7 @@ public class SetFormationStateEffect extends StateChangeEffect {
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setFormationState (newState);
 			if (newState != ActorI.ActionStates.FormationComplete) {
-				tFormationPhase = (FormationPhase) tTriggerClass;
+				tFormationPhase = (FormCGR) tTriggerClass;
 				tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
 				tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
 			}

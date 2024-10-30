@@ -41,7 +41,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.map.HexMap;
@@ -160,7 +160,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	BankPool bankPool;
 	Bank bank;
 	TriggerClass triggerClass;
-	FormationPhase formationPhase;
+	FormCGR formCGR;
 	ColorPalette biddersPalette;
 
 	// Various Frames the Game Manager tracks -- 
@@ -1801,7 +1801,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean isInCompanyFormationState () {
 		boolean tIsInCompanyFormationState;
 		
-		if (formationPhase == FormationPhase.NO_FORMATION_PHASE) {
+		if (formCGR == FormCGR.NO_FORM_CGR) {
 			tIsInCompanyFormationState = false;
 		} else if (playerManager.isInCompanyFormationState ()) {
 			tIsInCompanyFormationState = true;
@@ -1868,7 +1868,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		String tFormationState;
 		
 		if (Action.EN_ACTIONS.equals (aChildName)) {
@@ -1892,19 +1892,19 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			shareCompaniesFrame.loadStates (aChildNode);
 		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
-		} else if (FormationPhase.EN_FORMATION_PHASE.equals (aChildName)) {
+		} else if (FormCGR.EN_FORM_CGR.equals (aChildName)) {
 			// If the Formation Phase is in a NoState, the game was undone, saved, and reloaded 
 			// It might be better to clear the formationPhase so it is not saved.
-			tFormationState = aChildNode.getThisAttribute (FormationPhase.AN_FORMATION_STATE);
+			tFormationState = aChildNode.getThisAttribute (FormCGR.AN_FORMATION_STATE);
 			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
 				// If the State is FormationComplete, Don't need to Show it.
-				setFormationPhase (FormationPhase.NO_FORMATION_PHASE);
+				setFormationPhase (FormCGR.NO_FORM_CGR);
 			} else if (tFormationState.equals (ActionStates.NoState.toString ())) {
 				// If the State is NO State, Don't need to show it
-				setFormationPhase (FormationPhase.NO_FORMATION_PHASE);
+				setFormationPhase (FormCGR.NO_FORM_CGR);
 			} else {
 				// Otherwise game saved in middle of Formation, need to show it.
-				tFormationPhase = new FormationPhase (aChildNode, this);
+				tFormationPhase = new FormCGR (aChildNode, this);
 				setFormationPhase (tFormationPhase);
 			}
 		}
@@ -2058,8 +2058,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addElements (mapFrame, tXMLDocument, tSaveGameElement, HexMap.EN_MAP);
 		
 		/* Save the FormationPhase */
-		if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
-			addElements (formationPhase, tXMLDocument, tSaveGameElement, FormationPhase.EN_FORMATION_PHASE);
+		if (formCGR != FormCGR.NO_FORM_CGR) {
+			addElements (formCGR, tXMLDocument, tSaveGameElement, FormCGR.EN_FORM_CGR);
 		}
 		
 		// Append Save Game Element to Document just before outputing it.
@@ -3257,7 +3257,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean triggerPanelExists () {
 		boolean tTriggerPanelExists;
 		
-		if (formationPhase == FormationPhase.NO_FORMATION_PHASE) {
+		if (formCGR == FormCGR.NO_FORM_CGR) {
 			tTriggerPanelExists = false;
 		} else {
 			tTriggerPanelExists = true;
@@ -3281,8 +3281,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void showFormationFrame () {
 		if (hasTriggerClass ()) {
 			prepareFormation ();
-			if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
-				formationPhase.rebuildFormationPanel ();
+			if (formCGR != FormCGR.NO_FORM_CGR) {
+				formCGR.rebuildFormationPanel ();
 			} else {
 				System.err.println ("Formation Phase not available to be shown");
 			}
@@ -3290,24 +3290,24 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void prepareFormation () {
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		
-		tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
+		tFormationPhase = FormCGR.NO_FORM_CGR;
 		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-			tFormationPhase = new FormationPhase (this);
+			tFormationPhase = new FormCGR (this);
 			tFormationPhase.showFormationFrame ();
-		} else if (triggerClass instanceof FormationPhase) {
-			tFormationPhase = (FormationPhase) triggerClass;
+		} else if (triggerClass instanceof FormCGR) {
+			tFormationPhase = (FormCGR) triggerClass;
 		}
 		setFormationPhase (tFormationPhase);
 	}
 
-	public void setFormationPhase (FormationPhase aFormationPhase) {
-		formationPhase = aFormationPhase;
+	public void setFormationPhase (FormCGR aFormationPhase) {
+		formCGR = aFormationPhase;
 	}
 	
-	public FormationPhase getFormationPhase () {
-		return formationPhase;
+	public FormCGR getFormationPhase () {
+		return formCGR;
 	}
 	
 	public void fillChecksumAuditFrame () {

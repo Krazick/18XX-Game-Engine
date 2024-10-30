@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.ShareCompany;
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -85,7 +85,7 @@ public class ShareFoldCountEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TriggerClass tTriggerClass;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		GameManager tGameManager;
 		String tNotification;
 //		String tFoldingCompanyAbbrev;
@@ -96,8 +96,8 @@ public class ShareFoldCountEffect extends Effect {
 		if (actor.isAShareCompany ()) {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
-			if (tTriggerClass instanceof FormationPhase) {
-				tFormationPhase = (FormationPhase) tTriggerClass;
+			if (tTriggerClass instanceof FormCGR) {
+				tFormationPhase = (FormCGR) tTriggerClass;
 				tShareCompany = (ShareCompany) actor;
 //				tFoldingCompanyAbbrev = tShareCompany.getAbbrev ();
 				tShareFoldCount = tShareCompany.getShareFoldCount ();
@@ -117,15 +117,15 @@ public class ShareFoldCountEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		TriggerClass tTriggerClass;
-		FormationPhase tLoanRepayment;
+		FormCGR tLoanRepayment;
 		GameManager tGameManager;
 		
 		tEffectUndone = false;
 		if (actor.isAShareCompany ()) {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
-			if (tTriggerClass instanceof FormationPhase) {
-				tLoanRepayment = (FormationPhase) tTriggerClass;
+			if (tTriggerClass instanceof FormCGR) {
+				tLoanRepayment = (FormCGR) tTriggerClass;
 				tLoanRepayment.setShareFoldCount (oldShareFoldCount);
 				tEffectUndone = true;
 			}

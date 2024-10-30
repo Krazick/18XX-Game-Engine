@@ -28,7 +28,7 @@ import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -2197,7 +2197,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PlayerManager tPlayerManager;
 		ShareCompany tTriggeringCompany;
 		Player tActingPresident;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		int tCurrentPlayerIndex;
 		
 		tAction = aPreparedAction.getAction ();

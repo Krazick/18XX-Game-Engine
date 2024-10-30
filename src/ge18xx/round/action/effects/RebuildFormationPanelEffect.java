@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -40,15 +40,15 @@ public class RebuildFormationPanelEffect extends FormationPanelEffect {
 		boolean tEffectApplied;
 		int tCurrentPlayerIndex;
 		TriggerClass tTriggerClass;
-		FormationPhase tFormationPhase;
+		FormCGR tFormationPhase;
 		GameManager tGameManager;
 		
 		tEffectApplied = false;
 		
 		tGameManager = aRoundManager.getGameManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
-		if (tTriggerClass instanceof FormationPhase) {
-			tFormationPhase = (FormationPhase) tTriggerClass;
+		if (tTriggerClass instanceof FormCGR) {
+			tFormationPhase = (FormCGR) tTriggerClass;
 			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;

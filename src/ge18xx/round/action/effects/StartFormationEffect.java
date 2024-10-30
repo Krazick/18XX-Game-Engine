@@ -2,7 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
-import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -32,7 +32,7 @@ public class StartFormationEffect extends Effect {
 		int tTriggeringShareCompanyID;
 		Corporation tFormingCorporation;
 	 	ShareCompany tTriggeringShareCompany;
-	 	FormationPhase tFormationPhase;
+	 	FormCGR tFormationPhase;
 		
 		tFormingCompanyID = aEffectNode.getThisIntAttribute (AN_FORMING_COMPANY_ID);
 		tFormingCorporation = aGameManager.getCorporationByID (tFormingCompanyID);
@@ -41,7 +41,7 @@ public class StartFormationEffect extends Effect {
 		tTriggeringShareCompany = (ShareCompany) aGameManager.getShareCompanyByID (tTriggeringShareCompanyID);
 		setTriggeringShareCompany (tTriggeringShareCompany);
 		tFormationPhase = aGameManager.getFormationPhase ();
-		if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
+		if (tFormationPhase != FormCGR.NO_FORM_CGR) {
 			tFormationPhase.setTriggeringShareCompany (tTriggeringShareCompany);
 		}
 	}
@@ -102,7 +102,7 @@ public class StartFormationEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tGameManager = aRoundManager.getGameManager ();
-			tGameManager.setFormationPhase (FormationPhase.NO_FORMATION_PHASE);
+			tGameManager.setFormationPhase (FormCGR.NO_FORM_CGR);
 			tEffectUndone = true;
 		}
 

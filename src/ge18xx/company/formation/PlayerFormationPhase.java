@@ -37,7 +37,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	public static final PlayerFormationPhase NO_PLAYER_FORMATION_PHASE = null;
 	protected Player player;
 	protected GameManager gameManager;
-	protected FormationPhase formationPhase;
+	protected FormCGR formCGR;
 	protected List<String> shareCompaniesHandled;
 
 	JPanel buttonsPanel;
@@ -47,7 +47,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	KButton undoButton;
 	boolean actingPlayer;
 
-	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aFormationPhase, Player aPlayer, 
+	public PlayerFormationPhase (GameManager aGameManager, FormCGR aFormationPhase, Player aPlayer, 
 							Player aActingPresident) {
 //		String tActingPresidentName;
 		Color tBackgroundColor;
@@ -55,7 +55,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		Border tActingBorder;
 		
 		gameManager = aGameManager;
-		formationPhase = aFormationPhase;
+		formCGR = aFormationPhase;
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
 //			tActingPresidentName = aActingPresident.getName ();
@@ -133,9 +133,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		String tToolTip;
 		
 		tToolTip = GUI.EMPTY_STRING;
-		continueButton = formationPhase.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
-		doneButton = formationPhase.buildSpecialButton (DONE, DONE, tToolTip, this);
-		undoButton = formationPhase.buildSpecialButton (UNDO, UNDO, tToolTip, this);
+		continueButton = formCGR.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
+		doneButton = formCGR.buildSpecialButton (DONE, DONE, tToolTip, this);
+		undoButton = formCGR.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		
 		buttonsPanel = new JPanel ();
 		buttonsPanel.setLayout (new BoxLayout (buttonsPanel, BoxLayout.Y_AXIS));
@@ -155,11 +155,11 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 	
 	public void setFormationState (ActorI.ActionStates aFormationState) {
-		formationPhase.setFormationState (aFormationState);
+		formCGR.setFormationState (aFormationState);
 	}
 	
 	public void setFormationState (FormationPhaseAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
-		formationPhase.setFormationState (aFormationPhaseAction, aNewFormationState);
+		formCGR.setFormationState (aFormationPhaseAction, aNewFormationState);
 	}
 	
 	public void updateSpecialButtons (boolean aActingPlayer) {
@@ -312,7 +312,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	public int getCurrentPlayerIndex () {
 		int tCurrentPlayerIndex;
 
-		tCurrentPlayerIndex = formationPhase.getCurrentPlayerIndex ();
+		tCurrentPlayerIndex = formCGR.getCurrentPlayerIndex ();
 		
 		return tCurrentPlayerIndex;
 	}
@@ -325,7 +325,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		tAddAction = true;
-		formationPhase.updateToNextPlayer (tPlayers, tAddAction);
+		formCGR.updateToNextPlayer (tPlayers, tAddAction);
 	}
 	
 	public void handlePlayerUndo () {
@@ -335,9 +335,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tLastActionNumber = gameManager.getActionNumber ();
 		System.out.println ("Player hit UNDO ------ Undoing Action #" + tLastActionNumber);
 		player.undoAction ();
-		if (formationPhase.getFormationState () != ActorI.ActionStates.NoState) {
+		if (formCGR.getFormationState () != ActorI.ActionStates.NoState) {
 			tCurrentPlayerIndex = getCurrentPlayerIndex ();
-			formationPhase.rebuildFormationPanel (tCurrentPlayerIndex);
+			formCGR.rebuildFormationPanel (tCurrentPlayerIndex);
 		}
 	}
 	

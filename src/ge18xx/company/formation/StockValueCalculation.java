@@ -28,7 +28,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 	private int newParPrice;
 	private MarketCell closestMarketCell;
 
-	public StockValueCalculation (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
+	public StockValueCalculation (GameManager aGameManager, FormCGR aTokenExchange, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
 	}
@@ -197,7 +197,7 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		CorporationList tShareCompanies;	
 		String tFoldingCorps;
 
-		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tFormingShareCompany = formCGR.getFormingCompany ();
 		tMarketFrame = gameManager.getMarketFrame ();
 		tParPrice = closestMarketCell.getValue ();
 		tMarketFrame.setParPriceToMarketCell (tFormingShareCompany, tParPrice, closestMarketCell);
@@ -272,12 +272,12 @@ public class StockValueCalculation extends PlayerFormationPhase {
 		// Check for Next company to Operate
 		
 		tStockValueCalculationAction.setChainToPrevious (true);
-		tFormingCompany = formationPhase.getFormingCompany ();
+		tFormingCompany = formCGR.getFormingCompany ();
 		tFormingCompany.setCorporationFrame ();
 		
 		setFormationState (tStockValueCalculationAction, ActorI.ActionStates.FormationComplete);
 		
-		formationPhase.hideFormationPanel ();
+		formCGR.hideFormationPanel ();
 		tStockValueCalculationAction.addHideFormationPanelEffect (player);
 
 		tPlayerManager = gameManager.getPlayerManager ();

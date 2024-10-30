@@ -46,8 +46,8 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
-public class FormationPhase extends TriggerClass implements ActionListener, XMLSaveGameI {
-	public static final ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");
+public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGameI {
+	public static final ElementName EN_FORM_CGR = new ElementName ("FormationPhase");
 	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
 	public static final AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
@@ -59,7 +59,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
-	public static final FormationPhase NO_FORMATION_PHASE = null;
+	public static final FormCGR NO_FORM_CGR = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
@@ -96,7 +96,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
-	public FormationPhase (GameManager aGameManager) {
+	public FormCGR (GameManager aGameManager) {
 		String tFullFrameTitle;
 		
 		gameManager = aGameManager;
@@ -114,7 +114,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 		gameManager.setFormationPhase (this);
 	}
 
-	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+	public FormCGR (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
 		this (aGameManager);
 		
 		Player tActingPlayer;
@@ -136,7 +136,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 		}
 	}
 
-	public FormationPhase (XMLNode aXMLNode, GameManager aGameManager) {
+	public FormCGR (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
 
 		int tCurrentPlayerIndex;
@@ -192,7 +192,7 @@ public class FormationPhase extends TriggerClass implements ActionListener, XMLS
 		XMLElement tXMLElement;
 		String tTriggeringAbbrev;
 		
-		tXMLElement = aXMLDocument.createElement (EN_FORMATION_PHASE);
+		tXMLElement = aXMLDocument.createElement (EN_FORM_CGR);
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
 		tXMLElement.setAttribute (AN_SHARE_FOLD_COUNT, shareFoldCount);
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
