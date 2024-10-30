@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.UpdateCertificateLimitEffect;
 import geUtilities.xml.XMLNode;
 
 public class FormationRoundAction extends ChangeStateAction {
-	public final static String NAME = "Formation Phase";
+	public final static String NAME = "Formation Round";
 
 	public FormationRoundAction () {
 		this (NAME);
