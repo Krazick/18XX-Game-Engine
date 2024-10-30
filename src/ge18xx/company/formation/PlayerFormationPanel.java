@@ -49,7 +49,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 
 	public PlayerFormationPanel (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer, 
 							Player aActingPresident) {
-//		String tActingPresidentName;
 		Color tBackgroundColor;
 		Color tBorderColor;
 		Border tActingBorder;
@@ -58,8 +57,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		formCGR = aFormCGR;
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
-//			tActingPresidentName = aActingPresident.getName ();
-//			if (gameManager.notIsNetworkAndIsThisClient (tActingPresidentName)) {
 			if (isActingPlayer (aActingPresident)) {
 				tBackgroundColor = gameManager.getAlertColor ();
 				tBorderColor = gameManager.getAlertColor ();
