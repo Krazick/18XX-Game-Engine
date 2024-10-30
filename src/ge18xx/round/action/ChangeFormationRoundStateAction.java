@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class ChangeFormationRoundStateAction extends FormationRoundAction {
-	public final static String NAME = "Change Formation Phase State";
+	public final static String NAME = "Change Formation Round State";
 
 	public ChangeFormationRoundStateAction () {
 		this (NAME);
@@ -33,10 +33,10 @@ public class ChangeFormationRoundStateAction extends FormationRoundAction {
 		tOldState = getOldState ();
 		tNewState = getNewState ();
 		if (!tNewState.equals (tOldState)) {
-			tSimpleActionReport = actor.getName () + " changed state of the Formation Phase from  "
+			tSimpleActionReport = actor.getName () + " changed state of the Formation Round from  "
 					+ getOldState () + " to " + getNewState () + ".";
 		} else {
-			tSimpleActionReport = actor.getName () + " Formation Phase state remains [" + tOldState + "]";
+			tSimpleActionReport = actor.getName () + " Formation Round state remains [" + tOldState + "]";
 		}
 
 		return tSimpleActionReport;
