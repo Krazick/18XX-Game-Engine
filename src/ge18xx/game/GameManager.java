@@ -1898,14 +1898,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tFormationState = aChildNode.getThisAttribute (FormCGR.AN_FORMATION_STATE);
 			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
 				// If the State is FormationComplete, Don't need to Show it.
-				setFormationPhase (FormCGR.NO_FORM_CGR);
+				setFormationRound (FormCGR.NO_FORM_CGR);
 			} else if (tFormationState.equals (ActionStates.NoState.toString ())) {
 				// If the State is NO State, Don't need to show it
-				setFormationPhase (FormCGR.NO_FORM_CGR);
+				setFormationRound (FormCGR.NO_FORM_CGR);
 			} else {
 				// Otherwise game saved in middle of Formation, need to show it.
 				tFormationPhase = new FormCGR (aChildNode, this);
-				setFormationPhase (tFormationPhase);
+				setFormationRound (tFormationPhase);
 			}
 		}
 	}
@@ -3284,29 +3284,29 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			if (formCGR != FormCGR.NO_FORM_CGR) {
 				formCGR.rebuildFormationPanel ();
 			} else {
-				System.err.println ("Formation Phase not available to be shown");
+				System.err.println ("Form CGR not available to be shown");
 			}
 		}
 	}
 
 	public void prepareFormation () {
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		
-		tFormationPhase = FormCGR.NO_FORM_CGR;
+		tFormCGR = FormCGR.NO_FORM_CGR;
 		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-			tFormationPhase = new FormCGR (this);
-			tFormationPhase.showFormationFrame ();
+			tFormCGR = new FormCGR (this);
+			tFormCGR.showFormationFrame ();
 		} else if (triggerClass instanceof FormCGR) {
-			tFormationPhase = (FormCGR) triggerClass;
+			tFormCGR = (FormCGR) triggerClass;
 		}
-		setFormationPhase (tFormationPhase);
+		setFormationRound (tFormCGR);
 	}
 
-	public void setFormationPhase (FormCGR aFormationPhase) {
-		formCGR = aFormationPhase;
+	public void setFormationRound (FormCGR aFormCGR) {
+		formCGR = aFormCGR;
 	}
 	
-	public FormCGR getFormationPhase () {
+	public FormCGR getFormCGR () {
 		return formCGR;
 	}
 	
