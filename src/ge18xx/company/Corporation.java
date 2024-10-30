@@ -83,7 +83,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_HOME_TYPE= new AttributeName ("homeType");
 	public static final AttributeName AN_CORP_STATUS = new AttributeName ("status");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
-	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationPhase");
+	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState/formation");
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
 	public static final AttributeName AN_FORMATION_MADATORY_STATE = new AttributeName ("formationMandatoryState");
 	public static final Corporation NO_CORPORATION = null;
@@ -596,15 +596,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationList != CorporationList.NO_CORPORATION_LIST;
 	}
 
-	public String getFormattedLastRevenue () {
-		return Bank.formatCash (getLastRevenue ());
+	public String getFormattedPreviousRevenue () {
+		return Bank.formatCash (getPreviousRevenue ());
 	}
 
 	public String getFormattedThisRevenue () {
 		return Bank.formatCash (getThisRevenue ());
 	}
 
-	public int getLastRevenue () {
+	public int getPreviousRevenue () {
 		return TrainCompany.NO_REVENUE_GENERATED;
 	}
 

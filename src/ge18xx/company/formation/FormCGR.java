@@ -870,7 +870,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		String tOperatingRoundID;
 		ActorI.ActionStates tNewFormationState;
 		
-		System.out.println ("Formation Phase - " + aNewFormationState.toString ());
+		System.out.println ("Formation State - " + aNewFormationState.toString ());
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		if (actingPresident == ActorI.NO_ACTOR) {
 			tFormingPresident = getFormingPresident ();

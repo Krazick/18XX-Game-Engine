@@ -2005,7 +2005,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		bean.addMessage (aMessage);
 	}
 
-	// Methods to test if Player has completed Formation Phase States
+	// Methods to test if Player has completed various Formation States
 	
 	public boolean getRepaymentFinished () {
 		boolean tRepaymemtFinished;
