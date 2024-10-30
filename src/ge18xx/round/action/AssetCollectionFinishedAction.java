@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
-public class AssetCollectionFinishedAction extends FormationPhaseAction {
+public class AssetCollectionFinishedAction extends FormationRoundAction {
 	public final static String NAME = "Asset Collection Finished";
 
 	public AssetCollectionFinishedAction () {

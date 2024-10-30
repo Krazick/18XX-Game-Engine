@@ -41,7 +41,7 @@ import geUtilities.xml.XMLSaveGameI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
-import ge18xx.round.action.FormationPhaseAction;
+import ge18xx.round.action.FormationRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
@@ -279,7 +279,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		
 	}
 
-	public void setFormationState (FormationPhaseAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
+	public void setFormationState (FormationRoundAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
 		ActorI.ActionStates tOldFormationState;
 		ActorI.ActionStates tNewFormationState;
 		ActorI tPrimaryActor;

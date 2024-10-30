@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
-public class ChangeFormationPhaseStateAction extends FormationPhaseAction {
+public class ChangeFormationPhaseStateAction extends FormationRoundAction {
 	public final static String NAME = "Change Formation Phase State";
 
 	public ChangeFormationPhaseStateAction () {

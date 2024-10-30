@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
-public class ShareExchangeFinishedAction extends FormationPhaseAction {
+public class ShareExchangeFinishedAction extends FormationRoundAction {
 	public final static String NAME = "Share Exchange Finished";
 
 	public ShareExchangeFinishedAction () {

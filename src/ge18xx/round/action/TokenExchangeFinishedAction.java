@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
-public class TokenExchangeFinishedAction extends FormationPhaseAction {
+public class TokenExchangeFinishedAction extends FormationRoundAction {
 	public final static String NAME = "Token Exchange Finished";
 
 	public TokenExchangeFinishedAction () {

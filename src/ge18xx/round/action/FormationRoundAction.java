@@ -8,23 +8,23 @@ import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.UpdateCertificateLimitEffect;
 import geUtilities.xml.XMLNode;
 
-public class FormationPhaseAction extends ChangeStateAction {
+public class FormationRoundAction extends ChangeStateAction {
 	public final static String NAME = "Formation Phase";
 
-	public FormationPhaseAction () {
+	public FormationRoundAction () {
 		this (NAME);
 	}
 
-	public FormationPhaseAction (String aName) {
+	public FormationRoundAction (String aName) {
 		super (aName);
 	}
 
-	public FormationPhaseAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public FormationRoundAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public FormationPhaseAction (XMLNode aActionNode, GameManager aGameManager) {
+	public FormationRoundAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}

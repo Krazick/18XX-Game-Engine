@@ -41,7 +41,7 @@ import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.ClearRoundDividendsAction;
 import ge18xx.round.action.DonePlayerAction;
 import ge18xx.round.action.ExchangeStockAction;
-import ge18xx.round.action.FormationPhaseAction;
+import ge18xx.round.action.FormationRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
@@ -1878,7 +1878,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 	
-	public void updateCertificateLimit (FormationPhaseAction aFormationPhaseAction) {
+	public void updateCertificateLimit (FormationRoundAction aFormationPhaseAction) {
 		int tOldCertificateLimit;
 		int tNewCertificateLimit;
 		Player tPlayerOne;
