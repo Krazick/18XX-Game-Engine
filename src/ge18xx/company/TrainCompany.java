@@ -281,10 +281,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tFoundLicense;
 	}
 
-	public void declareBankruptcy () {
-		declareBankruptcyAction ();
-	}
-
 	public void setupTrainRevenueFrame () {
 		String tRevenueFrameTitle;
 		GameManager tGameManager;

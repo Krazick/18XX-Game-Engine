@@ -833,7 +833,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void prepareCorporation () {
 	}
 
-	public void declareBankruptcyAction () {
+	public void declareBankruptcy () {
 		DeclareBankruptcyAction tDeclareBankruptcyAction;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
