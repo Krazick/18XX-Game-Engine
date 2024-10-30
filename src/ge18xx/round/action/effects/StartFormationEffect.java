@@ -40,7 +40,7 @@ public class StartFormationEffect extends Effect {
 		tTriggeringShareCompanyID = aEffectNode.getThisIntAttribute (AN_TRIGGERING_COMPANY_ID);
 		tTriggeringShareCompany = (ShareCompany) aGameManager.getShareCompanyByID (tTriggeringShareCompanyID);
 		setTriggeringShareCompany (tTriggeringShareCompany);
-		tFormationPhase = aGameManager.getFormationPhase ();
+		tFormationPhase = aGameManager.getFormCGR ();
 		if (tFormationPhase != FormCGR.NO_FORM_CGR) {
 			tFormationPhase.setTriggeringShareCompany (tTriggeringShareCompany);
 		}
@@ -102,7 +102,7 @@ public class StartFormationEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tGameManager = aRoundManager.getGameManager ();
-			tGameManager.setFormationPhase (FormCGR.NO_FORM_CGR);
+			tGameManager.setFormCGR (FormCGR.NO_FORM_CGR);
 			tEffectUndone = true;
 		}
 

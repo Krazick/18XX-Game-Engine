@@ -111,7 +111,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 
 		buildAllPlayers (tFullFrameTitle);
 		gameManager.setTriggerClass (this);
-		gameManager.setFormationPhase (this);
+		gameManager.setFormCGR (this);
 	}
 
 	public FormCGR (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {

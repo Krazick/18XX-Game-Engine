@@ -1898,14 +1898,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tFormationState = aChildNode.getThisAttribute (FormCGR.AN_FORMATION_STATE);
 			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
 				// If the State is FormationComplete, Don't need to Show it.
-				setFormationRound (FormCGR.NO_FORM_CGR);
+				setFormCGR (FormCGR.NO_FORM_CGR);
 			} else if (tFormationState.equals (ActionStates.NoState.toString ())) {
 				// If the State is NO State, Don't need to show it
-				setFormationRound (FormCGR.NO_FORM_CGR);
+				setFormCGR (FormCGR.NO_FORM_CGR);
 			} else {
 				// Otherwise game saved in middle of Formation, need to show it.
 				tFormationPhase = new FormCGR (aChildNode, this);
-				setFormationRound (tFormationPhase);
+				setFormCGR (tFormationPhase);
 			}
 		}
 	}
@@ -3299,10 +3299,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		} else if (triggerClass instanceof FormCGR) {
 			tFormCGR = (FormCGR) triggerClass;
 		}
-		setFormationRound (tFormCGR);
+		setFormCGR (tFormCGR);
 	}
 
-	public void setFormationRound (FormCGR aFormCGR) {
+	public void setFormCGR (FormCGR aFormCGR) {
 		formCGR = aFormCGR;
 	}
 	

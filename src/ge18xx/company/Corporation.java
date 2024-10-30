@@ -2204,7 +2204,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tGameManager = getGameManager ();
 		tRoundManager = tGameManager.getRoundManager ();
 		tGameManager.prepareFormation ();
-		tFormationPhase = tGameManager.getFormationPhase ();
+		tFormationPhase = tGameManager.getFormCGR ();
 		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
 			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
 			tActingPresident = (Player) tTriggeringCompany.getPresident ();

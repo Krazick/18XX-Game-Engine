@@ -523,7 +523,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				tStatusUpdated = false;
 			}
-			tFormationPhase = gameManager.getFormationPhase ();
+			tFormationPhase = gameManager.getFormCGR ();
 			if (tFormationPhase != FormCGR.NO_FORM_CGR) {
 				tFormationPhase.setTriggeringShareCompany ((ShareCompany) corporation);
 				if (tFormationPhase.isFormationFrameVisible ()) {
