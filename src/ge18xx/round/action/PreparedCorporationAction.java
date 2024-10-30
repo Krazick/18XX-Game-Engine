@@ -31,18 +31,18 @@ public class PreparedCorporationAction extends ChangeStateAction {
 	}
 
 	public void addGeneratedThisRevenueEffect (ActorI aActor, int aNewThisRevenue, int aTrainCount,
-							int aOldThisRevenue) {
+							int aPreviousRevenue) {
 		GeneratedRevenueEffect tGeneratedRevenueEffect;
 
 		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aNewThisRevenue, aTrainCount, 
-									aOldThisRevenue);
+									aPreviousRevenue);
 		addEffect (tGeneratedRevenueEffect);
 	}
 
-	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewLastRevenue, int aOldLastRevenue) {
+	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
 		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
+		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
 
@@ -69,7 +69,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		for (Effect tEffect : effects) {
 			if (tNewLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {
-					tNewLastRevenue = ((UpdateLastRevenueEffect) tEffect).getNewLastRevenue ();
+					tNewLastRevenue = ((UpdateLastRevenueEffect) tEffect).getNewPreviousRevenue ();
 				}
 			}
 		}
@@ -84,7 +84,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		for (Effect tEffect : effects) {
 			if (tOldLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {
-					tOldLastRevenue = ((UpdateLastRevenueEffect) tEffect).getOldLastRevenue ();
+					tOldLastRevenue = ((UpdateLastRevenueEffect) tEffect).getOldPreviousRevenue ();
 				}
 			}
 		}

@@ -11,11 +11,11 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class UpdateLastRevenueEffect extends Effect {
-	public static final AttributeName AN_OLD_LAST_REVENUE = new AttributeName ("oldLastRevenue");
-	public static final AttributeName AN_NEW_LAST_REVENUE = new AttributeName ("newLastRevenue");
-	public static final String NAME = "Update Last Revenue";
-	int oldLastRevenue;
-	int newLastRevenue;
+	public static final AttributeName AN_OLD_PREVIOUS_REVENUE = new AttributeName ("oldLastRevenue");
+	public static final AttributeName AN_NEW_PREVIOUS_REVENUE = new AttributeName ("newLastRevenue");
+	public static final String NAME = "Update Previous Revenue";
+	int oldPreviousRevenue;
+	int newPreviousRevenue;
 
 	public UpdateLastRevenueEffect () {
 		this (NAME);
@@ -25,21 +25,21 @@ public class UpdateLastRevenueEffect extends Effect {
 		super (aName);
 	}
 
-	public UpdateLastRevenueEffect (ActorI aActor, int aNewLastRevenue, int aOldLastRevenue) {
+	public UpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
 		super (NAME, aActor);
-		setNewLastRevenue (aNewLastRevenue);
-		setOldLastRevenue (aOldLastRevenue);
+		setNewPreviousRevenue (aNewPreviousRevenue);
+		setOldPreviousRevenue (aOldPreviousRevenue);
 	}
 
 	public UpdateLastRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		int tOldLastRevenue;
-		int tNewLastRevenue;
+		int tOldPreviousRevenue;
+		int tNewPreviousRevenue;
 
-		tOldLastRevenue = aEffectNode.getThisIntAttribute (AN_OLD_LAST_REVENUE);
-		tNewLastRevenue = aEffectNode.getThisIntAttribute (AN_NEW_LAST_REVENUE);
-		setOldLastRevenue (tOldLastRevenue);
-		setNewLastRevenue (tNewLastRevenue);
+		tOldPreviousRevenue = aEffectNode.getThisIntAttribute (AN_OLD_PREVIOUS_REVENUE);
+		tNewPreviousRevenue = aEffectNode.getThisIntAttribute (AN_NEW_PREVIOUS_REVENUE);
+		setOldPreviousRevenue (tOldPreviousRevenue);
+		setNewPreviousRevenue (tNewPreviousRevenue);
 	}
 
 	@Override
@@ -47,18 +47,18 @@ public class UpdateLastRevenueEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-		tEffectElement.setAttribute (AN_OLD_LAST_REVENUE, getOldLastRevenue ());
-		tEffectElement.setAttribute (AN_NEW_LAST_REVENUE, getNewLastRevenue ());
+		tEffectElement.setAttribute (AN_OLD_PREVIOUS_REVENUE, getOldPreviousRevenue ());
+		tEffectElement.setAttribute (AN_NEW_PREVIOUS_REVENUE, getNewPreviousRevenue ());
 
 		return tEffectElement;
 	}
 
-	public void setOldLastRevenue (int aRevenue) {
-		oldLastRevenue = aRevenue;
+	public void setOldPreviousRevenue (int aRevenue) {
+		oldPreviousRevenue = aRevenue;
 	}
 
-	public void setNewLastRevenue (int aRevenue) {
-		newLastRevenue = aRevenue;
+	public void setNewPreviousRevenue (int aRevenue) {
+		newPreviousRevenue = aRevenue;
 	}
 
 	@Override
@@ -67,28 +67,28 @@ public class UpdateLastRevenueEffect extends Effect {
 		String tOldValue;
 		String tNewValue;
 
-		if (oldLastRevenue >= 0) {
-			tOldValue = Bank.formatCash (oldLastRevenue);
+		if (oldPreviousRevenue >= 0) {
+			tOldValue = Bank.formatCash (oldPreviousRevenue);
 		} else {
-			tOldValue = " NO Previous Last Revenue Value";
+			tOldValue = " NO Previous Revenue Value";
 		}
 
-		if (newLastRevenue >= 0) {
-			tNewValue = Bank.formatCash (newLastRevenue);
+		if (newPreviousRevenue >= 0) {
+			tNewValue = Bank.formatCash (newPreviousRevenue);
 		} else {
-			tNewValue = "NO Last Revenue Value";
+			tNewValue = "NO Previous Revenue Value";
 		}
 		tReport = REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
 
 		return tReport;
 	}
 
-	public int getOldLastRevenue () {
-		return oldLastRevenue;
+	public int getOldPreviousRevenue () {
+		return oldPreviousRevenue;
 	}
 
-	public int getNewLastRevenue () {
-		return newLastRevenue;
+	public int getNewPreviousRevenue () {
+		return newPreviousRevenue;
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class UpdateLastRevenueEffect extends Effect {
 
 		tEffectApplied = false;
 		tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
-		tOperatingCompany.setLastRevenue (newLastRevenue);
+		tOperatingCompany.setPreviousRevenue (newPreviousRevenue);
 		aRoundManager.updateAllCorporationsBox ();
 		tEffectApplied = true;
 
@@ -112,7 +112,7 @@ public class UpdateLastRevenueEffect extends Effect {
 
 		tEffectUndone = false;
 		tTrainCompany = (TrainCompany) getActor ();
-		tTrainCompany.setLastRevenue (oldLastRevenue);
+		tTrainCompany.setPreviousRevenue (oldPreviousRevenue);
 		aRoundManager.updateAllCorporationsBox ();
 
 		tEffectUndone = true;

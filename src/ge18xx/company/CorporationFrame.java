@@ -821,7 +821,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void setLastRevenueLabel () {
-		lastRevenueLabel.setText ("Last Revenue: " + corporation.getFormattedLastRevenue ());
+		lastRevenueLabel.setText ("Last Revenue: " + corporation.getFormattedPreviousRevenue ());
 	}
 
 	public void setLoanCountLabel () {
