@@ -39,7 +39,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
 import ge18xx.round.action.BuyTrainAction;
-import ge18xx.round.action.ChangeFormationPhaseStateAction;
+import ge18xx.round.action.ChangeFormationRoundStateAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.FormationRoundAction;
 import ge18xx.round.action.GenericActor;
@@ -864,7 +864,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 	}
 
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
-		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+		ChangeFormationRoundStateAction tChangeFormationPhaseStateAction;
 		PlayerManager tPlayerManager;
 		Player tFormingPresident;
 		String tOperatingRoundID;
@@ -877,7 +877,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		} else {
 			tFormingPresident = actingPresident;
 		}
-		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
+		tChangeFormationPhaseStateAction = new ChangeFormationRoundStateAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, tFormingPresident);
 		tChangeFormationPhaseStateAction.setChainToPrevious (true);
 

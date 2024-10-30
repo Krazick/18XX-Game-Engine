@@ -3,23 +3,23 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
-public class ChangeFormationPhaseStateAction extends FormationRoundAction {
+public class ChangeFormationRoundStateAction extends FormationRoundAction {
 	public final static String NAME = "Change Formation Phase State";
 
-	public ChangeFormationPhaseStateAction () {
+	public ChangeFormationRoundStateAction () {
 		this (NAME);
 	}
 
-	public ChangeFormationPhaseStateAction (String aName) {
+	public ChangeFormationRoundStateAction (String aName) {
 		super (aName);
 	}
 
-	public ChangeFormationPhaseStateAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public ChangeFormationRoundStateAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public ChangeFormationPhaseStateAction (XMLNode aActionNode, GameManager aGameManager) {
+	public ChangeFormationRoundStateAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
