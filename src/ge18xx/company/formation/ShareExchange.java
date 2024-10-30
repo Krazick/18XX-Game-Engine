@@ -26,7 +26,7 @@ import ge18xx.round.action.TransferOwnershipAction;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
-public class ShareExchange extends PlayerFormationPhase {
+public class ShareExchange extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	public static final String EXCHANGE = "Exchange Shares";
 	boolean oneShareToBankPool;

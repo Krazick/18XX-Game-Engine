@@ -33,7 +33,7 @@ import ge18xx.train.TrainInfo;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
-public class AssetCollection extends PlayerFormationPhase {
+public class AssetCollection extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	public static final String CLAIM = "Claim";
 	public static final String DECLINE = "Decline";

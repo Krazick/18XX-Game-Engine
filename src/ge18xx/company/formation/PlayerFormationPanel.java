@@ -22,19 +22,19 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.FormationPhaseAction;
+import ge18xx.round.action.FormationRoundAction;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
-public class PlayerFormationPhase extends JPanel implements ActionListener {
+public class PlayerFormationPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final String CONTINUE = "Continue";
 	public static final String DONE = "Done";
 	public static final String UNDO = "Undo";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
-	public static final PlayerFormationPhase NO_PLAYER_FORMATION_PHASE = null;
+	public static final PlayerFormationPanel NO_PLAYER_FORMATION_PANEL = null;
 	protected Player player;
 	protected GameManager gameManager;
 	protected FormCGR formCGR;
@@ -47,7 +47,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	KButton undoButton;
 	boolean actingPlayer;
 
-	public PlayerFormationPhase (GameManager aGameManager, FormCGR aFormationPhase, Player aPlayer, 
+	public PlayerFormationPanel (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer, 
 							Player aActingPresident) {
 //		String tActingPresidentName;
 		Color tBackgroundColor;
@@ -55,7 +55,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		Border tActingBorder;
 		
 		gameManager = aGameManager;
-		formCGR = aFormationPhase;
+		formCGR = aFormCGR;
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
 //			tActingPresidentName = aActingPresident.getName ();
@@ -158,7 +158,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		formCGR.setFormationState (aFormationState);
 	}
 	
-	public void setFormationState (FormationPhaseAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
+	public void setFormationState (FormationRoundAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
 		formCGR.setFormationState (aFormationPhaseAction, aNewFormationState);
 	}
 	

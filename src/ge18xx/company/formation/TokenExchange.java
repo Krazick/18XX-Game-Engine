@@ -45,7 +45,7 @@ import swingTweaks.KButton;
 // 6. Remove Debug Output
 //
 
-public class TokenExchange extends PlayerFormationPhase implements ItemListener {
+public class TokenExchange extends PlayerFormationPanel implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	public static final String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
 	public static final String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";

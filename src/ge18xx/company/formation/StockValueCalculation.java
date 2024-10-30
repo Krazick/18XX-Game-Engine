@@ -23,7 +23,7 @@ import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.toplevel.MarketFrame;
 import geUtilities.GUI;
 
-public class StockValueCalculation extends PlayerFormationPhase {
+public class StockValueCalculation extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	private int newParPrice;
 	private MarketCell closestMarketCell;

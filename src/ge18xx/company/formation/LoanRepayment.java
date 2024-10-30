@@ -20,7 +20,7 @@ import ge18xx.round.action.RepaymentHandledAction;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
-public class LoanRepayment extends PlayerFormationPhase {
+public class LoanRepayment extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	public static final String PAY_FROM_TREASURY = "Pay From Treasury";
 	public static final String PAY_FROM_PRESIDENT = "Pay From President";

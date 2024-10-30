@@ -672,7 +672,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
-		PlayerFormationPhase tPlayerJPanel;
+		PlayerFormationPanel tPlayerJPanel;
 		
 		currentPlayerDone = false;
 		formationJPanel.removeAll ();
@@ -692,19 +692,19 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		currentPlayerDone = aCurrentPlayerDone;
 	}
 	
-	public PlayerFormationPhase buildPlayerPanel (Player aPlayer, Player aActingPresident) {
-		PlayerFormationPhase tPlayerFormationPhase;
+	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
+		PlayerFormationPanel tPlayerFormationPhase;
 		String tClassName;
 		Class<?> tPhaseToLoad;
 		Constructor<?> tPhaseConstructor;
 
-		tPlayerFormationPhase = PlayerFormationPhase.NO_PLAYER_FORMATION_PHASE;
+		tPlayerFormationPhase = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
 		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
 		try {
 			tPhaseToLoad = Class.forName (tClassName);
 			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
 						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPhase = (PlayerFormationPhase) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
+			tPlayerFormationPhase = (PlayerFormationPanel) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
 					aActingPresident);
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println ("Error trying to get Constructor");
