@@ -85,10 +85,9 @@ public class ShareFoldCountEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TriggerClass tTriggerClass;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		GameManager tGameManager;
 		String tNotification;
-//		String tFoldingCompanyAbbrev;
 		ShareCompany tShareCompany;
 		int tShareFoldCount;
 		
@@ -97,14 +96,13 @@ public class ShareFoldCountEffect extends Effect {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
 			if (tTriggerClass instanceof FormCGR) {
-				tFormationPhase = (FormCGR) tTriggerClass;
+				tFormCGR = (FormCGR) tTriggerClass;
 				tShareCompany = (ShareCompany) actor;
-//				tFoldingCompanyAbbrev = tShareCompany.getAbbrev ();
 				tShareFoldCount = tShareCompany.getShareFoldCount ();
-				tFormationPhase.setShareFoldCount (newShareFoldCount);
+				tFormCGR.setShareFoldCount (newShareFoldCount);
 				
-				tNotification = tFormationPhase.buildFoldNotification (tShareCompany, tShareFoldCount);
-				tFormationPhase.setNotificationText (tNotification);
+				tNotification = tFormCGR.buildFoldNotification (tShareCompany, tShareFoldCount);
+				tFormCGR.setNotificationText (tNotification);
 				
 				tEffectApplied = true;
 			}

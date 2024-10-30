@@ -40,7 +40,7 @@ public class RebuildFormationPanelEffect extends FormationPanelEffect {
 		boolean tEffectApplied;
 		int tCurrentPlayerIndex;
 		TriggerClass tTriggerClass;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		GameManager tGameManager;
 		
 		tEffectApplied = false;
@@ -48,8 +48,8 @@ public class RebuildFormationPanelEffect extends FormationPanelEffect {
 		tGameManager = aRoundManager.getGameManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		if (tTriggerClass instanceof FormCGR) {
-			tFormationPhase = (FormCGR) tTriggerClass;
-			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
+			tFormCGR = (FormCGR) tTriggerClass;
+			tCurrentPlayerIndex = tFormCGR.getCurrentPlayerIndex ();
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}

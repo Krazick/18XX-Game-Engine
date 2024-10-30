@@ -83,9 +83,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_HOME_TYPE= new AttributeName ("homeType");
 	public static final AttributeName AN_CORP_STATUS = new AttributeName ("status");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
-	public static final AttributeName AN_FORMATION_PHASE = new AttributeName ("formationPhase");
+	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationPhase");
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
-	public static final AttributeName AN_FORMATION_MADATORY_PHASE = new AttributeName ("formationMandatoryPhase");
+	public static final AttributeName AN_FORMATION_MADATORY_STATE = new AttributeName ("formationMandatoryState");
 	public static final Corporation NO_CORPORATION = null;
 	public static final String CORPORATION = EN_CORPORATION.getString ();
 	public static final String COMPANIES = "Companies";
@@ -100,7 +100,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
 	public static final String NO_NAME = ActorI.NO_NAME;
-	public static final String FORMATION_PHASE1 = "1";
+	public static final String FORMATION_STATE1 = "1";
 	public static final String HOME_TYPE_CHOICE = "choice";
 	public static final String HOME_TYPE_BOTH = "both";
 	public static final String enum_closed = ActionStates.Closed.toString ();
@@ -120,9 +120,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	String abbrev;
 	String homeCityGrid1;
 	String homeCityGrid2;
-	String formationPhase;
+	String formationState;
 	String formationRequirement;
-	String formationManadatoryPhase;
+	String formationManadatoryState;
 	String homeType;
 	MapCell homeCity1;
 	Location homeLocation1;
@@ -256,16 +256,16 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	private void loadFormationInfo (XMLNode aXMLNode) {
-		String tFormationPhase;
+		String tFormationState;
 		String tFormationRequirement;
-		String tFormationManadatoryPhase;
+		String tFormationManadatoryState;
 
-		tFormationPhase = aXMLNode.getThisAttribute (AN_FORMATION_PHASE, FORMATION_PHASE1);
-		formationPhase = tFormationPhase;
+		tFormationState = aXMLNode.getThisAttribute (AN_FORMATION_STATE, FORMATION_STATE1);
+		formationState = tFormationState;
 		tFormationRequirement = aXMLNode.getThisAttribute (AN_FORMATION_REQUIREMENT, NO_NAME_STRING);
 		formationRequirement = tFormationRequirement;
-		tFormationManadatoryPhase = aXMLNode.getThisAttribute (AN_FORMATION_MADATORY_PHASE, NO_NAME_STRING);
-		formationManadatoryPhase = tFormationManadatoryPhase;
+		tFormationManadatoryState = aXMLNode.getThisAttribute (AN_FORMATION_MADATORY_STATE, NO_NAME_STRING);
+		formationManadatoryState = tFormationManadatoryState;
 	}
 
 	public void removeHomeBases () {
@@ -301,8 +301,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return benefitInUse;
 	}
 
-	public String getFormationPhase () {
-		return formationPhase;
+	public String getFormationState () {
+		return formationState;
 	}
 
 	public String getFormationRequirement () {
@@ -310,7 +310,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public String getFormationManadatoryPhase () {
-		return formationManadatoryPhase;
+		return formationManadatoryState;
 	}
 
 	private void setStatus (XMLNode aXMLNode) {
@@ -322,7 +322,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tUnowned = ActorI.ActionStates.Unowned.toString ();
 		tStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, tUnowned);
 		if (tStatus.equals (tUnowned)) {
-			if (!formationPhase.equals (FORMATION_PHASE1)) {
+			if (!formationState.equals (FORMATION_STATE1)) {
 				tStatus = ActorI.ActionStates.Unformed.toString ();
 			}
 		}
@@ -2197,22 +2197,22 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PlayerManager tPlayerManager;
 		ShareCompany tTriggeringCompany;
 		Player tActingPresident;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		int tCurrentPlayerIndex;
 		
 		tAction = aPreparedAction.getAction ();
 		tGameManager = getGameManager ();
 		tRoundManager = tGameManager.getRoundManager ();
 		tGameManager.prepareFormation ();
-		tFormationPhase = tGameManager.getFormCGR ();
+		tFormCGR = tGameManager.getFormCGR ();
 		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
 			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
 			tActingPresident = (Player) tTriggeringCompany.getPresident ();
 			tPlayerManager = tGameManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
-			tFormationPhase.setCurrentPlayerIndex (tCurrentPlayerIndex);
-			tFormationPhase.setTriggeringShareCompany (tTriggeringCompany);
-			tFormationPhase.setActingPresident (tActingPresident);
+			tFormCGR.setCurrentPlayerIndex (tCurrentPlayerIndex);
+			tFormCGR.setTriggeringShareCompany (tTriggeringCompany);
+			tFormCGR.setActingPresident (tActingPresident);
 			if (tAction instanceof StartFormationAction) {
 				tStartFormationAction = (StartFormationAction) tAction;
 				tStartFormationAction.setTriggeringShareCompany (tTriggeringCompany);

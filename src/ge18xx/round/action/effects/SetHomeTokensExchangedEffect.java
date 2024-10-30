@@ -48,12 +48,12 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		GameManager tGameManager;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		
 		tEffectApplied = false;
 		tGameManager = aRoundManager.getGameManager ();
-		tFormationPhase = (FormCGR) tGameManager.getTriggerClass ();
-		tFormationPhase.setHomeTokensExchanged (getBooleanFlag ());
+		tFormCGR = (FormCGR) tGameManager.getTriggerClass ();
+		tFormCGR.setHomeTokensExchanged (getBooleanFlag ());
 		tEffectApplied = true;
 		
 		return tEffectApplied;
@@ -63,12 +63,12 @@ public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		GameManager tGameManager;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 
 		tEffectUndone = false;
 		tGameManager = aRoundManager.getGameManager ();
-		tFormationPhase = (FormCGR) tGameManager.getTriggerClass ();
-		tFormationPhase.setHomeTokensExchanged (! getBooleanFlag ());
+		tFormCGR = (FormCGR) tGameManager.getTriggerClass ();
+		tFormCGR.setHomeTokensExchanged (! getBooleanFlag ());
 		tEffectUndone = true;
 
 		return tEffectUndone;

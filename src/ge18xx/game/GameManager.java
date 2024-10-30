@@ -1868,7 +1868,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		String tFormationState;
 		
 		if (Action.EN_ACTIONS.equals (aChildName)) {
@@ -1904,8 +1904,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				setFormCGR (FormCGR.NO_FORM_CGR);
 			} else {
 				// Otherwise game saved in middle of Formation, need to show it.
-				tFormationPhase = new FormCGR (aChildNode, this);
-				setFormCGR (tFormationPhase);
+				tFormCGR = new FormCGR (aChildNode, this);
+				setFormCGR (tFormCGR);
 			}
 		}
 	}
@@ -2057,7 +2057,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		/* Save The Tile Placements, Orientations, and Token Placements */
 		addElements (mapFrame, tXMLDocument, tSaveGameElement, HexMap.EN_MAP);
 		
-		/* Save the FormationPhase */
+		/* Save the FormCGR */
 		if (formCGR != FormCGR.NO_FORM_CGR) {
 			addElements (formCGR, tXMLDocument, tSaveGameElement, FormCGR.EN_FORM_CGR);
 		}

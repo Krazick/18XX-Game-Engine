@@ -155,8 +155,8 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		formCGR.setFormationState (aFormationState);
 	}
 	
-	public void setFormationState (FormationRoundAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
-		formCGR.setFormationState (aFormationPhaseAction, aNewFormationState);
+	public void setFormationState (FormationRoundAction aFormationRoundAction, ActorI.ActionStates aNewFormationState) {
+		formCGR.setFormationState (aFormationRoundAction, aNewFormationState);
 	}
 	
 	public void updateSpecialButtons (boolean aActingPlayer) {

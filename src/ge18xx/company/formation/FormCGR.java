@@ -279,18 +279,18 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		
 	}
 
-	public void setFormationState (FormationRoundAction aFormationPhaseAction, ActorI.ActionStates aNewFormationState) {
+	public void setFormationState (FormationRoundAction aFormationRoundAction, ActorI.ActionStates aNewFormationState) {
 		ActorI.ActionStates tOldFormationState;
 		ActorI.ActionStates tNewFormationState;
 		ActorI tPrimaryActor;
 		
-		tPrimaryActor = aFormationPhaseAction.getActor ();
+		tPrimaryActor = aFormationRoundAction.getActor ();
 		
 		tOldFormationState = getFormationState ();
 		setFormationState (aNewFormationState);
 		tNewFormationState = getFormationState ();
 		
-		aFormationPhaseAction.addSetFormationStateEffect (tPrimaryActor, tOldFormationState, tNewFormationState);
+		aFormationRoundAction.addSetFormationStateEffect (tPrimaryActor, tOldFormationState, tNewFormationState);
 	}
 
 	@Override
@@ -693,18 +693,18 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 	}
 	
 	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
-		PlayerFormationPanel tPlayerFormationPhase;
+		PlayerFormationPanel tPlayerFormationPanel;
 		String tClassName;
 		Class<?> tPhaseToLoad;
 		Constructor<?> tPhaseConstructor;
 
-		tPlayerFormationPhase = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
+		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
 		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
 		try {
 			tPhaseToLoad = Class.forName (tClassName);
 			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
 						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPhase = (PlayerFormationPanel) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
+			tPlayerFormationPanel = (PlayerFormationPanel) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
 					aActingPresident);
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println ("Error trying to get Constructor");
@@ -721,7 +721,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 			e.printStackTrace();
 		}
 
-		return tPlayerFormationPhase;
+		return tPlayerFormationPanel;
 	}
 	
 	public void setNotificationText (String aNotificationText) {
@@ -864,7 +864,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 	}
 
 	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
-		ChangeFormationRoundStateAction tChangeFormationPhaseStateAction;
+		ChangeFormationRoundStateAction tChangeFormationRoundStateAction;
 		PlayerManager tPlayerManager;
 		Player tFormingPresident;
 		String tOperatingRoundID;
@@ -877,18 +877,18 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		} else {
 			tFormingPresident = actingPresident;
 		}
-		tChangeFormationPhaseStateAction = new ChangeFormationRoundStateAction (ActorI.ActionStates.OperatingRound, 
+		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, tFormingPresident);
-		tChangeFormationPhaseStateAction.setChainToPrevious (true);
+		tChangeFormationRoundStateAction.setChainToPrevious (true);
 
-		setFormationState (tChangeFormationPhaseStateAction, aNewFormationState);
+		setFormationState (tChangeFormationRoundStateAction, aNewFormationState);
 
 		tNewFormationState = getFormationState ();
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
 			hideFormationPanel ();
-			tChangeFormationPhaseStateAction.addHideFormationPanelEffect (tFormingPresident);
+			tChangeFormationRoundStateAction.addHideFormationPanelEffect (tFormingPresident);
 			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayerManager.updateCertificateLimit (tChangeFormationPhaseStateAction);
+			tPlayerManager.updateCertificateLimit (tChangeFormationRoundStateAction);
 			triggeringHandleDone ();
 		} else {
 			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
@@ -898,7 +898,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 			}
 			setupPlayers ();
 		}
-		gameManager.addAction (tChangeFormationPhaseStateAction);
+		gameManager.addAction (tChangeFormationRoundStateAction);
 	}
 
 	public int getSharesReceived (int aSharesExchanged) {

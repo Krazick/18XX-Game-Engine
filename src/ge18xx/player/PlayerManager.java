@@ -1878,7 +1878,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 	
-	public void updateCertificateLimit (FormationRoundAction aFormationPhaseAction) {
+	public void updateCertificateLimit (FormationRoundAction aFormationRoundAction) {
 		int tOldCertificateLimit;
 		int tNewCertificateLimit;
 		Player tPlayerOne;
@@ -1888,7 +1888,7 @@ public class PlayerManager implements XMLSaveGameI {
 		gameManager.updateCertificateLimit ();
 		tNewCertificateLimit = tPlayerOne.getCertificateLimit ();
 		for (Player tPlayer : players) {
-			aFormationPhaseAction.addUpdateCertificateLimitEffect (tPlayer, tOldCertificateLimit,
+			aFormationRoundAction.addUpdateCertificateLimitEffect (tPlayer, tOldCertificateLimit,
 							tNewCertificateLimit);
 		}
 	}

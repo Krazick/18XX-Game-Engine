@@ -33,7 +33,7 @@ public class SetFormationStateEffect extends StateChangeEffect {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
 		int tCurrentPlayerIndex;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
@@ -41,8 +41,8 @@ public class SetFormationStateEffect extends StateChangeEffect {
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setFormationState (newState);
 			if (newState != ActorI.ActionStates.FormationComplete) {
-				tFormationPhase = (FormCGR) tTriggerClass;
-				tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
+				tFormCGR = (FormCGR) tTriggerClass;
+				tCurrentPlayerIndex = tFormCGR.getCurrentPlayerIndex ();
 				tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
 			}
 			

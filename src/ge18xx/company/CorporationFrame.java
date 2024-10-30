@@ -448,7 +448,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tCommand;
 		String tSourceTitle;
 		KButton tSourceButton;
-		FormCGR tFormationPhase;
+		FormCGR tFormCGR;
 		MapFrame tMapFrame;
 		RoundManager tRoundManager;
 		boolean tInterrupted;
@@ -523,11 +523,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				tStatusUpdated = false;
 			}
-			tFormationPhase = gameManager.getFormCGR ();
-			if (tFormationPhase != FormCGR.NO_FORM_CGR) {
-				tFormationPhase.setTriggeringShareCompany ((ShareCompany) corporation);
-				if (tFormationPhase.isFormationFrameVisible ()) {
-					tFormationPhase.showFormationFrame ();
+			tFormCGR = gameManager.getFormCGR ();
+			if (tFormCGR != FormCGR.NO_FORM_CGR) {
+				tFormCGR.setTriggeringShareCompany ((ShareCompany) corporation);
+				if (tFormCGR.isFormationFrameVisible ()) {
+					tFormCGR.showFormationFrame ();
 				}
 			} else if (tStatusUpdated) {
 				corporation.corporationListDoneAction ();
