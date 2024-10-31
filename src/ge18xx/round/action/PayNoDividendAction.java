@@ -5,6 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
+import ge18xx.round.action.effects.UpdateLastRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PayNoDividendAction extends ChangeMarketCellAction {
@@ -32,6 +33,13 @@ public class PayNoDividendAction extends ChangeMarketCellAction {
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
+	}
+	
+	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
+
+		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdateLastRevenueEffect);
 	}
 
 	public void addGeneratedThisRevenueEffect (ActorI aActor, int aNewThisRevenue, int aTrainCount,

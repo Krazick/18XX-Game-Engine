@@ -11,8 +11,8 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class UpdateLastRevenueEffect extends Effect {
-	public static final AttributeName AN_OLD_PREVIOUS_REVENUE = new AttributeName ("oldLastRevenue");
-	public static final AttributeName AN_NEW_PREVIOUS_REVENUE = new AttributeName ("newLastRevenue");
+	public static final AttributeName AN_OLD_PREVIOUS_REVENUE = new AttributeName ("oldPreviousRevenue");
+	public static final AttributeName AN_NEW_PREVIOUS_REVENUE = new AttributeName ("newPreviousRevenue");
 	public static final String NAME = "Update Previous Revenue";
 	int oldPreviousRevenue;
 	int newPreviousRevenue;
@@ -25,7 +25,7 @@ public class UpdateLastRevenueEffect extends Effect {
 		super (aName);
 	}
 
-	public UpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+	public UpdateLastRevenueEffect (ActorI aActor, int aOldPreviousRevenue, int aNewPreviousRevenue) {
 		super (NAME, aActor);
 		setNewPreviousRevenue (aNewPreviousRevenue);
 		setOldPreviousRevenue (aOldPreviousRevenue);

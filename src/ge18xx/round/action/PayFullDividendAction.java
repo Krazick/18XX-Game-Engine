@@ -10,6 +10,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
+import ge18xx.round.action.effects.UpdateLastRevenueEffect;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
@@ -49,6 +50,13 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 	
+	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
+
+		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdateLastRevenueEffect);
+	}
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;

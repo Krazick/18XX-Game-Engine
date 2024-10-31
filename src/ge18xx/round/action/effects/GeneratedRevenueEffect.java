@@ -95,6 +95,7 @@ public class GeneratedRevenueEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTrainsUsed;
 		String tFormattedRevenue;
+		String tFormattedPreviousRevenue;
 		String tActorNameAbbrev;
 		Corporation tCorporation;
 
@@ -110,6 +111,11 @@ public class GeneratedRevenueEffect extends Effect {
 			tActorNameAbbrev = getActorName ();
 		}
 
+		if (previousRevenue > 0) {
+			tFormattedPreviousRevenue = Bank.formatCash (previousRevenue);
+		} else {
+			tFormattedPreviousRevenue = "NO REVENUE";
+		}
 		if (revenue > 0) {
 			tFormattedRevenue = Bank.formatCash (revenue);
 		} else {
@@ -117,7 +123,8 @@ public class GeneratedRevenueEffect extends Effect {
 		}
 		
 		return (REPORT_PREFIX + name + " of " + tFormattedRevenue + " with " + tTrainsUsed + " for "
-				+ tActorNameAbbrev + " (Corp ID: " + getCorporationID () + ").");
+				+ tActorNameAbbrev + " (Corp ID: " + getCorporationID () + "). Previous Revenue "
+				+ tFormattedPreviousRevenue);
 	}
 
 	public int getCorporationID () {
@@ -144,7 +151,6 @@ public class GeneratedRevenueEffect extends Effect {
 		tEffectApplied = false;
 		tOperatingCompany = (TrainCompany) aRoundManager.getCompanyByID (corporationID);
 		tOperatingCompany.setThisRevenue (revenue);
-		tOperatingCompany.setPreviousRevenue (previousRevenue);
 		tOperatingCompany.closeTrainRevenueFrame ();
 		aRoundManager.updateAllCorporationsBox ();
 		tEffectApplied = true;
@@ -162,7 +168,8 @@ public class GeneratedRevenueEffect extends Effect {
 		if (tOperatingCompany == Corporation.NO_CORPORATION) {
 			tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
 		}
-		tOperatingCompany.setThisRevenue (previousRevenue);
+//		tOperatingCompany.setThisRevenue (previousRevenue);
+		tOperatingCompany.setPreviousRevenue (previousRevenue);
 		
 		return tEffectUndone;
 	}

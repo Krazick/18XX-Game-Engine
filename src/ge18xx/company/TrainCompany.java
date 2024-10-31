@@ -367,7 +367,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, thisRevenue, tTrainCount, 
 								tPreviousRevenue);
 		if (tThisRevenue != tPreviousRevenue) {
-			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, tThisRevenue, tPreviousRevenue);
+			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, tPreviousRevenue, tThisRevenue);
 		}
 		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) this;
@@ -2017,8 +2017,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
 			}
-			tPreviousRevenue = getThisRevenue ();
+			tPreviousRevenue = getPreviousRevenue ();
 			tTrainCount = getTrainCount ();
+			tPayNoDividendAction.addUpdateLastRevenueEffect (this, tPreviousRevenue, tRevenueGenerated);
 			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tRevenueGenerated, tTrainCount, tPreviousRevenue);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
@@ -2106,8 +2107,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tShareCompany.payFullDividendAdjustment (tPayFullDividendAction);
 			}
 			tPayFullDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tOperatingRound.addAction (tPayFullDividendAction);
+			tPayFullDividendAction.addUpdateLastRevenueEffect (this, previousRevenue, thisRevenue);
 			setPreviousRevenue (thisRevenue);
+			tOperatingRound.addAction (tPayFullDividendAction);
 			updateInfo ();
 		} else {
 			System.err.println ("Status has NOT been updated from " + status);
