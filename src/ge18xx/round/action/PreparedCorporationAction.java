@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
 import ge18xx.round.action.effects.GetLoanEffect;
-import ge18xx.round.action.effects.UpdateLastRevenueEffect;
+import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PreparedCorporationAction extends ChangeStateAction {
@@ -40,9 +40,9 @@ public class PreparedCorporationAction extends ChangeStateAction {
 	}
 
 	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
+		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
 
@@ -68,8 +68,8 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		tNewLastRevenue = 0;
 		for (Effect tEffect : effects) {
 			if (tNewLastRevenue == 0) {
-				if (tEffect instanceof UpdateLastRevenueEffect) {
-					tNewLastRevenue = ((UpdateLastRevenueEffect) tEffect).getNewPreviousRevenue ();
+				if (tEffect instanceof UpdatePreviousRevenueEffect) {
+					tNewLastRevenue = ((UpdatePreviousRevenueEffect) tEffect).getNewPreviousRevenue ();
 				}
 			}
 		}
@@ -83,8 +83,8 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		tOldLastRevenue = 0;
 		for (Effect tEffect : effects) {
 			if (tOldLastRevenue == 0) {
-				if (tEffect instanceof UpdateLastRevenueEffect) {
-					tOldLastRevenue = ((UpdateLastRevenueEffect) tEffect).getOldPreviousRevenue ();
+				if (tEffect instanceof UpdatePreviousRevenueEffect) {
+					tOldLastRevenue = ((UpdatePreviousRevenueEffect) tEffect).getOldPreviousRevenue ();
 				}
 			}
 		}

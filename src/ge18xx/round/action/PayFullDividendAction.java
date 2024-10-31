@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
-import ge18xx.round.action.effects.UpdateLastRevenueEffect;
+import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
@@ -51,9 +51,9 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 	}
 	
 	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
+		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
 

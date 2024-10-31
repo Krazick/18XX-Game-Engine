@@ -5,7 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
-import ge18xx.round.action.effects.UpdateLastRevenueEffect;
+import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class OperatedTrainsAction extends ChangeStateAction {
@@ -37,9 +37,9 @@ public class OperatedTrainsAction extends ChangeStateAction {
 	}
 	
 	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
+		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
 

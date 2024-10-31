@@ -10,28 +10,28 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class UpdateLastRevenueEffect extends Effect {
+public class UpdatePreviousRevenueEffect extends Effect {
 	public static final AttributeName AN_OLD_PREVIOUS_REVENUE = new AttributeName ("oldPreviousRevenue");
 	public static final AttributeName AN_NEW_PREVIOUS_REVENUE = new AttributeName ("newPreviousRevenue");
 	public static final String NAME = "Update Previous Revenue";
 	int oldPreviousRevenue;
 	int newPreviousRevenue;
 
-	public UpdateLastRevenueEffect () {
+	public UpdatePreviousRevenueEffect () {
 		this (NAME);
 	}
 
-	public UpdateLastRevenueEffect (String aName) {
+	public UpdatePreviousRevenueEffect (String aName) {
 		super (aName);
 	}
 
-	public UpdateLastRevenueEffect (ActorI aActor, int aOldPreviousRevenue, int aNewPreviousRevenue) {
+	public UpdatePreviousRevenueEffect (ActorI aActor, int aOldPreviousRevenue, int aNewPreviousRevenue) {
 		super (NAME, aActor);
 		setNewPreviousRevenue (aNewPreviousRevenue);
 		setOldPreviousRevenue (aOldPreviousRevenue);
 	}
 
-	public UpdateLastRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public UpdatePreviousRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tOldPreviousRevenue;
 		int tNewPreviousRevenue;
