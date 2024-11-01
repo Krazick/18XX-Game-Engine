@@ -23,10 +23,20 @@ public class RemoveDestinationsAction extends ChangeMapAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
+	
 	public void addRemoveDestinationEffect (ActorI aActor, MapCell aMapCell, Location aLocation) {
 		RemoveDestinationEffect tRemoveDestinationEffect;
 
 		tRemoveDestinationEffect = new RemoveDestinationEffect (aActor, aMapCell, aLocation);
 		addEffect (tRemoveDestinationEffect);
+	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport;
+
+		tSimpleActionReport = NAME + " for Closed Companies";
+
+		return tSimpleActionReport;
 	}
 }
