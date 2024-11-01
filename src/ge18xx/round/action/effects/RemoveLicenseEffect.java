@@ -8,8 +8,8 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class RemoveLicenseEffect extends AddLicenseEffect {
-	public final static String SHORT_NAME = "Remove ";
-	public final static String NAME = SHORT_NAME + "License";
+	public final static String SHORT_NAME = "Remove";
+	public final static String NAME = SHORT_NAME + " License";
 
 	public RemoveLicenseEffect () {
 		this (NAME);

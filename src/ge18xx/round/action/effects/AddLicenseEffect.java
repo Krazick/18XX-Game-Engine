@@ -13,8 +13,8 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class AddLicenseEffect extends ToEffect {
-	public final static String SHORT_NAME = "Add ";
-	public final static String NAME = SHORT_NAME + "License";
+	public final static String SHORT_NAME = "Add";
+	public final static String NAME = SHORT_NAME + " License";
 	final static AttributeName AN_LICENSE = new AttributeName ("License");
 	License license;
 	String mapCellIDs;

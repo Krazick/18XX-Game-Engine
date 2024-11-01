@@ -70,4 +70,13 @@ public class CashTransferAction extends ChangeStateAction {
 
 		return tCashAmount;
 	}
+
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport;
+
+		tSimpleActionReport = NAME + " Action from " + actor.getName () + " to " + getToActorName ();
+
+		return tSimpleActionReport;
+	}
 }
