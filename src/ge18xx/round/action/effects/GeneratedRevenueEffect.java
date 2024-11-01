@@ -13,12 +13,12 @@ import geUtilities.xml.XMLNode;
 
 public class GeneratedRevenueEffect extends Effect {
 	public final static String NAME = "Set Generated Revenue";
-	final static AttributeName AN_REVENUE = new AttributeName ("revenue");
-	final static AttributeName AN_PREVIOUS_REVENUE = new AttributeName ("previousRevenue");
+	final static AttributeName AN_THIS_REVENUE = new AttributeName ("thisRevenue");
+	final static AttributeName AN_OLD_THIS_REVENUE = new AttributeName ("oldThisRevenue");
 	final static AttributeName AN_TRAIN_COUNT = new AttributeName ("trainCount");
 	int trainCount;
-	int revenue;
-	int previousRevenue;
+	int thisRevenue;
+	int oldThisRevenue;
 	int corporationID;
 
 	public GeneratedRevenueEffect () {
@@ -29,7 +29,7 @@ public class GeneratedRevenueEffect extends Effect {
 		super (aName);
 	}
 
-	public GeneratedRevenueEffect (ActorI aActor, int aRevenue, int aTrainCount, int aPreviousRevenue) {
+	public GeneratedRevenueEffect (ActorI aActor, int aOldThisRevenue, int aThisRevenue, int aTrainCount) {
 		super (NAME, aActor);
 		
 		int tCorporationID;
@@ -40,24 +40,24 @@ public class GeneratedRevenueEffect extends Effect {
 			tCorporationID = tCorporation.getID ();
 			setCorporationID (tCorporationID);
 		}
-		setRevenue (aRevenue);
-		setPreviousRevenue (aPreviousRevenue);
+		setThisRevenue (aThisRevenue);
+		setOldThisRevenue (aOldThisRevenue);
 		setTrainCount (aTrainCount);
 	}
 
 	public GeneratedRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		int tRevenue;
-		int tPreviousRevenue;
+		int tThisRevenue;
+		int tOldThisRevenue;
 		int tTrainCount;
 		int tCorporationID;
 
-		tRevenue = aEffectNode.getThisIntAttribute (AN_REVENUE);
-		tPreviousRevenue = aEffectNode.getThisIntAttribute (AN_PREVIOUS_REVENUE);
+		tThisRevenue = aEffectNode.getThisIntAttribute (AN_THIS_REVENUE);
+		tOldThisRevenue = aEffectNode.getThisIntAttribute (AN_OLD_THIS_REVENUE);
 		tTrainCount = aEffectNode.getThisIntAttribute (AN_TRAIN_COUNT);
 		tCorporationID = aEffectNode.getThisIntAttribute (Corporation.AN_ID);
-		setRevenue (tRevenue);
-		setPreviousRevenue (tPreviousRevenue);
+		setThisRevenue (tThisRevenue);
+		setOldThisRevenue (tOldThisRevenue);
 		setTrainCount (tTrainCount);
 		setCorporationID (tCorporationID);
 	}
@@ -67,8 +67,8 @@ public class GeneratedRevenueEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-		tEffectElement.setAttribute (AN_REVENUE, getRevenue ());
-		tEffectElement.setAttribute (AN_PREVIOUS_REVENUE, getPreviousRevenue ());
+		tEffectElement.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
+		tEffectElement.setAttribute (AN_OLD_THIS_REVENUE, getOldThisRevenue ());
 		tEffectElement.setAttribute (AN_TRAIN_COUNT, getTrainCount ());
 		tEffectElement.setAttribute (Corporation.AN_ID, getCorporationID ());
 
@@ -79,12 +79,12 @@ public class GeneratedRevenueEffect extends Effect {
 		corporationID = aCorporationID;
 	}
 
-	public void setRevenue (int aRevenue) {
-		revenue = aRevenue;
+	public void setThisRevenue (int aThisRevenue) {
+		thisRevenue = aThisRevenue;
 	}
 
-	public void setPreviousRevenue (int aPriorRevenue) {
-		previousRevenue = aPriorRevenue;
+	public void setOldThisRevenue (int aOldThisRevenue) {
+		oldThisRevenue = aOldThisRevenue;
 	}
 
 	public void setTrainCount (int aTrainCount) {
@@ -94,8 +94,8 @@ public class GeneratedRevenueEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTrainsUsed;
-		String tFormattedRevenue;
-		String tFormattedPreviousRevenue;
+		String tFormattedThisRevenue;
+		String tFormattedOldThisRevenue;
 		String tActorNameAbbrev;
 		Corporation tCorporation;
 
@@ -111,32 +111,32 @@ public class GeneratedRevenueEffect extends Effect {
 			tActorNameAbbrev = getActorName ();
 		}
 
-		if (previousRevenue > 0) {
-			tFormattedPreviousRevenue = Bank.formatCash (previousRevenue);
+		if (oldThisRevenue > 0) {
+			tFormattedOldThisRevenue = Bank.formatCash (oldThisRevenue);
 		} else {
-			tFormattedPreviousRevenue = "NO REVENUE";
+			tFormattedOldThisRevenue = "NO REVENUE";
 		}
-		if (revenue > 0) {
-			tFormattedRevenue = Bank.formatCash (revenue);
+		if (thisRevenue > 0) {
+			tFormattedThisRevenue = Bank.formatCash (thisRevenue);
 		} else {
-			tFormattedRevenue = "NO REVENUE";
+			tFormattedThisRevenue = "NO REVENUE";
 		}
 		
-		return (REPORT_PREFIX + name + " of " + tFormattedRevenue + " with " + tTrainsUsed + " for "
+		return (REPORT_PREFIX + name + " of " + tFormattedThisRevenue + " with " + tTrainsUsed + " for "
 				+ tActorNameAbbrev + " (Corp ID: " + getCorporationID () + "). Previous Revenue "
-				+ tFormattedPreviousRevenue);
+				+ tFormattedOldThisRevenue);
 	}
 
 	public int getCorporationID () {
 		return corporationID;
 	}
 	
-	public int getRevenue () {
-		return revenue;
+	public int getThisRevenue () {
+		return thisRevenue;
 	}
 
-	public int getPreviousRevenue () {
-		return previousRevenue;
+	public int getOldThisRevenue () {
+		return oldThisRevenue;
 	}
 
 	public int getTrainCount () {
@@ -150,7 +150,7 @@ public class GeneratedRevenueEffect extends Effect {
 
 		tEffectApplied = false;
 		tOperatingCompany = (TrainCompany) aRoundManager.getCompanyByID (corporationID);
-		tOperatingCompany.setThisRevenue (revenue);
+		tOperatingCompany.setThisRevenue (thisRevenue);
 		tOperatingCompany.closeTrainRevenueFrame ();
 		aRoundManager.updateAllCorporationsBox ();
 		tEffectApplied = true;
@@ -168,8 +168,7 @@ public class GeneratedRevenueEffect extends Effect {
 		if (tOperatingCompany == Corporation.NO_CORPORATION) {
 			tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
 		}
-//		tOperatingCompany.setThisRevenue (previousRevenue);
-		tOperatingCompany.setPreviousRevenue (previousRevenue);
+		tOperatingCompany.setThisRevenue (oldThisRevenue);
 		
 		return tEffectUndone;
 	}

@@ -137,12 +137,12 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	public void setRevenueValues (TrainCompany aTrainCompany) {
 		int tThisRevenue;
-		int tLastRevenue;
+		int tPreviousRevenue;
 
 		tThisRevenue = aTrainCompany.getThisRevenue ();
-		tLastRevenue = aTrainCompany.getPreviousRevenue ();
+		tPreviousRevenue = aTrainCompany.getPreviousRevenue ();
 		setThisRevenue (tThisRevenue);
-		setLastRevenue (tLastRevenue);
+		setPreviousRevenue (tPreviousRevenue);
 	}
 
 	public void setThisRevenue (int aThisRevenue) {
@@ -150,8 +150,8 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		updateThisRevenueLabel ();
 	}
 
-	private void setLastRevenue (int aLastRevenue) {
-		lastRevenue = aLastRevenue;
+	private void setPreviousRevenue (int aPreviousRevenue) {
+		lastRevenue = aPreviousRevenue;
 		updateLastRevenueLabel ();
 	}
 
@@ -300,12 +300,12 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 
 	private void handleCommitAllRevenues () {
 		int tAllTrainRevenue;
-		int tPreviousRevenue;
+		int tOldThisRevenue;
 		
 		tAllTrainRevenue = addAllTrainRevenues ();
-		tPreviousRevenue = trainCompany.getPreviousRevenue ();
+		tOldThisRevenue = trainCompany.getThisRevenue ();
 		trainCompany.setThisRevenue (tAllTrainRevenue);
-		trainCompany.trainsOperated (tAllTrainRevenue, tPreviousRevenue);
+		trainCompany.trainsOperated (tAllTrainRevenue, tOldThisRevenue);
 		copyAllRoutesToPrevious ();
 		setVisible (false);
 	}
@@ -919,7 +919,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	}
 
 	public void operateTrains (Point aFrameOffset) {
-		setLastRevenue (trainCompany.getPreviousRevenue ());
+		setPreviousRevenue (trainCompany.getPreviousRevenue ());
 		setThisRevenue (trainCompany.getThisRevenue ());
 		setYourCompany (true);
 		updateInfo ();

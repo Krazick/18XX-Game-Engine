@@ -30,20 +30,18 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
-	public void addGeneratedThisRevenueEffect (ActorI aActor, int aNewThisRevenue, int aTrainCount,
-							int aPreviousRevenue) {
+	public void addGeneratedThisRevenueEffect (ActorI aActor, int aOldThisRevenue, int aThisRevenue, int aTrainCount) {
 		GeneratedRevenueEffect tGeneratedRevenueEffect;
 
-		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aNewThisRevenue, aTrainCount, 
-									aPreviousRevenue);
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aOldThisRevenue, aThisRevenue, aTrainCount);
 		addEffect (tGeneratedRevenueEffect);
 	}
 
-	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
+	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
-		addEffect (tUpdateLastRevenueEffect);
+		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdatePreviousRevenueEffect);
 	}
 
 	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
@@ -62,33 +60,33 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		return tSimpleActionReport;
 	}
 
-	public int getNewLastRevenue () {
-		int tNewLastRevenue;
+	public int getNewPreviousRevenue () {
+		int tNewPreviousRevenue;
 
-		tNewLastRevenue = 0;
+		tNewPreviousRevenue = 0;
 		for (Effect tEffect : effects) {
-			if (tNewLastRevenue == 0) {
+			if (tNewPreviousRevenue == 0) {
 				if (tEffect instanceof UpdatePreviousRevenueEffect) {
-					tNewLastRevenue = ((UpdatePreviousRevenueEffect) tEffect).getNewPreviousRevenue ();
+					tNewPreviousRevenue = ((UpdatePreviousRevenueEffect) tEffect).getNewPreviousRevenue ();
 				}
 			}
 		}
 
-		return tNewLastRevenue;
+		return tNewPreviousRevenue;
 	}
 
-	public int getOldLastRevenue () {
-		int tOldLastRevenue;
+	public int getOldPreviousRevenue () {
+		int tOldPreviousRevenue;
 
-		tOldLastRevenue = 0;
+		tOldPreviousRevenue = 0;
 		for (Effect tEffect : effects) {
-			if (tOldLastRevenue == 0) {
+			if (tOldPreviousRevenue == 0) {
 				if (tEffect instanceof UpdatePreviousRevenueEffect) {
-					tOldLastRevenue = ((UpdatePreviousRevenueEffect) tEffect).getOldPreviousRevenue ();
+					tOldPreviousRevenue = ((UpdatePreviousRevenueEffect) tEffect).getOldPreviousRevenue ();
 				}
 			}
 		}
 
-		return tOldLastRevenue;
+		return tOldPreviousRevenue;
 	}
 }

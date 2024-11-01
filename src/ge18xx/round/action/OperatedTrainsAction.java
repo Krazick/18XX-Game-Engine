@@ -29,18 +29,18 @@ public class OperatedTrainsAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
-	public void addGeneratedRevenueEffect (ActorI aActor, int aRevenue, int aTrainCount, int aPriorRevenue) {
+	public void addGeneratedRevenueEffect (ActorI aActor, int aOldThisRevenue, int aThisRevenue, int aTrainCount) {
 		GeneratedRevenueEffect tGeneratedRevenueEffect;
 
-		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aRevenue, aTrainCount, aPriorRevenue);
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aOldThisRevenue, aThisRevenue, aTrainCount);
 		addEffect (tGeneratedRevenueEffect);
 	}
 	
-	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
+	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
-		addEffect (tUpdateLastRevenueEffect);
+		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdatePreviousRevenueEffect);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class OperatedTrainsAction extends ChangeStateAction {
 		for (Effect tEffect : effects) {
 			if (tRevenue == 0) {
 				if (tEffect instanceof GeneratedRevenueEffect) {
-					tRevenue = ((GeneratedRevenueEffect) tEffect).getRevenue ();
+					tRevenue = ((GeneratedRevenueEffect) tEffect).getThisRevenue ();
 				}
 			}
 		}

@@ -35,19 +35,17 @@ public class PayNoDividendAction extends ChangeMarketCellAction {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 	
-	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
+	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
-		addEffect (tUpdateLastRevenueEffect);
+		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdatePreviousRevenueEffect);
 	}
 
-	public void addGeneratedThisRevenueEffect (ActorI aActor, int aNewThisRevenue, int aTrainCount,
-							int aOldThisRevenue) {
+	public void addGeneratedThisRevenueEffect (ActorI aActor, int aOldThisRevenue, int aNewThisRevenue, int aTrainCount) {
 		GeneratedRevenueEffect tGeneratedRevenueEffect;
 
-		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aNewThisRevenue, aTrainCount, 
-									aOldThisRevenue);
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aOldThisRevenue, aNewThisRevenue, aTrainCount);
 		addEffect (tGeneratedRevenueEffect);
 	}
 

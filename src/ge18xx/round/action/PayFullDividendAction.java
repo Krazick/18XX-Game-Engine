@@ -50,11 +50,11 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 	
-	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdatePreviousRevenueEffect tUpdateLastRevenueEffect;
+	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
+		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
 
-		tUpdateLastRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
-		addEffect (tUpdateLastRevenueEffect);
+		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
+		addEffect (tUpdatePreviousRevenueEffect);
 	}
 
 	@Override

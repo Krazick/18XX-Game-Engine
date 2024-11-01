@@ -346,7 +346,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tPreviousStatus;
 		ActorI.ActionStates tNewStatus;
 		int tThisRevenue;
+		int tOldThisRevenue;
 		int tPreviousRevenue;
+		int tOldPreviousRevenue;
 		int tTrainCount;
 		ShareCompany tShareCompany;
 
@@ -359,15 +361,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tOperatingRoundID, this);
 		tPreparedCorporationAction.setChainToPrevious (true);
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
-		tThisRevenue = thisRevenue;
-		tPreviousRevenue = previousRevenue;
 		tTrainCount = getTrainCount ();
-		setPreviousRevenue (thisRevenue);
+		tOldThisRevenue = thisRevenue;
 		setThisRevenue (NO_REVENUE_GENERATED);
-		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, thisRevenue, tTrainCount, 
-								tPreviousRevenue);
-		if (tThisRevenue != tPreviousRevenue) {
-			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, tPreviousRevenue, tThisRevenue);
+		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, thisRevenue, tTrainCount);
+		
+		tOldPreviousRevenue = previousRevenue;
+		setPreviousRevenue (thisRevenue);
+		if (tOldPreviousRevenue != previousRevenue) {
+			tPreparedCorporationAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, previousRevenue);
 		}
 		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) this;
@@ -1987,7 +1989,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tStatusUpdated;
 		boolean tMovementStock;
 		int tRevenueGenerated;
-		int tPreviousRevenue;
+		int tOldPreviousRevenue;
+		int tOldThisRevenue;
 		int tTrainCount;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
@@ -1998,6 +2001,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		PayNoDividendAction tPayNoDividendAction;
 		
 		tRevenueGenerated = 0;
+		tOldThisRevenue = thisRevenue;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
 			tRevenueGenerated = thisRevenue;
 		} else {
@@ -2017,10 +2021,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
 			}
-			tPreviousRevenue = getPreviousRevenue ();
+			tOldPreviousRevenue = getPreviousRevenue ();
 			tTrainCount = getTrainCount ();
-			tPayNoDividendAction.addUpdateLastRevenueEffect (this, tPreviousRevenue, tRevenueGenerated);
-			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tRevenueGenerated, tTrainCount, tPreviousRevenue);
+			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, tRevenueGenerated);
+			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, tRevenueGenerated, tTrainCount);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
 				returnBorrowedTrain (tPayNoDividendAction);
@@ -2107,7 +2111,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tShareCompany.payFullDividendAdjustment (tPayFullDividendAction);
 			}
 			tPayFullDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tPayFullDividendAction.addUpdateLastRevenueEffect (this, previousRevenue, thisRevenue);
+			tPayFullDividendAction.addUpdatePreviousRevenueEffect (this, previousRevenue, thisRevenue);
 			setPreviousRevenue (thisRevenue);
 			tOperatingRound.addAction (tPayFullDividendAction);
 			updateInfo ();
@@ -2447,7 +2451,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		benefitInUse.completeBenefitInUse (aOwningCompany);
 	}
 
-	public void trainsOperated (int aRevenue, int aPreviousRevenue) {
+	public void trainsOperated (int aThisRevenue, int aOldThisRevenue) {
 		OperatedTrainsAction tOperatedTrainsAction;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
@@ -2463,7 +2467,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, 
 					tOperatingRoundID, this);
 			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aRevenue, tTrainCount, aPreviousRevenue);
+			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aOldThisRevenue, aThisRevenue, tTrainCount);
 			tOperatedTrainsAction.setChainToPrevious (true);
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tOperatedTrainsAction);
