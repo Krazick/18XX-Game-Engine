@@ -28,5 +28,4 @@ public class SetPercentBoughtAction extends Action {
 		tSetPercentBoughtEffect = new SetPercentBoughtEffect (aPlayer, aAbbrev, aPreviousPercent, aNewPercent);
 		addEffect (tSetPercentBoughtEffect);
 	}
-
 }
