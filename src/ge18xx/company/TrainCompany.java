@@ -345,9 +345,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tOperatingRoundID;
 		ActorI.ActionStates tPreviousStatus;
 		ActorI.ActionStates tNewStatus;
-		int tThisRevenue;
 		int tOldThisRevenue;
-		int tPreviousRevenue;
 		int tOldPreviousRevenue;
 		int tTrainCount;
 		ShareCompany tShareCompany;
@@ -2000,13 +1998,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tNewStatus;
 		PayNoDividendAction tPayNoDividendAction;
 		
-		tRevenueGenerated = 0;
+		tRevenueGenerated = thisRevenue;
 		tOldThisRevenue = thisRevenue;
-		if (thisRevenue != NO_REVENUE_GENERATED) {
-			tRevenueGenerated = thisRevenue;
-		} else {
-			setThisRevenue (tRevenueGenerated);
-		}
+//		if (thisRevenue != NO_REVENUE_GENERATED) {
+//			tRevenueGenerated = thisRevenue;
+//		} else {
+//			setThisRevenue (tRevenueGenerated);
+//		}
 		tCurrentStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
 		if (tStatusUpdated) {
