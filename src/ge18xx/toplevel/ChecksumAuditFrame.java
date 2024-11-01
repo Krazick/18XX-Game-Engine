@@ -212,7 +212,6 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	}
 	
 	public void addRowByWorker (Checksum aNewChecksum, boolean aAllChecksums) {
-//		startSwing (aNewChecksum);
 		addRow (aNewChecksum, aAllChecksums);
 	}
 	
@@ -255,7 +254,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tAction = tActionManager.getActionAt (tActionIndex);
 		if (tAction != Action.NO_ACTION) {
 			tActionNumber = tAction.getNumber ();
-			 tChecksums = aChecksum.getChecksums ();
+			tChecksums = aChecksum.getChecksums ();
 			tEffectCount = tAction.getEffectCount ();
 			tActionReport = tAction.getSimpleActionReport ();
 			
