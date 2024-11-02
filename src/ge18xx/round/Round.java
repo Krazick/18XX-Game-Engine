@@ -157,6 +157,14 @@ public abstract class Round implements ActorI {
 		return roundType;
 	}
 	
+	public String getPhase () {
+		String tPhase;
+		
+		tPhase = roundType.getPhase ();
+		
+		return tPhase;
+	}
+	
 	public boolean isActor (String aActorName) {
 		return name.equals (aActorName);
 	}
