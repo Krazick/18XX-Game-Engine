@@ -4,7 +4,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
-import geUtilities.xml.AttributeName;
+import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
@@ -12,8 +12,6 @@ import geUtilities.xml.XMLNode;
 public class FormationRound extends InterruptionRound {
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
-	public static final AttributeName AN_PHASE = new AttributeName ("phase");
-	String phase;
 
 	public FormationRound (RoundManager aRoundManager) {
 		super (aRoundManager);
@@ -23,15 +21,7 @@ public class FormationRound extends InterruptionRound {
 	
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
-		String tPhase;
-		
 		super.loadRound (aRoundNode);
-		tPhase = aRoundNode.getThisAttribute (AN_PHASE);
-		setPhase (tPhase);
-	}
-	
-	public void setPhase (String aPhase) {
-		phase = aPhase;
 	}
 	
 	@Override
@@ -50,6 +40,7 @@ public class FormationRound extends InterruptionRound {
 		GameManager tGameManager;
 		String tCurrentPhaseName;
 		PhaseInfo tCurrentPhaseInfo;
+		String tRoundTypePhase;
 		
 		tIsInterrupting = false;
 		// TODO: Need to add test if Interruption is required:
@@ -58,10 +49,13 @@ public class FormationRound extends InterruptionRound {
 		//		AND at least one Share Company has at least one Loan Outstanding
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.gameHasRoundType (NAME)) {
-			tCurrentPhaseInfo = roundManager.getCurrentPhaseInfo ();
-			tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
-			if (phase.equals (tCurrentPhaseName)) {
-				tIsInterrupting = hasOutstandingLoans ();
+			tRoundTypePhase = getPhase ();
+			if (tRoundTypePhase != GUI.EMPTY_STRING) {
+				tCurrentPhaseInfo = roundManager.getCurrentPhaseInfo ();
+				tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
+				if (tRoundTypePhase.equals (tCurrentPhaseName)) {
+					tIsInterrupting = hasOutstandingLoans ();
+				}
 			}
 		}
 		
