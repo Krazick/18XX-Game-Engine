@@ -846,7 +846,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void payPrivateRevenues (Bank aBank, OperatingRound aOperatingRound) {
 		PrivateCompany tPrivate;
 		int tRevenue;
-		int tOperatingRoundID2;
+//		int tOperatingRoundID2;
 		String tOperatingRoundID;
 		PortfolioHolderI tOwner;
 		CashHolderI tOwnerCashHolder;
@@ -860,17 +860,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					tRevenue = tPrivate.getRevenue ();
 					tOwner = tPrivate.getOwner ();
 					tOperatingRoundID = aOperatingRound.getID ();
-					tOperatingRoundID2 = aOperatingRound.getIDPart2 ();
+//					tOperatingRoundID2 = aOperatingRound.getIDPart2 ();
 					tOwnerCashHolder = (CashHolderI) tOwner;
 					if (tOwner.isAPlayer ()) {
 						tPlayer = (Player) tOwner;
 						
-						tPlayer.addCashToDividends (tRevenue, tOperatingRoundID2);
+						tPlayer.addCashToDividends (tRevenue, tOperatingRoundID);
 					}
 					aBank.transferCashTo (tOwnerCashHolder, tRevenue);
 					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundState (), tOperatingRoundID,
 							tPrivate);
-					tPayRevenueAction.addPayCashRevenueEffect (aBank, tOwnerCashHolder, tRevenue, tOperatingRoundID2);
+					tPayRevenueAction.addPayCashRevenueEffect (aBank, tOwnerCashHolder, tRevenue, tOperatingRoundID);
 					aOperatingRound.addAction (tPayRevenueAction);
 				}
 			}

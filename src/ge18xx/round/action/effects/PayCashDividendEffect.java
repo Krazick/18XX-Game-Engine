@@ -12,29 +12,29 @@ import geUtilities.xml.XMLNode;
 
 public class PayCashDividendEffect extends CashTransferEffect {
 	public final static String NAME = "Pay Cash Dividend";
-	public final static AttributeName AN_OPERATING_ROUND_PART2 = new AttributeName ("operatingRoundPart2");
-	int operatingRoundPart2;
+	public final static AttributeName AN_OPERATING_ROUND_ID = new AttributeName ("operatingRoundID");
+	String operatingRoundID;
 	
-	public PayCashDividendEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, int aOperatingRoundPart2) {
+	public PayCashDividendEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String tOperatingRoundID) {
 		super (NAME, aFromActor, aToActor, aCashAmount);
-		setOperatingRoundPart2 (aOperatingRoundPart2);
+		setOperatingRoundID (tOperatingRoundID);
 	}
 
 	public PayCashDividendEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (NAME, aEffectNode, aGameManager);
 		
-		int tOperatingRoundPart2;
+		String tOperatingRoundID;
 		
-		tOperatingRoundPart2 = aEffectNode.getThisIntAttribute (AN_OPERATING_ROUND_PART2);
-		setOperatingRoundPart2 (tOperatingRoundPart2);
+		tOperatingRoundID = aEffectNode.getThisAttribute (AN_OPERATING_ROUND_ID);
+		setOperatingRoundID (tOperatingRoundID);
 	}
 
-	public void setOperatingRoundPart2 (int aOperatingRoundPart2) {
-		operatingRoundPart2 = aOperatingRoundPart2;
+	public void setOperatingRoundID (String tOperatingRoundID) {
+		operatingRoundID = tOperatingRoundID;
 	}
 	
-	public int getOperatingRoundPart2 () {
-		return operatingRoundPart2;
+	public String getOperatingRoundID () {
+		return operatingRoundID;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class PayCashDividendEffect extends CashTransferEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-		tEffectElement.setAttribute (AN_OPERATING_ROUND_PART2, getOperatingRoundPart2 ());
+		tEffectElement.setAttribute (AN_OPERATING_ROUND_ID, getOperatingRoundID ());
 
 		return tEffectElement;
 	}
@@ -50,7 +50,7 @@ public class PayCashDividendEffect extends CashTransferEffect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " of " + Bank.formatCash (cash) + " from " + getActorName () + " to "
-				+ getToActorName () + " in Operating Round " + operatingRoundPart2 + ".");
+				+ getToActorName () + " in Operating Round " + operatingRoundID + ".");
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class PayCashDividendEffect extends CashTransferEffect {
 
 		tEffectApplied = false;
 		tToCashHolder = (CashHolderI) getToActor ();
-		tToCashHolder.addCashToDividends (cash, operatingRoundPart2);
+		tToCashHolder.addCashToDividends (cash, operatingRoundID);
 		super.applyEffect (aRoundManager);
 		tEffectApplied = true;
 
@@ -74,7 +74,7 @@ public class PayCashDividendEffect extends CashTransferEffect {
 
 		tEffectUndone = false;
 		tToCashHolder = (CashHolderI) getToActor ();
-		tToCashHolder.addCashToDividends (-cash, operatingRoundPart2);
+		tToCashHolder.addCashToDividends (-cash, operatingRoundID);
 		super.undoEffect (aRoundManager);
 		tEffectUndone = true;
 

@@ -33,11 +33,11 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 	}
 
 	public void addPayCashDividendEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
-						int aCashAmount, int aOperatingRoundID) {
+						int aCashAmount, String tOperatingRoundID) {
 		PayCashDividendEffect tPayCashDividendEffect;
 
 		tPayCashDividendEffect = new PayCashDividendEffect (aFromCashHolder, aToCashHolder, 
-						aCashAmount, aOperatingRoundID);
+						aCashAmount, tOperatingRoundID);
 		addEffect (tPayCashDividendEffect);
 	}
 	

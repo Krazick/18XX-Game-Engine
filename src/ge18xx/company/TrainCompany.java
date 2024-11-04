@@ -345,9 +345,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tOperatingRoundID;
 		ActorI.ActionStates tPreviousStatus;
 		ActorI.ActionStates tNewStatus;
-		int tOldThisRevenue;
-		int tOldPreviousRevenue;
-		int tTrainCount;
 		ShareCompany tShareCompany;
 
 		tPreviousStatus = getActionStatus ();
@@ -359,16 +356,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tOperatingRoundID, this);
 		tPreparedCorporationAction.setChainToPrevious (true);
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
-		tTrainCount = getTrainCount ();
-		tOldThisRevenue = thisRevenue;
-		setThisRevenue (NO_REVENUE_GENERATED);
-		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, thisRevenue, tTrainCount);
+		updateThisRevenue (tPreparedCorporationAction);
 		
-		tOldPreviousRevenue = previousRevenue;
-		setPreviousRevenue (thisRevenue);
-		if (tOldPreviousRevenue != previousRevenue) {
-			tPreparedCorporationAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, previousRevenue);
-		}
+//		tOldPreviousRevenue = previousRevenue;
+//		setPreviousRevenue (thisRevenue);
+//		if (tOldPreviousRevenue != previousRevenue) {
+//			tPreparedCorporationAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, previousRevenue);
+//		}
 		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) this;
 			if (tShareCompany.wasLoanTaken ()) {
@@ -381,6 +375,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		addAction (tPreparedCorporationAction);
 		setHasLaidTile (false);
 		corporationList.updateRoundFrame ();
+	}
+
+	public void updateThisRevenue (PreparedCorporationAction tPreparedCorporationAction) {
+		int tOldThisRevenue;
+		int tTrainCount;
+		
+		tTrainCount = getTrainCount ();
+		tOldThisRevenue = thisRevenue;
+		setThisRevenue (NO_REVENUE_GENERATED);
+		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, thisRevenue, tTrainCount);
 	}
 
 	@Override
@@ -2073,7 +2077,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void payFullDividend () {
 		int tRevenueGenerated;
-		int tOperatingRoundPart2;
 		boolean tStatusUpdated;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
@@ -2092,12 +2095,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tNewStatus = status;
 			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
-			tOperatingRoundPart2 = tOperatingRound.getIDPart2 ();
+//			tOperatingRoundPart2 = tOperatingRound.getIDPart2 ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
 			if (tRevenueGenerated > 0) {
 				// Pay the Dividend to the Stock Holders not the TrainCompany (this)
-				payShareHolders (tPayFullDividendAction, tOperatingRoundPart2);
+				payShareHolders (tPayFullDividendAction, tOperatingRoundID);
 			}
 			if (isGovtRailway ()) {
 				returnBorrowedTrain (tPayFullDividendAction);
@@ -2118,7 +2121,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 
-	public void payShareHolders (PayFullDividendAction aPayFullDividendAction, int aOperatingRoundPart2) {
+	public void payShareHolders (PayFullDividendAction aPayFullDividendAction, String tOperatingRoundID) {
 		ShareHolders tShareHolders;
 		int tCertificateCount;
 		int tCertificateIndex;
@@ -2157,20 +2160,20 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				if (tPortfolioHolder.isAPlayer ()) {
 					tPlayer = (Player) tPortfolioHolder;
 					tBank.transferCashTo (tPlayer, tDividendForShares);
-					tPlayer.addCashToDividends (tDividendForShares, aOperatingRoundPart2);
+					tPlayer.addCashToDividends (tDividendForShares, tOperatingRoundID);
 					tPlayer.updatePlayerJPanel ();
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tPlayer, 
-										tDividendForShares, aOperatingRoundPart2);
+										tDividendForShares, tOperatingRoundID);
 				} else if (tPortfolioHolder.isABankPool ()) {
 					tBank.transferCashTo (this, tDividendForShares);
 					aPayFullDividendAction.addCashTransferEffect (tBank, this, tDividendForShares);
 				} else if (tPortfolioHolder.isATrainCompany ()) {
 					tTrainCompany  = (TrainCompany) tPortfolioHolder;
 					tBank.transferCashTo (tTrainCompany, tDividendForShares);
-					tTrainCompany.addCashToDividends (tDividendForShares, aOperatingRoundPart2);
+					tTrainCompany.addCashToDividends (tDividendForShares, tOperatingRoundID);
 					tTrainCompany.updateCorporationFrame ();
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
-										tDividendForShares, aOperatingRoundPart2);
+										tDividendForShares, tOperatingRoundID);
 				
 				}
 				// TODO: non-1830 Games Test if Portfolio Holder is Bank or Bank Pool -- and if

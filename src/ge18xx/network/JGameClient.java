@@ -411,7 +411,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 
 	public void printButtonStatus (KButton aButton) {
 		String tActionCommand;
-		Boolean tEnabled;
+		boolean tEnabled;
 		
 		tActionCommand = aButton.getActionCommand ();
 		tEnabled = aButton.isEnabled ();

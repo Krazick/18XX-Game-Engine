@@ -45,7 +45,7 @@ public class Action {
 	String name;
 	String roundID;
 	List<Effect> effects;
-	Boolean chainToPrevious;	// Chain this Action to Previous Action --
+	boolean chainToPrevious;	// Chain this Action to Previous Action --
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
 	int number;
 	long dateTime;
@@ -90,7 +90,7 @@ public class Action {
 		String tActorName;
 		ActorI tActor;
 		ActorI.ActionStates tRoundType;
-		Boolean tChainToPrevious;
+		boolean tChainToPrevious;
 		int tNumber;
 		long tDateTime;
 
@@ -314,7 +314,7 @@ public class Action {
 		return tDisplayName;
 	}
 
-	public Boolean getChainToPrevious () {
+	public boolean getChainToPrevious () {
 		return chainToPrevious;
 	}
 

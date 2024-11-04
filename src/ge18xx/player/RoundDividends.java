@@ -11,7 +11,7 @@ import geUtilities.xml.XMLNode;
 public class RoundDividends {
 	public static final AttributeName AN_DIVIDENDS = new AttributeName ("dividends");
 	public static final AttributeName AN_DIVIDEND_COUNT = new AttributeName ("dividendCount");
-
+	private static final int NO_DIVIDEND = 0;
 	int maxRoundID;
 	int currentRoundIndex;
 	int dividends [];
@@ -59,19 +59,39 @@ public class RoundDividends {
 	}
 
 	public void clear () {
-		Arrays.fill (dividends, 0);
+		Arrays.fill (dividends, NO_DIVIDEND);
 	}
 	
 	private int realIndex (int aRoundID) {
 		return (aRoundID - 1);
 	}
 	
-	public void clear (int aRoundID) {
-		dividends [realIndex (aRoundID)] = 0;
+	public void clear (String aRoundID) {
+		int tIndex;
+		
+		tIndex = getIndex (aRoundID);
+		dividends [realIndex (tIndex)] = NO_DIVIDEND;
 	}
 	
-	public void addDividend (int aRoundID, int aAmount) {
-		dividends [realIndex (aRoundID)] += aAmount;
+	public void addDividend (String aRoundID, int aAmount) {
+		int tIndex;
+		
+		tIndex = getIndex (aRoundID);
+		addDividend (tIndex, aAmount);
+	}
+	
+	public int getIndex (String aRoundID) {
+		String [] tIndexes;
+		int tIndex;
+		
+		tIndexes = aRoundID.split ("\\.");
+		tIndex = new Integer (tIndexes [1]).intValue ();
+		
+		return tIndex;
+	}
+	
+	public void addDividend (int aIndex, int aAmount) {
+		dividends [realIndex (aIndex)] += aAmount;
 	}
 	
 	public int getDividends (int aRoundID) {

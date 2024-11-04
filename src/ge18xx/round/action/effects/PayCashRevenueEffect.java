@@ -10,7 +10,7 @@ public class PayCashRevenueEffect extends PayCashDividendEffect {
 	public final static AttributeName AN_OPERATING_ROUND_PART2 = new AttributeName ("operatingRoundPart2");
 	int operatingRoundPart2;
 
-	public PayCashRevenueEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, int aOperatingRoundPart2) {
+	public PayCashRevenueEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String aOperatingRoundPart2) {
 		super (aFromActor, aToActor, aCashAmount, aOperatingRoundPart2);
 		setName (NAME);
 	}

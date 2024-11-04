@@ -463,7 +463,7 @@ public abstract class Round implements ActorI {
 	protected boolean canStartNextRound () {
 		String tNextRoundName;
 		Round tNextRound;
-		Boolean tCanStartNextRound;
+		boolean tCanStartNextRound;
 		
 		tNextRoundName = roundType.getNextRoundName ();
 		tNextRound = roundManager.getRoundByTypeName (tNextRoundName);

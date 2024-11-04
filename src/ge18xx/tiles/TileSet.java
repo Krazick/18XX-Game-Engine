@@ -358,7 +358,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		GameTile tGameTile = getTileContainingPoint (tPoint);
 		GameTile tRotateGameTile;
 		GameTile tPreviousGameTile;
-		Boolean tShiftDown;
+		boolean tShiftDown;
 		
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			if (tGameTile.tileAvailable ()) {

@@ -204,9 +204,20 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	public void clearAllPlayerDividends () {
+	private String buildPreviousRoundID (String aOldRoundID, int aOldRoundID2) {
+		String tPreviousRoundID;
+		String [] tPreviousIDs;
+		
+		tPreviousIDs = aOldRoundID.split ("\\.");
+		tPreviousRoundID = tPreviousIDs [0] + "." + aOldRoundID2;
+		
+		return tPreviousRoundID;
+	}
+	
+	public void clearAllPlayerDividends (String aOldRoundID) {
 		ClearRoundDividendsAction tClearRoundDividendsAction;
 		String tOperatingRoundID;
+		String tOldOperatingRoundID;
 		int tORIndex;
 		int tMaxORs;
 		int tPreviousAmount;
@@ -221,11 +232,13 @@ public class PlayerManager implements XMLSaveGameI {
 							tOperatingRoundID, tOperatingRound);
 		tMaxORs = gameManager.getMaxRounds ();
 		for (Player tPlayer : players) {
-			for (tORIndex = 1; tORIndex <= tMaxORs; tORIndex ++) {
+			for (tORIndex = 1; tORIndex <= tMaxORs; tORIndex++) {
 				tPreviousAmount = tPlayer.getRoundDividends (tORIndex);
 				if (tPreviousAmount != 0) {
-					tClearRoundDividendsAction.addClearRoundDividendEffect (tPlayer, tPreviousAmount, tORIndex);
-					tPlayer.clearRoundDividends (tORIndex);
+					tOldOperatingRoundID = buildPreviousRoundID (aOldRoundID, tORIndex);
+					tClearRoundDividendsAction.addClearRoundDividendEffect (tPlayer, tPreviousAmount,
+								tOldOperatingRoundID);
+					tPlayer.clearRoundDividends (tOldOperatingRoundID);
 				}
 			}
 		}

@@ -213,7 +213,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	@Override
-	public void clearRoundDividends (int aRoundID) {
+	public void clearRoundDividends (String aRoundID) {
 		roundDividends.clear (aRoundID);
 	}
 
@@ -333,7 +333,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	@Override
-	public void addCashToDividends (int aAmount, int aOperatingRoundID) {
+	public void addCashToDividends (int aAmount, String aOperatingRoundID) {
 		roundDividends.addDividend (aOperatingRoundID, aAmount);
 	}
 	

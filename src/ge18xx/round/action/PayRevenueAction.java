@@ -36,7 +36,7 @@ public class PayRevenueAction extends CashTransferAction {
 	}
 
 	public void addPayCashRevenueEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
-						int aCashAmount, int aOperatingRoundID) {
+						int aCashAmount, String aOperatingRoundID) {
 		PayCashRevenueEffect tPayCashRevenueEffect;
 
 		tPayCashRevenueEffect = new PayCashRevenueEffect (aFromCashHolder, aToCashHolder, 

@@ -1131,7 +1131,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		checkAndHandleRoundEnds ();
 	}
 
-	// Game Manager handles with Boolean Return
+	// Game Manager handles with boolean Return
 
 	public boolean canBuyTrainInPhase () {
 		boolean tCanBuyTrainInPhase;
@@ -1161,13 +1161,13 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.applyingAction ();
 	}
 
-	// Operating Round handles with Boolean Return
+	// Operating Round handles with boolean Return
 	
 	public boolean companyStartedOperating () {
 		return operatingRound.companyStartedOperating ();
 	}
 
-	// Action Manager handles with Boolean Return
+	// Action Manager handles with boolean Return
 	
 	public boolean undoLastAction () {
 		return actionManager.undoLastAction (this);

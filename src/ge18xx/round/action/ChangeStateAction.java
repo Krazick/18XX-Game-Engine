@@ -212,10 +212,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 		tSimpleActionReport = GUI.EMPTY_STRING;
 		tOldState = getOldState ();
 		tNewState = getNewState ();
-		if (!tNewState.equals (tOldState)) {
+//		if (!tNewState.equals (tOldState)) {
 			tSimpleActionReport = actor.getName () + " changed state of " + getActorNames () + " from  "
-					+ getOldState () + " to " + getNewState () + ".";
-		} else if (tOldState != GUI.EMPTY_STRING) {
+					+ tOldState + " to " + tNewState + ".";
+//		} else 
+		if (tOldState != GUI.EMPTY_STRING) {
 			tSimpleActionReport = actor.getName () + " state remains [" + tOldState + "]";
 		} else {
 			tSimpleActionReport = getApplyDiscountReport ();

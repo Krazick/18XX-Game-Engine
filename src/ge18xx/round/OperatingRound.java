@@ -404,27 +404,29 @@ public class OperatingRound extends Round {
 	public void start () {
 		PlayerManager tPlayerManager;
 		Round tCurrentRound;
-		String tOldID;
+		String tOldRoundID;
 		int tIDPart1;
 		int tIDPart2;
 
 		tPlayerManager = roundManager.getPlayerManager ();
 		tCurrentRound = roundManager.getCurrentRound ();
 
-		tOldID = getID ();
+		tOldRoundID = getID ();
 		if (repeatRound) {
 			tIDPart1 = getIDPart1 ();
 			tIDPart2 = getIDPart2 () + 1;
 		} else {
 			tIDPart1 = getIDPart1 () + 1;
 			tIDPart2 = Round.START_ID2;
-			tPlayerManager.clearAllPlayerDividends ();
-			tPlayerManager.clearAllPercentBought ();
 		}
 		super.start ();
 
-		setRoundToOperatingRound (tCurrentRound, tOldID, tIDPart1, tIDPart2);
+		setRoundToOperatingRound (tCurrentRound, tOldRoundID, tIDPart1, tIDPart2);
 
+		if (!repeatRound) {
+			tPlayerManager.clearAllPlayerDividends (tOldRoundID);
+			tPlayerManager.clearAllPercentBought ();
+		}
 		if (! roundManager.applyingAction ()) {
 			if (getPrivateCompanyCount () > 0) {
 				payRevenues ();

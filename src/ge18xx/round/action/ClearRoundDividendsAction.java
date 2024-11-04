@@ -22,7 +22,7 @@ public class ClearRoundDividendsAction extends Action {
 		setName (NAME);
 	}
 
-	public void addClearRoundDividendEffect (ActorI aPlayer, int aPreviousAmount, int aOperatingRoundID) {
+	public void addClearRoundDividendEffect (ActorI aPlayer, int aPreviousAmount, String aOperatingRoundID) {
 		ClearRoundDividendEffect tClearRoundDividendEffect;
 		
 		tClearRoundDividendEffect = new ClearRoundDividendEffect (aPlayer, aPreviousAmount, aOperatingRoundID);

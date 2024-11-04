@@ -15,9 +15,9 @@ public class ClearRoundDividendEffect extends Effect {
 	final static AttributeName AN_PREVIOUS_AMOUNT = new AttributeName ("previousAmount");
 	final static AttributeName AN_OPERATING_ROUND_ID = new AttributeName ("operatingRoundID");
 	int previousAmount;
-	int operatingRoundID;
+	String operatingRoundID;
 
-	public ClearRoundDividendEffect (ActorI aActor, int aPreviousAmount, int aOperatingRoundID) {
+	public ClearRoundDividendEffect (ActorI aActor, int aPreviousAmount, String aOperatingRoundID) {
 		super (NAME, aActor);
 		setPreviousAmount (aPreviousAmount);
 		setOperatingRoundID (aOperatingRoundID);
@@ -28,10 +28,10 @@ public class ClearRoundDividendEffect extends Effect {
 		setName (NAME);
 		
 		int tPreviousAmount;
-		int tOperatingRoundID;
+		String tOperatingRoundID;
 		
 		tPreviousAmount = aEffectNode.getThisIntAttribute (AN_PREVIOUS_AMOUNT);
-		tOperatingRoundID = aEffectNode.getThisIntAttribute (AN_OPERATING_ROUND_ID);
+		tOperatingRoundID = aEffectNode.getThisAttribute (AN_OPERATING_ROUND_ID);
 		setPreviousAmount (tPreviousAmount);
 		setOperatingRoundID (tOperatingRoundID);
 	}
@@ -44,11 +44,11 @@ public class ClearRoundDividendEffect extends Effect {
 		return previousAmount;
 	}
 	
-	public void setOperatingRoundID (int aOperatingRoundID) {
+	public void setOperatingRoundID (String aOperatingRoundID) {
 		operatingRoundID = aOperatingRoundID;
 	}
 	
-	public int getOperatingRoundID () {
+	public String getOperatingRoundID () {
 		return operatingRoundID;
 	}
 
@@ -66,7 +66,7 @@ public class ClearRoundDividendEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " of " + Bank.formatCash (previousAmount) + " from " + getActorName () + 
-				 " during Operating Round " + operatingRoundID + ".");
+				 " earned during Operating Round " + operatingRoundID + ".");
 	}
 
 	@Override
