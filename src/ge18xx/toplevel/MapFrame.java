@@ -44,7 +44,6 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
 import ge18xx.round.RoundManager;
-import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ExtendRouteAction;
 import ge18xx.round.action.RouteAction;
@@ -1358,7 +1357,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		ActionStates tRoundType;
 		String tRoundID;
 		RoundManager tRoundManager;
-		ActionManager tActionManager;
 		Location tStartLocation;
 		Location tEndLocation;
 
@@ -1368,7 +1366,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		tCorpID = tCorporation.getID ();
 		tPhase = getCurrentPhase ();
 		tRoundManager = gameManager.getRoundManager ();
-		tActionManager = tRoundManager.getActionManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = gameManager.getOperatingRoundID ();
 		if (routeInformation.isEmpty ()) {
@@ -1391,7 +1388,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			routeInformation.setStartSegment (tRouteSegment, aSelectedRC, tPhase, tCorpID);
 			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
 
-			tActionManager.addAction (tRouteAction);
+			tRoundManager.addAction (tRouteAction);
 		}
 	}
 
