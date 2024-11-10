@@ -16,11 +16,6 @@ public class SetNotificationEffect extends Effect {
 	final static AttributeName AN_NOTIFICATION_TEXT = new AttributeName ("notificationText");
 	String notificationText;
 
-	public SetNotificationEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public SetNotificationEffect (ActorI aActor, String aNotificationText) {
 		super (NAME, aActor);
 		setNotificationText (aNotificationText);
