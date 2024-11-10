@@ -2467,6 +2467,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tOperatingRoundID = getOperatingRoundID ();
 			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, 
 					tOperatingRoundID, this);
+			trainRevenueFrame.copyAllRoutesToPrevious (tOperatedTrainsAction);
+
 			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aOldThisRevenue, aThisRevenue, tTrainCount);
 			tOperatedTrainsAction.setChainToPrevious (true);

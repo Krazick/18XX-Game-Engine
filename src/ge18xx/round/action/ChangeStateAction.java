@@ -11,6 +11,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
+//import ge18xx.train.RouteInformation;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
@@ -73,6 +74,15 @@ public class ChangeStateAction extends ChangePlayerAction {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 
+//	public void addSetPreviousRouteInformationEffect (ActorI aActor, RouteInformation tOldPreviousRouteInformation,
+//													RouteInformation tNewPreviousRouteInformation) {
+//		SetPreviousRouteInformationEffect tSetPreviousRouteInformationEffect;
+//		
+//		tSetPreviousRouteInformationEffect = new SetPreviousRouteInformationEffect (aActor, 
+//							tOldPreviousRouteInformation, tNewPreviousRouteInformation);
+//		addEffect (tSetPreviousRouteInformationEffect);
+//	}
+	
 	public void addBidShareEffect (ActorI aPlayer, boolean aBidOnShare) {
 		BidShareEffect tBidShareEffect;
 		

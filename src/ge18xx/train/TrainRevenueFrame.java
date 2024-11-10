@@ -30,6 +30,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 
@@ -306,7 +307,6 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		tOldThisRevenue = trainCompany.getThisRevenue ();
 		trainCompany.setThisRevenue (tAllTrainRevenue);
 		trainCompany.trainsOperated (tAllTrainRevenue, tOldThisRevenue);
-		copyAllRoutesToPrevious ();
 		setVisible (false);
 	}
 
@@ -343,7 +343,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		aTrain.setOperating (false);
 	}
 
-	private void copyAllRoutesToPrevious () {
+	public void copyAllRoutesToPrevious (OperatedTrainsAction tOperatedTrainsAction) {
 		int tTrainIndex;
 		int tTrainCount;
 		RouteInformation tRouteInformation;
@@ -354,6 +354,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
 			tTrain.setPreviousRouteInformation (tRouteInformation);
+//			tOperatedTrainsAction.addSetPreviousRouteInformationEffect ()
 		}
 	}
 
