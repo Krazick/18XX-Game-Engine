@@ -221,6 +221,8 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		Object [] tDataRow;
 		int tPlayerCount;
 		int tItemCount;
+		int tActionNumber;
+		int tAuditChecksumIndex;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tRoundManager = tGameManager.getRoundManager ();
@@ -230,7 +232,14 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tDataRow = buildDataRow (aChecksum, tItemCount, aAllChecksums);
 
 		if (tDataRow != null) {
-			checksumAuditModel.insertRow (0, tDataRow);
+			tActionNumber = (int) tDataRow [0];
+			tAuditChecksumIndex = findAuditIndexFor (tActionNumber);
+			if (tAuditChecksumIndex == INDEX_NOT_FOUND) {
+				checksumAuditModel.insertRow (0, tDataRow);
+			} else {
+				System.err.println ("Looking for Action Number " + tActionNumber + " Found at Index "
+						+ tAuditChecksumIndex + ". NOT Adding");
+			}
 		}
 	}
 	
