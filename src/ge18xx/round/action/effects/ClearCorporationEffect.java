@@ -33,6 +33,7 @@ public class ClearCorporationEffect extends ChangeTileEffect {
 
 		tRevenueCenterIndex = aEffectNode.getThisIntAttribute (MapCell.AN_REVENUE_CENTER_INDEX);
 		setRevenueCenterIndex (tRevenueCenterIndex);
+		setName (NAME);
 	}
 
 	public void setRevenueCenterIndex (int aRevenuCenterIndex) {
