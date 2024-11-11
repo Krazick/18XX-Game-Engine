@@ -41,6 +41,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_ORDER = new AttributeName ("order");
+	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_CITY_COUNT = new AttributeName ("cityCount");
 	public static final AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
 	public static final AttributeName AN_PRICE = new AttributeName ("price");
@@ -53,6 +54,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final int MAX_STOPS = 30;
 	public static final int HALF_MAX_STOPS = MAX_STOPS / 2;
 	public static final int NO_ORDER = -1;
+	public static final int NO_ID = 0;
 	public static final int INFINITE_COUNT = 9999;
 	public static final int NO_RC_COUNT = -1;
 	public static final int NO_PRICE = -1;
@@ -69,6 +71,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	int cityCount;
 	int townCount;
 	int status;
+	int ID;
 	boolean operating;
 	boolean borrowed;
 	Gauge gauge;
@@ -80,26 +83,27 @@ public class Train extends Coupon implements Comparable<Object> {
 	JCheckBox actionCheckbox;
 
 	public Train () {
-		this ("", NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE);
+		this ("", NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE, 0);
 	}
 
-	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aPrice) {
-		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, NO_RC_COUNT, aPrice);
+	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aPrice, int aTrainID) {
+		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, NO_RC_COUNT, aPrice, aTrainID);
 	}
 
-	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aMinorCity, int aPrice) {
-		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, aMinorCity, aPrice);
+	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aMinorCity, int aPrice, int aTrainID) {
+		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, aMinorCity, aPrice, aTrainID);
 	}
 	
-	public Train (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice) {
+	public Train (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice, int aTrainID) {
 		super (aName, aPrice);
 		setValues (aOrder, aGauge, aMajorCity, aMinorCity);
 		setBorrowed (false);
+		setTrainID (aTrainID);
 	}
 
 	public Train (Train aTrain) {
 		this (aTrain.getName (), aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, 
-			aTrain.getPrice ());
+			aTrain.getPrice (), aTrain.getID ());
 		setStatus (aTrain.getStatus ());
 		setTrainInfo (aTrain.getTrainInfo ());
 	}
@@ -110,6 +114,14 @@ public class Train extends Coupon implements Comparable<Object> {
 		}
 	}
 
+	public void setTrainID (int aTrainID) {
+		ID = aTrainID;
+	}
+	
+	public int getID () {
+		return ID;
+	}
+	
 	public FrameButton getFrameButton () {
 		return frameButton;
 	}
@@ -336,6 +348,7 @@ public class Train extends Coupon implements Comparable<Object> {
 		tXMLElement.setAttribute (AN_NAME, getName ());
 		tXMLElement.setAttribute (AN_STATUS, status);
 		tXMLElement.setAttribute (AN_ORDER, order);
+		tXMLElement.setAttribute (AN_ID, ID);
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			if (currentRouteInformation.isValidRoute () > 0) {
 				tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
