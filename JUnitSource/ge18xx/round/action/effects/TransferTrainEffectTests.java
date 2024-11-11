@@ -40,7 +40,7 @@ public class TransferTrainEffectTests {
 		actorBeta = companyTestFactory.buildAShareCompany (1);
 		actorGamma = companyTestFactory.buildAShareCompany (2);
 		actorZeta = companyTestFactory.buildAShareCompany (companyTestFactory.NO_COMPANY_INDEX);
-		train = new Train ("Test2", 0, 1, 2, 80);
+		train = new Train ("Test2", 0, 1, 2, 80, 1);
 		effectBeta = new TransferTrainEffect (actorBeta, train, actorGamma);
 	}
 
