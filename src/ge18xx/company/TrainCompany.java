@@ -1677,6 +1677,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		return tStatus;
 	}
+	
+	/**
+	 * Find the Train by the ID in the Train Portfolio, and return it
+	 *
+	 * @param aTrainID The ID of the Train to find
+	 * @return The Train with the specified Train ID.
+	 */
+	public Train getTrainByID (int aTrainID) {
+		return trainPortfolio.getTrainByID (aTrainID);
+	}
 
 	/**
 	 * Find the Train at the specified index in the Train Portfolio, and return it
