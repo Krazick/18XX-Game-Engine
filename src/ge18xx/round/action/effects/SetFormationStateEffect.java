@@ -10,13 +10,6 @@ import geUtilities.xml.XMLNode;
 public class SetFormationStateEffect extends StateChangeEffect {
 	public final static String NAME = "Set Formation State";
 
-//	public SetFormationStateEffect () {
-//		super ();
-//		setName (NAME);
-//		setPreviousState (ActorI.ActionStates.NoState);
-//		setNewState (ActorI.ActionStates.NoState);
-//	}
-
 	public SetFormationStateEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 			ActorI.ActionStates aNewState) {
 		super (aActor, aPreviousState, aNewState);
@@ -42,6 +35,7 @@ public class SetFormationStateEffect extends StateChangeEffect {
 			tTriggerClass.setFormationState (newState);
 			if (newState != ActorI.ActionStates.FormationComplete) {
 				tFormCGR = (FormCGR) tTriggerClass;
+				tFormCGR.setFormationState (newState);
 				tCurrentPlayerIndex = tFormCGR.getCurrentPlayerIndex ();
 				tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
 			}
