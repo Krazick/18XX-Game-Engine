@@ -346,6 +346,8 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	public void copyAllRoutesToPrevious (OperatedTrainsAction tOperatedTrainsAction) {
 		int tTrainIndex;
 		int tTrainCount;
+		int tTrainID;
+		String tRouteInformationID;
 		RouteInformation tRouteInformation;
 		Train tTrain;
 
@@ -354,7 +356,9 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
 			tTrain.setPreviousRouteInformation (tRouteInformation);
-//			tOperatedTrainsAction.addSetPreviousRouteInformationEffect ()
+			tTrainID = tTrain.getID ();
+			tRouteInformationID = "NOT SET YET";
+			tOperatedTrainsAction.addSetPreviousRouteInformationEffect (trainCompany, tTrainID, tRouteInformationID);
 		}
 	}
 
