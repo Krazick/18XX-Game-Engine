@@ -1023,6 +1023,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		int tHomeLocation1Int;
 		int tHomeLocation2Int;
 		
+		aXMLCorporationState.setAttribute (AN_ID, getID ());
 		aXMLCorporationState.setAttribute (AN_ABBREV, getAbbrev ());
 		aXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
@@ -2478,7 +2479,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public int compareClosed (Corporation aCorporation) {
-		boolean tIsClosed1, tIsClosed2;
+		boolean tIsClosed1;
+		boolean tIsClosed2;
 		int tCompareClosed;
 
 		tIsClosed1 = isClosed ();
@@ -2486,7 +2488,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tCompareClosed = 0;
 		if (tIsClosed1) {
 			if (tIsClosed2) {
-				tCompareClosed = 0;
+				tCompareClosed = compareID (aCorporation);
 			} else {
 				tCompareClosed = SORT_CO2_BEFORE_CO1;
 			}
