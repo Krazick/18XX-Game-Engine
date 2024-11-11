@@ -90,6 +90,7 @@ public class TrainInfo {
 		int tDiscountPrice;
 		int tGauge;
 		int tOrder;
+		int tTrainID;
 		int tOnFirstOrderAvailable;
 		int tOnLastOrderAvailable;
 		boolean tIsPermanent;
@@ -98,6 +99,7 @@ public class TrainInfo {
 
 		tName = aCellNode.getThisAttribute (AN_NAME);
 		tOrder = aCellNode.getThisIntAttribute (AN_ORDER, Train.NO_ORDER);
+		tTrainID = aCellNode.getThisIntAttribute (Train.AN_ID, Train.NO_ID);
 		tRevenueCenters = aCellNode.getThisAttribute (AN_REVENUE_CENTERS);
 		tTownRevenueCenters = aCellNode.getThisAttribute (AN_TOWN_REVENUE_CENTERS, NO_CENTERS);
 		if (tRevenueCenters.equals (UNLIMITED)) {
@@ -130,7 +132,7 @@ public class TrainInfo {
 		tOnFirstOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_FIRST, Train.NO_ORDER);
 		tOnLastOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_LAST, Train.NO_ORDER);
 		tIsPermanent = aCellNode.getThisBooleanAttribute (AN_IS_PERMANENT);
-		train = new Train (tName, tOrder, tGauge, tMajorCount, tMinorCount, tPrice);
+		train = new Train (tName, tOrder, tGauge, tMajorCount, tMinorCount, tPrice, tTrainID);
 		setValues (tQuantity, tTriggerMainPhase, tTriggerMinorPhase, tRust, tDiscountPrice, tTradeInTrains,
 				tOnFirstOrderAvailable, tOnLastOrderAvailable, tIsPermanent, tTileInfo);
 	}
