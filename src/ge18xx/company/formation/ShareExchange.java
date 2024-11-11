@@ -155,14 +155,6 @@ public class ShareExchange extends PlayerFormationPanel {
 		
 		return tShareExchangeText;
 	}
-//
-//	private String buildShareCount (int aCount) {
-//		String tShareCount;
-//		
-//		tShareCount = buildShareCount (aCount, GUI.EMPTY_STRING);
-//
-//		return tShareCount;
-//	}
 
 	private String buildShareCount (int aCount, String aPostfix) {
 		String tShareCount;
