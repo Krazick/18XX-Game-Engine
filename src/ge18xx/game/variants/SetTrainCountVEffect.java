@@ -91,19 +91,27 @@ public class SetTrainCountVEffect extends VariantEffect {
 		int tFoundQuantity;
 		int tAddThisMany;
 		int tTrainIndex;
+		int tOrder;
+		int tTrainID;
+		int tMinorID;
 		int tRemoveThisMany;
 
 		tBank = aGameManager.getBank ();
 		tTrain = tBank.getTrain (trainName);
 		if (quantity == TrainInfo.UNLIMITED_TRAINS) {
 			tTrain.setUnlimitedQuantity ();
+			// TODO For Unlimited need to generate the Train ID (minor ID) as they are sold.
 		} else {
 			tFoundQuantity = tBank.getTrainCount (trainName);
 			// TODO If Found Quantity is Zero, must create a NEW Train using the info in the child of this Effect
 			if (quantity > tFoundQuantity) {
 				tAddThisMany = quantity - tFoundQuantity;
+				tOrder = tTrain.getOrder ();
 				for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
 					tNewTrain = new Train (tTrain);
+					tMinorID = tFoundQuantity + 1 + tTrainIndex;
+					tTrainID = tBank.generateTrainID (tOrder, tMinorID);
+					tNewTrain.setTrainID (tTrainID);
 					tBank.addTrain (tNewTrain);
 				}
 			} else if (quantity < tFoundQuantity) {
