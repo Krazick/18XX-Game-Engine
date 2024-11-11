@@ -633,6 +633,28 @@ public class TrainPortfolio implements TrainHolderI {
 
 		return tFoundTrain;
 	}
+	/**
+	 * Find the Train by the ID, and return it
+	 *
+	 * @param aTrainID The Index for the Train to find
+	 * @return The Train at the specified index in the Train Portfolio
+	 */
+	public Train getTrainByID (int aTrainID) {
+		Train tTrainFound;
+
+		if (trains.isEmpty ()) {
+			tTrainFound = Train.NO_TRAIN;
+		} else {
+			tTrainFound = Train.NO_TRAIN;
+			for (Train tTrain : trains) {
+				if (tTrain.getID () == aTrainID) {
+					tTrainFound = tTrain;
+				}
+			}
+		}
+
+		return tTrainFound;
+	}
 
 	/**
 	 * Find the Train at the specified index, and return it. If there are no trains in the portfolio
