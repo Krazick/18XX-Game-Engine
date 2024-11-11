@@ -508,6 +508,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void loadTrains (int aQuantity, TrainInfo aTrainInfo) {
 		int tTrainIndex;
+		int tID;
 		Train tTrain;
 		Train tNewTrain;
 
@@ -517,10 +518,20 @@ public class Bank extends GameBank implements CashHolderI {
 		}
 		for (tTrainIndex = 0; tTrainIndex < aQuantity; tTrainIndex++) {
 			tNewTrain = new Train (tTrain);
+			tID = generateTrainID (tTrain.getOrder (), tTrainIndex);
+			tNewTrain.setTrainID (tID);
 			addTrain (tNewTrain);
 		}
 	}
 
+	public int generateTrainID (int aMajorID, int aMinorID) {
+		int tTrainID;
+		
+		tTrainID = (aMajorID + 1) * 100 + aMinorID;
+		
+		return tTrainID;
+	}
+	
 	/* When a Train is bought, check for More Trains to make available */
 	public void makeTrainsAvailable (Train aTrain, BuyTrainAction aBuyTrainAction) {
 		int tTrainOrder;
