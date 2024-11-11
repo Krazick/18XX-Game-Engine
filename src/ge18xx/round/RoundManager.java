@@ -748,6 +748,22 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getMinorTrainLimit ();
 	}
 
+	public Train getTrain (int aTrainID) {
+		Corporation tCorporation;
+		TrainCompany tTrainCompany;
+		Train tTrain;
+		
+		tCorporation = getOperatingCompany ();
+		if (tCorporation.isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) tCorporation;
+			tTrain = tTrainCompany.getTrainByID (aTrainID);
+		} else {
+			tTrain = Train.NO_TRAIN;
+		}
+		
+		return tTrain;
+	}
+	
 	public int getTrainLimit (boolean aGovtRailway) {
 		return gameManager.getTrainLimit (aGovtRailway);
 	}
