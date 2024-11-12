@@ -484,9 +484,15 @@ public class PlayerManager implements XMLSaveGameI {
 		return players.size ();
 	}
 
-	public void setPlayersToNoAction () {
+	public void setPlayersToNoAction (ChangeStateAction aChangeStateAction) {
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		
 		for (Player tPlayer : players) {
+			tOldState = tPlayer.getPrimaryActionState ();
 			tPlayer.resetPrimaryActionState (ActorI.ActionStates.NoAction);
+			tNewState = tPlayer.getPrimaryActionState ();
+			aChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 		}
 	}
 	
