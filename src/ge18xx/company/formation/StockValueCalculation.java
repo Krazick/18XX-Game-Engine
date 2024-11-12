@@ -281,7 +281,7 @@ public class StockValueCalculation extends PlayerFormationPanel {
 		tStockValueCalculationAction.addHideFormationPanelEffect (player);
 
 		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayerManager.setPlayersToNoAction ();
+		tPlayerManager.setPlayersToNoAction (tStockValueCalculationAction);
 		tPlayerManager.updateCertificateLimit (tStockValueCalculationAction);
 		gameManager.addAction (tStockValueCalculationAction);
 		gameManager.updateAllFrames ();
