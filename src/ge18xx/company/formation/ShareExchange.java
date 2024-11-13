@@ -244,6 +244,8 @@ public class ShareExchange extends PlayerFormationPanel {
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = formCGR.getPercentageForExchange ();
 
+		// Transfer Shares from the Bank's IPO of the newly forming Company to the current Player
+		
 		if (totalExchangeCount > 0) {
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
@@ -433,9 +435,11 @@ public class ShareExchange extends PlayerFormationPanel {
 		}
 		confirmFormingPresident ();
 		tOldState = aFormingCompany.getStatus ();
-		aFormingCompany.resetStatus (ActorI.ActionStates.Owned);
-		tNewState = aFormingCompany.getStatus ();
-		aTransferOwnershipAction.addChangeCorporationStatusEffect (aFormingCompany, tOldState, tNewState);
+		if (tOldState != ActorI.ActionStates.Owned) {
+			aFormingCompany.resetStatus (ActorI.ActionStates.Owned);
+			tNewState = aFormingCompany.getStatus ();
+			aTransferOwnershipAction.addChangeCorporationStatusEffect (aFormingCompany, tOldState, tNewState);
+		}
 		
 		return tNewPresident;
 	}
