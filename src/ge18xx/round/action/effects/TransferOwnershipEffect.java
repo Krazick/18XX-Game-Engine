@@ -22,12 +22,6 @@ public class TransferOwnershipEffect extends ToEffect {
 	public static final String NAME = "Transfer Ownership";
 	Certificate certificate;
 
-	public TransferOwnershipEffect () {
-		super ();
-		setName (NAME);
-		setCertificate (Certificate.NO_CERTIFICATE);
-	}
-
 	public TransferOwnershipEffect (ActorI aFromActor, Certificate aCertificate, ActorI aToActor) {
 		super (NAME, aFromActor, aToActor);
 		setCertificate (aCertificate);
