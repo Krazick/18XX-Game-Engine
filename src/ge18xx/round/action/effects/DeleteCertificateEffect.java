@@ -13,10 +13,10 @@ import geUtilities.xml.XMLNode;
 public class DeleteCertificateEffect extends CreateNewCertificateEffect {
 	public static final String NAME = "Delete Certificate";
 
-	public DeleteCertificateEffect () {
-		super ();
-		setName (NAME);
-	}
+//	public DeleteCertificateEffect () {
+//		super ();
+//		setName (NAME);
+//	}
 
 	public DeleteCertificateEffect (ActorI aFromActor, Certificate aCertificate, ActorI aToActor) {
 		super (aFromActor, aCertificate, aToActor);

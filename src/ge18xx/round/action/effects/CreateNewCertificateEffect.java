@@ -27,13 +27,13 @@ public class CreateNewCertificateEffect extends TransferOwnershipEffect {
 	int percentage;
 	int corporationID;
 	
-	/**
-	 * 
-	 */
-	public CreateNewCertificateEffect () {
-		super ();
-		setName (NAME);
-	}
+//	/**
+//	 * 
+//	 */
+//	public CreateNewCertificateEffect () {
+//		super ();
+//		setName (NAME);
+//	}
 
 	/**
 	 * @param aFromActor

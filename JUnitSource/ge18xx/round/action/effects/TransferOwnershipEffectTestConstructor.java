@@ -33,7 +33,7 @@ import ge18xx.round.action.TransferOwnershipAction;
 
 @DisplayName ("Transfer Ownership Effect Constructor Tests")
 public class TransferOwnershipEffectTestConstructor {
-	TransferOwnershipEffect effectAlpha;
+//	TransferOwnershipEffect effectAlpha;
 	TransferOwnershipEffect effectBeta;
 	ShareCompany companyBeta;
 	ShareCompany companyGamma;
@@ -112,7 +112,7 @@ public class TransferOwnershipEffectTestConstructor {
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
 
-		effectAlpha = new TransferOwnershipEffect ();
+//		effectAlpha = new TransferOwnershipEffect ();
 		
 		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
 		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
@@ -149,8 +149,8 @@ public class TransferOwnershipEffectTestConstructor {
 		String tReportResult = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from ToEffectTesterAlpha to ToEffectTesterDelta.";
 		
 		assertEquals ("TPRR", certificate.getCompanyAbbrev ());
-		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
-		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
+//		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
+//		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
 
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Ownership", effectBeta.getName ());
