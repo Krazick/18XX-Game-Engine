@@ -1111,7 +1111,8 @@ public class PlayerManager implements XMLSaveGameI {
 
 	private void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio,
 			List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
+		ActorI.ActionStates tOldCorporationStatus;
+		ActorI.ActionStates tNewCorporationStatus;
 
 		for (Certificate tCertificate : aCertificatesToBuy) {
 			transferOneCertificate (aToPortfolio, aFromPortfolio, tCertificate, aBuyStockAction);
@@ -1126,11 +1127,11 @@ public class PlayerManager implements XMLSaveGameI {
 			if (tCertificate.isAPrivateCompany ()) {
 				tCertificate.clearFrameButton ();
 			}
-			tCurrentCorporationStatus = tCertificate.getCorporationStatus ();
+			tOldCorporationStatus = tCertificate.getCorporationStatus ();
 			tCertificate.updateCorporationOwnership ();
 			tNewCorporationStatus = tCertificate.getCorporationStatus ();
-			if (tCurrentCorporationStatus != tNewCorporationStatus) {
-				aBuyStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (), tCurrentCorporationStatus,
+			if (tOldCorporationStatus != tNewCorporationStatus) {
+				aBuyStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (), tOldCorporationStatus,
 						tNewCorporationStatus);
 			}
 		}
@@ -1279,7 +1280,7 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	private void handlePrivateExchange (Player aPlayer, Certificate aCertificate, Corporation aCorporation) {
-		Certificate tNewCertificate;
+		Certificate tCertificate;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
 		ExchangeStockAction tExchangeStockAction;
@@ -1289,7 +1290,7 @@ public class PlayerManager implements XMLSaveGameI {
 		Portfolio tClosedPortfolio;
 		PortfolioHolderI tPortfolioHolder;
 		Bank tBank;
-		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tOldCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
 		Player tCurrentPresident;
 		ShareCompany tShareCompany;
@@ -1302,25 +1303,25 @@ public class PlayerManager implements XMLSaveGameI {
 		tShareCompany = (ShareCompany) gameManager.getCorporationByID (tExchangeID);
 		tBank = stockRound.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
-		tNewCertificate = tBankPortfolio.getCertificate (tShareCompany, tExchangePercentage);
-		if (tNewCertificate != Certificate.NO_CERTIFICATE) {
+		tCertificate = tBankPortfolio.getCertificate (tShareCompany, tExchangePercentage);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
 			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
 			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
-			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
-			tExchangeStockAction.addTransferOwnershipEffect (tBank, tNewCertificate, aPlayer);
+			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tCertificate);
+			tExchangeStockAction.addTransferOwnershipEffect (tBank, tCertificate, aPlayer);
 			tOldState = tPrivateCompany.getActionStatus ();
 			tPrivateCompany.close ();
 			tNewState = tPrivateCompany.getActionStatus ();
 			tExchangeStockAction.addCloseCorporationEffect (tPrivateCompany, tOldState, tNewState);
-			tCurrentCorporationStatus = tNewCertificate.getCorporationStatus ();
-			tNewCertificate.updateCorporationOwnership ();
-			tNewCorporationStatus = tNewCertificate.getCorporationStatus ();
-			if (tCurrentCorporationStatus != tNewCorporationStatus) {
-				tExchangeStockAction.addChangeCorporationStatusEffect (tNewCertificate.getCorporation (),
-						tCurrentCorporationStatus, tNewCorporationStatus);
+			tOldCorporationStatus = tCertificate.getCorporationStatus ();
+			tCertificate.updateCorporationOwnership ();
+			tNewCorporationStatus = tCertificate.getCorporationStatus ();
+			if (tOldCorporationStatus != tNewCorporationStatus) {
+				tExchangeStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (),
+						tOldCorporationStatus, tNewCorporationStatus);
 			}
 			tPortfolioHolder = tShareCompany.getPresident ();
 			if (tPortfolioHolder != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
