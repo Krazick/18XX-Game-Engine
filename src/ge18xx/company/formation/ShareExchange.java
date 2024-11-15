@@ -176,7 +176,7 @@ public class ShareExchange extends PlayerFormationPanel {
 		Bank tBank;
 		Portfolio tBankPortfolio;
 		Portfolio tPlayerPortfolio;
-		Corporation tFormingCompany;
+		ShareCompany tFormingCompany;
 		Certificate tCertificate;
 		Certificate tFormedCertificate;
 		String tOperatingRoundID;
@@ -240,12 +240,12 @@ public class ShareExchange extends PlayerFormationPanel {
 		tNotification += tExchangeNotification;
 		
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
-		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
+		tFormingCompany = (ShareCompany) gameManager.getCorporationByID (tFormingCompanyID);
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = formCGR.getPercentageForExchange ();
 
 		// Transfer Shares from the Bank's IPO of the newly forming Company to the current Player
-		
+		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		if (totalExchangeCount > 0) {
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
@@ -257,6 +257,17 @@ public class ShareExchange extends PlayerFormationPanel {
 				}
 			}
 		}
+		// If at least one FormedCertificate has been transfered to a Player,
+		// Need to update the Corporation Ownership. But only need to do this once after all done
+		// The TransferOwnershipEffect applies this to remote clients
+		// Don't need to create the Effect
+		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
+			tFormedCertificate.updateCorporationOwnership ();
+		}
+		
+		// Note, at the end of this Exchange, really should just reset the Corporation Status to at least 'Will Float' 
+		// No matter what, the newly formed company should always operated (1856 - CGR, 1835 - PR)
+		
 		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
 		gameManager.addAction (tTransferOwnershipAction1);
 		if (totalExchangeCount > 0) {
@@ -399,7 +410,7 @@ public class ShareExchange extends PlayerFormationPanel {
 		}
 	}
 	
-	public boolean assignPresident (Portfolio aBankPortfolio, int aPercentage, Corporation aFormingCompany, 
+	public boolean assignPresident (Portfolio aBankPortfolio, int aPercentage, ShareCompany aFormingCompany, 
 					TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tPresidentCertificate;
 		Certificate tPresidentZeroCertificate;
@@ -434,9 +445,9 @@ public class ShareExchange extends PlayerFormationPanel {
 			tNewPresident = true;
 		}
 		confirmFormingPresident ();
-		tOldState = aFormingCompany.getStatus ();
-		if (tOldState != ActorI.ActionStates.Owned) {
-			aFormingCompany.resetStatus (ActorI.ActionStates.Owned);
+		if (! aFormingCompany.willFloat ()) {
+			tOldState = aFormingCompany.getStatus ();
+			aFormingCompany.resetStatus (ActorI.ActionStates.WillFloat);
 			tNewState = aFormingCompany.getStatus ();
 			aTransferOwnershipAction.addChangeCorporationStatusEffect (aFormingCompany, tOldState, tNewState);
 		}
