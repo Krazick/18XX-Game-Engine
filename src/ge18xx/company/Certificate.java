@@ -1881,13 +1881,18 @@ public class Certificate implements Comparable<Certificate> {
 		tState = corporation.getActionStatus ();
 		tNewState = tState;
 		tWillFloatPercent = corporation.getWillFloatPercent ();
-		if (tState == ActorI.ActionStates.Unowned) {
+		if ((tState == ActorI.ActionStates.Unowned) || 
+			(tState == ActorI.ActionStates.Unformed)) {
 			tNewState = ActorI.ActionStates.Owned;
 			tNewState = updateToMayFloat (tNewState);
-		} else if ((tState == ActorI.ActionStates.Owned) || (tState == ActorI.ActionStates.MayFloat)) {
+		} else if ((tState == ActorI.ActionStates.Owned) || 
+					(tState == ActorI.ActionStates.MayFloat)) {
 			if (corporation.isAShareCompany ()) {
 				tShareCompany = (ShareCompany) corporation;
-				if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= tWillFloatPercent) {
+				
+				if (tShareCompany.isOperational () || tShareCompany.willFloat ()) {
+					// If Operational already (operational OR will float) DO NOT Change)
+				} else if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= tWillFloatPercent) {
 					tNewState = ActorI.ActionStates.WillFloat;
 				} else {
 					tNewState = updateToMayFloat (tNewState);
