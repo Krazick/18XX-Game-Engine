@@ -818,12 +818,42 @@ public class ShareCompany extends TokenCompany {
 		return tCanBuyMultiple;
 	}
 
+	public void setStartCell (Market aMarket) {
+		MarketCell tMarketCell;
+
+		if (hasStartCell ()) {
+			if (aMarket != Market.NO_MARKET) {
+				tMarketCell = getMarketCellAt (aMarket);
+				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
+					setParPrice (tMarketCell);
+				}
+			}
+		}
+	}
+
+	public MarketCell getMarketCellAt (Market aMarket) {
+		int tRow;
+		int tCol;
+		MarketCell tMarketCell;
+
+		tRow = getStartRow ();
+		tCol = getStartCol ();
+		tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
+
+		return tMarketCell;
+	}
+
+	public boolean hasStartCell () {
+		return (startCell != NO_START_CELL);
+	}
+
 	public int getStartCol () {
-		String [] tSplit = null;
+		String [] tSplit;
 		int tCol;
 
+		tSplit = null;
 		tCol = 0;
-		if (startCell != NO_START_CELL) {
+		if (hasStartCell ()) {
 			tSplit = startCell.split (",");
 			tCol = Integer.parseInt (tSplit [1]);
 		}
@@ -832,11 +862,12 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public int getStartRow () {
-		String [] tSplit = null;
+		String [] tSplit;
 		int tRow;
 
+		tSplit = null;
 		tRow = 0;
-		if (startCell != NO_START_CELL) {
+		if (hasStartCell ()) {
 			tSplit = startCell.split (",");
 			tRow = Integer.parseInt (tSplit [0]);
 		}
@@ -864,20 +895,6 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	@Override
-	public boolean canOperate () {
-		boolean tCanOperate = true;
-
-		if ((status == ActorI.ActionStates.Unowned) ||
-			(status == ActorI.ActionStates.Unformed) ||
-			(status == ActorI.ActionStates.Owned) ||
-			(status == ActorI.ActionStates.Closed)) {
-			tCanOperate = false;
-		}
-
-		return tCanOperate;
-	}
-
-	@Override
 	public void handleCapitalization (FloatCompanyAction aFloatCompanyAction) {
 		int tOldCapitalization;
 		int tNewCapitalization;
@@ -889,6 +906,21 @@ public class ShareCompany extends TokenCompany {
 		destinationInfo.handleCapitalization (aFloatCompanyAction);
 	}
 
+	@Override
+	public boolean canOperate () {
+		boolean tCanOperate;
+
+		tCanOperate = true;
+		if ((status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Unformed) ||
+			(status == ActorI.ActionStates.Owned) ||
+			(status == ActorI.ActionStates.Closed)) {
+			tCanOperate = false;
+		}
+
+		return tCanOperate;
+	}
+
 	public boolean willFloat () {
 		return (status == ActorI.ActionStates.WillFloat);
 	}
@@ -897,7 +929,8 @@ public class ShareCompany extends TokenCompany {
 	public boolean hasFloated () {
 		boolean tHasFloated;
 
-		if ((status == ActorI.ActionStates.Unowned) ||
+		if ((status == ActorI.ActionStates.Unformed) ||
+			(status == ActorI.ActionStates.Unowned) ||
 			(status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.MayFloat) ||
@@ -910,14 +943,6 @@ public class ShareCompany extends TokenCompany {
 		return (tHasFloated);
 	}
 
-	public boolean hasParPrice () {
-		return (parPrice != NO_PAR_PRICE);
-	}
-
-	public boolean hasStartCell () {
-		return (startCell != NO_START_CELL);
-	}
-
 	public boolean isOperational () {
 		boolean tOperational;
 
@@ -927,6 +952,10 @@ public class ShareCompany extends TokenCompany {
 		}
 
 		return tOperational;
+	}
+
+	public boolean hasParPrice () {
+		return (parPrice != NO_PAR_PRICE);
 	}
 
 	@Override
@@ -992,19 +1021,6 @@ public class ShareCompany extends TokenCompany {
 		updateListeners (SET_PAR_PRICE);
 	}
 
-	public void setStartCell (Market aMarket) {
-		MarketCell tMarketCell;
-
-		if (startCell != NO_START_CELL) {
-			if (aMarket != Market.NO_MARKET) {
-				tMarketCell = getMarketCellAt (aMarket);
-				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-					setParPrice (tMarketCell);
-				}
-			}
-		}
-	}
-
 	public void setParPrice (MarketCell aMarketCell) {
 		int tParPrice;
 		
@@ -1023,18 +1039,6 @@ public class ShareCompany extends TokenCompany {
 			tValue = sharePrice.getValue ();
 			corporationList.addDataElement (tValue, tRowIndex, sharePriceColumn);
 		}
-	}
-
-	public MarketCell getMarketCellAt (Market aMarket) {
-		int tRow;
-		int tCol;
-		MarketCell tMarketCell;
-
-		tRow = getStartRow ();
-		tCol = getStartCol ();
-		tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
-
-		return tMarketCell;
 	}
 
 	private void setValues (int aParPrice, MarketCell aSharePrice, int aLoanCount,
@@ -1151,7 +1155,7 @@ public class ShareCompany extends TokenCompany {
 
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
 									Certificate aCertificate, BuyStockAction aBuyStockAction) {
-		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tOldCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
 		PortfolioHolderI tFromHolder;
 		PortfolioHolderI tToHolder;
@@ -1160,13 +1164,13 @@ public class ShareCompany extends TokenCompany {
 		tToHolder = aToPortfolio.getHolder ();
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
-		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
+		tOldCorporationStatus = aCertificate.getCorporationStatus ();
 		handlePassiveBenefits (aCertificate, aBuyStockAction);
 		aCertificate.updateCorporationOwnership ();
 		tNewCorporationStatus = aCertificate.getCorporationStatus ();
-		if (tCurrentCorporationStatus != tNewCorporationStatus) {
+		if (tOldCorporationStatus != tNewCorporationStatus) {
 			aBuyStockAction.addChangeCorporationStatusEffect (aCertificate.getCorporation (),
-							tCurrentCorporationStatus, tNewCorporationStatus);
+							tOldCorporationStatus, tNewCorporationStatus);
 		}
 	}
 
