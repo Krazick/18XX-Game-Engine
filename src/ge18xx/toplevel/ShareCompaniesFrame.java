@@ -216,15 +216,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		return companies.getCorporationState (aCorpStateName);
 	}
 
-//	@Override	
-//	public XMLElement addElements (XMLDocument aXMLDocument) {
-//		XMLElement tXMLElement;
-//		
-//		tXMLElement = super.addElements (aXMLDocument, EN_SHARES);
-//		
-//		return tXMLElement;
-//	}
-
 	public ShareCompany getShareCompanyByID (int aCompanyID) {
 		ShareCompany tShareCompany;
 
@@ -450,13 +441,14 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		}
 	}
 
-	public void updateParValuesComboBox (Integer [] tParValues) {
-		int tIndex, tSize;
+	public void updateParValuesComboBox (Integer [] aParValues) {
+		int tIndex;
+		int tSize;
 
-		if (tParValues != null) {
-			tSize = tParValues.length;
+		if (aParValues != null) {
+			tSize = aParValues.length;
 			for (tIndex = 0; tIndex < tSize; tIndex++) {
-				parValuesCombo.addItem (tParValues [tIndex]);
+				parValuesCombo.addItem (aParValues [tIndex]);
 			}
 		}
 	}
