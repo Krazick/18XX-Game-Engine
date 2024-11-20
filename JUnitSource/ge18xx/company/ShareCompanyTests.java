@@ -15,6 +15,7 @@ import ge18xx.bank.BankTestFactory;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioTestFactory;
+import ge18xx.round.action.ActorI;
 
 @DisplayName ("Share Company Class Tests")
 class ShareCompanyTests {
@@ -24,8 +25,10 @@ class ShareCompanyTests {
 	PortfolioTestFactory portfolioTestFactory;
 	ShareCompany noDestinationShareCompany;
 	ShareCompany destinationShareCompany;
+	ShareCompany unformedShareCompany;
 	Portfolio mNoDestinationPortfolio;
 	Portfolio mDestinationPortfolio;
+	Portfolio mUnformedPortfolio;
 	Bank bank;
 	
 	@BeforeEach
@@ -42,6 +45,10 @@ class ShareCompanyTests {
 		destinationShareCompany = companyTestFactory.buildAShareCompany (3);
 		mDestinationPortfolio = portfolioTestFactory.buildPortfolioMock (destinationShareCompany);
 		destinationShareCompany.setCorporationCertificates (mDestinationPortfolio);
+		
+		unformedShareCompany = companyTestFactory.buildAShareCompany (4);
+		mUnformedPortfolio = portfolioTestFactory.buildPortfolioMock (unformedShareCompany);
+		unformedShareCompany.setCorporationCertificates (mUnformedPortfolio);
 	}
 
 	@Test
@@ -162,4 +169,144 @@ class ShareCompanyTests {
 		Mockito.when (mDestinationPortfolio.getPlayerOrCorpOwnedPercentageFor (destinationShareCompany)).thenReturn (20);
 		assertEquals (150, destinationShareCompany.calculateStartingTreasury ());
 	}
+	
+	@Test
+	@DisplayName ("Share Company Float Tests")
+	void shareCompanyFloatedTests () {
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (noDestinationShareCompany.willFloat ());
+		assertFalse (noDestinationShareCompany.hasFloated ());
+		
+		assertFalse (unformedShareCompany.willFloat ());
+		assertFalse (unformedShareCompany.hasFloated ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (noDestinationShareCompany.willFloat ());
+		assertFalse (noDestinationShareCompany.hasFloated ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.MayFloat);
+		assertFalse (noDestinationShareCompany.willFloat ());
+		assertFalse (noDestinationShareCompany.hasFloated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.WillFloat);
+		assertTrue (noDestinationShareCompany.willFloat ());
+		assertFalse (noDestinationShareCompany.hasFloated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertFalse (noDestinationShareCompany.willFloat ());
+		assertTrue (noDestinationShareCompany.hasFloated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (noDestinationShareCompany.willFloat ());
+		assertFalse (noDestinationShareCompany.hasFloated ());
+	}
+	
+	@Test
+	@DisplayName ("Share Company Is Operational Tests")
+	void shareCompanyIsOperationalTests () {
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (noDestinationShareCompany.isOperational ());
+		
+		assertFalse (unformedShareCompany.isOperational ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (noDestinationShareCompany.isOperational ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.MayFloat);
+		assertFalse (noDestinationShareCompany.isOperational ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.WillFloat);
+		assertFalse (noDestinationShareCompany.isOperational ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.NotOperated);
+		assertTrue (noDestinationShareCompany.isOperational ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertTrue (noDestinationShareCompany.isOperational ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (noDestinationShareCompany.isOperational ());
+	}
+	
+	@Test
+	@DisplayName ("Share Company can Operate Tests")
+	void shareCompanyCanOperateTests () {
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (noDestinationShareCompany.canOperate ());
+		
+		assertFalse (unformedShareCompany.canOperate ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (noDestinationShareCompany.canOperate ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.MayFloat);
+		assertTrue (noDestinationShareCompany.canOperate ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.WillFloat);
+		assertTrue (noDestinationShareCompany.canOperate ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.NotOperated);
+		assertTrue (noDestinationShareCompany.canOperate ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertTrue (noDestinationShareCompany.canOperate ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (noDestinationShareCompany.canOperate ());
+	}
+	
+	@Test
+	@DisplayName ("Share Company has Operated Tests")
+	void shareCompanyHasOperatedTests () {
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+		
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.MayFloat);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.WillFloat);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.NotOperated);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertTrue (noDestinationShareCompany.hasOperated ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (noDestinationShareCompany.hasOperated ());
+	}
+
+	@Test
+	@DisplayName ("Share Company has bought train Tests")
+	void shareCompanyHasBoughtTrainTests () {
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
+		
+		// Something weird happening if resetStatus is called, with it tries to updateInfo
+		// it then fails to find the ShareCompanies CorporationList that is mocked in the ShareCompany
+		
+//		noDestinationShareCompany.resetStatus (ActorI.ActionStates.BoughtTrain);
+//		assertTrue (noDestinationShareCompany.hasBoughtTrain ());
+		
+		noDestinationShareCompany.forceSetStatus (ActorI.ActionStates.BoughtTrain);
+		assertTrue (noDestinationShareCompany.hasBoughtTrain ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.NotOperated);
+		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
+
+		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
+	}
+
 }
