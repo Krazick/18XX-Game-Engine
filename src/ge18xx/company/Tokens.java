@@ -249,7 +249,6 @@ public class Tokens {
 			tTokenInfo = tokens.get (tTokenIndex);
 			if (! tTokenInfo.isUsed ()) {
 				if (tTokenInfo.isMapToken ()) {
-//				if (! tTokenInfo.isHomeToken ()) {
 					tAvailableTokenCount++;
 				}
 			}
