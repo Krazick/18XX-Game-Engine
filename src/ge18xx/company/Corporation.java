@@ -1800,7 +1800,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		ActorI.ActionStates tLoadedState;
 		GenericActor tGenericActor;
 
-		tLoadedStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS);
+		tLoadedStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, ActorI.ActionStates.Unowned.toString ());
 		tCurrentStatus = getStatusName ();
 		if (!tLoadedStatus.equals (tCurrentStatus)) {
 			tGenericActor = new GenericActor ();
