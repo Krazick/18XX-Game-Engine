@@ -24,6 +24,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.QueryOffer;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
@@ -879,7 +880,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public Player getNextPossiblePrez (String aCompanyAbbrev) {
-		ShareCompany tShareCompany;
+		TrainCompany tShareCompany;
 		Player tNextPossiblePrez;
 
 		tNextPossiblePrez = NO_PLAYER;

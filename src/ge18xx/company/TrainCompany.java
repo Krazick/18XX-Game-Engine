@@ -2840,4 +2840,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aChangeMarketCellAction.addReturnTrainEffect (this, tBorrowedTrain, tBank);
 		}
 	}
+
+	public boolean hasBoughtTrain () {
+		boolean tHasBoughtTrain;
+		
+		if (status == ActorI.ActionStates.BoughtTrain) {
+			tHasBoughtTrain = true; 
+		} else {
+			tHasBoughtTrain = false;
+		}
+		
+		return tHasBoughtTrain;
+	}
 }

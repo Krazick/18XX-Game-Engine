@@ -129,7 +129,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	MapCell homeCity2;
 	Location homeLocation2;
 	MessageBean bean;
-	ActorI.ActionStates status;
+	protected ActorI.ActionStates status;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Corporation;
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;

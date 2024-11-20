@@ -21,6 +21,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenStack;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
@@ -974,7 +975,7 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction,
-			ShareCompany aShareCompany, Player aCurrentPresident) {
+			TrainCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
 
 		// If we have a Current President, and the Current Player is Not the President,
@@ -991,7 +992,7 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public void handlePresidentialTransfer (TransferOwnershipAction aTransferOwnershipAction,
-			ShareCompany aShareCompany, Player aCurrentPresident) {
+			TrainCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
 		String tNotification;
 		
@@ -1006,7 +1007,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	public Player findNewPresident (ShareCompany aShareCompany, Player aCurrentPresident) {
+	public Player findNewPresident (TrainCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
 		Player tNextPlayer;
 		int tCurrentPlayerIndex;
@@ -1035,7 +1036,7 @@ public class PlayerManager implements XMLSaveGameI {
 
 	}
 	
-	public Player findNewPresident (ShareCompany aShareCompany, Player aCurrentPlayer, Player aCurrentPresident) {
+	public Player findNewPresident (TrainCompany aShareCompany, Player aCurrentPlayer, Player aCurrentPresident) {
 		Player tNewPresident;
 		Player tNextPlayer;
 		int tCurrentPlayerIndex;
@@ -1256,7 +1257,7 @@ public class PlayerManager implements XMLSaveGameI {
 				aPlayer.acts (); // Simply set the fact that the Player has acted. This does not require that he
 									// has not
 				tCorporationAbbrev = tCorporation.getAbbrev ();
-				tNewPresident = findPlayerWithMost ((ShareCompany) tCorporation, aPlayer);
+				tNewPresident = findPlayerWithMost ((TrainCompany) tCorporation, aPlayer);
 				aPlayer.setExchangedPrezShare (tCorporationAbbrev);
 
 				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (),
@@ -1265,7 +1266,7 @@ public class PlayerManager implements XMLSaveGameI {
 					tExchangeStockAction.setChainToPrevious (true);
 				}
 				tExchangeStockAction.addExchangePrezShareEffect (tCorporationAbbrev);
-				exchangePresidentCertificate ((ShareCompany) tCorporation, aPlayer, tNewPresident,
+				exchangePresidentCertificate ((TrainCompany) tCorporation, aPlayer, tNewPresident,
 						tExchangeStockAction);
 				addAction (tExchangeStockAction);
 			} else if (tCorporation.isAPrivateCompany ()) {
@@ -1334,7 +1335,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	public Player findPlayerWithMost (ShareCompany aShareCompany, Player aCurrentPlayer) {
+	public Player findPlayerWithMost (TrainCompany aShareCompany, Player aCurrentPlayer) {
 		Player tNewPresident, tNextPlayer;
 		int tCurrentPlayerIndex, tNextPlayerIndex;
 		int tCurrentMaxPercentage, tNextPercentOwned;
@@ -1702,7 +1703,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 	
-	public void exchangePresidentCertificate (ShareCompany aShareCompany, Player aOldPresident, Player aNewPresident,
+	public void exchangePresidentCertificate (TrainCompany aShareCompany, Player aOldPresident, Player aNewPresident,
 			TransferOwnershipAction aAction) {
 		Certificate tPresidentCertificate, tCertificateOne;
 		Portfolio tOldPresidentPortfolio, tNewPresidentPortfolio;

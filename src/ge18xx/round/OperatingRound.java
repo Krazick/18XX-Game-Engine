@@ -123,8 +123,8 @@ public class OperatingRound extends Round {
 		return shareCompanies.getOwnerWhoWillOperate ();
 	}
 
-	public ShareCompany getShareCompanyIndex (int aIndex) {
-		return (ShareCompany) shareCompanies.getCorporation (aIndex);
+	public TrainCompany getShareCompanyIndex (int aIndex) {
+		return (TrainCompany) shareCompanies.getCorporation (aIndex);
 	}
 
 	public void sortByOperatingOrder () {

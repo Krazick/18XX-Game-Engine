@@ -1176,14 +1176,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tTrainCompany;
 	}
 
-	public ShareCompany getOperatingCompany () {
-		ShareCompany tOperatingCompany;
+	public TrainCompany getOperatingCompany () {
+		TrainCompany tOperatingCompany;
 
 		tOperatingCompany = ShareCompany.NO_SHARE_COMPANY;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isOperating () && 
 					(tOperatingCompany == ShareCompany.NO_SHARE_COMPANY)) {
-				tOperatingCompany = (ShareCompany) tCorporation;
+				tOperatingCompany = (TrainCompany) tCorporation;
 			}
 		}
 

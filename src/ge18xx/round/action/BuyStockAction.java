@@ -2,7 +2,6 @@ package ge18xx.round.action;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-//import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.round.action.effects.SetPercentBoughtEffect;
 import geUtilities.xml.XMLNode;

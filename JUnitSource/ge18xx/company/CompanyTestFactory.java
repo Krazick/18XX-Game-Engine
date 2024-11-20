@@ -330,7 +330,7 @@ public class CompanyTestFactory {
 	 * @return a ShareCompany for the one requested
 	 */
 	
-	public ShareCompany buildAShareCompany (int aCompanyIndex, CorporationList mCorporationList) {
+	public TrainCompany buildAShareCompany (int aCompanyIndex, CorporationList mCorporationList) {
 		String tShareCompany1TestXML = "<Share id=\"901\" name=\"Test Pennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
 				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
 				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"

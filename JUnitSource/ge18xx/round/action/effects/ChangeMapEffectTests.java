@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.PrivateCompany;
-import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.BenefitTestFactory;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
@@ -28,8 +28,8 @@ public class ChangeMapEffectTests {
 	ChangeMapEffect effectAlpha;
 	ChangeMapEffect effectBeta;
 	ChangeMapEffect effectGamma;
-	ShareCompany sharePenn;
-	ShareCompany shareBnO;
+	TrainCompany sharePenn;
+	TrainCompany shareBnO;
 	PrivateCompany privateSV;
 	GameManager gameManager;
 	PlayerManager playerManager;

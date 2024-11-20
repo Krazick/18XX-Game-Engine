@@ -18,6 +18,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -36,7 +37,7 @@ public class TransferOwnershipEffectTestConstructor {
 //	TransferOwnershipEffect effectAlpha;
 	TransferOwnershipEffect effectBeta;
 	ShareCompany companyBeta;
-	ShareCompany companyGamma;
+	TrainCompany companyGamma;
 	Player mPlayerActorAlpha;
 	Player mPlayerActorDelta;
 	GameManager mGameManager;

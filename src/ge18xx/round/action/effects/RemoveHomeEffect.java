@@ -235,7 +235,8 @@ public class RemoveHomeEffect extends Effect {
 		return tEffectApplied;
 	}
 
-	private boolean removeHomeFromMap (RoundManager aRoundManager, MapCell aMapCell, Location aLocation, ShareCompany aShareCompany) {
+	private boolean removeHomeFromMap (RoundManager aRoundManager, MapCell aMapCell, Location aLocation,
+									ShareCompany aShareCompany) {
 		boolean tEffectApplied;
 		Tile tTile;
 		RevenueCenter tRevenueCenter;

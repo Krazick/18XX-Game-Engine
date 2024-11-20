@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
@@ -19,8 +20,8 @@ import ge18xx.train.Train;
 @DisplayName ("Transfer Train Effect Constructor Tests")
 public class TransferTrainEffectTests {
 	TransferTrainEffect effectBeta;
-	ShareCompany actorBeta;
-	ShareCompany actorGamma;
+	TrainCompany actorBeta;
+	TrainCompany actorGamma;
 	ShareCompany actorZeta;
 	GameManager gameManager;
 	PlayerManager playerManager;
@@ -48,16 +49,16 @@ public class TransferTrainEffectTests {
 	@DisplayName ("Simple Constructor Tests")
 	void simpleConstructorTests () {
 		String tReportResult = "--Effect: Transfer Train named Test2 from Test Pennsylvania to Test Baltimore and Ohio.";
-		ShareCompany tShareActor;
-		ShareCompany tToShareActor;
+		TrainCompany tShareActor;
+		TrainCompany tToShareActor;
 
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Train", effectBeta.getName ());
 		assertEquals ("Test Pennsylvania", effectBeta.getActorName ());
 		assertEquals ("Test Baltimore and Ohio", effectBeta.getToActorName ());
 
-		tShareActor = (ShareCompany) effectBeta.getActor ();
-		tToShareActor = (ShareCompany) effectBeta.getToActor ();
+		tShareActor = (TrainCompany) effectBeta.getActor ();
+		tToShareActor = (TrainCompany) effectBeta.getToActor ();
 		assertEquals ("Test Pennsylvania", tShareActor.getName ());
 		assertEquals (tReportResult, effectBeta.getEffectReport (null));
 		assertNotNull (effectBeta.getToActorName ());

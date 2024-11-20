@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.round.action.ActorI;
+
 class TrainCompanyBasicTests {
 	CompanyTestFactory companyTestFactory;
 	TrainCompany trainCompany;
@@ -109,6 +111,34 @@ class TrainCompanyBasicTests {
 		
 		tFoundLicense = trainCompany.getLicense (License.LicenseTypes.PORT);
 		assertEquals (tFoundLicense, tNewPortLicense);
+	}
+
+	@Test
+	@DisplayName ("Share Company has bought train Tests")
+	void shareCompanyHasBoughtTrainTests () {
+
+		trainCompany.resetStatus (ActorI.ActionStates.Unowned);
+		assertFalse (trainCompany.hasBoughtTrain ());
+
+		trainCompany.resetStatus (ActorI.ActionStates.Owned);
+		assertFalse (trainCompany.hasBoughtTrain ());
 		
+		// Something weird happening if resetStatus is called, with it tries to updateInfo
+		// it then fails to find the ShareCompanies CorporationList that is mocked in the ShareCompany
+		
+//		noDestinationShareCompany.resetStatus (ActorI.ActionStates.BoughtTrain);
+//		assertTrue (noDestinationShareCompany.hasBoughtTrain ());
+		
+		trainCompany.forceSetStatus (ActorI.ActionStates.BoughtTrain);
+		assertTrue (trainCompany.hasBoughtTrain ());
+
+		trainCompany.resetStatus (ActorI.ActionStates.NotOperated);
+		assertFalse (trainCompany.hasBoughtTrain ());
+
+		trainCompany.resetStatus (ActorI.ActionStates.Operated);
+		assertFalse (trainCompany.hasBoughtTrain ());
+
+		trainCompany.resetStatus (ActorI.ActionStates.Closed);
+		assertFalse (trainCompany.hasBoughtTrain ());
 	}
 }

@@ -13,6 +13,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
@@ -28,7 +29,7 @@ public class ResponseOfferEffectTestConstructor {
 	ResponseOfferEffect effectChi;
 	ResponseOfferEffect effectEpsilon;
 	ShareCompany companyBeta;
-	ShareCompany companyGamma;
+	TrainCompany companyGamma;
 	Player mPlayerActorAlpha;
 	Player mPlayerActorDelta;
 	Player playerActorGamma;

@@ -279,34 +279,4 @@ class ShareCompanyTests {
 		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
 		assertFalse (noDestinationShareCompany.hasOperated ());
 	}
-
-	@Test
-	@DisplayName ("Share Company has bought train Tests")
-	void shareCompanyHasBoughtTrainTests () {
-
-		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Unowned);
-		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
-
-		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Owned);
-		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
-		
-		// Something weird happening if resetStatus is called, with it tries to updateInfo
-		// it then fails to find the ShareCompanies CorporationList that is mocked in the ShareCompany
-		
-//		noDestinationShareCompany.resetStatus (ActorI.ActionStates.BoughtTrain);
-//		assertTrue (noDestinationShareCompany.hasBoughtTrain ());
-		
-		noDestinationShareCompany.forceSetStatus (ActorI.ActionStates.BoughtTrain);
-		assertTrue (noDestinationShareCompany.hasBoughtTrain ());
-
-		noDestinationShareCompany.resetStatus (ActorI.ActionStates.NotOperated);
-		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
-
-		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Operated);
-		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
-
-		noDestinationShareCompany.resetStatus (ActorI.ActionStates.Closed);
-		assertFalse (noDestinationShareCompany.hasBoughtTrain ());
-	}
-
 }

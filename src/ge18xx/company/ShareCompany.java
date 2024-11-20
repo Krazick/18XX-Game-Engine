@@ -1124,18 +1124,6 @@ public class ShareCompany extends TokenCompany {
 		return tShouldFloat;
 	}
 
-	public boolean hasBoughtTrain () {
-		boolean tHasBoughtTrain;
-		
-		if (status == ActorI.ActionStates.BoughtTrain) {
-			tHasBoughtTrain = true; 
-		} else {
-			tHasBoughtTrain = false;
-		}
-		
-		return tHasBoughtTrain;
-	}
-
 	@Override
 	public boolean hasOperated () {
 		boolean tHasOperated;
