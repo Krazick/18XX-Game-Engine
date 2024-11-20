@@ -36,6 +36,7 @@ import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.tiles.Tile;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -1194,7 +1195,7 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		return null;
+		return GUI.NO_PANEL;
 	}
 
 	@Override
@@ -1203,7 +1204,6 @@ public class ShareCompany extends TokenCompany {
 		JLabel tLoanInfo;
 		GameManager tGameManager;
 		PhaseManager tPhaseManager;
-		
 		
 		tGameManager = corporationList.getGameManager ();
 		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
