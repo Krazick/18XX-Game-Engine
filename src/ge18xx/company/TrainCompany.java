@@ -88,7 +88,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public static final String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
 	public static final String NO_REVENUE = "0";
-	public static final int NO_REVENUE_GENERATED = -1;
+	public static final int NO_REVENUE_GENERATED = 0;
 	public static final int NO_COST = 0;
 	public static final int NO_CASH = 0;
 	public static final int INFINITE_PRICE = 99999;
@@ -2014,11 +2014,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tRevenueGenerated = thisRevenue;
 		tOldThisRevenue = thisRevenue;
-//		if (thisRevenue != NO_REVENUE_GENERATED) {
-//			tRevenueGenerated = thisRevenue;
-//		} else {
-//			setThisRevenue (tRevenueGenerated);
-//		}
 		tCurrentStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
 		if (tStatusUpdated) {
@@ -2032,10 +2027,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				// Pay the Dividend to the TrainCompany (this) and not the players
 				tBank.transferCashTo (this, tRevenueGenerated);
 				tPayNoDividendAction.addCashTransferEffect (tBank, this, tRevenueGenerated);
+			} else {
+				if (tRevenueGenerated == NO_REVENUE_GENERATED) {
+					tRevenueGenerated = 0;
+				}
 			}
 			tOldPreviousRevenue = getPreviousRevenue ();
 			tTrainCount = getTrainCount ();
 			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, tRevenueGenerated);
+
 			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, tRevenueGenerated, tTrainCount);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
