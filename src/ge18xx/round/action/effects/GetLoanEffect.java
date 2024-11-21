@@ -16,18 +16,6 @@ public class GetLoanEffect extends Effect {
 	boolean oldLoanTaken;
 	boolean newLoanTaken;
 
-	public GetLoanEffect () {
-		super (NAME);
-	}
-
-	public GetLoanEffect (String aName) {
-		super (aName);
-	}
-
-	public GetLoanEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public GetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
 		super (NAME, aActor);
 		setOldLoanTaken (aOldLoanTaken);

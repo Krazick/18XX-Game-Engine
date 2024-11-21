@@ -16,19 +16,6 @@ public class UpdateLoanCountEffect extends Effect {
 	int oldLoanCount;
 	int newLoanCount;
 
-	public UpdateLoanCountEffect () {
-		super ();
-		setName (NAME);
-	}
-
-	public UpdateLoanCountEffect (String aName) {
-		super (aName);
-	}
-
-	public UpdateLoanCountEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public UpdateLoanCountEffect (ActorI aActor, int aOldLoanCount, int aNewLoanCount) {
 		super (NAME, aActor);
 		setOldLoanCount (aOldLoanCount);

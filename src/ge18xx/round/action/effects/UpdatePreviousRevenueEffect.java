@@ -64,21 +64,14 @@ public class UpdatePreviousRevenueEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
-		String tOldValue;
 		String tNewValue;
-
-		if (oldPreviousRevenue >= 0) {
-			tOldValue = Bank.formatCash (oldPreviousRevenue);
-		} else {
-			tOldValue = " NO Previous Revenue Value";
-		}
 
 		if (newPreviousRevenue >= 0) {
 			tNewValue = Bank.formatCash (newPreviousRevenue);
 		} else {
 			tNewValue = "NO Previous Revenue Value";
 		}
-		tReport = REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
+		tReport = REPORT_PREFIX + name + " to " + tNewValue + " for " + getActorName () + ".";
 
 		return tReport;
 	}
