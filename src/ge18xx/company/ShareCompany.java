@@ -231,6 +231,10 @@ public class ShareCompany extends TokenCompany {
 		return tEscrowCalculated;
 	}
 	
+	public DestinationInfo getDestinationInfo () {
+		return destinationInfo;
+	}
+	
 	public void setReachedDestination (boolean aReached) {
 		destinationInfo.setReached (aReached);
 	}
@@ -398,7 +402,7 @@ public class ShareCompany extends TokenCompany {
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
 			aXMLCorporationState.setAttribute (AN_REPAYMENT_HANDLED, repaymentHandled);
 		}
-		destinationInfo.getDestinationInfo (aXMLCorporationState);
+		destinationInfo.getDestinationInfoElement (aXMLCorporationState);
 		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
@@ -982,7 +986,8 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void setDestination (MapCell aDestinationCity, Location aDestinationLocation) {
-		destinationInfo.setMapCell (aDestinationCity);
+//		destinationInfo.setMapCell (aDestinationCity);
+		setDestinationMapCell (aDestinationCity);
 		destinationInfo.setLocation (aDestinationLocation);
 	}
 
