@@ -595,6 +595,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public JLabel buildCorpNameLabel () {
 		JLabel tCorpLabel;
 		String tCorpAbbrev;
+		
 		tCorpAbbrev = getAbbrev ();
 		if (isGovtRailway ()) {
 			tCorpAbbrev += " [Gov't]";
@@ -608,12 +609,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 		tCorpLabel = new JLabel (tCorpAbbrev);
+		
 		return tCorpLabel;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {
-		Border tPanelBorder, tBackgroundBorder, tOuterBorder, tRaisedBevel;
-		Border tLoweredBevel, tBevelBorder1, tBevelBorder2;
+		Border tPanelBorder;
+		Border tBackgroundBorder;
+		Border tOuterBorder;
+		Border tRaisedBevel;
+		Border tLoweredBevel;
+		Border tBevelBorder1;
+		Border tBevelBorder2;
 		Border tSamePrezBorder;
 
 		tBackgroundBorder = setupBackgroundBorder (5);
@@ -640,17 +647,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tOuterBorder;
 	}
 
-//	@Override
-//	protected Border setupBackgroundBorder (int aWidth) {
-//		Border tBackgroundBorder;
-//		Color tBackgroundColor;
-//
-//		tBackgroundColor = new Color (237, 237, 237);
-//		tBackgroundBorder = BorderFactory.createLineBorder (tBackgroundColor, aWidth);
-//
-//		return tBackgroundBorder;
-//	}
-//
 	@Override
 	public Border setupBorder () {
 		Border tCorpBorder;
@@ -665,8 +661,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, GameManager aGameManager,
-			boolean aFullTrainPortfolio,
-			Corporation aBuyingCorporation, int aTokenCount) {
+			boolean aFullTrainPortfolio, Corporation aBuyingCorporation, int aTokenCount) {
 		JPanel tTrainInfoJPanel;
 		JPanel tCorpJPanel;
 		Border tBorder;
@@ -956,7 +951,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	@Override
 	public Coupon getCheapestPermanentBankTrain () {
-		Coupon tCheapestPermanentTrain = Train.NO_TRAIN;
+		Coupon tCheapestPermanentTrain;
 		Coupon tBankPoolPermanentTrain;
 		Coupon tBankPermanentTrain;
 		int tBankPoolTrainCost;
@@ -964,6 +959,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		BankPool tBankPool;
 		Bank tBank;
 
+		tCheapestPermanentTrain = Train.NO_TRAIN;
 		tBankPool = corporationList.getBankPool ();
 		tBankPoolPermanentTrain = tBankPool.getCheapestPermanentTrain ();
 		tBank = corporationList.getBank ();
@@ -992,7 +988,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public Coupon getCheapestBankTrain () {
-		Coupon tCheapestTrain = Train.NO_TRAIN;
+		Coupon tCheapestTrain;
 		Coupon tBankPoolTrain;
 		Coupon tBankTrain;
 		int tBankPoolTrainCost;
@@ -1000,6 +996,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		BankPool tBankPool;
 		Bank tBank;
 
+		tCheapestTrain = Train.NO_TRAIN;
 		tBankPool = corporationList.getBankPool ();
 		tBankPoolTrain = tBankPool.getCheapestTrain ();
 		tBank = corporationList.getBank ();
@@ -1250,10 +1247,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	@Override
 	public boolean trainIsSelected () {
-		boolean tTrainIsSelected = false;
+		boolean tTrainIsSelected;
 		Coupon tTrain;
 		TrainHolderI tTrainHolder;
 
+		tTrainIsSelected = false;
 		tTrainHolder = getSelectedTrainHolder ();
 		if (tTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
 			tTrain = tTrainHolder.getSelectedTrain ();
@@ -1393,7 +1391,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void discardExcessTrains (BankPool aBankPool, BuyTrainAction aBuyTrainAction) {
-		int tTrainLimit, tTrainCount;
+		int tTrainLimit;
+		int tTrainCount;
 		Train tTrain;
 
 		tTrainLimit = getTrainLimit ();
@@ -1425,13 +1424,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			(status == ActorI.ActionStates.Unformed) ||
 			(status == ActorI.ActionStates.Unowned) || 
 			(status == ActorI.ActionStates.Owned) ||
-//			(status == ActorI.ActionStates.MayFloat) || 
-//			(status == ActorI.ActionStates.WillFloat) ||
 			(status == ActorI.ActionStates.HoldDividend) || 
 			(status == ActorI.ActionStates.HalfDividend) ||
 			(status == ActorI.ActionStates.FullDividend) || 
 			(status == ActorI.ActionStates.BoughtTrain)) {
-//			|| (status == ActorI.ActionStates.Operated)) {
 			tDividendsHandled = true;
 		}
 
@@ -1484,7 +1480,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
-
 		aXMLCorporationState.setAttribute (AN_VALUE, getValue ());
 		if (previousRevenue > 0) {
 			aXMLCorporationState.setAttribute (AN_PREVIOUS_REVENUE, previousRevenue);
@@ -1896,7 +1891,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	 * @param aTrain the actual Train that should be cleared. Need to find index for the Train
 	 */
 	public void clearATrainFromMap (Coupon aTrain) {
-		int tTrainCount, tTrainIndex;
+		int tTrainCount;
+		int tTrainIndex;
 
 		tTrainCount = getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
@@ -2105,7 +2101,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tNewStatus = status;
 			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
-//			tOperatingRoundPart2 = tOperatingRound.getIDPart2 ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
 			if (tRevenueGenerated > 0) {
