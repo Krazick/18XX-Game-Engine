@@ -13,8 +13,10 @@ public class MapTestFactory {
 	}
 
 	public MapFrame buildMapFrame () {
-		MapFrame tMapFrame = (MapFrame) XMLFrame.NO_XML_FRAME;
+		MapFrame tMapFrame;
 
+		tMapFrame = (MapFrame) XMLFrame.NO_XML_FRAME;
+		
 		return tMapFrame;
 	}
 
