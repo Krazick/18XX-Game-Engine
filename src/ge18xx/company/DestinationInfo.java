@@ -16,7 +16,6 @@ public class DestinationInfo {
 	public static final AttributeName AN_REACHED = new AttributeName ("reached");
 	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
-	public static final AttributeName AN_ESCROW = new AttributeName ("escrow");
 	public static final String NO_DESTINATION_LABEL = "NO DESTINATION";
 	// TODO:
 	// Should take the location, and MapCell and make a sub-item "Destination" that is an array.
@@ -27,7 +26,6 @@ public class DestinationInfo {
 	MapCell mapCell;
 	String label;
 	int capitalizationLevel;
-	int escrowForPayment;
 	boolean reached;
 
 	public DestinationInfo (XMLNode aChildNode) {
@@ -82,10 +80,6 @@ public class DestinationInfo {
 		capitalizationLevel = aCapitalizationLevel;
 	}
 	
-	public void setEscrowForPayment (int aEscrowForPayment) {
-		escrowForPayment = aEscrowForPayment;
-	}
-	
 	public boolean hasReached () {
 		return reached;
 	}
@@ -110,16 +104,16 @@ public class DestinationInfo {
 		return capitalizationLevel;
 	}
 	
-	public int getEscrowForPayment () {
-		return escrowForPayment;
-	}
-	
 	public int getLocationInt () {
+		int tLocationInt;
+		
 		if (location == Location.NO_DESTINATION_LOCATION) {
-			return Location.NO_LOCATION;
+			tLocationInt = Location.NO_LOCATION;
 		} else {
-			return location.getLocation ();
+			tLocationInt = location.getLocation ();
 		}
+		
+		return tLocationInt;
 	}
 	
 	public String getCityName () {
@@ -149,13 +143,12 @@ public class DestinationInfo {
 		return tEscrowWithheld;
 	}
 
-	public void getDestinationInfo (XMLElement aXMLCorporationState) {
+	public void getDestinationInfoElement (XMLElement aXMLCorporationState) {
 		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getCapitalizationLevel ());
 		if (location != Location.NO_LOC) {
 			aXMLCorporationState.setAttribute (AN_DESTINATION, getLabel ());
 			aXMLCorporationState.setAttribute (AN_DESTINATION_LOCATION, getLocationInt ());
 			aXMLCorporationState.setAttribute (AN_REACHED, hasReached ());
-			aXMLCorporationState.setAttribute (AN_ESCROW, getEscrowForPayment ());
 		}
 	}
 	
@@ -169,5 +162,4 @@ public class DestinationInfo {
 							capitalizationLevel);
 		}
 	}
-
 }
