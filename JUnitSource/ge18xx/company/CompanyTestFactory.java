@@ -644,6 +644,16 @@ public class CompanyTestFactory {
 		return mToken;
 	}
 	
+	
+	public Tokens buildTokensMock (int aAvailableTokenCount) {
+		Tokens mTokens;
+		
+		mTokens = Mockito.mock (Tokens.class);
+		Mockito.when (mTokens.getAvailableTokenCount ()).thenReturn (aAvailableTokenCount);
+		
+		return mTokens;
+	}
+
 	// Build Map Token Methods
 	
 	public MapToken buildMapToken () {
