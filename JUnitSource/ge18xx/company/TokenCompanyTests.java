@@ -9,17 +9,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.round.action.ActorI;
 
 @DisplayName ("Token Company Tests")
 class TokenCompanyTests {
 	CompanyTestFactory companyTestFactory;
+	BankTestFactory bankTestFactory;
 	TokenCompany tokenCompany;
 	TokenCompany tokenCompany2;
+	Bank bank;
 
 	@BeforeEach
 	void setUp () throws Exception {
+		bankTestFactory = new BankTestFactory ();
+		bank = bankTestFactory.buildBank ();
 		companyTestFactory = new CompanyTestFactory ();
 		tokenCompany = companyTestFactory.buildATokenCompany (1);
 		tokenCompany2 = companyTestFactory.buildATokenCompany (2);
@@ -99,6 +105,9 @@ class TokenCompanyTests {
 	@Test
 	@DisplayName ("Valid for CanLayToken Method")
 	void canLayTokenTests () {
+		Tokens mTokens3;
+		Tokens mTokens0;
+		
 		tokenCompany.setAbbrev ("TRC");
 		tokenCompany.setName ("Token Railway Company");
 
@@ -146,5 +155,14 @@ class TokenCompanyTests {
 
 		tokenCompany.resetStatus (ActorI.ActionStates.Closed);
 		assertFalse (tokenCompany.canLayToken ());
+		
+		tokenCompany.resetStatus (ActorI.ActionStates.TileLaid);
+		mTokens3 = companyTestFactory.buildTokensMock (3);
+		tokenCompany.setTokens (mTokens3);
+		assertTrue (tokenCompany.canLayToken ());
+
+		mTokens0 = companyTestFactory.buildTokensMock (0);
+		tokenCompany.setTokens (mTokens0);
+		assertFalse (tokenCompany.canLayToken ());	
 	}
 }
