@@ -11,6 +11,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
@@ -89,11 +90,11 @@ public class TilePlacementBenefit extends MapBenefit {
 			setToolTip ("Owner does not have enough cash to pay for Tile");
 		} else if (!ownerLaidTile ()) {
 			enableButton ();
-			setToolTip ("");
+			setToolTip (GUI.EMPTY_STRING);
 		} else {
 			if (extraTilePlacement) {
 				enableButton ();
-				setToolTip ("");
+				setToolTip (GUI.EMPTY_STRING);
 			} else {
 				disableButton ();
 				setToolTip ("Owner has already laid or upgraded a Tile");
