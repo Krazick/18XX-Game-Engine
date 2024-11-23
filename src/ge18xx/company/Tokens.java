@@ -410,7 +410,7 @@ public class Tokens {
 		}
 	}
 
-	public void getTokensElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
+	public void appendTokensElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tTokensElement;
 		XMLElement tTokenInfoElement;
 		int tTokenCount;
