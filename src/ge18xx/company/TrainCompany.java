@@ -116,9 +116,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	Color fgColor;
 	Color homeColor;
 
-	public TrainCompany () {
-		this (Corporation.NO_ID, Corporation.NO_NAME);
-	}
+//	public TrainCompany () {
+//		this (Corporation.NO_ID, Corporation.NO_NAME);
+//	}
 
 	public TrainCompany (int aID, String aName) {
 		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, MapCell.NO_MAP_CELL, Location.NO_LOC,
@@ -412,8 +412,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getCash (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColorName (), aRowIndex, tCurrentColumn++);
@@ -426,8 +427,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Treasury", tCurrentColumn++);
 		aCorporationList.addHeader ("Bg Color Name", tCurrentColumn++);
