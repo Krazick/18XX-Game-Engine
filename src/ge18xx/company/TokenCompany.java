@@ -87,6 +87,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	private void setupAllTokens (int aTotalTokenCount) {
+		Tokens tTokens;
 		Token tMarketToken;
 		int tAddForFirstHome;
 		
@@ -95,10 +96,15 @@ public abstract class TokenCompany extends TrainCompany {
 		if (hasHomeCell ()) {
 			tAddForFirstHome = 1;
 		}
-		tokens = new Tokens (totalTokenCount + tAddForFirstHome);
+		tTokens = new Tokens (totalTokenCount + tAddForFirstHome);
+		setTokens (tTokens);
 		tMarketToken = new Token (this, TokenType.MARKET);
 		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
 		setupNewMapTokens ();
+	}
+	
+	public void setTokens (Tokens aTokens) {
+		tokens = aTokens;
 	}
 	
 	private void setupNewMapTokens () {
@@ -174,9 +180,10 @@ public abstract class TokenCompany extends TrainCompany {
 	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 		int tTokenCount;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		tTokenCount = getTokenCount ();
 		aCorporationList.addDataElement (tTokenCount, aRowIndex, tCurrentColumn++);
@@ -186,8 +193,9 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Token Count", tCurrentColumn++);
 
@@ -396,7 +404,7 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
-		tokens.getTokensElement (aXMLCorporationState, aXMLDocument);
+		tokens.appendTokensElement (aXMLCorporationState, aXMLDocument);
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
 	}
 
