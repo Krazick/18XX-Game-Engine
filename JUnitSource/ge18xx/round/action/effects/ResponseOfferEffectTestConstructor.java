@@ -72,7 +72,8 @@ public class ResponseOfferEffectTestConstructor {
 		
 		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
 		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
-		playerActorGamma = playerTestFactory.buildPlayer (tPlayer1Name, playerManager, 0);
+		playerActorGamma = playerTestFactory.buildPlayer (tPlayer1Name, playerManager, 
+								PlayerManager.CERTIFICATE_LIMIT_ZERO);
 		mPortfolioAlpha = Mockito.mock (Portfolio.class);
 		Mockito.when (mPlayerActorAlpha.getPortfolio ()).thenReturn (mPortfolioAlpha);
 		

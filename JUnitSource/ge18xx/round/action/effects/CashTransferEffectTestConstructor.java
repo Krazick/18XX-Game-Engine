@@ -83,8 +83,8 @@ public class CashTransferEffectTestConstructor {
 		
 		effectAlpha = new CashTransferEffect ();
 		cashAmount = 100;
-		actorBeta = playerTestFactory.buildPlayer (tPlayer2Name, playerManager, 0);
-		actorGamma = playerTestFactory.buildPlayer (tPlayer3Name, playerManager, 0);
+		actorBeta = playerTestFactory.buildPlayer (tPlayer2Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);
+		actorGamma = playerTestFactory.buildPlayer (tPlayer3Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);
 		effectBeta = new CashTransferEffect (actorBeta, actorGamma, cashAmount);
 	}
 
