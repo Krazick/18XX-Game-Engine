@@ -366,9 +366,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public boolean atCertLimit () {
-		boolean tAtCertLimit = false;
-		int tCertificateCount, tCertificateLimit;
+		boolean tAtCertLimit;
+		int tCertificateCount;
+		int tCertificateLimit;
 
+		tAtCertLimit = false;
 		tCertificateCount = getCertificateCount ();
 		tCertificateLimit = getCertificateLimit ();
 		if (tCertificateCount >= tCertificateLimit) {
@@ -465,7 +467,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy,
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
-//		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
 		
 		tBidders = aCertificateToBuy.getBidders ();
 		aCertificateToBuy.removeAllBidders ();
@@ -477,36 +478,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		
 		playerManager.addAction (tWinAuctionAction);
-//		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
 		playerManager.updateAllPlayerFrames ();
 		tRoundManager = playerManager.getRoundManager ();
 		tRoundManager.finishCurrentRound ();
-//		returnToStockRound ();
 		
 		return tNextShareHasBids;
 	}
-
-//	private void returnToStockRound () {
-//		RoundManager tRoundManager;
-//		AuctionRound tAuctionRound;
-//		StockRound tStockRound;
-//		ChangeRoundAction tChangeRoundAction;
-//		ActorI.ActionStates tRoundType;
-//		String tOldRoundID;
-//		String tNewRoundID;
-//		
-//		tRoundManager = playerManager.getRoundManager ();
-//		tAuctionRound = tRoundManager.getAuctionRound ();
-//		tStockRound = tRoundManager.getStockRound ();
-//		tRoundType = ActorI.ActionStates.AuctionRound;
-//		tOldRoundID = tStockRound.getID ();
-//		tNewRoundID = tStockRound.getID ();
-//
-//		tChangeRoundAction = new ChangeRoundAction (ActorI.ActionStates.AuctionRound, "1", tAuctionRound);
-//		tChangeRoundAction.addStateChangeEffect (tAuctionRound, tRoundType, ActorI.ActionStates.StockRound);
-//		tChangeRoundAction.setChainToPrevious (true);
-//		tRoundManager.changeRound (tAuctionRound, ActorI.ActionStates.StockRound, tStockRound, tOldRoundID, tNewRoundID, true);
-//	}
 	
 	private boolean mustSetParPrice (Certificate aFreeCertificate) {
 		boolean tMustSetParPrice;
