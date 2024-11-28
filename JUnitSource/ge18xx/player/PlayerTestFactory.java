@@ -41,6 +41,7 @@ public class PlayerTestFactory {
 		PlayerManager mPlayerManager = Mockito.mock (PlayerManager.class);
 
 		Mockito.when (mPlayerManager.getPlayerCount ()).thenReturn (aPlayerCount);
+		Mockito.when (mPlayerManager.getGameManager ()).thenReturn (gameManager);
 
 		return mPlayerManager;
 	}
