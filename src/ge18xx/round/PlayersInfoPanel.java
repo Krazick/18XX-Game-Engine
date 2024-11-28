@@ -79,7 +79,7 @@ public class PlayersInfoPanel extends ListenerPanel {
 		tPlayerCount = tStockRound.getPlayerCount ();
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
 			tPlayer = tStockRound.getPlayerAtIndex (tIndex);
-			tPlayerBean = tPlayer.getBean ();
+			tPlayerBean = tPlayer.getMessageBean ();
 			tPlayerBean.addPropertyChangeListener (this);
 		}
 	}
