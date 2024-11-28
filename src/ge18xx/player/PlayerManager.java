@@ -70,6 +70,7 @@ public class PlayerManager implements XMLSaveGameI {
 	public static final boolean AUCTION_BUY = false;
 	public static final int BID_INCREMENT = 5;
 	public static final int NO_PLAYER_INDEX = -1;
+	public static final int CERTIFICATE_LIMIT_ZERO = 0;
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound, FormationRound, ContractBidRound
@@ -85,10 +86,6 @@ public class PlayerManager implements XMLSaveGameI {
 		players = new LinkedList<Player> ();
 		gameManager = aGameManager;
 		setStockRound (StockRound.NO_STOCK_ROUND);
-	}
-
-	public void addPlayer (String aName) {
-		addPlayer (aName, 0);
 	}
 
 	private void addPlayer (String aName, int aCertificateLimit) {
@@ -1461,7 +1458,7 @@ public class PlayerManager implements XMLSaveGameI {
 			String tPlayerName;
 
 			tPlayerName = aPlayerNode.getThisAttribute (Player.AN_NAME);
-			addPlayer (tPlayerName);
+			addPlayer (tPlayerName, CERTIFICATE_LIMIT_ZERO);
 		}
 	};
 
