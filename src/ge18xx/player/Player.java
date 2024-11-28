@@ -142,7 +142,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void setGameHasCompanies (GameManager aGameManager) {
-		boolean tHasPrivates, tHasMinors, tHasShares;
+		boolean tHasPrivates;
+		boolean tHasMinors;
+		boolean tHasShares;
 
 		tHasPrivates = aGameManager.gameHasPrivates ();
 		tHasMinors = aGameManager.gameHasMinors ();
@@ -163,6 +165,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
 			GameManager aGameManager) {
 		Benefit tBenefitInUse;
+		Portfolio tPortfolio;
 
 		/* Save the Player Name -- ONCE */
 		name = aName;
@@ -170,7 +173,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		/* Set Variables that change during the game, that must be saved/loaded */
 		treasury = 0;
-		portfolio = new Portfolio (this);
+		tPortfolio = new Portfolio (this);
+		setPortfolio (tPortfolio);
 		clearAuctionActionState ();
 		clearPrimaryActionState ();
 		clearPlayerFlags ();
@@ -188,6 +192,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		buildPlayerFrame (aGameManager);
 	}
 
+	public void setPortfolio (Portfolio aPortfolio) {
+		portfolio = aPortfolio;
+	}
+	
 	private void buildPlayerFrame (GameManager aGameManager) {
 		String tFullTitle;
 
@@ -195,10 +203,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame = new PlayerFrame (tFullTitle, this, aGameManager);
 		aGameManager.addNewFrame (playerFrame);
 		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
-	}
-
-	public MessageBean getBean () {
-		return bean;
 	}
 	
 	public int getRoundDividends (int aRoundID) {
@@ -273,7 +277,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setBoughtShare (String aBoughtShare) {
 		boughtShare = aBoughtShare;
 		if (hasBoughtShare ()) {
-			primaryActionState = ActionStates.Bought;
+			setPrimaryActionState (ActionStates.Bought);
 		}
 	}
 
@@ -281,7 +285,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		bidShare = aBidShare;
 		if (bidShare) {
 			setAuctionActionState (ActorI.ActionStates.AuctionRaised);
-			primaryActionState = ActionStates.Bid;
+			setPrimaryActionState (ActionStates.Bid);
 		}
 	}
 
@@ -303,7 +307,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
-			primaryActionState = ActionStates.Sold;
+			setPrimaryActionState (ActionStates.Sold);
 		}
 
 		return tCanDoAction;
@@ -319,7 +323,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
-			primaryActionState = ActionStates.Acted;
+			setPrimaryActionState (ActionStates.Acted);
 			playerFrame.setDoneButton ();
 		}
 
@@ -368,12 +372,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean atCertLimit () {
 		boolean tAtCertLimit;
 		int tCertificateCount;
-		int tCertificateLimit;
 
 		tAtCertLimit = false;
 		tCertificateCount = getCertificateCount ();
-		tCertificateLimit = getCertificateLimit ();
-		if (tCertificateCount >= tCertificateLimit) {
+		if (tCertificateCount >= certificateLimit) {
 			tAtCertLimit = true;
 		}
 
@@ -410,7 +412,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public int exceedsCertificateLimitBy () {
 		int tExceedsCertificateLimit;
 
-		tExceedsCertificateLimit = getCertificateCount () - getCertificateLimit ();
+		tExceedsCertificateLimit = getCertificateCount () - certificateLimit;
 
 		return tExceedsCertificateLimit;
 	}
@@ -541,7 +543,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void clearPrimaryActionState () {
-		primaryActionState = ActionStates.NoAction;
+		setPrimaryActionState (ActionStates.NoAction);
 	}
 	
 	public void clearPlayerFlags () {
@@ -765,7 +767,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
-		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, getCertificateLimit ());
+		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
@@ -945,7 +947,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tHasLessThanPresident;
 		ShareCompany tShareCompany;
 		Player tPresidentOf;
-		int tCurrentPlayerHasXPercent, tPresidentHasXPercent;
+		int tCurrentPlayerHasXPercent;
+		int tPresidentHasXPercent;
 
 		tHasLessThanPresident = true;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
@@ -1288,6 +1291,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GenericActor tGenericActor;
 		GameManager tGameManager;
 		int tCertificateLimit;
+		ActorI.ActionStates tAuctionActionState;
 		// Need to remove any Cash the Player has before setting it.
 
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
@@ -1302,7 +1306,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		roundDividends.parseDividendAtribute (aPlayerNode);
 		tState = aPlayerNode.getThisAttribute (AN_AUCTION_STATE);
-		auctionActionState = tGenericActor.getPlayerState (tState);
+		tAuctionActionState = tGenericActor.getPlayerState (tState);
+		setAuctionActionState (tAuctionActionState);
 		tExchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
 		if (tExchangedPrezShare.equals (GUI.EMPTY_STRING)) {
 			setExchangedPrezShare (NO_STOCK_TO_SELL);
@@ -1585,7 +1590,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));	// PRINTLOG
 		System.out.println ("Primary Action State [" + primaryActionState.toString () + "]");
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
-		System.out.println ("Player Certificate Limit " + getCertificateLimit ());
+		System.out.println ("Player Certificate Limit " + certificateLimit);
 	}
 
 	@Override
@@ -1871,7 +1876,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tLabel;
 
 		tCertificateCount = getCertificateCount ();
-		tCertificateLimit = getCertificateLimit ();
+		tCertificateLimit = certificateLimit;
 		tCertificateTotalCount = getCertificateTotalCount ();
 		tLabel = aPrefix + tCertificateCount;
 		if (tCertificateTotalCount > tCertificateCount) {
