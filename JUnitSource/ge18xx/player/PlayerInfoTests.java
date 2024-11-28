@@ -55,5 +55,4 @@ class PlayerInfoTests {
 		assertEquals (375, tPlayerInfo2.getStartingCash ());
 		assertEquals (22, tPlayerInfo2.getCertificateLimit ());
 	}
-
 }
