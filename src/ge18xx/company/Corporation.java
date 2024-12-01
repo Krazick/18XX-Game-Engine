@@ -856,7 +856,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 	
 	public void corporationListDoneAction () {
-		corporationList.doneAction (this);
+		corporationList.doneAction ();
 	}
 
 	// Train Company will override
@@ -2163,12 +2163,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tDoneAction.addNewActingCorpEffect (this);
 			tDoneAction.addClearTrainsFromMapEffect (this);
-			// If we need to do a Formation Round, add effect here to the Done Action to set the new Round State
-			// to the Formation Round State. 
+			// If we need to do a Formation Round, add effect here to the Done Action to set the new 
+			// Round State to the Formation Round State. 
 			
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
-			applyPreparedActions ();
+//			applyPreparedActions ();
 		}
 		hideFrame ();
 
