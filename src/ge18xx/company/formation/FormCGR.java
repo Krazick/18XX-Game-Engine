@@ -188,11 +188,12 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		}
 	}
 	
-	public XMLElement addElements (XMLDocument aXMLDocument) {
+	@Override
+	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
 		String tTriggeringAbbrev;
 		
-		tXMLElement = aXMLDocument.createElement (EN_FORM_CGR);
+		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
 		tXMLElement.setAttribute (AN_SHARE_FOLD_COUNT, shareFoldCount);
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
