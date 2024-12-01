@@ -2216,7 +2216,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tFormCGR.setActingPresident (tActingPresident);
 			if (tAction instanceof StartFormationAction) {
 				tStartFormationAction = (StartFormationAction) tAction;
-				tStartFormationAction.setTriggeringShareCompany (tTriggeringCompany);
+				tStartFormationAction.setTriggeringShareCompanyToPrepared (tTriggeringCompany);
 			}
 		}
 
