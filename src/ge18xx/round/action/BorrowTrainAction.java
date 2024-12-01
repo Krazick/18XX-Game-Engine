@@ -11,14 +11,6 @@ import geUtilities.xml.XMLNode;
 public class BorrowTrainAction extends TransferTrainAction {
 	public final static String NAME = "Borrow Train";
 
-	public BorrowTrainAction () {
-		this (NAME);
-	}
-
-	public BorrowTrainAction (String aName) {
-		super (aName);
-	}
-
 	public BorrowTrainAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

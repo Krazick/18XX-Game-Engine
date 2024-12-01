@@ -22,14 +22,6 @@ import geUtilities.xml.XMLNode;
 public class TransferOwnershipAction extends CashTransferAction {
 	public final static String NAME = "Transfer Ownership";
 
-	public TransferOwnershipAction () {
-		this (NAME);
-	}
-
-	public TransferOwnershipAction (String aName) {
-		super (aName);
-	}
-
 	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

@@ -8,14 +8,6 @@ import geUtilities.xml.XMLNode;
 public class TransferTrainAction extends TransferOwnershipAction {
 	public final static String NAME = "Transfer Train";
 
-	public TransferTrainAction () {
-		this (NAME);
-	}
-
-	public TransferTrainAction (String aName) {
-		super (aName);
-	}
-
 	public TransferTrainAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

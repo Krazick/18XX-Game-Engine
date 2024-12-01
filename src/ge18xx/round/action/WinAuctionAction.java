@@ -25,11 +25,6 @@ import geUtilities.xml.XMLNode;
 public class WinAuctionAction extends BuyStockAction {
 	public final static String NAME = "Win Auction";
 
-	public WinAuctionAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public WinAuctionAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

@@ -14,11 +14,6 @@ import geUtilities.xml.XMLNode;
 public class ChangeMarketCellAction extends TransferOwnershipAction {
 	public final static String NAME = "Change Market Cell";
 
-	public ChangeMarketCellAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public ChangeMarketCellAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

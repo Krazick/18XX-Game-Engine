@@ -6,12 +6,6 @@ import geUtilities.xml.XMLNode;
 public class SoldOutAdjustmentAction extends ChangeMarketCellAction {
 	public final static String NAME = "Sold Out Adjustment";
 
-	public SoldOutAdjustmentAction () {
-		super ();
-		setName (NAME);
-		setChainToPrevious (true);
-	}
-
 	public SoldOutAdjustmentAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

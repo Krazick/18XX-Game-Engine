@@ -10,14 +10,6 @@ import geUtilities.xml.XMLNode;
 public class ExchangeStockAction extends TransferOwnershipAction {
 	public final static String NAME = "Exchange Stock";
 
-	public ExchangeStockAction () {
-		this (NAME);
-	}
-
-	public ExchangeStockAction (String aName) {
-		super (aName);
-	}
-
 	public ExchangeStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

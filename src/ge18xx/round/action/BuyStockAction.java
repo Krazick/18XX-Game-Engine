@@ -10,11 +10,6 @@ public class BuyStockAction extends TransferOwnershipAction {
 	public final static String NAME = "Buy Stock";
 	public final static BuyStockAction NO_BUY_STOCK_ACTION = null;
 
-	public BuyStockAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public BuyStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

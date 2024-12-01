@@ -11,11 +11,6 @@ import geUtilities.xml.XMLNode;
 public class PayNoDividendAction extends ChangeMarketCellAction {
 	public final static String NAME = "Pay No Dividend";
 
-	public PayNoDividendAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public PayNoDividendAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
