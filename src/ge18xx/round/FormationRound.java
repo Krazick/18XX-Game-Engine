@@ -5,14 +5,18 @@ import ge18xx.company.formation.FormCGR;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
+import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class FormationRound extends InterruptionRound {
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
+	FormCGR formCGR;
 
 	public FormationRound (RoundManager aRoundManager) {
 		super (aRoundManager);
@@ -81,25 +85,77 @@ public class FormationRound extends InterruptionRound {
 		return tCanStart;
 	}
 	
-	@Override
-	public void start () {
-		FormCGR tFormCGR;
-		GameManager tGameManager;
-//		Corporation tCorporation;
-
-		System.out.println ("Ready to START Formation Round");
-		tGameManager = roundManager.getGameManager ();
-		tFormCGR = tGameManager.getFormCGR ();
-		if (tFormCGR == FormCGR.NO_FORM_CGR) {
-			tFormCGR = new FormCGR (tGameManager);
-		}
-//		tCorporation = roundManager.getOperatingCompany ();
-//		tFormCGR.setTriggeringShareCompany ((ShareCompany) tCorporation);
-		if (! tFormCGR.isFormationFrameVisible ()) {
-			tFormCGR.showFormationFrame ();
-		}
+	public void setFormCGR (FormCGR aFormCGR) {
+		formCGR = aFormCGR;
 	}
 	
+	public void setRoundToThis (ChangeRoundAction aChangeRoundAction, boolean aIncrementRoundID) {
+		String tOldRoundID;
+		String tNewRoundID;
+		String tGameName;
+		int tRoundID;
+		RoundFrame tRoundFrame;
+
+		tOldRoundID = getID ();
+		if (aIncrementRoundID) {
+			tRoundID = incrementRoundIDPart1 ();
+			setIDPart1 (tRoundID);
+			tNewRoundID = tRoundID + "";
+		} else {
+			tRoundID = getIDPart1 ();
+			tNewRoundID = tOldRoundID;
+		}
+
+		roundManager.changeRound (interruptedRound, ActorI.ActionStates.FormationRound, this, tOldRoundID, tNewRoundID,
+				aChangeRoundAction);
+		tGameName = roundManager.getGameName ();
+		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundFrame.setFormationRound (tGameName, tRoundID);
+	}
+
+	@Override
+	public void start () {
+		StartFormationAction tStartFormationAction;
+		GameManager tGameManager;
+		FormCGR tFormCGR;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+
+		System.out.println ("Ready to START Formation Round");
+		super.start ();
+		
+		tGameManager = roundManager.getGameManager ();
+		
+		tRoundType = interruptedRound.getRoundState ();
+		tRoundID = interruptedRound.getID ();
+
+		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, interruptedRound);
+		tStartFormationAction.setChainToPrevious (true);
+		
+		tFormCGR = tGameManager.getFormCGR ();
+		if (tFormCGR == FormCGR.NO_FORM_CGR) {
+			// This SHOULD NOT Happen, since the Form should have been created
+			// when the Trigger Class has been triggered that should have
+			// saved the operating company
+//			tFormCGR = new FormCGR (tGameManager);
+			System.err.println ("The FormCGR Class was NOT setup properly when the Trigger Class was triggered!!!");
+		}
+		setFormCGR (tFormCGR);
+
+		formCGR.prepareFormCGR (tStartFormationAction);
+		
+		setRoundToThis (tStartFormationAction, true);
+		roundManager.addAction (tStartFormationAction);
+	}
+	
+	@Override
+	public void finish () {
+		XMLFrame tFormationFrame;
+
+		tFormationFrame = formCGR.getFormationFrame ();
+		super.finish (tFormationFrame);
+	}
+
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
