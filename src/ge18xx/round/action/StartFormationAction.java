@@ -7,6 +7,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 
 /* Currently there is no code that calls this. 
@@ -15,17 +16,11 @@ import geUtilities.xml.XMLNode;
  * of the first 6 Train, and the buy Company Completes the DONE Action.
  * 
  */
-public class StartFormationAction extends ChangeStateAction {
+public class StartFormationAction extends ChangeRoundAction {
+	public final static AttributeName AN_TRIGGERING_CORPORATION = new AttributeName ("triggeringCorporation");
 	public final static String NAME = "Start Formation";
 	public final static StartFormationAction NO_START_FORMATION_ACTION = null;
-
-	public StartFormationAction () {
-		this (NAME);
-	}
-
-	public StartFormationAction (String aName) {
-		super (aName);
-	}
+	ShareCompany triggeringShareCompany;
 
 	public StartFormationAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
@@ -35,6 +30,26 @@ public class StartFormationAction extends ChangeStateAction {
 	public StartFormationAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
+		
+		String tTriggeringCorporationAbbrev;
+		
+		tTriggeringCorporationAbbrev = aActionNode.getThisAttribute (AN_NAME);
+		setTriggeringShareCompany (tTriggeringCorporationAbbrev, aGameManager);
+	}
+	
+	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
+		triggeringShareCompany = aTriggeringShareCompany;
+	}
+	
+	public ShareCompany getTriggeringShareCompany () {
+		return triggeringShareCompany;
+	}
+	
+	public void setTriggeringShareCompany (String aTriggeringShareCompanyAbbrev, GameManager aGameManager) {
+		ShareCompany tTriggeringShareCompany;
+		
+		tTriggeringShareCompany = aGameManager.getShareCompany (aTriggeringShareCompanyAbbrev);
+		setTriggeringShareCompany (tTriggeringShareCompany);
 	}
 	
 	public void addShowFormationPanelEffect (ActorI aFromActor) {
@@ -61,7 +76,7 @@ public class StartFormationAction extends ChangeStateAction {
 		addEffect (tStartFormationEffect);
 	}
 	
-	public void setTriggeringShareCompany (ShareCompany tTriggeringShareCompany) {
+	public void setTriggeringShareCompanyToPrepared (ShareCompany tTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
 		
 		for (Effect tEffect : effects) {
