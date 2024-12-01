@@ -1,6 +1,7 @@
 package ge18xx.round;
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.formation.FormCGR;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
@@ -79,7 +80,26 @@ public class FormationRound extends InterruptionRound {
 		
 		return tCanStart;
 	}
+	
+	@Override
+	public void start () {
+		FormCGR tFormCGR;
+		GameManager tGameManager;
+//		Corporation tCorporation;
 
+		System.out.println ("Ready to START Formation Round");
+		tGameManager = roundManager.getGameManager ();
+		tFormCGR = tGameManager.getFormCGR ();
+		if (tFormCGR == FormCGR.NO_FORM_CGR) {
+			tFormCGR = new FormCGR (tGameManager);
+		}
+//		tCorporation = roundManager.getOperatingCompany ();
+//		tFormCGR.setTriggeringShareCompany ((ShareCompany) tCorporation);
+		if (! tFormCGR.isFormationFrameVisible ()) {
+			tFormCGR.showFormationFrame ();
+		}
+	}
+	
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
