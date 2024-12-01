@@ -1987,8 +1987,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return checksums;
 	}
 	
-	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, XMLElement aSaveGameElement, 
-							ElementName aEN_TYPE) {
+	public void addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, 
+							XMLElement aSaveGameElement, ElementName aEN_TYPE) {
 		XMLElement tXMLElement;
 		
 		if (aXMLSaveGame != XMLSaveGameI.NO_XML_SAVE_GAME) {
