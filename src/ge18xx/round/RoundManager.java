@@ -409,7 +409,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.resetRoundFrameBackgrounds ();
 	}
 
-	public void doneAction (Corporation aCorporation) {
+	public void doneAction () {
 		clearAllPlayerSelections ();
 		gameManager.resetRoundFrameBackgrounds ();
 		updateRoundFrame ();
