@@ -336,6 +336,10 @@ public class RoundFrame extends XMLFrame {
 		updatePassButton ();
 	}
 
+	public void setFormationRound (String aGameName, int aRoundID) {
+		setFrameLabel (aGameName, " " + aRoundID);
+	}
+
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setCurrentRoundOf (aCurrentOR, aMaxOR);
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
