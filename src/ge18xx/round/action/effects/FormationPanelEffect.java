@@ -11,14 +11,6 @@ import geUtilities.xml.XMLNode;
 
 public class FormationPanelEffect extends Effect {
 	public final static String NAME = "Formation Panel";
-
-	public FormationPanelEffect () {
-		this (NAME);
-	}
-
-	public FormationPanelEffect (String aName) {
-		super (aName);
-	}
 	
 	public FormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);

@@ -10,14 +10,6 @@ import geUtilities.xml.XMLNode;
 public class HideFormationPanelEffect extends FormationPanelEffect {
 	public final static String NAME = "Hide Formation Panel";
 
-	public HideFormationPanelEffect () {
-		this (NAME);
-	}
-
-	public HideFormationPanelEffect (String aName) {
-		super (aName);
-	}
-
 	public HideFormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);
 	}
