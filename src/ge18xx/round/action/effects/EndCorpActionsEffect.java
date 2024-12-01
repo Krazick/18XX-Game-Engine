@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -53,10 +52,8 @@ public class EndCorpActionsEffect extends Effect {
 		boolean tEffectApplied;
 
 		tEffectApplied = false;
-		if (actor.isACorporation ()) {
-			aRoundManager.doneAction ((Corporation) actor);
-			tEffectApplied = true;
-		}
+		aRoundManager.doneAction ();
+		tEffectApplied = true;
 
 		return tEffectApplied;
 	}
