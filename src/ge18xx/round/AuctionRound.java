@@ -6,10 +6,10 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import geUtilities.GUI;
-//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
@@ -160,7 +160,7 @@ public class AuctionRound extends InterruptionRound {
 		showAuctionFrame ();
 	}
 	
-	public void setRoundToThis (StartAuctionAction aStartAuctionAction, boolean aIncrementRoundID) {
+	public void setRoundToThis (ChangeRoundAction aChangeRoundAction, boolean aIncrementRoundID) {
 		String tOldRoundID;
 		String tNewRoundID;
 		String tGameName;
@@ -178,7 +178,7 @@ public class AuctionRound extends InterruptionRound {
 		}
 
 		roundManager.changeRound (interruptedRound, ActorI.ActionStates.AuctionRound, this, tOldRoundID, tNewRoundID,
-				aStartAuctionAction);
+				aChangeRoundAction);
 		tGameName = roundManager.getGameName ();
 		tRoundFrame = roundManager.getRoundFrame ();
 		tRoundFrame.setAuctionRound (tGameName, tRoundID);
