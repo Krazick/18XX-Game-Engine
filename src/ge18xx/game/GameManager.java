@@ -2672,6 +2672,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tIsStockRound;
 	}
 
+	public ShareCompany getOperatingShareCompany () {
+		ShareCompany tOperatingShareCompany;
+		
+		tOperatingShareCompany = (ShareCompany) getOperatingCompany ();
+		
+		return tOperatingShareCompany;
+	}
+	
 	public Corporation getOperatingCompany () {
 		Corporation tOperatingCompany;
 
