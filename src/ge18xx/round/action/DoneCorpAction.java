@@ -14,14 +14,14 @@ import geUtilities.xml.XMLNode;
 
 public class DoneCorpAction extends Action {
 	public final static String NAME = "Done";
-
-	public DoneCorpAction () {
-		this (NAME);
-	}
-
-	public DoneCorpAction (String aName) {
-		super (aName);
-	}
+//
+//	public DoneCorpAction () {
+//		this (NAME);
+//	}
+//
+//	public DoneCorpAction (String aName) {
+//		super (aName);
+//	}
 
 	public DoneCorpAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
