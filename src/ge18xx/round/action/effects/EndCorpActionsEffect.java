@@ -11,14 +11,6 @@ import geUtilities.xml.XMLNode;
 public class EndCorpActionsEffect extends Effect {
 	public final static String NAME = "End Corporation Actions";
 
-	public EndCorpActionsEffect () {
-		super (NAME);
-	}
-
-	public EndCorpActionsEffect (String aName) {
-		super (aName);
-	}
-
 	public EndCorpActionsEffect (ActorI aActor) {
 		super (NAME, aActor);
 	}
