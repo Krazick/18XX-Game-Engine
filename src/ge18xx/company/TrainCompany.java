@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameManager;
@@ -26,7 +27,9 @@ import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.ShareHolders;
+import ge18xx.round.FormationRound;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BorrowTrainAction;
@@ -1142,25 +1145,35 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 		addAction (aBuyTrainAction);
-		if (tStatusUpdated) {
-			if (preparedActions.getCount () > 0) {
-				applyPreparedActions ();
-			}
-		}
 		updateInfo ();
 	}
 
 	// if The Phase has a TriggerClass, it needs to be called
 	public void handleTriggerClass () {
-		String tTriggerClass;
-		PreparedAction tPreparedAction;
+		TriggerClass tTriggerFormationClass;
+		FormationRound tFormationRound;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		String tTriggerClassName;
+		ShareCompany tOperatingCorporation;
 		
-		tTriggerClass = getTriggerClass ();
-		if (hasTriggerClass (tTriggerClass)) {
-			tPreparedAction = createPreparedFormationAction ();
-			if (tPreparedAction != PreparedAction.NO_PREPARED_ACTION) {
-				preparedActions.addPreparedAction (tPreparedAction);
+		tTriggerClassName = getTriggerClassName ();
+		if (hasTriggerClass (tTriggerClassName)) {
+			// When a TriggerClass Exists need to capture the current Operating Company
+			// so that after current action is completed, the Formation Round can start
+			// and have which class, and from that which player actually triggered
+			// the Formation Round.
+			tGameManager = getGameManager ();
+			tTriggerFormationClass = tGameManager.getTriggerFormation ();
+			if (tTriggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
+				tRoundManager = tGameManager.getRoundManager ();
+				tFormationRound = tRoundManager.getFormationRound ();
+				tFormationRound.constructFormationClass (tTriggerClassName);
+				tTriggerFormationClass = tFormationRound.getTriggerFormationClass ();
+				tGameManager.setTriggerFormation (tTriggerFormationClass);
 			}
+			tOperatingCorporation = tGameManager.getOperatingShareCompany ();
+			tTriggerFormationClass.setTriggeringShareCompany (tOperatingCorporation);
 		}
 	}
 	
@@ -1217,7 +1230,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
-	public String getTriggerClass () {
+	public String getTriggerClassName () {
 		String tTriggerClass;
 		PhaseInfo tPhaseInfo;
 		
@@ -1230,15 +1243,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean hasTriggerClass () {
 		String tTriggerClass;
 		
-		tTriggerClass = getTriggerClass ();
+		tTriggerClass = getTriggerClassName ();
 
 		return hasTriggerClass (tTriggerClass);
 	}
 	
-	public boolean hasTriggerClass (String aTriggerClass) {
+	public boolean hasTriggerClass (String aTriggerClassName) {
 		boolean tHasTriggerClass;
 		
-		if (aTriggerClass != GUI.NULL_STRING) {
+		if (aTriggerClassName != GUI.NULL_STRING) {
 			tHasTriggerClass = true;
 		} else {
 			tHasTriggerClass = false;
