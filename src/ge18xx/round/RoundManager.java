@@ -630,6 +630,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return operatingRound;
 	}
 
+	public FormationRound getFormationRound () {
+		return formationRound;
+	}
+
 	public String getOperatingOwnerName () {
 		return operatingRound.getOperatingOwnerName ();
 	}
