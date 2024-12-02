@@ -36,6 +36,12 @@ public class FormationRound extends InterruptionRound {
 		super.loadRound (aRoundNode);
 	}
 	
+	public TriggerClass constructFormationClass () {
+		constructFormationClass (triggeringClassName);
+		
+		return triggerFormationClass;
+	}
+	
 	public void constructFormationClass (String aFullClassName) {
 		Class<?> tFormationToLoad;
 		Constructor<?> tFormationConstructor;

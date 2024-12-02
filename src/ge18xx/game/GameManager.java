@@ -61,6 +61,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
+import ge18xx.round.FormationRound;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
@@ -160,7 +161,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	BankPool bankPool;
 	Bank bank;
 	TriggerClass triggerClass;
-	FormCGR formCGR;
+	TriggerClass triggerFormationClass;
 	ColorPalette biddersPalette;
 
 	// Various Frames the Game Manager tracks -- 
@@ -1801,7 +1802,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean isInCompanyFormationState () {
 		boolean tIsInCompanyFormationState;
 		
-		if (formCGR == FormCGR.NO_FORM_CGR) {
+		if (triggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
 			tIsInCompanyFormationState = false;
 		} else if (playerManager.isInCompanyFormationState ()) {
 			tIsInCompanyFormationState = true;
@@ -1868,8 +1869,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
-		FormCGR tFormCGR;
+		TriggerClass tTriggerFormationClass;
 		String tFormationState;
+		FormationRound tFormationRound;
 		
 		if (Action.EN_ACTIONS.equals (aChildName)) {
 			roundManager.loadActions (aChildNode, this);
@@ -1898,14 +1900,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tFormationState = aChildNode.getThisAttribute (FormCGR.AN_FORMATION_STATE);
 			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
 				// If the State is FormationComplete, Don't need to Show it.
-				setFormCGR (FormCGR.NO_FORM_CGR);
+				setTriggerFormation (TriggerClass.NO_TRIGGER_CLASS);
 			} else if (tFormationState.equals (ActionStates.NoState.toString ())) {
 				// If the State is NO State, Don't need to show it
-				setFormCGR (FormCGR.NO_FORM_CGR);
+				setTriggerFormation (TriggerClass.NO_TRIGGER_CLASS);
 			} else {
-				// Otherwise game saved in middle of Formation, need to show it.
-				tFormCGR = new FormCGR (aChildNode, this);
-				setFormCGR (tFormCGR);
+				// Otherwise game saved in middle of Formation, need to load and show it.
+				tFormationRound = roundManager.getFormationRound ();
+				tTriggerFormationClass = tFormationRound.constructFormationClass ();
+				setTriggerFormation (tTriggerFormationClass);
 			}
 		}
 	}
@@ -2057,9 +2060,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		/* Save The Tile Placements, Orientations, and Token Placements */
 		addElements (mapFrame, tXMLDocument, tSaveGameElement, HexMap.EN_MAP);
 		
-		/* Save the FormCGR */
-		if (formCGR != FormCGR.NO_FORM_CGR) {
-			addElements (formCGR, tXMLDocument, tSaveGameElement, FormCGR.EN_FORM_CGR);
+		if (triggerFormationClass != TriggerClass.NO_TRIGGER_CLASS) {
+			addElements (triggerFormationClass, tXMLDocument, tSaveGameElement, FormCGR.EN_FORM_CGR);
 		}
 		
 		// Append Save Game Element to Document just before outputing it.
@@ -3265,7 +3267,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean triggerPanelExists () {
 		boolean tTriggerPanelExists;
 		
-		if (formCGR == FormCGR.NO_FORM_CGR) {
+		if (triggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
 			tTriggerPanelExists = false;
 		} else {
 			tTriggerPanelExists = true;
@@ -3289,8 +3291,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void showFormationFrame () {
 		if (hasTriggerClass ()) {
 			prepareFormation ();
-			if (formCGR != FormCGR.NO_FORM_CGR) {
-				formCGR.rebuildFormationPanel ();
+			if (triggerFormationClass != TriggerClass.NO_TRIGGER_CLASS) {
+				triggerFormationClass.rebuildFormationPanel ();
 			} else {
 				System.err.println ("Form CGR not available to be shown");
 			}
@@ -3298,24 +3300,24 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void prepareFormation () {
-		FormCGR tFormCGR;
+		TriggerClass tTriggerFormationClass;
 		
-		tFormCGR = FormCGR.NO_FORM_CGR;
+		tTriggerFormationClass = TriggerClass.NO_TRIGGER_CLASS;
 		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-			tFormCGR = new FormCGR (this);
-			tFormCGR.showFormationFrame ();
+			tTriggerFormationClass = new FormCGR (this);
+			tTriggerFormationClass.showFormationFrame ();
 		} else if (triggerClass instanceof FormCGR) {
-			tFormCGR = (FormCGR) triggerClass;
+			tTriggerFormationClass = (TriggerClass) triggerClass;
 		}
-		setFormCGR (tFormCGR);
+		setTriggerFormation (tTriggerFormationClass);
 	}
 
-	public void setFormCGR (FormCGR aFormCGR) {
-		formCGR = aFormCGR;
+	public void setTriggerFormation (TriggerClass aTriggerFormationClass) {
+		triggerFormationClass = aTriggerFormationClass;
 	}
 	
-	public FormCGR getFormCGR () {
-		return formCGR;
+	public TriggerClass getTriggerFormation () {
+		return triggerFormationClass;
 	}
 	
 	public void fillChecksumAuditFrame () {

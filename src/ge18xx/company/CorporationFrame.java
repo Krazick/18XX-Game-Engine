@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
-//import ge18xx.company.formation.FormCGR;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -448,7 +447,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tCommand;
 		String tSourceTitle;
 		KButton tSourceButton;
-//		FormCGR tFormCGR;
 		MapFrame tMapFrame;
 		RoundManager tRoundManager;
 		boolean tInterrupted;
@@ -522,13 +520,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				tStatusUpdated = false;
 			}
-//			tFormCGR = gameManager.getFormCGR ();
-//			if (tFormCGR != FormCGR.NO_FORM_CGR) {
-//				tFormCGR.setTriggeringShareCompany ((ShareCompany) corporation);
-//				if (tFormCGR.isFormationFrameVisible ()) {
-//					tFormCGR.showFormationFrame ();
-//				}
-//			} else 
 			if (tStatusUpdated) {
 				corporation.corporationListDoneAction ();
 			}

@@ -2174,54 +2174,54 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tStatusUpdated;
 	}
 
-	public void applyPreparedActions () {
-		int tPreparedActionCount;
-		int tPreparedActionIndex;
-		PreparedAction tPreparedAction;
-		
-		tPreparedActionCount = preparedActions.getCount ();
-		for (tPreparedActionIndex = 0; tPreparedActionIndex < tPreparedActionCount; tPreparedActionIndex++) {
-			tPreparedAction = preparedActions.getAction (tPreparedActionIndex);
-			if (tPreparedAction.getTargetState ().equals (status)) {
-				applyPreparedAction (tPreparedAction);
-				preparedActions.removeAction (tPreparedActionIndex);
-			}
-		}
-	}
+//	public void applyPreparedActions () {
+//		int tPreparedActionCount;
+//		int tPreparedActionIndex;
+//		PreparedAction tPreparedAction;
+//		
+//		tPreparedActionCount = preparedActions.getCount ();
+//		for (tPreparedActionIndex = 0; tPreparedActionIndex < tPreparedActionCount; tPreparedActionIndex++) {
+//			tPreparedAction = preparedActions.getAction (tPreparedActionIndex);
+//			if (tPreparedAction.getTargetState ().equals (status)) {
+//				applyPreparedAction (tPreparedAction);
+//				preparedActions.removeAction (tPreparedActionIndex);
+//			}
+//		}
+//	}
 	
-	public void applyPreparedAction (PreparedAction aPreparedAction) {
-		Action tAction;
-		StartFormationAction tStartFormationAction;
-		GameManager tGameManager;
-		RoundManager tRoundManager;
-		PlayerManager tPlayerManager;
-		ShareCompany tTriggeringCompany;
-		Player tActingPresident;
-		TriggerClass tTriggerFormationClass;
-		int tCurrentPlayerIndex;
-		
-		tAction = aPreparedAction.getAction ();
-		tGameManager = getGameManager ();
-		tRoundManager = tGameManager.getRoundManager ();
-		tGameManager.prepareFormation ();
-		tTriggerFormationClass = tGameManager.getTriggerFormation ();
-		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
-			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
-			tActingPresident = (Player) tTriggeringCompany.getPresident ();
-			tPlayerManager = tGameManager.getPlayerManager ();
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
-			tTriggerFormationClass.setCurrentPlayerIndex (tCurrentPlayerIndex);
-			tTriggerFormationClass.setTriggeringShareCompany (tTriggeringCompany);
-			tTriggerFormationClass.setActingPresident (tActingPresident);
-			if (tAction instanceof StartFormationAction) {
-				tStartFormationAction = (StartFormationAction) tAction;
-				tStartFormationAction.setTriggeringShareCompanyToPrepared (tTriggeringCompany);
-			}
-		}
-
-		tAction.applyAction (tRoundManager);
-		tRoundManager.addAction (tAction);
-	}
+//	public void applyPreparedAction (PreparedAction aPreparedAction) {
+//		Action tAction;
+//		StartFormationAction tStartFormationAction;
+//		GameManager tGameManager;
+//		RoundManager tRoundManager;
+//		PlayerManager tPlayerManager;
+//		ShareCompany tTriggeringCompany;
+//		Player tActingPresident;
+//		TriggerClass tTriggerFormationClass;
+//		int tCurrentPlayerIndex;
+//		
+//		tAction = aPreparedAction.getAction ();
+//		tGameManager = getGameManager ();
+//		tRoundManager = tGameManager.getRoundManager ();
+//		tGameManager.prepareFormation ();
+//		tTriggerFormationClass = tGameManager.getTriggerFormation ();
+//		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
+//			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
+//			tActingPresident = (Player) tTriggeringCompany.getPresident ();
+//			tPlayerManager = tGameManager.getPlayerManager ();
+//			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+//			tTriggerFormationClass.setCurrentPlayerIndex (tCurrentPlayerIndex);
+//			tTriggerFormationClass.setTriggeringShareCompany (tTriggeringCompany);
+//			tTriggerFormationClass.setActingPresident (tActingPresident);
+//			if (tAction instanceof StartFormationAction) {
+//				tStartFormationAction = (StartFormationAction) tAction;
+//				tStartFormationAction.setTriggeringShareCompanyToPrepared (tTriggeringCompany);
+//			}
+//		}
+//
+//		tAction.applyAction (tRoundManager);
+//		tRoundManager.addAction (tAction);
+//	}
 	
 	/**
 	 * Default Corporation knows how big a loan can be.
