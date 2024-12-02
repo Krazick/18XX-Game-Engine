@@ -28,7 +28,7 @@ import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
-import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -2168,7 +2168,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
-//			applyPreparedActions ();
 		}
 		hideFrame ();
 
@@ -2198,22 +2197,22 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PlayerManager tPlayerManager;
 		ShareCompany tTriggeringCompany;
 		Player tActingPresident;
-		FormCGR tFormCGR;
+		TriggerClass tTriggerFormationClass;
 		int tCurrentPlayerIndex;
 		
 		tAction = aPreparedAction.getAction ();
 		tGameManager = getGameManager ();
 		tRoundManager = tGameManager.getRoundManager ();
 		tGameManager.prepareFormation ();
-		tFormCGR = tGameManager.getFormCGR ();
+		tTriggerFormationClass = tGameManager.getTriggerFormation ();
 		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
 			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
 			tActingPresident = (Player) tTriggeringCompany.getPresident ();
 			tPlayerManager = tGameManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
-			tFormCGR.setCurrentPlayerIndex (tCurrentPlayerIndex);
-			tFormCGR.setTriggeringShareCompany (tTriggeringCompany);
-			tFormCGR.setActingPresident (tActingPresident);
+			tTriggerFormationClass.setCurrentPlayerIndex (tCurrentPlayerIndex);
+			tTriggerFormationClass.setTriggeringShareCompany (tTriggeringCompany);
+			tTriggerFormationClass.setActingPresident (tActingPresident);
 			if (tAction instanceof StartFormationAction) {
 				tStartFormationAction = (StartFormationAction) tAction;
 				tStartFormationAction.setTriggeringShareCompanyToPrepared (tTriggeringCompany);
