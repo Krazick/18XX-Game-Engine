@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -32,7 +33,7 @@ public class StartFormationEffect extends Effect {
 		int tTriggeringShareCompanyID;
 		Corporation tFormingCorporation;
 	 	ShareCompany tTriggeringShareCompany;
-	 	FormCGR tFormCGR;
+	 	TriggerClass tTriggerFormationClass;
 		
 		tFormingCompanyID = aEffectNode.getThisIntAttribute (AN_FORMING_COMPANY_ID);
 		tFormingCorporation = aGameManager.getCorporationByID (tFormingCompanyID);
@@ -40,9 +41,9 @@ public class StartFormationEffect extends Effect {
 		tTriggeringShareCompanyID = aEffectNode.getThisIntAttribute (AN_TRIGGERING_COMPANY_ID);
 		tTriggeringShareCompany = (ShareCompany) aGameManager.getShareCompanyByID (tTriggeringShareCompanyID);
 		setTriggeringShareCompany (tTriggeringShareCompany);
-		tFormCGR = aGameManager.getFormCGR ();
-		if (tFormCGR != FormCGR.NO_FORM_CGR) {
-			tFormCGR.setTriggeringShareCompany (tTriggeringShareCompany);
+		tTriggerFormationClass = aGameManager.getTriggerFormation ();
+		if (tTriggerFormationClass != TriggerClass.NO_TRIGGER_CLASS) {
+			tTriggerFormationClass.setTriggeringShareCompany (tTriggeringShareCompany);
 		}
 	}
 	
@@ -102,7 +103,7 @@ public class StartFormationEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tGameManager = aRoundManager.getGameManager ();
-			tGameManager.setFormCGR (FormCGR.NO_FORM_CGR);
+			tGameManager.setTriggerFormation (FormCGR.NO_FORM_CGR);
 			tEffectUndone = true;
 		}
 
