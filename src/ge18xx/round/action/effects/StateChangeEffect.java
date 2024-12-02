@@ -131,8 +131,9 @@ public class StateChangeEffect extends Effect {
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				aRoundManager.startRound (newState);
-//				tNewRound = aRoundManager.getRoundByTypeName (newState.toString ());
-//				tNewRound.start ();
+				tEffectApplied = true;
+			} else if (newState == ActorI.ActionStates.FormationRound) {
+				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Stock Round, New state of " + newState.toString () +
