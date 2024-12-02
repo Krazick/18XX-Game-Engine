@@ -37,8 +37,6 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
-import geUtilities.xml.XMLSaveGameI;
-import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationRoundStateAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.FormationRoundAction;
@@ -46,7 +44,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
-public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGameI {
+public class FormCGR extends TriggerClass implements ActionListener {
 	public static final ElementName EN_FORM_CGR = new ElementName ("FormationPhase");
 	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
@@ -111,28 +109,26 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 
 		buildAllPlayers (tFullFrameTitle);
 		gameManager.setTriggerClass (this);
-		gameManager.setFormCGR (this);
+		gameManager.setTriggerFormation (this);
 	}
 
-	public FormCGR (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
-		this (aGameManager);
-		
+	@Override
+	public void prepareFormation (StartFormationAction aStartFormationAction) {
 		Player tActingPlayer;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-		ShareCompany tTriggeringShareCompany;
 
-		if (aBuyTrainAction != Action.NO_ACTION) {
-			tActingPlayer = findActingPresident ();
-			tTriggeringShareCompany = (ShareCompany) gameManager.getOperatingCompany ();
-
-			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
-			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
-			aBuyTrainAction.addStartFormationEffect (tActingPlayer, formingShareCompany, tTriggeringShareCompany);
+		if (aStartFormationAction != Action.NO_ACTION) {
+			tActingPlayer = (Player) triggeringShareCompany.getPresident ();
+			
+			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
+			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
+								formationState);
+			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringShareCompany);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayers = tPlayerManager.getPlayers ();
 
-			updatePlayersState (tPlayers, aBuyTrainAction);
+			updatePlayersState (tPlayers, aStartFormationAction);
 		}
 	}
 
@@ -216,6 +212,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		return tXMLElement;
 	}
 
+	@Override
 	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
 		triggeringShareCompany = aTriggeringShareCompany;
 	}
@@ -369,11 +366,16 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		return formationFrame.isVisible ();
 	}
 	
+	@Override
 	public void showFormationFrame () {
 		formationFrame.showFrame ();
 	}
 
-	public void updatePlayersState (List<Player> tPlayers, BuyTrainAction aBuyTrainAction) {
+	public XMLFrame getFormationFrame () {
+		return formationFrame;
+	}
+	
+	public void updatePlayersState (List<Player> tPlayers, StartFormationAction aStartFormationAction) {
 		GenericActor tGenericActor;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
@@ -384,7 +386,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 			if (! tGenericActor.isFormationRound (tOldState)) {
 				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
 				tNewState = tPlayer.getPrimaryActionState ();
-				aBuyTrainAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+				aStartFormationAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 			}
 		}
 	}
@@ -504,6 +506,7 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		updatePlayers (aPlayers, actingPresident);
 	}
 
+	@Override
 	public void setActingPresident (Player aActingPresident) {
 		actingPresident = aActingPresident;
 	}
@@ -648,10 +651,11 @@ public class FormCGR extends TriggerClass implements ActionListener, XMLSaveGame
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
+	@Override
 	public void rebuildFormationPanel () {
 		int tCurrentPlayerIndex;
 		
-		tCurrentPlayerIndex = getCurrentPlayerIndex ();
+		tCurrentPlayerIndex = currentPlayerIndex;
 		if (tCurrentPlayerIndex >= 0) {
 			rebuildFormationPanel (tCurrentPlayerIndex);
 		}
