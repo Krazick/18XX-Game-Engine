@@ -3,14 +3,17 @@ package ge18xx.company.formation;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.round.action.StartFormationAction;
 import ge18xx.round.action.ActorI.ActionStates;
 
 import geUtilities.GUI;
+import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
 
-public class TriggerClass {
+public class TriggerClass implements XMLSaveGameI {
 	public static final TriggerClass NO_TRIGGER_CLASS = null;
 	
 	public TriggerClass () {
@@ -20,16 +23,36 @@ public class TriggerClass {
 	public TriggerClass (GameManager aGameManager) {
 		
 	}
+	
+	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
 
+	}
+
+	public void setActingPresident (Player aActingPresident) {
+
+	}
+
+	public void prepareFormation (StartFormationAction aStartFormationAction) {
+
+	}
+	
 	public void rebuildFormationPanel (int aCurrentPlayerIndex) {
 	
 	}
 	
+	public void rebuildFormationPanel () {
+
+	}
+
 	public void hideFormationPanel () {
 		
 	}
 	
 	public void triggeringHandleDone () {
+		
+	}
+	
+	public void showFormationFrame () {
 		
 	}
 	
