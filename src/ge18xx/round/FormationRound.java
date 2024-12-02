@@ -1,22 +1,29 @@
 package ge18xx.round;
 
+import java.lang.reflect.Constructor;
+
 import ge18xx.company.CorporationList;
 import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class FormationRound extends InterruptionRound {
+	public final static AttributeName AN_TRIGGERING_CLASS = new AttributeName ("triggeringClass");
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
 	FormCGR formCGR;
+	String triggeringClassName;
+	TriggerClass triggerFormationClass;
 
 	public FormationRound (RoundManager aRoundManager) {
 		super (aRoundManager);
@@ -27,6 +34,22 @@ public class FormationRound extends InterruptionRound {
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
+	}
+	
+	public void constructFormationClass (String aFullClassName) {
+		Class<?> tFormationToLoad;
+		Constructor<?> tFormationConstructor;
+		GameManager tGameManager;
+
+		tGameManager = roundManager.getGameManager ();
+		try {
+			tFormationToLoad = Class.forName (aFullClassName);
+			tFormationConstructor = tFormationToLoad.getConstructor (tGameManager.getClass ());
+			triggerFormationClass = (TriggerClass) tFormationConstructor.newInstance (tGameManager);
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception Trying to create Formation Constructor with message ");
+			tException.printStackTrace ();
+		}
 	}
 	
 	@Override
@@ -85,8 +108,12 @@ public class FormationRound extends InterruptionRound {
 		return tCanStart;
 	}
 	
-	public void setFormCGR (FormCGR aFormCGR) {
-		formCGR = aFormCGR;
+	public void setTriggerFormationClass (TriggerClass aTriggerFormationClass) {
+		triggerFormationClass = aTriggerFormationClass;
+	}
+	
+	public TriggerClass getTriggerFormationClass () {
+		return triggerFormationClass;
 	}
 	
 	public void setRoundToThis (ChangeRoundAction aChangeRoundAction, boolean aIncrementRoundID) {
@@ -117,7 +144,7 @@ public class FormationRound extends InterruptionRound {
 	public void start () {
 		StartFormationAction tStartFormationAction;
 		GameManager tGameManager;
-		FormCGR tFormCGR;
+		TriggerClass tTriggerFormationClass;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 
@@ -132,17 +159,16 @@ public class FormationRound extends InterruptionRound {
 		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, interruptedRound);
 		tStartFormationAction.setChainToPrevious (true);
 		
-		tFormCGR = tGameManager.getFormCGR ();
-		if (tFormCGR == FormCGR.NO_FORM_CGR) {
+		tTriggerFormationClass = tGameManager.getTriggerFormation ();
+		if (tTriggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
 			// This SHOULD NOT Happen, since the Form should have been created
 			// when the Trigger Class has been triggered that should have
 			// saved the operating company
-//			tFormCGR = new FormCGR (tGameManager);
-			System.err.println ("The FormCGR Class was NOT setup properly when the Trigger Class was triggered!!!");
+			System.err.println ("The Trigger Formation Class was NOT setup properly when the Trigger Class was triggered!!!");
 		}
-		setFormCGR (tFormCGR);
+		setTriggerFormationClass (tTriggerFormationClass);
 
-		formCGR.prepareFormCGR (tStartFormationAction);
+		triggerFormationClass.prepareFormation (tStartFormationAction);
 		
 		setRoundToThis (tStartFormationAction, true);
 		roundManager.addAction (tStartFormationAction);
