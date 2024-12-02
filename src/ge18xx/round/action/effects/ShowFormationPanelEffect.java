@@ -12,14 +12,6 @@ import geUtilities.xml.XMLNode;
 public class ShowFormationPanelEffect extends RebuildFormationPanelEffect {
 	public static final String NAME = "Show Formation Panel";
 	
-	public ShowFormationPanelEffect () {
-		this (NAME);
-	}
-
-	public ShowFormationPanelEffect (String aName) {
-		super (aName);
-	}
-
 	public ShowFormationPanelEffect (ActorI aFromActor) {
 		super (NAME, aFromActor);
 	}
