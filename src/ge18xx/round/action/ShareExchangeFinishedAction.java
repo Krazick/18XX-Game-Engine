@@ -7,14 +7,6 @@ import geUtilities.xml.XMLNode;
 public class ShareExchangeFinishedAction extends FormationRoundAction {
 	public final static String NAME = "Share Exchange Finished";
 
-	public ShareExchangeFinishedAction () {
-		this (NAME);
-	}
-
-	public ShareExchangeFinishedAction (String aName) {
-		super (aName);
-	}
-
 	public ShareExchangeFinishedAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

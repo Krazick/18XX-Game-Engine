@@ -6,14 +6,6 @@ import geUtilities.xml.XMLNode;
 public class ChangeFormationRoundStateAction extends FormationRoundAction {
 	public final static String NAME = "Change Formation Round State";
 
-	public ChangeFormationRoundStateAction () {
-		this (NAME);
-	}
-
-	public ChangeFormationRoundStateAction (String aName) {
-		super (aName);
-	}
-
 	public ChangeFormationRoundStateAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
