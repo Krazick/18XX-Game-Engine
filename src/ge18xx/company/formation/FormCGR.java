@@ -120,7 +120,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 
 		if (aStartFormationAction != Action.NO_ACTION) {
 			tActingPlayer = (Player) triggeringShareCompany.getPresident ();
-			
+			showFormationFrame ();
 			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
 			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
 								formationState);
@@ -357,7 +357,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		tWidth = 1140;
 		tHeight = panelHeight ();
 		formationFrame.setSize (tWidth,  tHeight);
-		showFormationFrame ();
+//		showFormationFrame ();
 		
 		setShareFoldCount (0);
 	}
@@ -667,7 +667,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		PlayerManager tPlayerManager;
 		Player tActingPlayer;
 		
-		showFormationPanel ();
+		showFormationFrame ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		if (aCurrentPlayerIndex >= 0) {
@@ -977,11 +977,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	@Override
 	public void hideFormationPanel () {
 		formationFrame.hideFrame ();
-	}
-	
-	@Override
-	public void showFormationPanel () {
-		showFormationFrame ();
 	}
 	
 	public void refreshPanel () {
