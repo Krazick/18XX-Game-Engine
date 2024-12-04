@@ -373,7 +373,7 @@ public class RoundFrame extends XMLFrame {
 		Player tCurrentPlayer;
 
 		if (passButton != GUI.NO_BUTTON) {
-			if (roundManager.isOperatingRound ()) {
+			if (roundManager.isAOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAAuctionRound ()) {
 				disablePassButton (IS_AUCTION_ROUND);
@@ -524,14 +524,14 @@ public class RoundFrame extends XMLFrame {
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			tClientUserName = tGameManager.getClientUserName ();
-			if (roundManager.isStockRound ()) {
+			if (roundManager.isAStockRound ()) {
 				tCurrentPlayerName = playersInfoPanel.getCurrentPlayerName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
 					setAlertBackgrounds ();
 				} else {
 					resetBackgrounds ();
 				}
-			} else if (roundManager.isOperatingRound ()) {
+			} else if (roundManager.isAOperatingRound ()) {
 				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
 				if (tOperatingOwnerName != Corporation.NO_NAME) {
 					if (tOperatingOwnerName.equals (tClientUserName)) {

@@ -147,7 +147,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public boolean isFirstStockRound () {
 		boolean tIsFirstStockRound;
 
-		if (isStockRound ()) {
+		if (isAStockRound ()) {
 			tIsFirstStockRound = stockRound.isFirstRound ();
 		} else {
 			tIsFirstStockRound = false;
@@ -784,20 +784,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return (currentRound.getRoundState () == ActorI.ActionStates.AuctionRound);
 	}
 
-	public boolean isOperatingRound () {
+	public boolean isAContractBidRound () {
+		return (currentRound.getRoundState () == ActorI.ActionStates.ContractBidRound);
+	}
+
+	public boolean isAOperatingRound () {
 		return (currentRound.getRoundState () == ActorI.ActionStates.OperatingRound);
 	}
 
-	public boolean isStockRound () {
+	public boolean isAStockRound () {
 		return (currentRound.getRoundState () == ActorI.ActionStates.StockRound);
 	}
 
-	public boolean isFormationRound () {
+	public boolean isAFormationRound () {
 		return (currentRound.getRoundState () == ActorI.ActionStates.FormationRound);
-	}
-
-	public boolean isContractBidRound () {
-		return (currentRound.getRoundState () == ActorI.ActionStates.ContractBidRound);
 	}
 
 	public boolean isBankrupt () {
@@ -928,7 +928,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setCurrentPlayerLabel () {
 		String tPlayerName;
 
-		if (isStockRound ()) {
+		if (isAStockRound ()) {
 			if (stockRound != StockRound.NO_STOCK_ROUND) {
 				tPlayerName = stockRound.getCurrentPlayerName ();
 				if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
@@ -955,25 +955,26 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		String tRoundID;
 		int tORRoundID;
 		int tARRoundID;
+		int tFRRoundID;
 
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
-			if (isStockRound ()) {
+			if (isAStockRound ()) {
 				updateAllCorporationsBox ();
 				tRoundID = stockRound.getID ();
 				roundFrame.setStockRoundInfo (gameName, tRoundID);
-			}
-			if (isOperatingRound ()) {
+			} else if (isAOperatingRound ()) {
 				tORRoundID = operatingRound.getIDPart1 ();
 				roundFrame.setOperatingRound (gameName, tORRoundID, currentOR, operatingRoundCount);
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
-			}
-			if (isAAuctionRound ()) {
+			} else if (isAAuctionRound ()) {
 				tARRoundID = auctionRound.getIDPart1 ();
-
 				roundFrame.setAuctionRound (gameName, tARRoundID);
+			} else if (isAFormationRound ()) {
+				tFRRoundID = formationRound.getIDPart1 ();
+				roundFrame.setAuctionRound (gameName, tFRRoundID);
 			}
 			roundFrame.updateAll ();
 		}
@@ -986,18 +987,17 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setRoundToAuctionRound () {
 		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
 	}
+
+	public void setRoundToContractBidRound () {
+		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
+	}
 	
-	// May not need the next 3 methods anymore 8/27/2024
 	public void setRoundToOperatingRound () {
 		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 	}
 
 	public void setRoundToFormationRound () {
 		setCurrentRoundState (ActorI.ActionStates.FormationRound);
-	}
-
-	public void setRoundToContractBidRound () {
-		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
 	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,

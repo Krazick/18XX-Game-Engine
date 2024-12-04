@@ -2654,7 +2654,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		boolean tIsOperatingRound;
 
 		if (roundManagerIsValid ()) {
-			tIsOperatingRound = roundManager.isOperatingRound ();
+			tIsOperatingRound = roundManager.isAOperatingRound ();
 		} else {
 			tIsOperatingRound = false;
 		}
@@ -2666,7 +2666,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		boolean tIsStockRound;
 
 		if (roundManagerIsValid ()) {
-			tIsStockRound = roundManager.isStockRound ();
+			tIsStockRound = roundManager.isAStockRound ();
 		} else {
 			tIsStockRound = false;
 		}
