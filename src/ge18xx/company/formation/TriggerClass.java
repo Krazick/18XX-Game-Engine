@@ -56,10 +56,6 @@ public class TriggerClass implements XMLSaveGameI {
 		
 	}
 	
-	public void showFormationPanel () {
-		
-	}
-	
 	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
 		return 0;
 	}
