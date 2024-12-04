@@ -132,9 +132,6 @@ public class StateChangeEffect extends Effect {
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
-			} else if (newState == ActorI.ActionStates.FormationRound) {
-				aRoundManager.startRound (newState);
-				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Stock Round, New state of " + newState.toString () +
 						" is not allowed");
@@ -152,8 +149,21 @@ public class StateChangeEffect extends Effect {
 			if (newState == ActorI.ActionStates.StockRound) {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
+			} else if (newState == ActorI.ActionStates.FormationRound) {
+//				aRoundManager.startRound (newState);
+				aRoundManager.setRoundToFormationRound ();
+				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Operating Round, New state of " + newState.toString () +
+						" is not allowed");
+			}
+			// May not be necessary -- May have to reset Operating Round ID 
+		} else if (actor.isAFormationRound ()) {
+			if (newState == ActorI.ActionStates.OperatingRound) {
+				aRoundManager.setRoundToOperatingRound ();
+				tEffectApplied = true;
+			} else {
+				setApplyFailureReason ("The Current State is a Formation Round, New state of " + newState.toString () +
 						" is not allowed");
 			}
 		} else if (actor.isABank ()) {
