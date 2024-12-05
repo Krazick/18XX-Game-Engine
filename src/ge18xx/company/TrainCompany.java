@@ -1130,7 +1130,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainHolder.removeSelectedTrain ();
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
-			handleTriggerClass ();
+			handleTriggerClass (aBuyTrainAction);
 		}
 		if (tTrainHolder.isABankPool ()) {
 			tBankPool = (BankPool) tTrainHolder;
@@ -1149,7 +1149,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	// if The Phase has a TriggerClass, it needs to be called
-	public void handleTriggerClass () {
+	public void handleTriggerClass (BuyTrainAction aBuyTrainAction) {
 		TriggerClass tTriggerFormationClass;
 		FormationRound tFormationRound;
 		GameManager tGameManager;
@@ -1171,6 +1171,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tFormationRound.constructFormationClass (tTriggerClassName);
 				tTriggerFormationClass = tFormationRound.getTriggerFormationClass ();
 				tGameManager.setTriggerFormation (tTriggerFormationClass);
+				aBuyTrainAction.addConstructTriggerClassEffect (this);
 			}
 			tOperatingCorporation = tGameManager.getOperatingShareCompany ();
 			tTriggerFormationClass.setTriggeringShareCompany (tOperatingCorporation);
