@@ -22,6 +22,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
@@ -734,7 +735,7 @@ public class ShareCompany extends TokenCompany {
 		int tLoanRedemptionAmount;
 		RedeemLoanAction tRedeemLoanAction;
 		Bank tBank;
-		OperatingRound tOperatingRound;
+		Round tCurrentRound;
 		LoanRedemptionCoupon tRedemptionCoupon;
 
 		if (loanCount < aLoanRedemptionCount) {
@@ -747,9 +748,9 @@ public class ShareCompany extends TokenCompany {
 
 			if (tLoanRedemptionAmount <= (getCash () + aPresidentContribution)) {
 				tBank = corporationList.getBank ();
-				tOperatingRound = corporationList.getOperatingRound ();
+				tCurrentRound = corporationList.getCurrentRound ();
 				setLoanCount (tNewLoanCount);
-				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
+				tRedeemLoanAction = new RedeemLoanAction (tCurrentRound.getRoundState (), tCurrentRound.getID (), this);
 				addNeededCashTransferEffect (tRedeemLoanAction, aPresidentContribution);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, tOldLoanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);
