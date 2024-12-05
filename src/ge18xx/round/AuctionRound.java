@@ -163,9 +163,7 @@ public class AuctionRound extends InterruptionRound {
 	public void setRoundToThis (ChangeRoundAction aChangeRoundAction, boolean aIncrementRoundID) {
 		String tOldRoundID;
 		String tNewRoundID;
-		String tGameName;
 		int tRoundID;
-		RoundFrame tRoundFrame;
 
 		tOldRoundID = getID ();
 		if (aIncrementRoundID) {
@@ -176,14 +174,9 @@ public class AuctionRound extends InterruptionRound {
 			tRoundID = getIDPart1 ();
 			tNewRoundID = tOldRoundID;
 		}
-
-		roundManager.changeRound (interruptedRound, ActorI.ActionStates.AuctionRound, this, tOldRoundID, tNewRoundID,
-				aChangeRoundAction);
-		tGameName = roundManager.getGameName ();
-		tRoundFrame = roundManager.getRoundFrame ();
-		tRoundFrame.setAuctionRound (tGameName, tRoundID);
+		setRoundTo (this, tRoundID, tOldRoundID, tNewRoundID, aChangeRoundAction);
 	}
-	
+
 	@Override
 	public void finish () {
 		super.finish (auctionFrame);

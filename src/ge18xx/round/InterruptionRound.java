@@ -13,6 +13,20 @@ public class InterruptionRound extends Round {
 		setInterruptionStarted (false);
 	}
 	
+	public void setRoundTo (Round aNewRound, int aRoundID, String aOldRoundID, String aNewRoundID, 
+							ChangeRoundAction aChangeRoundAction) {
+		String tGameName;
+		RoundFrame tRoundFrame;
+		ActorI.ActionStates tNewRoundState;
+
+		tNewRoundState = aNewRound.getRoundState ();
+		roundManager.changeRound (interruptedRound, tNewRoundState, aNewRound, aOldRoundID, aNewRoundID, 
+									aChangeRoundAction);
+		tGameName = roundManager.getGameName ();
+		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundFrame.setFrameLabel (tGameName, aRoundID);
+	}
+
 	public void setInterruptedRound (Round aInterruptedRound) {
 		interruptedRound = aInterruptedRound;
 	}
