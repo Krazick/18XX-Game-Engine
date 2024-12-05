@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
@@ -31,6 +33,8 @@ class TrainPortfolioTests {
 	TrainCompany trainCompany3;
 	CompanyTestFactory companyTestFactory;
 	TrainTestFactory trainTestFactory;
+	BankTestFactory bankTestFactory;
+	Bank bank;
 	Train train1;
 	Train train2;
 	Train mTrain1;
@@ -44,6 +48,8 @@ class TrainPortfolioTests {
 		
 		companyTestFactory = new CompanyTestFactory ();
 		trainTestFactory = new TrainTestFactory ();
+		bankTestFactory = new BankTestFactory ();
+		bank = bankTestFactory.buildBank ();
 		
 		tTokenCompany1 = companyTestFactory.buildATokenCompany (1);
 		trainCompany1 = (TrainCompany) tTokenCompany1;
