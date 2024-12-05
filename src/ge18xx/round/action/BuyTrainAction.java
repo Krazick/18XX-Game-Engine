@@ -6,6 +6,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeTrainStatusEffect;
+import ge18xx.round.action.effects.ConstructTriggerClassEffect;
 import ge18xx.round.action.effects.DiscardExcessTrainEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PhaseChangeEffect;
@@ -138,7 +139,15 @@ public class BuyTrainAction extends TransferTrainAction {
 						ShareCompany aTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
 
-			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
-			addEffect (tStartFormationEffect);
+		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
+		addEffect (tStartFormationEffect);
 	}
+	
+	public void addConstructTriggerClassEffect (Corporation aTriggeringShareCompany) {
+		ConstructTriggerClassEffect tConstructTriggerClassEffect;
+
+		tConstructTriggerClassEffect = new ConstructTriggerClassEffect (aTriggeringShareCompany);
+		addEffect (tConstructTriggerClassEffect);
+	}
+
 }
