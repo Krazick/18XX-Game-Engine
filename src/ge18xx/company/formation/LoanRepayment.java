@@ -14,9 +14,10 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentHandledAction;
-
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
@@ -149,17 +150,25 @@ public class LoanRepayment extends PlayerFormationPanel {
 
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
 		RepaymentHandledAction tRepaymentHandledAction;
-		String tOperatingRoundID;
 		String tNotification;
+		String tRoundID;
+		ActorI.ActionStates tCurrentRoundState;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
 		boolean tRepaymentHandled;
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
 		int tNewShareFoldCount;
 		int tOldShareFoldCount;
 		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
-								tOperatingRoundID, aShareCompany);
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+		tRepaymentHandledAction = new RepaymentHandledAction (tCurrentRoundState, tRoundID, aShareCompany);
+//		tRepaymentHandledAction = (RepaymentHandledAction) 
+//				constructFormationAction (RepaymentHandledAction.class.getName (), player);
+
 		tRepaymentHandled = true;
 		aShareCompany.setRepaymentHandled (tRepaymentHandled);
 		tOldShareFoldCount = formCGR.getShareFoldCount ();

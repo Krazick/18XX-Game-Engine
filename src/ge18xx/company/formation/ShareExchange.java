@@ -20,6 +20,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ShareExchangeFinishedAction;
 import ge18xx.round.action.TransferOwnershipAction;
@@ -172,6 +174,9 @@ public class ShareExchange extends PlayerFormationPanel {
 	public void handleShareExchange () {
 		TransferOwnershipAction tTransferOwnershipAction1;
 		TransferOwnershipAction tTransferOwnershipAction2;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
 		BankPool tBankPool;
 		Bank tBank;
 		Portfolio tBankPortfolio;
@@ -179,7 +184,6 @@ public class ShareExchange extends PlayerFormationPanel {
 		ShareCompany tFormingCompany;
 		Certificate tCertificate;
 		Certificate tFormedCertificate;
-		String tOperatingRoundID;
 		String tFormingAbbrev;
 		String tNotification;
 		String tPresidentName;
@@ -199,11 +203,13 @@ public class ShareExchange extends PlayerFormationPanel {
 		tBankPortfolio = tBank.getPortfolio ();
 		tPlayerPortfolio = player.getPortfolio ();
 		tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tTransferOwnershipAction1 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-							tOperatingRoundID, player);
-		tTransferOwnershipAction2 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+
+		tTransferOwnershipAction1 = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		tTransferOwnershipAction2 = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tExchangeNotification = player.getName () + " exchanged ";
 		tTransferNotification = player.getName () + " transferred ";
 		tNotification = GUI.EMPTY_STRING;
@@ -313,7 +319,6 @@ public class ShareExchange extends PlayerFormationPanel {
 		int tNewCount;
 		int tNewIndex;
 		int tPercentage;
-		String tOperatingRoundID;
 		String tFormingAbbrev;
 		String tNotification;
 		Bank tBank;
@@ -321,7 +326,10 @@ public class ShareExchange extends PlayerFormationPanel {
 		Corporation tCorporation;
 		Certificate tCertificate;
 		TransferOwnershipAction tTransferOwnershipAction;
-		
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+
 		tBank = gameManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tBankPool = gameManager.getBankPool ();
@@ -330,10 +338,13 @@ public class ShareExchange extends PlayerFormationPanel {
 		if (tCertificateCount > 0) {
 			tExchangeCount = 0;
 			tPercentage = formCGR.getPercentageForExchange ();
-			tOperatingRoundID = gameManager.getOperatingRoundID ();
 
-			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-								tOperatingRoundID, player);
+			tRoundManager = gameManager.getRoundManager ();
+			tRoundType = tRoundManager.getCurrentRoundState ();
+			tRoundID = tRoundManager.getCurrentRoundOf ();
+			tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+//			tTransferOwnershipAction = (TransferOwnershipAction) 
+//					constructFormationAction (TransferOwnershipAction.class.getName (), player);
 
 			for (tPortfolioIndex = (tCertificateCount - 1); tPortfolioIndex >= 0; tPortfolioIndex--) {
 				tCertificate = tBankPoolPortfolio.getCertificate (tPortfolioIndex);
@@ -378,9 +389,12 @@ public class ShareExchange extends PlayerFormationPanel {
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
 		TransferOwnershipAction tTransferOwnershipAction;
-		String tOperatingRoundID;
+		String tRoundID;
 		String tNotification;
 		Corporation tCorporation;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+		ActorI.ActionStates tRoundType;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
 	
@@ -392,9 +406,11 @@ public class ShareExchange extends PlayerFormationPanel {
 			tCurrentHolder = tFormingCompany.getPresident ();
 			if (tCurrentHolder.isAPlayer ()) {
 				tCurrentPresident = (Player) tCurrentHolder;
-				tOperatingRoundID = gameManager.getOperatingRoundID ();
-				tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-						tOperatingRoundID, player);
+				tRoundManager = gameManager.getRoundManager ();
+				tRoundType = tRoundManager.getCurrentRoundState ();
+				tCurrentRound = tRoundManager.getCurrentRound ();
+				tRoundID = tCurrentRound.getID ();
+				tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + 
 						tFormingCompany.getAbbrev ();
 				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
@@ -507,21 +523,27 @@ public class ShareExchange extends PlayerFormationPanel {
 		Portfolio tBankIPOPortfolio;
 		ShareCompany tShareCompany;
 		TransferOwnershipAction tTransferOwnershipAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 		Certificate tCertificate;
-		String tOperatingRoundID;
 		String tFromName;
 		Bank tBank;
 		int tCertificatesTransferred;
 		int tIPOIndex;
 		int tIPOCount;
 		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tBank = gameManager.getBank ();
 		tBankIPOPortfolio = tBank.getPortfolio ();
 		tIPOCount = tBankIPOPortfolio.getCertificateTotalCount ();
 		tFromName = Bank.IPO;
-		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+
+		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tCertificatesTransferred = 0;
 		for (tIPOIndex = tIPOCount - 1; tIPOIndex >= 0; tIPOIndex--) {
 			tCertificate = tBankIPOPortfolio.getCertificate (tIPOIndex);
@@ -549,15 +571,17 @@ public class ShareExchange extends PlayerFormationPanel {
 		ShareCompany tFormingCompany;
 		Corporation tCorporation;
 		TransferOwnershipAction tTransferOwnershipAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 		Certificate tCertificate;
-		String tOperatingRoundID;
 		String tFormingAbbrev;
 		String tFromName;
 		Bank tBank;
 
 		tPercentage = formCGR.getPercentageNotForExchange ();
 		tPrezPercentage = tPercentage * 2;
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tBank = gameManager.getBank ();
 		tBankIPOPortfolio = tBank.getPortfolio ();
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
@@ -565,8 +589,12 @@ public class ShareExchange extends PlayerFormationPanel {
 		if (tCorporation.isAShareCompany ()) {
 			tFormingCompany = (ShareCompany) tCorporation;
 			tFormingAbbrev = tFormingCompany.getAbbrev ();
-			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
-					tOperatingRoundID, tBank);
+			tRoundManager = gameManager.getRoundManager ();
+			tRoundType = tRoundManager.getCurrentRoundState ();
+			tCurrentRound = tRoundManager.getCurrentRound ();
+			tRoundID = tCurrentRound.getID ();
+
+			tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, tBank);
 			tCertificate = Certificate.NO_CERTIFICATE;
 			tMoreCerts = true;
 			tFromName = Bank.IPO;
@@ -714,11 +742,17 @@ public class ShareExchange extends PlayerFormationPanel {
 	@Override
 	public void handlePlayerDone () {
 		ShareExchangeFinishedAction tShareExchangeFinishedAction;
-		String tOperatingRoundID;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+
+		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (tRoundType, tRoundID, player);
 		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
 		super.handlePlayerDone ();

@@ -18,6 +18,8 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.toplevel.MarketFrame;
@@ -257,13 +259,19 @@ public class StockValueCalculation extends PlayerFormationPanel {
 	@Override
 	public void handlePlayerDone () {
 		StockValueCalculationAction tStockValueCalculationAction;
-		String tOperatingRoundID;
 		PlayerManager tPlayerManager;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 		Corporation tFormingCompany;
 		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tStockValueCalculationAction = new StockValueCalculationAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+
+		tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
 
 		System.out.println ("Completing Forming Company");
 		completeFormingCompany (tStockValueCalculationAction);

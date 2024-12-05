@@ -3,7 +3,7 @@ package ge18xx.round.action;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
-import ge18xx.round.action.ActorI.ActionStates;
+//import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.SetRepaymentHandledEffect;
@@ -13,15 +13,7 @@ import geUtilities.xml.XMLNode;
 public class RepaymentHandledAction extends ChangeStateAction {
 	public final static String NAME = "Repayement Handled";
 
-	public RepaymentHandledAction () {
-		this (NAME);
-	}
-
-	public RepaymentHandledAction (String aName) {
-		super (aName);
-	}
-
-	public RepaymentHandledAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public RepaymentHandledAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}

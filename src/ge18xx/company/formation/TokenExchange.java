@@ -26,6 +26,7 @@ import ge18xx.map.MapCell;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RemoveDestinationsAction;
@@ -527,11 +528,13 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	public void prepareAction (TokenCompany aTokenCompany) {
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
 		String tRoundID;
 		
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
-		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
 		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 	}
 	
@@ -540,14 +543,20 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		Location tDestinationLocation;
 		int tShareIndex;
 		int tShareCount;
-		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
 		RemoveDestinationsAction tRemoveDestinationsAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tRemoveDestinationsAction = new RemoveDestinationsAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+
+		tRemoveDestinationsAction = new RemoveDestinationsAction (tRoundType, tRoundID, player);
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
@@ -567,17 +576,21 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	@Override
 	public void handlePlayerDone () {
 		TokenExchangeFinishedAction tTokenExchangeFinishedAction;
-		String tOperatingRoundID;
 		PlayerManager tPlayerManager;
 		List<Player> tPlayers;
 		ActorI.ActionStates tOldState;
-		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
 
 		removeDestinations ();
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
 
-		tTokenExchangeFinishedAction = new TokenExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
+		tTokenExchangeFinishedAction = new TokenExchangeFinishedAction (tRoundType, tRoundID, player);
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		

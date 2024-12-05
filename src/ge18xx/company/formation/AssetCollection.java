@@ -22,6 +22,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.AssetCollectionFinishedAction;
@@ -630,6 +631,7 @@ public class AssetCollection extends PlayerFormationPanel {
 		Train tTrain;
 		TransferTrainAction tTransferTrainAction;
 		RoundManager tRoundManager;
+		Round tCurrentRound;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		
@@ -643,7 +645,12 @@ public class AssetCollection extends PlayerFormationPanel {
 				tBankPool.addTrain (tTrain);
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundState ();
-				tRoundID = tRoundManager.getCurrentRoundOf ();
+				tCurrentRound = tRoundManager.getCurrentRound ();
+				tRoundID = tCurrentRound.getID ();
+
+//				tTransferTrainAction = (TransferTrainAction) 
+//						constructFormationAction (TransferTrainAction.class.getName (), tBankPool);
+
 				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tBankPool);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
 				tTransferTrainAction.addRebuildFormationPanelEffect (player);
