@@ -133,6 +133,7 @@ public class FormationRound extends InterruptionRound {
 		if (aIncrementRoundID) {
 			tRoundID = incrementRoundIDPart1 ();
 			setIDPart1 (tRoundID);
+			setIDPart2 (0);
 			tNewRoundID = tRoundID + "";
 		} else {
 			tRoundID = getIDPart1 ();
@@ -141,18 +142,6 @@ public class FormationRound extends InterruptionRound {
 		setRoundTo (this, tRoundID, tOldRoundID, tNewRoundID, aChangeRoundAction);
 	}
 	
-//	public void setRoundTo (ActorI.ActionStates aNewRoundState, Round aNewRound, int aRoundID,
-//								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
-//		String tGameName;
-//		RoundFrame tRoundFrame;
-//
-//		roundManager.changeRound (interruptedRound, aNewRoundState, aNewRound, aOldRoundID, aNewRoundID, 
-//									aChangeRoundAction);
-//		tGameName = roundManager.getGameName ();
-//		tRoundFrame = roundManager.getRoundFrame ();
-//		tRoundFrame.setFormationRound (tGameName, aRoundID);
-//	}
-
 	@Override
 	public void start () {
 		StartFormationAction tStartFormationAction;
