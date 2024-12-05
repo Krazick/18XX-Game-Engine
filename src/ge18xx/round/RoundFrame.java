@@ -322,22 +322,24 @@ public class RoundFrame extends XMLFrame {
 		updatePassButton ();
 	}
 
+	public void setFrameLabel (String aGameName, int aRoundID) {
+		setFrameLabel (aGameName, " " + aRoundID);
+	}
+
 	public void setFrameLabel (String aGameName, String aIDLabel) {
 		String tRoundName;
+		String tFrameTitle;
 
 		tRoundName = roundManager.getRoundName ();
-		frameLabel.setText (aGameName + " " + tRoundName + aIDLabel);
+		tFrameTitle = aGameName + " " + tRoundName + aIDLabel;
+		frameLabel.setText (tFrameTitle);
 		revalidate ();
 	}
 
 	public void setAuctionRound (String aGameName, int aRoundID) {
-		setFrameLabel (aGameName, " " + aRoundID);
+		setFrameLabel (aGameName, aRoundID);
 		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
 		updatePassButton ();
-	}
-
-	public void setFormationRound (String aGameName, int aRoundID) {
-		setFrameLabel (aGameName, " " + aRoundID);
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
