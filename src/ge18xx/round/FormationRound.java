@@ -46,12 +46,14 @@ public class FormationRound extends InterruptionRound {
 		Class<?> tFormationToLoad;
 		Constructor<?> tFormationConstructor;
 		GameManager tGameManager;
+		TriggerClass tTriggerFormationClass;
 
 		tGameManager = roundManager.getGameManager ();
 		try {
 			tFormationToLoad = Class.forName (aFullClassName);
 			tFormationConstructor = tFormationToLoad.getConstructor (tGameManager.getClass ());
-			triggerFormationClass = (TriggerClass) tFormationConstructor.newInstance (tGameManager);
+			tTriggerFormationClass = (TriggerClass) tFormationConstructor.newInstance (tGameManager);
+			setTriggerFormationClass (tTriggerFormationClass);
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception Trying to create Formation Constructor with message ");
 			tException.printStackTrace ();
