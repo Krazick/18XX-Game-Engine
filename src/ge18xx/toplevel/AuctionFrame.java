@@ -222,6 +222,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		int tNewBidAmount;
 		Player tPlayer;
 		String tPlayerName;
+		String tRoundID;
 		Escrow tEscrow;
 		ActorI.ActionStates tOldBidderState;
 		ActorI.ActionStates tNewBidderState;
@@ -231,7 +232,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tEscrow = tPlayer.getEscrowFor (certificateToAuction);
 
 		tOldBidderState = tPlayer.getAuctionActionState ();
-		tAuctionRaiseAction = new AuctionRaiseAction (ActorI.ActionStates.AuctionRound, "0", tPlayer);
+		tRoundID = auctionRound.getID ();
+		tAuctionRaiseAction = new AuctionRaiseAction (ActorI.ActionStates.AuctionRound, tRoundID, tPlayer);
 
 		tOldBidAmount = certificateToAuction.getBidAt (aActingBidderIndex);
 		tRaiseAmount = certificateToAuction.getRaiseAmount (aActingBidderIndex);
