@@ -13,11 +13,6 @@ import geUtilities.xml.XMLNode;
 public class AuctionRaiseAction extends AuctionStateChangeAction {
 	public final static String NAME = "Auction Raise";
 
-	public AuctionRaiseAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public AuctionRaiseAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
