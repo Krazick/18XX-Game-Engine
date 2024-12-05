@@ -181,8 +181,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			setContractBidRound (new ContractBidRound (this));
 		}
 	}
-
+	
 	// Set each of the various Round Types
+
+	public void setAuctionRound (AuctionRound aAuctionRound) {
+		auctionRound = aAuctionRound;
+	}
+
+	public void setContractBidRound (ContractBidRound aContractBidRound) {
+		contractBidRound = aContractBidRound;
+	}
+
+	public void setFormationRound (FormationRound aFormationRound) {
+		formationRound = aFormationRound;
+	}
 	public void setOperatingRound (OperatingRound aOperatingRound) {
 		operatingRound = aOperatingRound;
 	}
@@ -191,17 +203,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound = aStockRound;
 	}
 
-	public void setAuctionRound (AuctionRound aAuctionRound) {
-		auctionRound = aAuctionRound;
-	}
-
-	public void setFormationRound (FormationRound aFormationRound) {
-		formationRound = aFormationRound;
-	}
-
-	public void setContractBidRound (ContractBidRound aContractBidRound) {
-		contractBidRound = aContractBidRound;
-	}
 
 	public void setAuctionFrameLocation () {
 		gameManager.setAuctionFrameLocation ();
