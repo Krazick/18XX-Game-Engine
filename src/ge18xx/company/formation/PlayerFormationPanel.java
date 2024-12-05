@@ -3,6 +3,7 @@ package ge18xx.company.formation;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -21,6 +22,8 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
+import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.FormationRoundAction;
 import ge18xx.train.TrainPortfolio;
@@ -364,5 +367,32 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer) {
 		return null;
+	}
+	
+	public Action constructFormationAction (String aFullClassName, ActorI aActor) {
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		Class<?> tFormationActionClass;
+		Constructor<?> tActionConstructor;
+		Action tFormationAction;
+	
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+
+//		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		tFormationAction = Action.NO_ACTION;
+		System.out.println ("Construct Formation Action with name [" + aFullClassName + "]");
+		try {
+			tFormationActionClass = Class.forName (aFullClassName);
+			tActionConstructor = tFormationActionClass.getConstructor (tRoundType.getClass (), tRoundID.getClass (), aActor.getClass ());
+			tFormationAction = (Action) tActionConstructor.newInstance (tRoundType, tRoundID, aActor);
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception Trying to create Formation Action Constructor with message ");
+			tException.printStackTrace ();
+		}
+
+		return tFormationAction;
 	}
 }
