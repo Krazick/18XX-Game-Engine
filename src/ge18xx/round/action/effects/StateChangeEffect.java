@@ -150,7 +150,7 @@ public class StateChangeEffect extends Effect {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.FormationRound) {
-//				aRoundManager.startRound (newState);
+				aRoundManager.startRound (newState);
 				aRoundManager.setRoundToFormationRound ();
 				tEffectApplied = true;
 			} else {
