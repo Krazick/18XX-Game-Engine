@@ -33,9 +33,9 @@ public abstract class Round implements ActorI {
 	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
 	public static final int FIRST_PLAYER = 0;
 	public final static Round NO_ROUND = null;
-	public final static String NO_ID_STRING = "0.1";
+	public final static String NO_ID_STRING = "0.0";
 	public static final int START_ID1 = 0;
-	public static final int START_ID2 = 1;
+	public static final int START_ID2 = 0;
 	public static final int NO_ID = 0;
 	int idPart1;
 	int idPart2;
