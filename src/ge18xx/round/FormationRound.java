@@ -133,8 +133,8 @@ public class FormationRound extends InterruptionRound {
 		if (aIncrementRoundID) {
 			tRoundID = incrementRoundIDPart1 ();
 			setIDPart1 (tRoundID);
-			setIDPart2 (0);
-			tNewRoundID = tRoundID + "";
+			setIDPart2 (START_ID2);
+			tNewRoundID = getID ();
 		} else {
 			tRoundID = getIDPart1 ();
 			tNewRoundID = tOldRoundID;
