@@ -28,6 +28,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -45,7 +47,7 @@ import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
 public class FormCGR extends TriggerClass implements ActionListener {
-	public static final ElementName EN_FORM_CGR = new ElementName ("FormationPhase");
+	public static final ElementName EN_FORM_CGR = new ElementName ("FormationClass");
 	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
 	public static final AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
@@ -530,14 +532,23 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
 		ChangeStateAction tChangeStateAction;
-		
+		String tRoundID;
+		ActorI.ActionStates tCurrentRoundState;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+
 		tPlayerManager = gameManager.getPlayerManager ();
 		
 		tCurrentPlayer = aPlayers.get (currentPlayerIndex);
 		tOldState = tCurrentPlayer.getPrimaryActionState ();
 		tCurrentPlayer.setPrimaryActionState (formationState);
-		tNewState = tCurrentPlayer.getPrimaryActionState ();;
-		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "1", tCurrentPlayer);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+
+		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
 		rebuildFormationPanel (currentPlayerIndex);
 
@@ -546,11 +557,12 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		tFirstPresident = findActingPresident ();
 		
 		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
+		
+		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
+
 		if (aAddAction) {
 			gameManager.addAction (tChangeStateAction);
 		}
-		
-		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
 		
 		return tNextPlayerIndex;
 	}
@@ -584,6 +596,10 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		List<Player> tPlayers;
 		ChangeStateAction tChangeStateAction;
 		int tPresidentIndex;
+		String tRoundID;
+		ActorI.ActionStates tCurrentRoundState;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
@@ -599,8 +615,13 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		}
 		tOldState = tCurrentPlayer.getPrimaryActionState ();
 		tCurrentPlayer.setPrimaryActionState (formationState);
-		tNewState = tCurrentPlayer.getPrimaryActionState ();;
-		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "3", tCurrentPlayer);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+
+		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
 		
 		if (tFormingPresident != tCurrentPlayer) {
@@ -872,18 +893,23 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		ChangeFormationRoundStateAction tChangeFormationRoundStateAction;
 		PlayerManager tPlayerManager;
 		Player tFormingPresident;
-		String tOperatingRoundID;
+		String tRoundID;
+		Round tCurrentRound;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tCurrentRoundState;
 		ActorI.ActionStates tNewFormationState;
 		
-		System.out.println ("Formation State - " + aNewFormationState.toString ());
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		if (actingPresident == ActorI.NO_ACTOR) {
 			tFormingPresident = getFormingPresident ();
 		} else {
 			tFormingPresident = actingPresident;
 		}
-		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, tFormingPresident);
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+
+		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, tRoundID, tFormingPresident);
 		tChangeFormationRoundStateAction.setChainToPrevious (true);
 
 		setFormationState (tChangeFormationRoundStateAction, aNewFormationState);
