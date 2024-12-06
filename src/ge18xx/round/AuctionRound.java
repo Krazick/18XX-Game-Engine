@@ -9,7 +9,6 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
-import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
@@ -43,11 +42,6 @@ public class AuctionRound extends InterruptionRound {
 	@Override
 	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.AuctionRound;
-	}
-
-	@Override
-	public String getID () {
-		return getIDPart1 () + GUI.EMPTY_STRING;
 	}
 
 	public void setPrevBidderJPanelColor (int aNewBidderIndex) {
@@ -169,7 +163,8 @@ public class AuctionRound extends InterruptionRound {
 		if (aIncrementRoundID) {
 			tRoundID = incrementRoundIDPart1 ();
 			setIDPart1 (tRoundID);
-			tNewRoundID = tRoundID + "";
+			setIDPart2 (START_ID2);
+			tNewRoundID = getID ();
 		} else {
 			tRoundID = getIDPart1 ();
 			tNewRoundID = tOldRoundID;

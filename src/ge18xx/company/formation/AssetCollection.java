@@ -47,9 +47,10 @@ public class AssetCollection extends PlayerFormationPanel {
 	JLabel assetCollectionLabel;
 	protected JPanel companiesPanel;
 
-	public AssetCollection (GameManager aGameManager, FormCGR aTokenExchange, Player aPlayer,
+	// Called by PlayerFormationPanel buildPlayerPanel
+	public AssetCollection (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
+		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
 
 	@Override
@@ -783,8 +784,7 @@ public class AssetCollection extends PlayerFormationPanel {
 		tAssetCollectionFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tAssetCollectionFinishedAction);
 		
-		formCGR.allPlayersHandled  ();
+		formCGR.allPlayersHandled ();
 		formCGR.applyCommand (FormCGR.STOCK_VALUE_CALCULATION);
-
 	}
 }

@@ -36,9 +36,11 @@ public class ShareExchange extends PlayerFormationPanel {
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
-	public ShareExchange (GameManager aGameManager, FormCGR aShareExchange, Player aPlayer,
+	// Called by PlayerFormationPanel buildPlayerPanel
+
+	public ShareExchange (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aShareExchange, aPlayer, aActingPresident);
+		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 		if (isActingPlayer (aActingPresident)) {
 			closeFormingCompanySecondIssue ();
 		}

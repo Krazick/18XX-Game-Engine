@@ -56,9 +56,9 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		Color tBorderColor;
 		Border tActingBorder;
 		
-		gameManager = aGameManager;
-		formCGR = aFormCGR;
-		player = aPlayer;
+		setGameManager (aGameManager);
+		setFormCGR (aFormCGR);
+		setPlayer (aPlayer);
 		if (aActingPresident == aPlayer) {
 			if (isActingPlayer (aActingPresident)) {
 				tBackgroundColor = gameManager.getAlertColor ();
@@ -77,6 +77,18 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tActingBorder = BorderFactory.createLineBorder (tBorderColor, 3);
 		buildPlayerJPanel (actingPlayer, tActingBorder);
 		setBackground (tBackgroundColor);
+	}
+	
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	public void setFormCGR (FormCGR aFormCGR) {
+		formCGR = aFormCGR;
+	}
+
+	public void setPlayer (Player aPlayer) {
+		player = aPlayer;
 	}
 	
 	public boolean isActingPlayer (Player aActingPresident) {
@@ -353,6 +365,10 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		}
 		
 		return tActivatedButton;
+	}
+	
+	public boolean ends () {
+		return false;
 	}
 	
 	public ShareCompany findShareCompany (KButton aActivatedButton) {

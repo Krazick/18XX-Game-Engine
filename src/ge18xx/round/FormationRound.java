@@ -176,6 +176,23 @@ public class FormationRound extends InterruptionRound {
 		roundManager.addAction (tStartFormationAction);
 	}
 	
+	/**
+	 *  This method will test if the Formation Round will end. 
+	 *  The call if the Round Manager then looks like:
+	 *  
+	 *      if (currentRound.ends ()) { move forward with finishing the Formation Round }
+	 *      
+	 */
+	
+	@Override
+	public boolean ends () {
+		boolean tEnds;
+		
+		tEnds = formCGR.ends ();
+		
+		return tEnds;
+	}
+
 	@Override
 	public void finish () {
 		XMLFrame tFormationFrame;

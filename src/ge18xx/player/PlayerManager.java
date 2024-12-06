@@ -1896,6 +1896,17 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 	
+	public boolean allRepaymentsFinished () {
+		boolean tAllRepaymentsFinished;
+		
+		tAllRepaymentsFinished = true;
+		for (Player tPlayer : players) {
+			tAllRepaymentsFinished = tAllRepaymentsFinished && tPlayer.getRepaymentFinished ();
+		}
+		
+		return tAllRepaymentsFinished;
+	}
+	
 	public void updateCertificateLimit (FormationRoundAction aFormationRoundAction) {
 		int tOldCertificateLimit;
 		int tNewCertificateLimit;

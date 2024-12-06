@@ -30,9 +30,11 @@ public class StockValueCalculation extends PlayerFormationPanel {
 	private int newParPrice;
 	private MarketCell closestMarketCell;
 
-	public StockValueCalculation (GameManager aGameManager, FormCGR aTokenExchange, Player aPlayer,
+	// Called by PlayerFormationPanel buildPlayerPanel
+
+	public StockValueCalculation (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
+		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
 	
 	@Override

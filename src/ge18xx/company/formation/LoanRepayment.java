@@ -34,9 +34,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
-	public LoanRepayment (GameManager aGameManager, FormCGR aLoanRepayment, Player aPlayer,
+	public LoanRepayment (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aLoanRepayment, aPlayer, aActingPresident);
+		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
 
 	public String confirmRepayment (ShareCompany aShareCompany) {
@@ -277,6 +277,16 @@ public class LoanRepayment extends PlayerFormationPanel {
 		return player.getRepaymentFinished ();
 	}
 
+	public boolean allRepaymentsFinished () {
+		boolean tAllRepaymentsFinished;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tAllRepaymentsFinished = tPlayerManager.allRepaymentsFinished ();
+
+		return tAllRepaymentsFinished;
+	}
+	
 	@Override
 	public void updateContinueButton () {
 		String tToolTip;

@@ -36,15 +36,6 @@ import ge18xx.round.action.TokenExchangeFinishedAction;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
-// TODO:
-// 
-// 1. Identify who is the President of the Forming Company, and adjust the payer to that Player
-// 2. When the Player is DONE, find any Destination and Remove it from the Game Map
-// 3. Confirm that after DONE, we shift to the Asset Collection Phase
-// 4. Verify full Functionality from Loan Repayment through all of Token Exchange
-// 5. Repeat the Verification for Network Based Game
-// 6. Remove Debug Output
-//
 
 public class TokenExchange extends PlayerFormationPanel implements ItemListener {
 	private static final long serialVersionUID = 1L;
@@ -61,9 +52,11 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	List<String> nonHomeMapCellsInfo;
 	ReplaceTokenAction replaceTokenAction;
 	
-	public TokenExchange (GameManager aGameManager, FormCGR aTokenExchange, Player aPlayer, 
+	// Called by PlayerFormationPanel buildPlayerPanel
+
+	public TokenExchange (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer, 
 							Player aActingPresident) {
-		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
+		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
 
 	@Override

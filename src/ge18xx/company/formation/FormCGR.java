@@ -1,6 +1,7 @@
 package ge18xx.company.formation;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -87,9 +88,9 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
 	JPanel ipoJPanel;
-	String notificationText;
 	JPanel notificationJPanel;
 	JTextArea notiricationArea;
+	String notificationText;
 
 	StartFormationAction startFormationAction;
 	ShareCompany triggeringShareCompany;
@@ -359,7 +360,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		tWidth = 1140;
 		tHeight = panelHeight ();
 		formationFrame.setSize (tWidth,  tHeight);
-//		showFormationFrame ();
 		
 		setShareFoldCount (0);
 	}
@@ -646,6 +646,29 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		return tCurrentPlayer;
 	}
 	
+	public boolean ends () {
+		boolean tEnds;
+		boolean tAllRepaymentsFinished;
+		PlayerFormationPanel tPlayerFormationPanel;
+		LoanRepayment tLoanRepayment;
+		
+		tEnds = false;
+		tPlayerFormationPanel = getPlayerFormationPanel ();
+		if (tPlayerFormationPanel != PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL) {
+			if (tPlayerFormationPanel instanceof LoanRepayment) {
+				tLoanRepayment = (LoanRepayment) tPlayerFormationPanel;
+				tAllRepaymentsFinished = tLoanRepayment.allRepaymentsFinished ();
+				if (tAllRepaymentsFinished) {
+					if (! haveSharesToFold ()) {
+						tEnds = true;
+					}
+				}
+			}
+		}
+		
+		return tEnds;
+	}
+	
 	public void allPlayersHandled () {
 		String tFormingAbbrev;
 		String tNotification;
@@ -714,6 +737,21 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		formationJPanel.revalidate ();
 	}
 
+	public PlayerFormationPanel getPlayerFormationPanel () {
+		PlayerFormationPanel tPlayerFormationPanel;
+		Component tFirstComponent;
+		
+		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
+		if (formationJPanel.getComponentCount () > 0) {
+			tFirstComponent = formationJPanel.getComponent (0);
+			if (tFirstComponent instanceof PlayerFormationPanel) {
+				tPlayerFormationPanel = (PlayerFormationPanel) tFirstComponent;
+			}
+		}
+		
+		return tPlayerFormationPanel;
+	}
+	
 	public void setCurrentPlayerDone (Boolean aCurrentPlayerDone) {
 		currentPlayerDone = aCurrentPlayerDone;
 	}
@@ -721,16 +759,17 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
 		PlayerFormationPanel tPlayerFormationPanel;
 		String tClassName;
-		Class<?> tPhaseToLoad;
-		Constructor<?> tPhaseConstructor;
+		Class<?> tClassToLoad;
+		Constructor<?> tClassConstructor;
 
 		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
 		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
 		try {
-			tPhaseToLoad = Class.forName (tClassName);
-			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
+			// Calls the Constructor for the Next Step in the Formation List to call
+			tClassToLoad = Class.forName (tClassName);
+			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
 						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPanel = (PlayerFormationPanel) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
+			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this, aPlayer,
 					aActingPresident);
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println ("Error trying to get Constructor");
