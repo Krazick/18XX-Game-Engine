@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
+import geUtilities.GUI;
 import geUtilities.xml.XMLFrame;
 
 public class InterruptionRound extends Round {
@@ -35,6 +36,15 @@ public class InterruptionRound extends Round {
 		interruptionStarted = aInterruptionStarted;
 	}
 	
+	@Override
+	public String getID () {
+		String tID;
+
+		tID = idPart1 + GUI.EMPTY_STRING;
+
+		return tID;
+	}
+
 	@Override
 	public boolean interruptionStarted () {
 		return interruptionStarted;
