@@ -146,7 +146,9 @@ public class StateChangeEffect extends Effect {
 						" is not allowed");
 			}
 		} else if (actor.isAOperatingRound ()) {
-			if (newState == ActorI.ActionStates.StockRound) {
+			if (newState == ActorI.ActionStates.OperatingRound) {
+				tEffectApplied = true;
+			} else if (newState == ActorI.ActionStates.StockRound) {
 				aRoundManager.startRound (newState);
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.FormationRound) {
@@ -160,7 +162,7 @@ public class StateChangeEffect extends Effect {
 			// May not be necessary -- May have to reset Operating Round ID 
 		} else if (actor.isAFormationRound ()) {
 			if (newState == ActorI.ActionStates.OperatingRound) {
-				aRoundManager.setRoundToOperatingRound ();
+				aRoundManager.finishCurrentRound ();
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Formation Round, New state of " + newState.toString () +
