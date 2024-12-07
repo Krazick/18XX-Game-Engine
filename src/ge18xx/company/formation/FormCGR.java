@@ -62,9 +62,10 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 	public static final FormCGR NO_FORM_CGR = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
-	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
+	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
 	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
+	public static final String NO_OPEN_MARKET_CERTS = "NO CERTIFICATES IN OPEN MARKET";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
 	public static final String TOKEN_EXCHANGE = "TokenExchange";
@@ -89,7 +90,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	JPanel openMarketJPanel;
 	JPanel ipoJPanel;
 	JPanel notificationJPanel;
-	JTextArea notiricationArea;
+	JTextArea notificationArea;
 	String notificationText;
 
 	StartFormationAction startFormationAction;
@@ -250,11 +251,11 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		
 		if (notificationJPanel == GUI.NO_PANEL) {
 			notificationJPanel = new JPanel ();
-			notiricationArea = new JTextArea (5, 80);
-			notiricationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
-			notiricationArea.setLineWrap (true);
-			notiricationArea.setWrapStyleWord (true);
-			notificationJPanel.add (notiricationArea);
+			notificationArea = new JTextArea (5, 80);
+			notificationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
+			notificationArea.setLineWrap (true);
+			notificationArea.setWrapStyleWord (true);
+			notificationJPanel.add (notificationArea);
 			tColor = gameManager.getAlertColor ();
 			notificationJPanel.setBackground (tColor);
 		}
@@ -533,6 +534,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		ActorI.ActionStates tNewState;
 		ChangeStateAction tChangeStateAction;
 		String tRoundID;
+
 		ActorI.ActionStates tCurrentRoundState;
 		RoundManager tRoundManager;
 		Round tCurrentRound;
@@ -560,6 +562,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		
 		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
 
+		tChangeStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
 		if (aAddAction) {
 			gameManager.addAction (tChangeStateAction);
 		}
@@ -791,6 +794,9 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
+		if (notificationArea != null) {
+			notificationArea.setText (notificationText);
+		}
 	}
 	
 	public String getNotificationText () {
@@ -798,9 +804,9 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	}
 	
 	public void buildBottomJPanel () {		
-		notiricationArea.setText (notificationText);
+		notificationArea.setText (notificationText);
 		
-		if (bottomJPanel == null) {
+		if (bottomJPanel == GUI.NO_PANEL) {
 			bottomJPanel = new JPanel ();
 			bottomJPanel.setLayout (new BoxLayout (bottomJPanel, BoxLayout.X_AXIS));
 			
@@ -850,7 +856,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		openMarketJPanel.add (tTitle);
 		tOwnershipPanel = aOpenMarketPortfolio.buildOwnershipPanel (gameManager);
 		if (tOwnershipPanel == GUI.NO_PANEL) {
-			tEmptyOpenMarket = new JLabel ("NO CERTIFICATES IN OPEN MARKET");
+			tEmptyOpenMarket = new JLabel (NO_OPEN_MARKET_CERTS);
 			openMarketJPanel.add (tEmptyOpenMarket);
 		} else {
 			openMarketJPanel.add (tOwnershipPanel);
