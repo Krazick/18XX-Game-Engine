@@ -319,7 +319,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		if (tActionCommand.equals (UNDO)) {
 			handlePlayerUndo ();
 		}
-		checkAndHandleRoundEnds ();
 	}
 
 	public boolean checkAndHandleRoundEnds () {
