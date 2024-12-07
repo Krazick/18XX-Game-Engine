@@ -8,6 +8,7 @@ import ge18xx.round.action.effects.BidShareEffect;
 import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
@@ -73,16 +74,14 @@ public class ChangeStateAction extends ChangePlayerAction {
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
 	}
-
-//	public void addSetPreviousRouteInformationEffect (ActorI aActor, RouteInformation tOldPreviousRouteInformation,
-//													RouteInformation tNewPreviousRouteInformation) {
-//		SetPreviousRouteInformationEffect tSetPreviousRouteInformationEffect;
-//		
-//		tSetPreviousRouteInformationEffect = new SetPreviousRouteInformationEffect (aActor, 
-//							tOldPreviousRouteInformation, tNewPreviousRouteInformation);
-//		addEffect (tSetPreviousRouteInformationEffect);
-//	}
 	
+	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
+		SetNotificationEffect tSetNotificationEffect;
+		
+		tSetNotificationEffect = new SetNotificationEffect (aActor, aNotificationText);
+		addEffect (tSetNotificationEffect);
+	}
+
 	public void addBidShareEffect (ActorI aPlayer, boolean aBidOnShare) {
 		BidShareEffect tBidShareEffect;
 		
