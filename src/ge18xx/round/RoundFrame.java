@@ -35,6 +35,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String DO_STOCK_ACTION = " do Stock Action";
 	private static final String DOING_STOCK_ACTION = " is doing Stock Action";
 	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
+	private static final String PLAYER_DO_FORMATION = "Player do Formation Action";
 	private static final String COMPANY_DO_ACTION = "Company do Action";
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
@@ -43,6 +44,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String IS_WAITING = "You are in a Wait State";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
+	private static final String IS_FORMATION_ROUND = "It is an Formation Round, can't Pass";
 	public static final XMLFrame NO_ROUND_FRAME = null;
 	public static final String BASE_TITLE = "Round";
 	public static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
@@ -50,6 +52,7 @@ public class RoundFrame extends XMLFrame {
 	public static final String BUY_STOCK_ACTION = "buyStockAction";
 	public static final String PLAYER_ACTION = "DoPlayerAction";
 	public static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
+	public static final String PLAYER_FORMATION_ACTION = "DoPlayerFormationAction";
 	public static final String CORPORATION_ACTION = "DoCorporationAction";
 	JPanel roundJPanel;
 	JPanel allCorporationsJPanel;
@@ -342,6 +345,12 @@ public class RoundFrame extends XMLFrame {
 		updatePassButton ();
 	}
 
+	public void setFormationRound (String aGameName, int aRoundID) {
+		setFrameLabel (aGameName, aRoundID);
+		updateDoButton (PLAYER_DO_FORMATION, PLAYER_FORMATION_ACTION);
+		updatePassButton ();
+	}
+
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setCurrentRoundOf (aCurrentOR, aMaxOR);
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
@@ -379,6 +388,8 @@ public class RoundFrame extends XMLFrame {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAAuctionRound ()) {
 				disablePassButton (IS_AUCTION_ROUND);
+			} else if (roundManager.isAFormationRound ()) {
+				disablePassButton (IS_FORMATION_ROUND);
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
