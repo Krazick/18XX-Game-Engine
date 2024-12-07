@@ -268,7 +268,6 @@ public abstract class Effect {
 		
 		if (benefitValid ()) {
 			tBenefit = getBenefitWithName (aRoundManager);
-
 			tBenefit.undoUse ();
 		}
 	}
@@ -281,7 +280,6 @@ public abstract class Effect {
 		return tBenefit;
 	}
 	
-
 	public boolean actorIsSet () {
 		boolean tActorSet;
 
