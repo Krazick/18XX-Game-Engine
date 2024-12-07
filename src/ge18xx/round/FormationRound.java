@@ -3,7 +3,6 @@ package ge18xx.round;
 import java.lang.reflect.Constructor;
 
 import ge18xx.company.CorporationList;
-import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
@@ -21,7 +20,6 @@ public class FormationRound extends InterruptionRound {
 	public final static AttributeName AN_TRIGGERING_CLASS = new AttributeName ("triggeringClass");
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
-	FormCGR formCGR;
 	String triggeringClassName;
 	TriggerClass triggerFormationClass;
 
@@ -188,7 +186,7 @@ public class FormationRound extends InterruptionRound {
 	public boolean ends () {
 		boolean tEnds;
 		
-		tEnds = formCGR.ends ();
+		tEnds = triggerFormationClass.ends ();
 		
 		return tEnds;
 	}
@@ -197,7 +195,7 @@ public class FormationRound extends InterruptionRound {
 	public void finish () {
 		XMLFrame tFormationFrame;
 
-		tFormationFrame = formCGR.getFormationFrame ();
+		tFormationFrame = triggerFormationClass.getFormationFrame ();
 		super.finish (tFormationFrame);
 	}
 
