@@ -485,7 +485,8 @@ public class Action {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
 			if (! tEffectApplied) {
-				tErrorReport = "Failed to Apply a |" + name + "|, Effect " + tEffect.getName ();
+				tErrorReport = "Failed to Apply a |" + number + ": " + name + "|, Effect # " + 
+								tEffect.getOrder () + " " + tEffect.getName ();
 				System.err.println (tErrorReport);
 				tApplyFailureReason = tEffect.getApplyFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
