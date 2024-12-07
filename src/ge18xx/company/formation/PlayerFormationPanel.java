@@ -311,7 +311,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		RoundManager tRoundManager;
 		
 		tActionCommand = aEvent.getActionCommand ();
 		if (tActionCommand.equals (DONE)) {
@@ -320,8 +319,17 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		if (tActionCommand.equals (UNDO)) {
 			handlePlayerUndo ();
 		}
+		checkAndHandleRoundEnds ();
+	}
+
+	public boolean checkAndHandleRoundEnds () {
+		RoundManager tRoundManager;
+		boolean tRoundEnds;
+		
 		tRoundManager = gameManager.getRoundManager ();
-		tRoundManager.checkAndHandleRoundEnds ();
+		tRoundEnds = tRoundManager.checkAndHandleRoundEnds ();
+		
+		return tRoundEnds;
 	}
 
 	public int getCurrentPlayerIndex () {
