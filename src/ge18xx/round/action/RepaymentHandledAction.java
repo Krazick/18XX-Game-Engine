@@ -41,6 +41,7 @@ public class RepaymentHandledAction extends ChangeStateAction {
 		}
 	}
 
+	@Override
 	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
 		SetNotificationEffect tSetNotificationEffect;
 		
