@@ -374,6 +374,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		formationFrame.showFrame ();
 	}
 
+	@Override
 	public XMLFrame getFormationFrame () {
 		return formationFrame;
 	}
@@ -649,6 +650,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		return tCurrentPlayer;
 	}
 	
+	@Override
 	public boolean ends () {
 		boolean tEnds;
 		boolean tAllRepaymentsFinished;
