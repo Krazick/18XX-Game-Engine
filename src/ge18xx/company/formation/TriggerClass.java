@@ -10,6 +10,7 @@ import ge18xx.round.action.StartFormationAction;
 import ge18xx.round.action.ActorI.ActionStates;
 
 import geUtilities.GUI;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
 
@@ -62,6 +63,14 @@ public class TriggerClass implements XMLSaveGameI {
 	
 	public void setCurrentPlayerIndex (int aCurrentPlayerIndex) {
 		
+	}
+	
+	public boolean ends () {
+		return false;
+	}
+	
+	public XMLFrame getFormationFrame () {
+		return XMLFrame.NO_XML_FRAME;
 	}
 	
 	public String setFormationState (ActionStates aFormationState) {
