@@ -257,6 +257,8 @@ public class LoanRepayment extends PlayerFormationPanel {
 				formCGR.handleFormationComplete ();
 			}
 		}
+		
+		checkAndHandleRoundEnds ();
 	}
 	
 	@Override
