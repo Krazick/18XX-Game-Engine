@@ -11,9 +11,8 @@ import ge18xx.round.action.effects.CloseCorporationEffect;
 import ge18xx.round.action.effects.CreateNewCertificateEffect;
 import ge18xx.round.action.effects.DeleteCertificateEffect;
 import ge18xx.round.action.effects.Effect;
-//import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.RemoveLicenseEffect;
-import ge18xx.round.action.effects.SetNotificationEffect;
+import ge18xx.round.action.effects.SetFormingPresidentAssignedEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import geUtilities.GUI;
@@ -56,11 +55,11 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 	
-	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
-		SetNotificationEffect tSetNotificationEffect;
+	public void SetFormingPresidentAssignedEffect (ActorI aActor, boolean aPresidentAssigned) {
+		SetFormingPresidentAssignedEffect tSetFormingPresidentAssignedEffect;
 		
-		tSetNotificationEffect = new SetNotificationEffect (aActor, aNotificationText);
-		addEffect (tSetNotificationEffect);
+		tSetFormingPresidentAssignedEffect = new SetFormingPresidentAssignedEffect (aActor, aPresidentAssigned);
+		addEffect (tSetFormingPresidentAssignedEffect);
 	}
 
 	public void addAddLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
