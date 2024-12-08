@@ -259,17 +259,24 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tHandledInterruption;
 	}
 	
+	public boolean checkAndHandleInteruptionRoundEnds () {
+		Action tLastAction;
+		boolean tCurrentRoundEnds;
+
+		tLastAction = getLastAction ();
+		tCurrentRoundEnds = checkAndHandleRoundEnds (tLastAction);
+		if (tCurrentRoundEnds) {
+			tCurrentRoundEnds = checkAndHandleRoundEnds ();
+		}
+		
+		return tCurrentRoundEnds;
+	}
+
 	public boolean checkAndHandleRoundEnds () {
 		Action tLastAction;
 		boolean tCurrentRoundEnds;
 		boolean tCheckForEnding;
-		boolean tCurrentRoundIsInterruptionRound;
 		
-		if (currentRound instanceof InterruptionRound) {
-			tCurrentRoundIsInterruptionRound = true;
-		} else {
-			tCurrentRoundIsInterruptionRound = false;
-		}
 		tCheckForEnding = true;
 		tCurrentRoundEnds = false;
 		// Need to loop if the Operating Round only does automatic Private Pay Revenues, and no player interaction
@@ -277,9 +284,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		while (tCheckForEnding) {
 			tLastAction = getLastAction ();
 			tCurrentRoundEnds = checkAndHandleRoundEnds (tLastAction);
-			if (tCurrentRoundIsInterruptionRound) {
-				tCheckForEnding = false;
-			} else if (tCurrentRoundEnds) {
+			if (tCurrentRoundEnds) {
 				startNextRound ();
 			} else {
 				tCheckForEnding = false;
