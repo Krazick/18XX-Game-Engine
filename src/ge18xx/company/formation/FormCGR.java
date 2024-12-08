@@ -963,8 +963,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 
 		tNewFormationState = getFormationState ();
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
-			hideFormationPanel ();
-			tChangeFormationRoundStateAction.addHideFormationPanelEffect (tFormingPresident);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateCertificateLimit (tChangeFormationRoundStateAction);
 			triggeringHandleDone ();
