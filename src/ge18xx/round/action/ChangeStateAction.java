@@ -67,11 +67,11 @@ public class ChangeStateAction extends ChangePlayerAction {
 		addEffect (tApplyDiscountEffect);
 	}
 
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
-		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
+		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aOldState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
 	}
 	
