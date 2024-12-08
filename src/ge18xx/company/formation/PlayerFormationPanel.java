@@ -326,7 +326,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		boolean tRoundEnds;
 		
 		tRoundManager = gameManager.getRoundManager ();
-		tRoundEnds = tRoundManager.checkAndHandleRoundEnds ();
+		tRoundEnds = tRoundManager.checkAndHandleInteruptionRoundEnds ();
 		
 		return tRoundEnds;
 	}
