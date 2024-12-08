@@ -295,8 +295,6 @@ public class ShareExchange extends PlayerFormationPanel {
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
 		if (tNewPresident) {
 			tTransferOwnershipAction1.mergeEffects (tTransferOwnershipAction2);
-//			tTransferOwnershipAction2.setChainToPrevious (true);
-//			gameManager.addAction (tTransferOwnershipAction2);
 		}
 		gameManager.addAction (tTransferOwnershipAction1);
 	}
@@ -406,8 +404,6 @@ public class ShareExchange extends PlayerFormationPanel {
 		PlayerManager tPlayerManager;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
-//		String tRoundID;
-//		String tNotification;
 		Corporation tCorporation;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
@@ -420,19 +416,9 @@ public class ShareExchange extends PlayerFormationPanel {
 			tCurrentHolder = tFormingCompany.getPresident ();
 			if (tCurrentHolder.isAPlayer ()) {
 				tCurrentPresident = (Player) tCurrentHolder;
-//				tRoundManager = gameManager.getRoundManager ();
-//				tRoundType = tRoundManager.getCurrentRoundState ();
-//				tCurrentRound = tRoundManager.getCurrentRound ();
-//				tRoundID = tCurrentRound.getID ();
-//				tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
-//				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + 
-//						tFormingCompany.getAbbrev ();
 				tPlayerManager.handlePresidentialTransfer (aTransferOwnershipAction, tFormingCompany, tCurrentPresident);
 				aTransferOwnershipAction.setChainToPrevious (true);
-//				aTransferOwnershipAction.addSetNotificationEffect (tFormingCompany, tNotification);
-//				gameManager.addAction (tTransferOwnershipAction);
 				formCGR.rebuildFormationPanel ();
-//				formCGR.setNotificationText (tNotification);
 			} else {
 				System.err.println ("The Current President is not a Player");
 			}
