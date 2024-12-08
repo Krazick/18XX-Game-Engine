@@ -222,7 +222,21 @@ public class Action {
 		aEffect.setOrder (tEffectCount);
 		effects.add (aEffect);
 	}
-
+	
+	public void mergeEffects (Action aAction2) {
+		int tAction2EffectCount;
+		int tAction2EffectIndex;
+		Effect tEffect;
+		
+		tAction2EffectCount = aAction2.getEffectCount ();
+		if (tAction2EffectCount > 0) {
+			for (tAction2EffectIndex = 0; tAction2EffectIndex < tAction2EffectCount; tAction2EffectIndex++) {
+				tEffect = aAction2.getEffect (tAction2EffectIndex);
+				addEffect (tEffect);
+			}
+		}
+	}
+	
 	public Effect getEffectNamed (String aEffectName) {
 		Effect tFoundEffect;
 		String tThisEffectName;

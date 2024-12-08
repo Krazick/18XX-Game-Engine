@@ -276,18 +276,17 @@ public class ShareExchange extends PlayerFormationPanel {
 		// Note, at the end of this Exchange, really should just reset the Corporation Status to at least 'Will Float' 
 		// No matter what, the newly formed company should always operated (1856 - CGR, 1835 - PR)
 		
-		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
-		gameManager.addAction (tTransferOwnershipAction1);
 		if (totalExchangeCount > 0) {
 			tNewPresident = assignPresident (tBankPortfolio, tPercentage, tFormingCompany, tTransferOwnershipAction2);
 			tNotification += "for " + totalExchangeCount + " Shares of " + tFormingAbbrev;
 			tPresidentName = tFormingCompany.getPresidentName ();
 			if (! GUI.EMPTY_STRING.equals (tPresidentName)) {
-				tNotification += ", President is " + tPresidentName;
+				tNotification += ". " + tFormingCompany.getAbbrev () + " President is " + tPresidentName + ".";
 			}
 		}
 
 		formCGR.setNotificationText (tNotification);
+		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
 
 		exchange.setEnabled (false);
 		exchange.setToolTipText ("President has not completed all share exchanges");
@@ -295,9 +294,11 @@ public class ShareExchange extends PlayerFormationPanel {
 		formCGR.rebuildFormationPanel (formCGR.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
 		if (tNewPresident) {
-			tTransferOwnershipAction2.setChainToPrevious (true);
-			gameManager.addAction (tTransferOwnershipAction2);
+			tTransferOwnershipAction1.mergeEffects (tTransferOwnershipAction2);
+//			tTransferOwnershipAction2.setChainToPrevious (true);
+//			gameManager.addAction (tTransferOwnershipAction2);
 		}
+		gameManager.addAction (tTransferOwnershipAction1);
 	}
 
 	public String getFormingAbbrev () {
@@ -387,16 +388,27 @@ public class ShareExchange extends PlayerFormationPanel {
 	}
 	
 	public void confirmFormingPresident () {
+		TransferOwnershipAction tTransferOwnershipAction;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+		String tRoundID;
+		ActorI.ActionStates tRoundType;
+	
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		confirmFormingPresident (tTransferOwnershipAction);
+	}
+	
+	public void confirmFormingPresident (TransferOwnershipAction aTransferOwnershipAction) {
 		PlayerManager tPlayerManager;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
-		TransferOwnershipAction tTransferOwnershipAction;
-		String tRoundID;
-		String tNotification;
+//		String tRoundID;
+//		String tNotification;
 		Corporation tCorporation;
-		RoundManager tRoundManager;
-		Round tCurrentRound;
-		ActorI.ActionStates tRoundType;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
 	
@@ -408,18 +420,19 @@ public class ShareExchange extends PlayerFormationPanel {
 			tCurrentHolder = tFormingCompany.getPresident ();
 			if (tCurrentHolder.isAPlayer ()) {
 				tCurrentPresident = (Player) tCurrentHolder;
-				tRoundManager = gameManager.getRoundManager ();
-				tRoundType = tRoundManager.getCurrentRoundState ();
-				tCurrentRound = tRoundManager.getCurrentRound ();
-				tRoundID = tCurrentRound.getID ();
-				tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
-				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + 
-						tFormingCompany.getAbbrev ();
-				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
-				tTransferOwnershipAction.setChainToPrevious (true);
-				gameManager.addAction (tTransferOwnershipAction);
+//				tRoundManager = gameManager.getRoundManager ();
+//				tRoundType = tRoundManager.getCurrentRoundState ();
+//				tCurrentRound = tRoundManager.getCurrentRound ();
+//				tRoundID = tCurrentRound.getID ();
+//				tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+//				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + 
+//						tFormingCompany.getAbbrev ();
+				tPlayerManager.handlePresidentialTransfer (aTransferOwnershipAction, tFormingCompany, tCurrentPresident);
+				aTransferOwnershipAction.setChainToPrevious (true);
+//				aTransferOwnershipAction.addSetNotificationEffect (tFormingCompany, tNotification);
+//				gameManager.addAction (tTransferOwnershipAction);
 				formCGR.rebuildFormationPanel ();
-				formCGR.setNotificationText (tNotification);
+//				formCGR.setNotificationText (tNotification);
 			} else {
 				System.err.println ("The Current President is not a Player");
 			}
@@ -462,7 +475,7 @@ public class ShareExchange extends PlayerFormationPanel {
 			aTransferOwnershipAction.addCreateNewCertificateEffet (tBank, tPresidentZeroCertificate, player);
 			tNewPresident = true;
 		}
-		confirmFormingPresident ();
+		confirmFormingPresident (aTransferOwnershipAction);
 		if (! aFormingCompany.willFloat ()) {
 			tOldState = aFormingCompany.getStatus ();
 			aFormingCompany.resetStatus (ActorI.ActionStates.WillFloat);
@@ -517,6 +530,7 @@ public class ShareExchange extends PlayerFormationPanel {
 			}
 		}
 		formCGR.setFormingPresidentAssigned  (tNewPresident);
+		aTransferOwnershipAction.SetFormingPresidentAssignedEffect (aFormingCompany, tNewPresident);
 		
 		return tNewPresident;
 	}
@@ -575,6 +589,8 @@ public class ShareExchange extends PlayerFormationPanel {
 		TransferOwnershipAction tTransferOwnershipAction;
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		Round tCurrentRound;
 		String tRoundID;
 		Certificate tCertificate;
@@ -611,6 +627,12 @@ public class ShareExchange extends PlayerFormationPanel {
 			tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPrezPercentage, true);
 			if (tCertificate != Certificate.NO_CERTIFICATE) {
 				transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
+			}
+			tOldState = tFormingCompany.getActionStatus ();
+			tFormingCompany.setStatus (ActorI.ActionStates.Owned);
+			tNewState = tFormingCompany.getActionStatus ();
+			if (tOldState != tNewState) {
+				tTransferOwnershipAction.addChangeCorporationStatusEffect (tFormingCompany, tOldState, tNewState);
 			}
 			if (tTransferOwnershipAction.getEffectCount () > 0) {
 				gameManager.addAction (tTransferOwnershipAction);
