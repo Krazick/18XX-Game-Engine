@@ -15,10 +15,6 @@ public class SetRepaymentHandledEffect extends FormationPanelEffect {
 	final static AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	boolean replaymentHandled;
 
-	public SetRepaymentHandledEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public SetRepaymentHandledEffect (ActorI aActor, boolean aRepaymentHandled) {
 		super (NAME, aActor);
 		setRepaymentHandled (aRepaymentHandled);
