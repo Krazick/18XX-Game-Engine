@@ -25,6 +25,7 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerInfo;
+import ge18xx.round.AuctionRound;
 import ge18xx.round.RoundType;
 import ge18xx.train.TrainInfo;
 import geUtilities.GUI;
@@ -377,6 +378,19 @@ public class GameInfo implements XMLSaveGameI {
 		}
 	};
 
+	public boolean hasAuctionRound () {
+		boolean tHasAuctionRound;
+		
+		tHasAuctionRound = false;
+		for (RoundType tRoundType: roundTypes) {
+			if (AuctionRound.NAME.equals (tRoundType.getName ())) {
+				tHasAuctionRound = true;
+			}
+		}
+		
+		return tHasAuctionRound;
+	}
+	
 	public void setGameManager (GameManager aGameManager) {
 		phaseManager.setGameManager (aGameManager);
 	}
