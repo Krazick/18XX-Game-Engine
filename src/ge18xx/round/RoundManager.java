@@ -79,7 +79,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	int currentOR;
 	int operatingRoundCount;
 	boolean addedOR;
-	boolean hasAuctionRound;
 	String gameName;
 
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
@@ -168,10 +167,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
 			setStockRound (new StockRound (this, playerManager));
 		}
-		setHasAuctionRound (false);
 		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
 			setAuctionRound (new AuctionRound (this));
-			setHasAuctionRound (true);
 		}
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
 			setOperatingRound (new OperatingRound (this, aPrivates, aMinors, aShares));
@@ -847,7 +844,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		setCurrentOR (tCurrentOR);
 		setOperatingRoundCount (tOperatingRoundCount);
 		setAddedOR (tAddedOR);
-		setHasAuctionRound (false);
 		
 		tXMLNodeListA = new XMLNodeList (roundParsingRoutineA);
 		tXMLNodeListA.parseXMLNodeList (aRoundStateNode, Round.EN_STOCK_ROUND, Round.EN_OPERATING_ROUND);
@@ -873,7 +869,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRoundNode) {
 			auctionRound.loadRound (aRoundNode);
-			setHasAuctionRound (true);
 		}
 
 		@Override
@@ -996,14 +991,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			}
 			roundFrame.updateAll ();
 		}
-	}
-	
-	public void setHasAuctionRound (boolean aHasAuctionRound) {
-		hasAuctionRound = aHasAuctionRound;
-	}
-	
-	public boolean hasAuctionRound () {
-		return hasAuctionRound;
 	}
 	
 	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
