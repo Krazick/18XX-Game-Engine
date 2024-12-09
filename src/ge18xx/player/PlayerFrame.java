@@ -18,6 +18,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 import geUtilities.GUI;
@@ -205,16 +206,35 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void buildButtonJPanel () {
+		String tBuyBidLabel;
+		
 		buttonJPanel = new JPanel (new WrapLayout ());
 
 		passButton = setupButton (PASS, PASS);
-		buyBidButton = setupButton (Player.BUY_BID_LABEL, Player.BUY_BID_LABEL);
+		tBuyBidLabel = getBuyBidLabel ();
+		buyBidButton = setupButton (tBuyBidLabel, tBuyBidLabel);
 		sellButton = setupButton (Player.SELL_LABEL, Player.SELL_LABEL);
 		exchangeButton = setupButton (Player.EXCHANGE_LABEL, Player.EXCHANGE_LABEL);
 		undoButton = setupButton (UNDO, UNDO);
 		explainButton = setupButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 	}
 
+	private String getBuyBidLabel () {
+		String tBuyBidLabel;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		
+		tGameManager = (GameManager) getGameManager ();
+		tRoundManager = tGameManager.getRoundManager ();
+		if (tRoundManager.hasAuctionRound ()) {
+			tBuyBidLabel = Player.BUY_BID_LABEL;
+		} else {
+			tBuyBidLabel = Player.BUY_LABEL;
+		}
+		
+		return tBuyBidLabel;
+	}
+	
 	private void updateBankJPanel (GameManager aGameManager) {
 		Bank tBank;
 		BankPool tBankPool;
@@ -765,6 +785,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tCountSelectedCosToBuy;
 		int tCountSelectedCosToBid;
 		int tCountSharesToBuy;
+		String tBuyBidLabel;
 		Certificate tCertificate;
 
 		tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
@@ -820,7 +841,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			} else {
 				buyBidButton.setEnabled (aStocksToBuy);
 				buyBidButton.setToolTipText (NO_CERTIFICATE_SELECTED_FOR_SALE2);
-				buyBidButton.setText (Player.BUY_BID_LABEL);
+				tBuyBidLabel = getBuyBidLabel ();
+				buyBidButton.setText (tBuyBidLabel);
 			}
 		}
 	}
