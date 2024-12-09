@@ -1427,16 +1427,22 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			activeGame.setGameManager (this);
 			removeInactiveCompanies ();
 			playerInputFrame.randomizePlayerOrder ();
-			setupPlayers ();
+			
 			tPrivates = getPrivates ();
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
+			roundManager.initiateRounds (tPrivates, tMinors, tShares);
+
+			setupPlayers ();
+
 			collectAllBeans ();
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
-			roundManager.initiateGame (tPrivates, tMinors, tShares);
+			
+
+			roundManager.initiateGame ();
 			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}

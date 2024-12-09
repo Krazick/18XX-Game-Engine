@@ -17,8 +17,8 @@ import ge18xx.bank.StartPacketFrame;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.ButtonsInfoFrame;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
-import ge18xx.round.RoundManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 import geUtilities.GUI;
@@ -31,7 +31,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String CERTIFICATE_SELECTED_FOR_BUY2 = "Another Certificate has been selected to be Bought";
 	public static final String CERTIFICATE_SELECTED_FOR_SALE = "At least one Certificate has been selected to be Sold";
 	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE = "No Certificates have been selected to Sell";
-	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE2 = "No Certificate have been selected to be Bought or to Bid upon.";
+	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE2 = "No Certificate have been selected to be Bought or to be Bid upon.";
+	public static final String NO_CERTIFICATE_SELECTED_FOR_SALE3 = "No Certificate have been selected to be Bought.";
 	public static final String CERTIFICATE_SELECTED_FOR_EXCHANGE = "A President Share has been selected to be Exchanged";
 	public static final String CERTIFICATE_SELECTED_FOR_BID = "A Private has been selected to be Bid On";
 	public static final String PRIVATE_SELECTED_FOR_EXCHANGE = "A Private/Minor has been selected to be Exchanged";
@@ -219,14 +220,30 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		explainButton = setupButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 	}
 
+	private String getBuyBidToolTip () {
+		String tBuyBidToolTip;
+		GameManager tGameManager;
+		GameInfo tGameInfo;
+		
+		tGameManager = (GameManager) getGameManager ();
+		tGameInfo = tGameManager.getActiveGame ();
+		if (tGameInfo.hasAuctionRound ()) {
+			tBuyBidToolTip = NO_CERTIFICATE_SELECTED_FOR_SALE2;
+		} else {
+			tBuyBidToolTip = NO_CERTIFICATE_SELECTED_FOR_SALE3;
+		}
+		
+		return tBuyBidToolTip;
+	}
+
 	private String getBuyBidLabel () {
 		String tBuyBidLabel;
 		GameManager tGameManager;
-		RoundManager tRoundManager;
+		GameInfo tGameInfo;
 		
 		tGameManager = (GameManager) getGameManager ();
-		tRoundManager = tGameManager.getRoundManager ();
-		if (tRoundManager.hasAuctionRound ()) {
+		tGameInfo = tGameManager.getActiveGame ();
+		if (tGameInfo.hasAuctionRound ()) {
 			tBuyBidLabel = Player.BUY_BID_LABEL;
 		} else {
 			tBuyBidLabel = Player.BUY_LABEL;
@@ -785,6 +802,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tCountSelectedCosToBuy;
 		int tCountSelectedCosToBid;
 		int tCountSharesToBuy;
+		String tBuyBidToolTip;
 		String tBuyBidLabel;
 		Certificate tCertificate;
 
@@ -840,9 +858,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				enableSelectedButton (CERTIFICATE_SELECTED_FOR_BID);
 			} else {
 				buyBidButton.setEnabled (aStocksToBuy);
-				buyBidButton.setToolTipText (NO_CERTIFICATE_SELECTED_FOR_SALE2);
 				tBuyBidLabel = getBuyBidLabel ();
 				buyBidButton.setText (tBuyBidLabel);
+				tBuyBidToolTip = getBuyBidToolTip ();
+				buyBidButton.setToolTipText (tBuyBidToolTip);
 			}
 		}
 	}
