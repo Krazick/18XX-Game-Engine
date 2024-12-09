@@ -10,11 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
 
 @DisplayName ("ToEffect Constructor Tests")
 public class ToEffectTestConstructor {
@@ -25,8 +28,12 @@ public class ToEffectTestConstructor {
 	Player actorDelta;
 	GameManager mGameManager;
 	PlayerManager playerManager;
+	Bank bank;
 	private String GENERIC_TO_EFFECT = "GenericTo";
-	GameTestFactory testFactory;
+	GameTestFactory gameTestFactory;
+	BankTestFactory bankTestFactory;
+	RoundManager mRoundManager;
+	RoundTestFactory roundTestFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -35,11 +42,20 @@ public class ToEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
-		testFactory = new GameTestFactory ();
-		mGameManager = testFactory.buildGameManagerMock (tClientName);
+		gameTestFactory = new GameTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		bankTestFactory = new BankTestFactory ();
+
+		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		
+		mRoundManager = roundTestFactory.buildRoundManagerMock ();
+		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
+		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+
+		bank = bankTestFactory.buildBank ();
 		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new ToEffect ();
 		actorDelta = new Player (tClientName, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);

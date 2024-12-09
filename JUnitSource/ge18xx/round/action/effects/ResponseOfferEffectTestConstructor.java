@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
@@ -20,6 +22,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.ActorI;
 
 @DisplayName ("Response to Offer Effect Constructor Tests")
@@ -38,8 +42,12 @@ public class ResponseOfferEffectTestConstructor {
 	GameTestFactory gameTestFactory;
 	PlayerTestFactory playerTestFactory;
 	CompanyTestFactory companyTestFactory;
+	RoundTestFactory roundTestFactory;
 	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
+	RoundManager mRoundManager;
+	Bank bank;
+	BankTestFactory bankTestFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -60,11 +68,19 @@ public class ResponseOfferEffectTestConstructor {
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		certificateTestFactory = new CertificateTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		bankTestFactory = new BankTestFactory ();
+		bank = bankTestFactory.buildBank ();
 		
 		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		
+		mRoundManager = roundTestFactory.buildRoundManagerMock ();
+		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
+		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
 

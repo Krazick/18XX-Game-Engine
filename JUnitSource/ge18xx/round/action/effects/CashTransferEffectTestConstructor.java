@@ -70,6 +70,9 @@ public class CashTransferEffectTestConstructor {
 		gameManager.setGameInfo (tGameInfo);
 
 		mRoundManager = roundTestFactory.buildRoundManagerMock ();
+		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
+		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+
 		bankPool = bankTestFactory.buildBankPool (gameManager);
 		gameManager.setBank (100);
 		gameManager.setBankPool (bankPool);
