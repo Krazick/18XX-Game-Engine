@@ -17,8 +17,6 @@ import ge18xx.company.CertificateTestFactory;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
-import ge18xx.round.RoundManager;
-import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.ActorI;
 
 class PlayerTests {
@@ -30,9 +28,8 @@ class PlayerTests {
 	CertificateTestFactory certificateTestFactory;
 	PlayerTestFactory playerTestFactory;
 	PlayerManager mPlayerManager;
-	RoundManager mRoundManager;
-	RoundTestFactory roundTestFactory;
 
+	GameInfo mGameInfo;
 	int playerCount;
 	int certificateLimit;
 	String playerName;
@@ -44,16 +41,15 @@ class PlayerTests {
 		GameInfo tGameInfo;
 		
 		gameTestFactory = new GameTestFactory ();
-		roundTestFactory = new RoundTestFactory ();
 
 		tGameInfo = gameTestFactory.buildGameInfo (1);
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		Mockito.when (mGameManager.getMaxRounds ()).thenReturn (1);
 		Mockito.when (mGameManager.getActiveGame ()).thenReturn (tGameInfo);
 		
-		mRoundManager = roundTestFactory.buildRoundManagerMock ();
-		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
-		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+		mGameInfo = gameTestFactory.buildGameInfoMock ();
+		Mockito.when (mGameInfo.hasAuctionRound ()).thenReturn (true);
+		Mockito.when (mGameManager.getActiveGame ()).thenReturn (mGameInfo);
 
 		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank ();

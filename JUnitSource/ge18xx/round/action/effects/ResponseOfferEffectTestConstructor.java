@@ -16,13 +16,13 @@ import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.Portfolio;
-import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.ActorI;
 
@@ -45,7 +45,7 @@ public class ResponseOfferEffectTestConstructor {
 	RoundTestFactory roundTestFactory;
 	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
-	RoundManager mRoundManager;
+	GameInfo mGameInfo;
 	Bank bank;
 	BankTestFactory bankTestFactory;
 
@@ -77,9 +77,9 @@ public class ResponseOfferEffectTestConstructor {
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
 		
-		mRoundManager = roundTestFactory.buildRoundManagerMock ();
-		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
-		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+		mGameInfo = gameTestFactory.buildGameInfoMock ();
+		Mockito.when (mGameInfo.hasAuctionRound ()).thenReturn (true);
+		Mockito.when (mGameManager.getActiveGame ()).thenReturn (mGameInfo);
 
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();

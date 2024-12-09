@@ -1,6 +1,5 @@
 package ge18xx.player;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import ge18xx.game.Config;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
-import ge18xx.round.RoundManager;
-import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.ActorI;
 
 class PlayerActionStateTests {
@@ -25,8 +21,6 @@ class PlayerActionStateTests {
 	GameTestFactory gameTestFactory;
 	PlayerTestFactory playerTestFactory;
 	PlayerManager playerManager;
-	RoundManager mRoundManager;
-	RoundTestFactory roundTestFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -36,16 +30,12 @@ class PlayerActionStateTests {
 		Config tConfigData;
 		
 		gameTestFactory = new GameTestFactory ();
-		roundTestFactory = new RoundTestFactory ();
 
 		gameManager = gameTestFactory.buildGameManager ();
 		tGameInfo = gameTestFactory.buildGameInfo (1);
 		gameManager.setGameInfo (tGameInfo);
 		tConfigData = new Config (gameManager);
 		gameManager.setConfigData (tConfigData);
-		mRoundManager = roundTestFactory.buildRoundManagerMock ();
-		Mockito.when (mRoundManager.hasAuctionRound ()).thenReturn (true);
-		gameManager.setRoundManager (mRoundManager);
 		
 		playerTestFactory = new PlayerTestFactory (gameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
