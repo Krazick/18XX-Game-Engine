@@ -124,13 +124,12 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getJMenuBar ();
 	}
 	
-	public void initiateGame (CorporationList aPrivates, CorporationList aMinors, CorporationList aShares) {
+	public void initiateGame () {
 		GameInfo tGameInfo;
 		String tInitialRoundType;
 		Round tInitialRound;
 		
 		tGameInfo = getGameInfo ();
-		initiateRounds (aPrivates, aMinors, aShares);
 		
 		tInitialRoundType = tGameInfo.getInitialRoundType ();
 		tInitialRound = getRoundByTypeName (tInitialRoundType);
