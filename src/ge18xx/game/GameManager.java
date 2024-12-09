@@ -1396,20 +1396,26 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tShares.removeInactiveCompanies ();
 	}
 
+	public void setRoundManager (RoundManager aRoundManager) {
+		roundManager = aRoundManager;
+	}
+	
 	public void initiateGame () {
 		CorporationList tPrivates;
 		CorporationList tMinors;
 		CorporationList tShares;
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
-
+		RoundManager tRoundManager;
+		
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			createUserPreferencesFrame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
 				setPlayerManager (tPlayerManager);
 			}
-			roundManager = new RoundManager (this, playerManager);
+			tRoundManager = new RoundManager (this, playerManager);
+			setRoundManager (tRoundManager);
 			setupGamePieces ();
 			setGameChanged (true);
 			setupBank ();
