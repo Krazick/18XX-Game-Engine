@@ -561,7 +561,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		
 		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
 		
-		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex);
+		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex, tChangeStateAction);
 
 		tChangeStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
 		if (aAddAction) {
@@ -572,10 +572,10 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	}
 
 	private void updateToPlayer (List<Player> aPlayers, Player aNextPlayer, Player aFirstPresident,
-			int aNextPlayerIndex) {
+			int aNextPlayerIndex, ChangeStateAction tChangeStateAction) {
 		setCurrentPlayerIndex (aNextPlayerIndex);
 		if (aNextPlayer == aFirstPresident) {
-			allPlayersHandled ();
+			allPlayersHandled (tChangeStateAction);
 		} else {
 			updatePlayers (aPlayers, aNextPlayer);
 		}
@@ -620,6 +620,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		tOldState = tCurrentPlayer.getPrimaryActionState ();
 		tCurrentPlayer.setPrimaryActionState (formationState);
 		tNewState = tCurrentPlayer.getPrimaryActionState ();
+		
 		tRoundManager = gameManager.getRoundManager ();
 		tCurrentRound = tRoundManager.getCurrentRound ();
 		tCurrentRoundState = tCurrentRound.getRoundState ();
@@ -674,9 +675,10 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		return tEnds;
 	}
 	
-	public void allPlayersHandled () {
+	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
 		String tFormingAbbrev;
 		String tNotification;
+		Player tCurrentPlayer;
 		
 		tFormingAbbrev = formingShareCompany.getAbbrev ();
 		if (formationState == ActorI.ActionStates.LoanRepayment) {
@@ -686,6 +688,8 @@ public class FormCGR extends TriggerClass implements ActionListener {
 			}
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
 			setAllPlayerSharesHandled (true);
+			tCurrentPlayer = getCurrentPlayer ();
+			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
 		} else if (formationState == ActorI.ActionStates.TokenExchange) {
 			if (hasAssetsToCollect ()) {
 				System.out.println ("Ready to do " + ASSET_COLLECTION);
@@ -958,7 +962,8 @@ public class FormCGR extends TriggerClass implements ActionListener {
 
 		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, tRoundID, tFormingPresident);
 		tChangeFormationRoundStateAction.setChainToPrevious (true);
-
+		
+		tFormingPresident.resetPrimaryActionState (aNewFormationState);
 		setFormationState (tChangeFormationRoundStateAction, aNewFormationState);
 
 		tNewFormationState = getFormationState ();
