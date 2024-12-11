@@ -782,9 +782,9 @@ public class AssetCollection extends PlayerFormationPanel {
 		}
 
 		tAssetCollectionFinishedAction.setChainToPrevious (true);
+		formCGR.allPlayersHandled (tAssetCollectionFinishedAction);
 		gameManager.addAction (tAssetCollectionFinishedAction);
 		
-		formCGR.allPlayersHandled ();
 		formCGR.applyCommand (FormCGR.STOCK_VALUE_CALCULATION);
 	}
 }
