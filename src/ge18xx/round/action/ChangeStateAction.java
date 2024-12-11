@@ -2,12 +2,14 @@ package ge18xx.round.action;
 
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ApplyDiscountEffect;
 import ge18xx.round.action.effects.BidShareEffect;
 import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.SetAllPlayerSharesHandledEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
@@ -50,7 +52,14 @@ public class ChangeStateAction extends ChangePlayerAction {
 			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
 		}
 	}
-	
+
+	public void addSetAllPlayerSharesHandledEffect (Player tCurrentPlayer, boolean aAllPlayerSharesHandled) {
+		SetAllPlayerSharesHandledEffect tSetAllPlayerSharesHandledEffect;
+		
+		tSetAllPlayerSharesHandledEffect = new SetAllPlayerSharesHandledEffect (tCurrentPlayer, aAllPlayerSharesHandled);
+		addEffect (tSetAllPlayerSharesHandledEffect);
+	}
+
 	public void addUpdateToNextPlayerEffect (ActorI aActor, ActorI aOldPlayer, ActorI aNewPlayer) {
 		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;;
 
