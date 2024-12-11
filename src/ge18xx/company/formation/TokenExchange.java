@@ -503,18 +503,15 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 				replaceTokenAction.setChainToPrevious (true);
 			}
 			if (tExchangeHomeTokens) {
+				formCGR.setHomeTokensExchanged (true);
 				replaceTokenAction.addSetHomeTokensExchangedEffect (tFoldingCompany, true);
 			} else {
+				formCGR.setNonHomeTokensExchanged (true);
 				replaceTokenAction.addSetNonHomeTokensExchangedEffect (tFoldingCompany, true);
 			}
 			gameManager.addAction (replaceTokenAction);
 		}
 		tHexMap.redrawMap ();
-		if (tExchangeHomeTokens) {
-			formCGR.setHomeTokensExchanged (true);
-		} else {
-			formCGR.setNonHomeTokensExchanged (true);
-		}
 		formCGR.rebuildFormationPanel ();
 	}
 
@@ -594,9 +591,9 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		}
 
 		tTokenExchangeFinishedAction.setChainToPrevious (true);
+		formCGR.allPlayersHandled  (tTokenExchangeFinishedAction);
 		gameManager.addAction (tTokenExchangeFinishedAction);
 		
-		formCGR.allPlayersHandled  ();
 		formCGR.applyCommand (FormCGR.ASSET_COLLECTION);
 	}
 }
