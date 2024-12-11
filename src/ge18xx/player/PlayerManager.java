@@ -632,6 +632,17 @@ public class PlayerManager implements XMLSaveGameI {
 		return tActionsToUndo;
 	}
 
+	public boolean haveAllSharesBeenExchanged () {
+		boolean tAllSharesBeenExchanged;
+
+		tAllSharesBeenExchanged = true;
+		for (Player tPlayer : players) {
+			tAllSharesBeenExchanged = tAllSharesBeenExchanged && tPlayer.getSharesExchanged ();
+		}
+
+		return tAllSharesBeenExchanged;
+	}
+
 	public boolean haveAllPassed () {
 		boolean tAllPassed;
 
