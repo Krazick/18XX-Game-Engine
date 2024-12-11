@@ -702,12 +702,12 @@ public class ShareExchange extends PlayerFormationPanel {
 		String tToolTip;
 
 		tToolTip = GUI.NO_TOOL_TIP;
-		if (getSharesExchanged ()) {
-			doneButton.setEnabled (false);
-			tToolTip = "President already completed all share exchanges";
+		if (haveSharesBeenExchanged ()) {
+			doneButton.setEnabled (true);
+			tToolTip = "President has completed all share exchanges";
 		} else if (foldingCompanyCount == 0) {
 			doneButton.setEnabled (true);
-			tToolTip = "President has no shares to exchanges";
+			tToolTip = "President has no shares to exchange";
 		} else {
 			doneButton.setEnabled (false);
 			tToolTip = "President has not completed all share exchanges";
@@ -719,7 +719,7 @@ public class ShareExchange extends PlayerFormationPanel {
 	public void updateContinueButton () {
 		String tToolTip;
 		
-		if (getSharesExchanged () && actingPlayer) {
+		if (haveAllSharesBeenExchanged () && actingPlayer) {
 			if (formCGR.getFormationState ().equals (ActorI.ActionStates.ShareExchange)) {
 				continueButton.setEnabled (true);
 				tToolTip = "All Shares have been exchanged, proceed to Token Exchange";			
@@ -727,7 +727,7 @@ public class ShareExchange extends PlayerFormationPanel {
 				continueButton.setVisible (true);
 			} else {
 				continueButton.setEnabled (false);
-				tToolTip = "Not Ready Yet";
+				tToolTip = "Some Players have not exchanged Shares yet";
 				continueButton.setToolTipText (tToolTip);
 				continueButton.setVisible (false);
 			}	
@@ -737,16 +737,26 @@ public class ShareExchange extends PlayerFormationPanel {
 		}
 	}
 
-	public boolean getSharesExchanged () {
-		boolean tSharesExchanged;
+	public boolean haveAllSharesBeenExchanged () {
+		boolean tAllSharesBeenExchanged;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tAllSharesBeenExchanged = tPlayerManager.haveAllSharesBeenExchanged ();
+		
+		return tAllSharesBeenExchanged;
+	}
+	
+	public boolean haveSharesBeenExchanged () {
+		boolean tHaveSharesBeenExchanged;
 		
 		if (player.getSharesExchanged ()) {
-			tSharesExchanged = true;
+			tHaveSharesBeenExchanged = true;
 		} else {
-			tSharesExchanged = false;
+			tHaveSharesBeenExchanged = false;
 		}
 		
-		return tSharesExchanged;
+		return tHaveSharesBeenExchanged;
 	}
 
 	@Override
