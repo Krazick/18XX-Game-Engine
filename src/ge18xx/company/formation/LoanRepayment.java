@@ -1,7 +1,6 @@
 package ge18xx.company.formation;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -361,18 +360,6 @@ public class LoanRepayment extends PlayerFormationPanel {
 			}
 			doneButton.setEnabled (tAllCompaniesHandled);
 		}
-	}
-	
-	@Override
-	public void handlePlayerDone () {
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-		boolean tAddAction;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		tAddAction = true;
-		formCGR.updateToNextPlayer (tPlayers, tAddAction);
 	}
 
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
