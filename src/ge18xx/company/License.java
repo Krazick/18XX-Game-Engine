@@ -60,10 +60,6 @@ public class License extends Coupon {
 		this (NO_TYPE_NAME, NO_VALUE, NO_VALUE);
 	}
 	
-	public License (String aName, int aBenefitValue) {
-		this (aName, NO_VALUE, aBenefitValue);
-	}
-	
 	public License (String aName, int aPrice, int aBenefitValue) {
 		super (aName, aPrice);
 		
