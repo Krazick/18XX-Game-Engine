@@ -6,5 +6,4 @@ public class LoanRedemptionCoupon extends Coupon {
 	public LoanRedemptionCoupon (int aPrice) {
 		super (NAME, aPrice);
 	}
-
 }
