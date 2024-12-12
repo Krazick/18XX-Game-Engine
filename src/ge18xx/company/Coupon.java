@@ -75,12 +75,6 @@ public class Coupon {
 
 		return tCouponInfoPanel;
 	}
-	
-	public void setSelection () {
-	}
-
-	public void clearSelection () {
-	}
 
 	protected String getFullName () {
 		return getName ();
@@ -126,5 +120,10 @@ public class Coupon {
 	
 		return tCouponInfoBorder;
 	}
+	
+	public void setSelection () {
+	}
 
+	public void clearSelection () {
+	}
 }
