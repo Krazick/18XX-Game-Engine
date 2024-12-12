@@ -7,12 +7,6 @@ public class LoadedCertificate {
 	int percentage;
 	String companyAbbrev; // Abbreviation of Company used during Load Save Game
 
-	public LoadedCertificate () {
-		setIsPresidentShare (false);
-		setPercentage (0);
-		setCompanyAbbrev ("");
-	}
-
 	public LoadedCertificate (XMLNode aXMLNode) {
 		setIsPresidentShare (aXMLNode.getThisBooleanAttribute (Certificate.AN_IS_PRESIDENT));
 		setPercentage (aXMLNode.getThisIntAttribute (Certificate.AN_PERCENTAGE));
