@@ -10,14 +10,6 @@ import geUtilities.xml.XMLNode;
 public class LayBenefitTokenAction extends ChangeMapAction {
 	public final static String NAME = "Lay Benefit Token";
 
-	public LayBenefitTokenAction () {
-		this (NAME);
-	}
-
-	public LayBenefitTokenAction (String aName) {
-		super (aName);
-	}
-
 	public LayBenefitTokenAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
