@@ -11,15 +11,6 @@ public class RemoveLicenseEffect extends AddLicenseEffect {
 	public final static String SHORT_NAME = "Remove";
 	public final static String NAME = SHORT_NAME + " License";
 
-	public RemoveLicenseEffect () {
-		this (NAME);
-	}
-
-	public RemoveLicenseEffect (String aName) {
-		super (aName);
-		setToActor (ActorI.NO_ACTOR);
-	}
-
 	public RemoveLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
 		super (aFromActor, aToActor, aLicense);
 		setName (NAME);

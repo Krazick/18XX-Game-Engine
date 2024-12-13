@@ -19,15 +19,6 @@ public class AddLicenseEffect extends ToEffect {
 	License license;
 	String mapCellIDs;
 	
-	public AddLicenseEffect () {
-		this (NAME);
-	}
-
-	public AddLicenseEffect (String aName) {
-		super (aName);
-		setToActor (ActorI.NO_ACTOR);
-	}
-
 	public AddLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
 		super (NAME, aFromActor, aToActor);
 		setLicense (aLicense);
