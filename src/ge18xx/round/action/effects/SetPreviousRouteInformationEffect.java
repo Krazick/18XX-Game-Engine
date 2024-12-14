@@ -50,8 +50,10 @@ public class SetPreviousRouteInformationEffect extends Effect {
 		
 		tEffectApplied = true;
 		tTrain = aRoundManager.getTrain (trainID);
-		tRouteInformation = tTrain.getCurrentRouteInformation ();
-		tTrain.setPreviousRouteInformation (tRouteInformation);
+		if (tTrain != Train.NO_TRAIN) {
+			tRouteInformation = tTrain.getCurrentRouteInformation ();
+			tTrain.setPreviousRouteInformation (tRouteInformation);
+		}
 		
 		return tEffectApplied;
 	}
