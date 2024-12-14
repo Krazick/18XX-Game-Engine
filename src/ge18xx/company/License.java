@@ -73,23 +73,6 @@ public class License extends Coupon {
 		super (aType.toString (), aPrice);
 		setValues (aType, aBenefitValue);
 	}
-	
-	public void setValues (LicenseTypes aType, int aBenefitValue) {
-		boolean tIsPortLicense;
-		
-		setType (aType);
-		setBenefitValue (aBenefitValue);
-		
-		if ((aType == LicenseTypes.PORT) || 
-			(aType == LicenseTypes.OPEN_PORT) ||
-			(aType == LicenseTypes.CLOSED_PORT)) {
-			tIsPortLicense = true;
-		} else {
-			tIsPortLicense = false;
-		}
-		setIsPortLicense (tIsPortLicense);
-		setMapCellIDs (NO_MAP_CELL_IDS);
-	}
 
 	public License (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -106,6 +89,39 @@ public class License extends Coupon {
 		setIsPortLicense (tIsPortLicense);
 		setMapCellIDs (tMapCellIDs);
 		setTypeFromName (tTypeName);
+	}
+
+	public void setValues (LicenseTypes aType, int aBenefitValue) {
+		boolean tIsPortLicense;
+		boolean tIsBridgeLicense;
+		boolean tIsTunnelLicense;
+		
+		setType (aType);
+		setBenefitValue (aBenefitValue);
+		
+		if ((aType == LicenseTypes.PORT) || 
+			(aType == LicenseTypes.OPEN_PORT) ||
+			(aType == LicenseTypes.CLOSED_PORT)) {
+			tIsPortLicense = true;
+		} else {
+			tIsPortLicense = false;
+		}
+		setIsPortLicense (tIsPortLicense);
+		setMapCellIDs (NO_MAP_CELL_IDS);
+		
+		if (aType == LicenseTypes.BRIDGE) {
+				tIsBridgeLicense = true;
+			} else {
+				tIsBridgeLicense = false;
+			}
+		setIsBridgeLicense (tIsBridgeLicense);
+		
+		if (aType == LicenseTypes.TUNNEL) {
+				tIsTunnelLicense = true;
+			} else {
+				tIsTunnelLicense = false;
+			}
+		setIsTunnelLicense (tIsTunnelLicense);
 	}
 
 	public static LicenseTypes getTypeFromName (String aTypeName) {

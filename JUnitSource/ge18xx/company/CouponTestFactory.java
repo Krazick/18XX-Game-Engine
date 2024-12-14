@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import org.mockito.Mockito;
 
+import ge18xx.company.License.LicenseTypes;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
 
@@ -54,5 +55,37 @@ public class CouponTestFactory {
 		tLoanInterestCoupon = new LoanInterestCoupon (aPrice, aRevenueContribution);
 		
 		return tLoanInterestCoupon;
+	}
+	
+	public License buildLicense () {
+		License tLicense;
+		
+		tLicense = new License ();
+		
+		return tLicense;
+	}
+
+	public License buildLicense (String aName, int aPrice, int aBenefitValue) {
+		License tLicense;
+		
+		tLicense = new License (aName, aPrice, aBenefitValue);
+		
+		return tLicense;
+	}
+
+	public License buildLicense (LicenseTypes aType, int aPrice, int aBenefitValue) {
+		License tLicense;
+		
+		tLicense = new License (aType, aPrice, aBenefitValue);
+		
+		return tLicense;
+	}
+
+	public License buildLicenseMock () {
+		License mLicense;
+
+		mLicense = Mockito.mock (License.class);
+
+		return mLicense;
 	}
 }

@@ -116,7 +116,6 @@ class CouponTests {
 		assertEquals ("Loan Redemption Coupon", tLoanRedemptionCoupon.getName ());
 	}
 	
-	
 	@Test
 	@DisplayName ("Loan Interest Coupon Tests")
 	void loanInterestCouponTests () {
@@ -129,7 +128,5 @@ class CouponTests {
 		
 		tLoanInterestCoupon.setRevenueContribution (23);
 		assertEquals (23, tLoanInterestCoupon.getRevenueContribution ());
-		
 	}
-
 }
