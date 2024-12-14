@@ -1732,6 +1732,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				bidAction ();
 			}
 		}
+		if (Player.BUY_LABEL.equals (tActionCommand)) {
+				buyAction ();
+		}
 		if (PlayerFrame.DONE.equals (tActionCommand)) {
 			doneAction ();
 		}
