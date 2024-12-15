@@ -48,8 +48,9 @@ public class MinorCompany extends TokenCompany {
 	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getOwner (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getUpgradeTo (), aRowIndex, tCurrentColumn++);
@@ -60,8 +61,9 @@ public class MinorCompany extends TokenCompany {
 
 	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Owner", tCurrentColumn++);
 		aCorporationList.addHeader ("Upgrade To", tCurrentColumn++);
@@ -144,11 +146,15 @@ public class MinorCompany extends TokenCompany {
 	}
 	
 	public String getOwner () {
+		String tOwnerName;
+		
 		if (isOwned ()) {
-			return getPresidentName ();
+			tOwnerName = getPresidentName ();
 		} else {
-			return NO_PRESIDENT;
+			tOwnerName = NO_PRESIDENT;
 		}
+		
+		return tOwnerName;
 	}
 
 	@Override
@@ -182,7 +188,8 @@ public class MinorCompany extends TokenCompany {
 	public boolean isOwned () {
 		boolean isOwned;
 		Certificate tCertificate;
-		int tCertificateCount, tCertificateIndex;
+		int tCertificateCount;
+		int tCertificateIndex;
 
 		isOwned = false;
 		tCertificateCount = corporationCertificates.getCertificateCountAgainstLimit ();
@@ -208,7 +215,7 @@ public class MinorCompany extends TokenCompany {
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		return null;
+		return GUI.NO_PANEL;
 	}
 
 	@Override
