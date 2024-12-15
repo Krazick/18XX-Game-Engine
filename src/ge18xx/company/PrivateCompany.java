@@ -23,6 +23,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
 import geUtilities.WordWrapping;
@@ -74,13 +75,15 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, MapCell aHomeCity1,
 			Location aHomeLocation1, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
-		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, MapCell.NO_MAP_CELL, Location.NO_LOC,
-				Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState, aMustBeSoldBeforeOperatingRound);
+		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, MapCell.NO_MAP_CELL,
+				Location.NO_LOC, Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState,
+				aMustBeSoldBeforeOperatingRound);
 	}
 
 	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, MapCell aHomeCity1,
 			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, int aExchangeCorporationID,
-			int aExchangeCorporationPercentage, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
+			int aExchangeCorporationPercentage, ActorI.ActionStates aState, 
+			boolean aMustBeSoldBeforeOperatingRound) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, false);
 		setCost (aCost);
 		setDiscount (INITIAL_DISCOUNT);
@@ -92,6 +95,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	public PrivateCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
+		
 		String tNote;
 		int tDiscount;
 		int tCost;
@@ -115,8 +119,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	private String wordWrap (String aText) {
 		WordWrapping tWordWrapping;
-		String tWrappedWords = "";
+		String tWrappedWords;
 
+		tWrappedWords = GUI.EMPTY_STRING;
 		tWordWrapping = new WordWrapping ("<br/>");
 		tWrappedWords = tWordWrapping.wrap (aText, 50);
 
@@ -129,12 +134,14 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
-		boolean tHasButtonFor = false;
+		boolean tHasButtonFor;
 		KButton tThisButton;
 		Component tComponent;
 		String tButtonText;
-		int tComponentCount, tComponentIndex;
+		int tComponentCount;
+		int tComponentIndex;
 
+		tHasButtonFor = false;
 		tComponentCount = aButtonRow.getComponentCount ();
 		if (tComponentCount > 0) {
 			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
@@ -177,8 +184,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public boolean hasActiveCompanyBenefits () {
-		boolean tHasActiveCompanyBenefits = false;
+		boolean tHasActiveCompanyBenefits;
 
+		tHasActiveCompanyBenefits = false;
 		if (benefits != Benefits.NO_BENEFITS) {
 			tHasActiveCompanyBenefits = benefits.hasActiveCompanyBenefits ();
 		}
@@ -187,8 +195,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public boolean hasActivePlayerBenefits () {
-		boolean tHasActivePlayerBenefits = false;
+		boolean tHasActivePlayerBenefits;
 
+		tHasActivePlayerBenefits = false;
 		if (benefits != Benefits.NO_BENEFITS) {
 			tHasActivePlayerBenefits = benefits.hasActivePlayerBenefits ();
 		}
@@ -227,8 +236,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getCost (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getDiscount (), aRowIndex, tCurrentColumn++);
@@ -243,8 +253,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Cost", tCurrentColumn++);
 		aCorporationList.addHeader ("Discount", tCurrentColumn++);
@@ -447,7 +458,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tBidders, tXMLBenefits;
+		XMLElement tXMLElement;
+		XMLElement tBidders;
+		XMLElement tXMLBenefits;
 
 		tXMLElement = aXMLDocument.createElement (EN_PRIVATE);
 		super.getCorporationStateElement (tXMLElement, aXMLDocument);
@@ -532,10 +545,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public int getTotalEscrows () {
-		int tTotalEscrows = 0;
+		int tTotalEscrows;
 		Certificate tCertificate;
-		int tCertificateCount, tCertificateIndex;
+		int tCertificateCount;
+		int tCertificateIndex;
 
+		tTotalEscrows = 0;
 		tCertificateCount = corporationCertificates.getCertificateCountAgainstLimit ();
 		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
 			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
