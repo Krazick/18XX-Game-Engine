@@ -1194,11 +1194,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tHomeMapCell1 = getCorpHome1MapID ();
 		tHomeMapCell2 = getCorpHome2MapID ();
 		
-		tHomeLocations = "Home MapCell ID:  " + tHomeMapCell1;
-		if (tHomeMapCell1 != tHomeMapCell2) {
-			if (tHomeMapCell2 != MapCell.NO_ID) {
-				tHomeLocations += "  ID2:  " + tHomeMapCell2;
+		if (tHomeMapCell1 != MapCell.NO_ID) { 
+			tHomeLocations = "Home MapCell ID:  " + tHomeMapCell1;
+			if (tHomeMapCell1 != tHomeMapCell2) {
+				if (tHomeMapCell2 != MapCell.NO_ID) {
+					tHomeLocations += "  ID2:  " + tHomeMapCell2;
+				}
 			}
+		} else {
+			tHomeLocations = GUI.EMPTY_STRING;
 		}
 		
 		return tHomeLocations;
