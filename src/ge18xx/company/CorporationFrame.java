@@ -701,8 +701,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
 		CorporationList tMinorCorporations;
-		JPanel tCorporationsTrainsJPanel;
-		JPanel tMinorCorporationsTrainsJPanel;
 
 		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
@@ -711,21 +709,24 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					otherCorpsJPanel.removeAll ();
 					tMinorCorporations = tGameManager.getMinorCompanies ();
 					if (tMinorCorporations != CorporationList.NO_CORPORATION_LIST) {
-						if (tMinorCorporations.getCountOfOpen () > 0) {
-							tMinorCorporationsTrainsJPanel = tMinorCorporations.buildFullCorpsJPanel (this, corporation,
-									tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
-							otherCorpsJPanel.add (Box.createHorizontalGlue ());
-							otherCorpsJPanel.add (tMinorCorporationsTrainsJPanel);					
-						}
+						addOtherCorps (tGameManager, tMinorCorporations);
 					}
 					tShareCorporations = tGameManager.getShareCompanies ();
-					tCorporationsTrainsJPanel = tShareCorporations.buildFullCorpsJPanel (this, corporation,
-							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
-					otherCorpsJPanel.add (Box.createHorizontalGlue ());
-					otherCorpsJPanel.add (tCorporationsTrainsJPanel);
-					otherCorpsJPanel.add (Box.createHorizontalGlue ());
+					addOtherCorps (tGameManager, tShareCorporations);
 				}
 			}
+		}
+	}
+
+	public void addOtherCorps (GameManager aGameManager, CorporationList aOtherCorporations) {
+		JPanel tOtherCorporationsTrainsJPanel;
+		
+		if (aOtherCorporations.getCountOfOpen () > 0) {
+			tOtherCorporationsTrainsJPanel = aOtherCorporations.buildFullCorpsJPanel (this, corporation,
+					aGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO);
+			otherCorpsJPanel.add (Box.createHorizontalGlue ());
+			otherCorpsJPanel.add (tOtherCorporationsTrainsJPanel);					
+			otherCorpsJPanel.add (Box.createHorizontalGlue ());
 		}
 	}
 
@@ -963,10 +964,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tToolTip = "Company has paid Loan Interest, so there is no additional Interest Due.";			
 		} else if (corporation.didOperateTrains ()){
 			payLoanInterestButton.setEnabled (true);
-			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
+			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + 
+						Bank.formatCash (tLoanPaymentDue);
 		} else if (corporation.hasNoTrain ()) {
 			payLoanInterestButton.setEnabled (true);
-			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
+			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + 
+						Bank.formatCash (tLoanPaymentDue);
 		} else {
 			payLoanInterestButton.setEnabled (false);
 			tToolTip = "Not Time to pay Loan Interest";
@@ -1117,6 +1120,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (aTrainCount == 0) {
 				tEnabled = true;
 				tToolTip = "Corporation has no Trains to Operate to generate Revenue.";
+			} else if ((corporation.getThisRevenue () == 0) && (corporation.didOperateTrain ())) {
+				tEnabled = true;
+				tToolTip = "Corporation has generated no Revenues.";				
 			} else if (!corporation.canHoldDividend ()) {
 				tEnabled = false;
 				payNoDividendButton.setText ("Minor cannot Hold Dividends");
