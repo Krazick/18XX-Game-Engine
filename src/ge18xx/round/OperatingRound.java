@@ -365,7 +365,12 @@ public class OperatingRound extends Round {
 	public void resume () {		
 	}
 	
-	public void setRoundToOperatingRound (Round aCurrentRound, String aOldID, int aRoundIDPart1, int aRoundIDPart2) {
+	public int calcFirstORID () {
+		return Round.START_ID2 + 1;
+	}
+	
+	public void setRoundToOperatingRound (Round aCurrentRound, String aOldID, 
+						int aRoundIDPart1, int aRoundIDPart2) {
 		ChangeRoundAction tChangeRoundAction;
 		RoundFrame tRoundFrame;
 		String tNewID;
@@ -375,7 +380,7 @@ public class OperatingRound extends Round {
 
 		tChangeRoundAction = buildChangeRoundAction ();
 		tOldORCount = roundManager.getOperatingRoundCount ();
-		if (aRoundIDPart2 == Round.START_ID2) {
+		if (aRoundIDPart2 == calcFirstORID ()) {
 			roundManager.setOperatingRoundCount ();
 		}
 		tNewORCount = roundManager.getOperatingRoundCount ();
@@ -417,7 +422,7 @@ public class OperatingRound extends Round {
 			tIDPart2 = getIDPart2 () + 1;
 		} else {
 			tIDPart1 = getIDPart1 () + 1;
-			tIDPart2 = Round.START_ID2;
+			tIDPart2 = calcFirstORID ();
 		}
 		super.start ();
 
