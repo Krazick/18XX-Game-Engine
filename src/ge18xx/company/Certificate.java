@@ -134,7 +134,8 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public Certificate (Certificate aCertificate) {
 		if (aCertificate != NO_CERTIFICATE) {
-			setValues (aCertificate.getCorporation (), aCertificate.isPresidentShare (), aCertificate.getPercentage ());
+			setValues (aCertificate.getCorporation (), aCertificate.isPresidentShare (),
+						aCertificate.getPercentage ());
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setSecondIssue (aCertificate.isSecondIssue ());
 			initCommon (aCertificate.getOwner ());
@@ -327,7 +328,8 @@ public class Certificate implements Comparable<Certificate> {
 					tParValues = buildParValuesCombo (aItemListener, aCertificateInfoJPanel);
 					// Update the Par Value Combo Box, and confirm or deny the Player has enough
 					// Cash to buy Cheapest.
-					tPlayerHasEnoughCash = updateParValuesComboBox (parValuesCombo, tParValues, aCertificateFlags.getPlayerCash ());
+					tPlayerHasEnoughCash = updateParValuesComboBox (parValuesCombo, tParValues,
+									aCertificateFlags.getPlayerCash ());
 					aCertificateFlags.setPlayerHasEnoughCash (tPlayerHasEnoughCash);
 					tPrice = 0;
 				}
@@ -411,7 +413,8 @@ public class Certificate implements Comparable<Certificate> {
 					tCertificateFlags.setEnabled (true);
 				}
 				if (checkBox == GUI.NO_CHECK_BOX) {
-					checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
+					checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip,
+								aItemListener);
 					tGroupName = getCompanyAbbrev () + " Share";
 					if (isAMinorCompany ()) {
 						tGroupName = getCorpType () + " " + tGroupName;
@@ -431,7 +434,7 @@ public class Certificate implements Comparable<Certificate> {
 			}
 		} else if (aCheckBoxLabel.equals (Player.BID_LABEL)) {
 			updateBidLabel (aCheckBoxLabel, aItemListener, tCertificateInfoJPanel, tCertificateFlags);
-		} else if (aCheckBoxLabel.equals ("")) {
+		} else if (aCheckBoxLabel.equals (GUI.EMPTY_STRING)) {
 
 		} else {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");
@@ -450,13 +453,13 @@ public class Certificate implements Comparable<Certificate> {
 		if (isAPrivateCompany ()) {
 			tRevenue = getRevenue ();
 			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
-				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
+				tRevenueInfo = Revenue.LABEL + Bank.formatCash (tRevenue);
 				tRevenueLabel = new JLabel (tRevenueInfo);
 				tCertificateInfoJPanel.add (tRevenueLabel);
 			}
 		} else {
 			if (corporation.canOperate ()) {
-				tRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
+				tRevenueLabel = new JLabel (Revenue.LABEL + corporation.getFormattedThisRevenue ());
 				tCertificateInfoJPanel.add (tRevenueLabel);
 			}
 		}
@@ -1416,13 +1419,11 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public int getRevenue () {
-		PrivateCompany iPrivate;
 		int tRevenue;
 
 		tRevenue = Revenue.NO_REVENUE_VALUE;
 		if (corporation.isAPrivateCompany ()) {
-			iPrivate = (PrivateCompany) corporation;
-			tRevenue = iPrivate.getRevenue () * percentage / 100;
+			tRevenue = corporation.getThisRevenue () * percentage / 100;
 		}
 
 		return tRevenue;
