@@ -237,13 +237,13 @@ public class Certificate implements Comparable<Certificate> {
 		return frameButton;
 	}
 
-	public void clearFrameButton () {
+	public void hideFrameButton () {
 		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
 			frameButton.setVisible (false);
 		}
 	}
 
-	public void resetFrameButton () {
+	public void showFrameButton () {
 		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
 			frameButton.setVisible (true);
 		}
@@ -374,8 +374,8 @@ public class Certificate implements Comparable<Certificate> {
 		tCertificateInfoJPanel = buildBasicCertInfoJPanel ();
 		
 		handlePrice (aCheckBoxLabel, aItemListener, aIsBankHolder, tCertificateInfoJPanel, tCertificateFlags);
-		handleRevenue (tCertificateInfoJPanel);
-		handleLoans (tCertificateInfoJPanel);
+		addRevenueLabel (tCertificateInfoJPanel);
+		addLoanLabel (tCertificateInfoJPanel);
 
 		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
 								tCertificateFlags.getPlayerCash ()));
@@ -445,7 +445,7 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertificateInfoJPanel;
 	}
 
-	public void handleRevenue (JPanel tCertificateInfoJPanel) {
+	public void addRevenueLabel (JPanel tCertificateInfoJPanel) {
 		JLabel tRevenueLabel;
 		String tRevenueInfo;
 		int tRevenue;
@@ -465,7 +465,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 
-	public void handleLoans (JPanel tCertificateInfoJPanel) {
+	public void addLoanLabel (JPanel tCertificateInfoJPanel) {
 		JLabel tLoanCountLabel;
 		
 		if (! isAPrivateCompany ()) {

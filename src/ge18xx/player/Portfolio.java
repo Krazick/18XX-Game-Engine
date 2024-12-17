@@ -1976,7 +1976,7 @@ public class Portfolio implements CertificateHolderI {
 					tCertificate.setOwner (this);
 					tCertificate.sortCorporationCertificates ();
 					addCertificate (tCertificate);
-					tCertificate.resetFrameButton ();
+					tCertificate.showFrameButton ();
 					tTransferGood = true;
 					if (tIsPresident) {
 						if (!tCertificate.isATestGame ()) {

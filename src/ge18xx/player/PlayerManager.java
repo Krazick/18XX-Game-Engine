@@ -1134,7 +1134,7 @@ public class PlayerManager implements XMLSaveGameI {
 			// show the Certificate Buy Button.
 			// Should come up with a better way to fix this
 			if (tCertificate.isAPrivateCompany ()) {
-				tCertificate.clearFrameButton ();
+				tCertificate.hideFrameButton ();
 			}
 			tOldCorporationStatus = tCertificate.getCorporationStatus ();
 			tCertificate.updateCorporationOwnership ();

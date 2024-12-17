@@ -166,7 +166,7 @@ public class TransferOwnershipEffect extends ToEffect {
 			tPrivateCompany = (PrivateCompany) certificate.getCorporation ();
 			tPrivateCompany.removeBenefitButtons ();
 		}
-		certificate.resetFrameButton ();
+		certificate.showFrameButton ();
 		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
 

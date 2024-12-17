@@ -127,7 +127,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tRevenue);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		fillBenefits (tCorporation, tCompanyType);
+		addBenefitLabels (tCorporation, tCompanyType);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
 		tOKButton = new KButton (OK_STRING);
@@ -140,7 +140,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		setPreferredSize (getPreferredSize ());
 	}
 
-	public void fillBenefits (Corporation tCorporation, String tCompanyType) {
+	public void addBenefitLabels (Corporation tCorporation, String tCompanyType) {
 		Benefits tBenefits;
 		JLabel tBenefitJLabel;
 		
