@@ -10,7 +10,6 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import geUtilities.GUI;
-//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
