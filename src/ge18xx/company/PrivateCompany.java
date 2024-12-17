@@ -317,7 +317,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
 		tCorpName = new JLabel (getAbbrev ());
 		tPrice = new JLabel ("Price: " + Bank.formatCash (getCost ()));
-		tRevenue =  new JLabel ("Revenue: " + getFormattedThisRevenue ());
+		tRevenue =  new JLabel (Revenue.LABEL + getFormattedThisRevenue ());
 		tCorpInfoJPanel.add (tCorpName);
 
 		if (isActive ()) {

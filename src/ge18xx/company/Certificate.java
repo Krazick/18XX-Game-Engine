@@ -864,7 +864,7 @@ public class Certificate implements Comparable<Certificate> {
 		tPriceLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
 		tPrivateCertJPanel.add (tPriceLabel);
 		tRevenueValue = getRevenue ();
-		tRevenueLabel = new JLabel ("Revenue: " + Bank.formatCash (tRevenueValue));
+		tRevenueLabel = new JLabel (Revenue.LABEL + Bank.formatCash (tRevenueValue));
 		tPrivateCertJPanel.add (tRevenueLabel);
 
 		if (canBeOwnedByShare ()) {

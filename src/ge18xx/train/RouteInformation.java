@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.center.Revenue;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
@@ -401,16 +402,16 @@ public class RouteInformation {
 		int tCenterIndex;
 
 		System.out.println ("----------- Start Route Information Detail ----------");		// PRINTLOG
-		System.out.println ((trainIndex + 1) + ". " + train.getName () + " Train, Total Revenue: " + totalRevenue
-				+ " Center Count " + getCenterCount ());
+		System.out.println ((trainIndex + 1) + ". " + train.getName () + " Train, Total " + Revenue.LABEL
+				+ totalRevenue + " Center Count " + getCenterCount ());
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.printDetail ();
 		}
 
 		tCenterIndex = 1;
 		for (RevenueCenter tRevenueCenter : revenueCenters) {
-			System.out.println (tCenterIndex + ". Center with Revenue " + tRevenueCenter.getRevenue (phase) + " Train "
-					+ (trainIndex + 1) + " is Using " + tRevenueCenter.getSelected (trainIndex + 1));
+			System.out.println (tCenterIndex + ". Center with Revenue " + tRevenueCenter.getRevenue (phase) 
+				+ " Train " + (trainIndex + 1) + " is Using " + tRevenueCenter.getSelected (trainIndex + 1));
 			tCenterIndex++;
 		}
 		System.out.println ("----------- End Route Information Detail ----------");

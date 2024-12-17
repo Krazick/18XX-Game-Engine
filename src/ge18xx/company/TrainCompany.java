@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.center.Revenue;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.Capitalization;
@@ -589,7 +590,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (canOperate () || didOperate ()) {
 				tTrainList = new JLabel (trainPortfolio.getTrainList ());
 				tCorpInfoJPanel.add (tTrainList);
-				tThisRevenue = new JLabel ("This Revenue: " + getFormattedThisRevenue ());
+				tThisRevenue = new JLabel ("This " + Revenue.LABEL + getFormattedThisRevenue ());
 				tCorpInfoJPanel.add (tThisRevenue);
 			}
 		}
@@ -701,7 +702,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		addLabel (tCorpJPanel, "Tokens: " + aTokenCount);
 		addLabel (tCorpJPanel, "Prez: " + tPresident);
 		if (canOperate ()) {
-			addLabel (tCorpJPanel, "Revenue: " + getFormattedThisRevenue ());
+			addLabel (tCorpJPanel, Revenue.LABEL + getFormattedThisRevenue ());
 		}
 
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {

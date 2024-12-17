@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.center.Revenue;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -815,7 +816,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void setLastRevenueLabel () {
-		lastRevenueLabel.setText ("Last Revenue: " + corporation.getFormattedPreviousRevenue ());
+		lastRevenueLabel.setText ("Last " + Revenue.LABEL + corporation.getFormattedPreviousRevenue ());
 	}
 
 	public void setLoanCountLabel () {

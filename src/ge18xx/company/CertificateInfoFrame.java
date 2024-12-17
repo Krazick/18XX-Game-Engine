@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
+import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import geUtilities.xml.GameEngineManager;
@@ -122,7 +123,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tPrice);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		tRevenue = new JLabel ("Revenue: " + tCorporation.getFormattedThisRevenue ());
+		tRevenue = new JLabel (Revenue.LABEL + tCorporation.getFormattedThisRevenue ());
 		certificateInfoJPanel.add (tRevenue);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		

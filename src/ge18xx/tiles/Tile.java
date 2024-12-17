@@ -18,6 +18,7 @@ import ge18xx.bank.Bank;
 import ge18xx.center.Centers;
 import ge18xx.center.City;
 import ge18xx.center.CityInfo;
+import ge18xx.center.Revenue;
 import ge18xx.center.RevenueCenter;
 import ge18xx.center.RevenueCenterType;
 import ge18xx.center.Town;
@@ -669,7 +670,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tRevenue = getRevenueValue (aPhase);
 		if (! tRevenue.equals (GUI.EMPTY_STRING)) {
 			tRevenue = Bank.formatCash (tRevenue);
-			tTip += "Revenue: " + tRevenue + "<br>";
+			tTip += Revenue.LABEL + tRevenue + "<br>";
 		}
 		if (hasCenters ()) {
 			tTip += centers.getToolTip ();
