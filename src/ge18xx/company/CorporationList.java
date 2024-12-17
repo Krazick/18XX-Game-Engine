@@ -857,7 +857,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			if (tCorporation.isActive ()) {
 				if (tCorporation.isAPrivateCompany ()) {
 					tPrivate = (PrivateCompany) tCorporation;
-					tRevenue = tPrivate.getRevenue ();
+					tRevenue = tPrivate.getThisRevenue ();
 					tOwner = tPrivate.getOwner ();
 					tOperatingRoundID = aOperatingRound.getID ();
 //					tOperatingRoundID2 = aOperatingRound.getIDPart2 ();
