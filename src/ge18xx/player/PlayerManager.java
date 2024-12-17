@@ -183,9 +183,7 @@ public class PlayerManager implements XMLSaveGameI {
 	public void clearAllPlayerPasses (ChangeRoundAction aChangeRoundAction) {
 		Player.ActionStates tOldState;
 		Player.ActionStates tNewState;
-//		ChangeStateAction tChangeStateAction;
 
-//		aChangeRoundAction = new ChangeStateAction (stockRound.getRoundState (), stockRound.getID (), stockRound);
 		for (Player tPlayer : players) {
 			tOldState = tPlayer.getPrimaryActionState ();
 
@@ -198,7 +196,6 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 		if (!gameManager.applyingAction ()) {
 			aChangeRoundAction.setChainToPrevious (true);
-//			addAction (tChangeStateAction);
 		}
 	}
 
@@ -744,15 +741,6 @@ public class PlayerManager implements XMLSaveGameI {
 		return tNextShareHasBids;
 	}
 
-	public void finishAuction (boolean aNextShareHasBids, boolean aCreateNewAuctionAction) {
-//		if (aNextShareHasBids) {
-//			startAuctionRound (aCreateNewAuctionAction);
-//		} else {
-//			resumeStockRound ();
-//		}
-		updateAllPlayerFrames ();
-	}
-
 	public BuyStockAction buyAction (Player aPlayer, List<Certificate> aCertificatesToBuy, 
 			STOCK_BUY_IN aRoundBuying, BuyStockAction aBuyStockAction) {
 		BuyStockAction tBuyStockAction;
@@ -805,10 +793,9 @@ public class PlayerManager implements XMLSaveGameI {
 				if (! tCertificateToBuy.hasParPrice ()) {
 					tParPrice = tCertificateToBuy.getComboParValue ();
 					if ((tParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						tSetParValueEffect = buildSetParPriceEffect (aPlayer, tCertificateToBuy, tShareCompany, tParPrice);
+						tSetParValueEffect = buildSetParPriceEffect (aPlayer, tCertificateToBuy, 
+								tShareCompany, tParPrice);
 						aBuyStockAction.addEffect (tSetParValueEffect);
-//						handleSetParPrice (aPlayer, tCertificateToBuy, tShareCompany, tParPrice);
-//						tChainToPrevious = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tParPrice + 
 											" or tShareCompany is NULL***");
@@ -838,7 +825,8 @@ public class PlayerManager implements XMLSaveGameI {
 			if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
 				tCertificatesToTransfer = new LinkedList<> ();
 				tCertificatesToTransfer.add (tFreeCertificate);
-				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tCertificatesToTransfer, aBuyStockAction);
+				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tCertificatesToTransfer, 
+							aBuyStockAction);
 				/*
 				 * If this Free Certificate is a President Share -- Request a Par Price to be
 				 * set
@@ -1009,7 +997,8 @@ public class PlayerManager implements XMLSaveGameI {
 			if ((tNewPresident != aCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
 				exchangePresidentCertificate (aShareCompany, aCurrentPresident, tNewPresident,
 						aTransferOwnershipAction);
-				tNotification = "New President of " + aShareCompany.getAbbrev () + " is " + tNewPresident.getName ();
+				tNotification = "New President of " + aShareCompany.getAbbrev () + " is " 
+						+ tNewPresident.getName ();
 				aTransferOwnershipAction.addSetNotificationEffect (aCurrentPresident, tNotification);
 			}
 		}
@@ -1086,8 +1075,8 @@ public class PlayerManager implements XMLSaveGameI {
 		return tParPriceFrame;
 	}
 
-	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany,
-			int aParPrice) {
+	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
+			ShareCompany aShareCompany, int aParPrice) {
 		SetParValueEffect tSetParValueEffect;
 		
 		gameManager.setParPrice (aShareCompany, aParPrice);
@@ -1140,14 +1129,14 @@ public class PlayerManager implements XMLSaveGameI {
 			tCertificate.updateCorporationOwnership ();
 			tNewCorporationStatus = tCertificate.getCorporationStatus ();
 			if (tOldCorporationStatus != tNewCorporationStatus) {
-				aBuyStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (), tOldCorporationStatus,
-						tNewCorporationStatus);
+				aBuyStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (),
+						tOldCorporationStatus, tNewCorporationStatus);
 			}
 		}
 	}
 
-	public void transferOneCertificate (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
-			BuyStockAction aBuyStockAction) {
+	public void transferOneCertificate (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
+			Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		PortfolioHolderI tFromHolder;
 		PortfolioHolderI tToHolder;
 		boolean tTransferGood;
@@ -1167,10 +1156,11 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public int getThisPlayerIndex (Player aPlayer) {
-		int tThisPlayerIndex = -1;
+		int tThisPlayerIndex;
 		int tPlayerIndex;
 		Player tThisPlayer;
 
+		tThisPlayerIndex = NO_PLAYER_INDEX;
 		for (tPlayerIndex = 0; tPlayerIndex < players.size (); tPlayerIndex++) {
 			tThisPlayer = players.get (tPlayerIndex);
 			if (tThisPlayer.equals (aPlayer)) {
@@ -1197,7 +1187,8 @@ public class PlayerManager implements XMLSaveGameI {
 		tThisPlayerIndex = getThisPlayerIndex (aPlayer);
 		if (tThisPlayerIndex != tCurrentPlayerIndex) {
 			System.err.println (
-					"----- CurrentPlayerIndex is " + tCurrentPlayerIndex + " This Player Index " + tThisPlayerIndex);
+					"----- CurrentPlayerIndex is " + tCurrentPlayerIndex + " This Player Index " 
+					+ tThisPlayerIndex);
 			stockRound.setCurrentPlayer (tThisPlayerIndex, true);
 			tCurrentPlayerIndex = tThisPlayerIndex;
 		}
@@ -1316,7 +1307,8 @@ public class PlayerManager implements XMLSaveGameI {
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
-			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
+			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), 
+							stockRound.getID (), aPlayer);
 			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
 			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
 			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tCertificate);
@@ -1343,10 +1335,13 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	public Player findPlayerWithMost (TrainCompany aShareCompany, Player aCurrentPlayer) {
-		Player tNewPresident, tNextPlayer;
-		int tCurrentPlayerIndex, tNextPlayerIndex;
-		int tCurrentMaxPercentage, tNextPercentOwned;
+	public Player findPlayerWithMost (TrainCompany aTrainCompany, Player aCurrentPlayer) {
+		Player tNewPresident;
+		Player tNextPlayer;
+		int tCurrentPlayerIndex;
+		int tNextPlayerIndex;
+		int tCurrentMaxPercentage;
+		int tNextPercentOwned;
 
 		tNewPresident = Player.NO_PLAYER;
 		tCurrentMaxPercentage = 0;
@@ -1354,7 +1349,7 @@ public class PlayerManager implements XMLSaveGameI {
 		tNextPlayerIndex = getNextPlayerIndex (tCurrentPlayerIndex);
 		while (tNextPlayerIndex != tCurrentPlayerIndex) {
 			tNextPlayer = getPlayer (tNextPlayerIndex);
-			tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aShareCompany);
+			tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aTrainCompany);
 			if (tNextPercentOwned > tCurrentMaxPercentage) {
 				tCurrentMaxPercentage = tNextPercentOwned;
 				tNewPresident = tNextPlayer;
@@ -1404,9 +1399,10 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public Escrow getEscrowMatching (String aEscrowName) {
-		Escrow tEscrow = Escrow.NO_ESCROW;
+		Escrow tEscrow;
 		Escrow tFoundEscrow;
 
+		tEscrow = Escrow.NO_ESCROW;
 		for (Player tPlayer : players) {
 			tFoundEscrow = tPlayer.getEscrowMatching (aEscrowName);
 			if (tFoundEscrow != Escrow.NO_ESCROW) {
@@ -1686,11 +1682,12 @@ public class PlayerManager implements XMLSaveGameI {
 			if (tCurrentPresident == aPlayer) {
 				tNewPresident = findNewPresident (tShareCompany, aPlayer, tCurrentPresident);
 				if ((tNewPresident != tCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
-					exchangePresidentCertificate (tShareCompany, tCurrentPresident, tNewPresident, tSellStockAction);
+					exchangePresidentCertificate (tShareCompany, tCurrentPresident, tNewPresident,
+							tSellStockAction);
 				}
 			}
-			tSellStockAction.addChangeMarketCellEffect (tShareCompany, tStartMarketCell, tStartLocation, tNewMarketCell,
-					tNewLocation);
+			tSellStockAction.addChangeMarketCellEffect (tShareCompany, tStartMarketCell, 
+					tStartLocation, tNewMarketCell, tNewLocation);
 			if (tNormalSale) {
 				tSellStockAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			}
@@ -1711,22 +1708,26 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 	
-	public void exchangePresidentCertificate (TrainCompany aShareCompany, Player aOldPresident, Player aNewPresident,
-			TransferOwnershipAction aAction) {
-		Certificate tPresidentCertificate, tCertificateOne;
-		Portfolio tOldPresidentPortfolio, tNewPresidentPortfolio;
+	public void exchangePresidentCertificate (TrainCompany aShareCompany, Player aOldPresident, 
+			Player aNewPresident, TransferOwnershipAction aAction) {
+		Certificate tPresidentCertificate;
+		Certificate tCertificateOne;
+		Portfolio tOldPresidentPortfolio;
+		Portfolio tNewPresidentPortfolio;
 
 		tOldPresidentPortfolio = aOldPresident.getPortfolio ();
 		tNewPresidentPortfolio = aNewPresident.getPortfolio ();
 		tPresidentCertificate = tOldPresidentPortfolio.getPresidentCertificate (aShareCompany);
 		tCertificateOne = tNewPresidentPortfolio.getNonPresidentCertificate (aShareCompany);
 		if (tCertificateOne.getPercentage () == tPresidentCertificate.getPercentage ()) {
-			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio, tPresidentCertificate);
+			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio,
+						tPresidentCertificate);
 			aAction.addTransferOwnershipEffect (aOldPresident, tPresidentCertificate, aNewPresident);
 			tOldPresidentPortfolio.transferOneCertificateOwnership (tNewPresidentPortfolio, tCertificateOne);
 			aAction.addTransferOwnershipEffect (aNewPresident, tCertificateOne, aOldPresident);
 		} else {
-			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio, tPresidentCertificate);
+			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio,
+						tPresidentCertificate);
 			aAction.addTransferOwnershipEffect (aOldPresident, tPresidentCertificate, aNewPresident);
 			tOldPresidentPortfolio.transferOneCertificateOwnership (tNewPresidentPortfolio, tCertificateOne);
 			aAction.addTransferOwnershipEffect (aNewPresident, tCertificateOne, aOldPresident);
@@ -1735,10 +1736,6 @@ public class PlayerManager implements XMLSaveGameI {
 			aAction.addTransferOwnershipEffect (aNewPresident, tCertificateOne, aOldPresident);
 		}
 	}
-
-//	public void resumeStockRound () {
-//		stockRound.resumeStockRound ();
-//	}
 
 	public void removeAllEscrows () {
 		for (Player tPlayer : players) {
@@ -1873,8 +1870,9 @@ public class PlayerManager implements XMLSaveGameI {
 	}
 
 	public int getTotalPlayerCash () {
-		int tTotalPlayerCash = 0;
+		int tTotalPlayerCash;
 
+		tTotalPlayerCash = 0;
 		for (Player tPlayer : players) {
 			tTotalPlayerCash += tPlayer.getCash ();
 		}
