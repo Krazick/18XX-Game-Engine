@@ -843,13 +843,11 @@ public class Certificate implements Comparable<Certificate> {
 		BoxLayout tLayout;
 		Border tPanelBorder;
 		String tCheckboxLabel;
-		String tPrivatePresident;
 		int tPrice;
 		int tHalfValue;
 		int tDoubleValue;
 		int tRevenueValue;
 
-		tPrivatePresident = getOwnerName ();
 		tPanelBorder = setupPCPBorder ();
 		tPrivateCertJPanel = new JPanel ();
 		tLayout = new BoxLayout (tPrivateCertJPanel, BoxLayout.Y_AXIS);
@@ -859,7 +857,7 @@ public class Certificate implements Comparable<Certificate> {
 		tPrivateAbbrevLabel = new JLabel (getCompanyAbbrev ());
 		tPrivateAbbrevLabel.setToolTipText (getCompanyName ());
 		tPrivateCertJPanel.add (tPrivateAbbrevLabel);
-		tPresidentLabel = new JLabel ("Prez: " + tPrivatePresident);
+		tPresidentLabel = new JLabel ("Prez: " + getOwnerName ());
 		tPrice = getValue ();
 		tPriceLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
 		tPrivateCertJPanel.add (tPriceLabel);
@@ -941,17 +939,14 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public boolean canBeBidUpon () {
-		boolean tCanBeBidUpon;
-
-		tCanBeBidUpon = true;
-
-		return tCanBeBidUpon;
+		return true;
 	}
 
 	public boolean hasBidOnThisCert (Player aPlayer) {
 		boolean tPlayerAlreadyBid;
 
 		tPlayerAlreadyBid = bidders.hasBidOnThisCert (aPlayer);
+		
 		return tPlayerAlreadyBid;
 	}
 
