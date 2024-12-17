@@ -10,6 +10,7 @@ package ge18xx.center;
 
 public class Revenue implements Cloneable {
 	public static final Revenue NO_REVENUE = null;
+	public static final String LABEL = "Revenue: ";
 	public static final int NO_REVENUE_VALUE = 0;
 	public static final int ALL_PHASES = 0;
 	int value;
