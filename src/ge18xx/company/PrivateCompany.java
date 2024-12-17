@@ -243,7 +243,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		aCorporationList.addDataElement (getCost (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getDiscount (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getMustSell (), aRowIndex, tCurrentColumn++);
-		aCorporationList.addDataElement (getRevenue (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getThisRevenue (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getSpecial (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getExchangeID (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getExchangePercentage (), aRowIndex, tCurrentColumn++);
@@ -317,7 +317,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
 		tCorpName = new JLabel (getAbbrev ());
 		tPrice = new JLabel ("Price: " + Bank.formatCash (getCost ()));
-		tRevenue =  new JLabel ("Revenue: " + Bank.formatCash (getRevenue ()));
+		tRevenue =  new JLabel ("Revenue: " + getFormattedThisRevenue ());
 		tCorpInfoJPanel.add (tCorpName);
 
 		if (isActive ()) {
@@ -481,7 +481,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	@Override
-	public int getRevenue () {
+	public int getThisRevenue () {
 		return revenue;
 	}
 

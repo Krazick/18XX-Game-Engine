@@ -122,7 +122,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tPrice);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		tRevenue = new JLabel ("Revenue: " +  Bank.formatCash (tCorporation.getRevenue ()));
+		tRevenue = new JLabel ("Revenue: " + tCorporation.getFormattedThisRevenue ());
 		certificateInfoJPanel.add (tRevenue);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		

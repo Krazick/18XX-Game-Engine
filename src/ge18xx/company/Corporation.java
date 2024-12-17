@@ -424,11 +424,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tPortfolioInfoJPanel;
 	}
 
-//	// Token Company will Override
-//	public JLabel buildTokenLabel () {
-//		return GUI.NO_LABEL;
-//	}
-
 	// Share Company will Override
 	public void buyPrivate (boolean tVisible) {
 		System.err.println ("Trying to -BUY PRIVATE- Should be handled by Share Company");
@@ -715,7 +710,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		TransferOwnershipAction tTransferOwnershipAction;
 		List<Effect> tEffects;
 		
-		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, "DUMMY", this);
+		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+							"DUMMY", this);
 		close (tTransferOwnershipAction);
 		tEffects = tTransferOwnershipAction.getEffects ();
 		for (Effect tEffect : tEffects) {
@@ -762,7 +758,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tOwner = tOwnerPortfolio.getPortfolioHolder ();
 				tClosedPortfolio.transferOneCertificateOwnership (tOwnerPortfolio, tCertificate);
 				tFromName = tOwner.getName ();
-				aTransferOwnershipAction.addTransferOwnershipEffect (tOwner, tFromName, tCertificate, tBank, Bank.CLOSED);
+				aTransferOwnershipAction.addTransferOwnershipEffect (tOwner, tFromName, tCertificate, 
+								tBank, Bank.CLOSED);
 			}
 		}
 	}
@@ -839,8 +836,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		resetStatus (ActorI.ActionStates.Bankrupt);
 		tNewStatus = status;
 		tOperatingRoundID = getOperatingRoundID ();
-		tDeclareBankruptcyAction = new DeclareBankruptcyAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-				this);
+		tDeclareBankruptcyAction = new DeclareBankruptcyAction (ActorI.ActionStates.OperatingRound,
+				tOperatingRoundID, this);
 		tDeclareBankruptcyAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		tDeclareBankruptcyAction.addClearTrainsFromMapEffect (this);
 		tOperatingRound = corporationList.getOperatingRound ();
@@ -856,10 +853,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	// Train Company will override
 	public int getCash () {
-		return 0;
-	}
-
-	public int getRevenue () {
 		return 0;
 	}
 
@@ -1751,11 +1744,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public String reasonForNoBuyTrain () {
 		return "Corporation cannot buy Trains - Only Train Companies";
 	}
-//
-//	// Train Company will override
-//	public String reasonForNoDividendOptions () {
-//		return ">> NO REASON <<";
-//	}
 
 	public void showFrame () {
 		Point tNewPoint;
