@@ -103,6 +103,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
+	/**
+	 * Retrieve the current phase from the Game Manager and return it
+	 * 
+	 * @return The current Phase as int value
+	 */
+
 	public int getCurrentPhase () {
 		return mapFrame.getCurrentPhase ();
 	}
@@ -279,7 +285,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
-	public void collectNonHomeMapCellIDs (int aCorpID, String aAbbrev, List<String> aHomeMapCellIDs, List<String> aNonHomeMapCellIDs) {
+	public void collectNonHomeMapCellIDs (int aCorpID, String aAbbrev, List<String> aHomeMapCellIDs, 
+					List<String> aNonHomeMapCellIDs) {
 		int tRowIndex;
 		int tColIndex;
 		int tRowCount;
@@ -336,8 +343,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tColIndex;
 		int tRowCount;
 		int tColCount;
-		boolean tHasStation = false;
+		boolean tHasStation;
 
+		tHasStation = false;
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && !tHasStation; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
@@ -380,11 +388,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tElement;
 	}
 
-	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
-					MapCell aMapCell, boolean aAddLayTokenAtion) {
+	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, 
+					City aCity, MapCell aMapCell, boolean aAddLayTokenAtion) {
 		boolean tTokenPlaced;
 		
-		tTokenPlaced = mapFrame.putMapTokenDown (aTokenCompany, aMapToken, aTokenType, aCity, aMapCell, aAddLayTokenAtion);
+		tTokenPlaced = mapFrame.putMapTokenDown (aTokenCompany, aMapToken, aTokenType, aCity, 
+					aMapCell, aAddLayTokenAtion);
 		
 		return tTokenPlaced;
 	}
@@ -410,16 +419,22 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	private String [] getIDs (String aID) {
-		String [] theIDs = null;
-		String [] tempIDs = null;
-		String tempAlpha = null;
-		String tUpperAlpha = "A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z";
-		String tLowerAlpha = "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:x:y:z:aa:ab:ac:ad:ae:af:ag:ah:ai:aj:ak:al:am:an:ao:ap:aq:ar:as:at:au:av:aw:ax:ay:az";
-		String tNumerics = "1:2:3:4:5:6:7:8:9:10:11:12:13:14:15:16:17:18:19:20:21:22:23:24:25:26:27:28:29:30";
+		String [] theIDs;
+		String [] tempIDs;
+		String tempAlpha;
+		String tUpperAlpha;
+		String tLowerAlpha;
+		String tNumerics;
 		int tMatchIndex;
 		int tIndex;
 		int tSize;
 
+		theIDs = null;
+		tempIDs = null;
+		tempAlpha = null;
+		tUpperAlpha = "A:B:C:D:E:F:G:H:I:J:K:L:M:N:O:P:Q:R:S:T:U:V:W:X:Y:Z";
+		tLowerAlpha = "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:x:y:z:aa:ab:ac:ad:ae:af:ag:ah:ai:aj:ak:al:am:an:ao:ap:aq:ar:as:at:au:av:aw:ax:ay:az";
+		tNumerics = "1:2:3:4:5:6:7:8:9:10:11:12:13:14:15:16:17:18:19:20:21:22:23:24:25:26:27:28:29:30";
 		if (aID != null) {
 			if (aID.equals ("A")) {
 				theIDs = tUpperAlpha.split (":");
@@ -462,8 +477,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public MapCell getMapCell (int aRow, int aCol) {
-		MapCell tMapCell = null;
+		MapCell tMapCell;
 
+		tMapCell = null;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tMapCell = map [aRow] [aCol];
@@ -478,8 +494,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tColIndex;
 		int tRowCount;
 		int tColCount;
-		MapCell tFoundMapCell = MapCell.NO_MAP_CELL;
+		MapCell tFoundMapCell;
 
+		tFoundMapCell = MapCell.NO_MAP_CELL;
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
@@ -554,9 +571,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (aID != null) {
 			if (!aID.equals ("")) {
 				tRowCount = getRowCount ();
-				for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
+				for (tRowIndex = 0; (tRowIndex < tRowCount) 
+					&& (tFoundMapCell == MapCell.NO_MAP_CELL); 
+						tRowIndex++) {
 					tColCount = getColCount (tRowIndex);
-					for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
+					for (tColIndex = 0; (tColIndex < tColCount)
+							&& (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
 						if (map [tRowIndex] [tColIndex].forID (aID)) {
 							tFoundMapCell = map [tRowIndex] [tColIndex];
 						}
@@ -738,8 +758,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public int getTileNumber (int aRow, int aCol) {
-		int tTileNumber = 0;
+		int tTileNumber;
 
+		tTileNumber = 0;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tTileNumber = map [aRow] [aCol].getTileNumber ();
@@ -754,7 +775,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return "Map";
 	}
 
-	public void handleSelectRevenueCenter (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, Point aPoint) {
+	public void handleSelectRevenueCenter (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, 
+						Point aPoint) {
 		City tSelectedCity;
 		RevenueCenter tSelectedRevenueCenter;
 
@@ -796,7 +818,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
 					System.err.println ("No Selected Map Cell provided");
 				} else {
-					System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
+					System.err.println ("The Map Cell " + aSelectedMapCell.getID () 
+							+ " is currently NOT Selectable (1)");
 				}
 			}
 		} else {
@@ -817,9 +840,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						// No Tile on Cell, Toggle Selection
 						toggleSelectedMapCell (aSelectedMapCell);
 					} else {
-						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (2)");
-						// No Tile on Cell, Toggle Selection
-//						toggleSelectedMapCell (aSelectedMapCell);
+						System.err.println ("The Map Cell " + aSelectedMapCell.getID () 
+								+ " is currently NOT Selectable (2)");
 					}
 				} else {
 					if (containsMapCellSMC (aSelectedMapCell)) {
@@ -829,7 +851,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							toggleSelectedMapCell (aSelectedMapCell);			
 						}
 					} else {
-						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
+						System.err.println ("The Map Cell " + aSelectedMapCell.getID () 
+								+ " is currently NOT Selectable (3)");
 					}
 				}
 			}
@@ -961,10 +984,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					if (tDefaultTileNumber == tTileNumber) {
 						placeBenefitTokens (tCol, tRow, tBenefitValue, tHasPort, tHasCattle);
 					} else {
-						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, tHasPort, tHasCattle);
+						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
+									tHasPort, tHasCattle);
 					}
 				} else {
-					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, tHasPort, tHasCattle);
+					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
+									tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
 					map [tRow] [tCol].loadStationsStates (aMapCellNode);
@@ -983,7 +1008,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (tTile != Tile.NO_TILE) {
 			tCurrentTile = map [aRow] [aCol].getTile ();
 			map [aRow] [aCol].putTile (tTile, aTileOrientation);
-//			map [aRow] [aCol].setTileOrientationLocked (true);
 			map [aRow] [aCol].lockTileOrientation ();
 			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);
@@ -992,7 +1016,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
-	private void placeBenefitTokens (int aCol, int aRow, int aBenefitValue, boolean aHasPort, boolean aHasCattle) {		
+	private void placeBenefitTokens (int aCol, int aRow, int aBenefitValue, boolean aHasPort, 
+					boolean aHasCattle) {		
 		if (aHasPort) {
 			map [aRow] [aCol].layPortToken ();
 		}
@@ -1008,18 +1033,19 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		XMLNode tChildNode;
 		String tChildName;
 		int tChildrenCount;
-		int tRowIndex = 0;
-		int tColIndex = 0;
+		int tRowIndex;
+		int tColIndex;
 		int index;
 		int tOddRow;
 		boolean evenRow;
 		String tID;
-		boolean tGoodLoad = true;
+		boolean tGoodLoad;
 
-		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX);
+		tGoodLoad = true;
+		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
 		tChildren = aRowNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL);
+		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
 		if (tColIndex != 0) {
 			for (index = 0; index < tColIndex; index++) {
 				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
@@ -1105,15 +1131,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tFillColor = "black";
 		String tRowStartID;
 		String tColStartID;
-		String theRowIDs[];
-		String theColIDs[];
+		String theRowIDs [];
+		String theColIDs [];
 		boolean tLoadedRow;
-		int tTerrainType[] = new int [15];
-		int tTerrainCost[] = new int [15];
+		int tTerrainType [];
+		int tTerrainCost [];
 		int tDefaultHexSize;
 		int tRow;
 		int tCol;
 
+		tTerrainType = new int [15];
+		tTerrainCost = new int [15];
 		tXMLMapRoot = aXMLDocument.getDocumentNode ();
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMapRoot.getThisIntAttribute (AN_ROWS);
@@ -1481,16 +1509,18 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
-		boolean tIsTileAvailableForMapCell = true;
+		boolean tIsTileAvailableForMapCell;
 		Tile tTile;
 		int tMapCellTypeCount;
 		int tTileNumber;
 		String tTileName;
 		GameTile tGameTile;
-		int tAvailableCount = 0;
+		int tAvailableCount;
 		String tBaseTileName;
 		String tBaseCityName;
 
+		tIsTileAvailableForMapCell = true;
+		tAvailableCount = 0;
 		tTileName = getTileName (aMapCell);
 		tBaseCityName = getBaseCityName (aMapCell);
 		if (aMapCell.isTileOnCell ()) {
@@ -1520,8 +1550,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter, MapCell aMapCell) {
-		City tSelectedCity = City.NO_CITY;
+		City tSelectedCity;
 
+		tSelectedCity = City.NO_CITY;
 		if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 			aSelectedRevenueCenter.toggleSelected (0);
 			if (aSelectedRevenueCenter instanceof City) {
