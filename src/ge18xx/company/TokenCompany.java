@@ -136,7 +136,8 @@ public abstract class TokenCompany extends TrainCompany {
 
 		tCost = Token.NO_COST;
 		tStartIndex = 1;
-		// TODO: For the Token Type (Fixed Cost vs Distance) MUST get from XML Game Info File, not static 1835 for Example
+		// TODO: For the Token Type (Fixed Cost vs Distance) MUST get from XML Game Info File, 
+		// not static 1835 for Example
 		tTokenTypeToAdd = TokenType.FIXED_COST;
 		if (tokenType != GUI.NULL_STRING) {
 			if (tokenType.equals (TokenType.FIXED_COST.toString ())) {
