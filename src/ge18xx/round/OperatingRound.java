@@ -45,6 +45,10 @@ public class OperatingRound extends Round {
 		operatingType = aOperatingType;
 	}
 
+	public String getOperatingType () {
+		return operatingType;
+	}
+	
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
@@ -267,6 +271,23 @@ public class OperatingRound extends Round {
 		}
 	}
 
+	public TrainCompany getNextOperatingCompany () {
+		TrainCompany tTrainCompany;
+		int tTrainCompanyIndex;
+	
+		tTrainCompanyIndex = getNextCompanyToOperate ();
+		tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
+		if (tTrainCompanyIndex != CorporationList.NO_CORPORATION_INDEX) {
+			if (operatingType.equals (Corporation.SHARE_COMPANY)) {
+				tTrainCompany = (TrainCompany) shareCompanies.getCorporation (tTrainCompanyIndex);
+			} else if (operatingType.equals (Corporation.MINOR_COMPANY)) {
+				tTrainCompany = (TrainCompany) minorCompanies.getCorporation (tTrainCompanyIndex);
+			}
+		}
+		
+		return tTrainCompany;
+	}
+	
 	public void showCurrentCompanyFrame () {
 		int tNextShareToOperate;
 
