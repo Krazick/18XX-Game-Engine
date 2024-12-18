@@ -652,7 +652,17 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public String getOwnerWhoWillOperate () {
-		return operatingRound.getOwnerWhoWillOperate ();
+		TrainCompany tTrainCompany;
+		String tPresidentName;
+
+		tTrainCompany = operatingRound.getNextOperatingCompany ();
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+			tPresidentName = tTrainCompany.getPresidentName ();
+		} else {
+			tPresidentName = Player.NO_NAME;
+		}
+		
+		return tPresidentName;
 	}
 
 	public int getActionCount () {
