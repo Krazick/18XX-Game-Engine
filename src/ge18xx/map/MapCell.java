@@ -128,8 +128,8 @@ public class MapCell implements Comparator<Object> {
 		this (Xc, Yc, aHexMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 
-	public MapCell (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName,
-			String aBlockedSides) {
+	public MapCell (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient, 
+			String aBaseName, String aBlockedSides) {
 		setAllValues (Xc, Yc, aHexMap, aBaseTerrain, aTile, aTileOrient, aBaseName, aBlockedSides);
 		setupLicenseToken ();
 	}
@@ -137,11 +137,12 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
 									TileType aTileType) {
-		RevenueCenterType tRCType = new RevenueCenterType (aType);
+		RevenueCenterType tRCType;
 		RevenueCenter tRC;
 		Location tLocation2;
 		boolean addOK;
 
+		tRCType = new RevenueCenterType (aType);
 		addOK = addRevenueCenter (setupRevenueCenter (tRCType, aID, aLocation, aName, aValue, aTileType));
 		if (addOK) {
 			if (tRCType.isTwoTowns ()) {
@@ -210,8 +211,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void removeEndRoute (Location aLocation) {
-		int tCount, tIndex;
-		int tThisLocation, tFoundLocation;
+		int tCount;
+		int tIndex;
+		int tThisLocation;
+		int tFoundLocation;
 		Terrain tEndRoute;
 
 		tCount = endRoutes.size ();
@@ -230,7 +233,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTrainUsingSide (int aSide) {
-		boolean tIsTrainUsingSide = false;
+		boolean tIsTrainUsingSide;
 
 		tIsTrainUsingSide = (trainUsingSide [aSide] > 0);
 
@@ -280,8 +283,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isNeighbor (MapCell tPossibleNeighbor) {
-		boolean tIsNeighbor = false;
+		boolean tIsNeighbor;
 
+		tIsNeighbor = false;
 		if (tPossibleNeighbor != NO_MAP_CELL) {
 			for (MapCell tNeighbor : neighbors) {
 				if (tNeighbor == tPossibleNeighbor) {
@@ -360,9 +364,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public Track getTrackFromSide (int aSideLocation) {
-		Track tTrack = Track.NO_TRACK;
+		Track tTrack;
 		int tUnrotatedSideLocation;
 
+		tTrack = Track.NO_TRACK;
 		if (isTileOnCell ()) {
 			tUnrotatedSideLocation = (aSideLocation + 6 - tileOrient) % 6;
 			tTrack = tile.getTrackFromSide (tUnrotatedSideLocation);
@@ -532,7 +537,8 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void drawTerrain (Graphics g, Terrain aTerrain, Hex18XX aHex, int Xoffset, int Yoffset) {
-		int Xol, Yol;
+		int Xol;
+		int Yol;
 		Point tLocationPoint;
 		Location tLocation;
 		Font tCurrentFont;
@@ -1179,9 +1185,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTrackOnSide (int aSide) {
-		boolean tIsTrackOnSide = false;
+		boolean tIsTrackOnSide;
 		int tUnrotatedSide;
 
+		tIsTrackOnSide = false;
 		if (isTileOnCell ()) {
 			if (tile != Tile.NO_TILE) {
 				tUnrotatedSide = (aSide - tileOrient + 6) % 6;
@@ -1193,9 +1200,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTrackToSide (int aSide) {
-		boolean tIsTrackToSide = false;
+		boolean tIsTrackToSide;
 		int tUnrotatedSide;
 
+		tIsTrackToSide = false;
 		if (isTileOnCell ()) {
 			if (tile != Tile.NO_TILE) {
 				if (tile.canDeadEndTrack ()) {
@@ -1387,10 +1395,11 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean canPlaceTile (TileSet aTileSet) {
-		boolean tCanPlaceTile = true;
+		boolean tCanPlaceTile;
 		GameTile tSelectedTile;
 		Tile tNewTile;
 
+		tCanPlaceTile = true;
 		tSelectedTile = aTileSet.getSelectedTile ();
 		if (tSelectedTile != GameTile.NO_GAME_TILE) {
 			if (isTileOnCell ()) {
@@ -1404,8 +1413,9 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean putTileDown (TileSet aTileSet) {
 		GameTile tSelectedTile;
-		boolean tTilePlaced = false;
+		boolean tTilePlaced;
 
+		tTilePlaced = false;
 		tSelectedTile = aTileSet.getSelectedTile ();
 		if (tSelectedTile != GameTile.NO_GAME_TILE) {
 			tTilePlaced = putThisTileDown (aTileSet, tSelectedTile, NO_ROTATION);
@@ -1507,8 +1517,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
-		boolean tIsConnectedToLocation = false;
+		boolean tIsConnectedToLocation;
 
+		tIsConnectedToLocation = false;
 		if (isTileOnCell ()) {
 			tIsConnectedToLocation = tile.areLocationsConnected (aLocation, aRemoteLocationIndex);
 		}
@@ -1547,7 +1558,6 @@ public class MapCell implements Comparator<Object> {
 		tGameTypeCount = aGameTile.getTypeCount ();
 		tMapCellTypeCount = getTypeCount ();
 
-//		tSameTypeCount = (aGameTile.getTypeCount () == getTypeCount ());
 		tSameTypeCount = (tGameTypeCount == tMapCellTypeCount);
 		
 		return tSameTypeCount;
@@ -1600,8 +1610,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean pseudoYellowTile () {
-		boolean tPseudoYellowTile = false;
+		boolean tPseudoYellowTile;
 
+		tPseudoYellowTile = false;
 		if ("OO".equals (baseTileName.getName ())) {
 			tPseudoYellowTile = true;
 		}
@@ -1628,7 +1639,8 @@ public class MapCell implements Comparator<Object> {
 		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
-			tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2, tIsInSelectable);
+			tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2,
+					tIsInSelectable);
 			if (blockedSides != null) {
 				aHex.drawBorders (aGraphics, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
@@ -1701,7 +1713,8 @@ public class MapCell implements Comparator<Object> {
 		aHex.drawNeighbor (aGraphics, aSide, XCenter, YCenter);
 	}
 
-	private int drawTerrain1 (Graphics aGraphics, Hex18XX aHex, RevenueCenter aRevenueCenter, int aXoffset, int aYoffset) {
+	private int drawTerrain1 (Graphics aGraphics, Hex18XX aHex, RevenueCenter aRevenueCenter, 
+							int aXoffset, int aYoffset) {
 		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 			if (terrain1 != Terrain.NO_TERRAINX) {
 				if (terrain1.isRiver ()) {
@@ -1727,7 +1740,8 @@ public class MapCell implements Comparator<Object> {
 		drawTerrain (aGraphics, terrain2, aHex, aXoffset, aYoffset);
 	}
 	 
-	private void drawTerrainBleedThrough (Graphics aGraphics, Terrain aTerrain, Hex18XX aHex, int aXoffset, int aYoffset) {
+	private void drawTerrainBleedThrough (Graphics aGraphics, Terrain aTerrain, Hex18XX aHex, 
+						int aXoffset, int aYoffset) {
 		if (aTerrain != Terrain.NO_TERRAINX) {
 			if (aTerrain.bleedThroughAll ()) {
 				drawTerrain (aGraphics, aTerrain, aHex, aXoffset, aYoffset);
@@ -1918,8 +1932,9 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
-	public void setOtherValues (int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName, String aBlockedSides) {
-		String tSideNames[] = { "A", "B", "C", "D", "E", "F" };
+	public void setOtherValues (int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName, 
+								String aBlockedSides) {
+		String tSideNames [] = { "A", "B", "C", "D", "E", "F" };
 		int tBlockedIndex;
 		int tIndex;
 
@@ -2044,8 +2059,8 @@ public class MapCell implements Comparator<Object> {
 		return tRevenueCenter;
 	}
 
-	public RevenueCenter setupRevenueCenter (RevenueCenterType tRevenueCenterType, int aID, int aLocation, String aName,
-			int aValue, TileType aTileType) {
+	public RevenueCenter setupRevenueCenter (RevenueCenterType tRevenueCenterType, int aID, 
+						int aLocation, String aName, int aValue, TileType aTileType) {
 		RevenueCenter tRevenueCenter;
 		int tStationCount;
 
@@ -2055,7 +2070,8 @@ public class MapCell implements Comparator<Object> {
 		} else if (tRevenueCenterType.isTown ()) {
 			tRevenueCenter = new Town (tRevenueCenterType, aID, aLocation, aName, aValue, aTileType);
 		} else if (tRevenueCenterType.isCity ()) {
-			tRevenueCenter = new City (tRevenueCenterType, tStationCount, aID, aLocation, aName, aValue, aTileType);
+			tRevenueCenter = new City (tRevenueCenterType, tStationCount, aID, aLocation, aName, 
+										aValue, aTileType);
 		} else {
 			tRevenueCenter = null;
 		}
@@ -2095,9 +2111,11 @@ public class MapCell implements Comparator<Object> {
 		Tile tCurrentTile;
 		Upgrade tUpgrade;
 		boolean tAllowedRotations [] = new boolean [6];
-		boolean tMustSwap = false;
-		boolean tTilePlaced = false;
+		boolean tMustSwap;
+		boolean tTilePlaced;
 
+		tMustSwap = false;
+		tTilePlaced = false;
 		tCurrentTile = getTile ();
 		tCurrentTileNumber = getTileNumber (); // Find Current Tile Number and the Current Game Tile
 		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
@@ -2193,7 +2211,6 @@ public class MapCell implements Comparator<Object> {
 		boolean tMustSwap;
 		String tOldSides;
 		String tNewSides;
-
 		tNewLocation = aNewCityLocation;
 		tMustSwap = false;		// For handling O-O Tiles where the Tracks must replace existing Track
 								// The existing Track is from a Side to a City. It either works as 
@@ -2240,7 +2257,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean anyAllowedRotation (TileSet aTileSet, Tile aNewTile) {
-		boolean tAnyAllowedRotation = false;
+		boolean tAnyAllowedRotation;
 		Upgrade tUpgrade;
 		GameTile tCurrentGameTile;
 		int tCurrentTileNumber;
@@ -2248,7 +2265,8 @@ public class MapCell implements Comparator<Object> {
 		int tFirstPossibleRotation;
 		boolean tAllowedRotations [];
 
-		if (this.isTileOnCell ()) {
+		tAnyAllowedRotation = false;
+		if (isTileOnCell ()) {
 			tCurrentTileNumber = getTileNumber (); // Find Current Tile Number and the Current Game Tile
 			tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
 			tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
@@ -2304,8 +2322,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getFirstPossibleRotation (boolean aAllowedRotations[]) {
-		int tFirstPossibleRotation = NO_ROTATION;
+		int tFirstPossibleRotation;
 
+		tFirstPossibleRotation = NO_ROTATION;
 		for (int tUpgradeRotation = 0; tUpgradeRotation < aAllowedRotations.length; tUpgradeRotation++) {
 			if (aAllowedRotations [tUpgradeRotation]) {
 				if (tFirstPossibleRotation == NO_ROTATION) {
@@ -2318,9 +2337,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean upgradeAllowed (boolean aAllowedRotations []) {
-		boolean tUpgradeAllowed = false;
+		boolean tUpgradeAllowed;
 		int tFirstPossibleRotation;
 
+		tUpgradeAllowed = false;
 		tFirstPossibleRotation = getFirstPossibleRotation (aAllowedRotations);
 		if (tFirstPossibleRotation != NO_ROTATION) {
 			tUpgradeAllowed = true;
@@ -2331,8 +2351,9 @@ public class MapCell implements Comparator<Object> {
 
 	public void restoreTile (TileSet aTileSet, Tile aCurrentTile) {
 		GameTile tCurrentGameTile;
-		int tCurrentTileNumber = aCurrentTile.getNumber ();
+		int tCurrentTileNumber;
 
+		tCurrentTileNumber = aCurrentTile.getNumber ();
 		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it
 		// back on TileSet
 		aCurrentTile.removeTemporaryCenters ();
@@ -2378,8 +2399,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTileLayCostFree () {
-		boolean tIsTileLayCostFree = true;
+		boolean tIsTileLayCostFree;
 
+		tIsTileLayCostFree = true;
 		// A Tile on the Cell, unless it is Fixed, is Free to lay
 		if (isTileOnCell ()) {
 			if (tile.isFixedTile ()) {
@@ -2393,8 +2415,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getCostToLayTile () {
-		int tCostToLayTile = 0;
+		int tCostToLayTile;
 
+		tCostToLayTile = 0;
 		// Test if the Tile Lay Cost if Free.
 		if (!isTileLayCostFree ()) {
 
@@ -2414,9 +2437,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public String getBasePrivateAbbrev (CorporationList privateCos) {
-		String tPrivateAbbrev = "";
+		String tPrivateAbbrev;
 		PrivateCompany tPrivateCompany;
 
+		tPrivateAbbrev = GUI.EMPTY_STRING;
 		if (privateCos != CorporationList.NO_CORPORATION_LIST) {
 			tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
 			if (tPrivateCompany != Corporation.NO_CORPORATION) {
@@ -2428,9 +2452,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean privatePreventsTileLay (CorporationList privateCos, Corporation tOperatingTrainCompany) {
-		boolean tPrivatePrevents = false;
+		boolean tPrivatePrevents;
 		PrivateCompany tPrivateCompany;
 
+		tPrivatePrevents = false;
 		// If a Tile is on the Cell any Company can do a placement/upgrade
 		if (!isTileOnCell ()) {
 			if (privateCos != CorporationList.NO_CORPORATION_LIST) {
@@ -2451,8 +2476,12 @@ public class MapCell implements Comparator<Object> {
 
 	public int getTotalTerrainCost () {
 		int tTotalTerrainCost;
-		int tCostBaseTerrain, tCostTerrain1, tCostTerrain2;
-		Terrain tBaseTerrain, tTerrain1, tTerrain2;
+		int tCostBaseTerrain;
+		int tCostTerrain1;
+		int tCostTerrain2;
+		Terrain tBaseTerrain;
+		Terrain tTerrain1;
+		Terrain tTerrain2;
 
 		tBaseTerrain = getBaseTerrain ();
 		tCostBaseTerrain = getTerrainCost (tBaseTerrain);
@@ -2533,7 +2562,8 @@ public class MapCell implements Comparator<Object> {
 			tRawThatLocation = unrotateIfSide (tRawThatLocation);
 			tRawThatLocation = unrotateIfDeadEndSide (tRawThatLocation);
 
-			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), tRawThatLocation.getLocation ());
+			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), 
+							tRawThatLocation.getLocation ());
 		}
 
 		return tTrack;
@@ -2570,8 +2600,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getSideInUseCount () {
-		int tSideInUseCount = 0;
+		int tSideInUseCount;
 
+		tSideInUseCount = 0;
 		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			if (trainUsingSide [tSideIndex] > 0) {
 				tSideInUseCount++;
@@ -2614,7 +2645,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTileAvailableForMapCell () {
-		boolean tIsTileAvailableForMapCell = true;
+		boolean tIsTileAvailableForMapCell;
 
 		tIsTileAvailableForMapCell = hexMap.isTileAvailableForMapCell (this);
 
@@ -2622,9 +2653,10 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean canUpgradeTo (TileType tSelectedTileType) {
-		boolean tCanUpgradeTo = false;
+		boolean tCanUpgradeTo;
 		TileType tTileTypeOnCell;
 
+		tCanUpgradeTo = false;
 		if (isTileOnCell ()) {
 			tTileTypeOnCell = tile.getTheTileType ();
 			tCanUpgradeTo = tTileTypeOnCell.canUpgradeTo (tSelectedTileType);
