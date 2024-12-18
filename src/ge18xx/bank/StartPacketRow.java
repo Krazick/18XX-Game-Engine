@@ -78,8 +78,8 @@ public class StartPacketRow implements ParsingRoutineI {
 			if (tStartPacketItem.available ()) {
 				if (! aPreviousRowSoldOut) {
 					if (tItemsShownAsBuy < aBuyNItems) {
-						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, tRowJPanel,
-								tStartPacketItem);
+						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, 
+								tRowJPanel, tStartPacketItem);
 						tItemsShownAsBuy++;
 					} else {
 						if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {
@@ -89,8 +89,8 @@ public class StartPacketRow implements ParsingRoutineI {
 						} else {
 							aSelectedButtonLabel = GUI.EMPTY_STRING;
 						}
-						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, tRowJPanel,
-								tStartPacketItem);
+						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, 
+								tRowJPanel, tStartPacketItem);
 					}
 				} else {
 					if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {

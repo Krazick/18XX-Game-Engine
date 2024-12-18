@@ -53,13 +53,13 @@ public class StartPacketItem implements ParsingRoutineI {
 		setAvailable (tAvailable);
 	}
 
-	public JPanel buildStartPacketItemJPanel (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
-			GameManager aGameManager) {
+	public JPanel buildStartPacketItemJPanel (String aSelectedButtonLabel, ItemListener aItemListener, 
+			Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoPanel;
 
 		if (available) {
-			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener, true,
-					aPlayer, aGameManager);
+			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+					aItemListener, true, aPlayer, aGameManager);
 			certificate.addBenefitLabels (tCertificateInfoPanel, false);
 		} else {
 			tCertificateInfoPanel = GUI.NO_PANEL;
