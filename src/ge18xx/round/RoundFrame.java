@@ -546,7 +546,7 @@ public class RoundFrame extends XMLFrame {
 				}
 			} else if (roundManager.isAOperatingRound ()) {
 				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
-				if (tOperatingOwnerName != Corporation.NO_NAME) {
+				if (tOperatingOwnerName != Player.NO_NAME) {
 					if (tOperatingOwnerName.equals (tClientUserName)) {
 						setAlertBackgrounds ();
 					} else {
