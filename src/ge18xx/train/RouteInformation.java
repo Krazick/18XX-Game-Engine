@@ -305,6 +305,12 @@ public class RouteInformation {
 
 		return tIsSameRCasLast;
 	}
+	
+	/**
+	 * Determine if the Route Information is empty
+	 * 
+	 * @return true if there are no route Segments
+	 */
 
 	public boolean isEmpty () {
 		return routeSegments.isEmpty ();

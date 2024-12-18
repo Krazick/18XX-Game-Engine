@@ -289,7 +289,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	/**
 	 * Retrieve the current phase from the Game Manager and return it
 	 * 
-	 * @return The current Phase
+	 * @return The current Phase as int value
 	 */
 	public int getCurrentPhase () {
 		return gameManager.getCurrentPhase ();
@@ -1374,8 +1374,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 				tStartLocation = aSelectedRC.getLocation ();
 				tEndLocation = new Location ();
 				tTrainIndex = routeInformation.getTrainIndex ();
-				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation,
-						tEndLocation);
+				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell,
+						tStartLocation, tEndLocation);
 				tRouteAction = tStartRouteAction;
 			} else {
 				logger.error ("Need to Select a Revenue Center to start a new Route");

@@ -3361,6 +3361,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return roundManager.getOperatingRoundCount ();
 	}
 	
+	/**
+	 * Retrieve the current phase from the Game Manager and return it
+	 * 
+	 * @return The current Phase as int value
+	 */
+
 	public int getCurrentPhase () {
 		return phaseManager.getCurrentPhase ();
 	}

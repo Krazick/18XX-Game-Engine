@@ -401,6 +401,12 @@ public class PhaseManager implements XMLSaveGameI {
 		return tUpgradeAllowed;
 	}
 
+	/**
+	 * Retrieve the current phase from the Game Manager and return it
+	 * 
+	 * @return The current Phase as int value
+	 */
+
 	public int getCurrentPhase () {
 		return currentPhase;
 	}
