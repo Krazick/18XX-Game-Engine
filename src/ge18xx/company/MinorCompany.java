@@ -209,11 +209,6 @@ public class MinorCompany extends TokenCompany {
 	}
 
 	@Override
-	protected boolean isPlaceTileMode () {
-		return false;
-	}
-
-	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 		return GUI.NO_PANEL;
 	}
