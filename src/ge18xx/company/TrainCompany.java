@@ -362,11 +362,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
 		updateThisRevenue (tPreparedCorporationAction);
 		
-//		tOldPreviousRevenue = previousRevenue;
-//		setPreviousRevenue (thisRevenue);
-//		if (tOldPreviousRevenue != previousRevenue) {
-//			tPreparedCorporationAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, previousRevenue);
-//		}
 		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) this;
 			if (tShareCompany.wasLoanTaken ()) {
