@@ -57,12 +57,13 @@ public class MarketCell {
 	static final int NEIGHBOR_DOWN_RIGHT = 4;
 	static final int NEIGHBOR_NONE = -1;
 	static final String NO_COORDS = "<NONE>";
-	static final MarketRegion REGIONS[] = { 
+	static final MarketRegion REGIONS [] = { 
 			MarketRegion.Normal, 
 			MarketRegion.Yellow,
 			MarketRegion.Brown,
 			MarketRegion.Green, 
 			MarketRegion.Ledge, 
+			MarketRegion.BelowLedge,
 			MarketRegion.Orange, 
 			MarketRegion.Closed, 
 			MarketRegion.Start,

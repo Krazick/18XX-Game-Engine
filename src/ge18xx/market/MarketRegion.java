@@ -9,8 +9,9 @@ public enum MarketRegion {
 	Green (false, true, false, false, Color.GREEN, Color.BLACK),
 	Brown (false, true, false, true, new Color (139, 69, 19), Color.WHITE),
 	Ledge (false, false, true, false, Color.WHITE, Color.BLACK),
+	BelowLedge (false, false, true, false, new Color (160, 255, 160), Color.BLACK),
 	Closed (true, false, true, false, Color.DARK_GRAY, Color.BLACK),
-	Start (false, false, true, false, Color.WHITE, Color.BLACK),
+	Start (false, false, true, false, new Color (255,171, 187), Color.BLACK),
 	Unused (false, false, false, false, Color.WHITE, Color.BLACK);
 
 	// TODO: 1856 the Brown Area should be FALSE, TRUE, TRUE ??? Review Rules
