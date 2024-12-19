@@ -4,6 +4,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.round.action.effects.SetPercentBoughtEffect;
+import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class BuyStockAction extends TransferOwnershipAction {
@@ -27,7 +28,15 @@ public class BuyStockAction extends TransferOwnershipAction {
 		addEffect (tSetPercentBoughtEffect);
 	}
 
-	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
+		SetParValueEffect tSetParValueEffect;
+
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, GUI.EMPTY_STRING);
+		addEffect (tSetParValueEffect);
+	}
+
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, 
+										String aCoordinates) {
 		SetParValueEffect tSetParValueEffect;
 
 		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
