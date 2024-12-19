@@ -140,14 +140,15 @@ public class RoundFrame extends XMLFrame {
 		playersInfoPanel.setRoundFrame (this);
 		roundJPanel.add (playersInfoPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
+		
+		buildButtonsJPanel ();
+		roundJPanel.add (buttonsJPanel);
+		roundJPanel.add (Box.createVerticalGlue ());
 
 		allCorporationsPanel = new AllCorporationsPanel (roundManager);
 		roundJPanel.add (allCorporationsPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
-		buildButtonsJPanel ();
-		roundJPanel.add (buttonsJPanel);
-		roundJPanel.add (Box.createVerticalGlue ());
 		listenerPanels.add (playersInfoPanel);
 		listenerPanels.add (allCorporationsPanel);
 
