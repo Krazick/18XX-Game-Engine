@@ -309,13 +309,11 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		SetParValueEffect tSetParValueEffect;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
-		String tCoordinates;
 	
 		tRoundType = stockRound.getRoundState ();
 		tRoundID = stockRound.getID ();
-		tCoordinates = GUI.EMPTY_STRING;
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
-		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates);
+		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
 		tSetParValueEffect = (SetParValueEffect) tSetParValueAction.getEffect (0);
 		
 		return tSetParValueEffect;
