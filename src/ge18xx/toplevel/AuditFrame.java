@@ -18,6 +18,7 @@ import javax.swing.table.TableColumnModel;
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.MinorCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -37,12 +38,14 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private String BANK_PREFIX = "Bank";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
+	private String MINOR_CORP_PREFIX = "Minor Company: ";
 	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
 	JTable auditTable;
 	JComboBox<String> actorsCombo;
 	KButton refreshList;
 	ActorI.ActorTypes actorType;
-	CorporationList companies;
+	CorporationList shareCompanies;
+	CorporationList minorCompanies;
 	int actorBalance;
 	String actorName;
 	String actorAbbrev;
@@ -51,12 +54,13 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		super (aFrameName, aGameManager);
 		
 		GameManager tGameManager;
+		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };
+		int tColWidths [] = { 50, 50, 110, 1000, 50, 50, 70 };
+		int tTotalWidth = 0;
 		
 		tGameManager = (GameManager) gameEngineManager;
-		setCompanies (tGameManager.getShareCompanies ());
-		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };
-		int tColWidths[] = { 50, 50, 110, 1000, 50, 50, 70 };
-		int tTotalWidth = 0;
+		setShareCompanies (tGameManager.getShareCompanies ());
+		setMinorCompanies (tGameManager.getMinorCompanies ());
 
 		buildAuditTable (tColumnNames, tColWidths, tTotalWidth);
 
@@ -68,7 +72,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	/**
-	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the 
+	 * static BASE_TITLE provided
 	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
@@ -90,8 +95,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	private void buildAuditTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
-
+		DefaultTableCellRenderer rightRenderer;
+		TableColumnModel tColumnModel;
+		
+		rightRenderer = new DefaultTableCellRenderer ();
 		rightRenderer.setHorizontalAlignment (SwingConstants.RIGHT);
 		auditTable = new JTable ();
 
@@ -102,7 +109,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		auditTable.setShowVerticalLines (true);
 		auditTable.setShowHorizontalLines (true);
 
-		TableColumnModel tColumnModel = auditTable.getColumnModel ();
+		tColumnModel = auditTable.getColumnModel ();
 
 		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
 			tColumnModel.getColumn (tIndex).setMaxWidth (aColWidths [tIndex]);
@@ -134,8 +141,12 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		return actorType;
 	}
 
-	public void setCompanies (CorporationList aCompanies) {
-		companies = aCompanies;
+	public void setShareCompanies (CorporationList aShareCompanies) {
+		shareCompanies = aShareCompanies;
+	}
+
+	public void setMinorCompanies (CorporationList aMinorCompanies) {
+		minorCompanies = aMinorCompanies;
 	}
 
 	public void setActorBalance (int aActorBalance) {
@@ -173,7 +184,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		addToActorBalance (aCredit);
 		subtractFromActorBalance (aDebit);
 		auditModel.addRow (
-				new Object [] { aActionNumber, aRoundID, tActorShown, aActionEvent, aDebit, aCredit, actorBalance });
+				new Object [] { aActionNumber, aRoundID, tActorShown, aActionEvent, aDebit, 
+								aCredit, actorBalance });
 	}
 
 	private String getActorToShow () {
@@ -189,7 +201,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	public void removeAllRows () {
-		int tRowCount, tRowIndex;
+		int tRowCount;
+		int tRowIndex;
 
 		tRowCount = auditModel.getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
@@ -212,8 +225,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	private boolean setSelectedActor () {
 		String tActorName;
-		boolean tIsPlayer = false;
+		boolean tIsPlayer;
 
+		tIsPlayer = false;
 		tActorName = getSelectedActorName ();
 		if (tActorName.startsWith (PLAYER_PREFIX)) {
 			tActorName = tActorName.substring (PLAYER_PREFIX.length ());
@@ -221,6 +235,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		} else if (tActorName.startsWith (SHARE_CORP_PREFIX)) {
 			tActorName = tActorName.substring (SHARE_CORP_PREFIX.length ());
 			setSelectedShareCompany (tActorName);
+		} else if (tActorName.startsWith (MINOR_CORP_PREFIX)) {
+			tActorName = tActorName.substring (MINOR_CORP_PREFIX.length ());
+			setSelectedMinorCompany (tActorName);
 		} else if (tActorName.startsWith (BANK_PREFIX)) {
 			setSelectedBank ();
 		}
@@ -229,8 +246,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	private boolean setSelectedPlayer (String aPlayerName) {
-		boolean tPlayer = true;
+		boolean tPlayer;
 
+		tPlayer = true;
 		setActorName (aPlayerName);
 		setActorAbbrev (aPlayerName);
 		setActorType (ActorI.ActorTypes.Player);
@@ -291,17 +309,29 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private void setSelectedShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;
 
-		tShareCompany = (ShareCompany) companies.getCorporation (aCompanyAbbrev);
+		tShareCompany = (ShareCompany) shareCompanies.getCorporation (aCompanyAbbrev);
 		setActorName (tShareCompany.getName ());
 		setActorAbbrev (tShareCompany.getAbbrev ());
 		setActorType (ActorI.ActorTypes.ShareCompany);
 		setActorBalance (0);
 	}
 
+	private void setSelectedMinorCompany (String aCompanyAbbrev) {
+		MinorCompany tMinorCompany;
+
+		tMinorCompany = (MinorCompany) minorCompanies.getCorporation (aCompanyAbbrev);
+		setActorName (tMinorCompany.getName ());
+		setActorAbbrev (tMinorCompany.getAbbrev ());
+		setActorType (ActorI.ActorTypes.MinorCompany);
+		setActorBalance (0);
+	}
+
 	public void updateActorsComboBox () {
 		PlayerManager tPlayerManager;
-		int tPlayerCount, tPlayerIndex;
-		int tCorpCount, tCorpIndex;
+		int tPlayerCount;
+		int tPlayerIndex;
+		int tCorpCount;
+		int tCorpIndex;
 		Player tPlayer;
 		Corporation tCorporation;
 		String tActorName;
@@ -324,11 +354,11 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 			}
 		}
 
-		if (companies != CorporationList.NO_CORPORATION_LIST) {
-			tCorpCount = companies.getRowCount ();
+		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = shareCompanies.getRowCount ();
 			if (tCorpCount > 0) {
 				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
-					tCorporation = companies.getCorporation (tCorpIndex);
+					tCorporation = shareCompanies.getCorporation (tCorpIndex);
 					if (tCorporation != Corporation.NO_CORPORATION) {
 						tActorName = SHARE_CORP_PREFIX + tCorporation.getAbbrev ();
 						if (!isActorsInComboBox (tActorName)) {
@@ -338,16 +368,33 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 				}
 			}
 		}
+		if (minorCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = minorCompanies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
+					tCorporation = minorCompanies.getCorporation (tCorpIndex);
+					if (tCorporation != Corporation.NO_CORPORATION) {
+						tActorName = MINOR_CORP_PREFIX + tCorporation.getAbbrev ();
+						if (!isActorsInComboBox (tActorName)) {
+							actorsCombo.addItem (tActorName);
+						}
+					}
+				}
+			}
+		}
+
 		tBank = tGameManager.getBank ();
 		actorsCombo.addItem (tBank.getName ());
 		actorsCombo.addItemListener (this);
 	}
 
 	public boolean isActorsInComboBox (String aActorsName) {
-		boolean tActorInComboBox = false;
-		int tCount, tIndex;
+		boolean tActorInComboBox;
+		int tCount;
+		int tIndex;
 		String tActorFound;
 
+		tActorInComboBox = false;
 		tCount = actorsCombo.getItemCount ();
 		for (tIndex = 0; tIndex < tCount; tIndex++) {
 			tActorFound = actorsCombo.getItemAt (tIndex);
@@ -379,8 +426,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	private void updateAuditTable () {
-		boolean tPlayer = false;
+		boolean tPlayer;
 
+		tPlayer = false;
 		if (actorType.equals (ActorI.ActorTypes.Player)) {
 			tPlayer = setSelectedPlayer (actorName);
 		} else if (actorType.equals (ActorI.ActorTypes.ShareCompany)) {
@@ -393,8 +441,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	private void refreshAuditTable (ItemEvent aItemEvent) {
 		JComboBox<String> tThisComboBox;
-		boolean tPlayer = false;
+		boolean tPlayer;
 
+		tPlayer = false;
 		@SuppressWarnings ("unchecked")
 		JComboBox<String> source = (JComboBox<String>) aItemEvent.getSource ();
 		tThisComboBox = source;
