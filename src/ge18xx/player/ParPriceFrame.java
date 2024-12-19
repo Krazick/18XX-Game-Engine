@@ -285,7 +285,8 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		return tParPriceSet;
 	}
 
-	public SetParValueAction setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
+	public SetParValueAction setParValueAction (int aParPrice, ShareCompany aShareCompany, 
+					boolean aChainToPrevious) {
 		SetParValueAction tSetParValueAction;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -299,8 +300,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
 
 		handleResetPlayerStates (tSetParValueAction);
-		
-//		stockRound.addAction (tSetParValueAction);
 		
 		return tSetParValueAction;
 	}
