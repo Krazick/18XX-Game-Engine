@@ -49,7 +49,6 @@ import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
-import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
@@ -749,7 +748,6 @@ public class PlayerManager implements XMLSaveGameI {
 		Certificate tFreeCertificate;
 		Certificate tCertificateToBuy;
 		String tCompanyAbbrev;
-		String tCoordinates;
 		String tPriorBoughtShare;
 		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
@@ -761,7 +759,6 @@ public class PlayerManager implements XMLSaveGameI {
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock;
 		boolean tChainToPrevious;
-		SetParValueEffect tSetParValueEffect;
 
 		tCanBuyStock = true;
 		tChainToPrevious = false;
@@ -793,9 +790,10 @@ public class PlayerManager implements XMLSaveGameI {
 				if (! tCertificateToBuy.hasParPrice ()) {
 					tParPrice = tCertificateToBuy.getComboParValue ();
 					if ((tParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						tSetParValueEffect = buildSetParPriceEffect (aPlayer, tCertificateToBuy, 
-								tShareCompany, tParPrice);
-						aBuyStockAction.addEffect (tSetParValueEffect);
+//						tSetParValueEffect = buildSetParPriceEffect (aPlayer, tCertificateToBuy, 
+//								tShareCompany, tParPrice);
+//						aBuyStockAction.addEffect (tSetParValueEffect);
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
 					} else {
 						System.err.println ("***Selected Par Price is " + tParPrice + 
 											" or tShareCompany is NULL***");
@@ -804,8 +802,7 @@ public class PlayerManager implements XMLSaveGameI {
 					if (! gameManager.marketHasTokenFor (tShareCompany)) {
 						gameManager.setParPriceToken (tShareCompany);
 						tParPrice = tShareCompany.getParPrice ();
-						tCoordinates = GUI.EMPTY_STRING;
-						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice, tCoordinates);
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
 					}
 				}
 			} else {
@@ -859,9 +856,7 @@ public class PlayerManager implements XMLSaveGameI {
 	public void setFreeCertificatePrice (Certificate aFreeCertificate, Player aPlayer, 
 				BuyStockAction aBuyStockAction) {
 		ShareCompany tShareCompany;
-		GameManager tGameManager;
 		int tParPrice;
-		String tCoordinates;
 		
 		/*
 		 * If this Free Certificate is a President Share -- 
@@ -871,12 +866,10 @@ public class PlayerManager implements XMLSaveGameI {
 			if (! aFreeCertificate.hasParPrice ()) {
 				handleBuildParPriceFrame (aPlayer, aFreeCertificate);
 			} else {
-				tCoordinates = GUI.EMPTY_STRING;
-				tGameManager = getGameManager ();
 				tShareCompany = aFreeCertificate.getShareCompany ();
 				tParPrice = aFreeCertificate.getParPrice ();
-				tGameManager.setParPrice (tShareCompany, tParPrice);
-				aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice, tCoordinates);
+				gameManager.setParPrice (tShareCompany, tParPrice);
+				aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
 			}
 		}
 	}
@@ -1092,17 +1085,17 @@ public class PlayerManager implements XMLSaveGameI {
 		return tParPriceFrame;
 	}
 
-	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
-			ShareCompany aShareCompany, int aParPrice) {
-		SetParValueEffect tSetParValueEffect;
-		
-		gameManager.setParPrice (aShareCompany, aParPrice);
-		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
-		parPriceFrame.setParPriceFrameActive (false);
-		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
-		
-		return tSetParValueEffect;
-	}
+//	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
+//			ShareCompany aShareCompany, int aParPrice) {
+//		SetParValueEffect tSetParValueEffect;
+//		
+//		gameManager.setParPrice (aShareCompany, aParPrice);
+//		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
+//		parPriceFrame.setParPriceFrameActive (false);
+//		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
+//		
+//		return tSetParValueEffect;
+//	}
 
 	private void handleBuildParPriceFrame (Player aPlayer, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
