@@ -27,6 +27,7 @@ import ge18xx.company.TokenStack;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -166,8 +167,9 @@ public class MarketCell {
 		int tYBottomRight;
 		int tX;
 		int tY;
-		boolean tContains = false;
+		boolean tContains;
 
+		tContains = false;
 		tX = (int) aPoint.getX ();
 		tY = (int) aPoint.getY ();
 		tXTopLeft = xCenter - aWidth / 2;
@@ -190,8 +192,9 @@ public class MarketCell {
 		int tYBottomRight;
 		int tX;
 		int tY;
-		boolean tContains = false;
-
+		boolean tContains;
+		
+		tContains = false;
 		tX = (int) aPoint.getX ();
 		tY = (int) aPoint.getY ();
 		tXTopLeft = xCenter - aWidth / 2;
@@ -252,7 +255,8 @@ public class MarketCell {
 		tokens.doPayNoDividendAdjustment (aShareCompany, aPayNoDividendAction);
 	}
 
-	public void doPayFullDividendAdjustment (ShareCompany aShareCompany, PayFullDividendAction aPayFullDividendAction) {
+	public void doPayFullDividendAdjustment (ShareCompany aShareCompany, 
+					PayFullDividendAction aPayFullDividendAction) {
 		tokens.doPayFullDividendAdjustment (aShareCompany, aPayFullDividendAction);
 	}
 
@@ -645,7 +649,7 @@ public class MarketCell {
 	public String getToolTip () {
 		String tTip;
 
-		tTip = "";
+		tTip = GUI.EMPTY_STRING;
 		if (getValue () > 0) {
 			tTip = "<html>";
 			if (!marketRegion.isNormal ()) {
