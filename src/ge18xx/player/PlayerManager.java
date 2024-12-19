@@ -827,15 +827,7 @@ public class PlayerManager implements XMLSaveGameI {
 				tCertificatesToTransfer.add (tFreeCertificate);
 				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tCertificatesToTransfer, 
 							aBuyStockAction);
-				/*
-				 * If this Free Certificate is a President Share -- Request a Par Price to be
-				 * set
-				 */
-				if (tFreeCertificate.isPresidentShare ()) {
-					if (! tFreeCertificate.hasParPrice ()) {
-						handleBuildParPriceFrame (aPlayer, tFreeCertificate);
-					}
-				}
+				setFreeCertificatePrice (tFreeCertificate, aPlayer, aBuyStockAction);
 			}
 
 			handlePresidentialTransfer (aPlayer, aBuyStockAction, tShareCompany, tCurrentPresident);
@@ -864,6 +856,31 @@ public class PlayerManager implements XMLSaveGameI {
 		return tBuyStockAction;
 	}
 
+	public void setFreeCertificatePrice (Certificate aFreeCertificate, Player aPlayer, 
+				BuyStockAction aBuyStockAction) {
+		ShareCompany tShareCompany;
+		GameManager tGameManager;
+		int tParPrice;
+		String tCoordinates;
+		
+		/*
+		 * If this Free Certificate is a President Share -- 
+		 * Request a Par Price to be set
+		 */
+		if (aFreeCertificate.isPresidentShare ()) {
+			if (! aFreeCertificate.hasParPrice ()) {
+				handleBuildParPriceFrame (aPlayer, aFreeCertificate);
+			} else {
+				tCoordinates = GUI.EMPTY_STRING;
+				tGameManager = getGameManager ();
+				tShareCompany = aFreeCertificate.getShareCompany ();
+				tParPrice = aFreeCertificate.getParPrice ();
+				tGameManager.setParPrice (tShareCompany, tParPrice);
+				aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice, tCoordinates);
+			}
+		}
+	}
+	
 	private void manageCashTransfer (Player aPlayer, List<Certificate> aCertificatesToBuy,
 			BuyStockAction aBuyStockAction, Bank aBank, Portfolio aSourcePortfolio) {
 		CashHolderI tPayCashTo;
