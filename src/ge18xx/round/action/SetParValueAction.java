@@ -27,7 +27,15 @@ public class SetParValueAction extends SetWaitStateAction {
 		setName (NAME);
 	}
 
-	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
+		SetParValueEffect tSetParValueEffect;
+
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, GUI.EMPTY_STRING);
+		addEffect (tSetParValueEffect);
+	}
+
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, 
+								String aCoordinates) {
 		SetParValueEffect tSetParValueEffect;
 
 		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
