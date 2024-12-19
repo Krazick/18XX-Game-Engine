@@ -59,8 +59,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		int tTotalWidth = 0;
 		
 		tGameManager = (GameManager) gameEngineManager;
-		setShareCompanies (tGameManager.getShareCompanies ());
 		setMinorCompanies (tGameManager.getMinorCompanies ());
+		setShareCompanies (tGameManager.getShareCompanies ());
 
 		buildAuditTable (tColumnNames, tColWidths, tTotalWidth);
 
@@ -353,6 +353,21 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 				}
 			}
 		}
+		
+		if (minorCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = minorCompanies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
+					tCorporation = minorCompanies.getCorporation (tCorpIndex);
+					if (tCorporation != Corporation.NO_CORPORATION) {
+						tActorName = MINOR_CORP_PREFIX + tCorporation.getAbbrev ();
+						if (!isActorsInComboBox (tActorName)) {
+							actorsCombo.addItem (tActorName);
+						}
+					}
+				}
+			}
+		}
 
 		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tCorpCount = shareCompanies.getRowCount ();
@@ -361,20 +376,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 					tCorporation = shareCompanies.getCorporation (tCorpIndex);
 					if (tCorporation != Corporation.NO_CORPORATION) {
 						tActorName = SHARE_CORP_PREFIX + tCorporation.getAbbrev ();
-						if (!isActorsInComboBox (tActorName)) {
-							actorsCombo.addItem (tActorName);
-						}
-					}
-				}
-			}
-		}
-		if (minorCompanies != CorporationList.NO_CORPORATION_LIST) {
-			tCorpCount = minorCompanies.getRowCount ();
-			if (tCorpCount > 0) {
-				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
-					tCorporation = minorCompanies.getCorporation (tCorpIndex);
-					if (tCorporation != Corporation.NO_CORPORATION) {
-						tActorName = MINOR_CORP_PREFIX + tCorporation.getAbbrev ();
 						if (!isActorsInComboBox (tActorName)) {
 							actorsCombo.addItem (tActorName);
 						}
@@ -431,6 +432,8 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		tPlayer = false;
 		if (actorType.equals (ActorI.ActorTypes.Player)) {
 			tPlayer = setSelectedPlayer (actorName);
+		} else if (actorType.equals (ActorI.ActorTypes.MinorCompany)) {
+			setSelectedMinorCompany (actorAbbrev);
 		} else if (actorType.equals (ActorI.ActorTypes.ShareCompany)) {
 			setSelectedShareCompany (actorAbbrev);
 		} else if (actorType.equals (ActorI.ActorTypes.Bank)) {
