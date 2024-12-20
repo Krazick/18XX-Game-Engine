@@ -335,10 +335,15 @@ public class MapCell implements Comparator<Object> {
 	// Does an Existing Tile on this MapCell have Track that is connected to the
 	// Neighboring MapCell
 	public boolean hasConnectingTrackTo (MapCell aNeighborMapCell) {
-		boolean tHasConnectingTrackTo = false;
-		boolean tMatchedNeighbors = false;
-		boolean tMatchedTracksNeighbor, tMatchedTracks;
-		int tSideToNeighbor, tSideFromNeighbor;
+		boolean tHasConnectingTrackTo;
+		boolean tMatchedNeighbors;
+		boolean tMatchedTracksNeighbor;
+		boolean tMatchedTracks;
+		int tSideToNeighbor;
+		int tSideFromNeighbor;
+
+		tHasConnectingTrackTo = false;
+		tMatchedNeighbors = false;
 
 		tSideToNeighbor = getSideToNeighbor (aNeighborMapCell);
 		tSideFromNeighbor = getSideFromNeighbor (aNeighborMapCell);
@@ -768,7 +773,7 @@ public class MapCell implements Comparator<Object> {
 	public XMLElement getMapCellState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
-		tXMLElement = null;
+		tXMLElement = XMLElement.NO_XML_ELEMENT;
 		if (isTileOnCell ()) {
 			tXMLElement = aXMLDocument.createElement (EN_MAP_CELL);
 			tXMLElement.setAttribute (Tile.AN_TILE_NUMBER, tile.getNumber ());
@@ -1110,11 +1115,14 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean hasStation (Token aToken) {
+		boolean tHasStation;
+		
+		tHasStation = false;
 		if (tile != Tile.NO_TILE) {
-			return tile.hasStation (aToken);
-		} else {
-			return false;
+			tHasStation = tile.hasStation (aToken);
 		}
+		
+		return tHasStation;
 	}
 
 	/**
@@ -1126,11 +1134,14 @@ public class MapCell implements Comparator<Object> {
 	 *
 	 */
 	public boolean hasStation (int aCorpID) {
+		boolean tHasStation;
+		
+		tHasStation = false;
 		if (tile != Tile.NO_TILE) {
-			return tile.hasStation (aCorpID);
-		} else {
-			return false;
+			tHasStation = tile.hasStation (aCorpID);
 		}
+		
+		return tHasStation;
 	}
 
 	public Location getLocationWithStation (int aCorpID) {
@@ -1149,11 +1160,14 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isBlockedSide (int aSide) {
+		boolean tIsBlockedSide;
+		
+		tIsBlockedSide = blockedSides [aSide];
 		if ((aSide < 0) || (aSide > 5)) {
-			return true;
-		} else {
-			return blockedSides [aSide];
+			tIsBlockedSide = true;
 		}
+		
+		return tIsBlockedSide;
 	}
 
 	public boolean isSelected () {
@@ -1173,15 +1187,19 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean isTileOnCell () {
+		boolean tIsTileOnCell;
+		
 		if (tile == Tile.NO_TILE) {
 			if (tileNumber == 0) {
-				return false;
+				tIsTileOnCell = false;
 			} else {
-				return true;
+				tIsTileOnCell = true;
 			}
 		} else {
-			return true;
+			tIsTileOnCell = true;
 		}
+		
+		return tIsTileOnCell;
 	}
 
 	public boolean isTrackOnSide (int aSide) {
@@ -1771,11 +1789,15 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean getAllowedRotation (int aIndex) {
+		boolean tAllowedRotations;
+		
 		if ((aIndex < 0) || (aIndex > 5)) {
-			return false;
+			tAllowedRotations = false;
 		} else {
-			return allowedRotations [aIndex];
+			tAllowedRotations =  allowedRotations [aIndex];
 		}
+		
+		return tAllowedRotations;
 	}
 
 	public int getCountofAllowedRotations () {
@@ -2211,6 +2233,7 @@ public class MapCell implements Comparator<Object> {
 		boolean tMustSwap;
 		String tOldSides;
 		String tNewSides;
+		
 		tNewLocation = aNewCityLocation;
 		tMustSwap = false;		// For handling O-O Tiles where the Tracks must replace existing Track
 								// The existing Track is from a Side to a City. It either works as 
@@ -2288,7 +2311,7 @@ public class MapCell implements Comparator<Object> {
 		int tRotation;
 		int tCurrentTileOrient;
 		int tUpgradeRotation;
-		boolean tAllowedRotations[] = new boolean [6];
+		boolean tAllowedRotations [] = new boolean [6];
 
 		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
 			tAllowedRotations [tRotationIndex] = false;
@@ -2307,7 +2330,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean [] getAllowedRotations (Tile aTile) {
-		boolean tAllowedRotations[] = new boolean [6];
+		boolean tAllowedRotations [] = new boolean [6];
 		int tRotationCount;
 
 		for (int tRotation = 0; tRotation < 6; tRotation++) {
