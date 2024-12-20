@@ -479,7 +479,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public MapCell getMapCell (int aRow, int aCol) {
 		MapCell tMapCell;
 
-		tMapCell = null;
+		tMapCell = MapCell.NO_MAP_CELL;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tMapCell = map [aRow] [aCol];
@@ -689,20 +689,25 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public int getMinX () {
-		int tMinX = 0;
+		int tMinX;
 
+		tMinX = 0;
+		
 		return tMinX;
 	}
 
 	public int getMinY () {
-		int tMinY = 0;
+		int tMinY;
 
+		tMinY = 0;
+		
 		return tMinY;
 	}
 
 	public int getRevenueCenterID (int aRow, int aCol) {
-		int tRevenueCenterID = RevenueCenter.NO_ID;
+		int tRevenueCenterID;
 
+		tRevenueCenterID = RevenueCenter.NO_ID;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tRevenueCenterID = map [aRow] [aCol].getRevenueCenterID ();
@@ -713,11 +718,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public int getRowCount () {
+		int tRowCount;
+		
+
 		if (map == MapCell.NO_MAP_CELLS) {
-			return 0;
+			tRowCount = 0;
+		} else {
+			tRowCount = map.length;
 		}
 
-		return map.length;
+		return tRowCount;
 	}
 
 	public TokenCompany getTokenCompany (String aAbbrev) {
@@ -912,20 +922,28 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public boolean inColRange (int aRow, int aCol) {
+		boolean tInColRange;
+		
+		tInColRange = false;
 		if (inRowRange (aRow)) {
-			return ((aCol >= 0) && (aCol < getColCount (aRow)));
-		} else {
-			return false;
+			tInColRange = ((aCol >= 0) && (aCol < getColCount (aRow)));
 		}
+		
+		return tInColRange;
 	}
 
 	public boolean inRowRange (int aRow) {
-		return ((aRow >= 0) && (aRow < getRowCount ()));
+		boolean tInRowRange;
+		
+		tInRowRange = ((aRow >= 0) && (aRow < getRowCount ()));
+		
+		return tInRowRange;
 	}
 
 	public boolean inRowColRanges (int aRow, int aCol) {
-		boolean tInRowColRanges = false;
+		boolean tInRowColRanges;
 
+		tInRowColRanges = false;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tInRowColRanges = true;
@@ -936,8 +954,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public boolean isTileOnCell (int aRow, int aCol) {
-		boolean tileFound = false;
+		boolean tileFound;
 
+		tileFound = false;
 		if (inRowColRanges (aRow, aCol)) {
 			tileFound = map [aRow] [aCol].isTileOnCell ();
 		}
@@ -1311,7 +1330,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	@Override
 	public void paintComponent (Graphics g) {
-		int rowIndex, colIndex;
+		int rowIndex;
+		int colIndex;
 		int rowCount;
 		int colCount;
 
@@ -1501,8 +1521,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tTileName;
 
 		tTileName = aMapCell.getName ();
-		if (tTileName == null) {
-			tTileName = "";
+		if (tTileName == GUI.NULL_STRING) {
+			tTileName = GUI.EMPTY_STRING;
 		}
 
 		return tTileName;
@@ -1535,7 +1555,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tAvailableCount = tileSet.getAvailableCount (TileType.GREEN, tTileName);
 			} else {
 				if (TileName.NO_NAME2.equals (tTileName)) {
-					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount, tBaseTileName);
+					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount,
+									tBaseTileName);
 				} else {
 					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount, tTileName);
 				}
