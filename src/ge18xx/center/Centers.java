@@ -278,7 +278,8 @@ public class Centers implements Cloneable {
 		return tXMLElement;
 	}
 
-	public void draw (Graphics aGraphics, int aXCenter, int aYCenter, Hex aHex, boolean aOnTile, Feature2 aSelectedFeature) {
+	public void draw (Graphics aGraphics, int aXCenter, int aYCenter, Hex aHex, boolean aOnTile, 
+						Feature2 aSelectedFeature) {
 		draw (aGraphics, aXCenter, aYCenter, MapCell.NO_ORIENTATION, aHex, aOnTile, aSelectedFeature);
 	}
 
