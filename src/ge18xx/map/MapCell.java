@@ -115,10 +115,6 @@ public class MapCell implements Comparator<Object> {
 	LicenseToken licenseToken;
 	HexMap hexMap;
 
-	public MapCell (HexMap aHexMap) {
-		this (aHexMap, NO_DIRECTION);
-	}
-
 	public MapCell (HexMap aHexMap, String aMapDirection) {
 		this (0, 0, aHexMap);
 		setMapDirection (aMapDirection);
