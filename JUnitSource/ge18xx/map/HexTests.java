@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterEach;
@@ -88,6 +90,45 @@ class HexTests {
 		assertEquals (10, Hex.getScale (), "Scale should be 10");
 		assertEquals (50, Hex.getWidth (), "Width should be 50:");
 		assertEquals (25, hex10t.getXd ());
+	}
+
+	@Test
+	@DisplayName ("Test Hex Contains Point at X, Y") 
+	public void testHexContainsXYPoint () {
+		Point tPoint;
+		Point2D.Double tPointDouble;
+		
+		tPoint = new Point (10, 20);
+		assertTrue (hex10t.contains (tPoint));
+		tPoint = new Point (100, 20);
+		assertFalse (hex10t.contains (tPoint));
+		
+		tPointDouble = new Point2D.Double (10.5, 20.3);
+		assertTrue (hex10t.contains (tPointDouble));
+		tPointDouble = new Point2D.Double (100.5, 20.7);
+		assertFalse (hex10t.contains (tPointDouble));
+	}
+
+	@Test
+	@DisplayName ("Test Offset Hex Contains Point at X, Y, offset by Xo, Yo") 
+	public void testOffsetHexContainsXYPoint () {
+		Point tPoint;
+		Point2D.Double tPointDouble;
+		int tXo;
+		int tYo;
+		
+		tPoint = new Point (10, 20);
+		tXo = 30;
+		tYo = 30;
+		
+		assertTrue (hex10t.contains (tPoint, tXo, tYo));
+		tPoint = new Point (100, 20);
+		assertFalse (hex10t.contains (tPoint, tXo, tYo));
+		
+		tPointDouble = new Point2D.Double (10.5, 20.3);
+		assertTrue (hex10t.contains (tPointDouble, tXo, tYo));
+		tPointDouble = new Point2D.Double (100.5, 20.7);
+		assertFalse (hex10t.contains (tPointDouble, tXo, tYo));
 	}
 
 	@Test
