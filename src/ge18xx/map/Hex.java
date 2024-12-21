@@ -89,7 +89,7 @@ public class Hex {
 		return intDWidth;
 	}
 
-	public Shape clipToHex (Graphics aGraphics, int aXo, int aYo) {
+	public void clipToHex (Graphics aGraphics, int aXo, int aYo) {
 		Polygon tClipPolygon;
 		Shape tPreviousClip;
 		Area tNewClip;
@@ -103,7 +103,7 @@ public class Hex {
 		tNewClip.intersect (tHexClip);
 		aGraphics.setClip (tNewClip);
 
-		return tPreviousClip;
+//		return tPreviousClip;
 	}
 
 	public boolean contains (Point2D.Double aPoint, int aXc, int aYc) {
@@ -149,7 +149,8 @@ public class Hex {
 		return (hexPolygon.contains (aPoint));
 	}
 
-	public void drawBorders (Graphics aGraphics, int aXo, int aYo, boolean aDrawBorder, boolean aBlockedSides []) {
+	public void drawBorders (Graphics aGraphics, int aXo, int aYo, boolean aDrawBorder, 
+							boolean aBlockedSides []) {
 		int xp [];
 		int yp [];
 		int tPointCount;
@@ -192,27 +193,26 @@ public class Hex {
 		aGraphics.setClip (tPreviousClip);
 	}
 
-	public void drawNeighbor (Graphics g, int aSide, int Xo, int Yo) {
+	public void drawNeighborHighlight (Graphics aGraphics, int aSide, int aXOffset, int aYOffset) {
 		int X1;
 		int Y1;
 		int X2;
 		int Y2;
 		int X3;
 		int Y3;
-		Shape tPreviousClip;
+//		Shape tPreviousClip;
 
-		tPreviousClip = clipToHex (g, Xo, Yo);
-		X1 = x [aSide] + Xo;
-		Y1 = y [aSide] + Yo;
-		X2 = midpointX (aSide + 12) + Xo;
-		Y2 = midpointY (aSide + 12) + Yo;
-		X3 = x [(aSide + 1) % 6] + Xo;
-		Y3 = y [(aSide + 1) % 6] + Yo;
-		g.setColor (Color.green);
-		g.drawLine (X1, Y1, X2, Y2);
-		g.drawLine (X2, Y2, X3, Y3);
-		g.setColor (Color.black);
-		g.setClip (tPreviousClip);
+		aGraphics.setColor (Color.green);
+		clipToHex (aGraphics, aXOffset, aYOffset);
+		X1 = x [aSide] + aXOffset;
+		Y1 = y [aSide] + aYOffset;
+		X2 = midpointX (aSide + 12) + aXOffset;
+		Y2 = midpointY (aSide + 12) + aYOffset;
+		X3 = x [(aSide + 1) % 6] + aXOffset;
+		Y3 = y [(aSide + 1) % 6] + aYOffset;
+		aGraphics.drawLine (X1, Y1, X2, Y2);
+		aGraphics.drawLine (X2, Y2, X3, Y3);
+//		aGraphics.setClip (tPreviousClip);
 	}
 	
 	protected Font setRevenueFont (Graphics2D aGraphics2D) {
@@ -1097,7 +1097,8 @@ public class Hex {
 
 		g2d = (Graphics2D) g;
 		
-		tPreviousClip = clipToHex (g, Xo, Yo);
+		tPreviousClip = g.getClip ();
+		clipToHex (g, Xo, Yo);
 
 		tPolygon = buildOffsetPolygon (Xo, Yo);
 		
@@ -1119,19 +1120,22 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
-	public void paintSelected (Graphics g, int Xo, int Yo) {
+	public void paintSelected (Graphics aGraphics, int aXo, int aYo) {
 		Shape tPreviousClip;
 		Polygon tPolygon;
 		
-		tPolygon = buildOffsetPolygon (Xo, Yo);
+		tPolygon = buildOffsetPolygon (aXo, aYo);
 		
-		tPreviousClip = clipToHex (g, Xo, Yo);
-		g.setColor (Color.red);
-		g.drawPolygon (tPolygon);
-		g.drawLine (tPolygon.xpoints[0], tPolygon.ypoints[0], tPolygon.xpoints[3], tPolygon.ypoints[3]);
-		g.drawLine (tPolygon.xpoints[1], tPolygon.ypoints[1], tPolygon.xpoints[4], tPolygon.ypoints[4]);
-		g.drawLine (tPolygon.xpoints[2], tPolygon.ypoints[2], tPolygon.xpoints[5], tPolygon.ypoints[5]);
-		g.setClip (tPreviousClip);
+		tPreviousClip = aGraphics.getClip ();
+		
+		clipToHex (aGraphics, aXo, aYo);
+		aGraphics.setColor (Color.red);
+		aGraphics.drawPolygon (tPolygon);
+		aGraphics.drawLine (tPolygon.xpoints[0], tPolygon.ypoints[0], tPolygon.xpoints[3], tPolygon.ypoints[3]);
+		aGraphics.drawLine (tPolygon.xpoints[1], tPolygon.ypoints[1], tPolygon.xpoints[4], tPolygon.ypoints[4]);
+		aGraphics.drawLine (tPolygon.xpoints[2], tPolygon.ypoints[2], tPolygon.xpoints[5], tPolygon.ypoints[5]);
+		
+		aGraphics.setClip (tPreviousClip);
 	}
 
 	public int rightEdgeDisplacement () {
