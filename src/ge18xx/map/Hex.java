@@ -149,7 +149,7 @@ public class Hex {
 		return (hexPolygon.contains (aPoint));
 	}
 
-	public void drawBorders (Graphics aGraphics, int aXo, int aYo, boolean aDrawBorder, 
+	public void drawBorders (Graphics2D aGraphics2D, int aXo, int aYo, boolean aDrawBorder, 
 							boolean aBlockedSides []) {
 		int xp [];
 		int yp [];
@@ -161,36 +161,34 @@ public class Hex {
 		Stroke tCurrentStroke;
 		BasicStroke tBlockedStroke;
 		Shape tPreviousClip;
-		Graphics2D g2d;
 
-		g2d = (Graphics2D) aGraphics;
 		tPointCount = x.length;
 		tClipPolygon = buildOffsetPolygon (aXo, aYo);
 		xp = tClipPolygon.xpoints;
 		yp = tClipPolygon.ypoints;
 		
-		tPreviousClip = aGraphics.getClip ();
+		tPreviousClip = aGraphics2D.getClip ();
 		tNewClip = new Area (tPreviousClip);
 		tHexClip = new Area (tClipPolygon);
 		tNewClip.intersect (tHexClip);
-		aGraphics.setClip (tNewClip);
+		aGraphics2D.setClip (tNewClip);
 		if (aBlockedSides != null) {
-			aGraphics.setColor (Color.blue);
-			tCurrentStroke = g2d.getStroke ();
+			aGraphics2D.setColor (Color.blue);
+			tCurrentStroke = aGraphics2D.getStroke ();
 			tBlockedStroke = new BasicStroke (trackWidth * 2);
-			g2d.setStroke (tBlockedStroke);
+			aGraphics2D.setStroke (tBlockedStroke);
 			for (index = 0; index < tPointCount - 1; index++) {
 				if (aBlockedSides [index]) {
-					aGraphics.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
+					aGraphics2D.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
 				}
 			}
-			g2d.setStroke (tCurrentStroke);
+			aGraphics2D.setStroke (tCurrentStroke);
 		}
 		if (aDrawBorder) {
-			aGraphics.setColor (Color.black);
-			aGraphics.drawPolygon (tClipPolygon);
+			aGraphics2D.setColor (Color.black);
+			aGraphics2D.drawPolygon (tClipPolygon);
 		}
-		aGraphics.setClip (tPreviousClip);
+		aGraphics2D.setClip (tPreviousClip);
 	}
 
 	public void drawNeighborHighlight (Graphics aGraphics, int aSide, int aXOffset, int aYOffset) {
@@ -200,7 +198,6 @@ public class Hex {
 		int Y2;
 		int X3;
 		int Y3;
-//		Shape tPreviousClip;
 
 		aGraphics.setColor (Color.green);
 		clipToHex (aGraphics, aXOffset, aYOffset);
@@ -212,7 +209,6 @@ public class Hex {
 		Y3 = y [(aSide + 1) % 6] + aYOffset;
 		aGraphics.drawLine (X1, Y1, X2, Y2);
 		aGraphics.drawLine (X2, Y2, X3, Y3);
-//		aGraphics.setClip (tPreviousClip);
 	}
 	
 	protected Font setRevenueFont (Graphics2D aGraphics2D) {
@@ -226,21 +222,21 @@ public class Hex {
 		return tCurrentFont;
 	}
 
-	protected int [] [] getPolygonArrays (int cx, int cy, int R, int sides) {
+	protected int [] [] getPolygonArrays (int aXc, int aYc, int aRadius, int aSideCount) {
 		int [] x;
 		int [] y;
 		double thetaInc;
 		double theta;
 
-		x = new int [sides];
-		y = new int [sides];
-		thetaInc = 2 * Math.PI / sides;
-		theta = (sides % 2 == 0) ? thetaInc : -Math.PI / 2;
+		x = new int [aSideCount];
+		y = new int [aSideCount];
+		thetaInc = 2 * Math.PI / aSideCount;
+		theta = (aSideCount % 2 == 0) ? thetaInc : -Math.PI / 2;
 		
 		theta += Math.PI / 8;
-		for (int j = 0; j < sides; j++) {
-			x [j] = (int) (cx + R * Math.cos (theta));
-			y [j] = (int) (cy + R * Math.sin (theta));
+		for (int j = 0; j < aSideCount; j++) {
+			x [j] = (int) (aXc + aRadius * Math.cos (theta));
+			y [j] = (int) (aYc + aRadius * Math.sin (theta));
 			theta += thetaInc;
 		}
 
@@ -1087,37 +1083,37 @@ public class Hex {
 		paintHex (g, Xo, Yo, aFillPaint, aDrawBorder, null, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder, Paint aThickFrame,
-			boolean aBlockedSides[]) {
+	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, boolean aDrawBorder, 
+							Paint aThickFrame, boolean aBlockedSides[]) {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
 		Shape tPreviousClip;
-		Graphics2D g2d;
+		Graphics2D tGraphics2D;
 		Polygon tPolygon;
 
-		g2d = (Graphics2D) g;
+		tGraphics2D = (Graphics2D) aGraphics;
 		
-		tPreviousClip = g.getClip ();
-		clipToHex (g, Xo, Yo);
+		tPreviousClip = tGraphics2D.getClip ();
+		clipToHex (tGraphics2D, aXo, aYo);
 
-		tPolygon = buildOffsetPolygon (Xo, Yo);
+		tPolygon = buildOffsetPolygon (aXo, aYo);
 		
-		g2d.setPaint (aFillPaint);
+		tGraphics2D.setPaint (aFillPaint);
 		try {
-			g2d.fillPolygon (tPolygon);
+			tGraphics2D.fillPolygon (tPolygon);
 		} catch (ArrayIndexOutOfBoundsException exc) {
-			System.err.println ("Oops, trying to fill polygon at " + Xo + ", " + Yo + ". Sorry");
+			System.err.println ("Oops, trying to fill polygon at " + aXo + ", " + aYo + ". Sorry");
 		}
 		if (aThickFrame != null) {
-			g2d.setPaint (aThickFrame);
-			tCurrentStroke = g2d.getStroke ();
+			tGraphics2D.setPaint (aThickFrame);
+			tCurrentStroke = tGraphics2D.getStroke ();
 			tFrameStroke = new BasicStroke (trackWidth * 2);
-			g2d.setStroke (tFrameStroke);
-			g2d.drawPolygon (tPolygon);
-			g2d.setStroke (tCurrentStroke);
+			tGraphics2D.setStroke (tFrameStroke);
+			tGraphics2D.drawPolygon (tPolygon);
+			tGraphics2D.setStroke (tCurrentStroke);
 		}
-		drawBorders (g, Xo, Yo, aDrawBorder, aBlockedSides);
-		g.setClip (tPreviousClip);
+		drawBorders (tGraphics2D, aXo, aYo, aDrawBorder, aBlockedSides);
+		tGraphics2D.setClip (tPreviousClip);
 	}
 
 	public void paintSelected (Graphics aGraphics, int aXo, int aYo) {
