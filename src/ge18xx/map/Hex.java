@@ -33,8 +33,8 @@ public class Hex {
 	public static int scale = DEFAULT_SCALE;
 	public static int width = DEFAULT_WIDTH;
 	protected static boolean direction = false;
-	protected int x[];
-	protected int y[];
+	protected int x [];
+	protected int y [];
 	private int Xt;
 	private int Yt;
 	private int displaceUpDown;
@@ -89,74 +89,70 @@ public class Hex {
 		return intDWidth;
 	}
 
-	public Shape clipToHex (Graphics g, int Xo, int Yo) {
-		int xp[];
-		int yp[];
-		int npnts = x.length;
-		int index;
+	public Shape clipToHex (Graphics aGraphics, int aXo, int aYo) {
 		Polygon tClipPolygon;
 		Shape tPreviousClip;
 		Area tNewClip;
 		Area tHexClip;
-
-		xp = new int [npnts];
-		yp = new int [npnts];
-		for (index = 0; index < npnts; index++) {
-			xp [index] = x [index] + Xo;
-			yp [index] = y [index] + Yo;
-		}
-		tClipPolygon = new Polygon (xp, yp, npnts);
-		tPreviousClip = g.getClip ();
+		
+		tClipPolygon = buildOffsetPolygon (aXo, aYo);
+		
+		tPreviousClip = aGraphics.getClip ();
 		tNewClip = new Area (tPreviousClip);
 		tHexClip = new Area (tClipPolygon);
 		tNewClip.intersect (tHexClip);
-		g.setClip (tNewClip);
+		aGraphics.setClip (tNewClip);
 
 		return tPreviousClip;
 	}
 
-	public boolean contains (Point2D.Double point, int aXc, int aYc) {
-		Polygon offsetHexPolygon = buildOffsetPolygon (aXc, aYc);
+	public boolean contains (Point2D.Double aPoint, int aXc, int aYc) {
+		Polygon offsetHexPolygon;
 
-		return (offsetHexPolygon.contains (point));
+		offsetHexPolygon = buildOffsetPolygon (aXc, aYc);
+		
+		return (offsetHexPolygon.contains (aPoint));
 	}
 
-	public boolean contains (Point point, int aXc, int aYc) {
-		Polygon offsetHexPolygon = buildOffsetPolygon (aXc, aYc);
+	public boolean contains (Point aPoint, int aXc, int aYc) {
+		Polygon offsetHexPolygon;
 
-		return (offsetHexPolygon.contains (point));
+		offsetHexPolygon = buildOffsetPolygon (aXc, aYc);
+		
+		return (offsetHexPolygon.contains (aPoint));
 	}
 
 	private Polygon buildOffsetPolygon (int aXc, int aYc) {
-		int xp[];
-		int yp[];
-		int npnts = x.length;
-		int index;
-		Polygon offsetHexPolygon;
+		int xp [];
+		int yp [];
+		int tPointCount;
+		int tIndex;
+		Polygon tOffsetHexPolygon;
 
-		xp = new int [npnts];
-		yp = new int [npnts];
-		for (index = 0; index < npnts; index++) {
-			xp [index] = x [index] + aXc;
-			yp [index] = y [index] + aYc;
+		tPointCount = x.length;
+		xp = new int [tPointCount];
+		yp = new int [tPointCount];
+		for (tIndex = 0; tIndex < tPointCount; tIndex++) {
+			xp [tIndex] = x [tIndex] + aXc;
+			yp [tIndex] = y [tIndex] + aYc;
 		}
-		offsetHexPolygon = new Polygon (xp, yp, npnts);
+		tOffsetHexPolygon = new Polygon (xp, yp, tPointCount);
 
-		return offsetHexPolygon;
+		return tOffsetHexPolygon;
 	}
 
-	public boolean contains (Point2D.Double point) {
-		return (hexPolygon.contains (point));
+	public boolean contains (Point2D.Double aPoint) {
+		return (hexPolygon.contains (aPoint));
 	}
 
-	public boolean contains (Point point) {
-		return (hexPolygon.contains (point));
+	public boolean contains (Point aPoint) {
+		return (hexPolygon.contains (aPoint));
 	}
 
-	public void drawBorders (Graphics g, int Xo, int Yo, boolean drawBorder, boolean aBlockedSides []) {
-		int xp[];
-		int yp[];
-		int npnts = x.length;
+	public void drawBorders (Graphics aGraphics, int aXo, int aYo, boolean aDrawBorder, boolean aBlockedSides []) {
+		int xp [];
+		int yp [];
+		int tPointCount;
 		int index;
 		Polygon tClipPolygon;
 		Area tNewClip;
@@ -164,41 +160,45 @@ public class Hex {
 		Stroke tCurrentStroke;
 		BasicStroke tBlockedStroke;
 		Shape tPreviousClip;
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d;
 
-		xp = new int [npnts];
-		yp = new int [npnts];
-		for (index = 0; index < npnts; index++) {
-			xp [index] = x [index] + Xo;
-			yp [index] = y [index] + Yo;
-		}
-		tClipPolygon = new Polygon (xp, yp, npnts);
-		tPreviousClip = g.getClip ();
+		g2d = (Graphics2D) aGraphics;
+		tPointCount = x.length;
+		tClipPolygon = buildOffsetPolygon (aXo, aYo);
+		xp = tClipPolygon.xpoints;
+		yp = tClipPolygon.ypoints;
+		
+		tPreviousClip = aGraphics.getClip ();
 		tNewClip = new Area (tPreviousClip);
 		tHexClip = new Area (tClipPolygon);
 		tNewClip.intersect (tHexClip);
-		g.setClip (tNewClip);
+		aGraphics.setClip (tNewClip);
 		if (aBlockedSides != null) {
-			g.setColor (Color.blue);
+			aGraphics.setColor (Color.blue);
 			tCurrentStroke = g2d.getStroke ();
 			tBlockedStroke = new BasicStroke (trackWidth * 2);
 			g2d.setStroke (tBlockedStroke);
-			for (index = 0; index < npnts - 1; index++) {
+			for (index = 0; index < tPointCount - 1; index++) {
 				if (aBlockedSides [index]) {
-					g.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
+					aGraphics.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
 				}
 			}
 			g2d.setStroke (tCurrentStroke);
 		}
-		if (drawBorder) {
-			g.setColor (Color.black);
-			g.drawPolygon (xp, yp, npnts);
+		if (aDrawBorder) {
+			aGraphics.setColor (Color.black);
+			aGraphics.drawPolygon (tClipPolygon);
 		}
-		g.setClip (tPreviousClip);
+		aGraphics.setClip (tPreviousClip);
 	}
 
 	public void drawNeighbor (Graphics g, int aSide, int Xo, int Yo) {
-		int X1, Y1, X2, Y2, X3, Y3;
+		int X1;
+		int Y1;
+		int X2;
+		int Y2;
+		int X3;
+		int Y3;
 		Shape tPreviousClip;
 
 		tPreviousClip = clipToHex (g, Xo, Yo);
@@ -227,11 +227,16 @@ public class Hex {
 	}
 
 	protected int [] [] getPolygonArrays (int cx, int cy, int R, int sides) {
-		int [] x = new int [sides];
-		int [] y = new int [sides];
-		double thetaInc = 2 * Math.PI / sides;
-		double theta = (sides % 2 == 0) ? thetaInc : -Math.PI / 2;
+		int [] x;
+		int [] y;
+		double thetaInc;
+		double theta;
 
+		x = new int [sides];
+		y = new int [sides];
+		thetaInc = 2 * Math.PI / sides;
+		theta = (sides % 2 == 0) ? thetaInc : -Math.PI / 2;
+		
 		theta += Math.PI / 8;
 		for (int j = 0; j < sides; j++) {
 			x [j] = (int) (cx + R * Math.cos (theta));
@@ -1087,23 +1092,18 @@ public class Hex {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
 		Shape tPreviousClip;
-		Graphics2D g2d = (Graphics2D) g;
-		int xp[];
-		int yp[];
-		int npnts = x.length;
-		int tIndex;
+		Graphics2D g2d;
+		Polygon tPolygon;
 
+		g2d = (Graphics2D) g;
+		
 		tPreviousClip = clipToHex (g, Xo, Yo);
-		xp = new int [npnts];
-		yp = new int [npnts];
-		for (tIndex = 0; tIndex < npnts; tIndex++) {
-			xp [tIndex] = x [tIndex] + Xo;
-			yp [tIndex] = y [tIndex] + Yo;
-		}
 
+		tPolygon = buildOffsetPolygon (Xo, Yo);
+		
 		g2d.setPaint (aFillPaint);
 		try {
-			g.fillPolygon (xp, yp, npnts - 1);
+			g2d.fillPolygon (tPolygon);
 		} catch (ArrayIndexOutOfBoundsException exc) {
 			System.err.println ("Oops, trying to fill polygon at " + Xo + ", " + Yo + ". Sorry");
 		}
@@ -1112,7 +1112,7 @@ public class Hex {
 			tCurrentStroke = g2d.getStroke ();
 			tFrameStroke = new BasicStroke (trackWidth * 2);
 			g2d.setStroke (tFrameStroke);
-			g2d.drawPolygon (xp, yp, npnts);
+			g2d.drawPolygon (tPolygon);
 			g2d.setStroke (tCurrentStroke);
 		}
 		drawBorders (g, Xo, Yo, aDrawBorder, aBlockedSides);
@@ -1121,24 +1121,16 @@ public class Hex {
 
 	public void paintSelected (Graphics g, int Xo, int Yo) {
 		Shape tPreviousClip;
-		int xp[];
-		int yp[];
-		int npnts = x.length;
-		int tIndex;
-
-		xp = new int [npnts];
-		yp = new int [npnts];
-		for (tIndex = 0; tIndex < npnts; tIndex++) {
-			xp [tIndex] = x [tIndex] + Xo;
-			yp [tIndex] = y [tIndex] + Yo;
-		}
-
+		Polygon tPolygon;
+		
+		tPolygon = buildOffsetPolygon (Xo, Yo);
+		
 		tPreviousClip = clipToHex (g, Xo, Yo);
 		g.setColor (Color.red);
-		g.drawPolygon (xp, yp, npnts);
-		g.drawLine (xp [0], yp [0], xp [3], yp [3]);
-		g.drawLine (xp [1], yp [1], xp [4], yp [4]);
-		g.drawLine (xp [2], yp [2], xp [5], yp [5]);
+		g.drawPolygon (tPolygon);
+		g.drawLine (tPolygon.xpoints[0], tPolygon.ypoints[0], tPolygon.xpoints[3], tPolygon.ypoints[3]);
+		g.drawLine (tPolygon.xpoints[1], tPolygon.ypoints[1], tPolygon.xpoints[4], tPolygon.ypoints[4]);
+		g.drawLine (tPolygon.xpoints[2], tPolygon.ypoints[2], tPolygon.xpoints[5], tPolygon.ypoints[5]);
 		g.setClip (tPreviousClip);
 	}
 
