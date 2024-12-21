@@ -3,8 +3,10 @@ package ge18xx.map;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -1643,11 +1645,13 @@ public class MapCell implements Comparator<Object> {
 		String tCityInfoName;
 		int tXoffset;
 		int tYoffset;
+		Graphics2D tGraphics2D;
 		
 		tXoffset = 0;
 		tYoffset = 0;
 		Paint tFillPaint;
 		tTileName = TileName.NO_NAME2;
+		tGraphics2D = (Graphics2D) aGraphics;
 		
 		tRevenueCenter = getRevenueCenter (0);
 		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
@@ -1656,7 +1660,7 @@ public class MapCell implements Comparator<Object> {
 			tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2,
 					tIsInSelectable);
 			if (blockedSides != null) {
-				aHex.drawBorders (aGraphics, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
+				aHex.drawBorders (tGraphics2D, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
 			if (isStartingTile ()) {
 				tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
@@ -1685,7 +1689,9 @@ public class MapCell implements Comparator<Object> {
 					blockedSides);
 			tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
 			drawTerrain2 (aGraphics, aHex, tXoffset, tYoffset);
-			centers.draw (aGraphics, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
+			if (centers.getCenterCount () > 0) {
+				centers.draw (aGraphics, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
+			}
 			if (rebate != Rebate.NO_REBATE) {
 				rebate.draw (aGraphics, XCenter, YCenter, aHex);
 			}
@@ -1714,17 +1720,20 @@ public class MapCell implements Comparator<Object> {
 
 	private void paintNeighbors (Graphics aGraphics, Hex aHex) {
 		int tNIndex;
+		Color tCurrentColor;
+		Shape tPreviousClip;
+		
+		tCurrentColor = aGraphics.getColor ();
+		tPreviousClip = aGraphics.getClip ();
 		for (tNIndex = 0; tNIndex < 6; tNIndex++) {
-			if (neighbors [tNIndex] != null) {
+			if (neighbors [tNIndex] != MapCell.NO_MAP_CELL) {
 				if (neighbors [tNIndex].isSelected ()) {
-					paintAsNeighbor (aGraphics, aHex, tNIndex);
+					aHex.drawNeighborHighlight (aGraphics, tNIndex, XCenter, YCenter);
 				}
 			}
 		}
-	}
-	
-	public void paintAsNeighbor (Graphics aGraphics, Hex aHex, int aSide) {
-		aHex.drawNeighbor (aGraphics, aSide, XCenter, YCenter);
+		aGraphics.setClip (tPreviousClip);
+		aGraphics.setColor (tCurrentColor);
 	}
 
 	private int drawTerrain1 (Graphics aGraphics, Hex18XX aHex, RevenueCenter aRevenueCenter, 
