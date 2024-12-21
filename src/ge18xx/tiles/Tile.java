@@ -53,8 +53,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_FIXED = new AttributeName ("fixed");
 	public static final Tile NO_TILE = null;
-	public static final String NO_BASES = "";
-	public static final String NO_TOKENS = "";
+	public static final String NO_BASES = GUI.EMPTY_STRING;
+	public static final String NO_TOKENS = GUI.EMPTY_STRING;
 	public static final int NOT_A_TILE = 0;
 	public static final int NO_TRACK = 0;
 	public static final int NO_STATION = 0;
