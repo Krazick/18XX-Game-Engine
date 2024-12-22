@@ -257,10 +257,19 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawRotateRightArrow (Graphics g, int Xc, int Yc) {
-		int x1, y1, width, height;
-		int x2, y2, x3, y3, x4, y4;
+		int x1;
+		int y1;
+		int width;
+		int height;
+		int x2;
+		int y2;
+		int x3;
+		int y3;
+		int x4;
+		int y4;
 		int tCircleRadius;
-		int xArrowCenter, yArrowCenter;
+		int xArrowCenter;
+		int yArrowCenter;
 	
 		width = trackWidth * 3;
 		tCircleRadius = width / 2;
@@ -287,7 +296,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawShallowCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -295,36 +305,40 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawSmallRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
 		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	protected void drawTriangle (Graphics g, int X1, int Y1, int X2, int Y2, int X3,
-			int Y3, Paint aFillPaint) {
-				Graphics2D g2d = (Graphics2D) g;
-				Polygon tTriangle;
-				int xp[] = new int [4];
-				int yp[] = new int [4];
-			
-				xp [0] = X1;
-				yp [0] = Y1;
-				xp [1] = X2;
-				yp [1] = Y2;
-				xp [2] = X3;
-				yp [2] = Y3;
-				xp [3] = X1;
-				yp [3] = Y1;
-				tTriangle = new Polygon (xp, yp, 4);
-				if (aFillPaint != null) {
-					g2d.setPaint (aFillPaint);
-					g2d.fillPolygon (tTriangle);
-				}
-				g.setColor (Color.black);
-				g.drawPolygon (tTriangle);
-			}
+	protected void drawTriangle (Graphics g, int X1, int Y1, int X2, int Y2, int X3, int Y3, Paint aFillPaint) {
+		Graphics2D g2d;
+		Polygon tTriangle;
+		
+		int xp [];
+		int yp [];
+	
+		xp = new int [4];
+		yp = new int [4];
+		g2d = (Graphics2D) g;
+		xp [0] = X1;
+		yp [0] = Y1;
+		xp [1] = X2;
+		yp [1] = Y2;
+		xp [2] = X3;
+		yp [2] = Y3;
+		xp [3] = X1;
+		yp [3] = Y1;
+		tTriangle = new Polygon (xp, yp, 4);
+		if (aFillPaint != null) {
+			g2d.setPaint (aFillPaint);
+			g2d.fillPolygon (tTriangle);
+		}
+		g.setColor (Color.black);
+		g.drawPolygon (tTriangle);
+	}
 
 	public boolean rotateArrowContainingPoint (Point aPoint, int Xc, int Yc) {
 		int x1;
@@ -352,5 +366,4 @@ public class Hex18XX extends Hex {
 	
 		return tRect.contains (aPoint.getX (), aPoint.getY ());
 	}
-
 }
