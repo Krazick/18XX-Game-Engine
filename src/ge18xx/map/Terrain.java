@@ -1,11 +1,8 @@
 package ge18xx.map;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.TexturePaint;
 import java.io.IOException;
 
@@ -169,7 +166,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 				break;
 	
 			case RIVER: /* River */
-				drawRiver (g, X, Y, aHex, tTerrainPaint);
+				aHex.drawRiver (g, X, Y, tTerrainPaint);
 				break;
 	
 			case MULTIPLE_RIVER: /* Multiple River */
@@ -260,39 +257,6 @@ public class Terrain extends Feature implements LoadableXMLI {
 				// TODO -- Draw Border around Hex at start of Route
 				break;
 		}
-	}
-
-	public void drawRiver (Graphics g, int Xc, int Yc, Hex aHex, Paint aPaint) {
-		int X1;
-		int Y1;
-		int width;
-		int height;
-		int index;
-		int tTrackWidth;
-		int halfTW;
-		Graphics2D tGraphics2D;
-		BasicStroke tRiverStroke;
-		Stroke tCurrentStroke;
-
-		tGraphics2D = (Graphics2D) g;
-		tTrackWidth = aHex.getTrackWidth ();
-		halfTW = Double.valueOf (tTrackWidth / 2).intValue ();
-		tRiverStroke = new BasicStroke (2);
-		tCurrentStroke = tGraphics2D.getStroke ();
-		width = tTrackWidth - 1;
-		height = tTrackWidth - 1;
-		X1 = Xc - halfTW - tTrackWidth - tTrackWidth;
-		Y1 = Yc - tTrackWidth;
-		tGraphics2D.setStroke (tRiverStroke);
-		tGraphics2D.setPaint (aPaint);
-		for (index = 0; index < 3; index++) {
-			g.drawArc (X1, Y1, width, height, 10, 160);
-			X1 = X1 + tTrackWidth;
-			g.drawArc (X1, Y1 - 1, width, height, 190, 160);
-			X1 = X1 + tTrackWidth;
-		}
-		tGraphics2D.setColor (Color.black);
-		tGraphics2D.setStroke (tCurrentStroke);
 	}
 
 	public boolean drawBorder () {
