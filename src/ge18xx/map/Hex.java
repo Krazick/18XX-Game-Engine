@@ -102,8 +102,6 @@ public class Hex {
 		tHexClip = new Area (tClipPolygon);
 		tNewClip.intersect (tHexClip);
 		aGraphics.setClip (tNewClip);
-
-//		return tPreviousClip;
 	}
 
 	public boolean contains (Point2D.Double aPoint, int aXc, int aYc) {
