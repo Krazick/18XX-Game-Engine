@@ -132,7 +132,6 @@ public class MapCell implements Comparator<Object> {
 		setupLicenseToken ();
 	}
 
-
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
 									TileType aTileType) {
 		RevenueCenterType tRCType;
@@ -537,43 +536,6 @@ public class MapCell implements Comparator<Object> {
 		}
 		
 		return tXMLElement;
-	}
-
-	public void drawTerrain (Graphics g, Terrain aTerrain, Hex18XX aHex, int Xoffset, int Yoffset) {
-		int Xol;
-		int Yol;
-		Point tLocationPoint;
-		Location tLocation;
-		Font tCurrentFont;
-		Font tNewFont;
-
-		if (aTerrain != Terrain.NO_TERRAINX) {
-			tLocation = aTerrain.getLocation ();
-
-			if (tLocation == Location.NO_LOC) {
-				Xol = XCenter + Xoffset;
-				Yol = YCenter + Yoffset;
-			} else {
-				tLocationPoint = tLocation.calcCenter (aHex);
-				Xol = tLocationPoint.x + XCenter + Xoffset;
-				Yol = tLocationPoint.y + YCenter + Yoffset;
-			}
-
-			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken, hasCattleToken, 
-							hasBridgeToken, hasTunnelToken, benefitValue);
-			Yol += 15;
-			if (aTerrain.isMountainous ()) {
-				Yol += 5;
-			}
-			Xol -= 10;
-			if (aTerrain.getCost () > 0) {
-				tCurrentFont = g.getFont ();
-				tNewFont = new Font ("Dialog", Font.PLAIN, 10);
-				g.setFont (tNewFont);
-				g.drawString (aTerrain.getCostToString (), Xol, Yol);
-				g.setFont (tCurrentFont);
-			}
-		}
 	}
 
 	public boolean forID (String aID) {
@@ -1639,62 +1601,23 @@ public class MapCell implements Comparator<Object> {
 	public void paintComponent (Graphics aGraphics, Hex18XX aHex) {
 		boolean tIsInSelectable;
 		RevenueCenter tRevenueCenter;
-		Paint tThickFrame;
 		String tTileName;
 		String tBaseTileName;
 		String tCityInfoName;
 		int tXoffset;
 		int tYoffset;
-		Graphics2D tGraphics2D;
 		
 		tXoffset = 0;
 		tYoffset = 0;
-		Paint tFillPaint;
 		tTileName = TileName.NO_NAME2;
-		tGraphics2D = (Graphics2D) aGraphics;
 		
 		tRevenueCenter = getRevenueCenter (0);
 		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
-			tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2,
-					tIsInSelectable);
-			if (blockedSides != null) {
-				aHex.drawBorders (tGraphics2D, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
-			}
-			if (isStartingTile ()) {
-				tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
-				drawTerrain2 (aGraphics, aHex, tXoffset, tYoffset);
-			} else {
-				drawTerrainBleedThrough (aGraphics, terrain1, aHex, tXoffset, tYoffset);
-				drawTerrainBleedThrough (aGraphics, terrain2, aHex, tXoffset, tYoffset);
-			}
-			if (endRoutes.size () > 0) {
-				for (Terrain tEndRoute : endRoutes) {
-					drawTerrain (aGraphics, tEndRoute, aHex, tXoffset, tYoffset);
-				}
-			}
+			drawMapCellWithTile (aGraphics, aHex, tIsInSelectable, tXoffset, tYoffset);
 		} else {
-			if (pseudoYellowTile ()) {
-				tThickFrame = new TileType (TileType.YELLOW, false).getPaint ();
-			} else {
-				tThickFrame = null;
-			}
-			if (tIsInSelectable) {
-				tFillPaint = baseTerrain.getPaint (true);
-			} else {
-				tFillPaint = baseTerrain.getPaint ();
-			}
-			aHex.paintHex (aGraphics, XCenter, YCenter, tFillPaint, baseTerrain.drawBorder (), tThickFrame,
-					blockedSides);
-			tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
-			drawTerrain2 (aGraphics, aHex, tXoffset, tYoffset);
-			if (centers.getCenterCount () > 0) {
-				centers.draw (aGraphics, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
-			}
-			if (rebate != Rebate.NO_REBATE) {
-				rebate.draw (aGraphics, XCenter, YCenter, aHex);
-			}
+			drawEmptyMapCell (aGraphics, aHex, tIsInSelectable, tXoffset, tYoffset);
 		}
 		if (baseTileName != TileName.NO_TILE_NAME) {
 			tBaseTileName = baseTileName.getName ();
@@ -1718,38 +1641,107 @@ public class MapCell implements Comparator<Object> {
 		paintNeighbors (aGraphics, aHex);
 	}
 
-	private void paintNeighbors (Graphics aGraphics, Hex aHex) {
-		int tNIndex;
-		Color tCurrentColor;
-		Shape tPreviousClip;
+	public void drawMapCellWithTile (Graphics aGraphics, Hex18XX aHex, boolean aIsInSelectable,
+			int aXoffset, int aYoffset) {
+		Graphics2D tGraphics2D;
+		boolean tDrawBorder;
 		
-		tCurrentColor = aGraphics.getColor ();
-		tPreviousClip = aGraphics.getClip ();
-		for (tNIndex = 0; tNIndex < 6; tNIndex++) {
-			if (neighbors [tNIndex] != MapCell.NO_MAP_CELL) {
-				if (neighbors [tNIndex].isSelected ()) {
-					aHex.drawNeighborHighlight (aGraphics, tNIndex, XCenter, YCenter);
-				}
+		tGraphics2D = (Graphics2D) aGraphics;
+		tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2, aIsInSelectable);
+		if (blockedSides != null) {
+			tDrawBorder = baseTerrain.drawBorder ();
+			aHex.drawBorders (tGraphics2D, XCenter, YCenter, tDrawBorder, blockedSides);
+		}
+		if (isStartingTile ()) {
+			drawAllTerrain (aGraphics, aHex, aXoffset, aYoffset);
+		} else {
+			drawTerrainBleedThrough (aGraphics, terrain1, aHex, aXoffset, aYoffset);
+			drawTerrainBleedThrough (aGraphics, terrain2, aHex, aXoffset, aYoffset);
+		}
+		if (endRoutes.size () > 0) {
+			for (Terrain tEndRoute : endRoutes) {
+				drawTerrain (aGraphics, tEndRoute, aHex, aXoffset, aYoffset);
 			}
 		}
-		aGraphics.setClip (tPreviousClip);
-		aGraphics.setColor (tCurrentColor);
 	}
 
-	private int drawTerrain1 (Graphics aGraphics, Hex18XX aHex, RevenueCenter aRevenueCenter, 
-							int aXoffset, int aYoffset) {
-		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
-			if (terrain1 != Terrain.NO_TERRAINX) {
-				if (terrain1.isRiver ()) {
-					if (aRevenueCenter.isCenterLocation ()) {
-						aYoffset = aHex.getTrackWidth () * 4;
-					}
-				}
-			}
-		}
-		drawTerrain (aGraphics, terrain1, aHex, aXoffset, aYoffset);
+	public void drawEmptyMapCell (Graphics aGraphics, Hex18XX aHex, boolean aIsInSelectable,
+			 int aXoffset, int aYoffset) {
+		Paint tThickFrame;
+		Paint tFillPaint;
+		boolean tDrawBorder;
 		
-		return aYoffset;
+		if (pseudoYellowTile ()) {
+			tThickFrame = new TileType (TileType.YELLOW, false).getPaint ();
+		} else {
+			tThickFrame = null;
+		}
+		if (aIsInSelectable) {
+			tFillPaint = baseTerrain.getPaint (true);
+		} else {
+			tFillPaint = baseTerrain.getPaint ();
+		}
+		tDrawBorder = baseTerrain.drawBorder ();
+		aHex.paintHex (aGraphics, XCenter, YCenter, tFillPaint, tDrawBorder, tThickFrame, blockedSides);
+		
+		drawAllTerrain (aGraphics, aHex, aXoffset, aYoffset);
+		
+		if (centers.getCenterCount () > 0) {
+			centers.draw (aGraphics, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
+		}
+		if (rebate != Rebate.NO_REBATE) {
+			rebate.draw (aGraphics, XCenter, YCenter, aHex);
+		}
+	}
+	
+	public void drawTerrain (Graphics aGraphics, Terrain aTerrain, Hex18XX aHex, int aXoffset, int aYoffset) {
+		int tXol;
+		int tYol;
+		Point tLocationPoint;
+		Location tLocation;
+		if (aTerrain != Terrain.NO_TERRAINX) {
+			tLocation = aTerrain.getLocation ();
+
+			if (tLocation == Location.NO_LOC) {
+				tXol = XCenter + aXoffset;
+				tYol = YCenter + aYoffset;
+			} else {
+				tLocationPoint = tLocation.calcCenter (aHex);
+				tXol = tLocationPoint.x + XCenter + aXoffset;
+				tYol = tLocationPoint.y + YCenter + aYoffset;
+			}
+
+			aTerrain.draw (aGraphics, tXol, tYol, aHex, terrainFillPaint, hasPortToken, hasCattleToken, 
+							hasBridgeToken, hasTunnelToken, benefitValue);
+			drawTerrainCost (aGraphics, aTerrain, tXol, tYol);
+		}
+	}
+
+	public void drawTerrainCost (Graphics aGraphics, Terrain aTerrain, int aXol, int aYol) {
+		Font tCurrentFont;
+		Font tNewFont;
+		
+		aYol += 15;
+		if (aTerrain.isMountainous ()) {
+			aYol += 5;
+		}
+		aXol -= 10;
+		if (aTerrain.getCost () > 0) {
+			tCurrentFont = aGraphics.getFont ();
+			tNewFont = new Font ("Dialog", Font.PLAIN, 10);
+			aGraphics.setFont (tNewFont);
+			aGraphics.drawString (aTerrain.getCostToString (), aXol, aYol);
+			aGraphics.setFont (tCurrentFont);
+		}
+	}
+
+	public void drawAllTerrain (Graphics aGraphics, Hex18XX aHex, int aXoffset, int aYoffset) {
+		drawTerrain1 (aGraphics, aHex, aXoffset, aYoffset);
+		drawTerrain2 (aGraphics, aHex, aXoffset, aYoffset);
+	}
+
+	private void drawTerrain1 (Graphics aGraphics, Hex18XX aHex, int aXoffset, int aYoffset) {
+		drawTerrain (aGraphics, terrain1, aHex, aXoffset, aYoffset);
 	}
 
 	private void drawTerrain2 (Graphics aGraphics, Hex18XX aHex, int aXoffset, int aYoffset) {
@@ -1770,6 +1762,24 @@ public class MapCell implements Comparator<Object> {
 				drawTerrain (aGraphics, aTerrain, aHex, aXoffset, aYoffset);
 			}
 		}
+	}
+
+	private void paintNeighbors (Graphics aGraphics, Hex aHex) {
+		int tNIndex;
+		Color tCurrentColor;
+		Shape tPreviousClip;
+		
+		tCurrentColor = aGraphics.getColor ();
+		tPreviousClip = aGraphics.getClip ();
+		for (tNIndex = 0; tNIndex < 6; tNIndex++) {
+			if (neighbors [tNIndex] != MapCell.NO_MAP_CELL) {
+				if (neighbors [tNIndex].isSelected ()) {
+					aHex.drawNeighborHighlight (aGraphics, tNIndex, XCenter, YCenter);
+				}
+			}
+		}
+		aGraphics.setClip (tPreviousClip);
+		aGraphics.setColor (tCurrentColor);
 	}
 
 	public boolean setAllowedRotation (int aIndex, boolean aAllowed) {
