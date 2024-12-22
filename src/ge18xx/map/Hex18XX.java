@@ -34,7 +34,12 @@ public class Hex18XX extends Hex {
 	public void drawHill (Graphics g, int Xc, int Yc, Paint aFillPaint) {
 		double tDwidth6;
 		double tDwidth5;
-		int X1, X2, X3, Y1, Y2, Y3;
+		int X1;
+		int X2;
+		int X3;
+		int Y1;
+		int Y2;
+		int Y3;
 	
 		tDwidth5 = dwidth / 6;
 		tDwidth6 = dwidth / 10;
@@ -48,7 +53,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -56,7 +62,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawDeepCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -64,8 +71,12 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawHimalaya (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		int X1, X2, Y1, Y2;
-		double dw6, dw5;
+		int X1;
+		int X2;
+		int Y1;
+		int Y2;
+		double dw6;
+		double dw5;
 	
 		dw5 = dwidth / 5;
 		dw6 = dwidth / 6;
@@ -79,7 +90,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawLargeRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -87,7 +99,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawMajorRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -95,8 +108,14 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawMountain (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		double dw6, dw5;
-		int X1, X2, X3, Y1, Y2, Y3;
+		double dw6;
+		double dw5;
+		int X1;
+		int X2;
+		int X3;
+		int Y1;
+		int Y2;
+		int Y3;
 	
 		dw5 = dwidth / 5;
 		dw6 = dwidth / 6;
@@ -110,7 +129,8 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawMultipleRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1;
+		int X1;
+		int Y1;
 	
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
@@ -151,10 +171,17 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawPort (Graphics g, int Xc, int Yc, Paint aPortPaint) {
-		Graphics2D g2d = (Graphics2D) g;
-		int x1, y1, x2, y2;
-		int xtr, ytr, width, height;
+		Graphics2D g2d;
+		int x1;
+		int y1;
+		int x2;
+		int y2;
+		int xtr;
+		int ytr;
+		int width;
+		int height;
 	
+		g2d = (Graphics2D) g;
 		x1 = Xc;
 		y1 = Double.valueOf (Yc - trackWidth * .5).intValue ();
 		x2 = Xc;
@@ -178,13 +205,17 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawOctagon (Graphics g, int Xc, int Yc, Paint aPaint) {
-		Polygon polygon = new Polygon ();
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Stroke tOriginalStroke = g2d.getStroke ();
-		Stroke tNewStroke = new BasicStroke (3);
+		Polygon polygon;
+		Graphics2D g2d;
+		Stroke tOriginalStroke;
+		Stroke tNewStroke;
 		int R;
 	
+		polygon = new Polygon ();
+		g2d = (Graphics2D) g;
+		g2d.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		tOriginalStroke = g2d.getStroke ();
+		tNewStroke = new BasicStroke (3);
 		R = cityWidth * 2;
 		int [] [] xy = getPolygonArrays (Xc, Yc, R, 8);
 		polygon = new Polygon (xy [0], xy [1], 8);
@@ -195,12 +226,20 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
-		int X1, Y1, width, height, index;
-		Graphics2D g2d = (Graphics2D) g;
-		int halfTW = Double.valueOf (trackWidth / 2).intValue ();
-		BasicStroke tRiverStroke = new BasicStroke (2);
-		Stroke tCurrentStroke = g2d.getStroke ();
+		int X1;
+		int Y1;
+		int width;
+		int height;
+		int index;
+		Graphics2D g2d;
+		int halfTW;
+		BasicStroke tRiverStroke;
+		Stroke tCurrentStroke;
 	
+		g2d = (Graphics2D) g;
+		halfTW = Double.valueOf (trackWidth / 2).intValue ();
+		tRiverStroke = new BasicStroke (2);
+		tCurrentStroke = g2d.getStroke ();
 		width = trackWidth - 1;
 		height = trackWidth - 1;
 		X1 = Xc - halfTW - trackWidth - trackWidth;
