@@ -152,7 +152,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 				tElement.setAttribute (Location.AN_LOCATION, getLocationToString ());
 			}
 		} else {
-			tElement = null;
+			tElement = XMLElement.NO_XML_ELEMENT;
 		}
 
 		return tElement;
@@ -333,7 +333,6 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return tPaint;
 	}
 
-
 	public int getCost () {
 		return cost;
 	}
@@ -361,8 +360,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	public static int getTypeFromName (String aName) {
 		int index;
-		int thisType = NO_TERRAIN;
+		int thisType;
 
+		thisType = NO_TERRAIN;
 		for (index = MIN_TERRAIN; index <= MAX_TERRAIN; index++) {
 			if (aName.equals (NAMES [index])) {
 				thisType = index;
@@ -375,7 +375,6 @@ public class Terrain extends Feature implements LoadableXMLI {
 	public boolean isMountainous () {
 		// True if Hill, Mountain or Himalaya
 		boolean tIsMountainous;
-		
 		
 		tIsMountainous = ((terrain == HILL) || 
 						(terrain == MOUNTAIN) || 
@@ -402,13 +401,13 @@ public class Terrain extends Feature implements LoadableXMLI {
 		tIsRiver = false;
 		switch (terrain) {
 
-		case RIVER:
-		case MULTIPLE_RIVER: /* Multiple River */
-		case MAJOR_RIVER: /* Major River */
-		case SMALL_RIVER: /* Small River */
-		case LARGE_RIVER: /* Large River */
-			tIsRiver = true;
-			break;
+			case RIVER:
+			case MULTIPLE_RIVER: /* Multiple River */
+			case MAJOR_RIVER: /* Major River */
+			case SMALL_RIVER: /* Small River */
+			case LARGE_RIVER: /* Large River */
+				tIsRiver = true;
+				break;
 		}
 
 		return tIsRiver;
@@ -420,12 +419,12 @@ public class Terrain extends Feature implements LoadableXMLI {
 		tIsSelectable = true;
 		switch (terrain) {
 
-		case OFF_BOARD_BLACK:
-		case OFF_BOARD_GREEN:
-		case OCEAN:
-		case OFF_BOARD_GRAY:
-			tIsSelectable = false;
-			break;
+			case OFF_BOARD_BLACK:
+			case OFF_BOARD_GREEN:
+			case OCEAN:
+			case OFF_BOARD_GRAY:
+				tIsSelectable = false;
+				break;
 		}
 
 		if ((terrain <= NO_TERRAIN) || (terrain > MAX_TERRAIN)) {
