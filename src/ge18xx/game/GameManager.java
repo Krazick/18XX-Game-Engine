@@ -71,6 +71,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
@@ -408,10 +409,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return playerManager.buildParPriceFrame (tCurrentPlayer, aCertificate);
 	}
 
-	public boolean handleSetParPrice (Certificate aCertificate, int aSelectedParPrice, ParPriceFrame aParPriceFrame) {
+	public boolean handleSetParPrice (Certificate aCertificate, int aSelectedParPrice, 
+							ParPriceFrame aParPriceFrame) {
 		Corporation tCorporation;
 		ShareCompany tShareCompany;
 		boolean tParPriceSet;
+		SetParValueAction tSetParValueAction;
 
 		tCorporation = aCertificate.getCorporation ();
 		if (tCorporation.isAShareCompany ()) {
@@ -422,7 +425,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if ((aSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
 			tParPriceSet = true;
 			setParPrice (tShareCompany, aSelectedParPrice);
-			aParPriceFrame.setParValueAction (aSelectedParPrice, tShareCompany, true);
+			tSetParValueAction = aParPriceFrame.setParValueAction (aSelectedParPrice, tShareCompany, true);
+			addAction (tSetParValueAction);
 		} else {
 			tParPriceSet = false;
 		}

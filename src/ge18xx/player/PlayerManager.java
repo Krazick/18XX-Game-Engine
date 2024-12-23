@@ -49,6 +49,7 @@ import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
@@ -759,7 +760,8 @@ public class PlayerManager implements XMLSaveGameI {
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock;
 		boolean tChainToPrevious;
-
+//		SetParValueEffect tSetParValueEffect;
+		
 		tCanBuyStock = true;
 		tChainToPrevious = false;
 		// Get State before acting for saving in the Action Stack.
@@ -793,6 +795,7 @@ public class PlayerManager implements XMLSaveGameI {
 //						tSetParValueEffect = buildSetParPriceEffect (aPlayer, tCertificateToBuy, 
 //								tShareCompany, tParPrice);
 //						aBuyStockAction.addEffect (tSetParValueEffect);
+						gameManager.setParPrice (tShareCompany, tParPrice);
 						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
 					} else {
 						System.err.println ("***Selected Par Price is " + tParPrice + 
@@ -853,6 +856,18 @@ public class PlayerManager implements XMLSaveGameI {
 		return tBuyStockAction;
 	}
 
+//	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
+//			ShareCompany aShareCompany, int aParPrice) {
+//		SetParValueEffect tSetParValueEffect;
+//
+//		gameManager.setParPrice (aShareCompany, aParPrice);
+//		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
+//		parPriceFrame.setParPriceFrameActive (false);
+//		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
+//
+//		return tSetParValueEffect;
+//	}
+	
 	public void setFreeCertificatePrice (Certificate aFreeCertificate, Player aPlayer, 
 				BuyStockAction aBuyStockAction) {
 		ShareCompany tShareCompany;
