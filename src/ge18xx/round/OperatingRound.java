@@ -448,7 +448,7 @@ public class OperatingRound extends Round {
 
 		setRoundToOperatingRound (tCurrentRound, tOldRoundID, tIDPart1, tIDPart2);
 
-		if (!repeatRound) {
+		if (tIDPart2 == calcFirstORID ()) {
 			tPlayerManager.clearAllPlayerDividends (tOldRoundID);
 			tPlayerManager.clearAllPercentBought ();
 		}
