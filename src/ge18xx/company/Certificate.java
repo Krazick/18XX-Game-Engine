@@ -1406,7 +1406,7 @@ public class Certificate implements Comparable<Certificate> {
 			ShareCompany tShare = (ShareCompany) corporation;
 			MarketCell tMarketCell = tShare.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-				tColor = tMarketCell.getRegionColor ();
+				tColor = tMarketCell.getCertificateBorderColor ();
 			}
 		}
 

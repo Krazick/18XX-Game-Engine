@@ -2,6 +2,8 @@ package ge18xx.market;
 
 import java.awt.Color;
 
+import geUtilities.GUI;
+
 public enum MarketRegion {
 	Normal (false, false, true, false, Color.WHITE, Color.BLACK),
 	Yellow (false, false, false, false, Color.YELLOW, Color.BLACK),
@@ -31,6 +33,17 @@ public enum MarketRegion {
 		setNotCountAsBuy (aNotCountAsBuy);
 		setColor (aColor);
 		setTextColor (aTextColor);
+	}
+	
+	public Color getCertificateBorderColor () {
+		Color tCertificateBorderColor;
+		
+		tCertificateBorderColor = color;
+		if (isNormal ()) {
+			tCertificateBorderColor = Normal.color;
+		}
+		
+		return tCertificateBorderColor;
 	}
 
 	public Color getColor () {
@@ -68,7 +81,7 @@ public enum MarketRegion {
 	public String getToolTip () {
 		String tToolTip;
 
-		tToolTip = "";
+		tToolTip = GUI.EMPTY_STRING;
 		if (getCloseCorporation ()) {
 			tToolTip = "Close Corporation<br>";
 		}
@@ -89,8 +102,12 @@ public enum MarketRegion {
 		return (this == Ledge);
 	}
 
+	public boolean isBelowLedge () {
+		return (this == Ledge);
+	}
+
 	public boolean isNormal () {
-		return ((this == Normal) || isLedge () || isStart ());
+		return ((this == Normal) || isLedge () || isBelowLedge () || isStart ());
 	}
 
 	public boolean isOpen () {

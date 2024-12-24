@@ -592,6 +592,10 @@ public class MarketCell {
 		return marketRegion.getColor ();
 	}
 
+	public Color getCertificateBorderColor () {
+		return marketRegion.getCertificateBorderColor ();
+	}
+	
 	public MarketCell getSellShareMarketCell (int aSharesBeingSoldCount) {
 		MarketCell tMarketCell;
 		int tNeighbor;
