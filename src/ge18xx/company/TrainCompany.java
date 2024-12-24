@@ -120,24 +120,21 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	Color fgColor;
 	Color homeColor;
 
-//	public TrainCompany () {
-//		this (Corporation.NO_ID, Corporation.NO_NAME);
-//	}
-
 	public TrainCompany (int aID, String aName) {
 		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, MapCell.NO_MAP_CELL, Location.NO_LOC,
 				NO_COST, ActorI.ActionStates.Unowned, false);
 	}
 
-	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, MapCell aHomeCity1,
-			Location aHomeLocation1, int aCost, ActorI.ActionStates aState, boolean aGovtRailway) {
+	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, 
+			MapCell aHomeCity1, Location aHomeLocation1, int aCost, ActorI.ActionStates aState, 
+			boolean aGovtRailway) {
 		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, 
 				MapCell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
 	}
 
-	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, MapCell aHomeCity1,
-			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, int aCost, 
-			ActorI.ActionStates aState, boolean aGovtRailway) {
+	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, 
+			MapCell aHomeCity1, Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, 
+			int aCost, ActorI.ActionStates aState, boolean aGovtRailway) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, aGovtRailway);
 
 		trainPortfolio = new TrainPortfolio (this);
