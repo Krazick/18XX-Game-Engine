@@ -315,7 +315,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setStatus (ActorI.ActionStates.NotOperated);
 
 		tNewState = getStatus ();
-		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundState (), tOperatingRound.getID (), this);
+		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundState (), 
+				tOperatingRound.getID (), this);
 		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
 		if (hasDestination ()) {
 			handleCapitalization (tFloatCompanyAction);
@@ -380,7 +381,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainCount = getTrainCount ();
 		tOldThisRevenue = thisRevenue;
 		setThisRevenue (NO_REVENUE_GENERATED);
-		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, thisRevenue, tTrainCount);
+		tPreparedCorporationAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, thisRevenue,
+				tTrainCount);
 	}
 
 	@Override
