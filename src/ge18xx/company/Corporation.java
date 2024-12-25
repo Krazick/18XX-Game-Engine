@@ -1072,8 +1072,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		String tLabel;
 		String tActionVerb;
 
-		if (status == ActorI.ActionStates.MayFloat) {
-			tActionVerb = " may operate ";
+		if ((status == ActorI.ActionStates.MayFloat) 
+				|| (status == ActorI.ActionStates.WillFloat)) {
+			tActionVerb = " will Float and Operate ";
 		} else {
 			tActionVerb = " will operate ";
 		}
@@ -3055,7 +3056,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	/**
-	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
+	 * When the Corporation has need to wait for a Response from a Network Player, State is 
+	 * ActorI.ActionStates.WaitingResponse
 	 * Put this thread to sleep, in 2 second chunks
 	 *
 	 */
