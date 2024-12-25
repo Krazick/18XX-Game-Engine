@@ -3,8 +3,8 @@ package ge18xx.round;
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-import ge18xx.company.MinorCompany;
-import ge18xx.company.ShareCompany;
+//import ge18xx.company.MinorCompany;
+//import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
@@ -22,6 +22,7 @@ public class OperatingRound extends Round {
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
 	String operatingType;
+	TrainCompany companyToOperate;
 
 	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates,
 			CorporationList aMinors, CorporationList aShares) {
@@ -178,15 +179,24 @@ public class OperatingRound extends Round {
 		}
 	}
 
+	public void setCompanyToOperate (TrainCompany aCompanyToOperate) {
+		companyToOperate = aCompanyToOperate;
+	}
+	
+	public TrainCompany getCompanyToOperate () {
+		return companyToOperate;
+	}
+	
 	public boolean updateForNextToOperate (CorporationList aCompanies) {
 		boolean tFoundNextToOperate;
-		Corporation tTrainCompany;
+		TrainCompany tTrainCompany;
 		int tNextShareToOperate;
 
 		tFoundNextToOperate = false;
 		tNextShareToOperate = aCompanies.getNextToOperate ();
 		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			tTrainCompany = (Corporation) aCompanies.getCorporation (tNextShareToOperate);
+			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tNextShareToOperate);
+			setCompanyToOperate (tTrainCompany);
 			roundManager.updateActionLabel (tTrainCompany);
 			tFoundNextToOperate = true;
 		}
@@ -197,12 +207,13 @@ public class OperatingRound extends Round {
 	public boolean updateForCurrentlyOperating (CorporationList aCompanies) {
 		boolean tFoundCurrentOperating;
 		int tCurrentlyOperating;
-		Corporation tTrainCompany;
+		TrainCompany tTrainCompany;
 		
 		tFoundCurrentOperating = false;
 		tCurrentlyOperating = aCompanies.getCurrentlyOperating ();
 		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
-			tTrainCompany = (Corporation) aCompanies.getCorporation (tCurrentlyOperating);
+			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tCurrentlyOperating);
+			setCompanyToOperate (tTrainCompany);
 			roundManager.updateActionLabel (tTrainCompany);
 			tFoundCurrentOperating = true;
 		}
@@ -259,15 +270,16 @@ public class OperatingRound extends Round {
 	}
 
 	public void prepareCorporation () {
-		int tNextShareToOperate;
+		TrainCompany tTrainCompany;
 
-		tNextShareToOperate = getNextCompanyToOperate ();
-		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			if (operatingType.equals (Corporation.SHARE_COMPANY)) {
-				shareCompanies.prepareCorporation (tNextShareToOperate);
-			} else if (operatingType.equals (Corporation.MINOR_COMPANY)) {
-				minorCompanies.prepareCorporation (tNextShareToOperate);
+		tTrainCompany = getCompanyToOperate ();
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+			if (! tTrainCompany.hasFloated () ) {
+				if (tTrainCompany.shouldFloat ()) {
+					tTrainCompany.floatCompany ();
+				}
 			}
+			tTrainCompany.prepareCorporation ();
 		}
 	}
 
@@ -301,41 +313,13 @@ public class OperatingRound extends Round {
 		}
 	}
 
-	public int getNextCompanyToOperate (CorporationList aTrainCompanies) {
-		TrainCompany tTrainCompany;
-		ShareCompany tShareCompany;
-		MinorCompany tMinorCompany;
-		int tNextCompanyToOperate;
-		
-		tNextCompanyToOperate = aTrainCompanies.getNextToOperate ();
-		if (tNextCompanyToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			tTrainCompany = (TrainCompany) aTrainCompanies.getCorporation (tNextCompanyToOperate);
-			if (! tTrainCompany.hasFloated () ) {
-				if (tTrainCompany.shouldFloat ()) {
-					if (tTrainCompany.isAShareCompany ()) {
-						tShareCompany = (ShareCompany) tTrainCompany;
-						tShareCompany.floatCompany ();
-					} else if (tTrainCompany.isAMinorCompany ()) {
-						tMinorCompany = (MinorCompany) tTrainCompany;
-						tMinorCompany.floatCompany ();
-					} else {
-						System.err.println ("The Train Company trying to float is not a Share Company");
-					}
-				} else {
-					tNextCompanyToOperate =  CorporationList.NO_CORPORATION_INDEX;
-				}
-			}
-		}
-		
-		return tNextCompanyToOperate;
-	}
-	
 	public int getNextCompanyToOperate () {
 		int tNextCompanyToOperate;
 		
-		tNextCompanyToOperate = getNextCompanyToOperate (minorCompanies);
+		tNextCompanyToOperate = minorCompanies.getNextToOperate ();
 		if (tNextCompanyToOperate == CorporationList.NO_CORPORATION_INDEX) {
-			tNextCompanyToOperate = getNextCompanyToOperate (shareCompanies);
+			tNextCompanyToOperate = shareCompanies.getNextToOperate ();
+			
 			if (tNextCompanyToOperate != CorporationList.NO_CORPORATION_INDEX) {
 				setOperatingType (Corporation.SHARE_COMPANY);
 			}
@@ -375,10 +359,12 @@ public class OperatingRound extends Round {
 	
 	@Override
 	public void finish () {
+		setCompanyToOperate (TrainCompany.NO_TRAIN_COMPANY);
 	}
 
 	@Override
 	public void finish (XMLFrame aXMLFrame) {
+		setCompanyToOperate (TrainCompany.NO_TRAIN_COMPANY);
 	}
 
 	@Override
