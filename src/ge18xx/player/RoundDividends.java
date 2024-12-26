@@ -85,7 +85,7 @@ public class RoundDividends {
 		int tIndex;
 		
 		tIndexes = aRoundID.split ("\\.");
-		tIndex = new Integer (tIndexes [1]).intValue ();
+		tIndex = Integer.valueOf (tIndexes [1]);
 		
 		return tIndex;
 	}
