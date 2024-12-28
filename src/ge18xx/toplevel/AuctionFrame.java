@@ -56,7 +56,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private final String WAITING = "Waiting";
 	private final String DONE = "Done Auction";
 	private final String UNDO = "Undo";
-
+	private final String DUMMY_LABEL = "DUMMY PRIVATE";
+	
 	JLabel privateCompanyLabel;
 	JLabel freeCertificateLabel;
 	KButton doneButton;
@@ -136,8 +137,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void buildAuctionItemInfoJPanel () {
 		auctionItemInfoJPanel = new JPanel ();
-		privateCompanyLabel = new JLabel ("DUMMY PRIVATE");
-		freeCertificateLabel = new JLabel ("");
+		privateCompanyLabel = new JLabel (DUMMY_LABEL);
+		freeCertificateLabel = new JLabel (GUI.EMPTY_STRING);
 		fillAuctionItemInfo ();
 	}
 
@@ -181,7 +182,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private void completeAuction () {
 		Player tPlayer;
-
+		
 		// Transfer Certificate to Highest Bidder
 		// Transfer Escrow from Highest Bidder to Bank
 		// Remove Escrow element for the Certificate from the Highest Bidder
@@ -193,10 +194,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		// 1. Complete Auction extends Buy Stock Action
 		// 2. Effect to Remove Escrow Element from Player
 		// 3. Effect to Remove Bid Element from Certificate
-		tPlayer = getHighestBidder ();
-
-		setBidderJPanelColor (tPlayer.getName (), false);
-		tPlayer.finishAuction (certificateToAuction, this, true);
+		if (certificateToAuction == Certificate.NO_CERTIFICATE) {
+			hideAuctionFrame ();
+		} else {
+			tPlayer = getHighestBidder ();
+	
+			setBidderJPanelColor (tPlayer.getName (), false);
+			tPlayer.finishAuction (certificateToAuction, this, true);
+		}
 	}
 
 	private Player getHighestBidder () {
@@ -290,7 +295,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				}
 			}
 		}
-		aAuctionStateChangeAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
+		aAuctionStateChangeAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex,
+					tNextBidderIndex);
 	}
 
 	public int getNextBidderIndex (int aActingBidderIndex, int aBidderCount) {
@@ -901,10 +907,12 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			updateAuctionUndoButton ();
 
 			if (tBidderIndex == tHighestBidderIndex) {
-				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
+							HIGHEST_NO_RAISE);
 				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
 			} else if (tBidderHasPassed) {
-				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, BIDDER_HAS_PASSED);
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
+							BIDDER_HAS_PASSED);
 				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, BIDDER_HAS_PASSED);
 			} else {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
@@ -1012,8 +1020,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		int tPlayerCash;
 
 		tPlayerCash = aPlayer.getCash ();
-		tBidderLabel = "Bidder: " + aPlayer.getName () + " Treasury " + Bank.formatCash (tPlayerCash) + " Bid Amount "
-				+ Bank.formatCash (aCash);
+		tBidderLabel = "Bidder: " + aPlayer.getName () + " Treasury " + Bank.formatCash (tPlayerCash)
+						+ " Bid Amount " + Bank.formatCash (aCash);
 
 		return tBidderLabel;
 	}
@@ -1025,7 +1033,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	private void setButton (KButton aButton, String aLabel, boolean aVisible, boolean aEnabled, String aToolTip) {
+	private void setButton (KButton aButton, String aLabel, boolean aVisible, 
+							boolean aEnabled, String aToolTip) {
 		aButton.setText (aLabel);
 		aButton.setVisible (aVisible);
 		aButton.setEnabled (aEnabled);
