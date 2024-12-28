@@ -47,6 +47,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
@@ -1438,7 +1439,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void setListenerPanels (boolean aListen) {
-		roundFrame.setListenerPanels (aListen);
+		if (roundFrame != XMLFrame.NO_XML_FRAME) {
+			roundFrame.setListenerPanels (aListen);
+		}
 	}
 	
 	public CorporationList getMinors () {
