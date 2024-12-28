@@ -46,6 +46,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String IS_FORMATION_ROUND = "It is an Formation Round, can't Pass";
 	public static final XMLFrame NO_ROUND_FRAME = null;
 	public static final String BASE_TITLE = "Round";
+	public static final String TOTAL_CASH = "Total Cash: ";
 	public static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	public static final String PASS_STOCK_ACTION = "passStockAction";
 	public static final String BUY_STOCK_ACTION = "buyStockAction";
@@ -186,7 +187,6 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	private void buildRoundInfoJPanel () {
-		int tTotalCash;
 		String tGameState;
 		Bank tBank;
 		JLabel tBankCashLabel;
@@ -207,8 +207,7 @@ public class RoundFrame extends XMLFrame {
 		roundInfoJPanel.add (tBankCashLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
 
-		tTotalCash = roundManager.getTotalCash ();
-		totalCashLabel = new JLabel ("Total Cash: " + Bank.formatCash (tTotalCash));
+		updateTotalCashLabel ();
 		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (totalCashLabel);
 
@@ -479,7 +478,7 @@ public class RoundFrame extends XMLFrame {
 		tPhaseManager = roundManager.getPhaseManager ();
 		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
 
-		if (tCurrentPhaseInfo == null) {
+		if (tCurrentPhaseInfo == PhaseInfo.NO_PHASE_INFO) {
 			tPhaseInfoName = "NONE SPECIFIED";
 		} else {
 			tPhaseInfoName = tCurrentPhaseInfo.getFullName ();
@@ -490,7 +489,7 @@ public class RoundFrame extends XMLFrame {
 	public void enableActionButton (boolean aEnableActionButton) {
 		doButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
-			doButton.setToolTipText ("");
+			doButton.setToolTipText (GUI.EMPTY_STRING);
 		} else {
 			doButton.setToolTipText (YOU_NOT_PRESIDENT);
 		}
@@ -501,7 +500,10 @@ public class RoundFrame extends XMLFrame {
 		int tTotalCash;
 
 		tTotalCash = roundManager.getTotalCash ();
-		totalCashLabel.setText ("Total Cash: " + Bank.formatCash (tTotalCash));
+		if (totalCashLabel == GUI.NO_LABEL) {
+			totalCashLabel = new JLabel (TOTAL_CASH);
+		}
+		totalCashLabel.setText (TOTAL_CASH + Bank.formatCash (tTotalCash));
 	}
 
 	private void updateGameStateLabel () {
@@ -596,7 +598,7 @@ public class RoundFrame extends XMLFrame {
 	private void enablePassButton () {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setEnabled (true);
-			passButton.setToolTipText ("");
+			passButton.setToolTipText (GUI.EMPTY_STRING);
 		}
 	}
 }
