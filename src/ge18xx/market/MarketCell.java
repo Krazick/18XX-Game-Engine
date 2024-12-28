@@ -153,6 +153,10 @@ public class MarketCell {
 		tokens.addTokenToTop (aToken);
 	}
 
+	public boolean contains (Token aToken) {
+		return tokens.contains (aToken);
+	}
+	
 	public int compareStackLocation (Corporation aCorporation1, Corporation aCorporation2) {
 		int tCompareStackLocation;
 

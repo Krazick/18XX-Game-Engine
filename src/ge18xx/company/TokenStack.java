@@ -51,6 +51,10 @@ public class TokenStack {
 		tokens.addLast (aToken);
 	}
 
+	public boolean contains (Token aToken) {
+		return tokens.contains (aToken);
+	}
+	
 	public int compareLocation (Corporation aCorporation1, Corporation aCorporation2) {
 		int tCompareLocation;
 		int tTokenIndex, tTokenCount, tLocation1, tLocation2;
