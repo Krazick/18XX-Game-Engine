@@ -47,6 +47,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final String NAME = "Bank";
 	public static final String CLOSED = "Bank Closed";
 	public static final String IPO = "Bank IPO";
+	public static final String CASH_LABEL = "Cash: ";
 	public static final Bank NO_BANK = null;
 	public static final String NO_FORMAT = null;
 	public static final int NO_BANK_CASH = 0;
@@ -60,6 +61,14 @@ public class Bank extends GameBank implements CashHolderI {
 	TrainPortfolio rustedTrainsPortfolio;
 	StartPacketFrame startPacketFrame;
 
+	public static String formatCash (String aPrefix, int aCashAmount) {
+		String tFormatted;
+		
+		tFormatted = aPrefix + formatCash (aCashAmount);
+		
+		return tFormatted;
+	}
+	
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
 
