@@ -3,9 +3,9 @@
 The 18XX Game Engine allows the players to play the 18XX Game (current 1830 is fully playable). Other 18XX Games are in various stages of implementation that includes:
 
 * 1830 -- Avalon Hill initial Version -- Fully Playable
-* 1835 -- Germany
+* 1835 -- Germany - Begining to flesh out unique rule implementations
 * 1853 -- India
-* 1856 -- Upper Canada -- Almost Complete (CGR Formation still to be finished)
+* 1856 -- Upper Canada -- Final Bug fixing, Fully Playable
 * 1870 -- Mississippi Valley
 * 1830+ -- Mayfair's Extended 1830
 
