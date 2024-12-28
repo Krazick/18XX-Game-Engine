@@ -1808,7 +1808,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void updateCashLabel () {
 		String tCashText;
 
-		tCashText = "Cash: " + Bank.formatCash (getCash ());
+		tCashText = Bank.formatCash (Bank.CASH_LABEL, treasury); 
 		if (cashLabel == GUI.NO_LABEL) {
 			cashLabel = new JLabel (tCashText);
 		} else {

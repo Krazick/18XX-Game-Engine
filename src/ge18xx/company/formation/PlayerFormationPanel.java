@@ -109,6 +109,8 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		Portfolio tPlayerPortfolio;
 		Border tMargin;
 		Border tCombinedBorder;
+		String tCashLabel;
+		int tPlayerCash;
 		
 		setLayout (new BoxLayout (this, BoxLayout.X_AXIS));
 		tMargin = new EmptyBorder (10,10,10,10);
@@ -119,7 +121,9 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tPlayerInfo.add (presidentNameLabel);
 		tPlayerInfo.add (Box.createVerticalStrut (10));
 	
-		tPresidentTreasury = new JLabel ("Cash: " + Bank.formatCash (player.getCash ()));
+		tPlayerCash = player.getCash ();
+		tCashLabel = Bank.formatCash (Bank.CASH_LABEL, tPlayerCash);
+		tPresidentTreasury = new JLabel (tCashLabel);
 		tPlayerInfo.add (tPresidentTreasury);
 		tPlayerInfo.add (Box.createVerticalStrut (10));
 		

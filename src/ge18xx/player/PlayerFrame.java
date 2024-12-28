@@ -432,12 +432,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public void setCashLabel () {
 		int tCashValue;
-
+		String tCashText;
+		
 		tCashValue = 0;
 		if (player != Player.NO_PLAYER) {
 			tCashValue = player.getCash ();
 		}
-		playerCash.setText ("Cash: " + Bank.formatCash (tCashValue));
+		tCashText = Bank.formatCash (Bank.CASH_LABEL, tCashValue);
+		playerCash.setText (tCashText);
 		setTotalValueLabel ();
 	}
 
