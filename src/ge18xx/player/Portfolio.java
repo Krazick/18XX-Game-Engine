@@ -72,7 +72,7 @@ public class Portfolio implements CertificateHolderI {
 	public static final String CERTIFICATE_REMOVED = "CERTIFICATE REMOVED";
 	public static final String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
 	public static final String NO_COMPANY_YET = ">> NONE YET <<";
-	public static final String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
+	public static final String NO_CERTIFICATES = "NO CERTIFICATES";
 	public static final String NO_NAME_STRING = "<NONE>";
 	public static final boolean REMOVE_CERTIFICATE = true;
 	public static final int NO_COMPONENT_INDEX = -1;
@@ -2143,10 +2143,9 @@ public class Portfolio implements CertificateHolderI {
 		boolean tHandledCertificate;
 		boolean tCorporationIsFolding;
 
-		tOwnershipPanel = GUI.NO_PANEL;
+		tOwnershipPanel = new JPanel ();
+		tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
 		if (certificates.size () > 0) {
-			tOwnershipPanel = new JPanel ();
-			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
 			tCorporationIsFolding = false;
 			
 			tPortfolioSummary = new LinkedList<> ();
@@ -2175,7 +2174,8 @@ public class Portfolio implements CertificateHolderI {
 				for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
 					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share
 					// Company Certs when owned by the same player
-					tAbbrevAndType2 = buildAbbrevAndType (tASingleSummary.getAbbrev (), tASingleSummary.getType ());
+					tAbbrevAndType2 = buildAbbrevAndType (tASingleSummary.getAbbrev (), 
+									tASingleSummary.getType ());
 
 					if (tAbbrevAndType1.equals (tAbbrevAndType2)) {
 						tASingleSummary.addCount (tCount);
@@ -2194,7 +2194,8 @@ public class Portfolio implements CertificateHolderI {
 					}
 					tNote = tCorporation.getNote ();
 					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass, tCorporationIsFolding, tStatus);
+							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass, 
+							tCorporationIsFolding, tStatus);
 					tPortfolioSummary.add (tASummary);
 				}
 				tCorporationIsFolding = false;
@@ -2213,8 +2214,7 @@ public class Portfolio implements CertificateHolderI {
 				tOwnershipPanel.add (tCertificateOwnershipLabel);
 			}
 		} else {
-			tOwnershipPanel = new JPanel ();
-			tCertificateOwnershipLabel = new JLabel ("NO CERTIFICATES");
+			tCertificateOwnershipLabel = new JLabel (NO_CERTIFICATES);
 			tOwnershipPanel.add (tCertificateOwnershipLabel);
 		}
 
@@ -2291,7 +2291,7 @@ public class Portfolio implements CertificateHolderI {
 		tCertToBuy = Certificate.NO_CERTIFICATE;
 		tPlayerName = aPlayer.getName ();
 		tCorpIndex = 0;
-		tPrevAbbrev = "";
+		tPrevAbbrev = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertToBuy == Certificate.NO_CERTIFICATE) {
 				tCorporation = tCertificate.getCorporation ();
