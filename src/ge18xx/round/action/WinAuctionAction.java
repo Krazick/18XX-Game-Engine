@@ -71,7 +71,8 @@ public class WinAuctionAction extends BuyStockAction {
 	}
 	
 	@Override
-	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
+	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, 
+					ActorI.ActionStates aNewState) {
 		StateChangeEffect tStateChangeEffect;
 
 		if (actor.isACorporation ()) {
@@ -170,5 +171,4 @@ public class WinAuctionAction extends BuyStockAction {
 	public boolean undoAction (RoundManager aRoundManager) {
 		return super.undoAction (aRoundManager);
 	}
-
 }
