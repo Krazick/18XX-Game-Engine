@@ -48,13 +48,35 @@ public class SetPreviousRouteInformationEffect extends Effect {
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		
-		tEffectApplied = true;
+		tEffectApplied = false;
 		tTrain = aRoundManager.getTrain (trainID);
 		if (tTrain != Train.NO_TRAIN) {
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
 			tTrain.setPreviousRouteInformation (tRouteInformation);
+			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("No Train with ID " + trainID + " Found to retrieve Current Route from" );		
 		}
 		
 		return tEffectApplied;
+	}
+	
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		Train tTrain;
+		RouteInformation tRouteInformation;
+		
+		tEffectUndone = false;
+		tTrain = aRoundManager.getTrain (trainID);
+		if (tTrain != Train.NO_TRAIN) {
+			tRouteInformation = tTrain.getPreviousRouteInformation ();
+			tTrain.setCurrentRouteInformation (tRouteInformation);
+			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("No Train with ID " + trainID + " Found to retrieve Previous Route from" );
+		}
+		
+		return tEffectUndone;
 	}
 }
