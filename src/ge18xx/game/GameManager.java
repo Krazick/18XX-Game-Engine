@@ -1412,8 +1412,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		PlayerManager tPlayerManager;
 		RoundManager tRoundManager;
 		
+		createUserPreferencesFrame ();
 		if (activeGame != GameInfo.NO_GAME_INFO) {
-			createUserPreferencesFrame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
 				setPlayerManager (tPlayerManager);
