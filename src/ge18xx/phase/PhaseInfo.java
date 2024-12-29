@@ -40,6 +40,7 @@ public class PhaseInfo {
 	public static final AttributeName AN_LOANS_ALLOWED = new AttributeName ("loansAllowed");
 	public static final AttributeName AN_GOVERNMENT_CAN_FORM = new AttributeName ("governmentCanForm");
 	public static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
+	public static final AttributeName AN_WILL_FLOAT = new AttributeName ("willFloat");
 	public static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	public static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
 	public static final AttributeName AN_MAJOR_TILE_LAYS = new AttributeName ("majorTileLays");
@@ -106,7 +107,7 @@ public class PhaseInfo {
 		tSubName = aCellNode.getThisIntAttribute (AN_SUB_NAME);
 		tRounds = aCellNode.getThisIntAttribute (AN_ROUNDS);
 		tTileColors = aCellNode.getThisAttribute (AN_TILES);
-		tTiles = tTileColors.split (",");
+		tTiles = tTileColors.split (GUI.COMMA);
 		tTrainLimit = aCellNode.getThisIntAttribute (AN_TRAIN_LIMIT, NO_LIMIT);
 		if (tTrainLimit == NO_LIMIT) {
 			tTrainLimit = aCellNode.getThisIntAttribute (AN_MAJOR_TRAIN_LIMIT, NO_LIMIT);
@@ -168,16 +169,22 @@ public class PhaseInfo {
 	}
 
 	private void parseMajorMinorValues (XMLNode aCellNode) {
-		int tValue;
+		int tWillFloat;
+		int tMinToFloat;
+		int tMinToFloatLast;
+		int tMajorTileLays;
+		int tMinorTileLays;
 
-		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
-		setMinToFloat (tValue);
-		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
-		setMinToFloatLast (tValue);
-		tValue = aCellNode.getThisIntAttribute (AN_MAJOR_TILE_LAYS, DEFAULT_TILE_LAYS);
-		setMajorTileLays (tValue);
-		tValue = aCellNode.getThisIntAttribute (AN_MINOR_TILE_LAYS, DEFAULT_TILE_LAYS);
-		setMinorTileLays (tValue);
+		tWillFloat = aCellNode.getThisIntAttribute (AN_WILL_FLOAT, STANDARD_MIN_SHARES);
+		setWillFloat (tWillFloat);
+		tMinToFloat = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
+		setMinToFloat (tMinToFloat);
+		tMinToFloatLast = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
+		setMinToFloatLast (tMinToFloatLast);
+		tMajorTileLays = aCellNode.getThisIntAttribute (AN_MAJOR_TILE_LAYS, DEFAULT_TILE_LAYS);
+		setMajorTileLays (tMajorTileLays);
+		tMinorTileLays = aCellNode.getThisIntAttribute (AN_MINOR_TILE_LAYS, DEFAULT_TILE_LAYS);
+		setMinorTileLays (tMinorTileLays);
 	}
 
 	private void loadPreparedActionXML (XMLNode aCellNode) {
@@ -226,12 +233,16 @@ public class PhaseInfo {
 		return minorTileLays;
 	}
 	
-	private void setMinToFloat (int aValue) {
-		minToFloat = aValue;
+	private void setWillFloat (int aWillFloat) {
+		willFloat = aWillFloat;
 	}
 
-	private void setMinToFloatLast (int aValue) {
-		minToFloatLast = aValue;
+	private void setMinToFloat (int aMinToFloat) {
+		minToFloat = aMinToFloat;
+	}
+
+	private void setMinToFloatLast (int aMinToFloatLast) {
+		minToFloatLast = aMinToFloatLast;
 	}
 
 	public int getMinToFloat () {
@@ -348,7 +359,6 @@ public class PhaseInfo {
 		loansAllowed = aLoansAllowed;
 		governmentCanForm = aGovernmentCanForm;
 		governmentMustForm = aGovernmentMustForm;
-		willFloat = 6;
 		triggerClass = aTriggerClass;
 		formCompanyId = aFormCompanyId;
 	}
