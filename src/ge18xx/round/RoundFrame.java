@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -169,17 +168,16 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel = new JPanel (true);
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
 		headerJPanel.setMaximumSize (new Dimension (1100, 150));
-		headerJPanel.setBorder (BorderFactory.createEmptyBorder (padding2, padding2, padding2, padding2));
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
-		headerJPanel.add (Box.createHorizontalStrut (20));
+		headerJPanel.add (Box.createHorizontalStrut (5));
 		headerJPanel.add (parPricesPanel);
 		headerJPanel.add (Box.createHorizontalGlue ());
-		headerJPanel.add (Box.createHorizontalStrut (20));
+		headerJPanel.add (Box.createHorizontalStrut (5));
 		headerJPanel.add (roundInfoJPanel);
-		headerJPanel.add (Box.createHorizontalStrut (20));
+		headerJPanel.add (Box.createHorizontalStrut (5));
 		headerJPanel.add (Box.createHorizontalGlue ());
 		headerJPanel.add (trainSummaryPanel);
-		headerJPanel.add (Box.createHorizontalStrut (20));
+		headerJPanel.add (Box.createHorizontalStrut (5));
 	}
 
 	public void setParPricesPanel (ParPricesPanel aParPricesPanel) {
@@ -190,39 +188,64 @@ public class RoundFrame extends XMLFrame {
 		String tGameState;
 		Bank tBank;
 		JLabel tBankCashLabel;
+		int tStrutSize;
 
-		frameLabel = new JLabel ("Round");
-		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel = new JPanel ();
 		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
-		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
-		roundInfoJPanel.add (frameLabel);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
+		
+		tStrutSize = 10;
+		frameLabel = new JLabel (BASE_TITLE);
+		addRoundInfoLabel (frameLabel, tStrutSize);
 
 		tBank = roundManager.getBank ();
 		tBank.updateBankCashLabel ();
 		tBankCashLabel = tBank.getBankCashLabel ();
-		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (tBankCashLabel);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
+		addRoundInfoLabel (tBankCashLabel, tStrutSize);
 
 		updateTotalCashLabel ();
-		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (totalCashLabel);
+		addRoundInfoLabel (totalCashLabel, tStrutSize);
 
 		tGameState = buildGameState ();
 		gameStateLabel = new JLabel (tGameState);
-		gameStateLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
-		roundInfoJPanel.add (gameStateLabel);
+		addRoundInfoLabel (gameStateLabel, tStrutSize);
 
-		phaseLabel = new JLabel ("Current Game Phase");
-		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
-		roundInfoJPanel.add (phaseLabel);
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		updatePhaseLabel ();
+		addRoundInfoLabel (phaseLabel, tStrutSize);
+
+		roundInfoJPanel.add (Box.createVerticalStrut (tStrutSize));
+	}
+
+	private void updatePhaseLabel () {
+		PhaseManager tPhaseManager;
+		PhaseInfo tCurrentPhaseInfo;
+		String tPhaseInfoName;
+		String tPhaseInfoText;
+
+		tPhaseManager = roundManager.getPhaseManager ();
+		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
+
+		if (tCurrentPhaseInfo == PhaseInfo.NO_PHASE_INFO) {
+			tPhaseInfoName = "NONE SPECIFIED";
+		} else {
+			tPhaseInfoName = tCurrentPhaseInfo.getFullName ();
+		}
+		tPhaseInfoText = "Current Game Phase is " + tPhaseInfoName;
+		if (phaseLabel == GUI.NO_LABEL) {
+			phaseLabel = new JLabel (tPhaseInfoText);
+		} else {
+			phaseLabel.setText (tPhaseInfoText);
+		}
+	}
+	
+	private void updateTotalCashLabel () {
+		int tTotalCash;
+
+		tTotalCash = roundManager.getTotalCash ();
+		if (totalCashLabel == GUI.NO_LABEL) {
+			totalCashLabel = new JLabel (TOTAL_CASH);
+		} else {
+			totalCashLabel.setText (TOTAL_CASH + Bank.formatCash (tTotalCash));
+		}
 	}
 
 	private String buildGameState () {
@@ -238,6 +261,19 @@ public class RoundFrame extends XMLFrame {
 		}
 
 		return tGameState;
+	}
+
+	private void updateGameStateLabel () {
+		String tGameState;
+
+		tGameState = buildGameState ();
+		gameStateLabel.setText (tGameState);
+	}
+
+	private void addRoundInfoLabel (JLabel aRoundInfoLabel, int aStrutSize) {
+		aRoundInfoLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundInfoJPanel.add (aRoundInfoLabel);
+		roundInfoJPanel.add (Box.createVerticalStrut (aStrutSize));
 	}
 
 	private void buildButtonsJPanel () {
@@ -470,22 +506,6 @@ public class RoundFrame extends XMLFrame {
 		allCorporationsPanel.updateAllCorporationsJPanel ();
 	}
 
-	public void updatePhaseLabel () {
-		PhaseManager tPhaseManager;
-		PhaseInfo tCurrentPhaseInfo;
-		String tPhaseInfoName;
-
-		tPhaseManager = roundManager.getPhaseManager ();
-		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
-
-		if (tCurrentPhaseInfo == PhaseInfo.NO_PHASE_INFO) {
-			tPhaseInfoName = "NONE SPECIFIED";
-		} else {
-			tPhaseInfoName = tCurrentPhaseInfo.getFullName ();
-		}
-		phaseLabel.setText ("Current Game Phase is " + tPhaseInfoName);
-	}
-
 	public void enableActionButton (boolean aEnableActionButton) {
 		doButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
@@ -494,23 +514,6 @@ public class RoundFrame extends XMLFrame {
 			doButton.setToolTipText (YOU_NOT_PRESIDENT);
 		}
 		revalidate ();
-	}
-
-	private void updateTotalCashLabel () {
-		int tTotalCash;
-
-		tTotalCash = roundManager.getTotalCash ();
-		if (totalCashLabel == GUI.NO_LABEL) {
-			totalCashLabel = new JLabel (TOTAL_CASH);
-		}
-		totalCashLabel.setText (TOTAL_CASH + Bank.formatCash (tTotalCash));
-	}
-
-	private void updateGameStateLabel () {
-		String tGameState;
-
-		tGameState = buildGameState ();
-		gameStateLabel.setText (tGameState);
 	}
 	
 	public void updateAll () {
