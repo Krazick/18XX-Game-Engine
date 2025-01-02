@@ -1,7 +1,7 @@
 package ge18xx.round;
 
 import java.awt.Color;
-import java.awt.LayoutManager;
+//import java.awt.LayoutManager;
 
 import javax.swing.Box;
 import javax.swing.JTextArea;
@@ -26,25 +26,25 @@ public class TrainSummaryPanel extends ListenerPanel {
 		buildTrainSummary ();
 	}
 
-	public TrainSummaryPanel (LayoutManager aLayout, RoundManager aRoundManager) {
-		super (aLayout, aRoundManager, NAME);
-		buildTrainSummary ();
-	}
-
-	public TrainSummaryPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aIsDoubleBuffered, aRoundManager, NAME);
-		buildTrainSummary ();
-	}
-
-	public TrainSummaryPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aLayout, aIsDoubleBuffered, aRoundManager, NAME);
-		buildTrainSummary ();
-	}
+//	public TrainSummaryPanel (LayoutManager aLayout, RoundManager aRoundManager) {
+//		super (aLayout, aRoundManager, NAME);
+//		buildTrainSummary ();
+//	}
+//
+//	public TrainSummaryPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
+//		super (aIsDoubleBuffered, aRoundManager, NAME);
+//		buildTrainSummary ();
+//	}
+//
+//	public TrainSummaryPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
+//		super (aLayout, aIsDoubleBuffered, aRoundManager, NAME);
+//		buildTrainSummary ();
+//	}
 
 	private void setNewTrainSummary () {
 		JTextArea tTrainSummary;
 		
-		tTrainSummary = new JTextArea ("");
+		tTrainSummary = new JTextArea (GUI.EMPTY_STRING);
 		tTrainSummary.setEditable (false);
 		setTrainSummary (tTrainSummary);
 	}
@@ -62,9 +62,9 @@ public class TrainSummaryPanel extends ListenerPanel {
 		buildBorder (TRAIN_SUMMARY_LABEL, TitledBorder.CENTER, Color.BLACK);
 		setNewTrainSummary ();
 		updateTrainSummary ();
-		add (Box.createHorizontalStrut (10));
+		add (Box.createHorizontalGlue ());
 		add (trainSummary);
-		add (Box.createHorizontalStrut (10));
+		add (Box.createHorizontalGlue ());
 		observeBank ();
 	}
 	
@@ -101,16 +101,17 @@ public class TrainSummaryPanel extends ListenerPanel {
 
 		trainSummary.setText (tFullTrainSummary);
 		trainSummary.setBackground (GUI.defaultColor);
+		trainSummary.setBackground (Color.YELLOW);
 	}
 
 	public String getTrainSummary (GameBank aBankWithTrains) {
 		String tBankTrainSummary;
 		String tBankName;
 		
-		tBankTrainSummary = "";
+		tBankTrainSummary = GUI.EMPTY_STRING;
 		tBankName = aBankWithTrains.getName ();
 		if (aBankWithTrains.hasAnyTrains ()) {
-			tBankTrainSummary = tBankName + GUI.NEWLINE + GUI.NEWLINE + aBankWithTrains.getTrainSummary ();
+			tBankTrainSummary = tBankName + GUI.NEWLINE + aBankWithTrains.getTrainSummary ();
 		} else if (tBankName == GUI.NULL_STRING) {
 			tBankTrainSummary = TrainPortfolio.NO_TRAINS_TEXT;
 		} else if (tBankName.equals (Bank.NAME)){
