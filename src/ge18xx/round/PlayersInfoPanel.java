@@ -1,7 +1,6 @@
 package ge18xx.round;
 
 import java.awt.Color;
-import java.awt.LayoutManager;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,20 +23,20 @@ public class PlayersInfoPanel extends ListenerPanel {
 		buildPlayersJPanel ();
 	}
 
-	public PlayersInfoPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout, aRoundManager, NAME);
-		buildPlayersJPanel ();
-	}
-
-	public PlayersInfoPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered, aRoundManager, NAME);
-		buildPlayersJPanel ();
-	}
-
-	public PlayersInfoPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered, aRoundManager, NAME);
-		buildPlayersJPanel ();
-	}
+//	public PlayersInfoPanel (LayoutManager layout, RoundManager aRoundManager) {
+//		super (layout, aRoundManager, NAME);
+//		buildPlayersJPanel ();
+//	}
+//
+//	public PlayersInfoPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
+//		super (isDoubleBuffered, aRoundManager, NAME);
+//		buildPlayersJPanel ();
+//	}
+//
+//	public PlayersInfoPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
+//		super (layout, isDoubleBuffered, aRoundManager, NAME);
+//		buildPlayersJPanel ();
+//	}
 
 	public void setRoundFrame (RoundFrame aRoundFrame) {
 		roundFrame = aRoundFrame;

@@ -1,7 +1,6 @@
 package ge18xx.round;
 
 import java.awt.Color;
-import java.awt.LayoutManager;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
@@ -28,28 +27,28 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 		setPanelName (aPanelName);
 	}
 	
-	public ListenerPanel (LayoutManager aLayout, RoundManager aRoundManager, String aPanelName) {
-		super (aLayout);
-		setRoundManager (aRoundManager);
-		messages = new LinkedList<String> ();
-		setPanelName (aPanelName);
-	}
-
-	public ListenerPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager, 
-						String aPanelName) {
-		super (aIsDoubleBuffered);
-		setRoundManager (aRoundManager);
-		messages = new LinkedList<String> ();
-		setPanelName (aPanelName);
-	}
-
-	public ListenerPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, 
-						RoundManager aRoundManager, String aPanelName) {
-		super (aLayout, aIsDoubleBuffered);
-		setRoundManager (aRoundManager);
-		messages = new LinkedList<String> ();
-		setPanelName (aPanelName);
-	}
+//	public ListenerPanel (LayoutManager aLayout, RoundManager aRoundManager, String aPanelName) {
+//		super (aLayout);
+//		setRoundManager (aRoundManager);
+//		messages = new LinkedList<String> ();
+//		setPanelName (aPanelName);
+//	}
+//
+//	public ListenerPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager, 
+//						String aPanelName) {
+//		super (aIsDoubleBuffered);
+//		setRoundManager (aRoundManager);
+//		messages = new LinkedList<String> ();
+//		setPanelName (aPanelName);
+//	}
+//
+//	public ListenerPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, 
+//						RoundManager aRoundManager, String aPanelName) {
+//		super (aLayout, aIsDoubleBuffered);
+//		setRoundManager (aRoundManager);
+//		messages = new LinkedList<String> ();
+//		setPanelName (aPanelName);
+//	}
 
 	private void setPanelName (String aName) {
 		panelName = aName;
