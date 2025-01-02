@@ -2,7 +2,6 @@ package ge18xx.round;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.LayoutManager;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import geUtilities.GUI;
 public class ParPricesPanel extends ListenerPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String NAME = "Par Prices";
-	private static final String PAR_PRICES_LABEL = "Par Prices";
+	private static final String PAR_PRICES_LABEL = NAME;
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
@@ -32,20 +31,20 @@ public class ParPricesPanel extends ListenerPanel {
 		buildParPrices ();
 	}
 
-	public ParPricesPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout, aRoundManager, NAME);
-		buildParPrices ();
-	}
-
-	public ParPricesPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered, aRoundManager, NAME);
-		buildParPrices ();
-	}
-
-	public ParPricesPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered, aRoundManager, NAME);
-		buildParPrices ();
-	}
+//	public ParPricesPanel (LayoutManager layout, RoundManager aRoundManager) {
+//		super (layout, aRoundManager, NAME);
+//		buildParPrices ();
+//	}
+//
+//	public ParPricesPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
+//		super (isDoubleBuffered, aRoundManager, NAME);
+//		buildParPrices ();
+//	}
+//
+//	public ParPricesPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
+//		super (layout, isDoubleBuffered, aRoundManager, NAME);
+//		buildParPrices ();
+//	}
 
 	@Override
 	protected void updatePanel () {
@@ -136,8 +135,8 @@ public class ParPricesPanel extends ListenerPanel {
 		int tShareCount;
 		int tParPriceCount;
 		int tParPriceIndex;
-		boolean tHasUniqueParPrice;
 		int tParPrice;
+		boolean tHasUniqueParPrice;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;	
 		
@@ -177,13 +176,13 @@ public class ParPricesPanel extends ListenerPanel {
 		tMinStartupLabel = new JLabel (tMinStartup);
 		tParPriceLinePanel = new JPanel ();
 		tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (5));
 		tParPriceLinePanel.add (tMinStartupLabel);
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (5));
 		tParPriceLinePanel.add (parPrices.get (aParPriceIndex));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (5));
 		tParPriceLinePanel.add (companiesAtPar.get (aParPriceIndex));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (5));
 		tParPriceLinePanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 
 		return tParPriceLinePanel;
