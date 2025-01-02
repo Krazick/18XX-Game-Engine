@@ -1740,10 +1740,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainLimit;
 	}
 
-	public String getTrainSummary () {
-		return trainPortfolio.getTrainSummary ();
-	}
-	
 	public String getTrainList () {
 		return trainPortfolio.getTrainList ();
 	}
