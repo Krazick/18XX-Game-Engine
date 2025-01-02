@@ -177,9 +177,9 @@ public class PhaseInfo {
 
 		tWillFloat = aCellNode.getThisIntAttribute (AN_WILL_FLOAT, STANDARD_MIN_SHARES);
 		setWillFloat (tWillFloat);
-		tMinToFloat = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
+		tMinToFloat = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, tWillFloat);
 		setMinToFloat (tMinToFloat);
-		tMinToFloatLast = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
+		tMinToFloatLast = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, tWillFloat);
 		setMinToFloatLast (tMinToFloatLast);
 		tMajorTileLays = aCellNode.getThisIntAttribute (AN_MAJOR_TILE_LAYS, DEFAULT_TILE_LAYS);
 		setMajorTileLays (tMajorTileLays);
