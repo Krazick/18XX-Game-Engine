@@ -1201,7 +1201,8 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, boolean aIsUnlimited, String aRustInfo, String aTileInfo) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, boolean aIsUnlimited, 
+								String aRustInfo, String aTileInfo) {
 		String tTrainInfo;
 		String tRustTileInfo;
 		String tTrainCount;
