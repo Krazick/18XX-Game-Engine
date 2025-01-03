@@ -546,7 +546,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		boolean tConfirmedDoneAction;
 		int tResponse;
 				
-		if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrain ())) {
+		if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrains ())) {
 			tResponse = JOptionPane.showConfirmDialog (this,
 					"Your Company " + corporation.getAbbrev () + " does not own a Train.\nAre you sure you want to be DONE?", 
 					"Confirm DONE", JOptionPane.YES_NO_OPTION);
@@ -967,7 +967,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			payLoanInterestButton.setEnabled (true);
 			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + 
 						Bank.formatCash (tLoanPaymentDue);
-		} else if (corporation.hasNoTrain ()) {
+		} else if (corporation.hasNoTrains ()) {
 			payLoanInterestButton.setEnabled (true);
 			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + 
 						Bank.formatCash (tLoanPaymentDue);
@@ -1463,7 +1463,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						hideForceBuyTrainButton ();
 					}
 				} else {
-					if (corporation.hasNoTrain ()) {
+					if (corporation.hasNoTrains ()) {
 						if (corporation.getCash () < tCheapestTrain.getPrice ()) {
 							buyTrainForceButton.setVisible (true);
 							buyTrainForceButton.setEnabled (true);
@@ -1612,7 +1612,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tToolTip = "Trains have operated, can't Borrow Train";
 		} else if (corporation.canOperateTrains ()) {
 			if (corporation.isGovtRailway ()) {
-				if (corporation.hasNoTrain ()) {
+				if (corporation.hasNoTrains ()) {
 					tEnable = true;
 					tToolTip = "Is a Gov't Railway with no Train";
 					tVisible = true;
@@ -1649,7 +1649,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isPlaceTileMode () || corporation.isPlaceTokenMode ()) {
 			tEnable = false;
 			tToolTip = COMPLETE_TT_PLACEMENT;
-		} else if (corporation.hasNoTrain ()) {
+		} else if (corporation.hasNoTrains ()) {
 			tEnable = false;
 			tToolTip = "Corporation has no Trains";
 		} else if (corporation.canOperateTrains ()) {

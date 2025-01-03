@@ -1,9 +1,7 @@
 package ge18xx.round;
 
 import java.awt.Color;
-//import java.awt.LayoutManager;
 
-import javax.swing.Box;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
@@ -18,28 +16,13 @@ import geUtilities.MessageBean;
 public class TrainSummaryPanel extends ListenerPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String NAME = "Train Summary";
-	private static final String TRAIN_SUMMARY_LABEL = "Train Summary";
+	private static final String TRAIN_SUMMARY_LABEL = NAME;
 	private JTextArea trainSummary;
 	
 	public TrainSummaryPanel (RoundManager aRoundManager) {
 		super (aRoundManager, NAME);
 		buildTrainSummary ();
 	}
-
-//	public TrainSummaryPanel (LayoutManager aLayout, RoundManager aRoundManager) {
-//		super (aLayout, aRoundManager, NAME);
-//		buildTrainSummary ();
-//	}
-//
-//	public TrainSummaryPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-//		super (aIsDoubleBuffered, aRoundManager, NAME);
-//		buildTrainSummary ();
-//	}
-//
-//	public TrainSummaryPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-//		super (aLayout, aIsDoubleBuffered, aRoundManager, NAME);
-//		buildTrainSummary ();
-//	}
 
 	private void setNewTrainSummary () {
 		JTextArea tTrainSummary;
@@ -62,9 +45,7 @@ public class TrainSummaryPanel extends ListenerPanel {
 		buildBorder (TRAIN_SUMMARY_LABEL, TitledBorder.CENTER, Color.BLACK);
 		setNewTrainSummary ();
 		updateTrainSummary ();
-		add (Box.createHorizontalGlue ());
 		add (trainSummary);
-		add (Box.createHorizontalGlue ());
 		observeBank ();
 	}
 	
@@ -97,11 +78,14 @@ public class TrainSummaryPanel extends ListenerPanel {
 
 		tBank = roundManager.getBank ();
 		tBankTrainSummary = getTrainSummary (tBank);
-		tFullTrainSummary = tBankPoolTrainSummary + GUI.NEWLINE + tBankTrainSummary;
+		if (tBankPoolTrainSummary.equals (GUI.EMPTY_STRING)) {
+			tFullTrainSummary = tBankTrainSummary;
+		} else {
+			tFullTrainSummary = tBankPoolTrainSummary + GUI.NEWLINE + tBankTrainSummary;
+		}
 
 		trainSummary.setText (tFullTrainSummary);
 		trainSummary.setBackground (GUI.defaultColor);
-		trainSummary.setBackground (Color.YELLOW);
 	}
 
 	public String getTrainSummary (GameBank aBankWithTrains) {

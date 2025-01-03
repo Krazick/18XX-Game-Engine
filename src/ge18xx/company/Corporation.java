@@ -2714,7 +2714,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 
-	public boolean hasNoTrain () {
+	public boolean hasNoTrains () {
 		return true;
 	}
 

@@ -80,7 +80,6 @@ class TrainPortfolioTests {
 	@DisplayName ("No Trains Portfolio Count tests")
 	void noTrainPortfolioTrainCountTests () {
 		assertTrue (noTrainsPortfolio.isEmpty ());
-		assertTrue (noTrainsPortfolio.hasNoTrain ());
 		assertFalse (noTrainsPortfolio.hasTrains ());
 		assertEquals (0, noTrainsPortfolio.getTrainCount ());
 	}
@@ -90,9 +89,6 @@ class TrainPortfolioTests {
 	void trainPortfolioTrainCountTests () {
 		assertEquals (2, trainPortfolio.getTrainCount ());
 		assertEquals (0, emptyTrainPortfolio.getTrainCount ());
-		
-		assertTrue (emptyTrainPortfolio.hasNoTrain ());
-		assertFalse (trainPortfolio.hasNoTrain ());
 		
 		assertTrue (emptyTrainPortfolio.isEmpty ());
 		assertFalse (trainPortfolio.isEmpty ());

@@ -454,7 +454,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_MUST_PAY_FULL_PRICE, mustPayFullPrice ());
 		aXMLCorporationState.setAttribute (AN_CAN_BORROW_TRAIN, canBorrowTrain ());
 		aXMLCorporationState.setAttribute (AN_ONLY_PERMANENT_TRAIN, onlyPermanentTrain ());
-		if (! hasNoTrain ()) {
+		if (! hasNoTrains ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
@@ -849,8 +849,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public boolean hasNoTrain () {
-		return (trainPortfolio.hasNoTrain ());
+	public boolean hasNoTrains () {
+		return (trainPortfolio.isEmpty ());
 	}
 
 	public boolean hasLaidTile () {
@@ -864,7 +864,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tCanBorrowTrainNow;
 		
 		tCanBorrowTrainNow = false;
-		if (canBorrowTrain && hasNoTrain ()) {
+		if (canBorrowTrain && hasNoTrains ()) {
 			tCanBorrowTrainNow = true;
 		}
 		
@@ -884,7 +884,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean mustBuyTrainNow () {
 		boolean tMustBuyTrainNow;
 
-		if (mustBuyTrain && hasNoTrain ()) {
+		if (mustBuyTrain && hasNoTrains ()) {
 			if (isGovtRailway ()) {
 				if (hasPermanentTrain ()) {
 					tMustBuyTrainNow = false;
