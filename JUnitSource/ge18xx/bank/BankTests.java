@@ -4,19 +4,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import ge18xx.company.CompanyTestFactory;
-import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
-import ge18xx.phase.PhaseInfo;
 import geUtilities.GUI;
 
 class BankTests {
@@ -24,12 +20,8 @@ class BankTests {
 	private GameTestFactory gameTestFactory;
 	private CompanyTestFactory companyTestFactory;
 	private StartPacketTestFactory startPacketTestFactory;
-	private GameManager mGameManager;
+	private GameManager gameManager;
 	private GameInfo gameInfo;
-	private PhaseInfo mPhaseInfo;
-	private CorporationList mCorporationListPrivates;
-	private CorporationList mCorporationListMinors;
-	private CorporationList mCorporationListShares;
 	private Bank bank;
 	private StartPacketFrame startPacketFrame;
 	
@@ -38,22 +30,14 @@ class BankTests {
 		bankTestFactory = new BankTestFactory ();
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory ();
-		mGameManager = gameTestFactory.buildGameManagerMock ();
+		gameManager = gameTestFactory.buildGameManager ();
 		gameInfo = gameTestFactory.buildGameInfo (1);
-		bank = bankTestFactory.buildBank (mGameManager);
-		startPacketTestFactory = new StartPacketTestFactory (mGameManager, bank);
-		startPacketFrame = startPacketTestFactory.buildStartPacketFrameMock ("Test Bank Start Packet");
+		bank = bankTestFactory.buildBank (gameManager);
+		startPacketTestFactory = new StartPacketTestFactory (gameManager, bank);
+		startPacketFrame = startPacketTestFactory.buildStartPacketFrame ("Test Bank Start Packet");
 		bank.setStartPacketFrame (startPacketFrame);
 		
-		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
-		mCorporationListPrivates = companyTestFactory.buildCorporationListMock (mGameManager, mPhaseInfo);
-		mCorporationListMinors = companyTestFactory.buildCorporationListMock (mGameManager, mPhaseInfo);
-		mCorporationListShares = companyTestFactory.buildCorporationListMock (mGameManager, mPhaseInfo);
-		Mockito.when (mGameManager.getPrivates ()).thenReturn (mCorporationListPrivates);
-		Mockito.when (mGameManager.getMinorCompanies ()).thenReturn (mCorporationListMinors);
-		Mockito.when (mGameManager.getShareCompanies ()).thenReturn (mCorporationListShares);
-
-		bank.setup (gameInfo);
+		bank.setupFormat (gameInfo);
 	}
 
 	@Test
