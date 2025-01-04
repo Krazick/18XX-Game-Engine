@@ -14,6 +14,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.round.action.ActorI;
 
+@DisplayName ("Player Action State Tests")
 class PlayerActionStateTests {
 
 	Player player;
