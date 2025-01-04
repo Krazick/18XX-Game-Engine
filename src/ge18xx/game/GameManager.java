@@ -254,8 +254,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		configFrames = new ArrayList<XMLFrame> ();
 		addNewFrame (aGame_18XX_Frame);
 		game18XXFrame = aGame_18XX_Frame;
-		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
-
+		
+		setPlayerInputFrame (XMLFrame.NO_XML_FRAME);
 		setMapFrame (XMLFrame.NO_XML_FRAME);
 		setCitiesFrame (XMLFrame.NO_XML_FRAME);
 		setPrivatesFrame (XMLFrame.NO_XML_FRAME);
@@ -2309,6 +2309,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		playerManager = aPlayerManager;
 	}
 
+	public boolean hasTestGraphs () {
+		return activeGame.hasTestGraphs ();
+	}
+
 	public void setMapFrame (XMLFrame aXMLFrame) {
 		mapFrame = (MapFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -2324,15 +2328,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addNewFrame (aXMLFrame);
 	}
 
-	public void setPlayerInputFrame (PlayerInputFrame aPlayerInputFrame) {
-		playerInputFrame = aPlayerInputFrame;
-		addNewFrame (playerInputFrame);
+	public void setPlayerInputFrame (XMLFrame aXMLFrame) {
+		playerInputFrame = (PlayerInputFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
 	}
-
-	public boolean hasTestGraphs () {
-		return activeGame.hasTestGraphs ();
-	}
-
+ 
 	public void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -2905,7 +2905,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean validPlayerInputFrame () {
 		boolean tValidPlayerInputFrame;
 		
-		if (playerInputFrame == PlayerInputFrame.NO_PLAYER_INPUT_FRAME) {
+		if (playerInputFrame == XMLFrame.NO_XML_FRAME) {
 			tValidPlayerInputFrame = false;
 		} else {
 			tValidPlayerInputFrame = true;
