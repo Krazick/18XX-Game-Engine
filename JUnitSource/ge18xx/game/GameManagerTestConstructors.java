@@ -40,10 +40,8 @@ class GameManagerTestConstructors {
 	void constructorTwoArgsTest () {
 		GameManager tGameManager;
 		String tClientName;
-//		String tConfigFileName;
 
 		tClientName = "GMTestBuster";
-//		tConfigFileName = "ge18xx." + tClientName + ".cfg.xml";
 		tGameManager = testFactory.buildGameManager (tClientName);
 
 		assertEquals (tClientName, tGameManager.getClientUserName ());
@@ -56,8 +54,6 @@ class GameManagerTestConstructors {
 		assertNotNull (tGameManager.getBank ());
 
 		assertEquals (false, tGameManager.isNetworkGame ());
-
-//		assertEquals (tConfigFileName, tGameManager.getConfigFileName (tClientName));
 	}
 
 	@Test
