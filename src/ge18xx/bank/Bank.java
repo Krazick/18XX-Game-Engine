@@ -632,19 +632,28 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public void setup (GameInfo aActiveGame) {
-		String tFormat;
-		CorporationList tCorpList;
+		setupFormat (aActiveGame);
+		setupCorporations ();
+		loadTrains (aActiveGame);
+		createStartPacket (gameManager);
+	}
 
+	public void setupFormat (GameInfo aActiveGame) {
+		String tFormat;
+		
 		tFormat = aActiveGame.getCurrencyFormat ();
 		setFormat (tFormat);
+	}
+
+	public void setupCorporations () {
+		CorporationList tCorpList;
+		
 		tCorpList = gameManager.getPrivates ();
 		loadCorporations (tCorpList);
 		tCorpList = gameManager.getMinorCompanies ();
 		loadCorporations (tCorpList);
 		tCorpList = gameManager.getShareCompanies ();
 		loadCorporations (tCorpList);
-		loadTrains (aActiveGame);
-		createStartPacket (gameManager);
 	}
 
 	public void updateBankCashLabel () {
