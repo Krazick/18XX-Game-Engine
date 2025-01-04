@@ -1519,6 +1519,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		bankPool = new BankPool (this);
 		tBankTotal = getBankStartingCash ();
 		setBank (tBankTotal);
+		bank.setupFormat (activeGame);
 		bank.setup (activeGame);
 	}
 
