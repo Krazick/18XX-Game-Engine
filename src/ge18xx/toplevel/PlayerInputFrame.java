@@ -42,7 +42,6 @@ import geUtilities.GUI;
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
-	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final int NO_PLAYERS = 0;
 	public static final String INVALID_NAME = "INVALID-NAME";
