@@ -220,15 +220,12 @@ public class CompanyTestFactory {
 	
 	public CorporationList buildCorporationListMock (GameManager mGameManager, PhaseInfo mPhaseInfo) {
 		CorporationList mCorporationList;
-		JPanel mJPanel;
 		
 		mCorporationList = Mockito.mock (CorporationList.class);
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 		Mockito.when (mCorporationList.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
 		Mockito.when (mCorporationList.getCurrentRoundOf ()).thenReturn ("2");
-		Mockito.when (mCorporationList.getTrainLimit (Mockito.anyBoolean())).thenReturn (3);
-		mJPanel = Mockito.mock (JPanel.class);
-		Mockito.when (mCorporationList.buildFullCorpsJPanel (null, NO_TOKEN_COMPANY, mGameManager, false)).thenReturn (mJPanel);
+		Mockito.when (mCorporationList.getTrainLimit (Mockito.anyBoolean ())).thenReturn (3);
 		
 		return mCorporationList;
 	}
