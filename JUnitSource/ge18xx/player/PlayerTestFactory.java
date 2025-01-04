@@ -64,7 +64,8 @@ public class PlayerTestFactory {
 	}
 	
 	/**
-	 * Build a basic Player with the Provided Name, PlayerManager and Cash
+	 * Build a basic Player with the Provided Name, PlayerManager and Cash.
+	 * The player will be added to the PlayerManager.
 	 *
 	 * @param aName Name to return when 'getName' method is called by mocked object
 	 * @param aPlayerManager the Player Manager to add this player to
