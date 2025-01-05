@@ -33,6 +33,7 @@ public abstract class Benefit implements ActionListener {
 	public static final AttributeName AN_ALL_ACTORS = new AttributeName ("allActors");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
+	public static final AttributeName AN_CLOSE_ON_ALL_USED = new AttributeName ("closeOnAllUsed");
 	public static final AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public static final AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
 	public static final AttributeName AN_OWNER_TYPE = new AttributeName ("ownerType");
@@ -46,6 +47,7 @@ public abstract class Benefit implements ActionListener {
 	ActorI.ActorTypes actorType;
 	ActorI.ActorTypes ownerType;
 	boolean closeOnUse;
+	boolean closeOnAllUsed;
 	boolean used;
 	boolean passive;
 	boolean allActors;
@@ -77,7 +79,8 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public Benefit (XMLNode aXMLNode) {
-		boolean tClose;
+		boolean tCloseOnUse;
+		boolean tCloseOnAllUsed;
 		boolean tPassive;
 		boolean tUsed;
 		boolean tAllActors;
@@ -86,12 +89,14 @@ public abstract class Benefit implements ActionListener {
 
 		tActorType = aXMLNode.getThisAttribute (AN_ACTOR_TYPE);
 		tOwnerType = aXMLNode.getThisAttribute (AN_OWNER_TYPE);
-		tClose = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
+		tCloseOnUse = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
+		tCloseOnAllUsed = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_ALL_USED);
 		tPassive = aXMLNode.getThisBooleanAttribute (AN_PASSIVE);
 		tUsed = aXMLNode.getThisBooleanAttribute (AN_USED);
 		tAllActors = aXMLNode.getThisBooleanAttribute (AN_ALL_ACTORS);
 		setUsed (tUsed);
-		setCloseOnUse (tClose);
+		setCloseOnUse (tCloseOnUse);
+		setCloseOnAllUsed (tCloseOnAllUsed);
 		setPassive (tPassive);
 		setActorType (tActorType);
 		setAllActors (tAllActors);
@@ -338,12 +343,20 @@ public abstract class Benefit implements ActionListener {
 		closeOnUse = aCloseOnUse;
 	}
 
+	private void setCloseOnAllUsed (boolean aCloseOnAllUsed) {
+		closeOnAllUsed = aCloseOnAllUsed;
+	}
+
 	public boolean used () {
 		return used;
 	}
 
 	public boolean closeOnUse () {
 		return closeOnUse;
+	}
+
+	public boolean closeOnAllUsed () {
+		return closeOnAllUsed;
 	}
 
 	public boolean passive () {
@@ -508,6 +521,7 @@ public abstract class Benefit implements ActionListener {
 		tXMLBenefitElement.setAttribute (AN_USED, used);
 		tXMLBenefitElement.setAttribute (AN_NAME, getBaseName ());
 		tXMLBenefitElement.setAttribute (AN_CLOSE_ON_USE, closeOnUse);
+		tXMLBenefitElement.setAttribute (AN_CLOSE_ON_ALL_USED, closeOnAllUsed);
 
 		return tXMLBenefitElement;
 	}
