@@ -39,6 +39,7 @@ class MapBenefitTests {
 	HexMap mHexMap;
 	MapCell mapCell1;
 	MapCell mapCell2;
+	MapCell mMapCell1;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -55,6 +56,7 @@ class MapBenefitTests {
 		
 		mapCell1 = mapTestFactory.buildMapCell ("C7");
 		mapCell2 = mapTestFactory.buildMapCell ("T4");
+		mMapCell1 = mapTestFactory.buildMapCellMock ("M8");
 		mapFrame = mapTestFactory.buildMapFrame ("Map Benefit Test Frame", mGameManager);
 		hexMap = mapTestFactory.buildHexMap (mapFrame);
 		hexMap.setMapFrame (mapFrame);
@@ -62,9 +64,6 @@ class MapBenefitTests {
 		
 		mHexMap = mapTestFactory.buildHexMapMock ();
 		mMapFrame = mapTestFactory.buildMapFrameMock ();
-		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mapCell1);
-		Mockito.when (mHexMap.getMapFrame ()).thenReturn (mMapFrame);
-		Mockito.when (mMapFrame.getMap ()).thenReturn (mHexMap);
 		
 		mapBenefit1 = benefitTestFactory.buildMapBenefit (privateSV);
 		mapBenefit2 = benefitTestFactory.buildMapBenefit (privateCSL);
@@ -91,6 +90,9 @@ class MapBenefitTests {
 	@DisplayName ("Map Benefit 2 Tests")
 	void mapBenefitTests2 () {
 		Mockito.when (mGameManager.getMapFrame ()).thenReturn (mMapFrame);
+		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mapCell1);
+		Mockito.when (mHexMap.getMapFrame ()).thenReturn (mMapFrame);
+		Mockito.when (mMapFrame.getMap ()).thenReturn (mHexMap);
 
 		assertEquals (mHexMap, mapBenefit2.getMap ());
 		assertEquals (mMapFrame, mapBenefit2.getMapFrame ());
@@ -99,5 +101,21 @@ class MapBenefitTests {
 		Mockito.when (mHexMap.isTileAvailableForMapCell (mapCell1)).thenReturn (true);
 		
 		assertTrue (mapBenefit2.isTileAvailable ());
+	}
+	
+	@Test
+	@DisplayName ("Map Benefit Tile Tests")
+	void mapBenefitTileTests () {
+		Mockito.when (mGameManager.getMapFrame ()).thenReturn (mMapFrame);
+		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mMapCell1);
+		Mockito.when (mHexMap.getMapFrame ()).thenReturn (mMapFrame);
+		Mockito.when (mMapFrame.getMap ()).thenReturn (mHexMap);
+		Mockito.when (mMapCell1.isTileOnCell ()).thenReturn (false);
+		
+		assertFalse (mapBenefit2.hasTile ());
+		
+		Mockito.when (mMapCell1.isTileOnCell ()).thenReturn (true);
+		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mMapCell1);
+		assertTrue (mapBenefit2.hasTile ());		
 	}
 }
