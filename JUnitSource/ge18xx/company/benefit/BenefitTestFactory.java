@@ -20,7 +20,9 @@ public class BenefitTestFactory {
 		String tXMLBenefitTest;
 		XMLNode tBenefitXMLNode;
 
-		tXMLBenefitTest = "<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
+		tXMLBenefitTest = "<Benefit actorType=\"Share Company\" "
+				+ "class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" "
+				+ "mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
 		tBenefitXMLNode = utilitiesTestFactory.buildXMLNode (tXMLBenefitTest);
 
 		tMapBenefit = new MapBenefit (tBenefitXMLNode);
@@ -28,5 +30,4 @@ public class BenefitTestFactory {
 
 		return tMapBenefit;
 	}
-
 }
