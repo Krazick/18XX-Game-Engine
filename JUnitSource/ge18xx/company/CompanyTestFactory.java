@@ -78,23 +78,51 @@ public class CompanyTestFactory {
 	 */
 	
 	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
-		String tPrivateCompany1TestXML = "<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
-				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" \n"
-				+ "		note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\"\n"
-				+ "		special=\"Free Tile Placement\">\n" + "		<Benefits>\n"
-				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
-				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
-				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n";
-		String tPrivateCompany2TestXML = "<Private id=\"805\" name=\"TEST-Camden &amp; Amboy\" abbrev=\"TEST-C&amp;A\"\n"
-				+ "		cost=\"160\" revenue=\"25\" homeCell1=\"H18\" homeLocation1=\"15\" homeLocation2=\"45\" \n"
+		String tPrivateCompany1TestXML = "<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\"  "
+				+ "		abbrev=\"TEST-C&amp;SL\" cost=\"40\" "
+				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" "
+				+ "		note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\" "
+				+ "		special=\"Free Tile Placement\">" 
+				+ "		<Benefits>"
+				+ "			<Benefit actorType=\"Share Company\" "
+				+ "				class=\"ge18xx.company.benefit.TilePlacementBenefit\" "
+				+ "				extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>"
+				+ "		</Benefits>" 
+				+ "		<Certificate director=\"YES\" percentage=\"100\""
+				+ "			allowedOwners=\"IPO,Player,Share\" />" 
+				+ "	</Private>";
+		String tPrivateCompany2TestXML = "<Private id=\"805\" name=\"TEST-Camden &amp; Amboy\" "
+				+ "		abbrev=\"TEST-C&amp;A\""
+				+ "		cost=\"160\" revenue=\"25\" homeCell1=\"H18\" homeLocation1=\"15\" homeLocation2=\"45\" "
 				+ "		note=\"The initial purchaser of the C&amp;A immediately receives a 10% share of PRR stock without further payment. This action does NOT close the C&amp;A. The PRR Corporation will not be running at this point, but the stock may be retained or sold subject to the ordinary rules of the game (see  8.1, last paragraph).\"\n"
-				+ "		special=\"Free 10% TPRR\">\n"
-				+ "		<Benefits>\n"
-				+ "			<Benefit actorType=\"Player\" class=\"ge18xx.company.benefit.FreeCertificateBenefit\" corporationID=\"901\" certificatePercentage=\"10\" passive=\"true\"/>\n"
-				+ "		</Benefits>\n"
-				+ "		<Certificate director=\"YES\" percentage=\"100\"\n"
-				+ "			allowedOwners=\"IPO,Player,Share\" />\n"
-				+ "	</Private>\n";
+				+ "		special=\"Free 10% TPRR\">"
+				+ "		<Benefits>"
+				+ "			<Benefit actorType=\"Player\" "
+				+ "			class=\"ge18xx.company.benefit.FreeCertificateBenefit\" corporationID=\"901\" "
+				+ "			certificatePercentage=\"10\" passive=\"true\"/>"
+				+ "		</Benefits>"
+				+ "		<Certificate director=\"YES\" percentage=\"100\""
+				+ "			allowedOwners=\"IPO,Player,Share\" />"
+				+ "	</Private>";
+		String tPrivateCompany3TestXML = "	<Private id=\"1605\" name=\"Ostbayerische Bahn\" "
+				+ "		abbrev=\"OB\" cost=\"120\""
+				+ "		note=\"The owner of the Ostavern receives in addition a free share in the Bayerische. He may, if director of a share company, during an operating round, lay a tile on to the hex southeast of Numberg, or the hex to the right of this. This tile lay is in addition to a normal lav and is free. In a later operating round he may lay a tile on to the other of these two hexes. The Ostbavern is closed when both hexes have been built on. A connection to any tracks already existing is not required.\""
+				+ "		revenue=\"10\" special=\"Free Share of Bayerische Eisenbahn\">"
+				+ "		<Certificate director=\"YES\" percentage=\"100\""
+				+ "			allowedOwners=\"IPO,Player,Share\" />"
+				+ "		<Benefits>"
+				+ "			<Benefit actorType=\"Player\" class=\"ge18xx.company.benefit.FreeCertificateBenefit\" "
+				+ "				corporationID=\"1801\" certificatePercentage=\"10\" passive=\"true\"/>"
+				+ "			<Benefit actorType=\"Share Company\" ownerType=\"Player\" "
+				+ "				class=\"ge18xx.company.benefit.TilePlacementBenefit\" "
+				+ "				extra=\"false\" mapCell=\"M15\" cost=\"0\" passive=\"false\" "
+				+ "				closeOnUse=\"true\" />"
+				+ "			<Benefit actorType=\"Share Company\" ownerType=\"Player\" "
+				+ "				class=\"ge18xx.company.benefit.TilePlacementBenefit\" "
+				+ "				extra=\"false\" mapCell=\"M17\" "
+				+ "				cost=\"0\" passive=\"false\" closeOnUse=\"true\" />"
+				+ "		</Benefits>"
+				+ "	</Private>";
 		PrivateCompany tPrivateCompany;
 		
 		tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
@@ -103,6 +131,8 @@ public class CompanyTestFactory {
 			tPrivateCompany = buildPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
 		} else if (tCompanyIndex == 2) {
 			tPrivateCompany = buildPrivateCompany (tPrivateCompany2TestXML, tPrivateCompany, mCorporationList);
+		} else if (tCompanyIndex == 3) {
+			tPrivateCompany = buildPrivateCompany (tPrivateCompany3TestXML, tPrivateCompany, mCorporationList);
 		}
 		
 		return tPrivateCompany;
