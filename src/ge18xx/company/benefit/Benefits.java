@@ -39,7 +39,8 @@ public class Benefits {
 		Benefit tBenefit;
 		Class<?> tBenefitToLoad;
 		Constructor<?> tBenefitConstructor;
-		int tBenefitNodeCount, tBenefitIndex;
+		int tBenefitNodeCount;
+		int tBenefitIndex;
 		String tBenefitNodeName;
 		String tClassName;
 
@@ -63,7 +64,8 @@ public class Benefits {
 				}
 			}
 		} catch (Exception tException) {
-			System.err.println ("Caught Exception for Benefit Class " + tClassName + " with Stack Trace");
+			System.err.println ("Caught Exception for Benefit Class " + tClassName
+						+ " with Stack Trace");
 			tException.printStackTrace ();
 		}
 	}
@@ -73,7 +75,8 @@ public class Benefits {
 	}
 
 	public void parseBenefitsStates (XMLNode aBenefitsNode) {
-		int tBenefitNodeCount, tBenefitIndex;
+		int tBenefitNodeCount;
+		int tBenefitIndex;
 		String tBenefitNodeName;
 		XMLNode tBenefitNode;
 		NodeList tBenefitChildren;
@@ -99,8 +102,9 @@ public class Benefits {
 	}
 
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
-		Benefit tMatchedBenefit = Benefit.NO_BENEFIT;
+		Benefit tMatchedBenefit;
 
+		tMatchedBenefit = Benefit.NO_BENEFIT;
 		for (Benefit tBenefit : benefits) {
 			if (tMatchedBenefit == Benefit.NO_BENEFIT) {
 				tMatchedBenefit = tBenefit.findMatchedBenefit (aBenefitNode);
@@ -120,11 +124,13 @@ public class Benefits {
 	
 	public KButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		KButton tThisButton;
-		KButton tFoundButton = GUI.NO_BUTTON;
+		KButton tFoundButton;
 		Component tComponent;
 		String tButtonText;
-		int tComponentCount, tComponentIndex;
+		int tComponentCount;
+		int tComponentIndex;
 
+		tFoundButton = GUI.NO_BUTTON;
 		tComponentCount = aButtonRow.getComponentCount ();
 		if (tComponentCount > 0) {
 			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
@@ -143,12 +149,14 @@ public class Benefits {
 	}
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
-		boolean tHasButtonFor = false;
+		boolean tHasButtonFor;
 		KButton tThisButton;
 
 		tThisButton = findButtonFor (aButtonRow, aButtonLabel);
 		if (tThisButton != GUI.NO_BUTTON) {
 			tHasButtonFor = true;
+		} else {
+			tHasButtonFor = false;
 		}
 
 		return tHasButtonFor;
@@ -191,8 +199,9 @@ public class Benefits {
 	}
 	
 	public boolean hasActiveCompanyBenefits () {
-		boolean tHasActiveCompanyBenefits = false;
+		boolean tHasActiveCompanyBenefits;
 
+		tHasActiveCompanyBenefits = false;
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActiveCompanyBenefit ()) {
 				tHasActiveCompanyBenefits = true;
@@ -203,8 +212,9 @@ public class Benefits {
 	}
 
 	public boolean hasActivePlayerBenefits () {
-		boolean tHasActivePlayerBenefits = false;
+		boolean tHasActivePlayerBenefits;
 
+		tHasActivePlayerBenefits = false;
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActivePlayerBenefit ()) {
 				tHasActivePlayerBenefits = true;
@@ -271,7 +281,8 @@ public class Benefits {
 	}
 
 	public XMLElement getBenefitsStateElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tXMLBenefitElement;
+		XMLElement tXMLElement;
+		XMLElement tXMLBenefitElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_BENEFITS);
 		for (Benefit tBenefit : benefits) {
@@ -283,8 +294,9 @@ public class Benefits {
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
-		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		Benefit tFoundBenefit;
 
+		tFoundBenefit = Benefit.NO_BENEFIT;
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.getName ().equals (aBenefitName)) {
 				tFoundBenefit = tBenefit;
