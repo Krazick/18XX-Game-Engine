@@ -9,6 +9,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import geUtilities.GUI;
@@ -85,57 +86,73 @@ public class TilePlacementBenefit extends MapBenefit {
 		} else if (!isTileAvailable ()) {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
-		} else if (!ownerHasEnoughCash ()) {
+		} else if (! operatingCompanyHasEnoughCash ()) {
 			disableButton ();
-			setToolTip ("Owner does not have enough cash to pay for Tile");
-		} else if (!ownerLaidTile ()) {
-			enableButton ();
-			setToolTip (GUI.EMPTY_STRING);
+			setToolTip ("Operating Train Company does not have enough cash to pay for Tile");
 		} else {
 			if (extraTilePlacement) {
 				enableButton ();
 				setToolTip (GUI.EMPTY_STRING);
-			} else {
+			} if (! operatingCompanyCanLayTile ()) {
 				disableButton ();
 				setToolTip ("Owner has already laid or upgraded a Tile");
-			}
+			} 
 		}
 	}
 
 	private boolean ownerHasEnoughCash () {
 		boolean tOwnerHasEnoughCash;
 		TrainCompany tTrainCompany;
-		HexMap tMap;
-		MapCell tMapCell;
-		int tCost;
-
-		tOwnerHasEnoughCash = false;
+		
 		tTrainCompany = getOwningCompany ();
-		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
-			tMap = getMap ();
-			tMapCell = tMap.getMapCellForID (mapCellID);
-			tCost = tMapCell.getCostToLayTile ();
-			if (tTrainCompany.getTreasury () >= tCost) {
-				tOwnerHasEnoughCash = true;
-			}
-		}
+		tOwnerHasEnoughCash = companyHasEnoughCash (tTrainCompany);
 
 		return tOwnerHasEnoughCash;
 	}
-
-	private boolean ownerLaidTile () {
-		boolean tOwnerLaidTile;
+	
+	private boolean operatingCompanyHasEnoughCash () {
+		boolean tOperatingCompanyHasEnoughCash;
+		GameManager tGameManager;
 		TrainCompany tTrainCompany;
-
-		tOwnerLaidTile = false;
-		tTrainCompany = getOwningCompany ();
-		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
-			if (tTrainCompany.hasLaidTile ()) {
-				tOwnerLaidTile = true;
+		
+		tGameManager = privateCompany.getGameManager ();
+		tTrainCompany = (TrainCompany) tGameManager.getOperatingShareCompany ();
+		tOperatingCompanyHasEnoughCash = companyHasEnoughCash (tTrainCompany);
+		
+		return tOperatingCompanyHasEnoughCash;
+	}
+	
+	private boolean companyHasEnoughCash (TrainCompany aTrainCompany) {
+		boolean tOwnerHasEnoughCash;
+		HexMap tMap;
+		MapCell tMapCell;
+		int tCost;
+		
+		tOwnerHasEnoughCash = false;
+		if (aTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+			tMap = getMap ();
+			tMapCell = tMap.getMapCellForID (mapCellID);
+			tCost = tMapCell.getCostToLayTile ();
+			if (aTrainCompany.getTreasury () >= tCost) {
+				tOwnerHasEnoughCash = true;
 			}
 		}
+		return tOwnerHasEnoughCash;
+	}
 
-		return tOwnerLaidTile;
+	private boolean operatingCompanyCanLayTile () {
+		boolean tOperatingCompanyCanLayTile;
+		GameManager tGameManager;
+		TrainCompany tTrainCompany;
+
+		tOperatingCompanyCanLayTile = true;
+		tGameManager = privateCompany.getGameManager ();
+		tTrainCompany = (TrainCompany) tGameManager.getOperatingShareCompany ();
+		if (tTrainCompany.hasLaidTile ()) {
+			tOperatingCompanyCanLayTile = false;
+		}
+
+		return tOperatingCompanyCanLayTile;
 	}
 
 	@Override
