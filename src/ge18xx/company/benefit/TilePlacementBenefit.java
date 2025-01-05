@@ -8,8 +8,7 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
-import ge18xx.company.TrainCompany;
-import ge18xx.game.GameManager;
+import ge18xx.company.ShareCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import geUtilities.GUI;
@@ -55,7 +54,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	public String getNewButtonLabel () {
 		String tNewButtonText;
 
-		tNewButtonText = "Place Tile on " + privateCompany.getAbbrev () + " Home";
+		tNewButtonText = "Put Tile on " + privateCompany.getAbbrev () + " Home (" + mapCellID + ")";
 
 		return tNewButtonText;
 	}
@@ -102,28 +101,26 @@ public class TilePlacementBenefit extends MapBenefit {
 	
 	private boolean operatingCompanyHasEnoughCash () {
 		boolean tOperatingCompanyHasEnoughCash;
-		GameManager tGameManager;
-		TrainCompany tTrainCompany;
+		ShareCompany tShareCompany;
 		
-		tGameManager = privateCompany.getGameManager ();
-		tTrainCompany = (TrainCompany) tGameManager.getOperatingShareCompany ();
-		tOperatingCompanyHasEnoughCash = companyHasEnoughCash (tTrainCompany);
+		tShareCompany = getOperatingCompany ();
+		tOperatingCompanyHasEnoughCash = companyHasEnoughCash (tShareCompany);
 		
 		return tOperatingCompanyHasEnoughCash;
 	}
 	
-	private boolean companyHasEnoughCash (TrainCompany aTrainCompany) {
+	private boolean companyHasEnoughCash (ShareCompany aShareCompany) {
 		boolean tOwnerHasEnoughCash;
 		HexMap tMap;
 		MapCell tMapCell;
 		int tCost;
 		
 		tOwnerHasEnoughCash = false;
-		if (aTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+		if (aShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 			tMap = getMap ();
 			tMapCell = tMap.getMapCellForID (mapCellID);
 			tCost = tMapCell.getCostToLayTile ();
-			if (aTrainCompany.getTreasury () >= tCost) {
+			if (aShareCompany.getTreasury () >= tCost) {
 				tOwnerHasEnoughCash = true;
 			}
 		}
@@ -132,19 +129,18 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	private boolean operatingCompanyCanLayTile () {
 		boolean tOperatingCompanyCanLayTile;
-		GameManager tGameManager;
-		TrainCompany tTrainCompany;
+		ShareCompany tShareCompany;
 
 		tOperatingCompanyCanLayTile = true;
-		tGameManager = privateCompany.getGameManager ();
-		tTrainCompany = (TrainCompany) tGameManager.getOperatingShareCompany ();
-		if (tTrainCompany.hasLaidTile ()) {
+		tShareCompany = getOperatingCompany ();
+		if (tShareCompany.hasLaidTile ()) {
 			tOperatingCompanyCanLayTile = false;
 		}
 
 		return tOperatingCompanyCanLayTile;
 	}
 
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
@@ -165,7 +161,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		MapCell tMapCell;
 		Corporation tOwningCompany;
 
-		tOwningCompany = getOwningCompany ();
+		tOwningCompany = getOperatingCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tOwningCompany.handlePlaceTile ();
