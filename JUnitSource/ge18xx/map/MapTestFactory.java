@@ -2,6 +2,7 @@ package ge18xx.map;
 
 import org.mockito.Mockito;
 
+import ge18xx.game.GameManager;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.XMLFrame;
 
@@ -20,6 +21,22 @@ public class MapTestFactory {
 		return tMapFrame;
 	}
 
+	public MapFrame buildMapFrame (String aMapFrameName, GameManager aGameManager) {
+		MapFrame tMapFrame;
+		
+		tMapFrame = new MapFrame (aMapFrameName, aGameManager);
+		
+		return tMapFrame;
+	}
+	
+	public MapFrame buildMapFrameMock () {
+		MapFrame mMapFrame;
+		
+		mMapFrame = Mockito.mock (MapFrame.class);
+		
+		return mMapFrame;
+	}
+
 	public HexMap buildHexMap () {
 		HexMap tHexMap;
 		MapFrame tMapFrame;
@@ -30,6 +47,24 @@ public class MapTestFactory {
 		return tHexMap;
 	}
 
+	public HexMap buildHexMap (String aMapFrameName, GameManager aGameManager) {
+		HexMap tHexMap;
+		MapFrame tMapFrame;
+		
+		tMapFrame = buildMapFrame (aMapFrameName, aGameManager);
+		tHexMap = new HexMap (tMapFrame);
+		
+		return tHexMap;
+	}
+	
+	public HexMap buildHexMap (MapFrame aMapFrame) {
+		HexMap tHexMap;
+		
+		tHexMap = new HexMap (aMapFrame);
+		
+		return tHexMap;
+	}
+	
 	public HexMap buildHexMapMock () {
 		MapCell tMapCell;
 		HexMap mHexMap;
