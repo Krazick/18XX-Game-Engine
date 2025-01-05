@@ -15,19 +15,34 @@ public class BenefitTestFactory {
 		utilitiesTestFactory = aUtilitiesTestFactory;
 	}
 
-	public MapBenefit buildMapBenefit (PrivateCompany aPrivateCompany) {
+	public MapBenefit buildMapBenefit (PrivateCompany aPrivateCompany, int aIndex) {
 		MapBenefit tMapBenefit;
-		String tXMLBenefitTest;
+		String tXMLBenefitTest1;
+		String tXMLBenefitTest2;
 		XMLNode tBenefitXMLNode;
 
-		tXMLBenefitTest = "<Benefit actorType=\"Share Company\" "
+		tXMLBenefitTest1 = "<Benefit actorType=\"Share Company\" "
 				+ "class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" "
 				+ "mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
-		tBenefitXMLNode = utilitiesTestFactory.buildXMLNode (tXMLBenefitTest);
-
-		tMapBenefit = new MapBenefit (tBenefitXMLNode);
-		tMapBenefit.setPrivateCompany (aPrivateCompany);
-
+		tXMLBenefitTest2 = "<Benefit actorType=\"Share Company\" ownerType=\"Player\" "
+				+ "				class=\"ge18xx.company.benefit.TilePlacementBenefit\" "
+				+ "				extra=\"false\" mapCell=\"M15\" tokenType=\"Port\" "
+				+ "				cost=\"0\" passive=\"false\" closeOnUse=\"true\" />";
+		if (aIndex == 1) {
+			tBenefitXMLNode = utilitiesTestFactory.buildXMLNode (tXMLBenefitTest1);
+		} else if (aIndex == 2) {
+			tBenefitXMLNode = utilitiesTestFactory.buildXMLNode (tXMLBenefitTest2);
+			
+		} else {
+			tBenefitXMLNode = XMLNode.NO_NODE;
+		}
+		if (tBenefitXMLNode == XMLNode.NO_NODE) {
+			tMapBenefit = MapBenefit.NO_MAP_BENEFIT;
+		} else {
+			tMapBenefit = new MapBenefit (tBenefitXMLNode);
+			tMapBenefit.setPrivateCompany (aPrivateCompany);
+		}
+		
 		return tMapBenefit;
 	}
 }
