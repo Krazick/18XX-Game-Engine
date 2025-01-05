@@ -90,7 +90,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 								// should unselect ALL and leave only the single map cell selected.
 
 	public HexMap (MapFrame aMapFrame) {
-		mapFrame = aMapFrame;
+		setMapFrame (aMapFrame);
 		hex = Hex18XX.NO_HEX18XX;
 		setTilePlaced (false);
 		addMouseListener (this);
@@ -113,6 +113,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCurrentPhase ();
 	}
 
+	public void setMapFrame (MapFrame aMapFrame) {
+		mapFrame = aMapFrame;
+	}
+	
+	public MapFrame getMapFrame () {
+		return mapFrame;
+	}
+	
 	// Selectable Map Cell Functions to be callable from elsewhere
 
 	public void fillAllSMC () {
@@ -569,7 +577,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		
 		tFoundMapCell = MapCell.NO_MAP_CELL;
 		if (aID != null) {
-			if (!aID.equals ("")) {
+			if (!aID.equals (GUI.EMPTY_STRING)) {
 				tRowCount = getRowCount ();
 				for (tRowIndex = 0; (tRowIndex < tRowCount) 
 					&& (tFoundMapCell == MapCell.NO_MAP_CELL); 
