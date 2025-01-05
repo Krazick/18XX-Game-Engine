@@ -16,6 +16,7 @@ import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.company.benefit.MapBenefit;
 import ge18xx.company.benefit.PassiveEffectBenefit;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -672,6 +673,25 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return benefits;
 	}
 
+	public boolean allMapBenefitsUsed () {
+		boolean tAllMapBenefitsUsed;
+		List<Benefit> tBenefits;
+		
+		tAllMapBenefitsUsed = true;
+		if (benefits != Benefits.NO_BENEFITS) {
+			tBenefits = benefits.getBenefits ();
+			for (Benefit tBenefit : tBenefits) {
+				if (tBenefit instanceof MapBenefit) {
+					if (! tBenefit.used ()) {
+						tAllMapBenefitsUsed = false;
+					}
+				}
+			}
+		}
+		
+		return tAllMapBenefitsUsed;
+	}
+	
 	@Override
 	public int getTrainLimit () {
 		return 0;
