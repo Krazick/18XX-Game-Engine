@@ -120,6 +120,30 @@ public abstract class Benefit implements ActionListener {
 		return tOwnerTypeBenefit;
 	}
 	
+	public boolean isOwnerTypeAPlayer () {
+		boolean tOwnerTypeIsAPlayer;
+		
+		if (ownerType == ActorI.ActorTypes.Player) {
+			tOwnerTypeIsAPlayer = true;
+		} else {
+			tOwnerTypeIsAPlayer = false;
+		}
+		
+		return tOwnerTypeIsAPlayer;
+	}
+	
+	public boolean isOwnerTypeAShareCompany () {
+		boolean tOwnerTypeIsAShareCompany;
+		
+		if (ownerType == ActorI.ActorTypes.ShareCompany) {
+			tOwnerTypeIsAShareCompany = true;
+		} else {
+			tOwnerTypeIsAShareCompany = false;
+		}
+		
+		return tOwnerTypeIsAShareCompany;
+	}
+	
 	public void addAdditionalEffect (Effect aEffect) {
 		if (! additionalEffects.contains (aEffect)) {
 			additionalEffects.add (aEffect);
