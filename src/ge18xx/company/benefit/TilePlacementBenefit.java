@@ -94,7 +94,7 @@ public class TilePlacementBenefit extends MapBenefit {
 				setToolTip (GUI.EMPTY_STRING);
 			} if (! operatingCompanyCanLayTile ()) {
 				disableButton ();
-				setToolTip ("Owner has already laid or upgraded a Tile");
+				setToolTip ("Operating Train Company has already laid or upgraded a Tile");
 			} 
 		}
 	}
