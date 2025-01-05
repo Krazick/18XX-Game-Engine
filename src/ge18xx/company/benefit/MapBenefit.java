@@ -20,11 +20,12 @@ public class MapBenefit extends Benefit {
 	public static final AttributeName AN_MAPCELL = new AttributeName ("mapCell");
 	public static final AttributeName AN_COST = new AttributeName ("cost");
 	public static final AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
-	public final static String PORT_TOKEN = "Port";
-	public final static String CATTLE_TOKEN = "Cattle";
-	public final static String BRIDGE_TOKEN = "Bridge";
-	public final static String TUNNEL_TOKEN = "Tunnel";
-	public final static String NAME = "Map";
+	public static final String PORT_TOKEN = "Port";
+	public static final String CATTLE_TOKEN = "Cattle";
+	public static final String BRIDGE_TOKEN = "Bridge";
+	public static final String TUNNEL_TOKEN = "Tunnel";
+	public static final String NAME = "Map";
+	public static final MapBenefit NO_MAP_BENEFIT = (MapBenefit) NO_BENEFIT;
 	String mapCellID;
 	int cost;
 	boolean sameTurn;
@@ -91,7 +92,7 @@ public class MapBenefit extends Benefit {
 
 	@Override
 	public String getNewButtonLabel () {
-		return null;
+		return GUI.NULL_STRING;
 	}
 
 	protected HexMap getMap () {
