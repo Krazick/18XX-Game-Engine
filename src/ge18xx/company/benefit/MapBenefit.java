@@ -197,20 +197,28 @@ public class MapBenefit extends Benefit {
 	public void completeBenefitInUse (Corporation aOwningCompany) {
 		super.completeBenefitInUse (aOwningCompany);
 
-		CloseCompanyAction tCloseCompanyAction;
-		GameManager tGameManager;
-
-		tGameManager = privateCompany.getGameManager ();
 		if (closeOnUse) {
-			tCloseCompanyAction = createCloseCompanyAction (tGameManager, aOwningCompany);
-			privateCompany.close (tCloseCompanyAction);
-			addAdditionalEffects (tCloseCompanyAction);
-			tGameManager.addAction (tCloseCompanyAction);
+			closePrivateCompany (aOwningCompany);
+		} else if (closeOnAllUsed ()) {
+			if (privateCompany.allMapBenefitsUsed ()) {
+				closePrivateCompany (aOwningCompany);
+			}
 		}
 		resetBenefitInUse (aOwningCompany);
 		aOwningCompany.updateFrameInfo ();
 	}
 
+	private void closePrivateCompany (Corporation aOwningCompany) {
+		CloseCompanyAction tCloseCompanyAction;
+		GameManager tGameManager;
+
+		tGameManager = privateCompany.getGameManager ();
+		tCloseCompanyAction = createCloseCompanyAction (tGameManager, aOwningCompany);
+		privateCompany.close (tCloseCompanyAction);
+		addAdditionalEffects (tCloseCompanyAction);
+		tGameManager.addAction (tCloseCompanyAction);
+	}
+	
 	public void completeBenefitInUse (Corporation aOwningCompany, LayTokenAction aLayTokenAction) {
 		super.completeBenefitInUse (aOwningCompany);
 		
