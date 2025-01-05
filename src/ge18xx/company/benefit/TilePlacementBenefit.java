@@ -100,15 +100,15 @@ public class TilePlacementBenefit extends MapBenefit {
 		}
 	}
 
-	private boolean ownerHasEnoughCash () {
-		boolean tOwnerHasEnoughCash;
-		TrainCompany tTrainCompany;
-		
-		tTrainCompany = getOwningCompany ();
-		tOwnerHasEnoughCash = companyHasEnoughCash (tTrainCompany);
-
-		return tOwnerHasEnoughCash;
-	}
+//	private boolean ownerHasEnoughCash () {
+//		boolean tOwnerHasEnoughCash;
+//		TrainCompany tTrainCompany;
+//		
+//		tTrainCompany = getOwningCompany ();
+//		tOwnerHasEnoughCash = companyHasEnoughCash (tTrainCompany);
+//
+//		return tOwnerHasEnoughCash;
+//	}
 	
 	private boolean operatingCompanyHasEnoughCash () {
 		boolean tOperatingCompanyHasEnoughCash;
