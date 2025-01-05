@@ -9,6 +9,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.toplevel.MapFrame;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -95,12 +96,12 @@ public class MapBenefit extends Benefit {
 
 	protected HexMap getMap () {
 		MapFrame tMapFrame;
-		HexMap tMap;
+		HexMap tHexMap;
 
 		tMapFrame = getMapFrame ();
-		tMap = tMapFrame.getMap ();
+		tHexMap = tMapFrame.getMap ();
 
-		return tMap;
+		return tHexMap;
 	}
 
 	protected MapFrame getMapFrame () {
@@ -157,11 +158,19 @@ public class MapBenefit extends Benefit {
 	}
 
 	protected MapCell getMapCell () {
-		HexMap tMap;
+		HexMap tHexMap;
 		MapCell tMapCell;
 		
-		tMap = getMap ();
-		tMapCell = getMapCell (tMap);
+		tHexMap = getMap ();
+		tMapCell = getMapCell (tHexMap);
+		
+		return tMapCell;
+	}
+	
+	protected MapCell getMapCell (HexMap aHexMap) {
+		MapCell tMapCell;
+		
+		tMapCell = aHexMap.getMapCellForID (mapCellID);
 		
 		return tMapCell;
 	}
@@ -174,14 +183,6 @@ public class MapBenefit extends Benefit {
 		tSelectedMapCell = tMap.getSelectedMapCell ();
 		
 		return tSelectedMapCell;
-	}
-	
-	protected MapCell getMapCell (HexMap aHexMap) {
-		MapCell tMapCell;
-		
-		tMapCell = aHexMap.getMapCellForID (mapCellID);
-		
-		return tMapCell;
 	}
 
 	public void resetBenefitInUse (Corporation aOwningCompany) {
@@ -250,7 +251,7 @@ public class MapBenefit extends Benefit {
 		tMatchedNameBenefit = super.findMatchedBenefit (aBenefitNode);
 		if (tMatchedNameBenefit != NO_BENEFIT) {
 			tMapCellID = aBenefitNode.getThisAttribute (AN_MAPCELL);
-			if (tMapCellID != null) {
+			if (tMapCellID != GUI.NULL_STRING) {
 				if (tMapCellID.equals (mapCellID)) {
 					tMatchedBenefit = this;
 				}
