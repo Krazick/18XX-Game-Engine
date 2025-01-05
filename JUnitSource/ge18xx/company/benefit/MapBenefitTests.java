@@ -65,8 +65,8 @@ class MapBenefitTests {
 		mHexMap = mapTestFactory.buildHexMapMock ();
 		mMapFrame = mapTestFactory.buildMapFrameMock ();
 		
-		mapBenefit1 = benefitTestFactory.buildMapBenefit (privateSV);
-		mapBenefit2 = benefitTestFactory.buildMapBenefit (privateCSL);
+		mapBenefit1 = benefitTestFactory.buildMapBenefit (privateSV, 1);
+		mapBenefit2 = benefitTestFactory.buildMapBenefit (privateCSL, 2);
 		mapBenefit2.setMapCellID (mapCell1);
 	}
 
@@ -84,6 +84,8 @@ class MapBenefitTests {
 		assertFalse (mapBenefit1.getSameTurn ());
 
 		assertNull (mapBenefit1.getMapCell ());
+		assertNull (mapBenefit1.getNewButtonLabel ());
+		assertNull (mapBenefit1.getTokenType ());
 	}
 	
 	@Test
@@ -97,7 +99,7 @@ class MapBenefitTests {
 		assertEquals (mHexMap, mapBenefit2.getMap ());
 		assertEquals (mMapFrame, mapBenefit2.getMapFrame ());
 		assertEquals (mapCell1, mapBenefit2.getMapCell ());
-		
+		assertEquals ("Port", mapBenefit2.getTokenType ());
 		Mockito.when (mHexMap.isTileAvailableForMapCell (mapCell1)).thenReturn (true);
 		
 		assertTrue (mapBenefit2.isTileAvailable ());
