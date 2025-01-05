@@ -65,7 +65,10 @@ public class MapBenefit extends Benefit {
 	}
 
 	public void setMapCellID (MapCell aMapCell) {
-		setMapCellID (aMapCell.getCellID ());
+		String tMapCellID;
+		
+		tMapCellID = aMapCell.getCellID ();
+		setMapCellID (tMapCellID);
 	}
 	
 	public void setCost (int aCost) {
@@ -117,7 +120,8 @@ public class MapBenefit extends Benefit {
 		tMapFrame.revalidate ();
 	}
 	
-	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, 
+				MapBenefit aMapBenefit, int aBenefitValue) {
 		MapFrame tMapFrame;
 		
 		tMapFrame = getMapFrame ();
@@ -128,21 +132,22 @@ public class MapBenefit extends Benefit {
 	}
 	
 	protected boolean isTileAvailable () {
-		HexMap tMap;
+		HexMap tHexMap;
 		MapCell tMapCell;
 		boolean tTileIsAvailable;
 
-		tMap = getMap ();
-		tMapCell = getMapCell (tMap);
-		tTileIsAvailable = tMap.isTileAvailableForMapCell (tMapCell);
+		tHexMap = getMap ();
+		tMapCell = getMapCell (tHexMap);
+		tTileIsAvailable = tHexMap.isTileAvailableForMapCell (tMapCell);
 
 		return tTileIsAvailable;
 	}
 
 	protected boolean hasTile () {
-		boolean tHasTile = false;
+		boolean tHasTile;
 		MapCell tMapCell;
 
+		tHasTile = false;
 		tMapCell = getMapCell ();
 		if (tMapCell.isTileOnCell ()) {
 			tHasTile = true;
@@ -153,10 +158,12 @@ public class MapBenefit extends Benefit {
 
 	protected MapCell getMapCell () {
 		HexMap tMap;
-
+		MapCell tMapCell;
+		
 		tMap = getMap ();
-
-		return getMapCell (tMap);
+		tMapCell = getMapCell (tMap);
+		
+		return tMapCell;
 	}
 
 	protected MapCell getSelectedMapCell () {
@@ -169,8 +176,12 @@ public class MapBenefit extends Benefit {
 		return tSelectedMapCell;
 	}
 	
-	protected MapCell getMapCell (HexMap aMap) {
-		return aMap.getMapCellForID (mapCellID);
+	protected MapCell getMapCell (HexMap aHexMap) {
+		MapCell tMapCell;
+		
+		tMapCell = aHexMap.getMapCellForID (mapCellID);
+		
+		return tMapCell;
 	}
 
 	public void resetBenefitInUse (Corporation aOwningCompany) {
