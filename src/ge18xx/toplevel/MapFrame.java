@@ -145,10 +145,17 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 	
 	private void buildMapScrollPanel () {
-		map = new HexMap (this);
+		HexMap tHexMap;
+		
+		tHexMap = new HexMap (this);
+		setHexMap (tHexMap);
 		buildScrollPane (map, BorderLayout.CENTER);
 	}
 
+	public void setHexMap (HexMap aHexMap) {
+		map = aHexMap;
+	}
+	
 	private void buildNorthPanel () {
 		JPanel tNorthPanel;
 
