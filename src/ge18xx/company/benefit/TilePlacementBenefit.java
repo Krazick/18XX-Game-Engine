@@ -19,6 +19,7 @@ import swingTweaks.KButton;
 public class TilePlacementBenefit extends MapBenefit {
 	public static final AttributeName AN_EXTRA = new AttributeName ("extra");
 	public static final String NAME = "Tile Placement";
+	public static final TilePlacementBenefit NO_TILE_PLACEMENT_BENEFIT = (TilePlacementBenefit) NO_BENEFIT;
 	boolean extraTilePlacement;
 
 	public TilePlacementBenefit (XMLNode aXMLNode) {
