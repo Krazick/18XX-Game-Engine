@@ -227,31 +227,43 @@ public abstract class Benefit implements ActionListener {
 		}
 	}
 
-	public void updateButton () {
+	protected void updateButton () {
 		// Must update Button for Non-Passive Benefits by Overriding this Method
 	}
 
 	public boolean isAExtraTilePlacement () {
 		return false;
 	}
-
-	public boolean buttonConfigured () {
-		return button != GUI.NO_BUTTON;
-	}
+//
+//	public boolean buttonConfigured () {
+//		return button != GUI.NO_BUTTON;
+//	}
 	
-	public void enableButton () {
-		button.setEnabled (true);
+	protected void enableButton () {
+		if (hasButton ()) {
+			button.setEnabled (true);
+		}
 	}
 
-	public void disableButton () {
-		button.setEnabled (false);
+	protected void disableButton () {
+		if (hasButton ()) {
+			button.setEnabled (false);
+		}
 	}
 
-	public void hideButton () {
-		button.setVisible (false);
+	protected void showButton () {
+		if (hasButton ()) {
+			button.setVisible (true);
+		}
 	}
 
-	public void setToolTip (String aToolTip) {
+	protected void hideButton () {
+		if (hasButton ()) {
+			button.setVisible (false);
+		}
+	}
+
+	protected void setToolTip (String aToolTip) {
 		button.setToolTipText (aToolTip);
 	}
 
@@ -331,7 +343,8 @@ public abstract class Benefit implements ActionListener {
 					setButtonPanel (tCorpFrameButtonPanel);
 				}
 			}
-			configure (privateCompany, buttonPanel);
+			showButton ();
+//			configure (privateCompany, buttonPanel);
 		}
 	}
 
@@ -507,7 +520,8 @@ public abstract class Benefit implements ActionListener {
 		setUsed (true);
 		tBenefitUsedEffect = new BenefitUsedEffect (aOwningCompany, this);
 		addAdditionalEffect (tBenefitUsedEffect);
-		removeButton ();
+//		removeButton ();
+		hideButton ();
 	}
 
 	public boolean changeState () {
