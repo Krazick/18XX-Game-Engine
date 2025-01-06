@@ -228,7 +228,7 @@ public class LicenseBenefit extends Benefit {
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 
-		if (buttonConfigured ()) {
+		if (hasButton ()) {
 			tOwningCompany = getOperatingCompany ();
 			if (tOwningCompany != ShareCompany.NO_SHARE_COMPANY) {
 				tBenefitInUse = tOwningCompany.getBenefitInUse ();
