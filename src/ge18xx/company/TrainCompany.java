@@ -2397,7 +2397,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewStatus = status;
 		tNewTileTokens = aTile.getPlacedTokens ();
-		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
 		tOperatingRoundID = getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		if (aPreviousTile != Tile.NO_TILE) {
@@ -2423,6 +2422,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			setTileLaid (tLayTileAction);
 		}
+//		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
+		tCostToLayTile = getCostForTile (aTile, aMapCell);
 		if (tCostToLayTile > 0) {
 			tBank = corporationList.getBank ();
 			transferCashTo (tBank, tCostToLayTile);
@@ -2432,6 +2433,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateInfo ();
 	}
 
+	private int getCostForTile (Tile aTile, MapCell aMapCell) {
+		int tCost;
+		
+		tCost = aMapCell.getCostToLayTile (aTile);
+		if (benefitInUse.isRealBenefit ()) {
+			tCost = benefitInUse.getCost ();
+		}
+		
+		return tCost;
+	}
+	
 	private void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
 		MapCell tHomeMapCell1;
 		MapCell tHomeMapCell2;
