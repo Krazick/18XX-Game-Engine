@@ -543,11 +543,14 @@ public abstract class Benefit implements ActionListener {
 	public void updateState (XMLNode aBenefitNode) {
 		boolean tUsedState;
 		boolean tCloseOnUse;
+		boolean tCloseOnAllUsed;
 		
 		tUsedState = aBenefitNode.getThisBooleanAttribute (AN_USED);
 		setUsed (tUsedState);
 		tCloseOnUse = aBenefitNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		setCloseOnUse (tCloseOnUse);
+		tCloseOnAllUsed = aBenefitNode.getThisBooleanAttribute (AN_CLOSE_ON_ALL_USED);
+		setCloseOnAllUsed (tCloseOnAllUsed);
 	}
 	
 	public ShareCompany getOperatingCompany () {
