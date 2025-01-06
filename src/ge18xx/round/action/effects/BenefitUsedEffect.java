@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class BenefitUsedEffect extends Effect {
-	public final static String NAME = "Benefit Used";
+	public final static String NAME = "Set Benefit Used";
 	final static AttributeName AN_BENEFIT_NAME = new AttributeName ("name");
 	Benefit benefitInUse;
 	String benefitName;
