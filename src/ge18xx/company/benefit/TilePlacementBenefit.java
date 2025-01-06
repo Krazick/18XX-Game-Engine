@@ -112,19 +112,14 @@ public class TilePlacementBenefit extends MapBenefit {
 	
 	private boolean companyHasEnoughCash (ShareCompany aShareCompany) {
 		boolean tOwnerHasEnoughCash;
-//		HexMap tMap;
-//		MapCell tMapCell;
-//		int tCost;
 		
 		tOwnerHasEnoughCash = false;
 		if (aShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-//			tMap = getMap ();
-//			tMapCell = tMap.getMapCellForID (mapCellID);
-//			tCost = tMapCell.getCostToLayTile ();
 			if (aShareCompany.getTreasury () >= cost) {
 				tOwnerHasEnoughCash = true;
 			}
 		}
+		
 		return tOwnerHasEnoughCash;
 	}
 
