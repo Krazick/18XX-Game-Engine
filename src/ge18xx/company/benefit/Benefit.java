@@ -12,7 +12,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.effects.BenefitUsedEffect;
@@ -234,10 +233,6 @@ public abstract class Benefit implements ActionListener {
 	public boolean isAExtraTilePlacement () {
 		return false;
 	}
-//
-//	public boolean buttonConfigured () {
-//		return button != GUI.NO_BUTTON;
-//	}
 	
 	protected void enableButton () {
 		if (hasButton ()) {
@@ -329,23 +324,8 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public void undoUse () {
-		JPanel tCorpFrameButtonPanel;
-		PortfolioHolderI tOwner;
-		Corporation tOwningCompany;
-		
 		setUsed (false);
-		if (shouldConfigure ()) {
-			if (buttonPanel == GUI.NO_PANEL) {
-				tOwner = privateCompany.getOwner ();
-				if (tOwner.isACorporation ()) {
-					tOwningCompany = (Corporation) tOwner;
-					tCorpFrameButtonPanel = tOwningCompany.getButtonPanel ();
-					setButtonPanel (tCorpFrameButtonPanel);
-				}
-			}
-			showButton ();
-//			configure (privateCompany, buttonPanel);
-		}
+		showButton ();
 	}
 
 	public void setUsed (boolean aUsed) {
