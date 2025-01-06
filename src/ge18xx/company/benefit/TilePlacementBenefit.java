@@ -79,7 +79,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	}
 
 	@Override
-	public void updateButton () {
+	protected void updateButton () {
 		if (hasTile ()) {
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
@@ -112,16 +112,16 @@ public class TilePlacementBenefit extends MapBenefit {
 	
 	private boolean companyHasEnoughCash (ShareCompany aShareCompany) {
 		boolean tOwnerHasEnoughCash;
-		HexMap tMap;
-		MapCell tMapCell;
-		int tCost;
+//		HexMap tMap;
+//		MapCell tMapCell;
+//		int tCost;
 		
 		tOwnerHasEnoughCash = false;
 		if (aShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-			tMap = getMap ();
-			tMapCell = tMap.getMapCellForID (mapCellID);
-			tCost = tMapCell.getCostToLayTile ();
-			if (aShareCompany.getTreasury () >= tCost) {
+//			tMap = getMap ();
+//			tMapCell = tMap.getMapCellForID (mapCellID);
+//			tCost = tMapCell.getCostToLayTile ();
+			if (aShareCompany.getTreasury () >= cost) {
 				tOwnerHasEnoughCash = true;
 			}
 		}
