@@ -187,7 +187,6 @@ public class MapBenefit extends Benefit {
 	}
 
 	public void resetBenefitInUse (Corporation aOwningCompany) {
-
 		if (privateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 			aOwningCompany.setBenefitInUse (previousBenefitInUse);
 		}
