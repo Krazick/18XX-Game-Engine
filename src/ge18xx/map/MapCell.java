@@ -1146,6 +1146,20 @@ public class MapCell implements Comparator<Object> {
 		return tileOrientLocked;
 	}
 
+	public boolean isTileWithTrackOnCell () {
+		boolean tIsTileWithTrackOnCell;
+		Tile tTile;
+		
+		if (isTileOnCell ()) {
+			tTile = getTile ();
+			tIsTileWithTrackOnCell = tTile.hasTrack ();
+		} else {
+			tIsTileWithTrackOnCell = false;
+		}
+		
+		return tIsTileWithTrackOnCell;
+	}
+	
 	public boolean isTileOnCell () {
 		boolean tIsTileOnCell;
 		
