@@ -11,7 +11,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
-import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
@@ -80,10 +79,21 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	protected void updateButton () {
-		if (hasTile ()) {
+//		ShareCompany tOperatingCompany;
+//		Benefit tBenefitInUse;
+//		String tBenefitInUseName;
+//
+//		tOperatingCompany = getOperatingCompany ();
+//		tBenefitInUse = tOperatingCompany.getBenefitInUse ();
+//		tBenefitInUseName = tBenefitInUse.getName ();
+//		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+//			disableButton ();
+//			setToolTip ("Another Benefit is currently in Use");
+//		} else 
+		if (hasNonStartingTile ()) {
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
-		} else if (!isTileAvailable ()) {
+		} else if (! isTileAvailable ()) {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
 		} else if (! operatingCompanyHasEnoughCash ()) {
@@ -92,11 +102,14 @@ public class TilePlacementBenefit extends MapBenefit {
 		} else {
 			if (extraTilePlacement) {
 				enableButton ();
-				setToolTip (GUI.EMPTY_STRING);
+				setToolTip ("Benefit allows an Extra Tile Placement");
 			} if (! operatingCompanyCanLayTile ()) {
 				disableButton ();
 				setToolTip ("Operating Train Company has already laid or upgraded a Tile");
-			} 
+			} else {
+				enableButton ();
+				setToolTip ("Operating Train Company has enough cash to pay for Tile Placement");	
+			}
 		}
 	}
 	
