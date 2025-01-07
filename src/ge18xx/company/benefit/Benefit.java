@@ -259,7 +259,9 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	protected void setToolTip (String aToolTip) {
-		button.setToolTipText (aToolTip);
+		if (hasButton ()) {
+			button.setToolTipText (aToolTip);
+		}
 	}
 
 	public void setCorporation (Corporation aCorporation) {
