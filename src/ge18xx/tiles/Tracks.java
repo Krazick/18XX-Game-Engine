@@ -183,9 +183,21 @@ public class Tracks implements Cloneable {
 	public String toString () {
 		return segments.toString ();
 	}
+//
+//	public Track get (int aTrackIndex) {
+//		return segments.get (aTrackIndex);
+//	}
 
+	public int getTrackCount () {
+		return segments.size ();
+	}
+	
 	public Track get (int aTrackIndex) {
-		return segments.get (aTrackIndex);
+		Track tTrack = Track.NO_TRACK;
+
+		tTrack = segments.get (aTrackIndex);
+
+		return tTrack;
 	}
 
 	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
@@ -263,14 +275,6 @@ public class Tracks implements Cloneable {
 		}
 
 		return tTrackIndex;
-	}
-
-	public Track getTrack (int aTrackIndex) {
-		Track tTrack = Track.NO_TRACK;
-
-		tTrack = segments.get (aTrackIndex);
-
-		return tTrack;
 	}
 
 	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {
