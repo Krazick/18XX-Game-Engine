@@ -145,6 +145,45 @@ public class MapBenefit extends Benefit {
 		return tTileIsAvailable;
 	}
 
+	protected boolean hasTileWithTrack () {
+		boolean tHasTileWithTrack;
+		MapCell tMapCell;
+
+		tHasTileWithTrack = false;
+		tMapCell = getMapCell ();
+		if (tMapCell.isTileOnCell ()) {
+			if (tMapCell.isTileWithTrackOnCell ()) {
+				tHasTileWithTrack = true;
+			} else {
+				tHasTileWithTrack = false;
+			}
+		} else {
+			tHasTileWithTrack = false;
+		}
+
+		
+		return tHasTileWithTrack;
+	}
+	
+	protected boolean hasNonStartingTile () {
+		boolean tHasNonStartingTile;
+		MapCell tMapCell;
+
+		tHasNonStartingTile = false;
+		tMapCell = getMapCell ();
+		if (tMapCell.isTileOnCell ()) {
+			if (tMapCell.isStartingTile ()) {
+				tHasNonStartingTile = false;
+			} else {
+				tHasNonStartingTile = true;
+			}
+		} else {
+			tHasNonStartingTile = false;
+		}
+
+		return tHasNonStartingTile;
+	}
+
 	protected boolean hasTile () {
 		boolean tHasTile;
 		MapCell tMapCell;
