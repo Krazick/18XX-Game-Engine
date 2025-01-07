@@ -1015,6 +1015,19 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.hasTown ();
 	}
 
+	public boolean hasTrack () {
+		boolean tHasTrack;
+		
+		if (tracks.getTrackCount () > 0) {
+			tHasTrack = true;
+		} else {
+			tHasTrack = false;
+		}
+		
+		return tHasTrack;
+	}
+
+
 	public Track getConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
 		Track tTrack;
 		int tStartLocation;
@@ -1106,7 +1119,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public Track getTrackByIndex (int aNextTrackIndex) {
 		Track tTrack;
 
-		tTrack = tracks.getTrack (aNextTrackIndex);
+		tTrack = tracks.get (aNextTrackIndex);
 
 		return tTrack;
 	}
