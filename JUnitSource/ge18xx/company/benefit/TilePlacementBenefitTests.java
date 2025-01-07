@@ -12,10 +12,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.company.ShareCompany;
+import swingTweaks.KButton;
+
 class TilePlacementBenefitTests extends MapBenefitTests {
 	TilePlacementBenefit tilePlacementBenefit1;
 	TilePlacementBenefit tilePlacementBenefit2;
 	TilePlacementBenefit tilePlacementBenefit3;
+	ShareCompany mShareCompany;
 	
 	@Override
 	@BeforeEach
@@ -24,6 +28,7 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 		tilePlacementBenefit1 = benefitTestFactory.buildTilePlacementBenefit (privateSV, 1);
 		tilePlacementBenefit2 = benefitTestFactory.buildTilePlacementBenefit (privateCSL, 2);
 		tilePlacementBenefit3 = benefitTestFactory.buildTilePlacementBenefit (privateCSL, 3);
+		mShareCompany = companyTestFactory.buildShareCompanyMock ();
 	}
 
 	@Test
@@ -41,8 +46,13 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 	@DisplayName ("Tile Placement testing Map beneath")
 	void tilePlacementMapTests () {
 		JPanel tButtonRow;
+		KButton tButton;
 		
 		Mockito.when (mGameManager.getMapFrame ()).thenReturn (mMapFrame);
+		Mockito.when (mShareCompany.getTreasury ()).thenReturn (100);
+		Mockito.when (mShareCompany.isAShareCompany ()).thenReturn (true);
+		Mockito.when (mGameManager.getOperatingCompany ()).thenReturn (mShareCompany);
+		
 		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mapCell1);
 		Mockito.when (mHexMap.getMapFrame ()).thenReturn (mMapFrame);
 		Mockito.when (mMapFrame.getMap ()).thenReturn (mHexMap);
@@ -52,13 +62,24 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 		Mockito.when (mHexMap.isTileAvailableForMapCell (mapCell1)).thenReturn (true);
 
 		tilePlacementBenefit3.updateButton ();
+		tButton = tilePlacementBenefit3.getButton ();
+		assertEquals ("Operating Train Company has enough cash to pay for Tile Placement",
+						tButton.getToolTipText ());
+		
+		Mockito.when (mShareCompany.getTreasury ()).thenReturn (30);
+		tilePlacementBenefit3.updateButton ();
+		tButton = tilePlacementBenefit3.getButton ();
+		assertEquals ("Operating Train Company does not have enough cash to pay for Tile",
+						tButton.getToolTipText ());
+
 	}
 	
 	@Test
 	@DisplayName ("Tile Placement testing Tile beneath")
 	void tilePlacementTileTests () {
 		JPanel tButtonRow;
-
+		KButton tButton;
+		
 		Mockito.when (mGameManager.getMapFrame ()).thenReturn (mMapFrame);
 		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mMapCell1);
 		Mockito.when (mHexMap.getMapFrame ()).thenReturn (mMapFrame);
@@ -68,11 +89,16 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 		tButtonRow = new JPanel ();
 		tilePlacementBenefit2.configure (privateCSL, tButtonRow);
 		assertFalse (tilePlacementBenefit2.hasTile ());
+		tButton = tilePlacementBenefit2.getButton ();
+		assertEquals ("No Tile available to place on MapCell", tButton.getToolTipText ());
 		
 		Mockito.when (mMapCell1.isTileOnCell ()).thenReturn (true);
 		Mockito.when (mHexMap.getMapCellForID (anyString ())).thenReturn (mMapCell1);
 		assertTrue (tilePlacementBenefit2.hasTile ());		
 		tilePlacementBenefit2.updateButton ();
+		
+		tButton = tilePlacementBenefit2.getButton ();
+		assertEquals ("MapCell already has Tile", tButton.getToolTipText ());
 	}
 
 }
