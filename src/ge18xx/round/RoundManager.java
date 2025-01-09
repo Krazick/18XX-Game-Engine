@@ -134,7 +134,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tInitialRoundType = tGameInfo.getInitialRoundType ();
 		tInitialRound = getRoundByTypeName (tInitialRoundType);
 
-		setCurrentRoundState (tInitialRound.getRoundState ());
+//		setCurrentRoundState (tInitialRound.getRoundState ());
 		setCurrentRound (tInitialRound);
 		setOtherRoundInfo ();
 		tInitialRound.setIDPart1 (Round.START_ID1);
@@ -279,8 +279,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		
 		tCheckForEnding = true;
 		tCurrentRoundEnds = false;
-		// Need to loop if the Operating Round only does automatic Private Pay Revenues, and no player interaction
-		// when the Round Starts, and then immediately Ends and will go to a different Round.
+		// Need to loop if the Operating Round only does automatic Private Pay Revenues, and no player 
+		// interaction when the Round Starts, and then immediately Ends and will go to a different Round.
 		while (tCheckForEnding) {
 			tLastAction = getLastAction ();
 			tCurrentRoundEnds = checkAndHandleRoundEnds (tLastAction);
@@ -1005,32 +1005,32 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 	
 	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
-		setCurrentRoundState (aRoundType);
+//		setCurrentRoundState (aRoundType);
 	}
 
 	public void setRoundToAuctionRound () {
-		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
+//		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
 	}
 
 	public void setRoundToContractBidRound () {
-		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
+//		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
 	}
 	
 	public void setRoundToOperatingRound () {
-		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+//		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 	}
 
 	public void setRoundToFormationRound () {
-		setCurrentRoundState (ActorI.ActionStates.FormationRound);
+//		setCurrentRoundState (ActorI.ActionStates.FormationRound);
 	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,
-								String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
+						String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
 		ActorI.ActionStates tCurrentRoundState;
 		ActorI.ActionStates tNewRoundState;
 
 		tCurrentRoundState = getCurrentRoundState ();
-		setCurrentRoundState (aNewRoundState);
+//		setCurrentRoundState (aNewRoundState);
 		setCurrentRound (aNewRound);
 		tNewRoundState = getCurrentRoundState ();
 		currentRound.resume ();
@@ -1072,7 +1072,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// End of functions to deal with changing Rounds from one type to another
 	
 	public void resetOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
-		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+//		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 	}
 
