@@ -153,23 +153,23 @@ public class RoundManagerTestConstructors {
 		tContractBidRound = roundTestFactory.buildContractBidRound (roundManager);
 		roundManager.setContractBidRound (tContractBidRound);
 
-		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
+//		roundManager.setCurrentRoundState (ActorI.ActionStates.StockRound);
 		tActor = roundManager.getActor ("Stock Round");
 		assertTrue (tActor.isAStockRound ());
 
-		roundManager.setCurrentRoundState (ActorI.ActionStates.AuctionRound);
+//		roundManager.setCurrentRoundState (ActorI.ActionStates.AuctionRound);
 		tActor = roundManager.getActor ("Auction Round");
 		assertEquals (tAuctionRound, tActor);
 
-		roundManager.setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+//		roundManager.setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 		tActor = roundManager.getActor ("Operating Round");
 		assertTrue (tActor.isAOperatingRound ());
 
-		roundManager.setCurrentRoundState (ActorI.ActionStates.FormationRound);
+//		roundManager.setCurrentRoundState (ActorI.ActionStates.FormationRound);
 		tActor = roundManager.getActor ("Formation Round");
 		assertTrue (tActor.isAFormationRound ());
 
-		roundManager.setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
+//		roundManager.setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
 		tActor = roundManager.getActor ("Contract Bid Round");
 		assertTrue (tActor.isAContractBidRound ());
 
