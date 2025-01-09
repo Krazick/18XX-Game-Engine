@@ -134,7 +134,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tInitialRoundType = tGameInfo.getInitialRoundType ();
 		tInitialRound = getRoundByTypeName (tInitialRoundType);
 
-//		setCurrentRoundState (tInitialRound.getRoundState ());
 		setCurrentRound (tInitialRound);
 		setOtherRoundInfo ();
 		tInitialRound.setIDPart1 (Round.START_ID1);
@@ -232,9 +231,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame = aRoundFrame;
 	}
 
-	public void setCurrentRoundState (ActorI.ActionStates aNewRoundState) {
+//	public void setCurrentRoundState (ActorI.ActionStates aNewRoundState) {
 //		currentRoundState = aNewRoundState;
-	}
+//	}
 
 	public void addAction (Action aAction) {
 	
@@ -417,7 +416,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
-		setCurrentRoundState (ActorI.ActionStates.Bankrupt);
+		// Need to create a Bankrupt "Round" to hold this state 
+//		setCurrentRoundState (ActorI.ActionStates.Bankrupt);
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
 		gameManager.resetRoundFrameBackgrounds ();
@@ -1004,25 +1004,25 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 	
-	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
+//	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
 //		setCurrentRoundState (aRoundType);
-	}
-
-	public void setRoundToAuctionRound () {
-//		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
-	}
-
-	public void setRoundToContractBidRound () {
-//		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
-	}
-	
-	public void setRoundToOperatingRound () {
-//		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
-	}
-
-	public void setRoundToFormationRound () {
-//		setCurrentRoundState (ActorI.ActionStates.FormationRound);
-	}
+//	}
+//
+//	public void setRoundToAuctionRound () {
+////		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
+//	}
+//
+//	public void setRoundToContractBidRound () {
+////		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
+//	}
+//	
+//	public void setRoundToOperatingRound () {
+////		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
+//	}
+//
+//	public void setRoundToFormationRound () {
+////		setCurrentRoundState (ActorI.ActionStates.FormationRound);
+//	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,
 						String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
@@ -1030,7 +1030,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		ActorI.ActionStates tNewRoundState;
 
 		tCurrentRoundState = getCurrentRoundState ();
-//		setCurrentRoundState (aNewRoundState);
 		setCurrentRound (aNewRound);
 		tNewRoundState = getCurrentRoundState ();
 		currentRound.resume ();
@@ -1072,7 +1071,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	// End of functions to deal with changing Rounds from one type to another
 	
 	public void resetOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
-//		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 	}
 

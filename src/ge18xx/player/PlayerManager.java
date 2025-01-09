@@ -1804,11 +1804,11 @@ public class PlayerManager implements XMLSaveGameI {
 
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
-		Action tActionToUndo;
+//		Action tActionToUndo;
 		Action tLastAction;
 		Player tCurrentPlayer;
 
-		tActionToUndo = stockRound.getLastAction ();
+//		tActionToUndo = stockRound.getLastAction ();
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
@@ -1818,9 +1818,9 @@ public class PlayerManager implements XMLSaveGameI {
 			if (tLastAction == Action.NO_ACTION) {
 				tCurrentPlayer.hidePlayerFrame ();
 			} else if (! gameManager.isNetworkGame ()) {
-				if (tActionToUndo instanceof StartStockAction) {
-					tCurrentPlayer.showPlayerFrame ();
-				}
+//				if (tActionToUndo instanceof StartStockAction) {
+//					tCurrentPlayer.showPlayerFrame ();
+//				}
 			}
 			gameManager.autoSaveGame (! GameManager.ADD_CHECKSUM);
 		} else {

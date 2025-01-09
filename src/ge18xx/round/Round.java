@@ -198,14 +198,6 @@ public abstract class Round implements ActorI {
 	public void resumeStockRound () {
 		roundManager.setStockRoundInfo (idPart1);
 	}
-	
-//	public void startStockRound () {
-//		roundManager.startStockRound ();
-//	}
-
-//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-//		roundManager.startAuctionRound (aCreateNewAuctionAction);
-//	}
 
 	// Methods that ask RoundManager to handle and RETURN something
 
@@ -440,8 +432,6 @@ public abstract class Round implements ActorI {
 					// TODO ask Priority Player if run an additional Round of the same type (1853 - Operating Round)
 					// But need to limit to a single Optional Round -- Round Manager need to track this.
 					tRepeatRound = true;
-					// Tell Round Manager that we are adding the OR
-//					roundManager.setAddedOR (true);
 				}
 			}
 			// At this point will be when we Move to the Next Round per the Round Type

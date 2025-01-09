@@ -168,26 +168,6 @@ public class StockRound extends Round {
 		return getIDPart1 () + "";
 	}
 
-//	@Override
-//	public void setID (String aID) {
-//		super.setID (aID);
-//	}
-//
-//	@Override
-//	public void setID (int aIDPart1, int aIDPart2) {
-//		super.setID (aIDPart1, aIDPart2);
-//	}
-//
-//	@Override
-//	public void setIDPart1 (int aIDPart1) {
-//		super.setIDPart1 (aIDPart1);
-//	}
-//	
-//	@Override
-//	public void setIDPart2 (int aIDPart2) {
-//		super.setIDPart2 (aIDPart2);
-//	}
-
 	public void updateStockRoundWindow () {
 		updateRoundFrame ();
 	}
@@ -344,7 +324,6 @@ public class StockRound extends Round {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
 		super.start ();
-//		tChangeRoundAction = setRoundToStockRound ();
 		
 		tChangeRoundAction = buildChangeRoundAction ();
 		tGameManager = roundManager.getGameManager ();
@@ -360,8 +339,8 @@ public class StockRound extends Round {
 		}
 		tCurrentRound = roundManager.getCurrentRound ();
 		
-		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
-				tChangeRoundAction);
+		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID,
+				tNewRoundID, tChangeRoundAction);
 
 		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
