@@ -184,6 +184,7 @@ public class StateChangeEffect extends Effect {
 		Round tPreviousRound;
 		Round tCurrentRound;
 		Player tPlayer;
+		String tPreviousStateName;
 
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
@@ -193,31 +194,54 @@ public class StateChangeEffect extends Effect {
 			tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		} else if (actor.isAOperatingRound ()) {
-			if (previousState == ActorI.ActionStates.OperatingRound) {
-				aRoundManager.setCurrentRoundState (previousState);
-				tEffectUndone = true;
-			} else if (previousState == ActorI.ActionStates.StockRound) {
-				aRoundManager.setCurrentRoundState (previousState);
-				tEffectUndone = true;
-			} else if (previousState == ActorI.ActionStates.AuctionRound) {
-				aRoundManager.setCurrentRoundState (previousState);
+			tPreviousStateName = previousState.toString ();
+			tPreviousRound = aRoundManager.getRoundByTypeName (tPreviousStateName);
+			if (tPreviousRound != Round.NO_ROUND) {
+				aRoundManager.setCurrentRound (tPreviousRound);
+				tPreviousRound.resume ();
+				aRoundManager.updateRoundFrame ();
 				tEffectUndone = true;
 			} else {
-				setUndoFailureReason ("The Actor is a Operating Round, and previous State is " + previousState.name ());
+				setUndoFailureReason ("The Actor is a Operating Round, and previous State is " 
+							+ tPreviousStateName);
 			}
+//			if (previousState == ActorI.ActionStates.OperatingRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else if (previousState == ActorI.ActionStates.StockRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else if (previousState == ActorI.ActionStates.AuctionRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else {
+//				setUndoFailureReason ("The Actor is a Operating Round, and previous State is " + previousState.name ());
+//			}
 		} else if (actor.isAStockRound ()) {
-			if (previousState == ActorI.ActionStates.OperatingRound) {
-				aRoundManager.setCurrentRoundState (previousState);
-				tEffectUndone = true;
-			} else if (previousState == ActorI.ActionStates.StockRound) {
-				aRoundManager.setCurrentRoundState (previousState);
-				tEffectUndone = true;
-			} else if (previousState == ActorI.ActionStates.AuctionRound) {
-				aRoundManager.setCurrentRoundState (previousState);
+			tPreviousStateName = previousState.toString ();
+			tPreviousRound = aRoundManager.getRoundByTypeName (tPreviousStateName);
+			if (tPreviousRound != Round.NO_ROUND) {
+				aRoundManager.setCurrentRound (tPreviousRound);
+				tPreviousRound.resume ();
+				aRoundManager.updateRoundFrame ();
 				tEffectUndone = true;
 			} else {
-				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " + previousState.name ());
+				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " 
+							+ tPreviousStateName);
 			}
+
+//			if (previousState == ActorI.ActionStates.OperatingRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else if (previousState == ActorI.ActionStates.StockRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else if (previousState == ActorI.ActionStates.AuctionRound) {
+//				aRoundManager.setCurrentRoundState (previousState);
+//				tEffectUndone = true;
+//			} else {
+//				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " + previousState.name ());
+//			}
 		} else if (actor.isAAuctionRound ()) {
 			if (previousState == ActorI.ActionStates.StockRound) {
 				tPreviousRound = aRoundManager.getRoundByTypeName (actor.getName ());
