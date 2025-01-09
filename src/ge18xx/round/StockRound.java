@@ -321,8 +321,8 @@ public class StockRound extends Round {
 		tNewRoundID = getID ();
 		tCurrentRound = roundManager.getCurrentRound ();
 		
-		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID, tNewRoundID,
-				tChangeRoundAction);
+		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID,
+				tNewRoundID, tChangeRoundAction);
 
 		return tChangeRoundAction;	
 	}
