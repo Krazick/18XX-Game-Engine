@@ -70,9 +70,9 @@ public interface ActorI {
 		WaitState ("Wait State", Arrays.asList (new String [] {"No Action"})),
 		
 		// Player Auction States
-		Bidder ("Bidder"), 
-		AuctionPassed ("Auction Passed"),
-		AuctionRaised ("Auction Raised"), 
+		Bidder ("Bidder", Arrays.asList (new String [] {"No Action", "Auction Raised"})), 
+		AuctionPassed ("Auction Passed", Arrays.asList (new String [] {"Bidder", "Auction Raised", "No Action"})),
+		AuctionRaised ("Auction Raised", Arrays.asList (new String [] {"Bidder", "No Action"})), 
 		NotBidder ("Not a Bidder"),
 
 		// Player Formation States
@@ -169,7 +169,7 @@ public interface ActorI {
 		public String toNoSpaceString () {
 			String tNoSpaceString;
 			
-			tNoSpaceString = enumString.replaceAll("\\s+","");
+			tNoSpaceString = enumString.replaceAll ("\\s+","");
 			
 			return tNoSpaceString;
 		}
