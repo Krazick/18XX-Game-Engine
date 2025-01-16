@@ -54,6 +54,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String BUY_TRAIN = "Buy Train";
 	public static final String SHOW_MAP = "Show Map";
 	public static final String PLACE_TILE = "Place Tile";
+	public static final String PLACE_2ND_YELLOW_TILE = "Place 2nd Yellow Tile";
 	public static final String PLACE_BASE_TILE = "Place Base Tile";
 	public static final String PLACE_TOKEN = "Place Token";
 	public static final String PLACE_BASE_TOKEN = "Place Base Token";
@@ -120,6 +121,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton placeBaseTileButton1;
 	KButton placeBaseTileButton2;
 	KButton placeTileButton;
+	KButton place2ndYellowTileButton;
 	KButton placeTokenButton;
 	KButton placeBaseTokenButton1;
 	KButton placeBaseTokenButton2;
@@ -609,6 +611,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tPlaceBaseTileLabel = createBaseTileLabel (2);
 		placeBaseTileButton2 = setupButton (tPlaceBaseTileLabel, PLACE_BASE_TILE);
 		placeTileButton = setupButton (PLACE_TILE, PLACE_TILE);
+		place2ndYellowTileButton = setupButton (PLACE_2ND_YELLOW_TILE, PLACE_2ND_YELLOW_TILE);
 		
 		tPlaceBaseTokenLabel = createBaseTokenLabel (1);
 		placeBaseTokenButton1 = setupButton (tPlaceBaseTokenLabel, PLACE_BASE_TOKEN);
@@ -635,13 +638,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void addButtons () {
 		boolean tVisible;
+		
 		buttonsJPanel.removeAll ();
 
 		addButton (showMapButton);
 		addButton (placeBaseTileButton1);
 		addButton (placeBaseTileButton2);
 		addButton (placeTileButton);
-		
+		if (corporation.isAMajorShareCompany ()) {
+			addButton (place2ndYellowTileButton);
+		}
 		addButton (placeBaseTokenButton1);
 		addButton (placeBaseTokenButton2);
 		addButton (placeTokenButton);
