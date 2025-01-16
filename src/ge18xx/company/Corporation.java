@@ -774,10 +774,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tDidPartiallyOperate = false;
 		if ((status == ActorI.ActionStates.StartedOperations) ||
 			(status == ActorI.ActionStates.TileLaid) ||
-			(status == ActorI.ActionStates.Tile2Laid) ||
+			(status == ActorI.ActionStates.TilesLaid) ||
 			(status == ActorI.ActionStates.TileUpgraded) ||
 			(status == ActorI.ActionStates.StationLaid) ||
 			(status == ActorI.ActionStates.TileAndStationLaid) ||
+			(status == ActorI.ActionStates.TilesAndStationLaid) ||
+			(status == ActorI.ActionStates.TileUpgradedStationLaid) ||
 			(status == ActorI.ActionStates.OperatedTrain) ||
 			(status == ActorI.ActionStates.HandledLoanInterest) ||
 			(status == ActorI.ActionStates.HoldDividend) ||
@@ -2032,9 +2034,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				status = aStatus;
 				tStatusUpdated = true;
 			}
-		} else if (status == ActorI.ActionStates.Tile2Laid) {
+		} else if (status == ActorI.ActionStates.TilesLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
-				status = ActorI.ActionStates.TileAndStationLaid;
+				status = ActorI.ActionStates.TilesAndStationLaid;
 				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
 						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
@@ -2045,8 +2047,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileLaid) {
-			if ((aStatus == ActorI.ActionStates.Tile2Laid) ||
-				(aStatus == ActorI.ActionStates.StationLaid) ||
+			if (aStatus == ActorI.ActionStates.StationLaid) {
+				status = ActorI.ActionStates.TileAndStationLaid;
+				tStatusUpdated = true;
+			} else if ((aStatus == ActorI.ActionStates.TilesLaid) ||
 				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
@@ -2059,6 +2063,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
+			} else if (aStatus == ActorI.ActionStates.TilesLaid) {
+				status = ActorI.ActionStates.TilesAndStationLaid;
+				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
 						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 						(aStatus == ActorI.ActionStates.HoldDividend) ||
@@ -2068,7 +2075,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StationLaid) {
-			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) ||
+			if (aStatus == ActorI.ActionStates.TileLaid) {
+				status = ActorI.ActionStates.TileAndStationLaid;
+				tStatusUpdated = true;
+			} else if ((aStatus == ActorI.ActionStates.TileAndStationLaid) ||
 				(aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
@@ -2081,6 +2091,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (status == ActorI.ActionStates.TileUpgraded) {
 			if ((aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
+				(aStatus == ActorI.ActionStates.TilesAndStationLaid) ||
+				(aStatus == ActorI.ActionStates.TileUpgradedStationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
@@ -3116,4 +3128,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 	
 	public abstract int getTrainLimit ();
+
+	public boolean isAMajorShareCompany () {
+		return false;
+	}
 }

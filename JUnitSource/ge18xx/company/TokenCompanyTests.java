@@ -129,13 +129,19 @@ class TokenCompanyTests {
 		tokenCompany.resetStatus (ActorI.ActionStates.TileLaid);
 		assertTrue (tokenCompany.canLayToken ());
 
-		tokenCompany.resetStatus (ActorI.ActionStates.Tile2Laid);
+		tokenCompany.resetStatus (ActorI.ActionStates.TilesLaid);
 		assertTrue (tokenCompany.canLayToken ());
 
 		tokenCompany.resetStatus (ActorI.ActionStates.TileUpgraded);
 		assertTrue (tokenCompany.canLayToken ());
 
 		tokenCompany.resetStatus (ActorI.ActionStates.TileAndStationLaid);
+		assertTrue (tokenCompany.canLayToken ());
+
+		tokenCompany.resetStatus (ActorI.ActionStates.TilesAndStationLaid);
+		assertTrue (tokenCompany.canLayToken ());
+
+		tokenCompany.resetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
 		assertTrue (tokenCompany.canLayToken ());
 
 		tokenCompany.resetStatus (ActorI.ActionStates.OperatedTrain);

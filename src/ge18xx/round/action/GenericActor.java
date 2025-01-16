@@ -135,8 +135,8 @@ public class GenericActor implements ActorI {
 		tCorporationState = ActionStates.NoState;
 		
 //		Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations, 
-//		HandledLoanInterest,	 TileLaid, Tile2Laid, TileUpgraded, StationLaid, 
-//		TileAndStationLaid, OperatedTrain,
+//		HandledLoanInterest,	 TileLaid, TilesLaid, TileUpgraded, StationLaid, 
+//		TileAndStationLaid, TilesAndStationLaid, TileUpgradedStationLaid, OperatedTrain,
 //		HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated, 
 //		Fixed, Inactive, WaitingResponse, Bankrupt, Recievership
 		
@@ -160,14 +160,18 @@ public class GenericActor implements ActorI {
 			tCorporationState = ActionStates.WillFloat;
 		} else if (aState.equals (ActionStates.TileLaid.toString ())) {				// 10
 			tCorporationState = ActionStates.TileLaid;
-		} else if (aState.equals (ActionStates.Tile2Laid.toString ())) {				// 11
-			tCorporationState = ActionStates.Tile2Laid;
+		} else if (aState.equals (ActionStates.TilesLaid.toString ())) {				// 11
+			tCorporationState = ActionStates.TilesLaid;
 		} else if (aState.equals (ActionStates.TileUpgraded.toString ())) {			// 12
 			tCorporationState = ActionStates.TileUpgraded;
 		} else if (aState.equals (ActionStates.StationLaid.toString ())) {			// 13
 			tCorporationState = ActionStates.StationLaid;
 		} else if (aState.equals (ActionStates.TileAndStationLaid.toString ())) {		// 14
 			tCorporationState = ActionStates.TileAndStationLaid;
+		} else if (aState.equals (ActionStates.TilesAndStationLaid.toString ())) {	// 14
+			tCorporationState = ActionStates.TilesAndStationLaid;
+		} else if (aState.equals (ActionStates.TileUpgradedStationLaid.toString ())) {	// 14
+			tCorporationState = ActionStates.TileUpgradedStationLaid;
 		} else if (aState.equals (ActionStates.OperatedTrain.toString ())) {			// 15
 			tCorporationState = ActionStates.OperatedTrain;
 		} else if (aState.equals (ActionStates.HoldDividend.toString ())) {			// 16
@@ -220,37 +224,6 @@ public class GenericActor implements ActorI {
 
 		return tRoundState;
 	}
-//
-//	public ActionStates getRT (String aState) {
-//		ActionStates tRoundState;
-//		ActionStates [] tRoundStates = { 
-//				ActionStates.NoRound, 
-//				ActionStates.StockRound, 
-//				ActionStates.OperatingRound,
-//				ActionStates.AuctionRound, 
-//				ActionStates.ContractBidRound,
-//				ActionStates.FormationRound };
-//
-//		tRoundState = ActionStates.NoState;
-//		for (ActionStates tRoundState2 : tRoundStates) {
-//			if (tRoundState == ActionStates.NoState) {
-//				tRoundState = getMatchingActionState (aState, tRoundState2);
-//			}
-//		}
-//
-//		return tRoundState;
-//	}
-//
-//	public ActionStates getMatchingActionState (String aStateName, ActionStates aActionState) {
-//		ActionStates tActionState;
-//
-//		tActionState = ActionStates.NoState;
-//		if (aStateName.equals (aActionState.toString ())) {
-//			tActionState = aActionState;
-//		}
-//
-//		return tActionState;
-//	}
 
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {

@@ -276,13 +276,19 @@ class CorporationBasicTests {
 			corporation.resetStatus (ActorI.ActionStates.TileLaid);
 			assertTrue (corporation.didPartiallyOperate ());
 
-			corporation.resetStatus (ActorI.ActionStates.Tile2Laid);
+			corporation.resetStatus (ActorI.ActionStates.TilesLaid);
 			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.TileUpgraded);
 			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.TileAndStationLaid);
+			assertTrue (corporation.didPartiallyOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.TilesAndStationLaid);
+			assertTrue (corporation.didPartiallyOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
 			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.HandledLoanInterest);

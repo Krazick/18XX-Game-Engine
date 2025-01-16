@@ -267,9 +267,11 @@ public abstract class TokenCompany extends TrainCompany {
 		tCanLayToken = false;
 		if ((status == ActorI.ActionStates.StartedOperations) || 
 			(status == ActorI.ActionStates.TileLaid) || 
-			(status == ActorI.ActionStates.Tile2Laid) || 
+			(status == ActorI.ActionStates.TilesLaid) || 
 			(status == ActorI.ActionStates.StationLaid) || 
 			(status == ActorI.ActionStates.TileAndStationLaid) || 
+			(status == ActorI.ActionStates.TilesAndStationLaid) || 
+			(status == ActorI.ActionStates.TileUpgradedStationLaid) || 
 			(status == ActorI.ActionStates.TileUpgraded)) {
 			tCanLayToken = true;
 		}
@@ -685,10 +687,12 @@ public abstract class TokenCompany extends TrainCompany {
 		ActorI.ActionStates tNewStatus;
 
 		tCurrentStatus = status;
-		if ((status == ActorI.ActionStates.TileLaid) || 
-			(status == ActorI.ActionStates.Tile2Laid) || 
-			(status == ActorI.ActionStates.TileUpgraded)) {
+		if (status == ActorI.ActionStates.TileLaid) {
 			tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
+		} else if (status == ActorI.ActionStates.TilesLaid) {
+			tStatusUpdated = updateStatus (ActorI.ActionStates.TilesAndStationLaid);
+		} else if (status == ActorI.ActionStates.TileUpgraded) {
+			tStatusUpdated = updateStatus (ActorI.ActionStates.TileUpgradedStationLaid);
 		} else {
 			tStatusUpdated = updateStatus (ActorI.ActionStates.StationLaid);
 		}

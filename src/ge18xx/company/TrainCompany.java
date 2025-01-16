@@ -1341,9 +1341,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tOperateTrains = false;
 		if ((status == ActorI.ActionStates.StartedOperations) || 
 			(status == ActorI.ActionStates.TileLaid) ||
-			(status == ActorI.ActionStates.Tile2Laid) || 
+			(status == ActorI.ActionStates.TilesLaid) || 
 			(status == ActorI.ActionStates.TileUpgraded) ||
 			(status == ActorI.ActionStates.TileAndStationLaid) ||
+			(status == ActorI.ActionStates.TilesAndStationLaid) ||
+			(status == ActorI.ActionStates.TileUpgradedStationLaid) ||
 			(status == ActorI.ActionStates.StationLaid)) {
 			if (trainPortfolio.getTrainCount () > 0) {
 				tOperateTrains = true;
@@ -2280,12 +2282,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tReason = NO_REASON;
 		if ((status == ActorI.ActionStates.NotOperated) || 
-				(status == ActorI.ActionStates.StartedOperations)
-				|| (status == ActorI.ActionStates.TileLaid) || 
-				(status == ActorI.ActionStates.Tile2Laid)
-				|| (status == ActorI.ActionStates.TileUpgraded) || 
-				(status == ActorI.ActionStates.TileAndStationLaid)
-				|| (status == ActorI.ActionStates.StationLaid)) {
+				(status == ActorI.ActionStates.StartedOperations) || 
+				(status == ActorI.ActionStates.TileLaid) || 
+				(status == ActorI.ActionStates.TilesLaid) || 
+				(status == ActorI.ActionStates.TileUpgraded) || 
+				(status == ActorI.ActionStates.TileAndStationLaid) || 
+				(status == ActorI.ActionStates.TilesAndStationLaid) || 
+				(status == ActorI.ActionStates.TileUpgradedStationLaid) || 
+				(status == ActorI.ActionStates.StationLaid)) {
 			tReason = REVENUES_NOT_GENERATED;
 		} else if ((status == ActorI.ActionStates.HoldDividend) || 
 				(status == ActorI.ActionStates.HalfDividend) || 
@@ -2307,9 +2311,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tReason = NO_REASON;
 		if ((status == ActorI.ActionStates.TileLaid) || 
-				(status == ActorI.ActionStates.Tile2Laid) || 
+				(status == ActorI.ActionStates.TilesLaid) || 
 				(status == ActorI.ActionStates.TileUpgraded) || 
-				(status == ActorI.ActionStates.TileAndStationLaid)) {
+				(status == ActorI.ActionStates.TileAndStationLaid) || 
+				(status == ActorI.ActionStates.TilesAndStationLaid) || 
+				(status == ActorI.ActionStates.TileUpgradedStationLaid)) {
 			tReason = "Already laid Tile this Turn.";
 		}
 		if (NO_REASON.equals (tReason)) {
@@ -2385,9 +2391,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCurrentStatus = status;
 		if (benefitInUse.changeState ()) {
 			if (status == ActorI.ActionStates.TileLaid) {
-				tTargetStatus = ActorI.ActionStates.Tile2Laid;
+				tTargetStatus = ActorI.ActionStates.TilesLaid;
 			} else if (status == ActorI.ActionStates.StationLaid) {
 				tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
+			} else if (status == ActorI.ActionStates.TileAndStationLaid) {
+				tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
 			} else {
 				tTargetStatus = ActorI.ActionStates.TileLaid;
 			}
