@@ -64,7 +64,10 @@ public class ShareCompany extends TokenCompany {
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	public static final AttributeName AN_GROUP = new AttributeName ("group");
+	public static final AttributeName AN_COMPANY_TYPE = new AttributeName ("companyType");
 	public static final ShareCompany NO_SHARE_COMPANY = null;
+	public static final String MAJOR_COMPANY_TYPE = "major";
+	public static final String MINOR_COMPANY_TYPE = "minor";
 	public static final String NO_START_CELL = null;
 	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
@@ -79,6 +82,7 @@ public class ShareCompany extends TokenCompany {
 	int parPriceColumn;
 	int sharePriceColumn;
 	int group;
+	String companyType;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
@@ -91,10 +95,12 @@ public class ShareCompany extends TokenCompany {
 		boolean tLoanTaken;
 		boolean tRepaymentHandled;
 		String tStartCell;
+		String tCompanyType;
 
 		destinationInfo = new DestinationInfo (aChildNode);
 		specialButtons = new LinkedList<KButton> ();
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
+		tCompanyType = aChildNode.getThisAttribute (AN_COMPANY_TYPE, MAJOR_COMPANY_TYPE);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
 		tGroup = aChildNode.getThisIntAttribute (AN_GROUP, NO_GROUP);
@@ -104,6 +110,7 @@ public class ShareCompany extends TokenCompany {
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
 					tRepaymentHandled, tStartCell);
 		setGroup (tGroup);
+		setCompanyType (tCompanyType);
 	}
 
 	@Override
@@ -1008,6 +1015,14 @@ public class ShareCompany extends TokenCompany {
 		return loanTaken;
 	}
 
+	public void setCompanyType (String aCompanyType) {
+		companyType = aCompanyType;
+	}
+
+	public String getCompanyType () {
+		return companyType;
+	}
+	
 	public void setGroup (int aGroup) {
 		group = aGroup;
 	}
@@ -1187,6 +1202,19 @@ public class ShareCompany extends TokenCompany {
 		return true;
 	}
 
+	@Override
+	public boolean isAMajorShareCompany () {
+		boolean tIsAMajorShareCompany;
+		
+		if (MAJOR_COMPANY_TYPE.equals (companyType)) {
+			tIsAMajorShareCompany = true;
+		} else {
+			tIsAMajorShareCompany = false;
+		}
+		
+		return tIsAMajorShareCompany;
+	}
+	
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 		return GUI.NO_PANEL;
