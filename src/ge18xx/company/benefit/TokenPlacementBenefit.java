@@ -53,11 +53,6 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	@Override
-	public boolean changeState () {
-		return true;
-	}
-
-	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		Corporation tOperatingCompany;
 
