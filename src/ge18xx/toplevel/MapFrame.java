@@ -481,8 +481,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tPreviousBases = tPreviousTile.getCorporationBases ();
 		} else {
 			tPreviousOrientation = 0;
-			tPreviousTokens = "";
-			tPreviousBases = "";
+			tPreviousTokens = GUI.EMPTY_STRING;
+			tPreviousBases = GUI.EMPTY_STRING;
 		}
 		// Save Tokens from Previous Tile placement
 		map.putTileDown ();
