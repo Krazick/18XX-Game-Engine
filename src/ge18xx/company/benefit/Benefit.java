@@ -502,7 +502,6 @@ public abstract class Benefit implements ActionListener {
 		setUsed (true);
 		tBenefitUsedEffect = new BenefitUsedEffect (aOwningCompany, this);
 		addAdditionalEffect (tBenefitUsedEffect);
-//		removeButton ();
 		hideButton ();
 	}
 
