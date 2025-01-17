@@ -2389,21 +2389,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		GameManager tGameManager;
 
 		tCurrentStatus = status;
-		if (benefitInUse.changeState ()) {
-			if (status == ActorI.ActionStates.TileLaid) {
-				tTargetStatus = ActorI.ActionStates.TilesLaid;
-			} else if (status == ActorI.ActionStates.StationLaid) {
-				tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
-			} else if (status == ActorI.ActionStates.TileAndStationLaid) {
-				tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
-			} else {
-				tTargetStatus = ActorI.ActionStates.TileLaid;
+		if (benefitInUse.isRealBenefit ()) {
+			if (benefitInUse.changeState ()) {
+				if (status == ActorI.ActionStates.TileLaid) {
+					tTargetStatus = ActorI.ActionStates.TilesLaid;
+				} else if (status == ActorI.ActionStates.StationLaid) {
+					tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
+				} else if (status == ActorI.ActionStates.TileAndStationLaid) {
+					tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
+				} else {
+					tTargetStatus = ActorI.ActionStates.TileLaid;
+				}
+				updateStatus (tTargetStatus);
 			}
-			updateStatus (tTargetStatus);
 		}
+		tNewStatus = status;
 		tGameManager = getGameManager ();
 		aMapCell.applyBases (aPreviousBases, tGameManager);
-		tNewStatus = status;
 		tNewTileTokens = aTile.getPlacedTokens ();
 		tOperatingRoundID = getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
@@ -2430,7 +2432,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			setTileLaid (tLayTileAction);
 		}
-//		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
 		tCostToLayTile = getCostForTile (aTile, aMapCell);
 		if (tCostToLayTile > 0) {
 			tBank = corporationList.getBank ();
