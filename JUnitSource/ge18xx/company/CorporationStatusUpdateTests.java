@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.round.action.ActorI;
 
 @DisplayName ("Corporation Status Update Tests")
@@ -17,9 +19,13 @@ class CorporationStatusUpdateTests {
 	PrivateCompany gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
 	CompanyTestFactory companyTestFactory;
+	BankTestFactory bankTestFactory;
+	Bank bank;
 
 	@BeforeEach
 	void setUp () throws Exception {
+		bankTestFactory = new BankTestFactory ();
+		bank = bankTestFactory.buildBank ();
 		companyTestFactory = new CompanyTestFactory ();
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
@@ -100,11 +106,87 @@ class CorporationStatusUpdateTests {
 		limaShareCompany.forceSetStatus (ActorI.ActionStates.MayFloat);
 		limaShareCompany.setStatus (ActorI.ActionStates.StartedOperations);
 		assertNotEquals ("Started Operations", limaShareCompany.getStatusName ());
-
-//		if ((aStatus == ActorI.ActionStates.Owned) ||
-//				(aStatus == ActorI.ActionStates.WillFloat) ||
-//				(aStatus == ActorI.ActionStates.NotOperated)) {
-
 	}
+	
+	@Test
+	@DisplayName ("Update Status from TileLaid to next State")
+	void testUpdatingTileLaidStatus () {
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		assertEquals ("Tile Laid", betaShareCompany.getStatusName ());
+		betaShareCompany.updateStatus (ActorI.ActionStates.StationLaid);
+		assertEquals ("Tile and Station Laid", betaShareCompany.getStatusName ());
 
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TileAndStationLaid);
+		assertEquals ("Tile and Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TilesLaid);
+		assertEquals ("Tiles Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.OperatedTrain);
+		assertEquals ("Operated Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HandledLoanInterest);
+		assertEquals ("Handled Loan Interest", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HoldDividend);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HalfDividend);
+		assertEquals ("Half Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.FullDividend);
+		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
+		
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Tile Laid", betaShareCompany.getStatusName ());
+	}
+	
+	@Test
+	@DisplayName ("Update Status from TilesLaid to next State")
+	void testUpdatingTilesLaidStatus () {
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		assertEquals ("Tiles Laid", betaShareCompany.getStatusName ());
+		betaShareCompany.updateStatus (ActorI.ActionStates.StationLaid);
+		assertEquals ("Tiles and Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TilesAndStationLaid);
+		assertEquals ("Tiles and Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TilesLaid);
+		assertEquals ("Tiles Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.OperatedTrain);
+		assertEquals ("Operated Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HandledLoanInterest);
+		assertEquals ("Handled Loan Interest", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HoldDividend);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HalfDividend);
+		assertEquals ("Half Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.FullDividend);
+		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
+		
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TilesLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Tiles Laid", betaShareCompany.getStatusName ());
+	}
 }
