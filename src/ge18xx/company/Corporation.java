@@ -2064,7 +2064,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
-			} else if (aStatus == ActorI.ActionStates.TilesLaid) {
+			} else if ((aStatus == ActorI.ActionStates.TilesLaid) || 
+					(aStatus == ActorI.ActionStates.TilesAndStationLaid)) {
 				status = ActorI.ActionStates.TilesAndStationLaid;
 				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
@@ -2091,10 +2092,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			}
 		} else if (status == ActorI.ActionStates.TileUpgraded) {
 			if ((aStatus == ActorI.ActionStates.StationLaid) ||
-				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.TilesAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.TileUpgradedStationLaid) ||
-				(aStatus == ActorI.ActionStates.OperatedTrain) ||
+				(aStatus == ActorI.ActionStates.TileUpgradedStationLaid)) {
+				status = ActorI.ActionStates.TileUpgradedStationLaid;
+				tStatusUpdated = true;
+			} else if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || 
+				(aStatus == ActorI.ActionStates.TilesAndStationLaid)) {
+				tStatusUpdated = false;
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
 				(aStatus == ActorI.ActionStates.HalfDividend) ||
