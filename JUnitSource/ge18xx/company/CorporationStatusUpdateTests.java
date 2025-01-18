@@ -328,4 +328,66 @@ class CorporationStatusUpdateTests {
 		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
 		assertEquals ("Tile Upgraded", betaShareCompany.getStatusName ());
 	}
+	
+	@Test
+	@DisplayName ("Update Status from HandledLoanInterest to next State")
+	void testUpdatingHandledLoanInterestStatus () {
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HandledLoanInterest);
+		assertEquals ("Handled Loan Interest", betaShareCompany.getStatusName ());
+		betaShareCompany.updateStatus (ActorI.ActionStates.HoldDividend);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HandledLoanInterest);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HalfDividend);
+		assertEquals ("Half Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HandledLoanInterest);
+		betaShareCompany.updateStatus (ActorI.ActionStates.FullDividend);
+		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HandledLoanInterest);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Handled Loan Interest", betaShareCompany.getStatusName ());
+	}
+	
+	@Test
+	@DisplayName ("Update Status from Dividend Paid States to next State")
+	void testUpdatingDividendPaidStatesStatus () {
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HoldDividend);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+		betaShareCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
+		assertEquals ("Bought Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HoldDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.Operated);
+		assertEquals ("Operated", betaShareCompany.getStatusName ());
+		
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HoldDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HalfDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
+		assertEquals ("Bought Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HalfDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.Operated);
+		assertEquals ("Operated", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.HalfDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Half Dividend Paid", betaShareCompany.getStatusName ());
+		
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.FullDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
+		assertEquals ("Bought Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.FullDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.Operated);
+		assertEquals ("Operated", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.FullDividend);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
+	}
 }

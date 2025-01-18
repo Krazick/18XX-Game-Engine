@@ -1921,11 +1921,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		name = aName;
 	}
 
-	@Override
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		resetStatus (aPrimaryActionState);
-	}
-
 	/**
 	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see
 	 * if valid. Will also update The Frame Information
