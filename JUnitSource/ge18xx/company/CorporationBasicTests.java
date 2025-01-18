@@ -102,11 +102,11 @@ class CorporationBasicTests {
 		corporation.resetStatus (ActorI.ActionStates.Operated);
 		assertTrue (corporation.canOperate ());
 
-		corporation.resetPrimaryActionState (ActorI.ActionStates.Closed);
+		corporation.resetStatus (ActorI.ActionStates.Closed);
 		assertTrue (corporation.isClosed ());
 		assertFalse (corporation.canOperate ());
 		
-		corporation.resetPrimaryActionState (ActorI.ActionStates.Unformed);
+		corporation.resetStatus (ActorI.ActionStates.Unformed);
 		assertTrue (corporation.isUnowned ());
 		assertFalse (corporation.isFormed ());
 		assertFalse (corporation.canOperate ());	
