@@ -189,7 +189,7 @@ public class StateChangeEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			actor.resetPrimaryActionState (previousState);
+			tPlayer.resetPrimaryActionState (previousState);
 			tEffectUndone = true;
 			tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
