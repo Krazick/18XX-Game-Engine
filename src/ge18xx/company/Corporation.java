@@ -1861,20 +1861,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void setCorporationFrame () {
-		String tFullTitle;
-		GameManager tGameManager;
-		boolean tIsNetworkGame;
-		CorporationFrame tCorporationFrame;
-
-		if (isATrainCompany ()) {
-			tGameManager = corporationList.getGameManager ();
-			tIsNetworkGame = tGameManager.isNetworkGame ();
-			tFullTitle = tGameManager.createFrameTitle ("Corporation");
-			tCorporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame, tGameManager);
-		} else {
-			tCorporationFrame = (CorporationFrame) XMLFrame.NO_XML_FRAME;
-		}
-		setCorporationFrame (tCorporationFrame);
+		setCorporationFrame ((CorporationFrame) XMLFrame.NO_XML_FRAME);
 	}
 
 	public void setCorporationFrame (CorporationFrame aCorporationFrame) {
@@ -2072,11 +2059,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StationLaid) {
-			if (aStatus == ActorI.ActionStates.TileLaid) {
+			if ((aStatus == ActorI.ActionStates.TileLaid) ||
+				(aStatus == ActorI.ActionStates.TileAndStationLaid)) {
 				status = ActorI.ActionStates.TileAndStationLaid;
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.TileAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.StationLaid) ||
+			} else if ((aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||

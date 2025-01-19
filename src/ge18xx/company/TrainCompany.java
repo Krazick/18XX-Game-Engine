@@ -257,6 +257,20 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setCorporationFrame ();
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 	}
+	
+	@Override
+	public void setCorporationFrame () {
+		String tFullTitle;
+		GameManager tGameManager;
+		boolean tIsNetworkGame;
+		CorporationFrame tCorporationFrame;
+
+		tGameManager = corporationList.getGameManager ();
+		tIsNetworkGame = tGameManager.isNetworkGame ();
+		tFullTitle = tGameManager.createFrameTitle ("Corporation");
+		tCorporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame, tGameManager);
+		setCorporationFrame (tCorporationFrame);
+	}
 
 	@Override
 	public License getPortLicense () {
@@ -2383,25 +2397,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tNewTileTokens;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
-		ActorI.ActionStates tTargetStatus;
 		int tCostToLayTile;
 		Bank tBank;
 		GameManager tGameManager;
 
 		tCurrentStatus = status;
-		if (benefitInUse.isRealBenefit ()) {
-			if (benefitInUse.changeState ()) {
-				if (status == ActorI.ActionStates.TileLaid) {
-					tTargetStatus = ActorI.ActionStates.TilesLaid;
-				} else if (status == ActorI.ActionStates.StationLaid) {
-					tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
-				} else if (status == ActorI.ActionStates.TileAndStationLaid) {
-					tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
-				} else {
-					tTargetStatus = ActorI.ActionStates.TileLaid;
-				}
-				updateStatus (tTargetStatus);
-			}
+		if (! benefitInUse.isRealBenefit ()) {
+			updateTileStatus ();
+		} else if (benefitInUse.changeState ()) {
+			updateTileStatus ();
 		}
 		tNewStatus = status;
 		tGameManager = getGameManager ();
@@ -2440,6 +2444,21 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (tLayTileAction);
 		updateInfo ();
+	}
+
+	private void updateTileStatus () {
+		ActorI.ActionStates tTargetStatus;
+		
+		if (status == ActorI.ActionStates.TileLaid) {
+			tTargetStatus = ActorI.ActionStates.TilesLaid;
+		} else if (status == ActorI.ActionStates.StationLaid) {
+			tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
+		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
+			tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
+		} else {
+			tTargetStatus = ActorI.ActionStates.TileLaid;
+		}
+		updateStatus (tTargetStatus);
 	}
 
 	private int getCostForTile (Tile aTile, MapCell aMapCell) {
