@@ -2403,9 +2403,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tCurrentStatus = status;
 		if (! benefitInUse.isRealBenefit ()) {
-			updateTileStatus ();
+			updateStatusWithTile (aPreviousTile);
 		} else if (benefitInUse.changeState ()) {
-			updateTileStatus ();
+			updateStatusWithTile (aPreviousTile);
 		}
 		tNewStatus = status;
 		tGameManager = getGameManager ();
@@ -2446,17 +2446,29 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateInfo ();
 	}
 
-	private void updateTileStatus () {
+	public void updateStatusWithTile (Tile aPreviousTile) {
 		ActorI.ActionStates tTargetStatus;
 		
-		if (status == ActorI.ActionStates.TileLaid) {
-			tTargetStatus = ActorI.ActionStates.TilesLaid;
-		} else if (status == ActorI.ActionStates.StationLaid) {
-			tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
-		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
-			tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
+		if (aPreviousTile == Tile.NO_TILE) {
+			if (status == ActorI.ActionStates.TileLaid) {
+				tTargetStatus = ActorI.ActionStates.TilesLaid;
+			} else if (status == ActorI.ActionStates.StationLaid) {
+				tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
+			} else if (status == ActorI.ActionStates.TileAndStationLaid) {
+				tTargetStatus = ActorI.ActionStates.TilesAndStationLaid;
+			} else if (status == ActorI.ActionStates.StartedOperations) {
+				tTargetStatus = ActorI.ActionStates.TileLaid;
+			} else {
+				tTargetStatus = status;
+			}
 		} else {
-			tTargetStatus = ActorI.ActionStates.TileLaid;
+			if (status == ActorI.ActionStates.StartedOperations) {
+				tTargetStatus = ActorI.ActionStates.TileUpgraded;
+			} else if (status == ActorI.ActionStates.StationLaid) {
+				tTargetStatus = ActorI.ActionStates.TileUpgradedStationLaid;
+			} else {
+				tTargetStatus = status;
+			}
 		}
 		updateStatus (tTargetStatus);
 	}
