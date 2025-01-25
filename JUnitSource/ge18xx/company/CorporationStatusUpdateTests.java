@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankTestFactory;
 import ge18xx.round.action.ActorI;
+import ge18xx.tiles.Tile;
 
 @DisplayName ("Corporation Status Update Tests")
 class CorporationStatusUpdateTests {
@@ -390,4 +391,47 @@ class CorporationStatusUpdateTests {
 		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
 		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
 	}
+	
+	@Test
+	@DisplayName ("Update Status TrainCompany  to next State")
+	void testUpdatingTrainCompanyStatus () {
+		Tile tNoPreviousTile;
+		Tile tThePreviousTile;
+		
+		tNoPreviousTile = Tile.NO_TILE;
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.StationLaid);
+		assertEquals ("Station Laid", limaShareCompany.getStatusName ());
+		limaShareCompany.updateStatusWithTile (tNoPreviousTile);
+		assertEquals ("Tile and Station Laid", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.TileLaid);
+		limaShareCompany.updateStatusWithTile (tNoPreviousTile);
+		assertEquals ("Tiles Laid", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.TileAndStationLaid);
+		limaShareCompany.updateStatusWithTile (tNoPreviousTile);
+		assertEquals ("Tiles and Station Laid", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.StartedOperations);
+		limaShareCompany.updateStatusWithTile (tNoPreviousTile);
+		assertEquals ("Tile Laid", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.HoldDividend);
+		limaShareCompany.updateStatusWithTile (tNoPreviousTile);
+		assertEquals ("No Dividend Paid", limaShareCompany.getStatusName ());
+
+		tThePreviousTile = new Tile (7, "TEST", 1);
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.StartedOperations);
+		limaShareCompany.updateStatusWithTile (tThePreviousTile);
+		assertEquals ("Tile Upgraded", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.StationLaid);
+		limaShareCompany.updateStatusWithTile (tThePreviousTile);
+		assertEquals ("Tile Upgraded Station Laid", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.FullDividend);
+		limaShareCompany.updateStatusWithTile (tThePreviousTile);
+		assertEquals ("Full Dividend Paid", limaShareCompany.getStatusName ());
+	}
+
 }
