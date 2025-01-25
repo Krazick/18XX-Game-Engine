@@ -2063,6 +2063,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				(aStatus == ActorI.ActionStates.TileAndStationLaid)) {
 				status = ActorI.ActionStates.TileAndStationLaid;
 				tStatusUpdated = true;
+			} else if (aStatus == ActorI.ActionStates.TileUpgradedStationLaid) {
+				status = aStatus;
+				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
