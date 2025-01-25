@@ -393,7 +393,7 @@ class CorporationStatusUpdateTests {
 	}
 	
 	@Test
-	@DisplayName ("Update Status TrainCompany  to next State")
+	@DisplayName ("Update Status TrainCompany to next State")
 	void testUpdatingTrainCompanyStatus () {
 		Tile tNoPreviousTile;
 		Tile tThePreviousTile;
