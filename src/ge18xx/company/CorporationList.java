@@ -526,12 +526,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public int getTileLaysAllowed () {
 		GameManager tGameManager;
-		int tMajorTileLays;
+		int tTileLaysAllowed;
 		
 		tGameManager = getGameManager ();
-		tMajorTileLays = tGameManager.getTileLaysAllowed ();
+		tTileLaysAllowed = tGameManager.getTileLaysAllowed ();
 		
-		return tMajorTileLays;
+		return tTileLaysAllowed;
 	}
 	
 	public int getCountOfOpen () {

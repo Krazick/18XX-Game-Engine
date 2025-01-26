@@ -469,6 +469,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (PLACE_TILE.equals (tCommand)) {
 			handlePlaceTile ();
 		}
+		if (PLACE_2ND_YELLOW_TILE.equals (tCommand)) {
+			handlePlaceTile ();
+		}
 		if (PLACE_BASE_TOKEN.equals (tCommand)) {
 			handlePlaceBaseToken (tSourceTitle);
 		}
@@ -1219,11 +1222,32 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updatePlaceTileButton () {
+		MapCell tMapCell1;
+		MapCell tMapCell2;
+		
 		if (corporation.hasPlacedAnyStation ()) {
 			placeTileButton.setVisible (true);
 			updateTileButton (placeTileButton);
 		} else {
 			placeTileButton.setVisible (false);
+		}
+		if (corporation.getTileLaysAllowed () > 1) {
+			if ((corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
+				(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
+				tMapCell1 = corporation.getHomeCity1 ();
+				tMapCell2 = corporation.getHomeCity2 ();
+				if (corporation.haveLaidThisBaseToken (tMapCell1) && 
+					corporation.haveLaidThisBaseToken (tMapCell2)) {	
+					place2ndYellowTileButton.setEnabled (true);
+					place2ndYellowTileButton.setToolTipText ("Can Lay second Yellow Tile - NOT Upgrade");
+				} else {
+					place2ndYellowTileButton.setEnabled (false);
+					place2ndYellowTileButton.setToolTipText ("Base Token must be laid before Tiles can be laid");
+				}
+			} else {
+				place2ndYellowTileButton.setEnabled (false);
+				place2ndYellowTileButton.setToolTipText ("Status must be TileLaid or TileAndStationLaid");
+			}
 		}
 	}
 
