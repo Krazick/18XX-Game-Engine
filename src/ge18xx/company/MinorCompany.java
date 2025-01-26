@@ -123,12 +123,12 @@ public class MinorCompany extends TokenCompany {
 	}
 	
 	@Override
-	public int getAllowedTileLays () {
-		int tAllowedTileLays;
+	public int getTileLaysAllowed () {
+		int tTileLaysAllowed;
 		
-		tAllowedTileLays = corporationList.getMinorTileLays ();
+		tTileLaysAllowed = corporationList.getTileLaysAllowed ();
 		
-		return tAllowedTileLays;
+		return tTileLaysAllowed;
 	}
 
 	public boolean canFormUpgrade () {

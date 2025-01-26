@@ -947,7 +947,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return status;
 	}
 
-	public int getAllowedTileLays () {
+	public int getTileLaysAllowed () {
 		int tAllowedTileLays;
 		
 		tAllowedTileLays = 1;
@@ -3119,7 +3119,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	
 	public abstract int getTrainLimit ();
 
-	public boolean isAMajorShareCompany () {
+	public boolean canLayTwoTiles () {
 		return false;
 	}
 }

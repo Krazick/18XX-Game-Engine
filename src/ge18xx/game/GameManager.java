@@ -1296,13 +1296,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public int getTrainLimit (boolean aGovtRailway) {
 		return phaseManager.getTrainLimit (aGovtRailway);
 	}
-
-	public int getMinorTileLays () {
-		return phaseManager.getMinorTileLays ();
-	}
 	
-	public int getMajorTileLays () {
-		return phaseManager.getMajorTileLays ();
+	public int getTileLaysAllowed () {
+		int tTileLaysAllowed;
+		
+		if (phaseManager == PhaseManager.NO_PHASE_MANAGER) {
+			tTileLaysAllowed = PhaseInfo.DEFAULT_TILE_LAYS;
+		} else {
+			tTileLaysAllowed = phaseManager.getTileLaysAllowed ();
+		}
+		
+		return tTileLaysAllowed;
 	}
 	
 	public Train getBankPoolTrain (String aTrainName) {

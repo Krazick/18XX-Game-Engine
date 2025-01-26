@@ -524,24 +524,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
-	public int getMajorTileLays () {
+	public int getTileLaysAllowed () {
 		GameManager tGameManager;
 		int tMajorTileLays;
 		
 		tGameManager = getGameManager ();
-		tMajorTileLays = tGameManager.getMajorTileLays ();
+		tMajorTileLays = tGameManager.getTileLaysAllowed ();
 		
 		return tMajorTileLays;
-	}
-
-	public int getMinorTileLays () {
-		GameManager tGameManager;
-		int tMinorTileLays;
-		
-		tGameManager = getGameManager ();
-		tMinorTileLays = tGameManager.getMinorTileLays ();
-		
-		return tMinorTileLays;
 	}
 	
 	public int getCountOfOpen () {

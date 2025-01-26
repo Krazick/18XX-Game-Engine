@@ -87,31 +87,18 @@ public class PhaseManager implements XMLSaveGameI {
 
 		return tLoansAllowed;
 	}
-	
-	public int getMinorTileLays () {
-		PhaseInfo tPhaseInfo;
-		int tMinorTileLays;
-		
-		tMinorTileLays = MINIMUM_TILE_LAY_LIMIT;
-		tPhaseInfo = getCurrentPhaseInfo ();
-		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
-			tMinorTileLays = tPhaseInfo.getMinorTileLays ();
-		}
-		
-		return tMinorTileLays;
-	}
 
-	public int getMajorTileLays () {
+	public int getTileLaysAllowed () {
 		PhaseInfo tPhaseInfo;
-		int tMajorTileLays;
+		int tTileLaysAllowed;
 		
-		tMajorTileLays = MINIMUM_TILE_LAY_LIMIT;
+		tTileLaysAllowed = MINIMUM_TILE_LAY_LIMIT;
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
-			tMajorTileLays = tPhaseInfo.getMajorTileLays ();
+			tTileLaysAllowed = tPhaseInfo.getTileLaysAllowed ();
 		}
 		
-		return tMajorTileLays;
+		return tTileLaysAllowed;
 	}
 	
 	public PhaseInfo getCurrentPhaseInfo () {

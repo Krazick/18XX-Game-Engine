@@ -645,7 +645,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeBaseTileButton1);
 		addButton (placeBaseTileButton2);
 		addButton (placeTileButton);
-		if (corporation.isAMajorShareCompany ()) {
+		if (corporation.canLayTwoTiles ()) {
 			addButton (place2ndYellowTileButton);
 		}
 		addButton (placeBaseTokenButton1);

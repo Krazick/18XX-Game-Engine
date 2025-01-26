@@ -43,8 +43,7 @@ public class PhaseInfo {
 	public static final AttributeName AN_WILL_FLOAT = new AttributeName ("willFloat");
 	public static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	public static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
-	public static final AttributeName AN_MAJOR_TILE_LAYS = new AttributeName ("majorTileLays");
-	public static final AttributeName AN_MINOR_TILE_LAYS = new AttributeName ("minorTileLays");
+	public static final AttributeName AN_TILE_LAYS_ALLOWED = new AttributeName ("tileLaysAllowed");
 	public static final AttributeName AN_TRIGGER_CLASS = new AttributeName ("triggerClass");
 	public static final AttributeName AN_FORM_COMPANY_ID = new AttributeName ("formCompanyID");
 	public static final PhaseInfo NO_PHASE_INFO = null;
@@ -62,8 +61,7 @@ public class PhaseInfo {
 	int subName;
 	int rounds;
 	String tiles[];
-	int majorTileLays;
-	int minorTileLays;
+	int tileLaysAllowed;
 	int trainLimit;
 	int minorTrainLimit;
 	int govtTrainLimit;
@@ -172,8 +170,7 @@ public class PhaseInfo {
 		int tWillFloat;
 		int tMinToFloat;
 		int tMinToFloatLast;
-		int tMajorTileLays;
-		int tMinorTileLays;
+		int tTileLaysAllowed;
 
 		tWillFloat = aCellNode.getThisIntAttribute (AN_WILL_FLOAT, STANDARD_MIN_SHARES);
 		setWillFloat (tWillFloat);
@@ -181,10 +178,8 @@ public class PhaseInfo {
 		setMinToFloat (tMinToFloat);
 		tMinToFloatLast = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, tWillFloat);
 		setMinToFloatLast (tMinToFloatLast);
-		tMajorTileLays = aCellNode.getThisIntAttribute (AN_MAJOR_TILE_LAYS, DEFAULT_TILE_LAYS);
-		setMajorTileLays (tMajorTileLays);
-		tMinorTileLays = aCellNode.getThisIntAttribute (AN_MINOR_TILE_LAYS, DEFAULT_TILE_LAYS);
-		setMinorTileLays (tMinorTileLays);
+		tTileLaysAllowed = aCellNode.getThisIntAttribute (AN_TILE_LAYS_ALLOWED, DEFAULT_TILE_LAYS);
+		setTileLaysAllowed (tTileLaysAllowed);
 	}
 
 	private void loadPreparedActionXML (XMLNode aCellNode) {
@@ -217,20 +212,12 @@ public class PhaseInfo {
 		preparedAction = aPreparedAction;
 	}
 	
-	private void setMajorTileLays (int aValue) {
-		majorTileLays = aValue;
+	private void setTileLaysAllowed (int aTileLaysAllowed) {
+		tileLaysAllowed = aTileLaysAllowed;
 	}
 
-	private void setMinorTileLays (int aValue) {
-		minorTileLays = aValue;
-	}
-
-	public int getMajorTileLays () {
-		return majorTileLays;
-	}
-	
-	public int getMinorTileLays () {
-		return minorTileLays;
+	public int getTileLaysAllowed () {
+		return tileLaysAllowed;
 	}
 	
 	private void setWillFloat (int aWillFloat) {
