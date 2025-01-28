@@ -91,7 +91,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String NO_TRAIN_SELECTED = "No train has been selected to be bought.";
 	public static final String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public static final String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
-	public static final String NO_REVENUE = "0";
+//	public static final String NO_REVENUE = "0";
 	public static final int NO_REVENUE_GENERATED = 0;
 	public static final int NO_COST = 0;
 	public static final int NO_CASH = 0;
@@ -1566,7 +1566,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public String getFormattedThisRevenue () {
 		String tFormattedRevenue;
 
-		tFormattedRevenue = trainRevenueFrame.formatRevenue (thisRevenue);
+		if (thisRevenue < 1) {
+			tFormattedRevenue = trainRevenueFrame.formatRevenue (NO_REVENUE_GENERATED);
+
+		} else {
+			tFormattedRevenue = trainRevenueFrame.formatRevenue (thisRevenue);
+		}
 
 		return tFormattedRevenue;
 	}

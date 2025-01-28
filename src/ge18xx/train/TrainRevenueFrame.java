@@ -177,7 +177,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		String tFormattedRevenue;
 
 		tFormattedRevenue = formatRevenue (thisRevenue);
-		if (thisRevenueLabel != null) {
+		if (thisRevenueLabel != GUI.NO_LABEL) {
 			thisRevenueLabel.setText (THIS_REVENUE + tFormattedRevenue);
 		}
 	}
@@ -185,11 +185,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	public String formatRevenue (int aRevenueValue) {
 		String tFormattedRevenue;
 
-		if (aRevenueValue == TrainCompany.NO_REVENUE_GENERATED) {
-			tFormattedRevenue = TrainCompany.NO_REVENUE;
-		} else {
-			tFormattedRevenue = Bank.formatCash (aRevenueValue);
-		}
+		tFormattedRevenue = Bank.formatCash (aRevenueValue);
 
 		return tFormattedRevenue;
 	}
