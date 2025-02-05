@@ -40,9 +40,10 @@ import geUtilities.xml.XMLSaveGameI;
 
 public class GameInfo implements XMLSaveGameI {
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
-	static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
-	static final AttributeName AN_ID = new AttributeName ("id");
-	static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
+	public static final AttributeName AN_ID = new AttributeName ("id");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_IS_A_TEST_GAME = new AttributeName ("isATestGame");
 	final AttributeName AN_TEST_GRAPHS = new AttributeName ("testGraphs");
 	final AttributeName AN_STATUS = new AttributeName ("status");
 	final AttributeName AN_LICENSES = new AttributeName ("licenses");
@@ -191,6 +192,7 @@ public class GameInfo implements XMLSaveGameI {
 		boolean tCanPayHalfDividend;
 		boolean tNoTouchPass;
 		boolean tOptionalOR;
+		boolean tIsATestGame;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -209,6 +211,7 @@ public class GameInfo implements XMLSaveGameI {
 		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
 		tBankPoolName = aCellNode.getThisAttribute (AN_BANK_POOL_NAME, BANK_POOL_NAME);
 		tInitialRoundType = aCellNode.getThisAttribute (AN_INITIAL_ROUND_NAME);
+		tIsATestGame = aCellNode.getThisBooleanAttribute (AN_IS_A_TEST_GAME);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
@@ -252,7 +255,7 @@ public class GameInfo implements XMLSaveGameI {
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
 		setBankPoolShareLimit (tBankPoolShareLimit);
 		setPlayerShareLimit (tPlayerShareLimit);
-
+		setTestingFlag (tIsATestGame);
 		parseChildNodes (aCellNode);
 	}
 
@@ -1051,5 +1054,4 @@ public class GameInfo implements XMLSaveGameI {
 	public void setTestingFlag (boolean aGameTestFlag) {
 		gameTestFlag = aGameTestFlag;
 	}
-
 }
