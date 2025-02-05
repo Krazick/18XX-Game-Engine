@@ -1451,7 +1451,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			
 
 			roundManager.initiateGame ();
-			if (!activeGame.isATestGame ()) {
+			if (!isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
 
@@ -1467,6 +1467,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 
+	public boolean isATestGame () {
+		return activeGame.isATestGame ();
+	}
+	
 	private void collectAllBeans () {
 		MessageBean tBean;
 		
