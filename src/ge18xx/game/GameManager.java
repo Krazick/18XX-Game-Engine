@@ -1874,6 +1874,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tSaveGameName;
 		GameSet tGameSet;
 		String tGameID;
+		boolean tIsATestGame;
 
 		tGameSet = playerInputFrame.getGameSet ();
 		tSaveGameName = aGameInfoNode.getThisAttribute (AN_NAME);
@@ -1882,6 +1883,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		setGameID (tGameID);
 		activeGame.setGameID (tGameID);
 		activeGame.loadVariantEffects (aGameInfoNode);
+		tIsATestGame = aGameInfoNode.getThisBooleanAttribute (GameInfo.AN_IS_A_TEST_GAME);
+		activeGame.setTestingFlag (tIsATestGame);
 	}
 
 	@Override
