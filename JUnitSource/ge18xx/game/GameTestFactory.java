@@ -153,7 +153,7 @@ public class GameTestFactory {
 				+ "		firstTokenCost=\"40\" laterTokenCost=\"100\" "
 				+ "     maxRounds=\"3\" initialRoundName=\"Stock Round\" \n"
 				+ "		privates=\"true\" minors=\"false\" shares=\"true\" "
-				+ "     bankPoolDividends=\"corporation\" ipoDivedends=\"bank\"\n"
+				+ "     bankPoolDividends=\"corporation\" ipoDividends=\"bank\"\n"
 				+ "		bankPoolShareLimit=\"5\" playerShareLimit=\"6\" \n"
 				+ "		licenses=\"true\" noTouchPass=\"true\" bankPoolName=\"Open Market\"\n"
 				+ "		loans=\"true\" loanAmount=\"100\" loanInterest=\"10\">\n"
@@ -194,9 +194,10 @@ public class GameTestFactory {
 				+ "		</Files>\n"
 				+ "	</GameInfo>\n";
 
-		GameInfo tGameInfo = GameInfo.NO_GAME_INFO;
+		GameInfo tGameInfo;
 		XMLNode tGameInfoNode;
 
+		tGameInfo = GameInfo.NO_GAME_INFO;
 		if (aGameInfoIndex == 1) {
 			tGameInfoNode = utilitiesTestFactory.buildXMLNode (t1830TestXML);
 		} else if (aGameInfoIndex == 2) {
