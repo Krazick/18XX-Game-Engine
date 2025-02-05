@@ -138,7 +138,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	/**
-	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) 
+	 * with the static BASE_TITLE provided
 	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
@@ -178,7 +179,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		buildOtherButtonsJPanel ();
 		tNorthPanel.add (Box.createHorizontalGlue ());
 		tNorthPanel.add (otherButtonsJPanel);
-
+		if (gameManager.isATestGame ()) {
+			tNorthPanel.setBackground (Color.GREEN);
+		}
 		add (tNorthPanel, BorderLayout.NORTH);
 	}
 
