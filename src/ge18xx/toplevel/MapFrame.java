@@ -676,6 +676,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		return tHasCityBeenSelected;
 	}
 
+	public boolean isATestGame () {
+		return gameManager.isATestGame ();
+	}
+	
 	public void putATokenDown (TokenCompany aTokenCompany) {
 		putTokenDown (aTokenCompany);
 		togglePlaceTokenMode ();
