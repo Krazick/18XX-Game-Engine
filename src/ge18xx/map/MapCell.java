@@ -102,6 +102,7 @@ public class MapCell implements Comparator<Object> {
 	int startingTileNumber;
 	int destinationCorpID;
 	int benefitValue;
+	private Cube gridCoordinates;
 	Paint terrainFillPaint;
 	String id = "A1";
 	Tile tile;
@@ -120,6 +121,7 @@ public class MapCell implements Comparator<Object> {
 	public MapCell (HexMap aHexMap, String aMapDirection) {
 		this (0, 0, aHexMap);
 		setMapDirection (aMapDirection);
+		gridCoordinates = new Cube (0, 0, 0);
 	}
 
 	public MapCell (int Xc, int Yc, HexMap aHexMap) {
@@ -132,6 +134,10 @@ public class MapCell implements Comparator<Object> {
 		setupLicenseToken ();
 	}
 
+	public void setGridCoordinates (int aColIndex, int aRowIndex, int aSIndex) {
+		gridCoordinates.setCoordinates (aColIndex, aRowIndex, aSIndex);
+	}
+	
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
 									TileType aTileType) {
 		RevenueCenterType tRCType;
@@ -1611,7 +1617,16 @@ public class MapCell implements Comparator<Object> {
 
 		return tPseudoYellowTile;
 	}
-
+	
+	public void paintRowCol (Graphics aGraphics, Hex18XX aHex, int aRowIndex, int aColIndex) {
+		String tIndexes;
+		
+		tIndexes = "(" + aColIndex + "," + aRowIndex + ")";
+		System.out.println ("Need to Paint " + tIndexes + " Onto MapCell");
+		aGraphics.setColor (Color.black);
+		aGraphics.drawString (tIndexes, XCenter, YCenter);
+	}
+	
 	public void paintComponent (Graphics aGraphics, Hex18XX aHex) {
 		boolean tIsInSelectable;
 		RevenueCenter tRevenueCenter;
