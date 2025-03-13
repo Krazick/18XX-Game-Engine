@@ -1337,17 +1337,21 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	@Override
-	public void paintComponent (Graphics g) {
-		int rowIndex;
-		int colIndex;
-		int rowCount;
-		int colCount;
+	public void paintComponent (Graphics aGraphics) {
+		int tRowIndex;
+		int tColIndex;
+		int tRowCount;
+		int tColCount;
+		
 
-		rowCount = getRowCount ();
-		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-			colCount = getColCount (rowIndex);
-			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				map [rowIndex] [colIndex].paintComponent (g, hex);
+		tRowCount = getRowCount ();
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+				map [tRowIndex] [tColIndex].paintComponent (aGraphics, hex);
+				if (mapFrame.isATestGame ()) {
+					map [tRowIndex] [tColIndex].paintRowCol (aGraphics, hex, tRowIndex, tColIndex);
+				}
 			}
 		}
 	}
