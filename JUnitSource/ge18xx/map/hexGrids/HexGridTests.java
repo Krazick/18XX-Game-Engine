@@ -25,7 +25,8 @@ class HexGridTests {
 		testDistance (evenOdd, 6, 10, 7, 1, 9);
 	}
 
-	private void testDistance (int aEvenOdd, int aColIndex1, int aRowIndex1, int aColIndex2, int aRowIndex2, int aExpectedDistance) {
+	private void testDistance (int aEvenOdd, int aColIndex1, int aRowIndex1, int aColIndex2, int aRowIndex2, 
+								int aExpectedDistance) {
 		Hex tHex1;
 		Hex tHex2;
 		OffsetCoord tOffsetCoord1;
@@ -39,18 +40,5 @@ class HexGridTests {
 		
 		tDistance = tHex1.distance (tHex2);
 		assertEquals (aExpectedDistance, tDistance);
-//		printInfo (tHex1, tHex2);
 	}
-
-//	private void printInfo (Hex aHex1, Hex aHex2) {
-//		OffsetCoord tOffsetCoord1;
-//		OffsetCoord tOffsetCoord2;
-//		
-//		tOffsetCoord1 = OffsetCoord.roffsetFromCube (evenOdd, aHex1);
-//		tOffsetCoord2 = OffsetCoord.roffsetFromCube (evenOdd, aHex2);
-//	
-//		System.out.println ("Hex 1: " + tOffsetCoord1.getCoordinates () + 
-//				" | Hex 2: " + tOffsetCoord2.getCoordinates () + 
-//				" Distance: " + aHex1.distance (aHex2));
-//	}
 }
