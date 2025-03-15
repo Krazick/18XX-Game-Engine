@@ -76,7 +76,6 @@ class MapCellTests {
 	@Test
 	@DisplayName ("Test Calculate Steps for Rotation of Tile on MapCell")
 	void calculateStepsTests () {
-		
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 0, true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 1, true);
@@ -87,5 +86,42 @@ class MapCellTests {
 		
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 5, false);
+	}
+
+	@Test 
+	@DisplayName ("Test Distance Calculations between Map Cells")
+	void distanceCalculationsBetweenMapCells () {
+		MapCell mapCell1;
+		MapCell mapCell2;
+		
+		mapCell1 = mapTestFactory.buildMapCell ("O15");
+		mapCell1.setOffsetCoordinates (7, 1);
+		mapCell2 = mapTestFactory.buildMapCell ("L14");
+		mapCell2.setOffsetCoordinates (7, 4);
+		assertEquals (3, mapCell1.getDistanceTo (mapCell2));		
+		assertEquals (3, mapCell2.getDistanceTo (mapCell1));
+		
+		mapCell1 = mapTestFactory.buildMapCell ("H16");
+		mapCell1.setOffsetCoordinates (4, 6);
+		mapCell2 = mapTestFactory.buildMapCell ("H20");
+		mapCell2.setOffsetCoordinates (6, 10);
+		assertEquals (4, mapCell1.getDistanceTo (mapCell2));
+		assertEquals (4, mapCell2.getDistanceTo (mapCell1));
+	
+		mapCell1 = mapTestFactory.buildMapCell ("J8");
+		mapCell1.setOffsetCoordinates (8, 8);
+		mapCell2 = mapTestFactory.buildMapCell ("F12");
+		mapCell2.setOffsetCoordinates (10, 8);
+		assertEquals (2, mapCell1.getDistanceTo (mapCell2));
+		assertEquals (2, mapCell2.getDistanceTo (mapCell1));
+
+//		testDistance (evenOdd, 7, 1, 6, 2, 2);
+//		testDistance (evenOdd, 7, 1, 6, 1, 1);
+//		testDistance (evenOdd, 7, 1, 7, 4, 3);
+//		testDistance (evenOdd, 7, 1, 4, 6, 6);
+//		testDistance (evenOdd, 7, 1, 9, 11, 10);
+//		testDistance (evenOdd, 7, 1, 5, 15, 14);
+//		testDistance (evenOdd, 6, 10, 7, 1, 9);
+
 	}
 }

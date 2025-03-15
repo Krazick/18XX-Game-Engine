@@ -730,21 +730,21 @@ public class MapCell implements Comparator<Object> {
 		return tRevenueCenter;
 	}
 
-	@Override
-	public String toString () {
-		return id;
-	}
+//	@Override
+//	public String toString () {
+//		return id;
+//	}
 	
 	public String getCellID () {
 		return id;
 	}
 
-	public String getCityName () {
-		return centers.getCityName ();
-	}
-
 	public String getID () {
 		return id;
+	}
+
+	public String getCityName () {
+		return centers.getCityName ();
 	}
 
 	/*
