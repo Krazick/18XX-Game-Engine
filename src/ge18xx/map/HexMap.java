@@ -1238,6 +1238,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		MapCell tMapCell;
 		
 		tMapCell = new MapCell (this, aDirection);
+		tMapCell.setOffsetCoordinates (aCol, aRow);
 		setMapCell (aRow, aCol, tMapCell);
 	}
 	

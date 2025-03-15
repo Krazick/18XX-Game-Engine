@@ -60,4 +60,17 @@ public class OffsetCoord {
 		
 		return tString;
 	}
+	
+	public int getDistanceTo (int aEvenOdd, OffsetCoord aOffsetCoord) throws IllegalArgumentException {
+		Hex tHex1;
+		Hex tHex2;
+		int tDistance;
+		
+		tHex1 = OffsetCoord.roffsetToCube (aEvenOdd, this);
+		tHex2 = OffsetCoord.roffsetToCube (aEvenOdd, aOffsetCoord);
+
+		tDistance = tHex1.distance (tHex2);
+		
+		return tDistance;
+	}
 }

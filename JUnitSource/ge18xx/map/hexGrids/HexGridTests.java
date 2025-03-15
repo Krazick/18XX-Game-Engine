@@ -31,14 +31,18 @@ class HexGridTests {
 		Hex tHex2;
 		OffsetCoord tOffsetCoord1;
 		OffsetCoord tOffsetCoord2;
-		int tDistance;
+		int tDistance1;
+		int tDistance2;
 		
 		tOffsetCoord1 = new OffsetCoord (aColIndex1, aRowIndex1);
 		tHex1 = OffsetCoord.roffsetToCube (aEvenOdd, tOffsetCoord1);
 		tOffsetCoord2 = new OffsetCoord (aColIndex2, aRowIndex2);
 		tHex2 = OffsetCoord.roffsetToCube (aEvenOdd, tOffsetCoord2);
 		
-		tDistance = tHex1.distance (tHex2);
-		assertEquals (aExpectedDistance, tDistance);
+		tDistance1 = tHex1.distance (tHex2);
+		assertEquals (aExpectedDistance, tDistance1);
+		
+		tDistance2 = tOffsetCoord1.getDistanceTo (aEvenOdd, tOffsetCoord2);
+		assertEquals (aExpectedDistance, tDistance2);
 	}
 }

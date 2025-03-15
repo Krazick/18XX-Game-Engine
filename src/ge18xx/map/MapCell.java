@@ -43,6 +43,7 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
+import ge18xx.map.hexGrids.OffsetCoord;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
@@ -102,7 +103,6 @@ public class MapCell implements Comparator<Object> {
 	int startingTileNumber;
 	int destinationCorpID;
 	int benefitValue;
-	private Cube gridCoordinates;
 	Paint terrainFillPaint;
 	String id = "A1";
 	Tile tile;
@@ -116,12 +116,13 @@ public class MapCell implements Comparator<Object> {
 	Terrain terrain1;
 	Terrain terrain2;
 	LicenseToken licenseToken;
+	OffsetCoord offsetCoordinates;
 	HexMap hexMap;
 
 	public MapCell (HexMap aHexMap, String aMapDirection) {
 		this (0, 0, aHexMap);
 		setMapDirection (aMapDirection);
-		gridCoordinates = new Cube (0, 0, 0);
+		setOffsetCoordinates (0, 0);
 	}
 
 	public MapCell (int Xc, int Yc, HexMap aHexMap) {
@@ -134,8 +135,22 @@ public class MapCell implements Comparator<Object> {
 		setupLicenseToken ();
 	}
 
-	public void setGridCoordinates (int aColIndex, int aRowIndex, int aSIndex) {
-		gridCoordinates.setCoordinates (aColIndex, aRowIndex, aSIndex);
+	public void setOffsetCoordinates (int aColIndex, int aRowIndex) {
+		offsetCoordinates = new OffsetCoord (aColIndex, aRowIndex);
+	}
+	
+	public OffsetCoord getOffsetCoordinates () {
+		return offsetCoordinates;
+	}
+	
+	public int getDistanceTo (MapCell aMapCell) {
+		int tDistance;
+		OffsetCoord tOffsetCoord;
+		
+		tOffsetCoord = aMapCell.getOffsetCoordinates ();
+		tDistance = offsetCoordinates.getDistanceTo (OffsetCoord.ODD, tOffsetCoord);
+
+		return tDistance;
 	}
 	
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
