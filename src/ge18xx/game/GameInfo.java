@@ -966,7 +966,7 @@ public class GameInfo implements XMLSaveGameI {
 		} else {
 			tokenType = TokenType.NO_TYPE;
 		}
-		System.out.println ("Game Info Loaded Token Type as " + tokenType.toString ());
+//		System.out.println ("Game Info Loaded Token Type as " + tokenType.toString ());
 	}
 	
 	public void setMaxRounds (int aMaxRounds) {
