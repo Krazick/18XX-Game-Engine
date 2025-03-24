@@ -382,6 +382,24 @@ public class Tokens {
 		return tTokenCost;
 	}
 
+	public boolean hasRangeCost () {
+		TokenInfo tTokenInfo;
+		boolean tHasRangeCost;
+		int tIndex;
+		int tTokenCount;
+		
+		tHasRangeCost = false;
+		tTokenCount = getTokenCount ();
+		for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+			tTokenInfo = tokens.get (tIndex);
+			if (tTokenInfo.isRangeCostToken ()) {
+				tHasRangeCost = true;
+			}
+		}
+		
+		return tHasRangeCost;
+	}
+	
 	public void printInfo () {
 		int tIndex;
 		int tTokenCount;
