@@ -19,6 +19,7 @@ import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.MapBenefit;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
@@ -133,12 +134,17 @@ public abstract class TokenCompany extends TrainCompany {
 		int tIndex;
 		int tCost;
 		TokenType tTokenTypeToAdd;
-
+		GameManager tGameManager;
+		GameInfo tGameInfo;
+		
 		tCost = Token.NO_COST;
 		tStartIndex = 1;
 		// TODO: For the Token Type (Fixed Cost vs Distance) MUST get from XML Game Info File, 
 		// not static 1835 for Example
-		tTokenTypeToAdd = TokenType.FIXED_COST;
+		
+		tGameManager = getGameManager ();
+		tGameInfo = tGameManager.getActiveGame ();
+		tTokenTypeToAdd = tGameInfo.getTokenType ();
 		if (tokenType != GUI.NULL_STRING) {
 			if (tokenType.equals (TokenType.FIXED_COST.toString ())) {
 				System.out.println ("Fixed Cost Token Type");
@@ -177,6 +183,33 @@ public abstract class TokenCompany extends TrainCompany {
 
 	public void setTokenUsed (Token aToken, boolean aUsed) {
 		tokens.setTokenUsed (aToken, aUsed);
+	}
+
+	@Override
+	public int getRangeCost (MapCell aMapCell) {
+		int tDistance;
+		int tDistanceCost;
+		MapToken tMapToken;
+		
+		tMapToken = tokens.getMapToken ();
+		tDistance = homeCity1.getDistanceTo (aMapCell);
+		tDistanceCost = tDistance * tMapToken.getCost ();
+		
+		return tDistanceCost;
+	}
+
+	@Override
+	public boolean hasRangeCostTokens () {
+		boolean tHasRangeCostTokens;
+		
+		tHasRangeCostTokens = tokens.hasRangeCost ();
+		
+		return tHasRangeCostTokens;
+	}
+	
+	@Override
+	public int getDistanceCost () {
+		return 20; 			// Add this attribute to Token Info Cost
 	}
 	
 	@Override
