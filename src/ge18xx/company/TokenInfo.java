@@ -265,5 +265,4 @@ public class TokenInfo {
 		
 		return tTokenInfoElement;
 	}
-	
 }
