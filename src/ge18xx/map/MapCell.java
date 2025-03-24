@@ -1637,7 +1637,6 @@ public class MapCell implements Comparator<Object> {
 		String tIndexes;
 		
 		tIndexes = "(" + aColIndex + "," + aRowIndex + ")";
-		System.out.println ("Need to Paint " + tIndexes + " Onto MapCell");
 		aGraphics.setColor (Color.black);
 		aGraphics.drawString (tIndexes, XCenter, YCenter);
 	}

@@ -855,7 +855,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		String tBaseAbbrev;
 		String tCorporationAbbrev;
 		int tCorporationID;
-
+		int tRangeCost;
+		
 		tCanPlaceTokenToolTip = GUI.EMPTY_STRING;
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
@@ -869,7 +870,15 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (!hasFreeStation (aSelectedCity)) {
 							tCanPlaceTokenToolTip = "No Free Station on City";
-						}
+						} else {
+							if (aCorporation.hasRangeCostTokens ()) {
+								tRangeCost = aCorporation.getRangeCost (aMapCell);
+								if (tRangeCost > aCorporation.getCash ()) {
+									tCanPlaceTokenToolTip = "Corporation does not have the Cash for the Token";
+								}
+							}
+						} 
+
 					} else {
 						tBaseAbbrev = tBaseCorporation.getAbbrev ();
 						tCorporationAbbrev = aCorporation.getAbbrev ();
@@ -894,7 +903,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		boolean tCanPlaceToken;
 		Corporation tBaseCorporation;
 		int tCorporationID;
-
+		int tRangeCost;
+		
 		tCanPlaceToken = false;
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
@@ -907,7 +917,14 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					tBaseCorporation = aSelectedCity.getBaseCorporation ();
 					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (hasFreeStation (aSelectedCity)) {
-							tCanPlaceToken = true;
+							if (aCorporation.hasRangeCostTokens ()) {
+								tRangeCost = aCorporation.getRangeCost (aMapCell);
+								if (tRangeCost <= aCorporation.getCash ()) {
+									tCanPlaceToken = true;
+								}
+							} else {
+								tCanPlaceToken = true;
+							}
 						}
 					} else {
 						if (aSelectedCity.cityHasStation (tCorporationID)) {
@@ -917,7 +934,12 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 								tCanPlaceToken = true;
 							}
 						} else if (baseHasFreeStation (aSelectedCity)) {
-							tCanPlaceToken = true;
+							if (aCorporation.hasRangeCostTokens ()) {
+								
+								tCanPlaceToken = false;
+							} else {	
+								tCanPlaceToken = true;
+							}
 						}
 					}
 				}
@@ -927,6 +949,21 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		return tCanPlaceToken;
 	}
 
+	public int getRangeCost (Corporation aCorporation, MapCell aMapCell) {
+		int tTokenRangeCost;
+		int tDistance;
+		MapCell tHomeMapCell;
+		
+		tTokenRangeCost = 0;
+		tHomeMapCell = aCorporation.getHomeCity1 ();
+		tDistance = tHomeMapCell.getDistanceTo (aMapCell);
+		tTokenRangeCost = tDistance * aCorporation.getDistanceCost ();
+		System.out.println ("From " + tHomeMapCell.getID () + " to " + aMapCell.getID () + 
+				" Distance is " + tDistance + " Total Range Cost " + Bank.formatCash (tTokenRangeCost));
+		
+		return tTokenRangeCost;
+	}
+	
 	private boolean isHomeMapCell (Corporation aCorporation, City aSelectedCity) {
 		boolean tIsHomeMapCell;
 		Corporation tBaseCorporation;
