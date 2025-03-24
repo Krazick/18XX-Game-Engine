@@ -1059,14 +1059,15 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
+		String tID;
 		int tChildrenCount;
 		int tRowIndex;
 		int tColIndex;
 		int index;
 		int tOddRow;
 		boolean evenRow;
-		String tID;
 		boolean tGoodLoad;
+		MapCell tMapCell;
 
 		tGoodLoad = true;
 		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
@@ -1097,6 +1098,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
 					}
 					map [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
+					tMapCell = map [tRowIndex] [tColIndex];
+					tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
 					tColIndex++;
 				} else {
 					tGoodLoad = false;
