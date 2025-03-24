@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.GameTestFactory;
 import geUtilities.GUI;
 
 class BankTests {
