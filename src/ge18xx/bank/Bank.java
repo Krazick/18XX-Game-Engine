@@ -51,8 +51,8 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final Bank NO_BANK = null;
 	public static final String NO_FORMAT = null;
 	public static final int NO_BANK_CASH = 0;
-	static DecimalFormat decimalFormat;
-	static String format;
+	static String format = "$ ###,###";
+	static DecimalFormat decimalFormat = new DecimalFormat (format);
 	private static Logger logger;
 	boolean bankIsBroken;
 	int treasury;
