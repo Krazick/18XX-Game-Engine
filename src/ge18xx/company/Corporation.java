@@ -229,6 +229,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return bean;
 	}
 	
+	public boolean hasRangeCostTokens () {
+		return false;
+	}
+	
+	public int getDistanceCost () {
+		return 0; 			// Add this attribute to Token Info Cost
+	}
+	
 	public void setLoanInfo (int aLoanAmount, int aLoanInterest) {
 		loanAmount = aLoanAmount;
 		loanInterest = aLoanInterest;
@@ -1167,6 +1175,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else {
 			tMapCellID = MapCell.NO_ID;
 		}
+		
 		return tMapCellID;
 	}
 
@@ -3121,5 +3130,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public boolean canLayTwoTiles () {
 		return false;
+	}
+
+	public int getRangeCost (MapCell aMapCell) {
+		return 0;
 	}
 }
