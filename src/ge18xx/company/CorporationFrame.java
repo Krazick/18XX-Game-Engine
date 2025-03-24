@@ -1407,11 +1407,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (tTokenCount > 0) {
 			if (corporation.isATokenCompany ()) {
 				tTokenCompany = (TokenCompany) corporation;
-				tMapToken = tTokenCompany.getMapTokenOnly (); 
-				if (tMapToken != MapToken.NO_MAP_TOKEN) {
-					tTokenCost = tMapToken.getCost ();
-					if (tTokenCost > 0) {
-						tPlaceTokenText +=  " for " + Bank.formatCash (tTokenCost);
+				if (! tTokenCompany.hasRangeCostTokens ()) {
+					tMapToken = tTokenCompany.getMapTokenOnly (); 
+					if (tMapToken != MapToken.NO_MAP_TOKEN) {
+						tTokenCost = tMapToken.getCost ();
+						if (tTokenCost > 0) {
+							tPlaceTokenText +=  " for " + Bank.formatCash (tTokenCost);
+						}
 					}
 				}
 			}
