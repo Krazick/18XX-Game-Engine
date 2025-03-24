@@ -38,6 +38,7 @@ class ShareCompanyTests {
 		bank = bankTestFactory.buildBank ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		portfolioTestFactory = new PortfolioTestFactory ();
+		
 		noDestinationShareCompany = companyTestFactory.buildAShareCompany (1);
 		mNoDestinationPortfolio = portfolioTestFactory.buildPortfolioMock (noDestinationShareCompany);
 		noDestinationShareCompany.setCorporationCertificates (mNoDestinationPortfolio);

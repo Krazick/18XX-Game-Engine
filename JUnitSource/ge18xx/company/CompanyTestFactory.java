@@ -296,7 +296,6 @@ public class CompanyTestFactory {
 				+ "		bgColor=\"Black\" fgColor=\"White\" tokens=\"10\" tokenType=\"FixedCost\" \n"
 				+ "		allTokensCost=\"100\" formationPhase=\"5\" formationRequirement=\"loanDefault\" \n"
 				+ "		govtRailway=\"true\" canBorrowTrain=\"true\" mustPayFullPrice=\"true\" \n"
-				+ "		tokens=\"3\" tokenType=\"FixedCost\" \n"
 				+ " 		onlyPermanentTrain=\"true\" status=\"Unformed\"> \n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
@@ -315,16 +314,14 @@ public class CompanyTestFactory {
 				+ "	</Share>\n";
 
 		ShareCompany tShareCompany;
-		CorporationList mtCorporationList;
-		GameManager mGameManager;
 		PhaseInfo mPhaseInfo;
 		
 		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		
 		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
-//		mGameManager = gameTestFactory.buildGameManagerMock ();
-//		mtCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
-//		Mockito.when (mtCorporationList.getGameManager ()).thenReturn (mGameManager);
+		Mockito.when (mPhaseInfo.getFullName ()).thenReturn ("Mocked Phase Info");
+		Mockito.when (mCorporationList.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
+		
 		if (mCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			setCorporationList (mCorporationList);
 		}
@@ -338,7 +335,6 @@ public class CompanyTestFactory {
 		} else if (aCompanyIndex == 4) {
 			// CGR Share Company always starts in the Unformed State
 			tShareCompany = buildShareCompany (tShareCompany4TestXML, tShareCompany, mCorporationList);
-//			tShareCompany.resetStatus (ActorI.ActionStates.Unformed);
 		} else if (aCompanyIndex == 5) {
 			tShareCompany = buildShareCompany (tShareCompany5TestXML, tShareCompany, mCorporationList);
 		} else {
