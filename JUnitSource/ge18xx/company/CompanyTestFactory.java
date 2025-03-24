@@ -273,19 +273,21 @@ public class CompanyTestFactory {
 	
 	public ShareCompany buildAShareCompany (int aCompanyIndex) {
 		String tShareCompany1TestXML = "<Share id=\"901\" name=\"Test Pennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\"\n"
-				+ "		homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
+				+ "		homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" \n"
+				+ "		tokens=\"4\" tokenType=\"FixedCost\"> \n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 		String tShareCompany2TestXML = "<Share id=\"902\" name=\"Test Baltimore and Ohio\" abbrev=\"TBNO\" \n"
-				+ "		homeCell1=\"I15\" homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "		homeCell1=\"I15\" homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" \n"
+				+ "		tokens=\"3\" tokenType=\"FixedCost\"> \n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "			allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 		String tShareCompany3TestXML = "	<Share id=\"1501\" name=\"Buffalo, Brantford &amp; Goderich Railway\"\n"
 				+ "		abbrev=\"BBG\" homeCell1=\"J15\" homeLocation1=\"50\" destination=\"N17\"\n"
-				+ "		destinationLocation=\"12\" bgColor=\"255,102,255\" fgColor=\"Black\" tokens=\"3\"\n"
-				+ "		tokenType=\"FixedCost\">\n"
+				+ "		destinationLocation=\"12\" bgColor=\"255,102,255\" fgColor=\"Black\" \n"
+				+ "		tokens=\"3\" tokenType=\"FixedCost\"> \n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\"\n"
 				+ "			allowedOwners=\"IPO,Player,BankPool\" />\n"
@@ -294,6 +296,7 @@ public class CompanyTestFactory {
 				+ "		bgColor=\"Black\" fgColor=\"White\" tokens=\"10\" tokenType=\"FixedCost\" \n"
 				+ "		allTokensCost=\"100\" formationPhase=\"5\" formationRequirement=\"loanDefault\" \n"
 				+ "		govtRailway=\"true\" canBorrowTrain=\"true\" mustPayFullPrice=\"true\" \n"
+				+ "		tokens=\"3\" tokenType=\"FixedCost\" \n"
 				+ " 		onlyPermanentTrain=\"true\" status=\"Unformed\"> \n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
@@ -319,25 +322,25 @@ public class CompanyTestFactory {
 		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		
 		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
-		mGameManager = gameTestFactory.buildGameManagerMock ();
-		mtCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
-		Mockito.when (mtCorporationList.getGameManager ()).thenReturn (mGameManager);
+//		mGameManager = gameTestFactory.buildGameManagerMock ();
+//		mtCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
+//		Mockito.when (mtCorporationList.getGameManager ()).thenReturn (mGameManager);
 		if (mCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			setCorporationList (mCorporationList);
 		}
 		
 		if (aCompanyIndex == 1) {
-			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mtCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 2) {
-			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mtCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 3) {
-			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mtCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 4) {
 			// CGR Share Company always starts in the Unformed State
-			tShareCompany = buildShareCompany (tShareCompany4TestXML, tShareCompany, mtCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany4TestXML, tShareCompany, mCorporationList);
 //			tShareCompany.resetStatus (ActorI.ActionStates.Unformed);
 		} else if (aCompanyIndex == 5) {
-			tShareCompany = buildShareCompany (tShareCompany5TestXML, tShareCompany, mtCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany5TestXML, tShareCompany, mCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}

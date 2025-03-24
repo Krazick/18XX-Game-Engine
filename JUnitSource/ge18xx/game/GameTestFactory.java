@@ -89,10 +89,15 @@ public class GameTestFactory {
 	}
 
 	public GameManager buildGameManagerMock (String aClientName) {
+		GameInfo tGameInfo;
+		
 		GameManager mGameManager = Mockito.mock (GameManager.class);
 
 		Mockito.when (mGameManager.getClientUserName ()).thenReturn (aClientName);
 		Mockito.when (mGameManager.getXMLBaseDirectory ()).thenReturn ("18XX XML Data" + File.separator);
+
+		tGameInfo = buildGameInfo (1);
+		Mockito.when (mGameManager.getActiveGame ()).thenReturn (tGameInfo);
 
 		return mGameManager;
 	}

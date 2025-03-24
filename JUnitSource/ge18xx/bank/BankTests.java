@@ -10,34 +10,28 @@ import org.junit.jupiter.api.Test;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
-import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import geUtilities.GUI;
 
 class BankTests {
 	private BankTestFactory bankTestFactory;
-	private GameTestFactory gameTestFactory;
 	private CompanyTestFactory companyTestFactory;
 	private StartPacketTestFactory startPacketTestFactory;
-	private GameManager gameManager;
-	private GameInfo gameInfo;
+	private GameManager mGameManager;
 	private Bank bank;
 	private StartPacketFrame startPacketFrame;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		bankTestFactory = new BankTestFactory ();
-		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory ();
-		gameManager = gameTestFactory.buildGameManager ();
-		gameInfo = gameTestFactory.buildGameInfo (1);
-		bank = bankTestFactory.buildBank (gameManager);
-		startPacketTestFactory = new StartPacketTestFactory (gameManager, bank);
+		mGameManager = companyTestFactory.getGameManagerMock ();
+		
+		bank = bankTestFactory.buildBank (mGameManager);
+		startPacketTestFactory = new StartPacketTestFactory (mGameManager, bank);
 		startPacketFrame = startPacketTestFactory.buildStartPacketFrame ("Test Bank Start Packet");
 		bank.setStartPacketFrame (startPacketFrame);
-		
-		bank.setupFormat (gameInfo);
 	}
 
 	@Test
@@ -46,6 +40,7 @@ class BankTests {
 		int tCashAmount;
 		String tFormattedCash;
 		
+		bank.setFormat ("$ ###,###");
 		tCashAmount = 1203;
 		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("$ 1,203", tFormattedCash);
@@ -66,6 +61,7 @@ class BankTests {
 		String tFormattedCash;
 		
 		tCashAmount = "1203";
+		bank.setFormat ("$ ###,###");
 		tFormattedCash = Bank.formatCash (tCashAmount);
 		assertEquals ("$ 1,203", tFormattedCash);
 		

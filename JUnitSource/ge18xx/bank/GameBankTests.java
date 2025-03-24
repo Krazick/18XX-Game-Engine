@@ -22,6 +22,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Portfolio;
@@ -48,10 +49,13 @@ class GameBankTests {
 	private Portfolio mPortfolio;
 	private TrainPortfolio mTrainPortfolio;
 	private GameBank gameBank;
+	private GameInfo gameInfo;
 
 	@BeforeEach
 	void setUp () throws Exception {
-
+		String tCashFormat = "$ ###,###";
+		Bank tBank;
+		
 		bankTestFactory = new BankTestFactory ();
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
@@ -60,7 +64,11 @@ class GameBankTests {
 		utilitiesTestFactory = new UtilitiesTestFactory ();
 		portfolioTestFactory = new PortfolioTestFactory (bankTestFactory);
 
-		mGameManager = gameTestFactory.buildGameManagerMock ();
+//		mGameManager = gameTestFactory.buildGameManagerMock ();
+		mGameManager = companyTestFactory.getGameManagerMock ();
+//		gameInfo = gameTestFactory.buildGameInfo (1);
+//		Mockito.when (mGameManager.getActiveGame ()).thenReturn (gameInfo);
+
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
 
 		mPortfolio = portfolioTestFactory.buildPortfolioMock (gameBank);
