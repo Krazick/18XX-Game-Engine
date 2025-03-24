@@ -9,6 +9,7 @@ import java.util.List;
 import org.w3c.dom.NodeList;
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.variants.Variant;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.game.variants.VariantToggle;
@@ -69,6 +70,7 @@ public class GameInfo implements XMLSaveGameI {
 	final AttributeName AN_RANDOMIZE_START_ORDER = new AttributeName ("randomizeStartOrder");
 	final AttributeName AN_FIRST_TOKEN_COST = new AttributeName ("firstTokenCost");
 	final AttributeName AN_LATER_TOKEN_COST = new AttributeName ("laterTokenCost");
+	final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
 	final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	final AttributeName AN_NO_TOUCH_PASS = new AttributeName ("noTouchPass");
 	final AttributeName AN_OPTIONAL_OR = new AttributeName ("optionalOR");
@@ -118,6 +120,7 @@ public class GameInfo implements XMLSaveGameI {
 	String ipoDividends;
 	String bankPoolName;
 	String initialRoundType;
+	TokenType tokenType;
 	RoundType [] roundTypes;
 	boolean noTouchPass;
 	boolean operateBeforeSale;
@@ -170,6 +173,7 @@ public class GameInfo implements XMLSaveGameI {
 		String tIpoDividends;
 		String tBankPoolName;
 		String tInitialRoundType;
+		String tTokenType;
 		int tID;
 		int tMinPlayers;
 		int tMaxPlayers;
@@ -223,6 +227,7 @@ public class GameInfo implements XMLSaveGameI {
 		tLoanInterest = aCellNode.getThisIntAttribute (AN_LOAN_INTEREST);
 		tFirstTokenCost = aCellNode.getThisIntAttribute (AN_FIRST_TOKEN_COST);
 		tLaterTokenCost = aCellNode.getThisIntAttribute (AN_LATER_TOKEN_COST);
+		tTokenType = aCellNode.getThisAttribute (AN_TOKEN_TYPE, TokenType.FIXED_COST.toString ());
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
@@ -240,6 +245,7 @@ public class GameInfo implements XMLSaveGameI {
 		setLoanInterest (tLoanInterest);
 		setFirstTokenCost (tFirstTokenCost);
 		setLaterTokenCost (tLaterTokenCost);
+		setTokenType (tTokenType);
 		setMaxRounds (tMaxRounds);
 		setInitialRoundType (tInitialRoundType);
 		setStatus (tStatus);
@@ -864,6 +870,10 @@ public class GameInfo implements XMLSaveGameI {
 		return laterTokenCost;
 	}
 	
+	public TokenType getTokenType () {
+		return tokenType;
+	}
+	
 	public TrainInfo getTrainInfo (int aIndex) {
 		return trains [aIndex];
 	}
@@ -946,6 +956,17 @@ public class GameInfo implements XMLSaveGameI {
 	
 	public void setLaterTokenCost (int aLaterTokenCost) {
 		laterTokenCost = aLaterTokenCost;
+	}
+
+	public void setTokenType (String aTokenType) {
+		if (aTokenType.equals (TokenType.FIXED_COST.toString ())) {
+			tokenType = TokenType.FIXED_COST;
+		} else 	if (aTokenType.equals (TokenType.RANGE_COST.toString ())) {
+			tokenType = TokenType.RANGE_COST;
+		} else {
+			tokenType = TokenType.NO_TYPE;
+		}
+		System.out.println ("Game Info Loaded Token Type as " + tokenType.toString ());
 	}
 	
 	public void setMaxRounds (int aMaxRounds) {
