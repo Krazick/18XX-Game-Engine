@@ -62,7 +62,7 @@ class TokensTests {
 			
 			tFoundToken = tokens4.getMarketToken ();
 			assertEquals (mToken, tFoundToken);
-	}
+		}
 		
 		@Test
 		@DisplayName ("Home1 Token Test") 
