@@ -115,9 +115,10 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 		int tSharePrice;
-
+		
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getDestinationLabel (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getDestinationLocationInt (), aRowIndex, tCurrentColumn++);
@@ -133,8 +134,9 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
-		int tCurrentColumn = aStartColumn;
+		int tCurrentColumn;
 
+		tCurrentColumn = aStartColumn;
 		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Destination", tCurrentColumn++);
 		aCorporationList.addHeader ("Dest. Loc", tCurrentColumn++);
@@ -620,7 +622,6 @@ public class ShareCompany extends TokenCompany {
 		if (tInterestPayment <= getCash ()) {
 			completeLoanInterestPayment (tOldState, tInterestPayment, 0, aPresidentContribution, tBank);
 		} else {
-
 			tTreasury = getCash ();
 			tRevenueContribution = calculateRevenueContribution (tInterestPayment);
 			
@@ -704,7 +705,6 @@ public class ShareCompany extends TokenCompany {
 	 */
 	@Override
 	public void redeemLoan () {
-
 		if (loanCount < 1) {
 			System.err.println ("There are no Loans to Redeem");
 		} else {
