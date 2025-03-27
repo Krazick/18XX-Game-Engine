@@ -28,7 +28,6 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
-import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -136,6 +135,9 @@ public abstract class TokenCompany extends TrainCompany {
 		TokenType tTokenTypeToAdd;
 		GameManager tGameManager;
 		GameInfo tGameInfo;
+		String tTypeToAddtoString;
+		String tFixedToString;
+		String tRangeToString;
 		
 		tCost = Token.NO_COST;
 		tStartIndex = 1;
@@ -145,13 +147,9 @@ public abstract class TokenCompany extends TrainCompany {
 		tGameManager = getGameManager ();
 		tGameInfo = tGameManager.getActiveGame ();
 		tTokenTypeToAdd = tGameInfo.getTokenType ();
-		if (tokenType != GUI.NULL_STRING) {
-			if (tokenType.equals (TokenType.FIXED_COST.toString ())) {
-				System.out.println ("Fixed Cost Token Type");
-			} else 	if (tokenType.equals (TokenType.RANGE_COST.toString ())) {
-				System.out.println ("Range Cost Token Type");
-			}
-		}
+		tFixedToString = TokenType.FIXED_COST.toString ();
+		tRangeToString = TokenType.RANGE_COST.toString ();
+		
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME1);
@@ -165,19 +163,31 @@ public abstract class TokenCompany extends TrainCompany {
 		if (tStartIndex == 1) {
 			tStartIndex++;
 		}
-		
-		// TODO: Must get the FIXED Cost from the XML Game Info Data File
-		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
-			if (allTokensCost > Token.NO_COST) {
-				tCost = allTokensCost;
-			} else if (tIndex == tStartIndex) {
-				tCost = 40;
-			} else if (tIndex > tStartIndex) {
-				tCost = 100;
+
+		if (tTokenTypeToAdd != TokenType.NO_TYPE) {
+			tTypeToAddtoString = tTokenTypeToAdd.toString ();
+			if (tTypeToAddtoString.equals (tFixedToString)) {
+				System.out.println ("Fixed Cost Token Type");
+				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
+					if (allTokensCost > Token.NO_COST) {
+						tCost = allTokensCost;
+					} else if (tIndex == tStartIndex) {
+						tCost = 40;
+					} else if (tIndex > tStartIndex) {
+						tCost = 100;
+					}
+					tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
+					tMapToken.setCompany (this);
+					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
+				}
+			} else 	if (tTypeToAddtoString.equals (tRangeToString)) {
+				tCost = 20;
+				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
+					tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
+					tMapToken.setCompany (this);
+					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
+				}
 			}
-			tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
-			tMapToken.setCompany (this);
-			tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 		}
 	}
 
