@@ -371,8 +371,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	public void handlePlaceBaseTile (String aSourceTitle) {
-		handlePlaceTile ();
+	public void handlePlaceBaseTile (String aSourceTitle, MapCell aMapCell) {
+		handlePlaceTile (aMapCell);
 		updateSelectableMapCell (aSourceTitle);
 	}
 
@@ -412,14 +412,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	public void handlePlaceTile () {
+	public void handlePlaceTile (MapCell aMapCell) {
 		corporation.showTileTray ();
 		corporation.enterPlaceTileMode ();
 		corporation.showMap ();
-		updateTTODButtons ();
+		updateTTODButtons (aMapCell);
 	}
 
-	public void handlePlaceToken (String aSourceTitle) {
+	public void handlePlaceToken (String aSourceTitle, MapCell aMapCell) {
 		HexMap tMap;
 
 		corporation.showTileTray ();
@@ -429,7 +429,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tMap.removeAllSMC ();
 			tMap.clearAllSelected ();
 			tMap.addReachableMapCells ();	// TODO Currently does nothing.
-			updateTTODButtons ();
+			updateTTODButtons (aMapCell);
 		}
 	}
 
@@ -451,32 +451,37 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tSourceTitle;
 		KButton tSourceButton;
 		MapFrame tMapFrame;
+		MapCell tMapCell;
 		RoundManager tRoundManager;
 		boolean tInterrupted;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
+		HexMap tMap;
+		
 
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
 		tSourceButton = (KButton) aEvent.getSource ();
 		tSourceTitle = tSourceButton.getText ();
+		tMap = getMap ();
+		tMapCell = tMap.getSelectedMapCell ();
 		if (SHOW_MAP.equals (tCommand)) {
 			corporation.showMap ();
 		}
 		if (PLACE_BASE_TILE.equals (tCommand)) {
-			handlePlaceBaseTile (tSourceTitle);
+			handlePlaceBaseTile (tSourceTitle, tMapCell);
 		}
 		if (PLACE_TILE.equals (tCommand)) {
-			handlePlaceTile ();
+			handlePlaceTile (tMapCell);
 		}
 		if (PLACE_2ND_YELLOW_TILE.equals (tCommand)) {
-			handlePlaceTile ();
+			handlePlaceTile (tMapCell);
 		}
 		if (PLACE_BASE_TOKEN.equals (tCommand)) {
 			handlePlaceBaseToken (tSourceTitle);
 		}
 		if (PLACE_TOKEN.equals (tCommand)) {
-			handlePlaceToken (tSourceTitle);
+			handlePlaceToken (tSourceTitle, tMapCell);
 		}
 		if (SKIP_BASE_TOKEN.equals (tCommand)) {
 			corporation.showMap ();
@@ -539,7 +544,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (ButtonsInfoFrame.EXPLAIN.equals (tCommand)) {
 			handleExplainButtons ();
 		}
-		updateInfo ();
+		updateInfo (MapCell.NO_MAP_CELL);
 		tRoundManager = gameManager.getRoundManager ();
 		tInterrupted = tRoundManager.checkAndHandleInterruption ();
 		if (!tInterrupted) {
@@ -885,7 +890,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporation.configurePrivateBenefitButtons (buttonsJPanel);
 	}
 	
-	public void updateCFButtons () {
+	public void updateCFButtons (MapCell aMapCell) {
 		if (corporation.mapVisible ()) {
 			showMapButton.setEnabled (false);
 			showMapButton.setToolTipText ("The Map is already visible.");
@@ -893,7 +898,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			showMapButton.setEnabled (true);
 			showMapButton.setToolTipText (GUI.NO_TOOL_TIP);
 		}
-		updateTTODButtons ();
+		updateTTODButtons (aMapCell);
 		updateBuyTrainButton ();
 		updateForceBuyTrainButton ();
 		updateBuyPrivateButton ();
@@ -903,14 +908,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		revalidate ();
 	}
 
-	public void updateTTODButtons () {
+	public void updateTTODButtons (MapCell aMapCell) {
 		int tTrainCount;
 
 		tTrainCount = corporation.getTrainCount ();
 		updatePlaceBaseTileButtons ();
 		updatePlaceTileButton ();
 		updatePlaceBaseTokenButtons ();
-		updatePlaceTokenButton ();
+		updatePlaceTokenButton (aMapCell);
 		updateBorrowTrainButton ();
 		updateOperateTrainButton (tTrainCount);
 		if (corporation.gameHasLoans ()) {
@@ -1394,7 +1399,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tFoundMapCellID;
 	}
 
-	private void updatePlaceTokenButton () {
+	private void updatePlaceTokenButton (MapCell aMapCell) {
 		TokenCompany tTokenCompany;
 		String tDisableToolTipReason;
 		String tPlaceTokenText;
@@ -1430,10 +1435,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					updateButton (placeTokenButton, false, IN_PLACE_TILE_MODE);
 				} else if (corporation.isPlaceTokenMode ()) {
 					updateButton (placeTokenButton, false, IN_TOKEN_MODE);
-				} else if (corporation.haveMoneyForToken ()) {
+				} else if (corporation.haveMoneyForToken (aMapCell)) {
 					updateButton (placeTokenButton, true, GUI.NO_TOOL_TIP);
 				} else {
-					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
+					tDisableToolTipReason = corporation.reasonForNoTokenLay (aMapCell);
 					updateButton (placeTokenButton, false, tDisableToolTipReason);
 				}
 			} else {
@@ -1441,7 +1446,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		} else {
 			placeTokenButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoTokenLay ();
+			tDisableToolTipReason = corporation.reasonForNoTokenLay (aMapCell);
 			placeTokenButton.setToolTipText (tDisableToolTipReason);
 		}
 	}
@@ -1780,7 +1785,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tButtonLabel;
 	}
 
-	public void updateInfo () {
+	public void updateInfo (MapCell aMapCell) {
 		updateCorpInfoBorder ();
 		setStatusLabel ();
 		setPhaseInfo ();
@@ -1792,7 +1797,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			setLoanCountLabel ();
 		}
 		updateBuyableItems ();
-		updateCFButtons ();
+		updateCFButtons (aMapCell);
 		revalidate ();
 		if (corporation.getStatus () == ActorI.ActionStates.WillFloat) {
 			hideFrame ();

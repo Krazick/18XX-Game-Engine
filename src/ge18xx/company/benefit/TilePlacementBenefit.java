@@ -149,14 +149,15 @@ public class TilePlacementBenefit extends MapBenefit {
 		return tOperatingCompanyCanLayTile;
 	}
 
-	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-
+		MapCell tSelectedMapCell;
+		
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_TILE_PRIVATE.equals (tActionCommand)) {
-			handlePlaceTile ();
+			tSelectedMapCell = MapCell.NO_MAP_CELL;
+			handlePlaceTile (tSelectedMapCell);
 		}
 	}
 
@@ -165,7 +166,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		return extraTilePlacement;
 	}
 
-	private void handlePlaceTile () {
+	private void handlePlaceTile (MapCell aMapCell) {
 		HexMap tMap;
 		MapCell tMapCell;
 		Corporation tOwningCompany;
@@ -173,7 +174,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		tOwningCompany = getOperatingCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
-		tOwningCompany.handlePlaceTile ();
+		tOwningCompany.handlePlaceTile (aMapCell);
 		tMap = getMap ();
 		tMap.clearAllSelected ();
 		tMap.removeAllSMC ();

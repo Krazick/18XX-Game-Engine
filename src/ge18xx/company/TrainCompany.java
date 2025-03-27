@@ -91,6 +91,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String NO_TRAIN_SELECTED = "No train has been selected to be bought.";
 	public static final String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public static final String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
+//	public static final String NO_REVENUE = "0";
 	public static final int NO_REVENUE_GENERATED = 0;
 	public static final int NO_COST = 0;
 	public static final int NO_CASH = 0;
@@ -2168,6 +2169,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Player tPlayer;
 		CertificateHolderI tCertificateHolder;
 		Bank tBank;
+		MapCell tSelectedMapCell;
 
 		tShareHolders = new ShareHolders ();
 		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
@@ -2203,7 +2205,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tTrainCompany  = (TrainCompany) tPortfolioHolder;
 					tBank.transferCashTo (tTrainCompany, tDividendForShares);
 					tTrainCompany.addCashToDividends (tDividendForShares, tOperatingRoundID);
-					tTrainCompany.updateCorporationFrame ();
+					tSelectedMapCell = MapCell.NO_MAP_CELL;
+					tTrainCompany.updateCorporationFrame (tSelectedMapCell);
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
 										tDividendForShares, tOperatingRoundID);
 				

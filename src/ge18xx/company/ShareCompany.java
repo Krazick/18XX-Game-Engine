@@ -781,7 +781,7 @@ public class ShareCompany extends TokenCompany {
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 
-				corporationFrame.updateInfo ();
+				corporationFrame.updateInfo (MapCell.NO_MAP_CELL);
 			} else {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanRedemptionAmount) +
 						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");

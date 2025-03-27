@@ -167,7 +167,6 @@ public abstract class TokenCompany extends TrainCompany {
 		if (tTokenTypeToAdd != TokenType.NO_TYPE) {
 			tTypeToAddtoString = tTokenTypeToAdd.toString ();
 			if (tTypeToAddtoString.equals (tFixedToString)) {
-				System.out.println ("Fixed Cost Token Type");
 				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
 					if (allTokensCost > Token.NO_COST) {
 						tCost = allTokensCost;
@@ -201,9 +200,13 @@ public abstract class TokenCompany extends TrainCompany {
 		int tDistanceCost;
 		MapToken tMapToken;
 		
-		tMapToken = tokens.getMapToken ();
-		tDistance = homeCity1.getDistanceTo (aMapCell);
-		tDistanceCost = tDistance * tMapToken.getCost ();
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			tMapToken = tokens.getMapToken ();
+			tDistance = homeCity1.getDistanceTo (aMapCell);
+			tDistanceCost = tDistance * tMapToken.getCost ();
+		} else {
+			tDistanceCost = 0;
+		}
 		
 		return tDistanceCost;
 	}
@@ -338,13 +341,13 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public String reasonForNoTokenLay () {
+	public String reasonForNoTokenLay (MapCell aMapCell) {
 		String tReason;
 
 		tReason = NO_REASON;
 		if (getTokenCount () == 0) {
 			tReason = "No Available Tokens to Lay";
-		} else if (!haveMoneyForToken ()) {
+		} else if (!haveMoneyForToken (aMapCell)) {
 			tReason = "Don't have enough cash for the Token";
 		}
 		if (NO_REASON.equals (tReason)) {
@@ -639,13 +642,14 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public boolean haveMoneyForToken () {
-		boolean tHaveMoneyForToken = true;
+	public boolean haveMoneyForToken (MapCell aMapCell) {
+		boolean tHaveMoneyForToken;
 		MapToken tMapToken;
 		int tTokenCost;
 		
+		tHaveMoneyForToken = true;
 		tMapToken = getMapTokenOnly ();
-		tTokenCost = getNonHomeTokenCost (tMapToken);
+		tTokenCost = getNonHomeTokenCost (tMapToken, aMapCell);
 		if (tTokenCost > treasury) {
 			tHaveMoneyForToken = false;
 		}
@@ -823,15 +827,6 @@ public abstract class TokenCompany extends TrainCompany {
 			} else if (aTokenType == TokenType.HOME2) {
 				tTokenCost = getHomeBaseCost (homeCity2, tMapCellID);
 			}
-//
-//			if (tTokenCost == NO_COST_CALCULATED) {
-//				// Home City 1 for this Corporation -- This Token is Free
-//				tTokenCost = getHomeBaseCost (homeCity1, tMapCellID);
-//			}
-//			if (tTokenCost == NO_COST_CALCULATED) {
-//				// Home City 2 for this Corporation -- This Token is Free
-//				tTokenCost = getHomeBaseCost (homeCity2, tMapCellID);
-//			}
 		}
 		// First Token is used on the Market
 
@@ -839,7 +834,7 @@ public abstract class TokenCompany extends TrainCompany {
 		// Test by comparing the Available Count to the Total Starting Count,
 		// If Available Count plus 1 equals Total Starting Count -- this is First Token
 		if (tTokenCost == NO_COST_CALCULATED) {
-			tTokenCost = getNonHomeTokenCost (aMapToken);
+			tTokenCost = getNonHomeTokenCost (aMapToken, aMapCell);
 		}
 
 		// Also note, some games may vary token cost on Distance from Home Station like 1835.
@@ -848,12 +843,14 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenCost;
 	}
 
-	public int getNonHomeTokenCost (MapToken aMapToken) {
+	public int getNonHomeTokenCost (MapToken aMapToken, MapCell aMapCell) {
 		int tTokenCost;
 
 		tTokenCost = NO_COST;
 		if (benefitInUse.isRealBenefit ()) {
 			tTokenCost = benefitInUse.getCost ();
+		} else if (tokens.hasRangeCost ()) {
+			tTokenCost = getRangeCost (aMapCell);
 		} else {
 			tTokenCost = tokens.getTokenCost (aMapToken);
 		}

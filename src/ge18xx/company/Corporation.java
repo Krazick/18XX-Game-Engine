@@ -1571,7 +1571,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will Override
-	public boolean haveMoneyForToken () {
+	public boolean haveMoneyForToken (MapCell aMapCell) {
 		return false;
 	}
 
@@ -1733,7 +1733,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will override
-	public String reasonForNoTokenLay () {
+	public String reasonForNoTokenLay (MapCell aMapCell) {
 		return "Corporation cannot lay Token - Only Token Companies";
 	}
 
@@ -1789,7 +1789,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	@Override
 	public void updateInfo () {
 		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
-			corporationFrame.updateInfo ();
+			corporationFrame.updateInfo (MapCell.NO_MAP_CELL);
 		}
 	}
 
@@ -2932,8 +2932,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCashHolder;
 	}
 
-	public void handlePlaceTile () {
-		corporationFrame.handlePlaceTile ();
+	public void handlePlaceTile (MapCell aMapCell) {
+		corporationFrame.handlePlaceTile (aMapCell);
 	}
 
 	public boolean hasPlacedAnyStation () {
@@ -3090,8 +3090,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 	
-	public void updateCorporationFrame () {
-		corporationFrame.updateCFButtons ();
+	public void updateCorporationFrame (MapCell aMapCell) {
+		corporationFrame.updateCFButtons (aMapCell);
 	}
 
 	public License getLicense (LicenseTypes aType) {
