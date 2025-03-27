@@ -171,7 +171,7 @@ public abstract class TokenCompany extends TrainCompany {
 				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
 					if (allTokensCost > Token.NO_COST) {
 						tCost = allTokensCost;
-					} else if (tIndex == tStartIndex) {
+					} else if (tIndex == tStartIndex) {	// TODO: Get Cost from GameInfo Object
 						tCost = 40;
 					} else if (tIndex > tStartIndex) {
 						tCost = 100;
@@ -181,7 +181,7 @@ public abstract class TokenCompany extends TrainCompany {
 					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 				}
 			} else 	if (tTypeToAddtoString.equals (tRangeToString)) {
-				tCost = 20;
+				tCost = 20;	// TODO: Get Cost from GameInfo Object
 				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
 					tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
 					tMapToken.setCompany (this);
