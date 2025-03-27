@@ -93,6 +93,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private final String PUT_TILE = "PutTile";
 	private final String PICKUP_TILE = "PickupTile";
 	private final String PUT_TOKEN = "PutToken";
+	private final String PUT_TOKEN_DOWN = "Put Token";
 
 	KButton exitTileButton;
 	KButton putTileButton;
@@ -247,7 +248,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		tokenButtonsJPanel.add (tLabelTokenMode);
 		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 
-		putTokenButton = setupButton ("Put Down", PUT_TOKEN, this, Component.CENTER_ALIGNMENT);
+		putTokenButton = setupButton (PUT_TOKEN_DOWN, PUT_TOKEN, this, Component.CENTER_ALIGNMENT);
 		tokenButtonsJPanel.add (putTokenButton);
 		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 
@@ -902,6 +903,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public boolean canPlaceToken (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
 		boolean tCanPlaceToken;
 		Corporation tBaseCorporation;
+		String tPutTokenLabel;
 		int tCorporationID;
 		int tRangeCost;
 		
@@ -922,6 +924,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 								if (tRangeCost <= aCorporation.getCash ()) {
 									tCanPlaceToken = true;
 								}
+								tPutTokenLabel = PUT_TOKEN_DOWN + " for " + Bank.formatCash (tRangeCost);
+								putTokenButton.setText (tPutTokenLabel);
 							} else {
 								tCanPlaceToken = true;
 							}
