@@ -331,6 +331,59 @@ class CorporationStatusUpdateTests {
 	}
 	
 	@Test
+	@DisplayName ("Update Status from TileUpgradedStationLaid to next State")
+	void testUpdatingTileUpgradedStationLaidStatus () {
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+		betaShareCompany.updateStatus (ActorI.ActionStates.TileLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TilesLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TileAndStationLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TilesAndStationLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StationLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.OperatedTrain);
+		assertEquals ("Operated Train", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HandledLoanInterest);
+		assertEquals ("Handled Loan Interest", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HoldDividend);
+		assertEquals ("No Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.HalfDividend);
+		assertEquals ("Half Dividend Paid", betaShareCompany.getStatusName ());
+
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.FullDividend);
+		assertEquals ("Full Dividend Paid", betaShareCompany.getStatusName ());
+		
+		betaShareCompany.forceSetStatus (ActorI.ActionStates.TileUpgradedStationLaid);
+		betaShareCompany.updateStatus (ActorI.ActionStates.StartedOperations);
+		assertEquals ("Tile Upgraded Station Laid", betaShareCompany.getStatusName ());
+	}
+	
+	@Test
 	@DisplayName ("Update Status from HandledLoanInterest to next State")
 	void testUpdatingHandledLoanInterestStatus () {
 		betaShareCompany.forceSetStatus (ActorI.ActionStates.HandledLoanInterest);
