@@ -1242,9 +1242,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	public boolean validUpgradeType (MapCell aMapCell, GameTile aGameTile) {
-		boolean tValidUpgradeType = false;
+		boolean tValidUpgradeType;
 		TileType tSelectedTileType;
 
+		tValidUpgradeType = false;
 		tSelectedTileType = aGameTile.getTheTileType ();
 		if (aMapCell.isTileOnCell ()) {
 			if (aGameTile.canOverride ()) {
