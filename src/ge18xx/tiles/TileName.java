@@ -26,6 +26,7 @@ public class TileName extends Feature implements Cloneable {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");
 	public static final String OO_NAME = "OO";
+	public static final String XX_NAME = "XX";
 	public static final String NY_NAME = "NY";
 	public static final TileName NO_TILE_NAME = null;
 	public static String NO_NAME = null;
