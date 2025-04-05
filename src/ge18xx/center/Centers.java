@@ -494,18 +494,18 @@ public class Centers implements Cloneable {
 				}
 			}
 		}
-		tCompanyHomes = "";
-		tCompanyDestinations = "";
+		tCompanyHomes = GUI.EMPTY_STRING;
+		tCompanyDestinations = GUI.EMPTY_STRING;
 		tPreviousAbbrev = null;
-		tRCType = "";
+		tRCType = GUI.EMPTY_STRING;
 
 		for (RevenueCenter tRC : centers) {
 			if (tSuperToolTip.length () == 0) {
 				tSuperToolTip = tRC.getToolTip ();
 			}
-			tTokenAbbrev = "";
+			tTokenAbbrev = GUI.EMPTY_STRING;
 			if (tRC.isTown ()) {
-				if (tRCType.equals ("")) {
+				if (tRCType.equals (GUI.EMPTY_STRING)) {
 					tRCType = "Town";
 				} else {
 					tRCType = "Two Towns";
