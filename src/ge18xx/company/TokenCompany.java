@@ -156,9 +156,11 @@ public abstract class TokenCompany extends TrainCompany {
 			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
 		}
 		if (homeCityGrid2 != XMLNode.NO_VALUE) {
-			tStartIndex++;
-			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME2);
-			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
+			if (! homeCityGrid2.equals (homeCityGrid1)) {
+				tStartIndex++;
+				tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME2);
+				tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
+			}
 		}
 		if (tStartIndex == 1) {
 			tStartIndex++;
