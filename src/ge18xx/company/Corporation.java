@@ -252,7 +252,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION1);
 		homeLocation1 = new Location (tLocation);
 
-		tHomeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
+		tHomeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2, tHomeCityGrid1);
 		setHomeCityGrid2 (tHomeCityGrid2);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
 		homeLocation2 = new Location (tLocation);
@@ -2090,6 +2090,20 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				status = ActorI.ActionStates.TileUpgradedStationLaid;
 				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || 
+				(aStatus == ActorI.ActionStates.TilesAndStationLaid)) {
+				tStatusUpdated = false;
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
+				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
+				(aStatus == ActorI.ActionStates.HoldDividend) ||
+				(aStatus == ActorI.ActionStates.HalfDividend) ||
+				(aStatus == ActorI.ActionStates.FullDividend)) {
+				status = aStatus;
+				tStatusUpdated = true;
+			}
+		} else if (status == ActorI.ActionStates.TileUpgradedStationLaid) {
+			if ((aStatus == ActorI.ActionStates.StationLaid) ||
+				(aStatus == ActorI.ActionStates.TileUpgradedStationLaid) ||
+				(aStatus == ActorI.ActionStates.TileAndStationLaid) || 
 				(aStatus == ActorI.ActionStates.TilesAndStationLaid)) {
 				tStatusUpdated = false;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
