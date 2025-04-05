@@ -1626,7 +1626,8 @@ public class MapCell implements Comparator<Object> {
 		boolean tPseudoYellowTile;
 
 		tPseudoYellowTile = false;
-		if ("OO".equals (baseTileName.getName ())) {
+		if ((TileName.OO_NAME.equals (baseTileName.getName ()) ||
+			(TileName.XX_NAME.equals (baseTileName.getName ())))) {
 			tPseudoYellowTile = true;
 		}
 
