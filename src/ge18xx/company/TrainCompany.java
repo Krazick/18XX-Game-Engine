@@ -1293,9 +1293,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tAllBasesHaveTiles;
 		
 		tAllBasesHaveTiles = false;
-		if (homeCity1 != null) {
+		if (homeCity1 != MapCell.NO_MAP_CELL) {
 			if (hasTwoBases ()) {
-				if (homeCity2 != null) {
+				if (homeCity2 != MapCell.NO_MAP_CELL) {
 					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
 						tAllBasesHaveTiles = true;
 					}
@@ -1304,9 +1304,31 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tAllBasesHaveTiles = homeCity1.isTileOnCell ();
 			}
 		}
+		
 		return tAllBasesHaveTiles;
 	}
-	
+
+	@Override
+	public boolean baseTileHasTracks () {
+		boolean tBaseTileHasTracks;
+		
+		tBaseTileHasTracks = false;
+		if (homeCity1 != MapCell.NO_MAP_CELL) {
+			if (hasTwoBases ()) {
+				if (homeCity2 != MapCell.NO_MAP_CELL) {
+					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
+						tBaseTileHasTracks = true;
+					}
+				}
+			} else {
+//				tBaseTileHasTracks = homeCity1.isTileOnCell ();
+				tBaseTileHasTracks = homeCity1.isTileWithTrackOnCell ();		
+			}
+		}
+		
+		return tBaseTileHasTracks;
+	}
+
 	@Override
 	public boolean canLayTile () {
 		boolean tCanLayTile;
