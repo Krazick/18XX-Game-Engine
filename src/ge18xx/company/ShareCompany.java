@@ -64,7 +64,6 @@ public class ShareCompany extends TokenCompany {
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	public static final AttributeName AN_GROUP = new AttributeName ("group");
-//	public static final AttributeName AN_TILE_LAYS_ALLOWED = new AttributeName ("tileLaysAllowed");
 	public static final ShareCompany NO_SHARE_COMPANY = null;
 	public static final String TILE_LAYS_ALLOWED1 = "1";
 	public static final String TILE_LAYS_ALLOWED2 = "2";
@@ -82,7 +81,6 @@ public class ShareCompany extends TokenCompany {
 	int parPriceColumn;
 	int sharePriceColumn;
 	int group;
-//	String tileLaysAllowed;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
@@ -95,12 +93,10 @@ public class ShareCompany extends TokenCompany {
 		boolean tLoanTaken;
 		boolean tRepaymentHandled;
 		String tStartCell;
-//		String tCompanyType;
 
 		destinationInfo = new DestinationInfo (aChildNode);
 		specialButtons = new LinkedList<KButton> ();
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
-//		tCompanyType = aChildNode.getThisAttribute (AN_TILE_LAYS_ALLOWED, TILE_LAYS_ALLOWED1);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
 		tGroup = aChildNode.getThisIntAttribute (AN_GROUP, NO_GROUP);
@@ -110,7 +106,6 @@ public class ShareCompany extends TokenCompany {
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
 					tRepaymentHandled, tStartCell);
 		setGroup (tGroup);
-//		setTileLaysAllowed (tCompanyType);
 	}
 
 	@Override
@@ -1026,14 +1021,6 @@ public class ShareCompany extends TokenCompany {
 	public boolean loanTaken () {
 		return loanTaken;
 	}
-//
-//	public void setTileLaysAllowed (String aTileLaysAllowed) {
-//		tileLaysAllowed = aTileLaysAllowed;
-//	}
-//
-//	public String getCompanyType () {
-//		return tileLaysAllowed;
-//	}
 	
 	public void setGroup (int aGroup) {
 		group = aGroup;
