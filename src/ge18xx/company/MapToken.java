@@ -145,9 +145,10 @@ public class MapToken extends Token {
 	}
 
 	public String getSides () {
-		String tSides = NO_SIDES;
+		String tSides;
 		int tSideIndex;
 
+		tSides = NO_SIDES;
 		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
 			if (connectedSides [tSideIndex]) {
 				if (tSides == NO_SIDES) {
