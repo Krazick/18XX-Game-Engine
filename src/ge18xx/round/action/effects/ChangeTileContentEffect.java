@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
@@ -93,7 +93,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		int tStationIndex;
 		int tCityIndex;
 		int tTokenIndex;
-		ShareCompany tShareCompany;
+		TokenCompany tTokenCompany;
 
 		if (!(Tile.NO_TOKENS.equals (aTokens))) {
 			tTokens = aTokens.split (";");
@@ -104,9 +104,9 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tStationIndex = Integer.parseInt (tTokenInfo [1]);
 				tCityIndex = Integer.parseInt (tTokenInfo [2]);
 				tTokenIndex = Integer.parseInt (tTokenInfo [3]);
-				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
-				aMapCell.returnStation (tShareCompany);
-				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex, tTokenIndex);
+				tTokenCompany = aRoundManager.getTokenCompany (tAbbrev);
+				aMapCell.returnStation (tTokenCompany);
+				aMapCell.setStationAt (tTokenCompany, tStationIndex, tCityIndex, tTokenIndex);
 			}
 		}
 	}
@@ -119,33 +119,5 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		tBasesApplied = aMapCell.applyBases (bases, tGameManager);
 		
 		return tBasesApplied;
-//		
-//		String [] tBases;
-//		String [] tBaseInfo;
-//		String tAbbrev;
-//		int tIndex;
-//		ShareCompany tShareCompany;
-//		RevenueCenter tRevenueCenter;
-//		Location tLocation;
-//		String tTheBases;
-//		Tile tTile;
-//
-//		tTile = aMapCell.getTile ();
-//		tTheBases = getBases ();
-//		if (!(Tile.NO_BASES.equals (tTheBases))) {
-//			tBases = tTheBases.split (";");
-//			// Format for Bases are "CompanyAbbrev,CityIndex"
-//			for (String tAPreviousBase : tBases) {
-//				tBaseInfo = tAPreviousBase.split (",");
-//				tAbbrev = tBaseInfo [0];
-//				tIndex = Integer.parseInt (tBaseInfo [1]);
-//				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
-//
-//				tRevenueCenter = tTile.getRevenueCenter (tIndex);
-//				tLocation = tRevenueCenter.getLocation ();
-//				tLocation = tLocation.rotateLocation (aMapCell.getTileOrient ());
-//				aMapCell.setCorporationHome (tShareCompany, tLocation);
-//			}
-//		}
 	}
 }
