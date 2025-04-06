@@ -1303,12 +1303,24 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tAllBasesHaveTiles;
 	}
 	
+	public boolean baseTileHasTracks () {
+		boolean tBaseTileHasTracks;
+		
+		tBaseTileHasTracks = true;
+		
+		return tBaseTileHasTracks;
+	}
+
 	public boolean hasTwoBases () {
 		boolean tHasTwoBases;
-		
-		if ((getHomeCity1 () != MapCell.NO_MAP_CELL) &&
-			(getHomeCity2 () != MapCell.NO_MAP_CELL)) {
-			tHasTwoBases = true;
+		 
+		if ((homeCity1 != MapCell.NO_MAP_CELL) &&
+			(homeCity2  != MapCell.NO_MAP_CELL)) {
+			if (homeCity1.getID ().equals (homeCity2.getID ())) {
+				tHasTwoBases = false;
+			} else {
+				tHasTwoBases = true;
+			}
 		} else {
 			tHasTwoBases = false;
 		}
@@ -2055,10 +2067,22 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.TilesLaid) || 
-					(aStatus == ActorI.ActionStates.TilesAndStationLaid)) {
+			} else if (aStatus == ActorI.ActionStates.TilesAndStationLaid) {
 				status = ActorI.ActionStates.TilesAndStationLaid;
 				tStatusUpdated = true;
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
+						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
+						(aStatus == ActorI.ActionStates.HoldDividend) ||
+						(aStatus == ActorI.ActionStates.HalfDividend) ||
+						(aStatus == ActorI.ActionStates.FullDividend)) {
+				status = aStatus;
+				tStatusUpdated = true;
+			}
+		} else if (status == ActorI.ActionStates.TilesAndStationLaid) {
+			if (aStatus == ActorI.ActionStates.StationLaid) {
+				tStatusUpdated = true;
+			} else if (aStatus == ActorI.ActionStates.TilesAndStationLaid) {
+				tStatusUpdated = false;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
 						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 						(aStatus == ActorI.ActionStates.HoldDividend) ||
@@ -2869,7 +2893,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		tHomeMapCellHasTile = false;
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
-			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
+//			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
+			tHomeMapCellHasTile = homeCity1.isTileWithTrackOnCell ();
 		} else if (homeCity2 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = true;
 		}
