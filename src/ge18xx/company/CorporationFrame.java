@@ -80,6 +80,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
 	public static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
 	public static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
+	public static final String MUST_UPGRADE_BASE_TILE = "Must upgrade Base Tile";
 	public static final String DIVIDENDS_NOT_HANDLED = "Dividends have not been handled yet";
 	public static final String TRAIN_SELECTED = "Train has been Selected for Purchase";
 	public static final String PRIVATE_SELECTED = "Private has been Selected for Purchase";
@@ -1271,6 +1272,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (! corporation.allBasesHaveTiles ()) {
 				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
+			} else if (! corporation.baseTileHasTracks ()) {
+				tEnableTile = true;
+				tToolTip = MUST_UPGRADE_BASE_TILE;
 			} else if (corporation.canLayBaseToken ()) {
 				tEnableTile = false;
 				tToolTip = MUST_LAY_BASE_TOKEN;
@@ -1312,18 +1316,25 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updatePlaceBaseTokenButton (KButton aPlaceBaseTokenButton, MapCell aMapCell, String aPlaceBaseTokenLabel1) {
 		String tToolTip;
 		String tMapCellID;
+		boolean tEnableToken;
 		
 		aPlaceBaseTokenButton.setText (aPlaceBaseTokenLabel1);
 		aPlaceBaseTokenButton.setVisible (true);
 		aPlaceBaseTokenButton.setEnabled (false);
 		tMapCellID = aMapCell.getID ();
 		tToolTip = String.format (HOME_NO_TILE, tMapCellID);
+		tEnableToken = false;
 		if (aMapCell.isTileOnCell () ) {
 			if (corporation.isPlaceTileMode ()) {
-				aPlaceBaseTokenButton.setEnabled (false);
+//				aPlaceBaseTokenButton.setEnabled (false);
+//				tEnableToken = false;
 				tToolTip = IN_PLACE_TILE_MODE;
+			} else if (! corporation.baseTileHasTracks ()) {
+//				tEnableToken = false;
+				tToolTip = MUST_UPGRADE_BASE_TILE;
 			} else {
-				aPlaceBaseTokenButton.setEnabled (true);
+//				aPlaceBaseTokenButton.setEnabled (true);
+				tEnableToken = true;
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		} else {
@@ -1332,10 +1343,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				aPlaceBaseTokenButton.setText (SKIP_BASE_TOKEN);
 				aPlaceBaseTokenButton.setActionCommand (SKIP_BASE_TOKEN);
-				aPlaceBaseTokenButton.setEnabled (true);
+				tEnableToken = true;
+//				aPlaceBaseTokenButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		}
+		aPlaceBaseTokenButton.setEnabled (tEnableToken);
 		aPlaceBaseTokenButton.setToolTipText (tToolTip);
 	}
 
