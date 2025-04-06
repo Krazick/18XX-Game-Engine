@@ -20,6 +20,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameInfo;
@@ -1313,6 +1314,17 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tShareCompany = gameManager.getShareCompany (aCompanyAbbrev);
 
 		return tShareCompany;
+	}
+
+	public TokenCompany getTokenCompany (String aCompanyAbbrev) {
+		TokenCompany tTokenCompany;
+
+		tTokenCompany = gameManager.getShareCompany (aCompanyAbbrev);
+		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
+			tTokenCompany = gameManager.getMinorCompany (aCompanyAbbrev);
+		}
+		
+		return tTokenCompany;
 	}
 
 	public CorporationList getShareCompanies () {
