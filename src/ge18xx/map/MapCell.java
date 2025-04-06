@@ -2078,11 +2078,11 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	// Used to Undo Tile Upgrade that had Tokens
-	public void setStationAt (ShareCompany aShareCompany, int aStationIndex, int aCityIndex, int aTokenIndex) {
+	public void setStationAt (TokenCompany aTokenCompany, int aStationIndex, int aCityIndex, int aTokenIndex) {
 		City tCity;
 		MapToken tMapToken;
 
-		tMapToken = (MapToken) aShareCompany.getTokenAt (aTokenIndex);
+		tMapToken = (MapToken) aTokenCompany.getTokenAt (aTokenIndex);
 		tCity = tile.getCityAt (aCityIndex);
 		tCity.setStation (aStationIndex, tMapToken);
 	}
