@@ -67,7 +67,7 @@ public class ParPricesPanel extends ListenerPanel {
 		tShareCompanies = roundManager.getShareCompanies ();
 		tListenersAdded = tShareCompanies.addListeners (this);
 		if (! tListenersAdded) {
-			System.err.println ("Not all Observers added.");
+			System.err.println ("Not all Listeners added.");
 		}
 	}
 
