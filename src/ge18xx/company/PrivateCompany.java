@@ -395,7 +395,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	@Override
 	public void increaseDiscount () {
 		discount += DISCOUNT;
-		notifyObservers (CORPORATION_STATUS_CHANGE + INCREASE_DISCOUNT);
 	}
 
 	@Override
