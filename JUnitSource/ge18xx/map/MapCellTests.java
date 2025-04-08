@@ -3,10 +3,13 @@ package ge18xx.map;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ge18xx.game.GameTestFactory;
 import ge18xx.tiles.Tile;
@@ -27,6 +30,66 @@ class MapCellTests {
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
 		mTile = tilesTestFactory.buildTileMock (7);
 	}
+
+	@Test
+	@DisplayName ("Test if IDs are the same")
+	void mapCellsHaveSameID () {
+		MapCell tSecondMapCell;
+		
+		tSecondMapCell = MapCell.NO_MAP_CELL;
+		assertFalse (mapCell.sameID (tSecondMapCell));
+		
+		tSecondMapCell = mapTestFactory.buildMapCell ("A3");
+		assertFalse (mapCell.sameID (tSecondMapCell));
+
+		tSecondMapCell = mapTestFactory.buildMapCell ("N11");
+		assertTrue (mapCell.sameID (tSecondMapCell));
+
+		assertTrue (mapCell.sameID (mapCell));
+	}
+	
+	@Test
+	@DisplayName ("Test if Tile is on Cell")
+	void mapCellIsTileOnCellTest () {		
+		assertFalse (mapCell.isTileOnCell ());
+		
+		mapCell.setTile (mTile);
+		assertTrue (mapCell.isTileOnCell ());
+		mapCell.setTileNumber (7);
+		assertTrue (mapCell.isTileOnCell ());
+		mapCell.setTile (Tile.NO_TILE);
+		assertTrue (mapCell.isTileOnCell ());
+	}
+	
+	@Test
+	@DisplayName ("Test getTile on MapCell")
+	void mapCellGetTileTest () {	
+		Tile tFoundTile;
+		
+		tFoundTile = mapCell.getTile ();
+		assertNull (mapCell.getTile ());
+		
+		mapCell.setTile (mTile);
+		tFoundTile = mapCell.getTile ();
+		assertNotNull (mapCell.getTile ());
+		assertEquals (tFoundTile, mTile);
+	}
+	
+	@Test
+	@DisplayName ("Test getTileNumber on MapCell")
+	void mapCellgetTileNumberTest () {		
+		assertEquals (0, mapCell.getTileNumber ());
+		
+		Mockito.when (mTile.getNumber ()).thenReturn (7);
+		mapCell.setTile (mTile);
+		assertEquals (7, mapCell.getTileNumber ());
+		
+//		mapCell.setTileNumber (7);
+//		assertTrue (mapCell.isTileOnCell ());
+//		mapCell.setTile (Tile.NO_TILE);
+//		assertTrue (mapCell.isTileOnCell ());
+	}
+	
 
 	@Test
 	@DisplayName ("Test Old Sides Connected with New Sides Test")
@@ -114,14 +177,5 @@ class MapCellTests {
 		mapCell2.setOffsetCoordinates (10, 8);
 		assertEquals (2, mapCell1.getDistanceTo (mapCell2));
 		assertEquals (2, mapCell2.getDistanceTo (mapCell1));
-
-//		testDistance (evenOdd, 7, 1, 6, 2, 2);
-//		testDistance (evenOdd, 7, 1, 6, 1, 1);
-//		testDistance (evenOdd, 7, 1, 7, 4, 3);
-//		testDistance (evenOdd, 7, 1, 4, 6, 6);
-//		testDistance (evenOdd, 7, 1, 9, 11, 10);
-//		testDistance (evenOdd, 7, 1, 5, 15, 14);
-//		testDistance (evenOdd, 6, 10, 7, 1, 9);
-
 	}
 }
