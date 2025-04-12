@@ -49,8 +49,10 @@ class TokenInfoTests {
 		@DisplayName ("With Mocked Token and MARKET TokenType")
 		void basicConstructorMarketTokenTest () {
 			TokenInfo tTokenInfo;
+			boolean tUsedFlag;
 	
-			tTokenInfo = new TokenInfo (mToken, TokenType.MARKET, 0);
+			tUsedFlag = true;
+			tTokenInfo = new TokenInfo (mToken, TokenType.MARKET, 0, tUsedFlag);
 	
 			assertTrue (tTokenInfo.isMarketToken ());
 			assertFalse (tTokenInfo.isHomeToken ());
@@ -71,8 +73,10 @@ class TokenInfoTests {
 		@DisplayName ("With Mocked Token and HOME1 TokenType")
 		void basicConstructorHome1TokenTest () {
 			TokenInfo tTokenInfo;
-	
-			tTokenInfo = new TokenInfo (mMapToken1, TokenType.HOME1, 0);
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
+			tTokenInfo = new TokenInfo (mMapToken1, TokenType.HOME1, 0, tUsedFlag);
 	
 			assertFalse (tTokenInfo.isMarketToken ());
 			assertTrue (tTokenInfo.isHomeToken ());
@@ -94,8 +98,10 @@ class TokenInfoTests {
 		@DisplayName ("With Mocked Token and HOME2 TokenType")
 		void basicConstructorHome2TokenTest () {
 			TokenInfo tTokenInfo;
-	
-			tTokenInfo = new TokenInfo (mMapToken1, TokenType.HOME2, 0);
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
+			tTokenInfo = new TokenInfo (mMapToken1, TokenType.HOME2, 0, tUsedFlag);
 	
 			assertFalse (tTokenInfo.isMarketToken ());
 			assertTrue (tTokenInfo.isHomeToken ());
@@ -117,8 +123,10 @@ class TokenInfoTests {
 		@DisplayName ("With Mocked Token and FIXED COST TokenType")
 		void basicConstructorFixedCostdTokenTest () {
 			TokenInfo tTokenInfo;
-	
-			tTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 40);
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
+			tTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 40, tUsedFlag);
 	
 			assertFalse (tTokenInfo.isMarketToken ());
 			assertFalse (tTokenInfo.isHomeToken ());
@@ -140,8 +148,10 @@ class TokenInfoTests {
 		@DisplayName ("With Mocked Token and RANGE COST TokenType")
 		void basicConstructorRangeCostTokenTest () {
 			TokenInfo tTokenInfo;
-	
-			tTokenInfo = new TokenInfo (mMapToken1, TokenType.RANGE_COST, 0);
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
+			tTokenInfo = new TokenInfo (mMapToken1, TokenType.RANGE_COST, 0, tUsedFlag);
 	
 			assertFalse (tTokenInfo.isMarketToken ());
 			assertFalse (tTokenInfo.isHomeToken ());
@@ -172,8 +182,10 @@ class TokenInfoTests {
 			MapToken tMapToken1;
 			MapToken tMapToken2;
 			Token tMarketToken;
+			boolean tUsedFlag;
 			
-			tHome1TokenInfo = new TokenInfo (mMapToken1, TokenType.HOME1, 0);
+			tUsedFlag = false;			
+			tHome1TokenInfo = new TokenInfo (mMapToken1, TokenType.HOME1, 0, tUsedFlag);
 			tMapToken1 = tHome1TokenInfo.getHomeToken ();
 			assertEquals (mMapToken1, tMapToken1);
 			assertNotEquals (mMapToken2, tMapToken1);
@@ -181,7 +193,7 @@ class TokenInfoTests {
 			tMarketToken = tHome1TokenInfo.getMarketToken ();
 			assertNull (tMarketToken);
 
-			tHome2TokenInfo = new TokenInfo (mMapToken2, TokenType.HOME2, 0);
+			tHome2TokenInfo = new TokenInfo (mMapToken2, TokenType.HOME2, 0, tUsedFlag);
 			tMapToken2 = tHome2TokenInfo.getHomeToken ();
 			assertNotEquals (mMapToken1, tMapToken2);
 			assertEquals (mMapToken2, tMapToken2);
@@ -202,8 +214,10 @@ class TokenInfoTests {
 			TokenInfo tMarketTokenInfo;
 			MapToken tMapToken;
 			Token tMarketToken;
+			boolean tUsedFlag;
 			
-			tFixedCostMapTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 0);
+			tUsedFlag = false;			
+			tFixedCostMapTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 0, tUsedFlag);
 			tMapToken = tFixedCostMapTokenInfo.getMapToken ();
 			assertEquals (mMapToken1, tMapToken);
 			assertNotEquals (mMapToken2, tMapToken);
@@ -211,7 +225,7 @@ class TokenInfoTests {
 			tMarketToken = tFixedCostMapTokenInfo.getMarketToken ();
 			assertNull (tMarketToken);
 
-			tFixedCostTokenInfo = new TokenInfo (mToken, TokenType.FIXED_COST, 0);
+			tFixedCostTokenInfo = new TokenInfo (mToken, TokenType.FIXED_COST, 0, tUsedFlag);
 			tMapToken = tFixedCostTokenInfo.getMapToken ();
 			assertNull (tMapToken);
 			
@@ -229,8 +243,10 @@ class TokenInfoTests {
 			TokenInfo tFixedCostMapTokenInfo;
 			TokenInfo tMarketTokenInfo;
 			Token tMarketToken;
+			boolean tUsedFlag;
 			
-			tFixedCostMapTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 0);
+			tUsedFlag = false;			
+			tFixedCostMapTokenInfo = new TokenInfo (mMapToken1, TokenType.FIXED_COST, 0, tUsedFlag);
 			tMarketToken = tFixedCostMapTokenInfo.getMarketToken ();
 			assertNull (tMarketToken);
 			

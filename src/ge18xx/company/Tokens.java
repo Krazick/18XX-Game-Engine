@@ -104,10 +104,10 @@ public class Tokens {
 		startIndex = aStartIndex;
 	}
 	
-	public void addNewToken (Token aToken, TokenType aTokenType, int aCost) {
+	public void addNewToken (Token aToken, TokenType aTokenType, int aCost, boolean aUsedFlag) {
 		TokenInfo tTokenInfo;
 		
-		tTokenInfo = new TokenInfo (aToken, aTokenType, aCost);
+		tTokenInfo = new TokenInfo (aToken, aTokenType, aCost, aUsedFlag);
 		if (aTokenType == TokenType.MARKET) {
 			tokens.set (MARKET_INDEX, tTokenInfo);
 			setStartIndex (HOME1_INDEX);

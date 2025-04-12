@@ -90,6 +90,7 @@ public abstract class TokenCompany extends TrainCompany {
 		Tokens tTokens;
 		Token tMarketToken;
 		int tAddForFirstHome;
+		boolean tUsedFlag;
 		
 		setTotalTokenCount (aTotalTokenCount);
 		tAddForFirstHome = 0;
@@ -99,7 +100,8 @@ public abstract class TokenCompany extends TrainCompany {
 		tTokens = new Tokens (totalTokenCount + tAddForFirstHome);
 		setTokens (tTokens);
 		tMarketToken = new Token (this, TokenType.MARKET);
-		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
+		tUsedFlag = ! isAShareCompany ();	// Minor Company has no use for Market Token, so set as Used
+		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST, tUsedFlag);
 		setupNewMapTokens ();
 	}
 	
@@ -135,6 +137,7 @@ public abstract class TokenCompany extends TrainCompany {
 		TokenType tTokenTypeToAdd;
 		GameManager tGameManager;
 		GameInfo tGameInfo;
+		boolean tUsedFlag;
 		String tTypeToAddtoString;
 		String tFixedToString;
 		String tRangeToString;
@@ -149,17 +152,18 @@ public abstract class TokenCompany extends TrainCompany {
 		tTokenTypeToAdd = tGameInfo.getTokenType ();
 		tFixedToString = TokenType.FIXED_COST.toString ();
 		tRangeToString = TokenType.RANGE_COST.toString ();
+		tUsedFlag = false;
 		
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME1);
-			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
+			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost, tUsedFlag);
 		}
 		if (homeCityGrid2 != XMLNode.NO_VALUE) {
 			if (! homeCityGrid2.equals (homeCityGrid1)) {
 				tStartIndex++;
 				tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME2);
-				tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
+				tokens.addNewToken (tMapToken, TokenType.HOME2, tCost, tUsedFlag);
 			}
 		}
 		if (tStartIndex == 1) {
@@ -179,14 +183,14 @@ public abstract class TokenCompany extends TrainCompany {
 					}
 					tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
 					tMapToken.setCompany (this);
-					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
+					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost, tUsedFlag);
 				}
 			} else 	if (tTypeToAddtoString.equals (tRangeToString)) {
 				tCost = 20;	// TODO: Get Cost from GameInfo Object
 				for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
 					tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
 					tMapToken.setCompany (this);
-					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
+					tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost, tUsedFlag);
 				}
 			}
 		}

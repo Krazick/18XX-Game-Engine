@@ -53,14 +53,14 @@ public class TokenInfo {
 	}
 	
 	public TokenInfo (Token aToken, TokenType aTokenType) {
-		this (aToken, aTokenType, Token.NO_COST);
+		this (aToken, aTokenType, Token.NO_COST, false);
 	}
 	
-	public TokenInfo (Token aToken, TokenType aTokenType, int aCost) {
+	public TokenInfo (Token aToken, TokenType aTokenType, int aCost, boolean aUsedFlag) {
 		setToken (aToken);
 		setTokenType (aTokenType);
 		setCost (aCost);
-		setUsed (false);
+		setUsed (aUsedFlag);
 	}
 	
 	public void printInfo (int aIndex) {

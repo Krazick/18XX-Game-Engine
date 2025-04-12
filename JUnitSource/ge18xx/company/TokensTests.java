@@ -44,9 +44,11 @@ class TokensTests {
 		void addMarketTokenTest () {
 			Token mToken;
 			Token tFoundToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = true;			
 			mToken = companyTestFactory.buildTokenMock ();
-			tokens4.addNewToken (mToken, TokenInfo.TokenType.MARKET, 0);
+			tokens4.addNewToken (mToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 			
 			assertEquals (5, tokens4.getTokenCount ());
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -69,9 +71,11 @@ class TokensTests {
 		void addHome1TokenTest () {
 			Token mToken;
 			Token tFoundToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			
 			assertEquals (5, tokens4.getTokenCount ());
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -95,9 +99,11 @@ class TokensTests {
 			Token mToken;
 			Token tFoundToken;
 			MapToken tFoundMapToken;
-	
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
 			mToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME2, 0);
+			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME2, 0, tUsedFlag);
 			
 			assertEquals (5, tokens4.getTokenCount ());
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -121,12 +127,14 @@ class TokensTests {
 			Token mToken;
 			Token mHomeToken;
 			Token tFoundToken;
-	
+			boolean tUsedFlag;
+			
+			tUsedFlag = false;	
 			mHomeToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHomeToken, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mHomeToken, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			
 			mToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mToken, TokenInfo.TokenType.FIXED_COST, 40);
+			tokens4.addNewToken (mToken, TokenInfo.TokenType.FIXED_COST, 40, tUsedFlag);
 			
 			assertEquals (5, tokens4.getTokenCount ());
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -150,12 +158,14 @@ class TokensTests {
 			MapToken mMapToken;
 			MapToken mHomeToken;
 			MapToken tFoundToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mHomeToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHomeToken, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mHomeToken, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			
 			mMapToken = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMapToken, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMapToken, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			
 			assertEquals (5, tokens4.getTokenCount ());
 			tFoundToken = tokens4.getMapToken (TokenInfo.TokenType.MARKET);
@@ -187,17 +197,19 @@ class TokensTests {
 			MapToken mMap2Token;
 			Token tFoundToken;
 			MapToken tFoundMapToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mMarketToken = companyTestFactory.buildTokenMock ();
-			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 			mHome1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			mHome2Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHome2Token, TokenInfo.TokenType.HOME2, 0);
+			tokens4.addNewToken (mHome2Token, TokenInfo.TokenType.HOME2, 0, tUsedFlag);
 			mMap1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40);
+			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40, tUsedFlag);
 			mMap2Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100);
+			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 			assertEquals (5, tokens4.getTokenCount ());
 		
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -226,17 +238,19 @@ class TokensTests {
 			MapToken mMap3Token;
 			Token tFoundToken;
 			MapToken tFoundMapToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mMarketToken = companyTestFactory.buildTokenMock ();
-			tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+			tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 			mHome1Token = companyTestFactory.buildMapTokenMock ();
-			tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+			tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			mMap1Token = companyTestFactory.buildMapTokenMock ();
-			tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40);
+			tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40, tUsedFlag);
 			mMap2Token = companyTestFactory.buildMapTokenMock ();
-			tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100);
+			tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 			mMap3Token = companyTestFactory.buildMapTokenMock ();
-			tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100);
+			tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 			assertEquals (5, tokens4.getTokenCount ());
 		
 			tFoundToken = tokens5.getToken (TokenInfo.TokenType.MARKET);
@@ -272,17 +286,19 @@ class TokensTests {
 			MapToken mMap2Token;
 			Token tFoundToken;
 			MapToken tFoundMapToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mMarketToken = companyTestFactory.buildTokenMock ();
-			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 			mHome1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			mHome2Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHome2Token, TokenInfo.TokenType.HOME2, 0);
+			tokens4.addNewToken (mHome2Token, TokenInfo.TokenType.HOME2, 0, tUsedFlag);
 			mMap1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			mMap2Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			assertEquals (5, tokens4.getTokenCount ());
 		
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -311,17 +327,19 @@ class TokensTests {
 			MapToken mMap3Token;
 			Token tFoundToken;
 			MapToken tFoundMapToken;
+			boolean tUsedFlag;
 			
+			tUsedFlag = false;			
 			mMarketToken = companyTestFactory.buildTokenMock ();
-			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+			tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 			mHome1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+			tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 			mMap1Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			mMap2Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			mMap3Token = companyTestFactory.buildMapTokenMock ();
-			tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+			tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 			assertEquals (5, tokens4.getTokenCount ());
 		
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
@@ -351,17 +369,19 @@ class TokensTests {
 		MapToken mMap3Token;
 		Token tFoundToken;
 		MapToken tFoundMapToken;
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40);
+		tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100);
+		tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100);
+		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 
 		tFoundToken = tokens5.getToken (TokenInfo.TokenType.MARKET);
 		assertEquals (0, tokens5.getTokenCost (tFoundToken));
@@ -388,19 +408,21 @@ class TokensTests {
 		Token tFoundToken;
 		Token tFoundToken2;
 		MapToken tFoundMapToken;
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens5.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens5.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40);
+		tokens5.addNewToken (mMap1Token, TokenInfo.TokenType.FIXED_COST, 40, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100);
+		tokens5.addNewToken (mMap2Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100);
+		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 100, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 120);
+		tokens5.addNewToken (mMap3Token, TokenInfo.TokenType.FIXED_COST, 120, tUsedFlag);
 
 		tFoundToken = tokens5.getToken (TokenInfo.TokenType.MARKET);
 		assertEquals (0, tokens5.getTokenCost (tFoundToken));
@@ -429,17 +451,19 @@ class TokensTests {
 		MapToken mMap3Token;
 		Token tFoundToken;
 		MapToken tFoundMapToken;
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 
 		tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
 		assertEquals (0, tokens4.getTokenCost (tFoundToken));
@@ -465,17 +489,19 @@ class TokensTests {
 		MapToken tFoundLastMapToken1;
 		MapToken tFoundLastMapToken2;
 		MapToken tFoundLastMapToken3;
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 
 		tFoundLastMapToken3 = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
 		assertEquals (mMap3Token, tFoundLastMapToken3);
@@ -508,17 +534,19 @@ class TokensTests {
 		MapToken tFoundMapToken1;
 		MapToken tFoundMapToken2;
 		MapToken tFoundMapToken3;
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 
 		tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
 		tokens4.setTokenUsed (tFoundToken, true);
@@ -547,18 +575,19 @@ class TokensTests {
 		MapToken tFoundMapToken2;
 		MapToken tFoundMapToken3;
 		MapToken tFoundMapToken4;
-
+		boolean tUsedFlag;
 		
+		tUsedFlag = false;		
 		mMarketToken = companyTestFactory.buildTokenMock ();
-		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0, tUsedFlag);
 		mHome1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0, tUsedFlag);
 		mMap1Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap2Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
-		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0, tUsedFlag);
 
 		assertEquals (4, tokens4.getAvailableTokenCount ());
 		tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
