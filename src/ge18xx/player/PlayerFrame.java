@@ -602,7 +602,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		if (hasActed ()) {
 			setDoneButton ();
-			disableAllStartPacketButtons ("Already acted");
+			if (player.hasBoughtShare ()) {
+				disableAllStartPacketButtons ("Already acted");
+			}
 		} else {
 			setPassButton ();
 		}
