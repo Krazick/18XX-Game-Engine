@@ -2400,6 +2400,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void setThisRevenue (int aRevenue) {
 		thisRevenue = aRevenue;
 		// If we have any Revenue then a Train has run, so MUST Buy a Train from now on
+		// This only applies to Share/Government Corporations. Minors, Coals do not 
+		// require trains
+		
+		// TODO: Test if a Minor Company, then don't set this flag.
 		if (thisRevenue > 0) {
 			setMustBuyTrain (true);
 		}
