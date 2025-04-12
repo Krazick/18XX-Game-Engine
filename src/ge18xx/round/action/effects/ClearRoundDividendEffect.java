@@ -91,6 +91,7 @@ public class ClearRoundDividendEffect extends Effect {
 		tFromCashHolder = (CashHolderI) getActor ();
 		tFromCashHolder.clearRoundDividends (operatingRoundID);
 		tFromCashHolder.addCashToDividends (previousAmount, operatingRoundID);
+		tEffectUndone = true;
 		
 		return tEffectUndone;
 	}
