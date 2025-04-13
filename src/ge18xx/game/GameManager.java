@@ -39,6 +39,7 @@ import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
+import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.formation.FormCGR;
@@ -1084,6 +1085,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
+	}
+
+	public TokenCompany getTokenCompany (String aCompanyAbbrev) {
+		TokenCompany tTokenCompany;
+		
+		tTokenCompany = shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
+		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
+			tTokenCompany = minorCompaniesFrame.getMinorCompany (aCompanyAbbrev);
+		}
+		
+		return tTokenCompany;
 	}
 
 	public ShareCompany getShareCompanyByID (int aCompanyID) {
