@@ -17,7 +17,5 @@ public class ActionEffectsFactory {
 	};
 	
 	public ActionEffectsFactory () {
-		// TODO Auto-generated constructor stub
 	}
-
 }
