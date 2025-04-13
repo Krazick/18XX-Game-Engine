@@ -1444,7 +1444,8 @@ public class MapCell implements Comparator<Object> {
 		String [] tBaseInfo;
 		String tAbbrev;
 		int tIndex;
-		ShareCompany tShareCompany;
+//		ShareCompany tShareCompany;
+		TokenCompany tTokenCompany;
 		RevenueCenter tRevenueCenter;
 		Location tLocation;
 		Tile tTile;
@@ -1459,12 +1460,14 @@ public class MapCell implements Comparator<Object> {
 				tBaseInfo = tAPreviousBase.split (",");
 				tAbbrev = tBaseInfo [0];
 				tIndex = Integer.parseInt (tBaseInfo [1]);
-				tShareCompany = aGameManager.getShareCompany (tAbbrev);
+//				tShareCompany = aGameManager.getShareCompany (tAbbrev);
+				tTokenCompany = aGameManager.getTokenCompany (tAbbrev);
 	
 				tRevenueCenter = tTile.getRevenueCenter (tIndex);
 				tLocation = tRevenueCenter.getLocation ();
 				tLocation = tLocation.rotateLocation (getTileOrient ());
-				setCorporationHome (tShareCompany, tLocation);
+//				setCorporationHome (tShareCompany, tLocation);
+				setCorporationHome (tTokenCompany, tLocation);
 				tBasesApplied = true;
 			}
 		}
