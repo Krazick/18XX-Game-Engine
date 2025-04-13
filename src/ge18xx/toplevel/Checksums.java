@@ -93,7 +93,11 @@ public class Checksums {
 	}
 	
 	public void remove (int aIndex) {
-		checksums.remove (aIndex);
+		if ((aIndex >= 0) && (aIndex < checksums.size ())) {
+			checksums.remove (aIndex);
+		} else {
+			System.err.println ("Index " + aIndex + " out of Range [0 - " + checksums.size () + "]");
+		}
 	}
 	
 	public int size () {
