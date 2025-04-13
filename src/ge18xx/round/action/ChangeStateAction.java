@@ -183,22 +183,6 @@ public class ChangeStateAction extends ChangePlayerAction {
 		return tOldState;
 	}
 
-	public String getApplyDiscountReport () {
-		String tReport;
-		
-		tReport = GUI.EMPTY_STRING;
-
-		for (Effect tEffect : effects) {
-			if (tReport.equals (GUI.EMPTY_STRING)) {
-				if (tEffect instanceof ApplyDiscountEffect) {
-					tReport = ((ApplyDiscountEffect) tEffect).getEffectReport ();
-				}
-			}
-		}
-
-		return tReport;
-	}
-
 	public String getActorNames () {
 		String tActorNames;
 		String tActorName;
@@ -230,17 +214,33 @@ public class ChangeStateAction extends ChangePlayerAction {
 		tSimpleActionReport = GUI.EMPTY_STRING;
 		tOldState = getOldState ();
 		tNewState = getNewState ();
-//		if (!tNewState.equals (tOldState)) {
-			tSimpleActionReport = actor.getName () + " changed state of " + getActorNames () + " from  "
-					+ tOldState + " to " + tNewState + ".";
-//		} else 
 		if (tOldState != GUI.EMPTY_STRING) {
 			tSimpleActionReport = actor.getName () + " state remains [" + tOldState + "]";
 		} else {
 			tSimpleActionReport = getApplyDiscountReport ();
 		}
-
+		if (tSimpleActionReport == GUI.EMPTY_STRING) {
+			tSimpleActionReport = actor.getName () + " changed state of " + getActorNames () + " from  "
+					+ tOldState + " to " + tNewState + ".";
+		}
+		
 		return tSimpleActionReport;
+	}
+
+	public String getApplyDiscountReport () {
+		String tReport;
+		
+		tReport = GUI.EMPTY_STRING;
+
+		for (Effect tEffect : effects) {
+			if (tReport.equals (GUI.EMPTY_STRING)) {
+				if (tEffect instanceof ApplyDiscountEffect) {
+					tReport = ((ApplyDiscountEffect) tEffect).getEffectReport ();
+				}
+			}
+		}
+
+		return tReport;
 	}
 
 	@Override
