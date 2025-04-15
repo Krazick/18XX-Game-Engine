@@ -516,60 +516,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tIsOwned;
 	}
 
-	public boolean canBeOwnedByIPO () {
-		boolean tCanBeOwnedByIPO;
-		Certificate tCertificate;
-		int tCertificateCount;
-		int tCertificateIndex;
-
-		tCanBeOwnedByIPO = false;
-		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
-		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
-			if (tCertificate.canBeOwnedByIPO ()) {
-				tCanBeOwnedByIPO = true;
-			}
-		}
-		
-		return tCanBeOwnedByIPO;
-	}
-
-	public boolean canBeOwnedByPlayer () {
-		boolean tCanBeOwnedByPlayer;
-		Certificate tCertificate;
-		int tCertificateCount;
-		int tCertificateIndex;
-
-		tCanBeOwnedByPlayer = false;
-		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
-		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
-			if (tCertificate.canBeOwnedByPlayer ()) {
-				tCanBeOwnedByPlayer = true;
-			}
-		}
-		
-		return tCanBeOwnedByPlayer;
-	}
-
-	public boolean canBeOwnedByShare () {
-		boolean tCanBeOwnedByShare;
-		Certificate tCertificate;
-		int tCertificateCount;
-		int tCertificateIndex;
-
-		tCanBeOwnedByShare = false;
-		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
-		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
-			if (tCertificate.canBeOwnedByShare ()) {
-				tCanBeOwnedByShare = true;
-			}
-		}
-		
-		return tCanBeOwnedByShare;
-	}
-	
 	@Override
 	public boolean isAPrivateCompany () {
 		return true;

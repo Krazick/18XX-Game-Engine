@@ -478,13 +478,13 @@ public class Certificate implements Comparable<Certificate> {
 
 	public void addBenefitLabels (JPanel aCertificateInfoPanel, boolean aAddStrut) {
 		JLabel tBenefitLabel;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		MinorCompany tMinorCompany;
 		Benefits tAllBenefits;
 		List<Benefit> tBenefits;
 
 		if (isAPrivateCompany ()) {
-			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tPrivateCompany = (Corporation) getCorporation ();
 			tAllBenefits = tPrivateCompany.getBenefits ();
 			if (tAllBenefits != Benefits.NO_BENEFITS) {
 				tBenefits = tAllBenefits.getBenefits ();

@@ -610,6 +610,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void buildButtonJPanel () {
 		String tPlaceBaseTileLabel;
 		String tPlaceBaseTokenLabel;
+		CorporationList tPrivateCompanies;
 
 		buttonsJPanel = new JPanel (new WrapLayout ());
 
@@ -635,7 +636,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		payFullDividendButton = setupButton (PAY_FULL_DIVIDEND, PAY_FULL_DIVIDEND);
 		buyTrainForceButton = setupButton (FORCE_BUY_TRAIN, FORCE_BUY_TRAIN);
 		buyTrainButton = setupButton (BUY_TRAIN, BUY_TRAIN);
-		buyPrivateButton = setupButton (BUY_PRIVATE, BUY_PRIVATE);
+		
+		tPrivateCompanies = gameManager.getPrivates ();
+		if (tPrivateCompanies != CorporationList.NO_CORPORATION_LIST) {
+			if (tPrivateCompanies.canAnyBeOwnedByShare ()) {
+				buyPrivateButton = setupButton (BUY_PRIVATE, BUY_PRIVATE);
+			}
+		}
 		if (corporation.gameHasLoans ()) {
 			getLoanButton = setupButton (GET_LOAN, GET_LOAN);
 			payLoanInterestButton = setupButton (PAY_LOAN_INTEREST, PAY_LOAN_INTEREST);
@@ -704,7 +711,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void addButton (KButton aButton) {
-		addButton (aButton, true);
+		if (aButton != KButton.NO_KBUTTON) {
+			addButton (aButton, true);
+		}
 	}
 	
 	private void addButton (KButton aButton, boolean aVisible) {
@@ -1326,14 +1335,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tEnableToken = false;
 		if (aMapCell.isTileOnCell () ) {
 			if (corporation.isPlaceTileMode ()) {
-//				aPlaceBaseTokenButton.setEnabled (false);
-//				tEnableToken = false;
 				tToolTip = IN_PLACE_TILE_MODE;
 			} else if (! corporation.baseTileHasTracks ()) {
-//				tEnableToken = false;
 				tToolTip = MUST_UPGRADE_BASE_TILE;
 			} else {
-//				aPlaceBaseTokenButton.setEnabled (true);
 				tEnableToken = true;
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
@@ -1344,7 +1349,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				aPlaceBaseTokenButton.setText (SKIP_BASE_TOKEN);
 				aPlaceBaseTokenButton.setActionCommand (SKIP_BASE_TOKEN);
 				tEnableToken = true;
-//				aPlaceBaseTokenButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		}
@@ -1711,59 +1715,28 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		updateButton (operateTrainButton, tEnable, tToolTip, tButtonLabel);
 	}
-//	
-//	private void updateReturnBorrowedTrainButton () {
-//		String tToolTip;
-//		boolean tEnable;
-//		boolean tVisible;
-//		
-//		tVisible = false;
-//		if (corporation.isPlaceTileMode ()) {
-//			tEnable = false;
-//			tToolTip = "Is in Place Tile Mode, can't return borrowed train";
-//		} else if (corporation.isPlaceTokenMode ()) {
-//			tEnable = false;
-//			tToolTip = "Is in Place Token Mode, can't return borrowed train";
-//		} else if (corporation.dividendsHandled ()) {
-//			tEnable = false;
-//			tToolTip = "Dividends have been handled, can't return borrowed train";
-//		} else if (corporation.isGovtRailway ()) {
-//			if (corporation.hasBorrowedTrain ()) {
-//				tEnable = true;
-//				tToolTip = "Is a Gov't Railway with a Borrowed Train";
-//				tVisible = true;
-//			} else {
-//				tEnable = false;
-//				tVisible = false;
-//				tToolTip = "Is a Gov't Railway with no Borrowed Train";
-//			}
-//		} else {
-//			tEnable = false;
-//			tToolTip = NOT_GOVERNMENT_RAILWAY;
-//		}
-//		updateButton (returnBorrowedTrainButton, tEnable, tToolTip);
-//		returnBorrowedTrainButton.setVisible (tVisible);
-//	}
 
 	private void updateBuyPrivateButton () {
 		String tToolTipReason;
 		String tButtonLabel;
 		boolean tEnable;
 
-		tButtonLabel = createBuyPrivateLabel ();
-		if (corporation.canBuyPrivate ()) {
-			if (corporation.getCountOfSelectedPrivates () == 1) {
-				tToolTipReason = GUI.NO_TOOL_TIP;
-				tEnable = true;
+		if (buyPrivateButton != KButton.NO_KBUTTON) {
+			tButtonLabel = createBuyPrivateLabel ();
+			if (corporation.canBuyPrivate ()) {
+				if (corporation.getCountOfSelectedPrivates () == 1) {
+					tToolTipReason = GUI.NO_TOOL_TIP;
+					tEnable = true;
+				} else {
+					tEnable = false;
+					tToolTipReason = "Must Select a Single Private to buy";
+				}
 			} else {
 				tEnable = false;
-				tToolTipReason = "Must Select a Single Private to buy";
+				tToolTipReason = corporation.reasonForNoBuyPrivate ();
 			}
-		} else {
-			tEnable = false;
-			tToolTipReason = corporation.reasonForNoBuyPrivate ();
+			updateButton (buyPrivateButton, tEnable, tToolTipReason, tButtonLabel);
 		}
-		updateButton (buyPrivateButton, tEnable, tToolTipReason, tButtonLabel);
 	}
 
 	private void updateButton (KButton aButton, boolean aEnable, String aToolTip) {
@@ -1780,7 +1753,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private String createBuyPrivateLabel () {
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		String tPrivatePrezName;
 		String tCorpPrezName;
 		String tButtonLabel;
@@ -1823,10 +1796,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateBankJPanel ();
 		fillOtherCorpsJPanel ();
 	}
-//
-//	public void updateOtherCorpsJPanel () {
-//		fillOtherCorpsJPanel ();
-//	}
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {

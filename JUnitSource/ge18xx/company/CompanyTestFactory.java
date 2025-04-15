@@ -151,8 +151,8 @@ public class CompanyTestFactory {
 		return aPrivateCompany;
 	}
 	
-	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
-		PrivateCompany mPrivateCompany;
+	public Corporation buildPrivateCompanyMock (String aClientName) {
+		Corporation mPrivateCompany;
 
 		mPrivateCompany = Mockito.mock (PrivateCompany.class);
 		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");

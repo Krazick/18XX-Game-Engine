@@ -273,7 +273,7 @@ public class ShareCompany extends TokenCompany {
 	// Buy the Private Corporation into the Share Company
 	@Override
 	public void buyPrivate (boolean tVisible) {
-		PrivateCompany tPrivateToBuy;
+		Corporation tPrivateToBuy;
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPrivateOwner;
 		Certificate tPresidentCertificate;
@@ -288,7 +288,7 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	@Override
-	public PrivateCompany getSelectedPrivateToBuy () {
+	public Corporation getSelectedPrivateToBuy () {
 		return (corporationList.getSelectedPrivateCompanyToBuy ());
 	}
 

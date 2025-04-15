@@ -17,7 +17,7 @@ class CorporationStatusUpdateTests {
 	ShareCompany alphaShareCompany;
 	ShareCompany betaShareCompany;
 	ShareCompany limaShareCompany;
-	PrivateCompany gammaPrivateCompany;
+	Corporation gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
 	CompanyTestFactory companyTestFactory;
 	BankTestFactory bankTestFactory;

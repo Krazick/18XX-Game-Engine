@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -63,7 +62,7 @@ public abstract class Effect {
 	}
 
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 
 		setName (aName);
 		setActor (aActor);

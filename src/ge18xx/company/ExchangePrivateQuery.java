@@ -13,12 +13,12 @@ public class ExchangePrivateQuery extends QueryOffer {
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");
 	public static final AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
 	public static final String BENEFIT_TYPE = QueryExchangeBenefit.NAME;
-	PrivateCompany privateCompany;
+	Corporation privateCompany;
 	String privateAbbrev;
 	String benefitName;
 
 	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, ActionStates aOldState,
-			PrivateCompany aPrivateCompany, String aBenefitName) {
+			Corporation aPrivateCompany, String aBenefitName) {
 		super (aItemName, aFromActorName, aToActorName, aOldState);
 		setPrivateCompany (aPrivateCompany);
 		setPrivateAbbrev (aPrivateCompany.getAbbrev ());
@@ -29,12 +29,12 @@ public class ExchangePrivateQuery extends QueryOffer {
 		super (aChildNode, aGameManager);
 		String tPrivateAbbrev;
 		String tBenefitName;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		CorporationList tPrivates;
 
 		tPrivateAbbrev = aChildNode.getThisAttribute (AN_PRIVATE_ABBREV);
 		tPrivates = aGameManager.getPrivates ();
-		tPrivateCompany = (PrivateCompany) tPrivates.getCorporation (tPrivateAbbrev);
+		tPrivateCompany = (Corporation) tPrivates.getCorporation (tPrivateAbbrev);
 		setPrivateCompany (tPrivateCompany);
 		tBenefitName = aChildNode.getThisAttribute (AN_BENEFIT_NAME);
 		setBenefitName (tBenefitName);
@@ -60,7 +60,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 		privateAbbrev = aPrivateAbbrev;
 	}
 
-	private void setPrivateCompany (PrivateCompany aPrivateCompany) {
+	private void setPrivateCompany (Corporation aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
 

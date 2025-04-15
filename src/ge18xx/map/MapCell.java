@@ -37,7 +37,6 @@ import ge18xx.company.License;
 import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.LicenseToken;
 import ge18xx.company.MapToken;
-import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
@@ -2523,7 +2522,7 @@ public class MapCell implements Comparator<Object> {
 
 	public String getBasePrivateAbbrev (CorporationList privateCos) {
 		String tPrivateAbbrev;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 
 		tPrivateAbbrev = GUI.EMPTY_STRING;
 		if (privateCos != CorporationList.NO_CORPORATION_LIST) {
@@ -2538,7 +2537,7 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean privatePreventsTileLay (CorporationList privateCos, Corporation tOperatingTrainCompany) {
 		boolean tPrivatePrevents;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 
 		tPrivatePrevents = false;
 		// If a Tile is on the Cell any Company can do a placement/upgrade

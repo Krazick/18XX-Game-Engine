@@ -1695,13 +1695,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		corporationCertificates.removeAllBids ();
 	}
 
-	public boolean doesOwn (PrivateCompany aPrivateCompany) {
+	public boolean doesOwn (Corporation aPrivateCompany) {
 		boolean tDoesOwn = portfolio.containsPresidentShareOf (aPrivateCompany);
 
 		return tDoesOwn;
 	}
 
-	public boolean doesNotOwn (PrivateCompany aPrivateCompany) {
+	public boolean doesNotOwn (Corporation aPrivateCompany) {
 		boolean tDoesNotOwn = !portfolio.containsPresidentShareOf (aPrivateCompany);
 
 		return tDoesNotOwn;
@@ -2958,7 +2958,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return 0;
 	}
 
-	public PrivateCompany getSelectedPrivateToBuy () {
+	public Corporation getSelectedPrivateToBuy () {
 		// Override in Share Company Class
 		return null;
 	}
@@ -3173,5 +3173,59 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public int getRangeCost (MapCell aMapCell) {
 		return 0;
+	}
+
+	public boolean canBeOwnedByIPO () {
+		boolean tCanBeOwnedByIPO;
+		Certificate tCertificate;
+		int tCertificateCount;
+		int tCertificateIndex;
+	
+		tCanBeOwnedByIPO = false;
+		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
+		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
+			if (tCertificate.canBeOwnedByIPO ()) {
+				tCanBeOwnedByIPO = true;
+			}
+		}
+		
+		return tCanBeOwnedByIPO;
+	}
+
+	public boolean canBeOwnedByPlayer () {
+		boolean tCanBeOwnedByPlayer;
+		Certificate tCertificate;
+		int tCertificateCount;
+		int tCertificateIndex;
+	
+		tCanBeOwnedByPlayer = false;
+		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
+		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
+			if (tCertificate.canBeOwnedByPlayer ()) {
+				tCanBeOwnedByPlayer = true;
+			}
+		}
+		
+		return tCanBeOwnedByPlayer;
+	}
+
+	public boolean canBeOwnedByShare () {
+		boolean tCanBeOwnedByShare;
+		Certificate tCertificate;
+		int tCertificateCount;
+		int tCertificateIndex;
+	
+		tCanBeOwnedByShare = false;
+		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
+		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
+			if (tCertificate.canBeOwnedByShare ()) {
+				tCanBeOwnedByShare = true;
+			}
+		}
+		
+		return tCanBeOwnedByShare;
 	}
 }

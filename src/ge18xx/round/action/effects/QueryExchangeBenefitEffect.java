@@ -19,7 +19,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	public final static AttributeName AN_QEBENEFIT_NAME = new AttributeName ("qeBenefitName");
 	int privateID;
 	String qeBenefitName;
-	PrivateCompany privateCompany;
+	Corporation privateCompany;
 	QueryExchangeBenefit queryExchangeBenefit;
 
 	public QueryExchangeBenefitEffect () {
@@ -30,7 +30,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		super (aName);
 	}
 
-	public QueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor, PrivateCompany aPrivateCompany,
+	public QueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor, Corporation aPrivateCompany,
 			QueryExchangeBenefit aQueryExchangeBenefit) {
 		super (NAME, aFromActor, aToActor);
 		setPrivateCompany (aPrivateCompany);
@@ -76,7 +76,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		return tEffectElement;
 	}
 
-	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
+	public void setPrivateCompany (Corporation aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
 
@@ -92,7 +92,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		qeBenefitName = aQEBenefitName;
 	}
 
-	public PrivateCompany getPrivateCompany () {
+	public Corporation getPrivateCompany () {
 		return privateCompany;
 	}
 

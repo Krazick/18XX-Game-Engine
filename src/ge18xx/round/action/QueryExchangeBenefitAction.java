@@ -1,6 +1,6 @@
 package ge18xx.round.action;
 
-import ge18xx.company.PrivateCompany;
+import ge18xx.company.Corporation;
 import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -31,7 +31,7 @@ public class QueryExchangeBenefitAction extends Action {
 	}
 
 	public void addQueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor,
-						PrivateCompany aPrivateCompany, QueryExchangeBenefit aQueryExchangeBenefit) {
+						Corporation aPrivateCompany, QueryExchangeBenefit aQueryExchangeBenefit) {
 		QueryExchangeBenefitEffect tQueryExchangeBenefitEffect;
 
 		tQueryExchangeBenefitEffect = new QueryExchangeBenefitEffect (aFromActor, aToActor,

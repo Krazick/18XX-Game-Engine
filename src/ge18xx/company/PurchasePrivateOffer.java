@@ -15,11 +15,11 @@ public class PurchasePrivateOffer extends QueryOffer {
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");
 	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
 
-	PrivateCompany privateCompany;
+	Corporation privateCompany;
 	String privateCompanyAbbrev;
 	int amount;
 
-	public PurchasePrivateOffer (String aItemName, PrivateCompany aPrivateCompany,
+	public PurchasePrivateOffer (String aItemName, Corporation aPrivateCompany,
 			int aAmount, String aFromActorName, String aToName, ActorI.ActionStates aOldState) {
 		super (aItemName, aFromActorName, aToName, aOldState);
 
@@ -64,7 +64,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 		privateCompanyAbbrev = aPrivateCompayAbbrev;
 	}
 
-	private void setPrivateCompany (PrivateCompany aPrivateCompany) {
+	private void setPrivateCompany (Corporation aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
 
@@ -72,7 +72,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 		amount = aAmount;
 	}
 
-	public PrivateCompany getPrivateCompany () {
+	public Corporation getPrivateCompany () {
 		return privateCompany;
 	}
 

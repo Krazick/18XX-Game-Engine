@@ -102,7 +102,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		PurchasePrivateOffer tPurchasePrivateOffer;
 		QueryOffer tQueryOffer;
 		ActorI.ActionStates tOldState;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		String tItemName;
 		String tOwnerName;
 
@@ -110,7 +110,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		tOwnerName = aItemOwner.getName ();
 		tQueryOffer = QueryOffer.NO_QUERY_OFFER;
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
-			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+			tPrivateCompany = (Corporation) aCertificate.getCorporation ();
 			tItemName = tPrivateCompany.getAbbrev ();
 			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tPrivateCompany, getPrice (), aFromActorName,
 					tOwnerName, tOldState);
@@ -176,10 +176,10 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 
 	private void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
 										BuyStockAction aBuyStockAction) {
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		ShareCompany tShareCompany;
 
-		tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+		tPrivateCompany = (Corporation) aCertificate.getCorporation ();
 		tPrivateCompany.removeBenefitButtons ();
 		if (trainCompany.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) trainCompany;

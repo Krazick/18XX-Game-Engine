@@ -737,7 +737,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		int tColCount;
 		int tRowCount;
 		int tRowIndex;
-		PrivateCompany tPrivate;
+		Corporation tPrivate;
 		ShareCompany tShare;
 		MinorCompany tMinor;
 
@@ -748,7 +748,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tRowIndex = 0;
 		for (Corporation tCorporationInfo : corporations) {
 			if (typeName.equals (TYPE_NAMES [0])) {
-				tPrivate = (PrivateCompany) tCorporationInfo;
+				tPrivate = (Corporation) tCorporationInfo;
 				if (tRowIndex == 0) {
 					tPrivate.addAllHeaders (this, 0);
 				}
@@ -954,7 +954,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	ParsingRoutineI corporationListParsingRoutine = new ParsingRoutineIO () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
-			PrivateCompany tPrivateInfo;
+			Corporation tPrivateInfo;
 			MinorCompany tMinorCompanyInfo;
 			ShareCompany tShareCompanyInfo;
 			CorporationList tCorporationList;
@@ -1186,8 +1186,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
-	public PrivateCompany getPrivateCompanyAtMapCell (MapCell aMapCell) {
-		PrivateCompany tPrivateCompany;
+	public Corporation getPrivateCompanyAtMapCell (MapCell aMapCell) {
+		Corporation tPrivateCompany;
 		MapCell tHomeCity1;
 		MapCell tHomeCity2;
 
@@ -1198,13 +1198,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tHomeCity2 = tCorporation.getHomeCity2 ();
 				if (tHomeCity1 != MapCell.NO_MAP_CELL) {
 					if (tHomeCity1 == aMapCell) {
-						tPrivateCompany = (PrivateCompany) tCorporation;
+						tPrivateCompany = (Corporation) tCorporation;
 					}
 				}
 				if ((tHomeCity2 != MapCell.NO_MAP_CELL) &&
 					(tPrivateCompany == PrivateCompany.NO_PRIVATE_COMPANY)) {
 					if (tHomeCity2 == aMapCell) {
-						tPrivateCompany = (PrivateCompany) tCorporation;
+						tPrivateCompany = (Corporation) tCorporation;
 					}
 				}
 			}
@@ -1468,7 +1468,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getPrivates ();
 	}
 
-	public PrivateCompany getSelectedPrivateCompanyToBuy () {
+	public Corporation getSelectedPrivateCompanyToBuy () {
 		return roundManager.getSelectedPrivateCompanyToBuy ();
 	}
 
@@ -1531,5 +1531,22 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				}
 			}
 		}
+	}
+	
+	public boolean canAnyBeOwnedByShare () {
+		boolean tCanAnyBeOwnedByShare;
+		int tCorporationCount;
+	
+		tCanAnyBeOwnedByShare = false;
+		tCorporationCount = corporations.size ();
+		if (tCorporationCount > 0) {
+			for (Corporation tCorporation : corporations) {
+				if (tCorporation.canBeOwnedByShare ()) {
+					tCanAnyBeOwnedByShare = true;
+				}
+			}
+		}
+		
+		return tCanAnyBeOwnedByShare;
 	}
 }

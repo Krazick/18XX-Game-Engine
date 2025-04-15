@@ -14,9 +14,9 @@ import org.mockito.Mockito;
 import ge18xx.game.GameManager;
 
 class PrivateCompanyTests {
-	private PrivateCompany privateCompany1;
-	private PrivateCompany privateCompany2;
-	private PrivateCompany privateCompany3;
+	private Corporation privateCompany1;
+	private Corporation privateCompany2;
+	private Corporation privateCompany3;
 	private CompanyTestFactory companyTestFactory;
 	private CertificateTestFactory certificateTestFactory;
 	private ShareCompany mShareCompany2;

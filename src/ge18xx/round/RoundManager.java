@@ -757,7 +757,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tFoundBenefit;
 	}
 	
-	public PrivateCompany getSelectedPrivateCompanyToBuy () {
+	public Corporation getSelectedPrivateCompanyToBuy () {
 		return gameManager.getSelectedPrivateCompanyToBuy ();
 	}
 

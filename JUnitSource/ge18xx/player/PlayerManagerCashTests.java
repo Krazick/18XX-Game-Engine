@@ -13,9 +13,9 @@ import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
+import ge18xx.company.Corporation;
 import ge18xx.company.Coupon;
 import ge18xx.company.MinorCompany;
-import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
@@ -35,7 +35,7 @@ class PlayerManagerCashTests {
 	CompanyTestFactory companyTestFactory;
 	
 	PlayerManager playerManager;
-	PrivateCompany mPrivateCompany;
+	Corporation mPrivateCompany;
 	Certificate mCertificate;
 	GameManager mGameManager;
 	RoundManager roundManager;
@@ -110,7 +110,7 @@ class PlayerManagerCashTests {
 	void forNonShareGetPayCashToTest () {
 		CashHolderI tCashHolder;
 		Portfolio tSourcePortfolio;
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		MinorCompany tMinorCompany;
 		Certificate tPrivateCertificate;
 		Certificate tMinorCertificate;

@@ -55,7 +55,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 	}
 	
 	public void fillCertificateInfo (GameManager aGameManager) {
-		PrivateCompany tPrivateCompany;
+		Corporation tPrivateCompany;
 		int tIndex;
 		int tCorpCount;
 
@@ -63,7 +63,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 			tCorpCount = companies.getRowCount ();
 			if (tCorpCount > 0) {
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
-					tPrivateCompany = (PrivateCompany) companies.getCorporation (tIndex);
+					tPrivateCompany = (Corporation) companies.getCorporation (tIndex);
 					tPrivateCompany.fillCertificateInfo (aGameManager);
 				}
 			}

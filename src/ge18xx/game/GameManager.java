@@ -1053,16 +1053,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return playerManager.getEscrowMatching (aEscrowName);
 	}
 
-	public PrivateCompany getSelectedPrivateCompanyToBuy () {
+	public Corporation getSelectedPrivateCompanyToBuy () {
 		Corporation tSelectedCorporation;
-		PrivateCompany tSelectedPrivateCompany;
+		Corporation tSelectedPrivateCompany;
 
 		tSelectedCorporation = privatesFrame.getSelectedCorporation ();
 		if (tSelectedCorporation == Corporation.NO_CORPORATION) {
 			tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		} else {
 			if (tSelectedCorporation.isAPrivateCompany ()) {
-				tSelectedPrivateCompany = (PrivateCompany) tSelectedCorporation;
+				tSelectedPrivateCompany = (Corporation) tSelectedCorporation;
 			} else {
 				tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 			}
@@ -1076,7 +1076,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public CorporationList getPrivates () {
-		return privatesFrame.getCompanies ();
+		CorporationList tPrivateCorporationList;
+		
+		tPrivateCorporationList = CorporationList.NO_CORPORATION_LIST;
+		if (privatesFrame != XMLFrame.NO_XML_FRAME) {
+			tPrivateCorporationList = privatesFrame.getCompanies ();
+		}
+		
+		return tPrivateCorporationList;
 	}
 
 	public CorporationList getShareCompanies () {
