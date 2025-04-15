@@ -53,15 +53,6 @@ public class PrivatesFrame extends CorporationTableFrame {
 
 		return tPrivatesJPanel;
 	}
-
-//	@Override	
-//	public XMLElement addElements (XMLDocument aXMLDocument, String aType) {
-//		XMLElement tXMLElement;
-//		
-//		tXMLElement = super.addElements (aXMLDocument, EN_PRIVATES);
-//		
-//		return tXMLElement;
-//	}
 	
 	public void fillCertificateInfo (GameManager aGameManager) {
 		PrivateCompany tPrivateCompany;
