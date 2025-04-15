@@ -120,4 +120,4 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		
 		return tBasesApplied;
 	}
-}
+} 

@@ -105,11 +105,11 @@ public class CompanyTestFactory {
 				+ "			allowedOwners=\"IPO,Player,Share\" />"
 				+ "	</Private>";
 		String tPrivateCompany3TestXML = "	<Private id=\"1605\" name=\"Ostbayerische Bahn\" "
-				+ "		abbrev=\"OB\" cost=\"120\""
+				+ "		abbrev=\"TEST-OB\" cost=\"120\""
 				+ "		note=\"The owner of the Ostavern receives in addition a free share in the Bayerische. He may, if director of a share company, during an operating round, lay a tile on to the hex southeast of Numberg, or the hex to the right of this. This tile lay is in addition to a normal lav and is free. In a later operating round he may lay a tile on to the other of these two hexes. The Ostbavern is closed when both hexes have been built on. A connection to any tracks already existing is not required.\""
 				+ "		revenue=\"10\" special=\"Free Share of Bayerische Eisenbahn\">"
 				+ "		<Certificate director=\"YES\" percentage=\"100\""
-				+ "			allowedOwners=\"IPO,Player,Share\" />"
+				+ "			allowedOwners=\"IPO,Player\" />"
 				+ "		<Benefits>"
 				+ "			<Benefit actorType=\"Player\" class=\"ge18xx.company.benefit.FreeCertificateBenefit\" "
 				+ "				corporationID=\"1801\" certificatePercentage=\"10\" passive=\"true\"/>"

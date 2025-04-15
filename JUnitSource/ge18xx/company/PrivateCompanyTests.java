@@ -16,6 +16,7 @@ import ge18xx.game.GameManager;
 class PrivateCompanyTests {
 	private PrivateCompany privateCompany1;
 	private PrivateCompany privateCompany2;
+	private PrivateCompany privateCompany3;
 	private CompanyTestFactory companyTestFactory;
 	private CertificateTestFactory certificateTestFactory;
 	private ShareCompany mShareCompany2;
@@ -46,6 +47,7 @@ class PrivateCompanyTests {
 		
 		privateCompany1 = companyTestFactory.buildAPrivateCompany (1);
 		privateCompany2 = companyTestFactory.buildAPrivateCompany (2);
+		privateCompany3 = companyTestFactory.buildAPrivateCompany (3);
 	}
 
 	@Test
@@ -58,6 +60,32 @@ class PrivateCompanyTests {
 		tCertificate = privateCompany1.getCorporationCertificate (0);
 		
 		assertEquals ("TEST-C&SL", tCertificate.getCompanyAbbrev ());
+		
+		assertEquals ("TEST-OB", privateCompany3.getAbbrev ());
 	}
 
+	@Test
+	@DisplayName ("Allowed Owners Test")
+	void allowedOwnersTest () {
+		Certificate tCertificate;
+		
+		tCertificate = privateCompany3.getCorporationCertificate (0);
+		assertTrue (tCertificate.isPresidentShare ());
+		assertTrue (tCertificate.canBeOwnedBy (Certificate.IPO_OWNER));
+		assertTrue (tCertificate.canBeOwnedByIPO ());
+		assertTrue (tCertificate.canBeOwnedBy (Certificate.PLAYER_OWNER));
+		assertTrue (tCertificate.canBeOwnedByPlayer ());
+		assertFalse (tCertificate.canBeOwnedBy (Certificate.BANK_POOL_OWNER));
+		assertFalse (tCertificate.canBeOwnedByBankPool ());
+		assertFalse (tCertificate.canBeOwnedBy (Certificate.SHARE_OWNER));
+		assertFalse (tCertificate.canBeOwnedByShare ());
+		
+		assertTrue (privateCompany3.canBeOwnedByIPO ());
+		assertTrue (privateCompany3.canBeOwnedByPlayer ());
+		assertFalse (privateCompany3.canBeOwnedByShare ());
+
+		assertTrue (privateCompany2.canBeOwnedByIPO ());
+		assertTrue (privateCompany2.canBeOwnedByPlayer ());
+		assertTrue (privateCompany2.canBeOwnedByShare ());
+}
 }
