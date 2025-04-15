@@ -857,13 +857,16 @@ public class Certificate implements Comparable<Certificate> {
 		tPrivateAbbrevLabel = new JLabel (getCompanyAbbrev ());
 		tPrivateAbbrevLabel.setToolTipText (getCompanyName ());
 		tPrivateCertJPanel.add (tPrivateAbbrevLabel);
-		tPresidentLabel = new JLabel ("Prez: " + getOwnerName ());
+		
 		tPrice = getValue ();
 		tPriceLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
 		tPrivateCertJPanel.add (tPriceLabel);
+		
 		tRevenueValue = getRevenue ();
 		tRevenueLabel = new JLabel (Revenue.LABEL + Bank.formatCash (tRevenueValue));
 		tPrivateCertJPanel.add (tRevenueLabel);
+		
+		tPresidentLabel = new JLabel ("Prez: " + getOwnerName ());
 
 		if (canBeOwnedByShare ()) {
 			tHalfValue = tPrice / 2;
