@@ -261,7 +261,7 @@ public class Action {
 		String tXMLFormat;
 		String tXMLFormatClean;
 
-		tXMLFormat = "";
+		tXMLFormat = GUI.EMPTY_STRING;
 		tXMLDocument = new XMLDocument ();
 		tActionElement = getActionElement (tXMLDocument);
 		tGameActivityElement = tXMLDocument.createElement (aElementName);
