@@ -6,6 +6,8 @@ import ge18xx.round.action.ActorI;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetPreviousRouteInformationEffect extends Effect {
@@ -34,6 +36,17 @@ public class SetPreviousRouteInformationEffect extends Effect {
 		setRouteInformationID (tRouteInformationID);
 	}
 	
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
+
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
+		tEffectElement.setAttribute (AN_TRAIN_ID, trainID);
+		tEffectElement.setAttribute (AN_ROUTE_INFORMATION_ID, routeInformationID);
+		
+		return tEffectElement;
+	}
+
 	public void setTrainID (int aTrainID) {
 		trainID = aTrainID;
 	}
@@ -55,12 +68,18 @@ public class SetPreviousRouteInformationEffect extends Effect {
 			tTrain.setPreviousRouteInformation (tRouteInformation);
 			tEffectApplied = true;
 		} else {
-			setApplyFailureReason ("No Train with ID " + trainID + " Found to retrieve Current Route from" );		
+			setApplyFailureReason ("No Train with ID " + trainID + " Found to retrieve Current Route from" );
 		}
 		
 		return tEffectApplied;
 	}
-	
+
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		return (REPORT_PREFIX + name + " for Train ID " + trainID + " for  " + actor.getName ()
+				+ " to Route ID " + routeInformationID);
+	}
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
