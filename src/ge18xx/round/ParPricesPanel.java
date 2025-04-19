@@ -31,21 +31,6 @@ public class ParPricesPanel extends ListenerPanel {
 		buildParPrices ();
 	}
 
-//	public ParPricesPanel (LayoutManager layout, RoundManager aRoundManager) {
-//		super (layout, aRoundManager, NAME);
-//		buildParPrices ();
-//	}
-//
-//	public ParPricesPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-//		super (isDoubleBuffered, aRoundManager, NAME);
-//		buildParPrices ();
-//	}
-//
-//	public ParPricesPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-//		super (layout, isDoubleBuffered, aRoundManager, NAME);
-//		buildParPrices ();
-//	}
-
 	@Override
 	protected void updatePanel () {
 		updateParPrices ();
