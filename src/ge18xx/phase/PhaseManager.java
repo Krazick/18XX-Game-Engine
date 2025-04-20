@@ -25,7 +25,6 @@ public class PhaseManager implements XMLSaveGameI {
 	public static final int NO_PHASE = -1;
 	public static final int FIRST_PHASE = 0;
 	public static final int MINIMUM_TRAIN_LIMIT = 1;
-	public static final int MINIMUM_TILE_LAY_LIMIT = 1;
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
 	public final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
@@ -92,7 +91,7 @@ public class PhaseManager implements XMLSaveGameI {
 		PhaseInfo tPhaseInfo;
 		int tTileLaysAllowed;
 		
-		tTileLaysAllowed = MINIMUM_TILE_LAY_LIMIT;
+		tTileLaysAllowed = PhaseInfo.DEFAULT_TILE_LAYS;
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tTileLaysAllowed = tPhaseInfo.getTileLaysAllowed ();
