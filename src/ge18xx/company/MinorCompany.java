@@ -121,15 +121,6 @@ public class MinorCompany extends TokenCompany {
 		tMarketToken = tokens.getMarketToken ();
 		tokens.setTokenUsed (tMarketToken, true);
 	}
-	
-	@Override
-	public int getTileLaysAllowed () {
-		int tTileLaysAllowed;
-		
-		tTileLaysAllowed = corporationList.getTileLaysAllowed ();
-		
-		return tTileLaysAllowed;
-	}
 
 	public boolean canFormUpgrade () {
 		return formUpgrade;
