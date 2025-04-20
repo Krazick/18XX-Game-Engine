@@ -28,4 +28,13 @@ public class SetPercentBoughtAction extends Action {
 		tSetPercentBoughtEffect = new SetPercentBoughtEffect (aPlayer, aAbbrev, aPreviousPercent, aNewPercent);
 		addEffect (tSetPercentBoughtEffect);
 	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport;
+
+		tSimpleActionReport = actor.getName () + " " + NAME;
+
+		return tSimpleActionReport;
+	}
 }
