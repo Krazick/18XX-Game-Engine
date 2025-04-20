@@ -1270,8 +1270,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tToolTip;
 		boolean tEnableTile;
 		MapFrame tMapFrame;
+		int tTileLaysAllowed;
 		
-		if (corporation.canLayTile ()) {
+		tTileLaysAllowed = corporation.getTileLaysAllowed ();
+		if (corporation.canLayTile (tTileLaysAllowed)) {
 			if (corporation.isPlaceTileMode ()) {
 				tEnableTile = false;
 				tToolTip = IN_PLACE_TILE_MODE;
@@ -1287,6 +1289,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (corporation.canLayBaseToken ()) {
 				tEnableTile = false;
 				tToolTip = MUST_LAY_BASE_TOKEN;
+			} else if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
+				tEnableTile = false;
+				tToolTip = "Already laid Yellow Tile";
 			} else {
 				tEnableTile = true;
 				tToolTip = GUI.NO_TOOL_TIP;
