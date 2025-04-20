@@ -1328,11 +1328,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public boolean canLayTile () {
+	public boolean canLayTile (int aTileLaysAllowed) {
 		boolean tCanLayTile;
 
 		tCanLayTile = false;
-		if ((status == ActorI.ActionStates.StartedOperations) || 
+		if (aTileLaysAllowed > 1) {
+			if ((status == ActorI.ActionStates.TileLaid) || 
+				(status == ActorI.ActionStates.TileAndStationLaid) || 
+				(status == ActorI.ActionStates.StartedOperations) || 
+				(status == ActorI.ActionStates.StationLaid)) {
+				tCanLayTile = true;
+			}
+		} else if ((status == ActorI.ActionStates.StartedOperations) || 
 			(status == ActorI.ActionStates.StationLaid)) {
 			tCanLayTile = true;
 		}
