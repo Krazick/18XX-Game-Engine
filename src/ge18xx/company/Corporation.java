@@ -512,7 +512,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCanPayHalfDividend;
 	}
 
-	public boolean canLayTile () {
+	public boolean canLayTile (int aTileLaysAllowed) {
 		return false;
 	}
 
