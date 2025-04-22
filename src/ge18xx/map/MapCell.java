@@ -2545,11 +2545,16 @@ public class MapCell implements Comparator<Object> {
 			if (privateCos != CorporationList.NO_CORPORATION_LIST) {
 				tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
 				if (tPrivateCompany != Corporation.NO_CORPORATION) {
-					// Given this Map Cell is home to a Private Company
-					// Then Prevent this Tile Lay if the Private is not Owned by the Operating Train
-					// Company
-					if (tOperatingTrainCompany.doesNotOwn (tPrivateCompany)) {
-						tPrivatePrevents = true;
+					// If there is a BenefitInUse, to Place a Tile, it belongs to the President or the Share
+					// Company. 
+					if (!tOperatingTrainCompany.isBenefitInUse ()) {
+
+						// Given this Map Cell is home to a Private Company
+						// Then Prevent this Tile Lay if the Private is not Owned by the Operating Train
+						// Company
+						if (tOperatingTrainCompany.doesNotOwn (tPrivateCompany)) {
+							tPrivatePrevents = true;
+						}
 					}
 				}
 			}
