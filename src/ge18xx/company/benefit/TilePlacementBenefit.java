@@ -79,17 +79,6 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	protected void updateButton () {
-//		ShareCompany tOperatingCompany;
-//		Benefit tBenefitInUse;
-//		String tBenefitInUseName;
-//
-//		tOperatingCompany = getOperatingCompany ();
-//		tBenefitInUse = tOperatingCompany.getBenefitInUse ();
-//		tBenefitInUseName = tBenefitInUse.getName ();
-//		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
-//			disableButton ();
-//			setToolTip ("Another Benefit is currently in Use");
-//		} else 
 		if (hasNonStartingTile ()) {
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
