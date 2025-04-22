@@ -304,6 +304,17 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return benefitInUse;
 	}
 
+	public boolean isBenefitInUse () {
+		boolean tIsBenefitInUse;
+		
+		tIsBenefitInUse = false;
+		if (benefitInUse != Benefit.NO_BENEFIT) {
+			tIsBenefitInUse = true;
+		}
+		
+		return tIsBenefitInUse;
+	}
+	
 	public String getFormationState () {
 		return formationState;
 	}
@@ -1696,14 +1707,18 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public boolean doesOwn (Corporation aPrivateCompany) {
-		boolean tDoesOwn = portfolio.containsPresidentShareOf (aPrivateCompany);
+		boolean tDoesOwn;
 
+		tDoesOwn = portfolio.containsPresidentShareOf (aPrivateCompany);
+		
 		return tDoesOwn;
 	}
 
 	public boolean doesNotOwn (Corporation aPrivateCompany) {
-		boolean tDoesNotOwn = !portfolio.containsPresidentShareOf (aPrivateCompany);
+		boolean tDoesNotOwn;
 
+		tDoesNotOwn = !portfolio.containsPresidentShareOf (aPrivateCompany);
+		
 		return tDoesNotOwn;
 	}
 
