@@ -2665,6 +2665,33 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tCanBuyTrainInPhase;
 	}
 
+	public int getSelectedTrainCount () {
+		Bank tBank;
+		BankPool tBankPool;
+		int tSelectedCount;
+
+		tSelectedCount = 0;
+		tBank = getBank ();
+		if (tBank != Bank.NO_BANK) {
+			tSelectedCount += tBank.getSelectedTrainCount ();
+		}
+		tBankPool = getBankPool ();
+		if (tBankPool != BankPool.NO_BANK_POOL) {
+			tSelectedCount += tBankPool.getSelectedTrainCount ();
+		}
+		if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
+			tSelectedCount += privatesFrame.getSelectedTrainCount ();
+		}
+		if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
+			tSelectedCount += minorCompaniesFrame.getSelectedTrainCount ();
+		}
+		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
+			tSelectedCount += shareCompaniesFrame.getSelectedTrainCount ();
+		}
+
+		return tSelectedCount;
+	}
+
 	public boolean roundManagerIsValid () {
 		return (roundManager != RoundManager.NO_ROUND_MANAGER);
 	}

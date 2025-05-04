@@ -9,23 +9,91 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.bank.BankTestFactory;
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 
 class TrainCompanyBasicTests {
 	CompanyTestFactory companyTestFactory;
+	GameManager mGameManager;
+	BankTestFactory bankTestFactory;
+	Bank bank;
 	TrainCompany trainCompany;
+	TrainCompany mTrainCompany;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		companyTestFactory = new CompanyTestFactory ();
+		mGameManager = companyTestFactory.getGameManagerMock ();
+		bankTestFactory = new BankTestFactory ();
+		bank = bankTestFactory.buildBank (mGameManager);
 		trainCompany = companyTestFactory.buildATrainCompany (1);
+		mTrainCompany = companyTestFactory.buildTrainCompanyMock ();
 	}
 
 	@AfterEach
 	void tearDown () throws Exception {
 	}
 
+	@Test
+	@DisplayName ("Test getting selected Train Count") 
+	void getSelectedTrainCountTest () {
+		Bank tBank;
+		BankPool tBankPool;
+		Bank mBank;
+		BankPool mBankPool;
+		CorporationList mCorporationList;
+		
+		tBank = Bank.NO_BANK;
+		tBankPool = BankPool.NO_BANK_POOL;
+		mCorporationList = companyTestFactory.buildCorporationListMock (mGameManager, null);
+		trainCompany.setCorporationList (mCorporationList);
+		
+		Mockito.when (mCorporationList.getBank ()).thenReturn (tBank);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (tBankPool);
+		assertEquals (0, trainCompany.getSelectedTrainCount ());
+		
+		mBank = bankTestFactory.buildBankMock (mGameManager);
+		mBankPool = bankTestFactory.buildBankPoolMock (mGameManager);
+
+		Mockito.when (mBank.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBank ()).thenReturn (mBank);
+		assertEquals (0, trainCompany.getSelectedTrainCount ());
+		
+		Mockito.when (mCorporationList.getBank ()).thenReturn (tBank);
+		Mockito.when (mBankPool.getSelectedTrainCount ()).thenReturn (0);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (mBankPool);
+		assertEquals (0, trainCompany.getSelectedTrainCount ());
+		
+		Mockito.when (mBank.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBank ()).thenReturn (mBank);
+		Mockito.when (mBankPool.getSelectedTrainCount ()).thenReturn (0);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (mBankPool);
+		assertEquals (1, trainCompany.getSelectedTrainCount ());
+		
+		Mockito.when (mBank.getSelectedTrainCount ()).thenReturn (0);
+		Mockito.when (mCorporationList.getBank ()).thenReturn (mBank);
+		Mockito.when (mBankPool.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (mBankPool);
+		assertEquals (1, trainCompany.getSelectedTrainCount ());
+		
+		Mockito.when (mBank.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBank ()).thenReturn (mBank);
+		Mockito.when (mBankPool.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (mBankPool);
+		assertEquals (2, trainCompany.getSelectedTrainCount ());
+		
+		Mockito.when (mBank.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBank ()).thenReturn (mBank);
+		Mockito.when (mBankPool.getSelectedTrainCount ()).thenReturn (1);
+		Mockito.when (mCorporationList.getBankPool ()).thenReturn (mBankPool);
+		Mockito.when (mTrainCompany.getSelectedTrainCount ()).thenReturn (1);
+		assertEquals (1, mTrainCompany.getSelectedTrainCount ());
+	}
 	
 	@Test
 	@DisplayName ("Test getting a Port License in this Company")
