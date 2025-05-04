@@ -147,9 +147,10 @@ public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public int getTotalCorpCash () {
-		int tTotalCorpCash = 0;
+		int tTotalCorpCash;
 		int tCompanyCount;
 
+		tTotalCorpCash = 0;
 		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			tCompanyCount = companies.getRowCount ();
 
@@ -159,5 +160,19 @@ public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 		}
 
 		return tTotalCorpCash;
+	}
+	
+	public int getSelectedTrainCount () {
+		int tSelectedTrainCount;
+		String tActiveCompanyAbbrev;
+		
+		tSelectedTrainCount = 0;
+		
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tActiveCompanyAbbrev = companies.getCurrentlyOperatingAbbrev ();
+			tSelectedTrainCount = companies.getSelectedTrainCount (tActiveCompanyAbbrev);
+		}
+		
+		return tSelectedTrainCount;
 	}
 }
