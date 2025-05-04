@@ -588,6 +588,23 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tElementName;
 	}
 
+	public String getCurrentlyOperatingAbbrev () {
+		String tCurrentlyOperatingAbbrev;
+		int tCount;
+		Corporation tCorporation;
+
+		tCurrentlyOperatingAbbrev = Corporation.NO_ABBREV;
+		tCount = getCorporationCount ();
+		for (int tIndex = 0; tIndex < tCount; tIndex++) {
+			tCorporation = corporations.get (tIndex);
+			if (tCorporation.isOperating () && (tCurrentlyOperatingAbbrev ==Corporation.NO_ABBREV)) {
+				tCurrentlyOperatingAbbrev = tCorporation.getAbbrev ();
+			}
+		}
+
+		return tCurrentlyOperatingAbbrev;
+	}
+
 	public int getCurrentlyOperating () {
 		int tCurrentlyOperating;
 		int tCount;
