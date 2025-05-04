@@ -2278,6 +2278,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCanBuyTrain;
 	}
 
+	public int getSelectedTrainCountA () {
+		GameManager tGameManager;
+		int tSelectedCount;
+		
+		tGameManager = getGameManager ();
+		tSelectedCount = tGameManager.getSelectedTrainCount ();
+		
+		return tSelectedCount;
+	}	
+	
 	@Override
 	public int getSelectedTrainCount () {
 		Bank tBank;
@@ -2286,7 +2296,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tBank = getBank ();
 		tBankPool = getBankPool ();
-		if ((tBank != null) && (tBankPool != null)) {
+		if ((tBank != Bank.NO_BANK) && (tBankPool != BankPool.NO_BANK_POOL)) {
 			tSelectedCount = tBank.getSelectedTrainCount () + tBankPool.getSelectedTrainCount ()
 				+ super.getSelectedTrainCount ();
 		} else {
