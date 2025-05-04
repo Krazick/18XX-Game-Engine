@@ -570,6 +570,16 @@ public class CompanyTestFactory {
 		
 		return cTrainCompany;
 	}
+	
+	// Build Mocked Train Company Methods
+	
+	public TrainCompany buildTrainCompanyMock () {
+		TrainCompany mTrainCompany;
+		
+		mTrainCompany = Mockito.mock (TrainCompany.class);
+		
+		return mTrainCompany;
+	}
 
 	// Class to create Concrete Token Company rather than a specific extended class for Testing
 	
