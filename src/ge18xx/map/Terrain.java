@@ -83,10 +83,6 @@ public class Terrain extends Feature implements LoadableXMLI {
 	int terrain;
 	int cost;
 
-	public Terrain () {
-		this (NO_TERRAIN);
-	}
-
 	public Terrain (int aTerrain) {
 		this (aTerrain, NO_COST, Location.NO_LOCATION);
 	}
