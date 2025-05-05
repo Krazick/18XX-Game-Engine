@@ -1739,16 +1739,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			roundManager.updateAllCorporationsBox ();
 			roundManager.setCurrentPlayerLabel ();
 			if (roundManager.isAAuctionRound ()) {
-				// Save the Auction States since 'AddPrivateToAuction' will reset the Player
-				// Auction States Reset After adding the Private to Auction.
+				// Save the Auction States since 'AddPrivateToAuction' will reset the
+				// Player Auction States Reset After adding the Private to Auction.
 				tAuctionStates = playerManager.getPlayerAuctionStates ();
 				addPrivateToAuction ((StartAuctionAction) StartAuctionAction.NO_ACTION);
 				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
 			bank.updateBankCashLabel ();
 			tGoodLoad = true;
-			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." + " Players ["
-					+ playerManager.getPlayersInOrder () + "]");
+			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." 
+					+ " Players [" + playerManager.getPlayersInOrder () + "]");
 		}
 		activateCommunications ();
 
