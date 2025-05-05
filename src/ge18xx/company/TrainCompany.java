@@ -2291,28 +2291,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		return tSelectedCount;
 	}
-//	
-//	public String getReasonWhyCantBuyTrain () {
-//		String tReasonCantBuyTrain;
-//		
-//		if (atTrainLimit ()) {
-//			tReasonCantBuyTrain = abbrev + " is at the Train Limit";
-//		} else if (getCash () == TrainCompany.NO_CASH) {
-//			tReasonCantBuyTrain = abbrev + " has no cash";
-//		} else {
-//			tReasonCantBuyTrain = abbrev + " has not handled dividends yet";
-//		}
-//		
-//		return tReasonCantBuyTrain;
-//	}
 
 	@Override
 	public String reasonForNoBuyTrain () {
 		String tReasonForNoBuyTrain;
 		int tSelectedTrainCount;
+		GameManager tGameManager;
 
 		tReasonForNoBuyTrain = NO_REASON;
-		tSelectedTrainCount = getSelectedTrainCount ();
+		tGameManager = getGameManager ();
+		tSelectedTrainCount = tGameManager.getSelectedTrainCount ();
 		if (dividendsHandled ()) {
 			// If Dividend has been held, half paid, or full paid it is time to buy train
 			if (noCash ()) {
