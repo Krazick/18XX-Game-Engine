@@ -1021,7 +1021,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (corporation.getCountOfSelectedPrivates () > 0) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = PRIVATE_SELECTED;
-			} else if (corporation.getSelectedTrainCount () > 0) {
+			} else if (gameManager.getSelectedTrainCount () > 0) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = TRAIN_SELECTED;
 			} else if (corporation.mustBuyTrainNow ()) {
@@ -1479,7 +1479,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (!corporation.dividendsHandled ()) {
 			doneButton.setEnabled (false);
 			tToolTip = DIVIDENDS_NOT_HANDLED;
-		} else if (corporation.getSelectedTrainCount () > 0) {
+		} else if (gameManager.getSelectedTrainCount () > 0) {
 			doneButton.setEnabled (false);
 			tToolTip = TRAIN_SELECTED;
 		} else if (corporation.getCountOfSelectedPrivates () > 0) {
@@ -1567,8 +1567,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		tTrainCompany = (TrainCompany) corporation;
 		tThisSelectedTrainCount = tTrainCompany.getLocalSelectedTrainCount ();
-		tSelectedCount = corporation.getSelectedTrainCount ();
-
+//		tSelectedCount = corporation.getSelectedTrainCount ();
+		tSelectedCount = gameManager.getSelectedTrainCount ();
+		
 		if (tThisSelectedTrainCount == 0) {
 			tRemovedADiscount = tTrainCompany.removeAllDiscounts ();
 			if ((tSelectedCount == 0) && tRemovedADiscount) {
