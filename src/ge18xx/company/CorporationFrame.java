@@ -52,6 +52,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String PLACE_CATTLE_TOKEN = "Place Cattle Token";
 	public static final String BUY_LICENSE = "Buy License to use Private Home";
 	public static final String BUY_TRAIN = "Buy Train";
+	public static final String OFFER_TO_BUY_TRAIN = "Offer to Buy Train";
+	public static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	public static final String SHOW_MAP = "Show Map";
 	public static final String PLACE_TILE = "Place Tile";
 	public static final String PLACE_2ND_YELLOW_TILE = "Place 2nd Yellow Tile";
@@ -74,8 +76,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String PAY_FULL_DIVIDEND = "Pay Full Dividend";
 	public static final String PAY_HALF_DIVIDEND = "Pay Half Dividend";
 	public static final String PAY_NO_DIVIDEND = "Pay No Dividend";
-	public static final String OFFER_TO_BUY_TRAIN = "Offer to Buy Train";
-	public static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	public static final String BUY_PRIVATE = "Buy Private";
 	public static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
 	public static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
@@ -459,7 +459,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		boolean tStatusUpdated;
 		HexMap tMap;
 		
-
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
 		tSourceButton = (KButton) aEvent.getSource ();
