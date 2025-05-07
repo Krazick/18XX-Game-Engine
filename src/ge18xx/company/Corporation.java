@@ -476,8 +476,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public TrainHolderI getOtherSelectedTrainHolder () {
-		TrainHolderI tGetOtherSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		TrainHolderI tGetOtherSelectedTrainHolder;
 
+		tGetOtherSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 		if (corpListValid ()) {
 			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
 		}
