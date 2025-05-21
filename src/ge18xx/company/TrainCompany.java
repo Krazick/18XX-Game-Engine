@@ -1677,38 +1677,42 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public TrainHolderI getSelectedTrainHolder () {
-		Bank tBank;
-		BankPool tBankPool;
+//		Bank tBank;
+//		BankPool tBankPool;
 		TrainHolderI tTrainHolder;
-		Coupon tTrain;
-
-		tBank = getBank ();
-		tBankPool = getBankPool ();
-		tTrain = Train.NO_TRAIN;
-		tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
-		if (tTrain == Train.NO_TRAIN) {
-			tTrain = tBank.getSelectedTrain ();
-			if (tTrain != Train.NO_TRAIN) {
-				tTrainHolder = tBank;
-			}
-		}
-		if (tTrain == Train.NO_TRAIN) {
-			tTrain = tBankPool.getSelectedTrain ();
-			if (tTrain != Train.NO_TRAIN) {
-				tTrainHolder = tBankPool;
-			}
-		}
-
-		if (tTrain == Train.NO_TRAIN) {
-			tTrainHolder = getOtherSelectedTrainHolder ();
-		}
-
-		if (tTrain == Train.NO_TRAIN) {
-			tTrain = trainPortfolio.getSelectedTrain ();
-			if (tTrain != Train.NO_TRAIN) {
-				tTrainHolder = this;
-			}
-		}
+//		Coupon tTrain;
+		GameManager tGameManager;
+		
+		tGameManager = getGameManager ();
+		tTrainHolder = tGameManager.getSelectedTrainHolder ();
+		
+//		tBank = getBank ();
+//		tBankPool = getBankPool ();
+//		tTrain = Train.NO_TRAIN;
+//		tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrain = tBank.getSelectedTrain ();
+//			if (tTrain != Train.NO_TRAIN) {
+//				tTrainHolder = tBank;
+//			}
+//		}
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrain = tBankPool.getSelectedTrain ();
+//			if (tTrain != Train.NO_TRAIN) {
+//				tTrainHolder = tBankPool;
+//			}
+//		}
+//
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrainHolder = getSelectedTrainHolder ();
+//		}
+//
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrain = trainPortfolio.getSelectedTrain ();
+//			if (tTrain != Train.NO_TRAIN) {
+//				tTrainHolder = this;
+//			}
+//		}
 
 		return tTrainHolder;
 	}
