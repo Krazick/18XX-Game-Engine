@@ -475,16 +475,27 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return Color.BLACK;
 	}
 
-	public TrainHolderI getOtherSelectedTrainHolder () {
-		TrainHolderI tGetOtherSelectedTrainHolder;
+	public TrainHolderI getSelectedTrainHolder () {
+		TrainHolderI tSelectedTrainHolder;
 
-		tGetOtherSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		tSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 		if (corpListValid ()) {
-			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
+			tSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
 		}
 
-		return tGetOtherSelectedTrainHolder;
+		return tSelectedTrainHolder;
 	}
+//
+//	public TrainHolderI getOtherSelectedTrainHolder () {
+//		TrainHolderI tGetOtherSelectedTrainHolder;
+//
+//		tGetOtherSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+//		if (corpListValid ()) {
+//			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
+//		}
+//
+//		return tGetOtherSelectedTrainHolder;
+//	}
 
 	public int getSelectedTrainCount () {
 		int tGetSelectedTrainCount;
