@@ -91,6 +91,7 @@ import ge18xx.toplevel.TileDefinitionFrame;
 import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
+import ge18xx.train.TrainHolderI;
 import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
 import geUtilities.FileGEFilter;
@@ -2690,6 +2691,42 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 
 		return tSelectedCount;
+	}
+
+	public TrainHolderI getSelectedTrainHolder () {
+		Bank tBank;
+		BankPool tBankPool;
+		TrainHolderI tSelectedTrainHolder;
+		
+		tSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		tBank = getBank ();
+		if (tBank != Bank.NO_BANK) {
+			tSelectedTrainHolder = tBank.getSelectedTrainHolder ();
+		}
+
+		if (tSelectedTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
+			tBankPool = getBankPool ();
+			if (tBankPool != BankPool.NO_BANK_POOL) {
+				tSelectedTrainHolder = tBankPool.getSelectedTrainHolder ();
+			}
+		}
+		if (tSelectedTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
+			if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
+				tSelectedTrainHolder = privatesFrame.getSelectedTrainHolder ();
+			}
+		}
+		if (tSelectedTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
+			if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
+				tSelectedTrainHolder = minorCompaniesFrame.getSelectedTrainHolder ();
+			}
+		}
+		if (tSelectedTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
+			if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
+				tSelectedTrainHolder = shareCompaniesFrame.getSelectedTrainHolder ();
+			}
+		}
+
+		return tSelectedTrainHolder;
 	}
 
 	public boolean roundManagerIsValid () {
