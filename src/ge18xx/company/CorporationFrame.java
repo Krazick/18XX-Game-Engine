@@ -1615,16 +1615,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateBuyTrainLabel () {
-		TrainHolderI tOtherTrainHolder;
+		TrainHolderI tSelectedTrainHolder;
 		Corporation tOtherCorporation;
 		String tOtherPresidentName;
 		String tCurrentPresidentName;
 
 		buyTrainButton.setText (BUY_TRAIN);
-		tOtherTrainHolder = corporation.getOtherSelectedTrainHolder ();
-		if (tOtherTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
-			if (tOtherTrainHolder.isACorporation ()) {
-				tOtherCorporation = (Corporation) tOtherTrainHolder;
+		tSelectedTrainHolder = corporation.getSelectedTrainHolder ();
+		if (tSelectedTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
+			if (tSelectedTrainHolder.isACorporation ()) {
+				tOtherCorporation = (Corporation) tSelectedTrainHolder;
 				tOtherPresidentName = tOtherCorporation.getPresidentName ();
 				tCurrentPresidentName = corporation.getPresidentName ();
 				if (!tCurrentPresidentName.equals (tOtherPresidentName)) {
