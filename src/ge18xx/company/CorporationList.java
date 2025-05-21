@@ -1155,6 +1155,22 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tSelectedCount;
 	}
 
+	public TrainHolderI getSelectedTrainHolder (String aCurrentAbbrev) {
+		TrainHolderI tSelectedTrainHolder;
+
+		tSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		for (Corporation tCorporation : corporations) {
+			if (tSelectedTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
+				if ((aCurrentAbbrev == Corporation.NO_ABBREV) ||
+					(!aCurrentAbbrev.equals (tCorporation.getAbbrev ()))) {								
+					tSelectedTrainHolder = tCorporation.getLocalSelectedTrainHolder ();
+				}
+			}
+		}
+
+		return tSelectedTrainHolder;
+	}
+
 	public TrainHolderI getOtherSelectedTrainHolder (String aCurrentAbbrev) {
 		TrainHolderI tTrainHolder;
 
