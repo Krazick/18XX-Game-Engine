@@ -8,6 +8,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.train.TrainHolderI;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -174,5 +175,19 @@ public class CorporationTableFrame extends XMLFrame implements XMLSaveGameI {
 		}
 		
 		return tSelectedTrainCount;
+	}
+	
+	public TrainHolderI getSelectedTrainHolder () {
+		TrainHolderI tSelectedTrainHolder;
+		String tActiveCompanyAbbrev;
+		
+		tSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tActiveCompanyAbbrev = companies.getCurrentlyOperatingAbbrev ();
+			tSelectedTrainHolder = companies.getSelectedTrainHolder (tActiveCompanyAbbrev);
+		}
+		
+		return tSelectedTrainHolder;
 	}
 }
