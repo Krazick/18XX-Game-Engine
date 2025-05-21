@@ -1058,7 +1058,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		BuyTrainAction tBuyTrainAction;
 		String tOperatingRoundID;
 
-		if (isSelectedTrainInBank ()) {
+		if (isSelectedTrainHolderTheBank ()) {
 			tOperatingRoundID = getOperatingRoundID ();
 			tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			addNeededCashTransferEffect (tBuyTrainAction, aNeededCash);
@@ -1645,30 +1645,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainHolder;
 	}
 
-	public boolean isSelectedTrainInBank () {
+	public boolean isSelectedTrainHolderTheBank () {
 		boolean tIsSelectedTrainHolder;
 		TrainHolderI tTrainHolder;
-
-		tIsSelectedTrainHolder = true;
-		tTrainHolder = getOtherSelectedTrainHolder ();
-		if (tTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
+		
+		tTrainHolder = getSelectedTrainHolder ();
+		if (tTrainHolder.isABank ()) {
+			tIsSelectedTrainHolder = true;
+		} else {
 			tIsSelectedTrainHolder = false;
 		}
 
 		return tIsSelectedTrainHolder;
-	}
-
-	public boolean isSelectedTrainHolderTheBank () {
-		boolean tIsSelectedTrainHolderTheBank;
-		TrainHolderI tSelectedTrainHolder;
-		Bank tBank;
-
-		tBank = getBank ();
-
-		tSelectedTrainHolder = getSelectedTrainHolder ();
-		tIsSelectedTrainHolderTheBank = tSelectedTrainHolder.equals (tBank);
-
-		return tIsSelectedTrainHolderTheBank;
 	}
 
 	@Override
@@ -1676,44 +1664,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return true;
 	}
 
+	@Override
 	public TrainHolderI getSelectedTrainHolder () {
-//		Bank tBank;
-//		BankPool tBankPool;
 		TrainHolderI tTrainHolder;
-//		Coupon tTrain;
 		GameManager tGameManager;
 		
 		tGameManager = getGameManager ();
 		tTrainHolder = tGameManager.getSelectedTrainHolder ();
 		
-//		tBank = getBank ();
-//		tBankPool = getBankPool ();
-//		tTrain = Train.NO_TRAIN;
-//		tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
-//		if (tTrain == Train.NO_TRAIN) {
-//			tTrain = tBank.getSelectedTrain ();
-//			if (tTrain != Train.NO_TRAIN) {
-//				tTrainHolder = tBank;
-//			}
-//		}
-//		if (tTrain == Train.NO_TRAIN) {
-//			tTrain = tBankPool.getSelectedTrain ();
-//			if (tTrain != Train.NO_TRAIN) {
-//				tTrainHolder = tBankPool;
-//			}
-//		}
-//
-//		if (tTrain == Train.NO_TRAIN) {
-//			tTrainHolder = getSelectedTrainHolder ();
-//		}
-//
-//		if (tTrain == Train.NO_TRAIN) {
-//			tTrain = trainPortfolio.getSelectedTrain ();
-//			if (tTrain != Train.NO_TRAIN) {
-//				tTrainHolder = this;
-//			}
-//		}
-
 		return tTrainHolder;
 	}
 
