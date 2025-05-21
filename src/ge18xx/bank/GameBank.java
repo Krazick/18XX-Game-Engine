@@ -119,6 +119,19 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGa
 		return trainPortfolio.getAvailableTrains ();
 	}
 
+	public TrainHolderI getSelectedTrainHolder () {
+		TrainHolderI tSelectedTrainHolder;
+		Train tSelectedTrain;
+		
+		tSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		tSelectedTrain = trainPortfolio.getSelectedTrain ();
+		if (tSelectedTrain != Train.NO_TRAIN) {
+			tSelectedTrainHolder = this;
+		}
+		
+		return tSelectedTrainHolder;
+	}
+	
 	@Override
 	public Bank getBank () {
 		return gameManager.getBank ();
