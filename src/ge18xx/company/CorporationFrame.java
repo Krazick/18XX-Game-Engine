@@ -161,7 +161,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			buildCorporationAllInfoJPanel ();
 			buildCorporationJPanel ();
 
-			setSize (900, 800);
+//			setSize (900, 800);
+			setSize (1015, 900);
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
 		}
