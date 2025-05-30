@@ -1566,7 +1566,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		tTrainCompany = (TrainCompany) corporation;
 		tThisSelectedTrainCount = tTrainCompany.getLocalSelectedTrainCount ();
-//		tSelectedCount = corporation.getSelectedTrainCount ();
 		tSelectedCount = gameManager.getSelectedTrainCount ();
 		
 		if (tThisSelectedTrainCount == 0) {
