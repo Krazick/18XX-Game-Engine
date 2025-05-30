@@ -3051,7 +3051,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		if (aXMLFrame != XMLFrame.NO_XML_FRAME) {
 			tXMLFrameName = aXMLFrame.getTitle ();
-			if (tXMLFrameName != null) {
+			if (tXMLFrameName != GUI.NULL_STRING) {
 				if (!frameIsPresent (tXMLFrameName)) {
 					configFrames.add (aXMLFrame);
 				}
