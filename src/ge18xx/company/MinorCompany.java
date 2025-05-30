@@ -89,6 +89,11 @@ public class MinorCompany extends TokenCompany {
 	}
 
 	@Override
+	public String getAbbrev () {
+		return abbrev;
+	}
+
+	@Override
 	public ElementName getElementName () {
 		return EN_MINOR_COMPANY;
 	}
