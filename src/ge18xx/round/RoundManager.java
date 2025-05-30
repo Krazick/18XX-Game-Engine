@@ -232,10 +232,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame = aRoundFrame;
 	}
 
-//	public void setCurrentRoundState (ActorI.ActionStates aNewRoundState) {
-//		currentRoundState = aNewRoundState;
-//	}
-
 	public void addAction (Action aAction) {
 	
 		// If applying a Network Action, we do -NOT- Need to add the Action again. This
