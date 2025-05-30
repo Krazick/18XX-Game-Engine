@@ -2268,9 +2268,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (noCash ()) {
 				tReasonForNoBuyTrain = NO_MONEY;
 			} else if (atTrainLimit ()) {
-				tReasonForNoBuyTrain = "At Train Limit of " + getTrainLimit () + " for this Corporation/Phase.";
-			}
-			if (tSelectedTrainCount == 0) {
+				tReasonForNoBuyTrain = "At Train Limit of " + getTrainLimit () + 
+						" for this Corporation/Phase.";
+			} else if (tSelectedTrainCount == 0) {
 				tReasonForNoBuyTrain = NO_TRAIN_SELECTED;
 			} else if (tSelectedTrainCount > 1) {
 				tReasonForNoBuyTrain = SELECT_SINGLE_TRAIN;
