@@ -1163,7 +1163,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		String tTriggerClassName;
-		ShareCompany tOperatingCorporation;
+//		ShareCompany tSOperatingCorporation;
+		Corporation tOperatingCorporation;
 		
 		tTriggerClassName = getTriggerClassName ();
 		if (hasTriggerClass (tTriggerClassName)) {
@@ -1181,8 +1182,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tGameManager.setTriggerFormation (tTriggerFormationClass);
 				aBuyTrainAction.addConstructTriggerClassEffect (this);
 			}
-			tOperatingCorporation = tGameManager.getOperatingShareCompany ();
-			tTriggerFormationClass.setTriggeringShareCompany (tOperatingCorporation);
+			tOperatingCorporation = tGameManager.getOperatingCompany ();
+			tTriggerFormationClass.setTriggeringCompany (tOperatingCorporation);
+//			tOperatingCorporation = tGameManager.getOperatingShareCompany ();
+//			tTriggerFormationClass.setTriggeringShareCompany (tOperatingCorporation);
 		}
 	}
 	

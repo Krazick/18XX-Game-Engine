@@ -47,7 +47,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
-public class FormCGR extends TriggerClass implements ActionListener {
+public class FormCGR extends FormCompany implements ActionListener {
 	public static final ElementName EN_FORM_CGR = new ElementName ("FormationClass");
 	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
@@ -60,7 +60,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
-	public static final FormCGR NO_FORM_CGR = null;
+	public static final FormCompany NO_FORM_CGR = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
@@ -74,8 +74,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	
 	XMLFrame formationFrame;
-	GameManager gameManager;
-	int currentPlayerIndex;
 	int shareFoldCount;
 
 	boolean currentPlayerDone;
@@ -94,14 +92,14 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	String notificationText;
 
 	StartFormationAction startFormationAction;
-	ShareCompany triggeringShareCompany;
+//	ShareCompany triggeringShareCompany;
 	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
 	public FormCGR (GameManager aGameManager) {
+		super (aGameManager);
 		String tFullFrameTitle;
 		
-		gameManager = aGameManager;
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
 		setNotificationText (TIME_TO_REPAY);
@@ -123,12 +121,14 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		PlayerManager tPlayerManager;
 
 		if (aStartFormationAction != Action.NO_ACTION) {
-			tActingPlayer = (Player) triggeringShareCompany.getPresident ();
+//			tActingPlayer = (Player) triggeringShareCompany.getPresident ();
+			tActingPlayer = (Player) triggeringCompany.getPresident ();
 			showFormationFrame ();
 			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
 			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
 								formationState);
-			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringShareCompany);
+//			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringShareCompany);
+			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayers = tPlayerManager.getPlayers ();
 
@@ -203,10 +203,10 @@ public class FormCGR extends TriggerClass implements ActionListener {
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
-		if (triggeringShareCompany == ShareCompany.NO_SHARE_COMPANY) {
+		if (triggeringCompany == ShareCompany.NO_SHARE_COMPANY) {
 			tTriggeringAbbrev = GUI.EMPTY_STRING;
 		} else {
-			tTriggeringAbbrev = triggeringShareCompany.getAbbrev ();
+			tTriggeringAbbrev = triggeringCompany.getAbbrev ();
 		}
 		tXMLElement.setAttribute (AN_TRIGGERING_COMPANY, tTriggeringAbbrev);
 		if (actingPresident != ActorI.NO_ACTOR) {
@@ -218,7 +218,7 @@ public class FormCGR extends TriggerClass implements ActionListener {
 
 	@Override
 	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
-		triggeringShareCompany = aTriggeringShareCompany;
+		triggeringCompany = aTriggeringShareCompany;
 	}
 	
 	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
@@ -239,8 +239,8 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	
 	@Override
 	public void triggeringHandleDone () {
-		if (triggeringShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-			triggeringShareCompany.corporationListDoneAction ();
+		if (triggeringCompany != ShareCompany.NO_SHARE_COMPANY) {
+			triggeringCompany.corporationListDoneAction ();
 		} else {
 			System.err.println ("Trying to Trigger Handle Done, but don't have a Triggering Share Company set.");
 		}
@@ -516,15 +516,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 	}
 	
 	@Override
-	public void setCurrentPlayerIndex (int aCurrentPlayerIndex) {
-		currentPlayerIndex = aCurrentPlayerIndex;
-	}
-	
-	public int getCurrentPlayerIndex () {
-		return currentPlayerIndex;
-	}
-
-	@Override
 	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
 		Player tNextPlayer;
 		Player tFirstPresident;
@@ -639,16 +630,6 @@ public class FormCGR extends TriggerClass implements ActionListener {
 			gameManager.addAction (tChangeStateAction);
 			rebuildFormationPanel (tPresidentIndex);
 		}
-	}
-	
-	public Player getCurrentPlayer () {
-		Player tCurrentPlayer;
-		PlayerManager tPlayerManager;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tCurrentPlayer = tPlayerManager.getPlayer (currentPlayerIndex);
-
-		return tCurrentPlayer;
 	}
 	
 	@Override

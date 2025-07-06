@@ -43,6 +43,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.map.HexMap;
@@ -3415,9 +3416,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tTriggerFormationClass = TriggerClass.NO_TRIGGER_CLASS;
 		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-			tTriggerFormationClass = new FormCGR (this);
+			tTriggerFormationClass = new FormCompany (this);
 			tTriggerFormationClass.showFormationFrame ();
-		} else if (triggerClass instanceof FormCGR) {
+		} else if (triggerClass instanceof FormCompany) {
 			tTriggerFormationClass = (TriggerClass) triggerClass;
 		}
 		setTriggerFormation (tTriggerFormationClass);

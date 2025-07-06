@@ -4,12 +4,13 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.xml.XMLFrame;
 
-public class FormPrussian extends TriggerClass {
+public class FormPrussian extends FormCompany {
 	XMLFrame formationFrame;
 	int currentPlayerIndex;
 
 	public FormPrussian (GameManager aGameManager) {
-		System.out.println ("Initiate Form Prussian Option Game: " + aGameManager.getActiveGameName ());
+		super (aGameManager);
+		System.out.println ("Initiate Form Prussian Option Game: " + gameManager.getActiveGameName ());
 	}
 	
 	@Override

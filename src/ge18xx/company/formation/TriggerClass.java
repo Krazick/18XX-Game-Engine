@@ -3,6 +3,7 @@ package ge18xx.company.formation;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -26,6 +27,10 @@ public class TriggerClass implements XMLSaveGameI {
 	}
 	
 	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
+
+	}
+	
+	public void setTriggeringCompany (Corporation aTriggeringCompany) {
 
 	}
 

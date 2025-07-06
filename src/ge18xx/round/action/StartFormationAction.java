@@ -60,6 +60,14 @@ public class StartFormationAction extends ChangeRoundAction {
 		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
 		addEffect (tStartFormationEffect);
 	}
+
+	public void addStartFormationEffect (ActorI aActor, Corporation aFormingCorporation, 
+					Corporation aTriggeringCompany) {
+		StartFormationEffect tStartFormationEffect;
+		
+		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringCompany);
+		addEffect (tStartFormationEffect);
+	}
 	
 	public void setTriggeringShareCompanyToPrepared (ShareCompany tTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
