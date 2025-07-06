@@ -6,6 +6,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 
 public class FormCompany extends TriggerClass {
+	public static final FormCompany NO_FORM_COMPANY = null;
 	GameManager gameManager;
 	protected int currentPlayerIndex;
 	Corporation operatingCompany;

@@ -60,7 +60,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
-	public static final FormCompany NO_FORM_CGR = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
@@ -92,7 +91,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	String notificationText;
 
 	StartFormationAction startFormationAction;
-//	ShareCompany triggeringShareCompany;
 	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
@@ -121,13 +119,11 @@ public class FormCGR extends FormCompany implements ActionListener {
 		PlayerManager tPlayerManager;
 
 		if (aStartFormationAction != Action.NO_ACTION) {
-//			tActingPlayer = (Player) triggeringShareCompany.getPresident ();
 			tActingPlayer = (Player) triggeringCompany.getPresident ();
 			showFormationFrame ();
 			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
 			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
 								formationState);
-//			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringShareCompany);
 			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayers = tPlayerManager.getPlayers ();
@@ -759,8 +755,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 			tClassToLoad = Class.forName (tClassName);
 			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
 						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this, aPlayer,
-					aActingPresident);
+			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this,
+					aPlayer, aActingPresident);
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println ("Error trying to get Constructor");
 			e.printStackTrace();
@@ -941,7 +937,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tCurrentRoundState = tCurrentRound.getRoundState ();
 		tRoundID = tCurrentRound.getID ();
 
-		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, tRoundID, tFormingPresident);
+		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, tRoundID,
+					tFormingPresident);
 		tChangeFormationRoundStateAction.setChainToPrevious (true);
 		
 		tFormingPresident.resetPrimaryActionState (aNewFormationState);
@@ -1016,11 +1013,12 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		tNewShareCount = getSharesReceived (aShareFoldCount);
 		
-		tTotalSharesFolded = " A total of " + shareFoldCount + " Shares will be folded into " + tFormingCompanyAbbrev + ".";
+		tTotalSharesFolded = " A total of " + shareFoldCount + " Shares will be folded into " +
+				tFormingCompanyAbbrev + ".";
 		
 		tSharePercentage = getPercentageForExchange ();
-		tNotification += " " + tFormingCompanyAbbrev + " will issue " + tNewShareCount + " shares at " + tSharePercentage + 
-				"% per Share to " + tPresidentName + " of the First ";
+		tNotification += " " + tFormingCompanyAbbrev + " will issue " + tNewShareCount + " shares at " + 
+				tSharePercentage + "% per Share to " + tPresidentName + " of the First ";
 		if (tSharePercentage != PhaseInfo.STANDARD_SHARE_SIZE) {
 			tNotification += "and Second Issues.";
 		} else {

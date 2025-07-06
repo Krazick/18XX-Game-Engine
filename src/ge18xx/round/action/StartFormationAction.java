@@ -23,21 +23,6 @@ public class StartFormationAction extends ChangeRoundAction {
 		setName (NAME);
 	}
 	
-//	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
-//		triggeringShareCompany = aTriggeringShareCompany;
-//	}
-//	
-//	public ShareCompany getTriggeringShareCompany () {
-//		return triggeringShareCompany;
-//	}
-//	
-//	public void setTriggeringShareCompany (String aTriggeringShareCompanyAbbrev, GameManager aGameManager) {
-//		ShareCompany tTriggeringShareCompany;
-//		
-//		tTriggeringShareCompany = aGameManager.getShareCompany (aTriggeringShareCompanyAbbrev);
-//		setTriggeringShareCompany (tTriggeringShareCompany);
-//	}
-	
 	public void addShowFormationPanelEffect (ActorI aFromActor) {
 		ShowFormationPanelEffect tShowFormationPanelEffect;
 		
@@ -69,13 +54,13 @@ public class StartFormationAction extends ChangeRoundAction {
 		addEffect (tStartFormationEffect);
 	}
 	
-	public void setTriggeringShareCompanyToPrepared (ShareCompany tTriggeringShareCompany) {
+	public void setTriggeringShareCompanyToPrepared (Corporation aTriggeringCompany) {
 		StartFormationEffect tStartFormationEffect;
 		
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof StartFormationEffect) {
 				tStartFormationEffect = (StartFormationEffect) tEffect;
-				tStartFormationEffect.setTriggeringShareCompany (tTriggeringShareCompany);
+				tStartFormationEffect.setTriggeringCompany (aTriggeringCompany);
 			}
 		}
 	}
