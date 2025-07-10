@@ -1,8 +1,10 @@
 package ge18xx.round;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
@@ -32,6 +34,36 @@ public class FormationRound extends InterruptionRound {
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
+	}
+	
+	public FormCompany constructFormationClass (GameManager aGameManager, XMLNode aXMLNode) {
+		String tFormationClassName;
+		FormCompany tFormCompany;
+		StartFormationAction tStartFormationAction;
+		ActionStates tRoundType;
+		String tRoundID;
+		ActorI tActor;
+		
+		tFormationClassName = aXMLNode.getThisAttribute (FormCompany.AN_CLASS);
+		tFormCompany = FormCompany.NO_FORM_COMPANY;
+		tRoundType = ActionStates.FormationRound;
+		tRoundID = getID ();
+		tActor = (Round) this;
+		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, tActor);
+		try {
+			tFormCompany = FormCompany.getConstructor (aGameManager, aXMLNode, tFormationClassName);
+//			tFormCompany = (FormCompany) tFormCompany.newInstance (aXMLNode, aGameManager);
+			setTriggerFormationClass (tFormCompany);
+			tFormCompany.prepareFormation (tStartFormationAction);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		if (tFormCompany != FormCompany.NO_FORM_COMPANY) {
+
+		}
+		
+		return tFormCompany;
 	}
 	
 	public TriggerClass constructFormationClass () {

@@ -48,14 +48,10 @@ import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
 public class FormCGR extends FormCompany implements ActionListener {
-	public static final ElementName EN_FORM_CGR = new ElementName ("FormationClass");
-	public static final AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
+//	public static final ElementName EN_FORM_CGR = new ElementName ("FormationCGR");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
-	public static final AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
-	public static final AttributeName AN_FORMING_PRESIDENT_ASSIGNED = new AttributeName ("formingPresidentAssigned");
 	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
-	public static final AttributeName AN_TRIGGERING_COMPANY = new AttributeName ("triggeringCompany");
 	public static final AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
@@ -111,34 +107,11 @@ public class FormCGR extends FormCompany implements ActionListener {
 		gameManager.setTriggerClass (this);
 		gameManager.setTriggerFormation (this);
 	}
-
-	@Override
-	public void prepareFormation (StartFormationAction aStartFormationAction) {
-		Player tActingPlayer;
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-
-		if (aStartFormationAction != Action.NO_ACTION) {
-			tActingPlayer = (Player) triggeringCompany.getPresident ();
-			showFormationFrame ();
-			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
-			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
-								formationState);
-			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayers = tPlayerManager.getPlayers ();
-
-			updatePlayersState (tPlayers, aStartFormationAction);
-		}
-	}
-
+	
 	public FormCGR (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
 
-		int tCurrentPlayerIndex;
 		int tShareFoldCount;
-		boolean tCurrentPlayerDone;
-		boolean tFormingPresidentAssigned;
 		boolean tAllPlayerSharesHandled;
 		boolean tHomeTokensExchanged;
 		boolean tNonHomeTokensExchanged;
@@ -151,10 +124,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		ActorI.ActionStates tFormationState;
 		ShareCompany tTriggeringShareCompany;
 		
-		tCurrentPlayerIndex = aXMLNode.getThisIntAttribute (AN_CURRENT_PLAYER_INDEX);
+		parseXML (aXMLNode);
 		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
-		tCurrentPlayerDone = aXMLNode.getThisBooleanAttribute (AN_CURRENT_PLAYER_DONE);
-		tFormingPresidentAssigned = aXMLNode.getThisBooleanAttribute (AN_FORMING_PRESIDENT_ASSIGNED);
 		tHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_HOME_TOKENS_EXCHANGED);
 		tNonHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_NON_HOME_TOKENS_EXCHANGED);
 		tAllPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
@@ -168,10 +139,7 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
 		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
 		
-		setCurrentPlayerIndex (tCurrentPlayerIndex);
 		setShareFoldCount (tShareFoldCount);
-		setCurrentPlayerDone (tCurrentPlayerDone);
-		setFormingPresidentAssigned (tFormingPresidentAssigned);
 		setAllPlayerSharesHandled (tAllPlayerSharesHandled);
 		setHomeTokensExchanged (tHomeTokensExchanged);
 		setNonHomeTokensExchanged (tNonHomeTokensExchanged);
@@ -183,28 +151,52 @@ public class FormCGR extends FormCompany implements ActionListener {
 			setActingPresident (tPlayer);
 		}
 	}
-	
+
+	@Override
+	public void prepareFormation (StartFormationAction aStartFormationAction) {
+		Player tActingPlayer;
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+
+		showFormationFrame ();
+		if (aStartFormationAction != Action.NO_ACTION) {
+			tActingPlayer = (Player) triggeringCompany.getPresident ();
+			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
+			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
+								formationState);
+			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayers = tPlayerManager.getPlayers ();
+
+			updatePlayersState (tPlayers, aStartFormationAction);
+		}
+	}
+
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-		String tTriggeringAbbrev;
+//		String tTriggeringAbbrev;
+//		
+//		tXMLElement = aXMLDocument.createElement (aElementName);
 		
-		tXMLElement = aXMLDocument.createElement (aElementName);
-		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
+		tXMLElement = super.addElements (aXMLDocument, aElementName);
+		
 		tXMLElement.setAttribute (AN_SHARE_FOLD_COUNT, shareFoldCount);
-		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
-		tXMLElement.setAttribute (AN_FORMING_PRESIDENT_ASSIGNED, formingPresidentAssigned);
 		tXMLElement.setAttribute (AN_ALL_PLAYER_SHARES_HANDLED, allPlayerSharesHandled);
 		tXMLElement.setAttribute (AN_HOME_TOKENS_EXCHANGED, homeTokensExchanged);
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
-		if (triggeringCompany == ShareCompany.NO_SHARE_COMPANY) {
-			tTriggeringAbbrev = GUI.EMPTY_STRING;
-		} else {
-			tTriggeringAbbrev = triggeringCompany.getAbbrev ();
-		}
-		tXMLElement.setAttribute (AN_TRIGGERING_COMPANY, tTriggeringAbbrev);
+		
+//		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
+//		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
+//		tXMLElement.setAttribute (AN_FORMING_PRESIDENT_ASSIGNED, formingPresidentAssigned);
+//		if (triggeringCompany == ShareCompany.NO_SHARE_COMPANY) {
+//			tTriggeringAbbrev = GUI.EMPTY_STRING;
+//		} else {
+//			tTriggeringAbbrev = triggeringCompany.getAbbrev ();
+//		}
+//		tXMLElement.setAttribute (AN_TRIGGERING_COMPANY, tTriggeringAbbrev);
 		if (actingPresident != ActorI.NO_ACTOR) {
 			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
 		}
@@ -233,15 +225,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		return nonHomeTokensExchanged;
 	}
 	
-	@Override
-	public void triggeringHandleDone () {
-		if (triggeringCompany != ShareCompany.NO_SHARE_COMPANY) {
-			triggeringCompany.corporationListDoneAction ();
-		} else {
-			System.err.println ("Trying to Trigger Handle Done, but don't have a Triggering Share Company set.");
-		}
-	}
-	
 	public void buildNotificationJPanel () {
 		Color tColor;
 		
@@ -255,14 +238,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 			tColor = gameManager.getAlertColor ();
 			notificationJPanel.setBackground (tColor);
 		}
-	}
-
-	public void setFormingPresidentAssigned (boolean aformingPresidentAssigned) {
-		formingPresidentAssigned = aformingPresidentAssigned;
-	}
-	
-	public boolean getFormingPresidentAssigned () {
-		return formingPresidentAssigned;
 	}
 
 	public void setAllPlayerSharesHandled (boolean aAllPlayerSharesHandled) {
@@ -736,10 +711,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 		
 		return tPlayerFormationPanel;
-	}
-	
-	public void setCurrentPlayerDone (Boolean aCurrentPlayerDone) {
-		currentPlayerDone = aCurrentPlayerDone;
 	}
 	
 	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
