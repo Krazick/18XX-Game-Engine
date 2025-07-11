@@ -411,7 +411,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 
-//		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tFormationAction = Action.NO_ACTION;
 		System.out.println ("Construct Formation Action with name [" + aFullClassName + "]");
 		try {

@@ -52,7 +52,6 @@ public class FormationRound extends InterruptionRound {
 		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, tActor);
 		try {
 			tFormCompany = FormCompany.getConstructor (aGameManager, aXMLNode, tFormationClassName);
-//			tFormCompany = (FormCompany) tFormCompany.newInstance (aXMLNode, aGameManager);
 			setTriggerFormationClass (tFormCompany);
 			tFormCompany.prepareFormation (tStartFormationAction);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -60,7 +59,7 @@ public class FormationRound extends InterruptionRound {
 			e.printStackTrace();
 		}
 		if (tFormCompany != FormCompany.NO_FORM_COMPANY) {
-
+			tFormCompany.rebuildFormationPanel ();
 		}
 		
 		return tFormCompany;
@@ -126,7 +125,7 @@ public class FormationRound extends InterruptionRound {
 		}
 		
 		// for 1835 Purchase of 
-		//		a X Train and Formation is Optional
+		//		a 4 Train and Formation is Optional
 		//		OR Start of OR if PR formation started
 		//		OR Purchase of Z Train and Formation REQUIRED
 		

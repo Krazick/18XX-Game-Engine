@@ -40,15 +40,17 @@ public class LoanRepayment extends PlayerFormationPanel {
 
 	public String confirmRepayment (ShareCompany aShareCompany) {
 		String tToolTip;
+		String tToolTipPrefix;
 		int tLoanAmount;
 		
 		tToolTip = GUI.EMPTY_STRING;
+		tToolTipPrefix = getToolTipPrefix (aShareCompany);
 		if (aShareCompany.wasRepaymentHandled ()) {
-			tToolTip = "Company [" + aShareCompany.getAbbrev () + "] has already confirmed repayments";		
+			tToolTip = tToolTipPrefix + "has already confirmed repayments";		
 		} else if (aShareCompany.hasOutstandingLoans ()) {
 			tLoanAmount = aShareCompany.getLoanAmount ();
 			if (aShareCompany.getCash () >= tLoanAmount) {
-				tToolTip = "Company [" + aShareCompany.getAbbrev () + "] Treasury has enough to pay the Loan Amount " + 
+				tToolTip = tToolTipPrefix + "Treasury has enough to pay the Loan Amount " + 
 							Bank.formatCash (tLoanAmount);
 			}
 		}
@@ -56,19 +58,29 @@ public class LoanRepayment extends PlayerFormationPanel {
 		return tToolTip;
 	}
 
+	public String getToolTipPrefix (ShareCompany aShareCompany) {
+		String tToolTipPrefix;
+		
+		tToolTipPrefix = "Company [" + aShareCompany.getAbbrev () + "] ";
+		
+		return tToolTipPrefix;
+	}
+	
 	public String canPayFromTreasury (ShareCompany aShareCompany) {
 		String tToolTip;
+		String tToolTipPrefix;
 		int tLoanAmount;
 		
 		tToolTip = GUI.EMPTY_STRING;
+		tToolTipPrefix = getToolTipPrefix (aShareCompany);
 		if (aShareCompany.hasOutstandingLoans ()) {
 			tLoanAmount = aShareCompany.getLoanAmount ();
 			if (aShareCompany.getCash () < tLoanAmount) {
-				tToolTip = "Company [" + aShareCompany.getAbbrev () + "] Treasury has less than the Loan Amount " + 
+				tToolTip = tToolTipPrefix + "Treasury has less than the Loan Amount " + 
 							Bank.formatCash (tLoanAmount);
 			}
 		} else {
-			tToolTip = "Company [" + aShareCompany.getAbbrev () + "] has no Outstanding Loans";
+			tToolTip = tToolTipPrefix + "has no Outstanding Loans";
 		}
 		
 		return tToolTip;
@@ -81,14 +93,15 @@ public class LoanRepayment extends PlayerFormationPanel {
 		int tLoanAmount;
 		int tLoanCount;
 		String tToolTip;
+		String tToolTipPrefix;
 		
 		tToolTip = GUI.EMPTY_STRING;
+		tToolTipPrefix = getToolTipPrefix (aShareCompany);
 		if (aShareCompany.hasOutstandingLoans ()) {
 			if (! aShareCompany.wasRepaymentHandled ()) {
 				tLoanAmount = aShareCompany.getLoanAmount ();
 				if (aShareCompany.getCash () >= tLoanAmount) {
-					tToolTip = "Company [" + aShareCompany.getAbbrev () + 
-								"] Treasury has enough to pay an Outstanding Loan";
+					tToolTip = tToolTipPrefix + "Treasury has enough to pay an Outstanding Loan";
 				} else {
 					tPlayer = (Player) aShareCompany.getPresident ();
 					tPlayerCash = tPlayer.getCash ();
@@ -100,10 +113,10 @@ public class LoanRepayment extends PlayerFormationPanel {
 					}
 				}
 			} else {
-				tToolTip = "Company [" + aShareCompany.getAbbrev () + "] Outstanding Loans have been confirmed";
+				tToolTip = tToolTipPrefix + "Outstanding Loans have been confirmed";
 			}
 		} else {
-			tToolTip = "Company [" + aShareCompany.getAbbrev () + "] has no Outstanding Loans";
+			tToolTip = tToolTipPrefix + "has no Outstanding Loans";
 		}
 		
 		return tToolTip;
@@ -165,8 +178,6 @@ public class LoanRepayment extends PlayerFormationPanel {
 		tCurrentRoundState = tCurrentRound.getRoundState ();
 		tRoundID = tCurrentRound.getID ();
 		tRepaymentHandledAction = new RepaymentHandledAction (tCurrentRoundState, tRoundID, aShareCompany);
-//		tRepaymentHandledAction = (RepaymentHandledAction) 
-//				constructFormationAction (RepaymentHandledAction.class.getName (), player);
 
 		tRepaymentHandled = true;
 		aShareCompany.setRepaymentHandled (tRepaymentHandled);

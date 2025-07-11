@@ -138,7 +138,7 @@ public class FormCompany extends TriggerClass {
 		currentPlayerDone = aCurrentPlayerDone;
 	}
 
-	public boolean getCurrentPlauerDone () {
+	public boolean getCurrentPlayerDone () {
 		return currentPlayerDone;
 	}
 	

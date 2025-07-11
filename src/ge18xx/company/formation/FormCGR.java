@@ -48,7 +48,6 @@ import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
 public class FormCGR extends FormCompany implements ActionListener {
-//	public static final ElementName EN_FORM_CGR = new ElementName ("FormationCGR");
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
 	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
@@ -175,9 +174,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-//		String tTriggeringAbbrev;
-//		
-//		tXMLElement = aXMLDocument.createElement (aElementName);
 		
 		tXMLElement = super.addElements (aXMLDocument, aElementName);
 		
@@ -188,15 +184,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
 		
-//		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
-//		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
-//		tXMLElement.setAttribute (AN_FORMING_PRESIDENT_ASSIGNED, formingPresidentAssigned);
-//		if (triggeringCompany == ShareCompany.NO_SHARE_COMPANY) {
-//			tTriggeringAbbrev = GUI.EMPTY_STRING;
-//		} else {
-//			tTriggeringAbbrev = triggeringCompany.getAbbrev ();
-//		}
-//		tXMLElement.setAttribute (AN_TRIGGERING_COMPANY, tTriggeringAbbrev);
 		if (actingPresident != ActorI.NO_ACTOR) {
 			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
 		}
@@ -252,7 +239,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 	}
 
-	public void setFormationState (FormationRoundAction aFormationRoundAction, ActorI.ActionStates aNewFormationState) {
+	public void setFormationState (FormationRoundAction aFormationRoundAction, 
+						ActorI.ActionStates aNewFormationState) {
 		ActorI.ActionStates tOldFormationState;
 		ActorI.ActionStates tNewFormationState;
 		ActorI tPrimaryActor;
@@ -495,12 +483,11 @@ public class FormCGR extends FormCompany implements ActionListener {
 		int tNextPlayerIndex;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
-		ChangeStateAction tChangeStateAction;
-		String tRoundID;
-
 		ActorI.ActionStates tCurrentRoundState;
 		RoundManager tRoundManager;
 		Round tCurrentRound;
+		ChangeStateAction tChangeStateAction;
+		String tRoundID;
 
 		tPlayerManager = gameManager.getPlayerManager ();
 		
