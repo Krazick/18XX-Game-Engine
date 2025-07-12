@@ -3,15 +3,35 @@ package ge18xx.round;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 
 public class InterruptionRound extends Round {
+	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interupttedName");
+	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interuptionStarted");
 	Round interruptedRound;
 	boolean interruptionStarted;
 	
 	public InterruptionRound (RoundManager aRoundManager) {
 		super (aRoundManager);
 		setInterruptionStarted (false);
+	}
+	
+	@Override
+	public void loadRound (XMLNode aRoundNode) {
+		String tInterruptedRoundName;
+		boolean tInterruptionStarted;
+		Round tInterruptedRound;
+		
+		super.loadRound (aRoundNode);
+		tInterruptedRoundName = aRoundNode.getThisAttribute (AN_INTERRUPTED_ROUND_NAME);
+		tInterruptionStarted = aRoundNode.getThisBooleanAttribute (AN_INTERRUPTION_STARTED);
+		
+		tInterruptedRound = roundManager.getRoundByTypeName (tInterruptedRoundName);
+		setInterruptedRound (tInterruptedRound);
+		setInterruptionStarted (tInterruptionStarted);
 	}
 	
 	public void setRoundTo (Round aNewRound, int aRoundID, String aOldRoundID, String aNewRoundID, 
@@ -45,6 +65,15 @@ public class InterruptionRound extends Round {
 		return tID;
 	}
 
+	@Override
+	public void setRoundAttributes (XMLElement aXMLElement) {
+		super.setRoundAttributes (aXMLElement);
+		if (interruptedRound != InterruptionRound.NO_ROUND) {
+			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRound.getName ());
+			aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, interruptionStarted ());
+		}
+	}
+	
 	@Override
 	public boolean interruptionStarted () {
 		return interruptionStarted;
