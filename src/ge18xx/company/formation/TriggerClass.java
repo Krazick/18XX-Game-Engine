@@ -54,11 +54,11 @@ public class TriggerClass implements XMLSaveGameI {
 		
 	}
 	
-	public void triggeringHandleDone () {
+	public void showFormationFrame () {
 		
 	}
 	
-	public void showFormationFrame () {
+	public void triggeringHandleDone () {
 		
 	}
 	
