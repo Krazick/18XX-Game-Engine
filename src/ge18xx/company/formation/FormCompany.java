@@ -13,6 +13,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class FormCompany extends TriggerClass {
@@ -29,6 +30,7 @@ public class FormCompany extends TriggerClass {
 	boolean formingPresidentAssigned;
 	Corporation operatingCompany;
 	Corporation triggeringCompany;
+	XMLFrame formationFrame;
 	
 	public FormCompany () {
 		
@@ -157,5 +159,28 @@ public class FormCompany extends TriggerClass {
 		} else {
 			System.err.println ("Trying to Trigger Handle Done, but don't have a Triggering Share Company set.");
 		}
+	}
+
+	@Override
+	public void hideFormationPanel () {
+		formationFrame.hideFrame ();
+	}
+
+	@Override
+	public void showFormationFrame () {
+		formationFrame.showFrame ();
+	}
+
+	public void refreshPanel () {
+		formationFrame.repaint ();
+	}
+
+	@Override
+	public XMLFrame getFormationFrame () {
+		return formationFrame;
+	}
+
+	public boolean isFormationFrameVisible () {
+		return formationFrame.isVisible ();
 	}
 }

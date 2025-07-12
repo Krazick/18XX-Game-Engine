@@ -23,6 +23,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
@@ -67,7 +68,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final String STOCK_VALUE_CALCULATION = "StockValueCalculation";
 	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	
-	XMLFrame formationFrame;
 	int shareFoldCount;
 
 	boolean currentPlayerDone;
@@ -121,7 +121,7 @@ public class FormCGR extends FormCompany implements ActionListener {
 		String tPlayerName;
 		GenericActor tGenericActor;
 		ActorI.ActionStates tFormationState;
-		ShareCompany tTriggeringShareCompany;
+		TokenCompany tTriggeringCompany;
 		
 		parseXML (aXMLNode);
 		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
@@ -131,8 +131,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
 		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
-		tTriggeringShareCompany = aGameManager.getShareCompany (tTriggeringCompanyAbbrev);
-		setTriggeringShareCompany (tTriggeringShareCompany);
+		tTriggeringCompany = aGameManager.getTokenCompany (tTriggeringCompanyAbbrev);
+		setTriggeringCompany (tTriggeringCompany);
 		tGenericActor = new GenericActor ();
 		tFormationState = tGenericActor.getPlayerFormationState (tState);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
@@ -192,8 +192,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 	}
 
 	@Override
-	public void setTriggeringShareCompany (ShareCompany aTriggeringShareCompany) {
-		triggeringCompany = aTriggeringShareCompany;
+	public void setTriggeringCompany (Corporation aTriggeringCompany) {
+		triggeringCompany = aTriggeringCompany;
 	}
 	
 	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
@@ -324,20 +324,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		setShareFoldCount (0);
 	}
 
-	public boolean isFormationFrameVisible () {
-		return formationFrame.isVisible ();
-	}
-	
-	@Override
-	public void showFormationFrame () {
-		formationFrame.showFrame ();
-	}
-
-	@Override
-	public XMLFrame getFormationFrame () {
-		return formationFrame;
-	}
-	
 	public void updatePlayersState (List<Player> tPlayers, StartFormationAction aStartFormationAction) {
 		GenericActor tGenericActor;
 		ActorI.ActionStates tOldState;
@@ -985,14 +971,5 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tNotification += tTotalSharesFolded;
 		
 		return tNotification;
-	}
-	
-	@Override
-	public void hideFormationPanel () {
-		formationFrame.hideFrame ();
-	}
-	
-	public void refreshPanel () {
-		formationFrame.repaint ();
 	}
 }
