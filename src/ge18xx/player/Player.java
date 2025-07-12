@@ -1998,6 +1998,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		if (primaryActionState == ActionStates.LoanRepayment) {
 			tRepaymemtFinished = true;
+		} else if (primaryActionState == ActionStates.FormationComplete) {
+			tRepaymemtFinished = true;
 		} else {
 			tRepaymemtFinished = false;
 		}
