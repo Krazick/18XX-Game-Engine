@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.FormationRound;
@@ -62,14 +63,14 @@ public class SetFormingPresidentAssignedEffect extends Effect {
 		boolean tEffectApplied;
 		FormationRound tFormationRound;
 		TriggerClass tTriggerClass;
-		FormCGR tFormCGR;
+		FormCompany tFormCompany;
 		
 		tEffectApplied = false;
 		tFormationRound = aRoundManager.getFormationRound ();
 		tTriggerClass = tFormationRound.getTriggerFormationClass ();
 		if (tTriggerClass instanceof FormCGR) {
-			tFormCGR = (FormCGR) tTriggerClass;
-			tFormCGR.setFormingPresidentAssigned (presidentAssigned);
+			tFormCompany = (FormCompany) tTriggerClass;
+			tFormCompany.setFormingPresidentAssigned (presidentAssigned);
 			tEffectApplied = true;
 		}
 
@@ -81,13 +82,13 @@ public class SetFormingPresidentAssignedEffect extends Effect {
 		boolean tEffectUndone;
 		FormationRound tFormationRound;
 		TriggerClass tTriggerClass;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
 		tEffectUndone = false;
 		tFormationRound = aRoundManager.getFormationRound ();
 		tTriggerClass = tFormationRound.getTriggerFormationClass ();
 		if (tTriggerClass instanceof FormCGR) {
-			tFormCGR = (FormCGR) tTriggerClass;
+			tFormCGR = (FormCompany) tTriggerClass;
 			tFormCGR.setFormingPresidentAssigned (! presidentAssigned);
 			tEffectUndone = true;
 		}
