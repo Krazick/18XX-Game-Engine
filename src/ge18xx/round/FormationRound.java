@@ -179,7 +179,6 @@ public class FormationRound extends InterruptionRound {
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 
-		System.out.println ("Ready to START Formation Round");
 		super.start ();
 		
 		tGameManager = roundManager.getGameManager ();

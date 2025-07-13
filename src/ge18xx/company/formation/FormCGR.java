@@ -594,6 +594,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 						tEnds = true;
 					}
 				}
+			} else if (tPlayerFormationPanel instanceof StockValueCalculation) {
+				tEnds = true;
 			}
 		}
 		
@@ -615,15 +617,15 @@ public class FormCGR extends FormCompany implements ActionListener {
 			setAllPlayerSharesHandled (true);
 			tCurrentPlayer = getCurrentPlayer ();
 			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
-		} else if (formationState == ActorI.ActionStates.TokenExchange) {
-			if (hasAssetsToCollect ()) {
-				System.out.println ("Ready to do " + ASSET_COLLECTION);
-			}
-		} else if (formationState == ActorI.ActionStates.StockValueCalculation) {
-			System.out.println ("All Folded Companies have had Assets Collected");
-			if (hasStockValueToCalculate ()) {
-				System.out.println ("Ready to do " + STOCK_VALUE_CALCULATION);
-			}
+//		} else if (formationState == ActorI.ActionStates.TokenExchange) {
+//			if (hasAssetsToCollect ()) {
+//				System.out.println ("Ready to do " + ASSET_COLLECTION);
+//			}
+//		} else if (formationState == ActorI.ActionStates.StockValueCalculation) {
+//			System.out.println ("All Folded Companies have had Assets Collected");
+//			if (hasStockValueToCalculate ()) {
+//				System.out.println ("Ready to do " + STOCK_VALUE_CALCULATION);
+//			}
 		}
 
 		rebuildFormationPanel (currentPlayerIndex);
