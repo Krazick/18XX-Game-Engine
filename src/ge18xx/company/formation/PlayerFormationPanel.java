@@ -319,6 +319,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tActionCommand = aEvent.getActionCommand ();
 		if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
+			checkAndHandleRoundEnds ();
 		}
 		if (tActionCommand.equals (UNDO)) {
 			handlePlayerUndo ();
