@@ -42,7 +42,6 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
-import ge18xx.company.formation.FormCGR;
 import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
@@ -1946,7 +1945,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		} else if (FormCompany.EN_FORM_COMPANY.equals (aChildName)) {
 			// If the Formation State is in a NoState, the game was undone, saved, and reloaded 
 			// It might be better to clear the formationPhase so it is not saved.
-			tFormationState = aChildNode.getThisAttribute (FormCGR.AN_FORMATION_STATE);
+			tFormationState = aChildNode.getThisAttribute (FormCompany.AN_FORMATION_STATE);
 			if (tFormationState.equals (ActionStates.FormationComplete.toString ())) {
 				// If the State is FormationComplete, Don't need to Show it.
 				setTriggerFormation (TriggerClass.NO_TRIGGER_CLASS);

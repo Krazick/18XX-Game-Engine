@@ -34,7 +34,6 @@ import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -43,7 +42,6 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import ge18xx.round.action.ChangeFormationRoundStateAction;
 import ge18xx.round.action.ChangeStateAction;
-import ge18xx.round.action.FormationRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
@@ -51,7 +49,6 @@ import geUtilities.GUI;
 public class FormCGR extends FormCompany implements ActionListener {
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
 	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
-	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
 	public static final AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
@@ -76,7 +73,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	boolean homeTokensExchanged;
 	boolean nonHomeTokensExchanged;
 
-	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
@@ -86,7 +82,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	String notificationText;
 
 	StartFormationAction startFormationAction;
-	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
 	public FormCGR (GameManager aGameManager) {
@@ -97,7 +92,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		setNotificationText (TIME_TO_REPAY);
 		setActingPresident (Player.NO_PLAYER);
-		setFormingShareCompany ();
 		setAllPlayerSharesHandled (false);
 		setHomeTokensExchanged (false);
 		setNonHomeTokensExchanged (false);
@@ -114,13 +108,10 @@ public class FormCGR extends FormCompany implements ActionListener {
 		boolean tAllPlayerSharesHandled;
 		boolean tHomeTokensExchanged;
 		boolean tNonHomeTokensExchanged;
-		String tState;
 		String tNotificationText;
 		String tTriggeringCompanyAbbrev;
 		Player tPlayer;
 		String tPlayerName;
-		GenericActor tGenericActor;
-		ActorI.ActionStates tFormationState;
 		TokenCompany tTriggeringCompany;
 		
 		parseXML (aXMLNode);
@@ -129,12 +120,9 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tNonHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_NON_HOME_TOKENS_EXCHANGED);
 		tAllPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
 		
-		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
 		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
 		tTriggeringCompany = aGameManager.getTokenCompany (tTriggeringCompanyAbbrev);
 		setTriggeringCompany (tTriggeringCompany);
-		tGenericActor = new GenericActor ();
-		tFormationState = tGenericActor.getPlayerFormationState (tState);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
 		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
 		
@@ -142,7 +130,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		setAllPlayerSharesHandled (tAllPlayerSharesHandled);
 		setHomeTokensExchanged (tHomeTokensExchanged);
 		setNonHomeTokensExchanged (tNonHomeTokensExchanged);
-		setFormationState (tFormationState);
 		setNotificationText (tNotificationText);
 		
 		tPlayer = (Player) gameManager.getActor (tPlayerName);
@@ -181,7 +168,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tXMLElement.setAttribute (AN_ALL_PLAYER_SHARES_HANDLED, allPlayerSharesHandled);
 		tXMLElement.setAttribute (AN_HOME_TOKENS_EXCHANGED, homeTokensExchanged);
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
-		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
 		
 		if (actingPresident != ActorI.NO_ACTOR) {
@@ -189,11 +175,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 
 		return tXMLElement;
-	}
-
-	@Override
-	public void setTriggeringCompany (Corporation aTriggeringCompany) {
-		triggeringCompany = aTriggeringCompany;
 	}
 	
 	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
@@ -237,58 +218,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 
 	public void updateDoneButton () {
 		
-	}
-
-	public void setFormationState (FormationRoundAction aFormationRoundAction, 
-						ActorI.ActionStates aNewFormationState) {
-		ActorI.ActionStates tOldFormationState;
-		ActorI.ActionStates tNewFormationState;
-		ActorI tPrimaryActor;
-		
-		tPrimaryActor = aFormationRoundAction.getActor ();
-		
-		tOldFormationState = getFormationState ();
-		setFormationState (aNewFormationState);
-		tNewFormationState = getFormationState ();
-		
-		aFormationRoundAction.addSetFormationStateEffect (tPrimaryActor, tOldFormationState, tNewFormationState);
-	}
-
-	@Override
-	public String setFormationState (ActionStates aFormationState) {
-		String tFullFrameTitle;
-		
-		formationState = aFormationState;
-		tFullFrameTitle = gameManager.createFrameTitle (formationState.toString ());
-		if (formationFrame != XMLFrame.NO_XML_FRAME) {
-			setFrameTitle (tFullFrameTitle);
-		}
-		
-		return tFullFrameTitle;
-	}
-
-	public ActorI.ActionStates getFormationState () {
-		return formationState;
-	}
-	
-	public void setFormingShareCompany () {
-		int tFormingCompanyID;
-		Corporation tFormingCompany;
-		
-		tFormingCompanyID = gameManager.getFormingCompanyId ();
-		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
-		if (tFormingCompany.isAShareCompany ()) {
-			formingShareCompany = (ShareCompany) tFormingCompany;
-		}
-		setFormingPresidentAssigned (false);
-	}
-
-	public ShareCompany getFormingCompany () {
-		return formingShareCompany;
-	}
-
-	public String getFormingCompanyAbbrev () {
-		return formingShareCompany.getAbbrev ();
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -344,37 +273,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		gameManager.addAction (startFormationAction);
 	}
 	
-	private int panelHeight () {
-		int tPanelHeight;
-		int tPlayerHeight;
-		int tPlayerCount;
-		int tCompanyCount;
-		int tCompanyHeight;
-		int tOpenMarketCompanyCount;
-		int tOpenMarketHeight;
-		BankPool tOpenMarket;
-		Portfolio tOpenMarketPortfolio;
-		
-		tPlayerCount = getPlayerCount ();
-		tPlayerHeight = 50 * tPlayerCount;
-		
-		tCompanyCount = gameManager.getCountOfCanOperate ();
-		tCompanyHeight = 85 * tCompanyCount;
-		
-		tOpenMarket = gameManager.getBankPool ();
-		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
-		tOpenMarketCompanyCount = tOpenMarketPortfolio.getUniqueCompanyCount ();
-		tOpenMarketHeight = 20 * (tOpenMarketCompanyCount + 1);
-		
-		tPanelHeight = tPlayerHeight + tCompanyHeight + tOpenMarketHeight + 40;
-		
-		return tPanelHeight;
-	}
-	
-	public void setFrameTitle (String aFrameTitle) {
-		formationFrame.setTitle (aFrameTitle);
-	}
-	
 	public void setShareFoldCount (int aCountToFold) {
 		shareFoldCount = aCountToFold;
 	}
@@ -423,18 +321,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 		
 		return tHasTokensToExchange;
-	}
-	
-	private int getPlayerCount () {
-		PlayerManager tPlayerManager;
-		List<Player> tPlayers;
-		int tPlayerCount;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		tPlayerCount = tPlayers.size ();
-		
-		return tPlayerCount;
 	}
 	
 	public void setupPlayers () {
@@ -514,14 +400,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		} else {
 			updatePlayers (aPlayers, aNextPlayer);
 		}
-	}
-	
-	public Player getFormingPresident () {
-		Player tFormingPresident;
-		
-		tFormingPresident = (Player) formingShareCompany.getPresident ();
-
-		return tFormingPresident;
 	}
 	
 	public void updateToFormingPresident (ActorI.ActionStates aFormationState) {
@@ -617,15 +495,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 			setAllPlayerSharesHandled (true);
 			tCurrentPlayer = getCurrentPlayer ();
 			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
-//		} else if (formationState == ActorI.ActionStates.TokenExchange) {
-//			if (hasAssetsToCollect ()) {
-//				System.out.println ("Ready to do " + ASSET_COLLECTION);
-//			}
-//		} else if (formationState == ActorI.ActionStates.StockValueCalculation) {
-//			System.out.println ("All Folded Companies have had Assets Collected");
-//			if (hasStockValueToCalculate ()) {
-//				System.out.println ("Ready to do " + STOCK_VALUE_CALCULATION);
-//			}
 		}
 
 		rebuildFormationPanel (currentPlayerIndex);
@@ -670,7 +539,7 @@ public class FormCGR extends FormCompany implements ActionListener {
 		buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
 		formationJPanel.repaint ();
-		formationJPanel.revalidate ();
+//		formationJPanel.revalidate ();
 	}
 
 	public PlayerFormationPanel getPlayerFormationPanel () {
