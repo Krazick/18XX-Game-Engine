@@ -77,13 +77,14 @@ public interface ActorI {
 
 		// Player Formation States
 		CompanyFormation ("Company Formation", Arrays.asList (new String [] {"No State", "Pass", "Done"})),
+		Nationalization ("Nationalization", Arrays.asList (new String [] {"Company Formation"})),
 		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"Company Formation"})),
 		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
 		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
 		FormationComplete ("Formation Complete", Arrays.asList (new String [] {"Loan Repayment", 
-											"Stock Value Calculation"})),
+											"Stock Value Calculation", "Nationalization"})),
 		
 		// Round States
 		NoRound ("No Round", "NR"),
