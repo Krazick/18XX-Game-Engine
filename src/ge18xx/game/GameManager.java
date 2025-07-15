@@ -3373,7 +3373,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void showChecksumAuditFrame () {
 		checksumAuditFrame.refreshAuditTable ();
-		checksumAuditFrame.setVisible (true);
+		if (isNetworkGame ()) {
+			checksumAuditFrame.setVisible (true);
+		}
 	}
 
 	public boolean triggerPanelExists () {
