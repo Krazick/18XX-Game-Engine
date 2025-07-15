@@ -262,11 +262,19 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	}
 	
 	public boolean getHomeTokensExchanged () {
-		return formCGR.getHomeTokensExchanged ();
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
+		
+		return tFormCGR.getHomeTokensExchanged ();
 	}
 	
 	public boolean getNonHomeTokensExchanged () {
-		return formCGR.getNonHomeTokensExchanged ();
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
+		
+		return tFormCGR.getNonHomeTokensExchanged ();
 	}
 	
 	public String collectHomeTokenInfo (TokenCompany aTokenCompany) {
@@ -348,19 +356,21 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		Player tCurrentPlayer;
 		Player tFormingPresident;
 		ShareCompany tFormingCompany;
+		FormCGR tFormCGR;
 		
-		tFormingCompany = formCGR.getFormingCompany ();
+		tFormCGR = (FormCGR) formCompany;
+		tFormingCompany = tFormCGR.getFormingCompany ();
 		tFormingPresident = (Player) tFormingCompany.getPresident ();
-		tCurrentPlayer = formCGR.getCurrentPlayer ();
+		tCurrentPlayer = tFormCGR.getCurrentPlayer ();
 		if (tCurrentPlayer == tFormingPresident) {
 			tToolTip = GUI.EMPTY_STRING;
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		homeTokensExchange = formCGR.buildSpecialButton ("Exchange all Home Tokens", EXCHANGE_HOME_TOKEN, 
+		homeTokensExchange = tFormCGR.buildSpecialButton ("Exchange all Home Tokens", EXCHANGE_HOME_TOKEN, 
 								tToolTip, this);
 	
-		nonHomeTokensExchange = formCGR.buildSpecialButton ("Exchange all Non-Home Tokens", 
+		nonHomeTokensExchange = tFormCGR.buildSpecialButton ("Exchange all Non-Home Tokens", 
 								EXCHANGE_NON_HOME_TOKEN, tToolTip, this);	
 		updateSpecialButtons (aActingPlayer);
 	}
@@ -482,11 +492,13 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		CorporationList tShareCompanies;
 		CorporationList tMinorCompanies;
 		int tCountReplacements;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tHexMap = gameManager.getGameMap ();
 		tShareCompanies = gameManager.getShareCompanies ();
 		tMinorCompanies = gameManager.getMinorCompanies ();
-		tFormingShareCompany = formCGR.getFormingCompany ();
+		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tCountReplacements = 0;
 		for (String tHomeMapCellID : aMapCellIDs) {
 			tNewMapToken = tFormingShareCompany.getLastMapToken ();
@@ -503,16 +515,16 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 				replaceTokenAction.setChainToPrevious (true);
 			}
 			if (tExchangeHomeTokens) {
-				formCGR.setHomeTokensExchanged (true);
+				tFormCGR.setHomeTokensExchanged (true);
 				replaceTokenAction.addSetHomeTokensExchangedEffect (tFoldingCompany, true);
 			} else {
-				formCGR.setNonHomeTokensExchanged (true);
+				tFormCGR.setNonHomeTokensExchanged (true);
 				replaceTokenAction.addSetNonHomeTokensExchangedEffect (tFoldingCompany, true);
 			}
 			gameManager.addAction (replaceTokenAction);
 		}
 		tHexMap.redrawMap ();
-		formCGR.rebuildFormationPanel ();
+		tFormCGR.rebuildFormationPanel ();
 	}
 
 	public void prepareAction (TokenCompany aTokenCompany) {
@@ -573,7 +585,9 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		ActorI.ActionStates tRoundType;
 		Round tCurrentRound;
 		String tRoundID;
-
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		removeDestinations ();
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
@@ -586,14 +600,14 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		
 		for (Player tPlayer : tPlayers) {
 			tOldState = tPlayer.getPrimaryActionState ();
-			tPlayer.setPrimaryActionState (formCGR.formationState);
-			tTokenExchangeFinishedAction.addStateChangeEffect (tPlayer, tOldState, formCGR.formationState);
+			tPlayer.setPrimaryActionState (tFormCGR.formationState);
+			tTokenExchangeFinishedAction.addStateChangeEffect (tPlayer, tOldState, tFormCGR.formationState);
 		}
 
 		tTokenExchangeFinishedAction.setChainToPrevious (true);
-		formCGR.allPlayersHandled  (tTokenExchangeFinishedAction);
+		tFormCGR.allPlayersHandled  (tTokenExchangeFinishedAction);
 		gameManager.addAction (tTokenExchangeFinishedAction);
 		
-		formCGR.applyCommand (FormCGR.ASSET_COLLECTION);
+		tFormCGR.applyCommand (FormCGR.ASSET_COLLECTION);
 	}
 }

@@ -33,9 +33,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
-	public LoanRepayment (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
+	public LoanRepayment (GameManager aGameManager, FormCompany aFormCompany, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
+		super (aGameManager, aFormCompany, aPlayer, aActingPresident);
 	}
 
 	public String confirmRepayment (ShareCompany aShareCompany) {
@@ -172,6 +172,7 @@ public class LoanRepayment extends PlayerFormationPanel {
 		int tShareFoldCount;
 		int tNewShareFoldCount;
 		int tOldShareFoldCount;
+		FormCGR tFormCGR;
 		
 		tRoundManager = gameManager.getRoundManager ();
 		tCurrentRound = tRoundManager.getCurrentRound ();
@@ -181,15 +182,16 @@ public class LoanRepayment extends PlayerFormationPanel {
 
 		tRepaymentHandled = true;
 		aShareCompany.setRepaymentHandled (tRepaymentHandled);
-		tOldShareFoldCount = formCGR.getShareFoldCount ();
+		tFormCGR = (FormCGR) formCompany;
+		tOldShareFoldCount = tFormCGR.getShareFoldCount ();
 		if (aShareCompany.willFold ()) {
 			tShareFoldCount = aShareCompany.getShareFoldCount ();
-			formCGR.addShareFoldCount (tShareFoldCount);
+			tFormCGR.addShareFoldCount (tShareFoldCount);
 			
-			tNewShareFoldCount = formCGR.getShareFoldCount ();
+			tNewShareFoldCount = tFormCGR.getShareFoldCount ();
 			
-			tNotification = formCGR.buildFoldNotification (aShareCompany, tShareFoldCount);
-			formCGR.setNotificationText (tNotification);
+			tNotification = tFormCGR.buildFoldNotification (aShareCompany, tShareFoldCount);
+			tFormCGR.setNotificationText (tNotification);
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
 			tRepaymentHandledAction.addSetNotificationEffect (aShareCompany, tNotification);
 		}
@@ -199,7 +201,7 @@ public class LoanRepayment extends PlayerFormationPanel {
 
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 	
-		formCGR.rebuildFormationPanel (tCurrentPlayerIndex);
+		tFormCGR.rebuildFormationPanel (tCurrentPlayerIndex);
 		aShareCompany.addAction (tRepaymentHandledAction);
 	}
 
@@ -208,13 +210,15 @@ public class LoanRepayment extends PlayerFormationPanel {
 		KButton tPayFromPresident;
 		KButton tConfirm;
 		String tToolTip;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		if (aActingPlayer) {
 			tToolTip = canPayFromTreasury (aShareCompany);
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromTreasury = formCGR.buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip, this);
+		tPayFromTreasury = tFormCGR.buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromTreasury);
 		aShareCompanyJPanel.add (Box.createHorizontalStrut (10));
 		aShareCompany.addSpecialButton (tPayFromTreasury);
@@ -224,7 +228,7 @@ public class LoanRepayment extends PlayerFormationPanel {
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromPresident = formCGR.buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip, this);
+		tPayFromPresident = tFormCGR.buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromPresident);
 		aShareCompany.addSpecialButton (tPayFromPresident);
 		
@@ -233,7 +237,7 @@ public class LoanRepayment extends PlayerFormationPanel {
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tConfirm = formCGR.buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip, this);
+		tConfirm = tFormCGR.buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip, this);
 		aShareCompanyJPanel.add (tConfirm);
 		aShareCompany.addSpecialButton (tConfirm);
 	}
@@ -245,6 +249,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 		String tActionCommand;
 		ShareCompany tShareCompany;
 		KButton tActivatedButton;
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		
 		tActionCommand = aEvent.getActionCommand ();
 		tActivatedButton = getActivatedButton (aEvent);
@@ -262,9 +269,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 				}
 			}
 			if (tActionCommand.equals (FormCGR.FOLD)) {
-				formCGR.handleFoldIntoFormingCompany ();
+				tFormCGR.handleFoldIntoFormingCompany ();
 			} else if (tActionCommand.equals (CONTINUE)) {
-				formCGR.handleFormationComplete ();
+				tFormCGR.handleFormationComplete ();
 			}
 		}
 		
@@ -303,13 +310,16 @@ public class LoanRepayment extends PlayerFormationPanel {
 	public void updateContinueButton () {
 		String tToolTip;
 		String tFormingCompanyAbbrev;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
+
 		if (repaymentFinished () && actingPlayer) {
-			if (formCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
-				tFormingCompanyAbbrev = formCGR.getFormingCompanyAbbrev ();
+			if (tFormCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
+				tFormingCompanyAbbrev = tFormCGR.getFormingCompanyAbbrev ();
 				continueButton.setEnabled (true);
 				tToolTip = GUI.EMPTY_STRING;
-				if (formCGR.haveSharesToFold ()) {
+				if (tFormCGR.haveSharesToFold ()) {
 					tToolTip = "There are Outstanding Loans, " + tFormingCompanyAbbrev + " will Form.";
 				} else {
 					tToolTip = "No Outstanding Loans, " + tFormingCompanyAbbrev + " will not Form.";			
@@ -322,7 +332,7 @@ public class LoanRepayment extends PlayerFormationPanel {
 				continueButton.setToolTipText (tToolTip);
 				continueButton.setVisible (false);
 			}	
-			if (formCGR.haveSharesToFold ()) {
+			if (tFormCGR.haveSharesToFold ()) {
 				continueButton.setActionCommand (FormCGR.FOLD);
 			} else {
 				continueButton.setActionCommand (CONTINUE);
@@ -341,9 +351,11 @@ public class LoanRepayment extends PlayerFormationPanel {
 		int tCertificateCount;
 		int tCertificateIndex;
 		boolean tAllCompaniesHandled;
-
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		if (repaymentFinished ()) {
-			if (formCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
+			if (tFormCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
 				doneButton.setEnabled (false);
 				tToolTip = PAYBACK_COMPLETED;
 				doneButton.setToolTipText (tToolTip);
@@ -376,10 +388,12 @@ public class LoanRepayment extends PlayerFormationPanel {
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
 		int tCurrentPlayerIndex;
 		boolean tHandledRepayment;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 		tHandledRepayment = true;
 		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution, tHandledRepayment);
-		formCGR.rebuildFormationPanel (tCurrentPlayerIndex);
+		tFormCGR.rebuildFormationPanel (tCurrentPlayerIndex);
 	}
 }

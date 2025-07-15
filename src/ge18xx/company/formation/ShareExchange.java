@@ -38,9 +38,9 @@ public class ShareExchange extends PlayerFormationPanel {
 
 	// Called by PlayerFormationPanel buildPlayerPanel
 
-	public ShareExchange (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
+	public ShareExchange (GameManager aGameManager, FormCompany aFormCompany, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
+		super (aGameManager, aFormCompany, aPlayer, aActingPresident);
 		if (isActingPlayer (aActingPresident)) {
 			closeFormingCompanySecondIssue ();
 		}
@@ -53,7 +53,10 @@ public class ShareExchange extends PlayerFormationPanel {
 		JLabel tShareExchangeInfo;
 		String tShareExchangeText;
 		String tToolTip;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
+
 		tPlayerShareExchangePanel = new JPanel ();
 		tPlayerShareExchangePanel.setLayout (new BoxLayout (tPlayerShareExchangePanel, BoxLayout.Y_AXIS));
 		tPlayerShareExchangePanel.add (Box.createVerticalStrut (5));
@@ -70,14 +73,14 @@ public class ShareExchange extends PlayerFormationPanel {
 		tPlayerShareExchangePanel.add (Box.createVerticalStrut (5));
 	
 		if (	foldingCompanyCount == 0) {
-			tToolTip = "No Shares will be exchanged for " + formCGR.getFormingCompanyAbbrev ();;
+			tToolTip = "No Shares will be exchanged for " + tFormCGR.getFormingCompanyAbbrev ();;
 		} else if (! aActingPlayer) {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		} else {
 			tToolTip = GUI.EMPTY_STRING;
 		}
 	
-		exchange = formCGR.buildSpecialButton (EXCHANGE, EXCHANGE, tToolTip, this);
+		exchange = tFormCGR.buildSpecialButton (EXCHANGE, EXCHANGE, tToolTip, this);
 	
 		tPlayerShareExchangePanel.add (exchange);
 		tPlayerShareExchangePanel.add (Box.createVerticalStrut (5));
@@ -96,7 +99,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		int tCertificateIndex;
 		int tShareExchangeCount;
 		int tTotalShareCount;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;		
 		tCertificateCount = aPlayerPortfolio.getCertificateTotalCount ();
 		tTotalShareCount = 0;
 		shareCompaniesHandled = new LinkedList<String> ();
@@ -118,7 +123,7 @@ public class ShareExchange extends PlayerFormationPanel {
 				}
 			}
 		}
-		totalExchangeCount = formCGR.getSharesReceived (tTotalShareCount);
+		totalExchangeCount = tFormCGR.getSharesReceived (tTotalShareCount);
 		if (tTotalShareCount % 2 != 0) {
 			oneShareToBankPool = true;
 		}
@@ -133,8 +138,10 @@ public class ShareExchange extends PlayerFormationPanel {
 		String tShareExchangeText;
 		String tExchangeText;
 		String tFormingCompanyAbbrev;
+		FormCGR tFormCGR;
 		
-		tFormingCompanyAbbrev = formCGR.getFormingCompanyAbbrev ();
+		tFormCGR = (FormCGR) formCompany;
+		tFormingCompanyAbbrev = tFormCGR.getFormingCompanyAbbrev ();
 		tShareExchangeText = GUI.EMPTY_STRING;
 		if  (aTotalShareCount == 0) {
 			tShareExchangeText = "No Shares will be exchanged for " + tFormingCompanyAbbrev;
@@ -199,7 +206,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		int tFormingCompanyID;
 		int tPercentage;
 		int tExchangeCount;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tBankPool = gameManager.getBankPool ();
 		tBank = gameManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
@@ -250,7 +259,7 @@ public class ShareExchange extends PlayerFormationPanel {
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tFormingCompany = (ShareCompany) gameManager.getCorporationByID (tFormingCompanyID);
 		tFormingAbbrev = getFormingAbbrev ();
-		tPercentage = formCGR.getPercentageForExchange ();
+		tPercentage = tFormCGR.getPercentageForExchange ();
 
 		// Transfer Shares from the Bank's IPO of the newly forming Company to the current Player
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
@@ -261,7 +270,7 @@ public class ShareExchange extends PlayerFormationPanel {
 					transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction1);
 				} else {
 					System.err.println ("No certificate available with All Players Total Exchange Count " + 
-									formCGR.getShareFoldCount ());
+									tFormCGR.getShareFoldCount ());
 				}
 			}
 		}
@@ -285,13 +294,13 @@ public class ShareExchange extends PlayerFormationPanel {
 			}
 		}
 
-		formCGR.setNotificationText (tNotification);
+		tFormCGR.setNotificationText (tNotification);
 		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
 
 		exchange.setEnabled (false);
 		exchange.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
-		formCGR.rebuildFormationPanel (formCGR.getCurrentPlayerIndex ());
+		tFormCGR.rebuildFormationPanel (tFormCGR.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
 		if (tNewPresident) {
 			tTransferOwnershipAction1.mergeEffects (tTransferOwnershipAction2);
@@ -330,7 +339,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
-
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		tBank = gameManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tBankPool = gameManager.getBankPool ();
@@ -338,14 +349,12 @@ public class ShareExchange extends PlayerFormationPanel {
 		tCertificateCount = tBankPoolPortfolio.getCertificateTotalCount ();
 		if (tCertificateCount > 0) {
 			tExchangeCount = 0;
-			tPercentage = formCGR.getPercentageForExchange ();
+			tPercentage = tFormCGR.getPercentageForExchange ();
 
 			tRoundManager = gameManager.getRoundManager ();
 			tRoundType = tRoundManager.getCurrentRoundState ();
 			tRoundID = tRoundManager.getCurrentRoundOf ();
 			tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
-//			tTransferOwnershipAction = (TransferOwnershipAction) 
-//					constructFormationAction (TransferOwnershipAction.class.getName (), player);
 
 			for (tPortfolioIndex = (tCertificateCount - 1); tPortfolioIndex >= 0; tPortfolioIndex--) {
 				tCertificate = tBankPoolPortfolio.getCertificate (tPortfolioIndex);
@@ -366,7 +375,7 @@ public class ShareExchange extends PlayerFormationPanel {
 						transferShare (tBank, tBankPool, tCertificate, tTransferOwnershipAction);
 					} else {
 						System.err.println ("No certificate available with All Players Total Exchange Count " + 
-										formCGR.getShareFoldCount ());
+										tFormCGR.getShareFoldCount ());
 					}
 
 				}
@@ -376,8 +385,8 @@ public class ShareExchange extends PlayerFormationPanel {
 				
 				tNotification = tBankPool.getName () + " moved 1 Share into the Closed Portfolio.";
 			}
-			formCGR.setNotificationText (tNotification);
-			formCGR.rebuildFormationPanel ();
+			tFormCGR.setNotificationText (tNotification);
+			tFormCGR.rebuildFormationPanel ();
 			tTransferOwnershipAction.setChainToPrevious (true);
 			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
 			tTransferOwnershipAction.addSetNotificationEffect (player, tNotification);
@@ -407,7 +416,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		Corporation tCorporation;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
-	
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tCorporation.isAShareCompany ()) {
@@ -418,7 +429,7 @@ public class ShareExchange extends PlayerFormationPanel {
 				tCurrentPresident = (Player) tCurrentHolder;
 				tPlayerManager.handlePresidentialTransfer (aTransferOwnershipAction, tFormingCompany, tCurrentPresident);
 				aTransferOwnershipAction.setChainToPrevious (true);
-				formCGR.rebuildFormationPanel ();
+				tFormCGR.rebuildFormationPanel ();
 			} else {
 				System.err.println ("The Current President is not a Player");
 			}
@@ -440,9 +451,11 @@ public class ShareExchange extends PlayerFormationPanel {
 		int tPresidentCertificatePercentage;
 		int tFindPercentage;
 		boolean tNewPresident;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tBank = gameManager.getBank ();
-		tFindPercentage = formCGR.getPercentageForExchange () * 2;
+		tFindPercentage = tFormCGR.getPercentageForExchange () * 2;
 		tPresidentOwnedPercentage = aFormingCompany.getPresidentOwnedPercent ();
 		tPresidentCertificate = aFormingCompany.getPresidentCertificate (tFindPercentage);
 		tPresidentCertificatePercentage = tPresidentCertificate.getPercentage ();
@@ -485,12 +498,14 @@ public class ShareExchange extends PlayerFormationPanel {
 		int tPercentageForExchange;
 		String tFormingAbbrev;
 		boolean tNewPresident;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tBank = gameManager.getBank ();
 		tPlayerPortfolio = player.getPortfolio ();
 		tCurrentPresident = aFormingCompany.getPresident ();
 		tFormingAbbrev = aFormingCompany.getAbbrev ();
-		tPercentageForExchange = formCGR.getPercentageForExchange ();
+		tPercentageForExchange = tFormCGR.getPercentageForExchange ();
 		tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, tPercentageForExchange * 2, true);
 		tNewPresident = true;
 		if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
@@ -514,7 +529,7 @@ public class ShareExchange extends PlayerFormationPanel {
 				}
 			}
 		}
-		formCGR.setFormingPresidentAssigned  (tNewPresident);
+		tFormCGR.setFormingPresidentAssigned  (tNewPresident);
 		aTransferOwnershipAction.SetFormingPresidentAssignedEffect (aFormingCompany, tNewPresident);
 		
 		return tNewPresident;
@@ -582,8 +597,10 @@ public class ShareExchange extends PlayerFormationPanel {
 		String tFormingAbbrev;
 		String tFromName;
 		Bank tBank;
-
-		tPercentage = formCGR.getPercentageNotForExchange ();
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
+		tPercentage = tFormCGR.getPercentageNotForExchange ();
 		tPrezPercentage = tPercentage * 2;
 		tBank = gameManager.getBank ();
 		tBankIPOPortfolio = tBank.getPortfolio ();
@@ -679,14 +696,16 @@ public class ShareExchange extends PlayerFormationPanel {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tActionCommand = aEvent.getActionCommand ();
 		if (tActionCommand.equals (EXCHANGE)) {
 			handleShareExchange ();
 		} else if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
 		} else if (tActionCommand.equals (FormCGR.TOKEN_EXCHANGE)) {
-			formCGR.handleTokenExchange ();
+			tFormCGR.handleTokenExchange ();
 		} else {
 			super.actionPerformed (aEvent);
 		}
@@ -713,9 +732,11 @@ public class ShareExchange extends PlayerFormationPanel {
 	@Override
 	public void updateContinueButton () {
 		String tToolTip;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		if (haveAllSharesBeenExchanged () && actingPlayer) {
-			if (formCGR.getFormationState ().equals (ActorI.ActionStates.ShareExchange)) {
+			if (tFormCGR.getFormationState ().equals (ActorI.ActionStates.ShareExchange)) {
 				continueButton.setEnabled (true);
 				tToolTip = "All Shares have been exchanged, proceed to Token Exchange";			
 				continueButton.setToolTipText (tToolTip);
@@ -761,7 +782,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		ActorI.ActionStates tRoundType;
 		Round tCurrentRound;
 		String tRoundID;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tCurrentRound = tRoundManager.getCurrentRound ();
@@ -771,7 +794,7 @@ public class ShareExchange extends PlayerFormationPanel {
 		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
 		super.handlePlayerDone ();
-		if (formCGR.getAllPlayerSharesHandled ()) {
+		if (tFormCGR.getAllPlayerSharesHandled ()) {
 			handleOpenMarketShareExchange ();
 			confirmFormingPresident ();
 			handleIPOShareClosing ();

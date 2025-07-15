@@ -127,7 +127,9 @@ public class AssetCollection extends PlayerFormationPanel {
 		JLabel tLicensesLabel;
 		JLabel tTrainsLabel;
 		Border tBorder;
-
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
 		tBorder = BorderFactory.createLineBorder (Color.black, 1);
 		
 		tFullCompaniesPanel = new JPanel ();
@@ -164,7 +166,7 @@ public class AssetCollection extends PlayerFormationPanel {
 		tButtonsPanel = new JPanel ();
 		tButtonsPanel.setLayout (new BoxLayout (tButtonsPanel, BoxLayout.X_AXIS));
 		tButtonsPanel.add (Box.createHorizontalGlue ());
-		tFormingShareCompany = formCGR.getFormingCompany ();
+		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
@@ -259,10 +261,12 @@ public class AssetCollection extends PlayerFormationPanel {
 		int tTotalCash;
 		JLabel tSpacingLabel;
 		JPanel tSpecialButtonsPanel;
+		FormCGR tFormCGR;
 		
-		tFormingCompany = formCGR.getFormingCompany ();
+		tFormCGR = (FormCGR) formCompany;
+		tFormingCompany = tFormCGR.getFormingCompany ();
 		tFormingPresident = (Player) tFormingCompany.getPresident ();
-		tCurrentPlayer = formCGR.getCurrentPlayer ();
+		tCurrentPlayer = tFormCGR.getCurrentPlayer ();
 		if (tCurrentPlayer == tFormingPresident) {
 			tToolTip = GUI.EMPTY_STRING;
 		} else {
@@ -271,11 +275,11 @@ public class AssetCollection extends PlayerFormationPanel {
 		tTotalCash = sumAllFoldingCash ();
 		
 		tCollectCashText = "Collect " + Bank.formatCash (tTotalCash);
-		collectCashButton = formCGR.buildSpecialButton (tCollectCashText, COLLECT_CASH, 
+		collectCashButton = tFormCGR.buildSpecialButton (tCollectCashText, COLLECT_CASH, 
 								tToolTip, this);
 	
 		tCollectLicensesText = "Collect Licenses";
-		collectLicensesButton = formCGR.buildSpecialButton (tCollectLicensesText, COLLECT_LICENSES, 
+		collectLicensesButton = tFormCGR.buildSpecialButton (tCollectLicensesText, COLLECT_LICENSES, 
 								tToolTip, this);	
 		tSpacingLabel = new JLabel (" ");
 		tSpecialButtonsPanel = new JPanel ();
@@ -434,7 +438,9 @@ public class AssetCollection extends PlayerFormationPanel {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tActionCommand = aEvent.getActionCommand ();
 		
 		if (tActionCommand.startsWith (CLAIM)) {
@@ -448,7 +454,7 @@ public class AssetCollection extends PlayerFormationPanel {
 		} else {
 			super.actionPerformed (aEvent);
 		}
-		formCGR.rebuildFormationPanel ();
+		tFormCGR.rebuildFormationPanel ();
 	}
 	
 	@Override
@@ -598,10 +604,11 @@ public class AssetCollection extends PlayerFormationPanel {
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
-
 		Train tTrain;
+		FormCGR tFormCGR;
 		
-		tFormingShareCompany = formCGR.getFormingCompany ();
+		tFormCGR = (FormCGR) formCompany;
+		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tActionCommand = aActionCommand.split (" ");
 		tShareCompany = gameManager.getShareCompany (tActionCommand [1]);
 		if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
@@ -649,9 +656,6 @@ public class AssetCollection extends PlayerFormationPanel {
 				tCurrentRound = tRoundManager.getCurrentRound ();
 				tRoundID = tCurrentRound.getID ();
 
-//				tTransferTrainAction = (TransferTrainAction) 
-//						constructFormationAction (TransferTrainAction.class.getName (), tBankPool);
-
 				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tBankPool);
 				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tBankPool);
 				tTransferTrainAction.addRebuildFormationPanelEffect (player);
@@ -677,9 +681,11 @@ public class AssetCollection extends PlayerFormationPanel {
 		int tShareCount;
 		int tCashAmount;
 		int tEffectCount;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		// formingShareCompany
-		tFormingShareCompany = formCGR.getFormingCompany ();
+		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
 		
@@ -720,8 +726,10 @@ public class AssetCollection extends PlayerFormationPanel {
 		int tLicenseCount;
 		int tLicenseIndex;
 		int tEffectCount;
+		FormCGR tFormCGR;
 		
-		tFormingShareCompany = formCGR.getFormingCompany ();
+		tFormCGR = (FormCGR) formCompany;
+		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
 		
@@ -767,7 +775,9 @@ public class AssetCollection extends PlayerFormationPanel {
 		List<Player> tPlayers;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
+		FormCGR tFormCGR;
 		
+		tFormCGR = (FormCGR) formCompany;
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tAssetCollectionFinishedAction = new AssetCollectionFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
@@ -776,15 +786,15 @@ public class AssetCollection extends PlayerFormationPanel {
 		
 		for (Player tPlayer : tPlayers) {
 			tOldState = tPlayer.getPrimaryActionState ();
-			tPlayer.setPrimaryActionState (formCGR.formationState);
+			tPlayer.setPrimaryActionState (tFormCGR.formationState);
 			tNewState = tPlayer.getPrimaryActionState ();
 			tAssetCollectionFinishedAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 		}
 
 		tAssetCollectionFinishedAction.setChainToPrevious (true);
-		formCGR.allPlayersHandled (tAssetCollectionFinishedAction);
+		tFormCGR.allPlayersHandled (tAssetCollectionFinishedAction);
 		gameManager.addAction (tAssetCollectionFinishedAction);
 		
-		formCGR.applyCommand (FormCGR.STOCK_VALUE_CALCULATION);
+		tFormCGR.applyCommand (FormCGR.STOCK_VALUE_CALCULATION);
 	}
 }
