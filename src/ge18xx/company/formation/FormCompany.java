@@ -4,6 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.JPanel;
+
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
@@ -11,6 +14,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -32,6 +36,8 @@ public class FormCompany extends TriggerClass {
 	public static final AttributeName AN_TRIGGERING_COMPANY = new AttributeName ("triggeringCompany");
 	public static final FormCompany NO_FORM_COMPANY = null;
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
+	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
+	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	GameManager gameManager;
 	int currentPlayerIndex;
 	boolean currentPlayerDone;
@@ -41,6 +47,8 @@ public class FormCompany extends TriggerClass {
 	Corporation triggeringCompany;
 	ShareCompany formingShareCompany;
 	protected ActionStates formationState;
+	protected Player actingPresident;
+	protected JPanel formationJPanel;
 	
 	public FormCompany () {
 		
@@ -49,6 +57,7 @@ public class FormCompany extends TriggerClass {
 	public FormCompany (GameManager aGameManager) {
 		gameManager = aGameManager;
 		setFormingShareCompany ();
+		setActingPresident (Player.NO_PLAYER);
 	}
 	
 	public FormCompany (XMLNode aXMLNode, GameManager aGameManager) {
@@ -65,7 +74,8 @@ public class FormCompany extends TriggerClass {
 		boolean tFormingPresidentAssigned;
 		ActorI.ActionStates tFormationState;
 		GenericActor tGenericActor;
-
+		Player tPlayer;
+		String tPlayerName;
  		
 		tCurrentPlayerIndex = aXMLNode.getThisIntAttribute (AN_CURRENT_PLAYER_INDEX);
 		tCurrentPlayerDone = aXMLNode.getThisBooleanAttribute (AN_CURRENT_PLAYER_DONE);
@@ -82,6 +92,12 @@ public class FormCompany extends TriggerClass {
 		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
 		tTriggeringCompany = gameManager.getShareCompany (tTriggeringCompanyAbbrev);
 		setTriggeringCompany (tTriggeringCompany);
+		
+		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
+		tPlayer = (Player) gameManager.getActor (tPlayerName);
+		if (tPlayer != Player.NO_PLAYER) {
+			setActingPresident (tPlayer);
+		}
 	}
 	
 	@Override
@@ -260,7 +276,7 @@ public class FormCompany extends TriggerClass {
 		aFormationRoundAction.addSetFormationStateEffect (tPrimaryActor, tOldFormationState, tNewFormationState);
 	}
 
-	protected int getPlayerCount () {
+	int getPlayerCount () {
 		PlayerManager tPlayerManager;
 		List<Player> tPlayers;
 		int tPlayerCount;
@@ -271,8 +287,42 @@ public class FormCompany extends TriggerClass {
 		
 		return tPlayerCount;
 	}
+	
+	public void setupPlayers () {
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		setupPlayers (tPlayerManager, tPlayers);
+	}
+	
+	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
+		int tCurrentPlayerIndex;
+		
+		findActingPresident ();
+		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
+		setCurrentPlayerIndex (tCurrentPlayerIndex);
+		updatePlayers (aPlayers, actingPresident);
+	}
+	
+	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
+		PlayerFormationPanel tPlayerJPanel;
+		
+		currentPlayerDone = false;
+		formationJPanel.removeAll ();
+		for (Player tPlayer : aPlayers) {
+			tPlayerJPanel = buildPlayerPanel (tPlayer, aActingPresident);
+			formationJPanel.add (tPlayerJPanel);
+			formationJPanel.add (Box.createVerticalStrut (10));
+		}
+//		buildNotificationJPanel ();
+//		buildBottomJPanel ();
+//		formationJPanel.add (bottomJPanel);
+//		formationJPanel.repaint ();
+	}
 
-	protected int panelHeight () {
+	int panelHeight () {
 		int tPanelHeight;
 		int tPlayerHeight;
 		int tPlayerCount;
@@ -305,5 +355,71 @@ public class FormCompany extends TriggerClass {
 		tFormingPresident = (Player) formingShareCompany.getPresident ();
 	
 		return tFormingPresident;
+	}
+
+	@Override
+	public void setActingPresident (Player aActingPresident) {
+		actingPresident = aActingPresident;
+	}
+
+	public Player findActingPresident () {
+		Corporation tActingCorporation;
+		Player tActingPlayer;
+		PortfolioHolderI tPresident;
+		
+		if (actingPresident == Player.NO_PLAYER) {
+			tActingCorporation = gameManager.getOperatingCompany ();
+			if (tActingCorporation != Corporation.NO_CORPORATION) {
+				tPresident = tActingCorporation.getPresident ();
+				if (tPresident.isAPlayer ()) {
+					tActingPlayer = (Player) tPresident;
+					setActingPresident (tActingPlayer);
+				} else {
+					setActingPresident (Player.NO_PLAYER);
+				}
+			}
+		}
+		tActingPlayer = actingPresident;
+	
+		return tActingPlayer;
+	}
+	
+	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
+		PlayerFormationPanel tPlayerFormationPanel;
+		String tClassName;
+		Class<?> tFormCompanyClass;
+		Class<?> tPlayerClass;
+		Class<?> tClassToLoad;
+		Constructor<?> tClassConstructor;
+
+		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
+		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
+		System.out.println ("Find Constructor for " + tClassName);
+		try {
+			// Calls the Constructor for the Next Step in the Formation List to call
+			tClassToLoad = Class.forName (tClassName);
+			tFormCompanyClass = this.getClass ().getSuperclass ();
+			tPlayerClass = aPlayer.getClass ();
+			
+			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), tFormCompanyClass, 
+						tPlayerClass, tPlayerClass);
+			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this,
+					aPlayer, aActingPresident);
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println ("Error trying to get Constructor");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		return tPlayerFormationPanel;
 	}
 }

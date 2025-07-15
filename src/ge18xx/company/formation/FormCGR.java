@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.Box;
@@ -20,16 +18,13 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
-import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
-import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
-import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
@@ -50,10 +45,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
 	public static final AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
 	public static final AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
-	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
-	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
 	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
@@ -73,7 +66,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	boolean homeTokensExchanged;
 	boolean nonHomeTokensExchanged;
 
-	JPanel formationJPanel;
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
 	JPanel ipoJPanel;
@@ -82,7 +74,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	String notificationText;
 
 	StartFormationAction startFormationAction;
-	Player actingPresident;
 	
 	public FormCGR (GameManager aGameManager) {
 		super (aGameManager);
@@ -91,7 +82,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
 		setNotificationText (TIME_TO_REPAY);
-		setActingPresident (Player.NO_PLAYER);
 		setAllPlayerSharesHandled (false);
 		setHomeTokensExchanged (false);
 		setNonHomeTokensExchanged (false);
@@ -109,33 +99,19 @@ public class FormCGR extends FormCompany implements ActionListener {
 		boolean tHomeTokensExchanged;
 		boolean tNonHomeTokensExchanged;
 		String tNotificationText;
-		String tTriggeringCompanyAbbrev;
-		Player tPlayer;
-		String tPlayerName;
-		TokenCompany tTriggeringCompany;
 		
 		parseXML (aXMLNode);
 		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
 		tHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_HOME_TOKENS_EXCHANGED);
 		tNonHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_NON_HOME_TOKENS_EXCHANGED);
 		tAllPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
-		
-		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
-		tTriggeringCompany = aGameManager.getTokenCompany (tTriggeringCompanyAbbrev);
-		setTriggeringCompany (tTriggeringCompany);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
-		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
 		
 		setShareFoldCount (tShareFoldCount);
 		setAllPlayerSharesHandled (tAllPlayerSharesHandled);
 		setHomeTokensExchanged (tHomeTokensExchanged);
 		setNonHomeTokensExchanged (tNonHomeTokensExchanged);
 		setNotificationText (tNotificationText);
-		
-		tPlayer = (Player) gameManager.getActor (tPlayerName);
-		if (tPlayer != Player.NO_PLAYER) {
-			setActingPresident (tPlayer);
-		}
 	}
 
 	@Override
@@ -323,29 +299,26 @@ public class FormCGR extends FormCompany implements ActionListener {
 		return tHasTokensToExchange;
 	}
 	
-	public void setupPlayers () {
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		setupPlayers (tPlayerManager, tPlayers);
-	}
-	
-	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
-		int tCurrentPlayerIndex;
-		
-		findActingPresident ();
-		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
-		setCurrentPlayerIndex (tCurrentPlayerIndex);
-		updatePlayers (aPlayers, actingPresident);
-	}
+//	@Override
+//	public void setupPlayers () {
+//		List<Player> tPlayers;
+//		PlayerManager tPlayerManager;
+//		
+//		tPlayerManager = gameManager.getPlayerManager ();
+//		tPlayers = tPlayerManager.getPlayers ();
+//		setupPlayers (tPlayerManager, tPlayers);
+//	}
+//	
+//	@Override
+//	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
+//		int tCurrentPlayerIndex;
+//		
+//		findActingPresident ();
+//		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
+//		setCurrentPlayerIndex (tCurrentPlayerIndex);
+//		updatePlayers (aPlayers, actingPresident);
+//	}
 
-	@Override
-	public void setActingPresident (Player aActingPresident) {
-		actingPresident = aActingPresident;
-	}
-	
 	@Override
 	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
 		Player tNextPlayer;
@@ -525,21 +498,13 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 	}
 	
+	@Override
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
-		PlayerFormationPanel tPlayerJPanel;
-		
-		currentPlayerDone = false;
-		formationJPanel.removeAll ();
-		for (Player tPlayer : aPlayers) {
-			tPlayerJPanel = buildPlayerPanel (tPlayer, aActingPresident);
-			formationJPanel.add (tPlayerJPanel);
-			formationJPanel.add (Box.createVerticalStrut (10));
-		}
+		super.updatePlayers (aPlayers, aActingPresident);
 		buildNotificationJPanel ();
 		buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
 		formationJPanel.repaint ();
-//		formationJPanel.revalidate ();
 	}
 
 	public PlayerFormationPanel getPlayerFormationPanel () {
@@ -557,38 +522,38 @@ public class FormCGR extends FormCompany implements ActionListener {
 		return tPlayerFormationPanel;
 	}
 	
-	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
-		PlayerFormationPanel tPlayerFormationPanel;
-		String tClassName;
-		Class<?> tClassToLoad;
-		Constructor<?> tClassConstructor;
-
-		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
-		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
-		try {
-			// Calls the Constructor for the Next Step in the Formation List to call
-			tClassToLoad = Class.forName (tClassName);
-			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
-						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this,
-					aPlayer, aActingPresident);
-		} catch (NoSuchMethodException | SecurityException e) {
-			System.err.println ("Error trying to get Constructor");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-
-		return tPlayerFormationPanel;
-	}
+//	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
+//		PlayerFormationPanel tPlayerFormationPanel;
+//		String tClassName;
+//		Class<?> tClassToLoad;
+//		Constructor<?> tClassConstructor;
+//
+//		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
+//		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
+//		try {
+//			// Calls the Constructor for the Next Step in the Formation List to call
+//			tClassToLoad = Class.forName (tClassName);
+//			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
+//						aPlayer.getClass (), aPlayer.getClass ());
+//			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this,
+//					aPlayer, aActingPresident);
+//		} catch (NoSuchMethodException | SecurityException e) {
+//			System.err.println ("Error trying to get Constructor");
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return tPlayerFormationPanel;
+//	}
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
@@ -666,28 +631,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tIPOPanel = aIPOPortfolio.buildOwnershipPanel (gameManager);
 		ipoJPanel.add (tTitle);
 		ipoJPanel.add (tIPOPanel);
-	}
-
-	public Player findActingPresident () {
-		Corporation tActingCorporation;
-		Player tActingPlayer;
-		PortfolioHolderI tPresident;
-		
-		if (actingPresident == Player.NO_PLAYER) {
-			tActingCorporation = gameManager.getOperatingCompany ();
-			if (tActingCorporation != Corporation.NO_CORPORATION) {
-				tPresident = tActingCorporation.getPresident ();
-				if (tPresident.isAPlayer ()) {
-					tActingPlayer = (Player) tPresident;
-					setActingPresident (tActingPlayer);
-				} else {
-					setActingPresident (Player.NO_PLAYER);
-				}
-			}
-		}
-		tActingPlayer = actingPresident;
-	
-		return tActingPlayer;
 	}
 
 	@Override
