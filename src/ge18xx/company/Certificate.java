@@ -1291,6 +1291,17 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.getType ();
 	}
 
+	public MinorCompany getMinorCompany () {
+		MinorCompany tMinorCompany;
+
+		tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
+		if (getCorpType ().equals (Corporation.MINOR_COMPANY)) {
+			tMinorCompany = (MinorCompany) corporation;
+		}
+
+		return tMinorCompany;
+	}
+
 	public ShareCompany getShareCompany () {
 		ShareCompany tShareCompany;
 
