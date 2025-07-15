@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.CorporationList;
+import ge18xx.company.MinorCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -40,7 +41,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	public static final PlayerFormationPanel NO_PLAYER_FORMATION_PANEL = null;
 	protected Player player;
 	protected GameManager gameManager;
-	protected FormCGR formCGR;
+	protected FormCompany formCompany;
 	protected List<String> shareCompaniesHandled;
 
 	JPanel buttonsPanel;
@@ -50,14 +51,14 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	KButton undoButton;
 	boolean actingPlayer;
 
-	public PlayerFormationPanel (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer, 
+	public PlayerFormationPanel (GameManager aGameManager, FormCompany aFormCompany, Player aPlayer, 
 							Player aActingPresident) {
 		Color tBackgroundColor;
 		Color tBorderColor;
 		Border tActingBorder;
 		
 		setGameManager (aGameManager);
-		setFormCGR (aFormCGR);
+		setFormCompany (aFormCompany);
 		setPlayer (aPlayer);
 		if (aActingPresident == aPlayer) {
 			if (isActingPlayer (aActingPresident)) {
@@ -83,8 +84,8 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		gameManager = aGameManager;
 	}
 	
-	public void setFormCGR (FormCGR aFormCGR) {
-		formCGR = aFormCGR;
+	public void setFormCompany (FormCompany aFormCompany) {
+		formCompany = aFormCompany;
 	}
 
 	public void setPlayer (Player aPlayer) {
@@ -149,9 +150,9 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		String tToolTip;
 		
 		tToolTip = GUI.EMPTY_STRING;
-		continueButton = formCGR.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
-		doneButton = formCGR.buildSpecialButton (DONE, DONE, tToolTip, this);
-		undoButton = formCGR.buildSpecialButton (UNDO, UNDO, tToolTip, this);
+		continueButton = formCompany.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
+		doneButton = formCompany.buildSpecialButton (DONE, DONE, tToolTip, this);
+		undoButton = formCompany.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		
 		buttonsPanel = new JPanel ();
 		buttonsPanel.setLayout (new BoxLayout (buttonsPanel, BoxLayout.Y_AXIS));
@@ -171,11 +172,11 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	}
 	
 	public void setFormationState (ActorI.ActionStates aFormationState) {
-		formCGR.setFormationState (aFormationState);
+		formCompany.setFormationState (aFormationState);
 	}
 	
 	public void setFormationState (FormationRoundAction aFormationRoundAction, ActorI.ActionStates aNewFormationState) {
-		formCGR.setFormationState (aFormationRoundAction, aNewFormationState);
+		formCompany.setFormationState (aFormationRoundAction, aNewFormationState);
 	}
 	
 	public void updateSpecialButtons (boolean aActingPlayer) {
@@ -245,9 +246,11 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	public JPanel buildPlayerCompaniesJPanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
 		JPanel tCompanyInfoPanel;
 		JPanel tShareCompanyJPanel;
+		JPanel tMinorCompanyJPanel;
 		JPanel tTitlePanel;
 		JLabel tTitleLabel;
 		ShareCompany tShareCompany;
+		MinorCompany tMinorCompany;
 		Certificate tCertificate;
 		String tTitle;
 		int tCertificateCount;
@@ -271,10 +274,45 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 				tShareCompanyJPanel = buildCompanyJPanel (tShareCompany, aActingPlayer);
 				tCompanyInfoPanel.add (tShareCompanyJPanel);
 				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+			} else if (tCertificate.isAMinorCompany () && tCertificate.isPresidentShare ()) {
+				tMinorCompany = tCertificate.getMinorCompany ();
+				tMinorCompanyJPanel = buildCompanyJPanel (tMinorCompany, aActingPlayer);
+				tCompanyInfoPanel.add (tMinorCompanyJPanel);
+				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
 			}
+
 		}
 
 		return tCompanyInfoPanel;
+	}
+	
+	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer, JPanel aMinorCompanyJPanel) {
+		JPanel tCompanyInfoJPanel;
+		JLabel tCompanyAbbrev;
+		JLabel tTreasury;
+		JLabel tTrains;
+		Border tCorporateColorBorder;
+		TrainPortfolio tTrainPortfolio;
+		
+		tCorporateColorBorder = aMinorCompany.setupBorder ();
+		aMinorCompanyJPanel.setBorder (tCorporateColorBorder);
+		
+		tCompanyInfoJPanel = new JPanel ();
+		tCompanyInfoJPanel.setLayout (new BoxLayout (tCompanyInfoJPanel, BoxLayout.Y_AXIS));
+		tCompanyAbbrev = new JLabel (aMinorCompany.getAbbrev ());
+		tCompanyInfoJPanel.add (tCompanyAbbrev);
+
+		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aMinorCompany.getTreasury ()));
+		tCompanyInfoJPanel.add (tTreasury);
+		
+		tTrainPortfolio = aMinorCompany.getTrainPortfolio ();
+		tTrains = new JLabel (tTrainPortfolio.getTrainList ());
+		tCompanyInfoJPanel.add (tTrains);
+
+		aMinorCompanyJPanel.add (tCompanyInfoJPanel);
+		aMinorCompanyJPanel.add (Box.createHorizontalStrut (10));
+
+		return aMinorCompanyJPanel;
 	}
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer, JPanel aShareCompanyJPanel) {
@@ -339,7 +377,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	public int getCurrentPlayerIndex () {
 		int tCurrentPlayerIndex;
 
-		tCurrentPlayerIndex = formCGR.getCurrentPlayerIndex ();
+		tCurrentPlayerIndex = formCompany.getCurrentPlayerIndex ();
 		
 		return tCurrentPlayerIndex;
 	}
@@ -352,7 +390,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		tAddAction = true;
-		formCGR.updateToNextPlayer (tPlayers, tAddAction);
+		formCompany.updateToNextPlayer (tPlayers, tAddAction);
 	}
 	
 	public void handlePlayerUndo () {
@@ -362,9 +400,9 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tLastActionNumber = gameManager.getActionNumber ();
 		System.out.println ("Player hit UNDO ------ Undoing Action #" + tLastActionNumber);
 		player.undoAction ();
-		if (formCGR.getFormationState () != ActorI.ActionStates.NoState) {
+		if (formCompany.getFormationState () != ActorI.ActionStates.NoState) {
 			tCurrentPlayerIndex = getCurrentPlayerIndex ();
-			formCGR.rebuildFormationPanel (tCurrentPlayerIndex);
+			formCompany.rebuildFormationPanel (tCurrentPlayerIndex);
 		}
 	}
 	
@@ -394,6 +432,10 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		tFoundShareCompany = tShareCompanies.findCompanyWithButton (aActivatedButton);
 		
 		return tFoundShareCompany;
+	}
+
+	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer) {
+		return null;
 	}
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer) {
