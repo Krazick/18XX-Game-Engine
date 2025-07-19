@@ -17,7 +17,8 @@ import swingTweaks.KButton;
 public class ExchangeBenefit extends CertificateBenefit {
 	public static final String NAME = "EXCHANGE";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
-
+	public static final int NO_PERCENTAGE = 0;
+	
 	public ExchangeBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
 		setName (NAME);
@@ -147,6 +148,15 @@ public class ExchangeBenefit extends CertificateBenefit {
 		removeButton ();
 	}
 	
+	public String buildBenefitLabel (Certificate aCertificate) {
+		String tLabelText;
+		
+		tLabelText = "Exchange for " + aCertificate.getPercentage () + "% of " + 
+				aCertificate.getCompanyAbbrev ();
+
+		return tLabelText;
+	}
+	
 	@Override
 	public JLabel getBenefitLabel () {
 		JLabel tBenefitLabel;
@@ -154,8 +164,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		Certificate tShareCertificate;
 		
 		tShareCertificate = getShareCertificate ();
-		tLabelText = "Exchange for " + tShareCertificate.getPercentage () + "% of " + 
-						tShareCertificate.getCompanyAbbrev ();
+		tLabelText = buildBenefitLabel (tShareCertificate);
 		if (tShareCertificate.isPresidentShare ()) {
 			tLabelText += " President";
 		}
