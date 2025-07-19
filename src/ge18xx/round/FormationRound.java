@@ -119,7 +119,7 @@ public class FormationRound extends InterruptionRound {
 				tCurrentPhaseInfo = roundManager.getCurrentPhaseInfo ();
 				tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
 				if (tRoundTypePhase.equals (tCurrentPhaseName)) {
-					tIsInterrupting = hasOutstandingLoans ();
+					tIsInterrupting = triggerFormationClass.isInterrupting ();
 				}
 			}
 		}
