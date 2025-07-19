@@ -210,9 +210,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 		KButton tPayFromPresident;
 		KButton tConfirm;
 		String tToolTip;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		if (aActingPlayer) {
 			tToolTip = canPayFromTreasury (aShareCompany);
 		} else {
@@ -351,9 +351,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 		int tCertificateCount;
 		int tCertificateIndex;
 		boolean tAllCompaniesHandled;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		if (repaymentFinished ()) {
 			if (tFormCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
 				doneButton.setEnabled (false);
@@ -388,9 +388,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
 		int tCurrentPlayerIndex;
 		boolean tHandledRepayment;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 		tHandledRepayment = true;
 		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution, tHandledRepayment);

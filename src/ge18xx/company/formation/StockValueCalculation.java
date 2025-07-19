@@ -32,7 +32,7 @@ public class StockValueCalculation extends PlayerFormationPanel {
 
 	// Called by PlayerFormationPanel buildPlayerPanel
 
-	public StockValueCalculation (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer,
+	public StockValueCalculation (GameManager aGameManager, FormCompany aFormCGR, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
@@ -200,9 +200,9 @@ public class StockValueCalculation extends PlayerFormationPanel {
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;	
 		String tFoldingCorps;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tMarketFrame = gameManager.getMarketFrame ();
 		tParPrice = closestMarketCell.getValue ();
@@ -268,9 +268,9 @@ public class StockValueCalculation extends PlayerFormationPanel {
 		Round tCurrentRound;
 		String tRoundID;
 		Corporation tFormingCompany;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tCurrentRound = tRoundManager.getCurrentRound ();

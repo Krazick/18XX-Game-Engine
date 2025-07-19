@@ -54,7 +54,7 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	
 	// Called by PlayerFormationPanel buildPlayerPanel
 
-	public TokenExchange (GameManager aGameManager, FormCGR aFormCGR, Player aPlayer, 
+	public TokenExchange (GameManager aGameManager, FormCompany aFormCGR, Player aPlayer, 
 							Player aActingPresident) {
 		super (aGameManager, aFormCGR, aPlayer, aActingPresident);
 	}
@@ -356,9 +356,9 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		Player tCurrentPlayer;
 		Player tFormingPresident;
 		ShareCompany tFormingCompany;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tFormingCompany = tFormCGR.getFormingCompany ();
 		tFormingPresident = (Player) tFormingCompany.getPresident ();
 		tCurrentPlayer = tFormCGR.getCurrentPlayer ();

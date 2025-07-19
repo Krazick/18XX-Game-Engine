@@ -53,9 +53,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		JLabel tShareExchangeInfo;
 		String tShareExchangeText;
 		String tToolTip;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 
 		tPlayerShareExchangePanel = new JPanel ();
 		tPlayerShareExchangePanel.setLayout (new BoxLayout (tPlayerShareExchangePanel, BoxLayout.Y_AXIS));
@@ -138,9 +138,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		String tShareExchangeText;
 		String tExchangeText;
 		String tFormingCompanyAbbrev;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tFormingCompanyAbbrev = tFormCGR.getFormingCompanyAbbrev ();
 		tShareExchangeText = GUI.EMPTY_STRING;
 		if  (aTotalShareCount == 0) {
@@ -416,9 +416,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		Corporation tCorporation;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tCorporation.isAShareCompany ()) {
@@ -732,9 +732,9 @@ public class ShareExchange extends PlayerFormationPanel {
 	@Override
 	public void updateContinueButton () {
 		String tToolTip;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		if (haveAllSharesBeenExchanged () && actingPlayer) {
 			if (tFormCGR.getFormationState ().equals (ActorI.ActionStates.ShareExchange)) {
 				continueButton.setEnabled (true);

@@ -108,4 +108,8 @@ public class TriggerClass implements XMLSaveGameI {
 		
 		return tEnabled;
 	}
+	
+	public boolean isInterrupting () {
+		return false;
+	}
 }
