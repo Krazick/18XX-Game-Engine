@@ -54,7 +54,7 @@ public class MinorCompany extends TokenCompany {
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getOwner (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getUpgradeTo (), aRowIndex, tCurrentColumn++);
-		aCorporationList.addDataElement (getupgradePercentage (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getUpgradePercentage (), aRowIndex, tCurrentColumn++);
 
 		return tCurrentColumn;
 	}
@@ -167,7 +167,7 @@ public class MinorCompany extends TokenCompany {
 		return upgradeToID;
 	}
 
-	public int getupgradePercentage () {
+	public int getUpgradePercentage () {
 		return upgradePercentage;
 	}
 
@@ -256,19 +256,44 @@ public class MinorCompany extends TokenCompany {
 		tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
 		tBenefitLabel.setBorder(tBorder);
 	}
-
+	
+	public Corporation getCorporationByID (int aCorpID) {
+		Corporation tCorporation;
+		GameManager tGameManager;
+		 
+		tGameManager = getGameManager ();
+		tCorporation = tGameManager.getCorporationByID (aCorpID);
+		
+		return tCorporation;
+	}
+	
+	public String getCorporationAbbrev (int aCorpID) {
+		String tAbbrev;
+		Corporation tCorporation;
+		
+		tAbbrev = Corporation.NO_ABBREV;
+		tCorporation = getCorporationByID (aCorpID);
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			tAbbrev = tCorporation.getAbbrev ();
+		}
+		
+		return tAbbrev;
+	}
+	
+	public String getUpgradeToAbbrev () {
+		return getCorporationAbbrev (upgradeToID);
+	}
+	
 	public JLabel getBenefitLabel () {
 		JLabel tBenefitLabel;
 		String tBenefitText;
 		Corporation tUpgradeCorporation;
-		GameManager tGameManager;
-		 
-		tGameManager = getGameManager ();
-		tUpgradeCorporation = tGameManager.getCorporationByID (upgradeToID);
+
+		tUpgradeCorporation = getCorporationByID (upgradeToID);
 		if (tUpgradeCorporation == Corporation.NO_CORPORATION) {
 			tBenefitLabel = GUI.NO_LABEL;
 		} else {
-			tBenefitText = "Upgrade to " + upgradePercentage + "% of " + tUpgradeCorporation.getAbbrev ();		
+			tBenefitText = "Upgrade to " + upgradePercentage + "% of " + getUpgradeToAbbrev ();		
 			tBenefitLabel = new JLabel (tBenefitText);
 			setBorder (tUpgradeCorporation, tBenefitLabel);
 		}
