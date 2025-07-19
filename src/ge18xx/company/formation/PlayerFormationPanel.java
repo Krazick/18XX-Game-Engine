@@ -16,9 +16,12 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.MinorCompany;
+import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -247,10 +250,12 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		JPanel tCompanyInfoPanel;
 		JPanel tShareCompanyJPanel;
 		JPanel tMinorCompanyJPanel;
+		JPanel tPrivateCompanyJPanel;
 		JPanel tTitlePanel;
 		JLabel tTitleLabel;
 		ShareCompany tShareCompany;
 		MinorCompany tMinorCompany;
+		PrivateCompany tPrivateCompany;
 		Certificate tCertificate;
 		String tTitle;
 		int tCertificateCount;
@@ -279,6 +284,11 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 				tMinorCompanyJPanel = buildCompanyJPanel (tMinorCompany, aActingPlayer);
 				tCompanyInfoPanel.add (tMinorCompanyJPanel);
 				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+			} else if (tCertificate.isAPrivateCompany ()) {
+				tPrivateCompany = tCertificate.getPrivateCompany ();
+				tPrivateCompanyJPanel = buildCompanyJPanel (tPrivateCompany, aActingPlayer);
+				tCompanyInfoPanel.add (tPrivateCompanyJPanel);
+				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
 			}
 
 		}
@@ -286,28 +296,43 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return tCompanyInfoPanel;
 	}
 	
+	public JPanel buildCompanyJPanel (PrivateCompany aPrivateCompany, boolean aActingPlayer, 
+							JPanel aPrivateCompanyJPanel) {
+		JPanel tCompanyInfoJPanel;
+		String tCompanyName;
+		JLabel tUpgradeTo;
+		int tExchangeID;
+		Corporation tCorporation;
+		
+		tCompanyName = "Private " + aPrivateCompany.getName () + " [" + aPrivateCompany.getAbbrev () + "]";
+		tCompanyInfoJPanel = setupCompanyInfoJPanel (aPrivateCompany, aPrivateCompanyJPanel, tCompanyName);
+		tExchangeID = aPrivateCompany.getExchangeID ();
+		tCorporation = gameManager.getCorporationByID (tExchangeID);
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			tUpgradeTo = new JLabel ("Upgrade To: " + aPrivateCompany.getExchangePercentage () + "% of " + 
+									tCorporation.getAbbrev ());
+			tCompanyInfoJPanel.add (tUpgradeTo);
+		}
+
+		aPrivateCompanyJPanel.add (tCompanyInfoJPanel);
+		aPrivateCompanyJPanel.add (Box.createHorizontalStrut (10));
+
+		return aPrivateCompanyJPanel;
+	}
+
 	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer, JPanel aMinorCompanyJPanel) {
 		JPanel tCompanyInfoJPanel;
-		JLabel tCompanyAbbrev;
-		JLabel tTreasury;
-		JLabel tTrains;
-		Border tCorporateColorBorder;
-		TrainPortfolio tTrainPortfolio;
+		String tCompanyName;
+		JLabel tUpgradeTo;
 		
-		tCorporateColorBorder = aMinorCompany.setupBorder ();
-		aMinorCompanyJPanel.setBorder (tCorporateColorBorder);
+		tCompanyName = aMinorCompany.getName ();
+		tCompanyInfoJPanel = setupCompanyInfoJPanel (aMinorCompany, aMinorCompanyJPanel, tCompanyName);
 		
-		tCompanyInfoJPanel = new JPanel ();
-		tCompanyInfoJPanel.setLayout (new BoxLayout (tCompanyInfoJPanel, BoxLayout.Y_AXIS));
-		tCompanyAbbrev = new JLabel (aMinorCompany.getAbbrev ());
-		tCompanyInfoJPanel.add (tCompanyAbbrev);
+		tUpgradeTo = new JLabel ("Upgrade To: " + aMinorCompany.getUpgradePercentage () + "% of " + 
+								aMinorCompany.getUpgradeToAbbrev ());
+		tCompanyInfoJPanel.add (tUpgradeTo);
 
-		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aMinorCompany.getTreasury ()));
-		tCompanyInfoJPanel.add (tTreasury);
-		
-		tTrainPortfolio = aMinorCompany.getTrainPortfolio ();
-		tTrains = new JLabel (tTrainPortfolio.getTrainList ());
-		tCompanyInfoJPanel.add (tTrains);
+		addAssets (aMinorCompany, tCompanyInfoJPanel);
 
 		aMinorCompanyJPanel.add (tCompanyInfoJPanel);
 		aMinorCompanyJPanel.add (Box.createHorizontalStrut (10));
@@ -316,38 +341,55 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	}
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer, JPanel aShareCompanyJPanel) {
-		JPanel tCompanyInfoJPanel;
-		JLabel tCompanyAbbrev;
 		JLabel tLoans;
-		JLabel tTreasury;
-		JLabel tTrains;
-		Border tCorporateColorBorder;
-		TrainPortfolio tTrainPortfolio;
+		JPanel tCompanyInfoJPanel;
+		String tCompanyName;
 		
-		tCorporateColorBorder = aShareCompany.setupBorder ();
-		aShareCompanyJPanel.setBorder (tCorporateColorBorder);
+		tCompanyName = aShareCompany.getAbbrev ();
+		tCompanyInfoJPanel = setupCompanyInfoJPanel (aShareCompany, aShareCompanyJPanel, tCompanyName);
 		
-		tCompanyInfoJPanel = new JPanel ();
-		tCompanyInfoJPanel.setLayout (new BoxLayout (tCompanyInfoJPanel, BoxLayout.Y_AXIS));
-		tCompanyAbbrev = new JLabel (aShareCompany.getAbbrev ());
-		tCompanyInfoJPanel.add (tCompanyAbbrev);
-		
-		if (! aShareCompany.isGovtRailway ()) {
-			tLoans = new JLabel ("Loans: " + aShareCompany.getLoanCount ());
-			tCompanyInfoJPanel.add (tLoans);
+		if (gameManager.gameHasLoans ()) {
+			if (! aShareCompany.isGovtRailway ()) {
+				tLoans = new JLabel ("Loans: " + aShareCompany.getLoanCount ());
+				tCompanyInfoJPanel.add (tLoans);
+			}
 		}
 
-		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aShareCompany.getTreasury ()));
-		tCompanyInfoJPanel.add (tTreasury);
-		
-		tTrainPortfolio = aShareCompany.getTrainPortfolio ();
-		tTrains = new JLabel (tTrainPortfolio.getTrainList ());
-		tCompanyInfoJPanel.add (tTrains);
+		addAssets (aShareCompany, tCompanyInfoJPanel);
 
 		aShareCompanyJPanel.add (tCompanyInfoJPanel);
 		aShareCompanyJPanel.add (Box.createHorizontalStrut (10));
 
 		return aShareCompanyJPanel;
+	}
+
+	private JPanel setupCompanyInfoJPanel (Corporation aCorporation, JPanel aTrainCompanyJPanel, String aName) {
+		JPanel tCompanyInfoJPanel;
+		JLabel tCompanyAbbrev;
+		Border tCorporateColorBorder;
+		
+		tCorporateColorBorder = aCorporation.setupBorder ();
+		aTrainCompanyJPanel.setBorder (tCorporateColorBorder);
+		
+		tCompanyInfoJPanel = new JPanel ();
+		tCompanyInfoJPanel.setLayout (new BoxLayout (tCompanyInfoJPanel, BoxLayout.Y_AXIS));
+		tCompanyAbbrev = new JLabel (aName);
+		tCompanyInfoJPanel.add (tCompanyAbbrev);
+		
+		return tCompanyInfoJPanel;
+	}
+
+	private void addAssets (TrainCompany aTrainCompany, JPanel tCompanyInfoJPanel) {
+		JLabel tTreasury;
+		JLabel tTrains;
+		TrainPortfolio tTrainPortfolio;
+		
+		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aTrainCompany.getTreasury ()));
+		tCompanyInfoJPanel.add (tTreasury);
+		
+		tTrainPortfolio = aTrainCompany.getTrainPortfolio ();
+		tTrains = new JLabel (tTrainPortfolio.getTrainList ());
+		tCompanyInfoJPanel.add (tTrains);
 	}
 
 	@Override
@@ -434,6 +476,10 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return tFoundShareCompany;
 	}
 
+	public JPanel buildCompanyJPanel (PrivateCompany aPrivateCompany, boolean aActingPlayer) {
+		return null;
+	}
+	
 	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer) {
 		return null;
 	}
