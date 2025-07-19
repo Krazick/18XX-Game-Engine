@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -62,6 +63,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
@@ -130,6 +132,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	CorporationList corporationList;
 	Benefit benefitInUse;
 	PreparedActions preparedActions;
+	List<KButton> specialButtons;
 	Portfolio portfolio; 	// All Certificates Owned by the Corporation (Privates, Minors, it's own,
 							// and others). Use this portfolio to find what this company can sell.
 	
@@ -154,6 +157,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tActorType = actorType.toString () + " " + aAbbrev;
 		bean = new MessageBean (tActorType);
 		preparedActions = new PreparedActions ();
+		specialButtons = new LinkedList<KButton> ();
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, 
 					aStatus, aGovtRailway);
 	}
@@ -193,6 +197,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		setStatus (aXMLNode);
 		preparedActions = new PreparedActions ();
+		specialButtons = new LinkedList<KButton> ();
 
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
@@ -3254,5 +3259,22 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		}
 		
 		return tCanBeOwnedByShare;
+	}
+	
+	public void addSpecialButton (KButton aSpecialButton) {
+		specialButtons.add (aSpecialButton);
+	}
+	
+	public boolean hasSpecialButton (KButton aSpecialButton) {
+		boolean tHasSpecialButton;
+		
+		tHasSpecialButton = false;
+		for (KButton tSpecialButton : specialButtons) {
+			if (tSpecialButton == aSpecialButton) {
+				tHasSpecialButton = true;
+			}
+		}
+		
+		return tHasSpecialButton;
 	}
 }
