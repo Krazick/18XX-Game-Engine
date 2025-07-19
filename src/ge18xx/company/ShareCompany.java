@@ -1,8 +1,6 @@
 package ge18xx.company;
 
 import java.awt.event.ItemListener;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,7 +41,6 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
-import swingTweaks.KButton;
 
 //
 //  ShareCompany.java
@@ -72,7 +69,6 @@ public class ShareCompany extends TokenCompany {
 	public static final int NO_PAR_PRICE = -1;
 	public static final int NO_LOANS = 0;
 	public static final int NO_GROUP = 0;
-	List<KButton> specialButtons;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;
@@ -95,7 +91,6 @@ public class ShareCompany extends TokenCompany {
 		String tStartCell;
 
 		destinationInfo = new DestinationInfo (aChildNode);
-		specialButtons = new LinkedList<KButton> ();
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
@@ -1265,22 +1260,22 @@ public class ShareCompany extends TokenCompany {
 	public void removeBenefitButtons () {
 	}
 	
-	public void addSpecialButton (KButton aSpecialButton) {
-		specialButtons.add (aSpecialButton);
-	}
-	
-	public boolean hasSpecialButton (KButton aSpecialButton) {
-		boolean tHasSpecialButton;
-		
-		tHasSpecialButton = false;
-		for (KButton tSpecialButton : specialButtons) {
-			if (tSpecialButton == aSpecialButton) {
-				tHasSpecialButton = true;
-			}
-		}
-		
-		return tHasSpecialButton;
-	}
+//	public void addSpecialButton (KButton aSpecialButton) {
+//		specialButtons.add (aSpecialButton);
+//	}
+//	
+//	public boolean hasSpecialButton (KButton aSpecialButton) {
+//		boolean tHasSpecialButton;
+//		
+//		tHasSpecialButton = false;
+//		for (KButton tSpecialButton : specialButtons) {
+//			if (tSpecialButton == aSpecialButton) {
+//				tHasSpecialButton = true;
+//			}
+//		}
+//		
+//		return tHasSpecialButton;
+//	}
 	
 	public void clearClosed () {		
 		MapCell tDestinationMapCell;
