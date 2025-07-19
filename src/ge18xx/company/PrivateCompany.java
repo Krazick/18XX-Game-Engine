@@ -16,8 +16,10 @@ import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.company.benefit.ExchangeBenefit;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.company.benefit.PassiveEffectBenefit;
+import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.Portfolio;
@@ -403,11 +405,43 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public int getExchangeID () {
-		return exchangeID;
+		ExchangeBenefit tExchangeBenefit;
+		int tExchangeID;
+		
+		tExchangeID = Corporation.NO_ID;
+		if (benefits != Benefits.NO_BENEFITS) {
+			tExchangeBenefit = (ExchangeBenefit) benefits.getBenefitNamed (QueryExchangeBenefit.NAME);
+			if (tExchangeBenefit != ExchangeBenefit.NO_BENEFIT) {
+				tExchangeID = tExchangeBenefit.getCorporationID ();
+			} else {
+				tExchangeBenefit = (ExchangeBenefit) benefits.getBenefitNamed (ExchangeBenefit.NAME);
+				if (tExchangeBenefit != ExchangeBenefit.NO_BENEFIT) {
+					tExchangeID = tExchangeBenefit.getCorporationID ();
+				}
+			}
+		}
+		
+		return tExchangeID;
 	}
 
 	public int getExchangePercentage () {
-		return exchangePercentage;
+		ExchangeBenefit tExchangeBenefit;
+		int tExchangePercentage;
+		
+		tExchangePercentage = ExchangeBenefit.NO_PERCENTAGE;
+		if (benefits != Benefits.NO_BENEFITS) {
+			tExchangeBenefit = (ExchangeBenefit) benefits.getBenefitNamed (QueryExchangeBenefit.NAME);
+			if (tExchangeBenefit != ExchangeBenefit.NO_BENEFIT) {
+				tExchangePercentage = tExchangeBenefit.getCertificatePercentage ();
+			} else {
+				tExchangeBenefit = (ExchangeBenefit) benefits.getBenefitNamed (ExchangeBenefit.NAME);
+				if (tExchangeBenefit != ExchangeBenefit.NO_BENEFIT) {
+					tExchangePercentage = tExchangeBenefit.getCertificatePercentage ();
+				}
+			}
+		} 
+		
+		return tExchangePercentage;
 	}
 
 	@Override
