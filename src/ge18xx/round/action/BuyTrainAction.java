@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeTrainStatusEffect;
@@ -147,6 +148,13 @@ public class BuyTrainAction extends TransferTrainAction {
 		ConstructTriggerClassEffect tConstructTriggerClassEffect;
 
 		tConstructTriggerClassEffect = new ConstructTriggerClassEffect (aTriggeringShareCompany);
+		addEffect (tConstructTriggerClassEffect);
+	}
+
+	public void addConstructTriggerClassEffect (TrainCompany aTrainCompany) {
+		ConstructTriggerClassEffect tConstructTriggerClassEffect;
+
+		tConstructTriggerClassEffect = new ConstructTriggerClassEffect (aTrainCompany);
 		addEffect (tConstructTriggerClassEffect);
 	}
 
