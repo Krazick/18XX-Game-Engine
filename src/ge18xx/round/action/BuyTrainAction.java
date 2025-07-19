@@ -143,7 +143,7 @@ public class BuyTrainAction extends TransferTrainAction {
 		addEffect (tStartFormationEffect);
 	}
 	
-	public void addConstructTriggerClassEffect (Corporation aTriggeringShareCompany) {
+	public void addConstructTriggerClassEffect (ShareCompany aTriggeringShareCompany) {
 		ConstructTriggerClassEffect tConstructTriggerClassEffect;
 
 		tConstructTriggerClassEffect = new ConstructTriggerClassEffect (aTriggeringShareCompany);
