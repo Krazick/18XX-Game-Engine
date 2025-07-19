@@ -75,7 +75,7 @@ public class DoneCorpAction extends Action {
 						ShareCompany aTriggeringShareCompany) {
 		StartFormationEffect tStartFormationEffect;
 
-			tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
-			addEffect (tStartFormationEffect);
+		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringShareCompany);
+		addEffect (tStartFormationEffect);
 	}
 }
