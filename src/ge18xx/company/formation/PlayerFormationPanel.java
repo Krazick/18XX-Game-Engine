@@ -277,18 +277,24 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 			if (tCertificate.isAShareCompany () && tCertificate.isPresidentShare ()) {
 				tShareCompany = tCertificate.getShareCompany ();
 				tShareCompanyJPanel = buildCompanyJPanel (tShareCompany, aActingPlayer);
-				tCompanyInfoPanel.add (tShareCompanyJPanel);
-				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				if (tShareCompanyJPanel != null) {
+					tCompanyInfoPanel.add (tShareCompanyJPanel);
+					tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				}
 			} else if (tCertificate.isAMinorCompany () && tCertificate.isPresidentShare ()) {
 				tMinorCompany = tCertificate.getMinorCompany ();
 				tMinorCompanyJPanel = buildCompanyJPanel (tMinorCompany, aActingPlayer);
-				tCompanyInfoPanel.add (tMinorCompanyJPanel);
-				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				if (tMinorCompanyJPanel != null) {
+					tCompanyInfoPanel.add (tMinorCompanyJPanel);
+					tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				}
 			} else if (tCertificate.isAPrivateCompany ()) {
 				tPrivateCompany = tCertificate.getPrivateCompany ();
 				tPrivateCompanyJPanel = buildCompanyJPanel (tPrivateCompany, aActingPlayer);
-				tCompanyInfoPanel.add (tPrivateCompanyJPanel);
-				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				if (tPrivateCompanyJPanel != null) {
+					tCompanyInfoPanel.add (tPrivateCompanyJPanel);
+					tCompanyInfoPanel.add (Box.createVerticalStrut (5));
+				}
 			}
 
 		}
@@ -301,13 +307,11 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		JPanel tCompanyInfoJPanel;
 		String tCompanyName;
 		JLabel tUpgradeTo;
-		int tExchangeID;
 		Corporation tCorporation;
 		
 		tCompanyName = "Private " + aPrivateCompany.getName () + " [" + aPrivateCompany.getAbbrev () + "]";
 		tCompanyInfoJPanel = setupCompanyInfoJPanel (aPrivateCompany, aPrivateCompanyJPanel, tCompanyName);
-		tExchangeID = aPrivateCompany.getExchangeID ();
-		tCorporation = gameManager.getCorporationByID (tExchangeID);
+		tCorporation = getExchangeCorporation (aPrivateCompany);
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tUpgradeTo = new JLabel ("Upgrade To: " + aPrivateCompany.getExchangePercentage () + "% of " + 
 									tCorporation.getAbbrev ());
@@ -318,6 +322,16 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		aPrivateCompanyJPanel.add (Box.createHorizontalStrut (10));
 
 		return aPrivateCompanyJPanel;
+	}
+
+	protected Corporation getExchangeCorporation (PrivateCompany aPrivateCompany) {
+		int tExchangeID;
+		Corporation tCorporation;
+		
+		tExchangeID = aPrivateCompany.getExchangeID ();
+		tCorporation = gameManager.getCorporationByID (tExchangeID);
+		
+		return tCorporation;
 	}
 
 	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer, JPanel aMinorCompanyJPanel) {
