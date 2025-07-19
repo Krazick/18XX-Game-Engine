@@ -27,7 +27,6 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
-import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -37,8 +36,6 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import ge18xx.round.action.ChangeFormationRoundStateAction;
 import ge18xx.round.action.ChangeStateAction;
-import ge18xx.round.action.GenericActor;
-import ge18xx.round.action.StartFormationAction;
 import geUtilities.GUI;
 
 public class FormCGR extends FormCompany implements ActionListener {
@@ -73,8 +70,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	JTextArea notificationArea;
 	String notificationText;
 
-	StartFormationAction startFormationAction;
-	
 	public FormCGR (GameManager aGameManager) {
 		super (aGameManager);
 		String tFullFrameTitle;
@@ -112,26 +107,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		setHomeTokensExchanged (tHomeTokensExchanged);
 		setNonHomeTokensExchanged (tNonHomeTokensExchanged);
 		setNotificationText (tNotificationText);
-	}
-
-	@Override
-	public void prepareFormation (StartFormationAction aStartFormationAction) {
-		Player tActingPlayer;
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-
-		showFormationFrame ();
-		if (aStartFormationAction != Action.NO_ACTION) {
-			tActingPlayer = (Player) triggeringCompany.getPresident ();
-			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
-			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
-								formationState);
-			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayers = tPlayerManager.getPlayers ();
-
-			updatePlayersState (tPlayers, aStartFormationAction);
-		}
 	}
 
 	@Override
@@ -229,26 +204,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		setShareFoldCount (0);
 	}
 
-	public void updatePlayersState (List<Player> tPlayers, StartFormationAction aStartFormationAction) {
-		GenericActor tGenericActor;
-		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
-		
-		tGenericActor = new GenericActor ();
-		for (Player tPlayer : tPlayers) {
-			tOldState = tPlayer.getPrimaryActionState ();
-			if (! tGenericActor.isFormationRound (tOldState)) {
-				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
-				tNewState = tPlayer.getPrimaryActionState ();
-				aStartFormationAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
-			}
-		}
-	}
-
-	public void addStartFormationAction () {
-		gameManager.addAction (startFormationAction);
-	}
-	
 	public void setShareFoldCount (int aCountToFold) {
 		shareFoldCount = aCountToFold;
 	}
@@ -298,26 +253,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		return tHasTokensToExchange;
 	}
-	
-//	@Override
-//	public void setupPlayers () {
-//		List<Player> tPlayers;
-//		PlayerManager tPlayerManager;
-//		
-//		tPlayerManager = gameManager.getPlayerManager ();
-//		tPlayers = tPlayerManager.getPlayers ();
-//		setupPlayers (tPlayerManager, tPlayers);
-//	}
-//	
-//	@Override
-//	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
-//		int tCurrentPlayerIndex;
-//		
-//		findActingPresident ();
-//		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
-//		setCurrentPlayerIndex (tCurrentPlayerIndex);
-//		updatePlayers (aPlayers, actingPresident);
-//	}
 
 	@Override
 	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
@@ -786,4 +721,23 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		return tNotification;
 	}
+	
+	@Override
+	public boolean isInterrupting () {
+		return hasOutstandingLoans ();
+	}
+	
+	public boolean hasOutstandingLoans () {
+		CorporationList tShareCompanies;
+		boolean tCanStart;
+		
+		tCanStart = false;
+		if (gameManager.gameHasLoans ()) {
+			tShareCompanies = gameManager.getShareCompanies ();
+			tCanStart = tShareCompanies.anyHaveLoans ();
+		}
+		
+		return tCanStart;
+	}
+
 }

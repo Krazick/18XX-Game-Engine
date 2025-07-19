@@ -15,8 +15,10 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.StartFormationAction;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.FormationRoundAction;
 import geUtilities.GUI;
@@ -49,6 +51,7 @@ public class FormCompany extends TriggerClass {
 	protected ActionStates formationState;
 	protected Player actingPresident;
 	protected JPanel formationJPanel;
+	protected StartFormationAction startFormationAction;
 	
 	public FormCompany () {
 		
@@ -316,10 +319,6 @@ public class FormCompany extends TriggerClass {
 			formationJPanel.add (tPlayerJPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
-//		buildNotificationJPanel ();
-//		buildBottomJPanel ();
-//		formationJPanel.add (bottomJPanel);
-//		formationJPanel.repaint ();
 	}
 
 	int panelHeight () {
@@ -421,5 +420,50 @@ public class FormCompany extends TriggerClass {
 		}
 
 		return tPlayerFormationPanel;
+	}
+
+	public void updatePlayersState (List<Player> tPlayers, StartFormationAction aStartFormationAction) {
+		GenericActor tGenericActor;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		
+		tGenericActor = new GenericActor ();
+		for (Player tPlayer : tPlayers) {
+			tOldState = tPlayer.getPrimaryActionState ();
+			if (! tGenericActor.isFormationRound (tOldState)) {
+				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
+				tNewState = tPlayer.getPrimaryActionState ();
+				aStartFormationAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+			}
+		}
+	}
+
+	public void addStartFormationAction () {
+		gameManager.addAction (startFormationAction);
+	}
+
+	@Override
+	public void prepareFormation (StartFormationAction aStartFormationAction) {
+		Player tActingPlayer;
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+	
+		showFormationFrame ();
+		if (aStartFormationAction != Action.NO_ACTION) {
+			tActingPlayer = (Player) triggeringCompany.getPresident ();
+			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
+			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
+								formationState);
+			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayers = tPlayerManager.getPlayers ();
+	
+			updatePlayersState (tPlayers, aStartFormationAction);
+		}
+	}
+	
+	@Override
+	public boolean isInterrupting () {
+		return false;
 	}
 }
