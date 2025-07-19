@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ge18xx.company.MinorCompany;
+import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -17,6 +18,20 @@ public class Nationalization extends PlayerFormationPanel {
 		super (aGameManager, aFormCompany, aPlayer, aActingPresident);
 	}
 	
+	@Override
+	public JPanel buildCompanyJPanel (PrivateCompany aPrivateCompany, boolean aActingPlayer) {
+		JPanel tPrivateCompanyJPanel;
+		
+		tPrivateCompanyJPanel = new JPanel ();
+		tPrivateCompanyJPanel.setLayout (new BoxLayout (tPrivateCompanyJPanel, BoxLayout.X_AXIS));
+
+		tPrivateCompanyJPanel = super.buildCompanyJPanel (aPrivateCompany, aActingPlayer, tPrivateCompanyJPanel);
+		
+//		buildSpecialButtons (aShareCompany, tShareCompanyJPanel, aActingPlayer);
+
+		return tPrivateCompanyJPanel;
+	}
+
 	@Override
 	public JPanel buildCompanyJPanel (MinorCompany aMinorCompany, boolean aActingPlayer) {
 		JPanel tMinorCompanyJPanel;

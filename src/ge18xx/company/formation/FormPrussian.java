@@ -35,6 +35,7 @@ public class FormPrussian extends FormCompany {
 	
 	@Override
 	public void prepareFormation (StartFormationAction aStartFormationAction) {
+		showFormationFrame ();
 
 	}
 	
@@ -98,5 +99,10 @@ public class FormPrussian extends FormCompany {
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		super.updatePlayers (aPlayers, aActingPresident);
 
+	}
+	
+	@Override
+	public boolean isInterrupting () {
+		return true;
 	}
 }
