@@ -127,6 +127,7 @@ public class MinorCompany extends TokenCompany {
 		tokens.setTokenUsed (tMarketToken, true);
 	}
 
+	@Override
 	public boolean canFormUpgrade () {
 		return formUpgrade;
 	}
