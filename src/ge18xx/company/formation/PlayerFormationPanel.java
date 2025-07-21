@@ -26,10 +26,12 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.FormationRoundAction;
+import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
@@ -324,6 +326,16 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return aPrivateCompanyJPanel;
 	}
 
+	protected Corporation getExchangeCorporation (MinorCompany aMinorCompany) {
+		int tExchangeID;
+		Corporation tCorporation;
+		
+		tExchangeID = aMinorCompany.getUpgradeTo ();
+		tCorporation = gameManager.getCorporationByID (tExchangeID);
+		
+		return tCorporation;
+	}
+
 	protected Corporation getExchangeCorporation (PrivateCompany aPrivateCompany) {
 		int tExchangeID;
 		Corporation tCorporation;
@@ -480,12 +492,22 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return false;
 	}
 	
+	public MinorCompany findMinorCompany (KButton aActivatedButton) {
+		MinorCompany tFoundMinorCompany;
+		CorporationList tMinorCompanies;
+		
+		tMinorCompanies = gameManager.getMinorCompanies ();
+		tFoundMinorCompany = (MinorCompany) tMinorCompanies.findCompanyWithButton (aActivatedButton);
+		
+		return tFoundMinorCompany;
+	}
+	
 	public ShareCompany findShareCompany (KButton aActivatedButton) {
 		ShareCompany tFoundShareCompany;
 		CorporationList tShareCompanies;
 		
 		tShareCompanies = gameManager.getShareCompanies ();
-		tFoundShareCompany = tShareCompanies.findCompanyWithButton (aActivatedButton);
+		tFoundShareCompany = (ShareCompany) tShareCompanies.findCompanyWithButton (aActivatedButton);
 		
 		return tFoundShareCompany;
 	}
@@ -527,4 +549,56 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 
 		return tFormationAction;
 	}
+
+	public void transferShareToClosed (PortfolioHolderI aFromActor, String aFromName, Certificate aCertificate, 
+						TransferOwnershipAction aTransferOwnershipAction) {
+		Portfolio tPlayerPortfolio;
+		Portfolio tClosedPortfolio;
+		Bank tBank;
+	
+		tBank = gameManager.getBank ();
+		tClosedPortfolio = tBank.getClosedPortfolio ();
+		tPlayerPortfolio = aFromActor.getPortfolio ();
+		tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromName, aCertificate, 
+						tBank, Bank.CLOSED);
+	}
+
+	public void transferShareToClosed (PortfolioHolderI aFromActor, Certificate aCertificate, 
+						TransferOwnershipAction aTransferOwnershipAction) {
+		transferShareToClosed (aFromActor, aFromActor.getName (), aCertificate, aTransferOwnershipAction);
+	}
+	
+	public String getFormingAbbrev () {
+		Corporation tFormingCompany;
+		int tFormingCompanyID;
+		String tFormingAbbrev;
+	
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
+		tFormingAbbrev = tFormingCompany.getAbbrev ();
+
+		return tFormingAbbrev;
+	}
+
+	public void transferShare (PortfolioHolderI aFromActor, String aFromNickName, ActorI aToActor, String aToNickName, Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
+		Portfolio tFromActorPortfolio;
+		Portfolio tToActorPortfolio;
+		PortfolioHolderI tToHolder;
+	
+		tFromActorPortfolio = aFromActor.getPortfolio ();
+		tToHolder = (PortfolioHolderI) aToActor;
+		aToNickName = aToActor.getName ();
+		tToActorPortfolio = tToHolder.getPortfolio ();
+		tToActorPortfolio.transferOneCertificateOwnership (tFromActorPortfolio,  aCertificate);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromNickName, aCertificate, aToActor, aToNickName);
+	}
+
+	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
+		String tToName;
+		
+		tToName = ActorI.NO_NAME;
+		transferShare (aFromActor, aFromName, aToActor, tToName, aCertificate, aTransferOwnershipAction);
+	}
+
 }
