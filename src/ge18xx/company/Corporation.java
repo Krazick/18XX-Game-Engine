@@ -3261,6 +3261,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCanBeOwnedByShare;
 	}
 	
+	public boolean canFormUpgrade () {
+		return false;
+	}
+ 
 	public void addSpecialButton (KButton aSpecialButton) {
 		specialButtons.add (aSpecialButton);
 	}
