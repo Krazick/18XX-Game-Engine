@@ -258,14 +258,12 @@ public class LoanRepayment extends PlayerFormationPanel {
 		if (tActivatedButton != GUI.NO_BUTTON) {
 			tShareCompany = findShareCompany (tActivatedButton);
 			if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-				if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-					if (tActionCommand.equals (PAY_TREASURY)) {
-						handleRepayFromTreasury (tShareCompany);
-					} else if (tActionCommand.equals (PAY_PRESIDENT)) {
-						handleRepayFromPresident (tShareCompany);
-					} else if (tActionCommand.equals (CONFIRM_REPAYMENT)) {
-						handleConfirmRepayment (tShareCompany);
-					}
+				if (tActionCommand.equals (PAY_TREASURY)) {
+					handleRepayFromTreasury (tShareCompany);
+				} else if (tActionCommand.equals (PAY_PRESIDENT)) {
+					handleRepayFromPresident (tShareCompany);
+				} else if (tActionCommand.equals (CONFIRM_REPAYMENT)) {
+					handleConfirmRepayment (tShareCompany);
 				}
 			}
 			if (tActionCommand.equals (FormCGR.FOLD)) {
