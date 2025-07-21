@@ -1,15 +1,23 @@
 package ge18xx.company.formation;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ge18xx.bank.Bank;
+import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.TransferOwnershipAction;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
@@ -45,7 +53,7 @@ public class Nationalization extends PlayerFormationPanel {
 
 		tMinorCompanyJPanel = super.buildCompanyJPanel (aMinorCompany, aActingPlayer, tMinorCompanyJPanel);
 		
-//		buildSpecialButtons (aShareCompany, tShareCompanyJPanel, aActingPlayer);
+		buildSpecialButtons (aMinorCompany, tMinorCompanyJPanel, aActingPlayer);
 
 		return tMinorCompanyJPanel;
 	}
@@ -62,7 +70,7 @@ public class Nationalization extends PlayerFormationPanel {
 		return tShareCompanyJPanel;
 	}
 	
-	public String canUpgradeToPrussian (PrivateCompany aPrivateCompany) {
+	public String canUpgradeToPrussian (Corporation aCorporation) {
 		String tToolTip;
 		FormPrussian tFormPrussian;
 		
@@ -70,7 +78,7 @@ public class Nationalization extends PlayerFormationPanel {
 		
 		tToolTip = GUI.EMPTY_STRING;
 		
-		if (prussianIsForming (tFormPrussian)) {
+		if (prussianIsForming (tFormPrussian, aCorporation)) {
 			tToolTip = tFormPrussian.formingShareCompany.getName () + " is Forming";
 		} else {
 			tToolTip = tFormPrussian.formingShareCompany.getName () + " has NOT formed yet";
@@ -79,8 +87,15 @@ public class Nationalization extends PlayerFormationPanel {
 		return tToolTip;
 	}
 
-	private boolean prussianIsForming (FormPrussian aFormPrussian) {
-		return aFormPrussian.formingShareCompany.isFormed ();
+	private boolean prussianIsForming (FormPrussian aFormPrussian, Corporation aCorporation) {
+		boolean tPrussianIsForming;
+		
+		tPrussianIsForming = aFormPrussian.formingShareCompany.isFormed ();
+		if (aCorporation.canFormUpgrade ()) {
+			tPrussianIsForming = true;
+		}
+		
+		return tPrussianIsForming;
 	}
 
 	public void buildSpecialButtons (PrivateCompany aPrivateCompany, JPanel aCompanyJPanel, boolean aActingPlayer) {
@@ -98,7 +113,7 @@ public class Nationalization extends PlayerFormationPanel {
 
 		tUpgradeToPrussian = tFormPrussian.buildSpecialButton (UPGRADE_TO_PRUSSIAN, UPGRADE_TO_PRUSSIAN, 
 				tToolTip, this);
-		if (prussianIsForming (tFormPrussian)) {
+		if (prussianIsForming (tFormPrussian, aPrivateCompany)) {
 			tUpgradeToPrussian.setEnabled (false);
 		}
 		tCorporation = getExchangeCorporation (aPrivateCompany);
@@ -107,5 +122,116 @@ public class Nationalization extends PlayerFormationPanel {
 			aCompanyJPanel.add (Box.createHorizontalStrut (10));
 			aPrivateCompany.addSpecialButton (tUpgradeToPrussian);
 		}
+	}
+	
+	public void buildSpecialButtons (MinorCompany aMinorCompany, JPanel aCompanyJPanel, boolean aActingPlayer) {
+		KButton tUpgradeToPrussian;
+		String tToolTip;
+		String tCorpAbbrev;
+		String tFullCommand;
+		FormPrussian tFormPrussian;
+		Corporation tCorporation;
+		
+		tFormPrussian = (FormPrussian) formCompany;
+		if (aActingPlayer) {
+			tToolTip = canUpgradeToPrussian (aMinorCompany);
+		} else {
+			tToolTip = NOT_ACTING_PRESIDENT;
+		}
+		tCorporation = getExchangeCorporation (aMinorCompany);
+		tCorpAbbrev = tCorporation.getAbbrev ();
+		tFullCommand = UPGRADE_TO_PRUSSIAN + " " + tCorpAbbrev;
+		tUpgradeToPrussian = tFormPrussian.buildSpecialButton (UPGRADE_TO_PRUSSIAN, tFullCommand, 
+				tToolTip, this);
+		if (prussianIsForming (tFormPrussian, aMinorCompany)) {
+			tUpgradeToPrussian.setEnabled (true);
+		} else {
+			tUpgradeToPrussian.setEnabled (false);
+		}
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			aCompanyJPanel.add (tUpgradeToPrussian);
+			aCompanyJPanel.add (Box.createHorizontalStrut (10));
+			aMinorCompany.addSpecialButton (tUpgradeToPrussian);
+		}
+	}
+	
+	@Override
+	public void actionPerformed (ActionEvent aEvent) {
+		super.actionPerformed (aEvent);
+		
+		String tActionCommand;
+		MinorCompany tMinorCompany;
+		KButton tActivatedButton;
+//		FormPrussian tFormPrussian;
+		
+//		tFormPrussian = (FormPrussian) formCompany;
+		
+		tActionCommand = aEvent.getActionCommand ();
+		tActivatedButton = getActivatedButton (aEvent);
+		if (tActivatedButton != GUI.NO_BUTTON) {
+			tMinorCompany = findMinorCompany (tActivatedButton);
+			if (tMinorCompany != MinorCompany.NO_MINOR_COMPANY) {
+				if (tActionCommand.startsWith (UPGRADE_TO_PRUSSIAN)) {
+					handleUpgradeToPrussian (tMinorCompany);
+				}
+			}
+//			if (tActionCommand.equals (FormCGR.FOLD)) {
+//				tFormPrussian.handleFoldIntoFormingCompany ();
+//			} else if (tActionCommand.equals (CONTINUE)) {
+//				tFormPrussian.handleFormationComplete ();
+//			}
+		}
+		
+		checkAndHandleRoundEnds ();
+	}
+
+	private void handleUpgradeToPrussian (MinorCompany tMinorCompany) {
+		TransferOwnershipAction tTransferOwnershipAction1;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		String tMinorCompanyAbbrev;
+		String tFormingAbbrev;
+		Portfolio tPlayerPortfolio;
+		Portfolio tBankPortfolio;
+		int tCertificateCount;
+		int tCertificateIndex;
+		int tPercentage;
+		Certificate tCertificate;
+		Certificate tFormedCertificate;
+		FormPrussian tFormPrussian;
+		Bank tBank;
+		
+		tBank = gameManager.getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tFormPrussian = (FormPrussian) formCompany;
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tTransferOwnershipAction1 = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		tPlayerPortfolio = player.getPortfolio ();
+		tMinorCompanyAbbrev = tMinorCompany.getAbbrev ();
+		tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
+		for (tCertificateIndex = tCertificateCount - 1; tCertificateIndex >= 0; tCertificateIndex--) {
+			tCertificate = tPlayerPortfolio.getCertificate (tCertificateIndex);
+			if (tCertificate.getCompanyAbbrev ().equals (tMinorCompanyAbbrev)) {
+				transferShareToClosed (player, tCertificate, tTransferOwnershipAction1);
+				System.out.println ("Transfer the Certificate for " + tMinorCompanyAbbrev + " with " + 
+							tCertificate.getPercentage () + " % to the Closed Portfolio");
+			}
+		}
+		tFormedCertificate = Certificate.NO_CERTIFICATE;
+		tFormingAbbrev = getFormingAbbrev ();
+		tPercentage = tFormPrussian.getPercentageForExchange ();
+
+		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
+			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction1);
+		} else {
+			System.err.println ("No certificate available with All Players Total Exchange Count 1");
+		}
+
+		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
+		gameManager.addAction (tTransferOwnershipAction1);
 	}
 }
