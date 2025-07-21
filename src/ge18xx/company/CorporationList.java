@@ -1335,19 +1335,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tFoundBenefit;
 	}
 
-	public ShareCompany findCompanyWithButton (KButton aKButton) {
-		ShareCompany tFoundShareCompany;
-		ShareCompany tShareCompany;
+	public Corporation findCompanyWithButton (KButton aKButton) {
+		Corporation tFoundCompany;
 		
-		tFoundShareCompany = ShareCompany.NO_SHARE_COMPANY;
+		tFoundCompany = ShareCompany.NO_SHARE_COMPANY;
 		for (Corporation tCorporation : corporations) {
-			tShareCompany = (ShareCompany) tCorporation;
-			if (tShareCompany.hasSpecialButton (aKButton)) {
-				tFoundShareCompany = tShareCompany;
+			if (tCorporation.hasSpecialButton (aKButton)) {
+				tFoundCompany = tCorporation;
 			}
 		}
 		
-		return tFoundShareCompany;
+		return tFoundCompany;
 	}
 	
 	// Pass method calls over to Round Manager
