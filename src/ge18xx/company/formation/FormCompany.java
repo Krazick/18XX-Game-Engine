@@ -1,11 +1,15 @@
 package ge18xx.company.formation;
 
+import java.awt.Point;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
@@ -219,6 +223,10 @@ public class FormCompany extends TriggerClass {
 		return formationFrame;
 	}
 
+	public void setFormationFrame (XMLFrame aFormationFrame) {
+		formationFrame = aFormationFrame;
+	}
+	
 	public boolean isFormationFrameVisible () {
 		return formationFrame.isVisible ();
 	}
@@ -291,6 +299,38 @@ public class FormCompany extends TriggerClass {
 		return tPlayerCount;
 	}
 	
+	public void buildAllPlayers (String aFrameName) {
+		Border tMargin;
+		Point tRoundFrameOffset;
+		int tHeight;
+		int tWidth;
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+		XMLFrame tFormationFrame;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		tFormationFrame = new XMLFrame (aFrameName, gameManager);
+		setFormationFrame (tFormationFrame);
+		
+		formationJPanel = new JPanel ();
+		tMargin = new EmptyBorder (10,10,10,10);
+		formationJPanel.setBorder (tMargin);
+		
+		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
+
+		setupPlayers (tPlayerManager, tPlayers);
+		formationFrame.buildScrollPane (formationJPanel);
+
+		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
+		formationFrame.setLocation (tRoundFrameOffset);
+		gameManager.addNewFrame (formationFrame);
+		
+		tWidth = 1140;
+		tHeight = panelHeight ();
+		formationFrame.setSize (tWidth,  tHeight);
+	}
+	
 	public void setupPlayers () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
@@ -299,7 +339,7 @@ public class FormCompany extends TriggerClass {
 		tPlayers = tPlayerManager.getPlayers ();
 		setupPlayers (tPlayerManager, tPlayers);
 	}
-	
+
 	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
 		int tCurrentPlayerIndex;
 		
@@ -319,6 +359,7 @@ public class FormCompany extends TriggerClass {
 			formationJPanel.add (tPlayerJPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
+		formationJPanel.revalidate ();
 	}
 
 	int panelHeight () {
@@ -393,7 +434,6 @@ public class FormCompany extends TriggerClass {
 
 		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
 		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
-		System.out.println ("Find Constructor for " + tClassName);
 		try {
 			// Calls the Constructor for the Next Step in the Formation List to call
 			tClassToLoad = Class.forName (tClassName);
@@ -465,5 +505,21 @@ public class FormCompany extends TriggerClass {
 	@Override
 	public boolean isInterrupting () {
 		return false;
+	}
+
+	@Override
+	public void rebuildFormationPanel (int aCurrentPlayerIndex) {
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+		Player tActingPlayer;
+		
+		showFormationFrame ();
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		if (aCurrentPlayerIndex >= 0) {
+			tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
+			updatePlayers (tPlayers, tActingPlayer);
+		}
+		refreshPanel ();
 	}
 }
