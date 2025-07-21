@@ -3,7 +3,6 @@ package ge18xx.company.formation;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -13,8 +12,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -32,7 +29,6 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
-import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import ge18xx.round.action.ChangeFormationRoundStateAction;
 import ge18xx.round.action.ChangeStateAction;
@@ -82,6 +78,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		setNonHomeTokensExchanged (false);
 
 		buildAllPlayers (tFullFrameTitle);
+		setShareFoldCount (0);
+
 		gameManager.setTriggerClass (this);
 		gameManager.setTriggerFormation (this);
 	}
@@ -169,39 +167,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 
 	public void updateDoneButton () {
 		
-	}
-
-	public void buildAllPlayers (String aFrameName) {
-		Border tMargin;
-		Point tRoundFrameOffset;
-		int tHeight;
-		int tWidth;
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		formationFrame = new XMLFrame (aFrameName, gameManager);
-		formationFrame.setSize (800, 600);
-		
-		formationJPanel = new JPanel ();
-		tMargin = new EmptyBorder (10,10,10,10);
-		formationJPanel.setBorder (tMargin);
-		
-		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
-
-		setupPlayers (tPlayerManager, tPlayers);
-		formationFrame.buildScrollPane (formationJPanel);
-
-		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
-		formationFrame.setLocation (tRoundFrameOffset);
-		gameManager.addNewFrame (formationFrame);
-		
-		tWidth = 1140;
-		tHeight = panelHeight ();
-		formationFrame.setSize (tWidth,  tHeight);
-		
-		setShareFoldCount (0);
 	}
 
 	public void setShareFoldCount (int aCountToFold) {
@@ -419,21 +384,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	}
 	
 	@Override
-	public void rebuildFormationPanel (int aCurrentPlayerIndex) {
-		List<Player> tPlayers;
-		PlayerManager tPlayerManager;
-		Player tActingPlayer;
-		
-		showFormationFrame ();
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		if (aCurrentPlayerIndex >= 0) {
-			tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
-			updatePlayers (tPlayers, tActingPlayer);
-		}
-	}
-	
-	@Override
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		super.updatePlayers (aPlayers, aActingPresident);
 		buildNotificationJPanel ();
@@ -456,39 +406,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		return tPlayerFormationPanel;
 	}
-	
-//	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
-//		PlayerFormationPanel tPlayerFormationPanel;
-//		String tClassName;
-//		Class<?> tClassToLoad;
-//		Constructor<?> tClassConstructor;
-//
-//		tPlayerFormationPanel = PlayerFormationPanel.NO_PLAYER_FORMATION_PANEL;
-//		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
-//		try {
-//			// Calls the Constructor for the Next Step in the Formation List to call
-//			tClassToLoad = Class.forName (tClassName);
-//			tClassConstructor = tClassToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
-//						aPlayer.getClass (), aPlayer.getClass ());
-//			tPlayerFormationPanel = (PlayerFormationPanel) tClassConstructor.newInstance (gameManager, this,
-//					aPlayer, aActingPresident);
-//		} catch (NoSuchMethodException | SecurityException e) {
-//			System.err.println ("Error trying to get Constructor");
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (InstantiationException e) {
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return tPlayerFormationPanel;
-//	}
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
@@ -739,5 +656,4 @@ public class FormCGR extends FormCompany implements ActionListener {
 		
 		return tCanStart;
 	}
-
 }
