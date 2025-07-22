@@ -230,7 +230,7 @@ public class Nationalization extends PlayerFormationPanel {
 		} else {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
-
+		updateCorporationOwnership (tFormedCertificate);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 		gameManager.addAction (tTransferOwnershipAction1);
 	}
