@@ -144,7 +144,11 @@ public class Nationalization extends PlayerFormationPanel {
 		tUpgradeToPrussian = tFormPrussian.buildSpecialButton (UPGRADE_TO_PRUSSIAN, tFullCommand, 
 				tToolTip, this);
 		if (prussianIsForming (tFormPrussian, aMinorCompany)) {
-			tUpgradeToPrussian.setEnabled (true);
+			if (aActingPlayer) {
+				tUpgradeToPrussian.setEnabled (true);
+			} else {
+				tUpgradeToPrussian.setEnabled (false);
+			}
 		} else {
 			tUpgradeToPrussian.setEnabled (false);
 		}
@@ -199,6 +203,7 @@ public class Nationalization extends PlayerFormationPanel {
 		int tPercentage;
 		Certificate tCertificate;
 		Certificate tFormedCertificate;
+		ShareCompany tFormingShareCompany;
 		FormPrussian tFormPrussian;
 		Bank tBank;
 		
@@ -231,6 +236,9 @@ public class Nationalization extends PlayerFormationPanel {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
 		updateCorporationOwnership (tFormedCertificate);
+		tFormingShareCompany = tFormPrussian.getFormingCompany ();
+		transferAllCash (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
+		transferAllTrains (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 		gameManager.addAction (tTransferOwnershipAction1);
 	}
