@@ -601,4 +601,14 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		transferShare (aFromActor, aFromName, aToActor, tToName, aCertificate, aTransferOwnershipAction);
 	}
 
+	public void updateCorporationOwnership (Certificate tFormedCertificate) {
+		// If at least one FormedCertificate has been transfered to a Player,
+		// Need to update the Corporation Ownership. But only need to do this once after all done
+		// The TransferOwnershipEffect applies this to remote clients
+		// Don't need to create the Effect
+		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
+			tFormedCertificate.updateCorporationOwnership ();
+		}
+	}
+
 }
