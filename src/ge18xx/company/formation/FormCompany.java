@@ -19,11 +19,15 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.StartFormationAction;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.ChangeFormationRoundStateAction;
+import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.FormationRoundAction;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
@@ -521,5 +525,100 @@ public class FormCompany extends TriggerClass {
 			updatePlayers (tPlayers, tActingPlayer);
 		}
 		refreshPanel ();
+	}
+
+	public void updateToFormingPresident (ActorI.ActionStates aFormationState) {
+		PlayerManager tPlayerManager;
+		Player tCurrentPlayer;
+		Player tFormingPresident;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ActorI.ActionStates tPrezOldState;
+		ActorI.ActionStates tPrezNewState;
+		List<Player> tPlayers;
+		ChangeStateAction tChangeStateAction;
+		int tPresidentIndex;
+		String tRoundID;
+		ActorI.ActionStates tCurrentRoundState;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+	
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		tFormingPresident = getFormingPresident ();
+		tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
+		setActingPresident (tFormingPresident);
+	
+		if (currentPlayerIndex < 0) {
+			tCurrentPlayer = tFormingPresident;
+			setCurrentPlayerIndex (tPresidentIndex);
+		} else {
+			tCurrentPlayer = tPlayers.get (currentPlayerIndex);
+		}
+		tOldState = tCurrentPlayer.getPrimaryActionState ();
+		tCurrentPlayer.setPrimaryActionState (formationState);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+	
+		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
+		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
+		
+		if (tFormingPresident != tCurrentPlayer) {
+			tPrezOldState = tFormingPresident.getPrimaryActionState ();
+			tFormingPresident.setPrimaryActionState (aFormationState);
+			tPrezNewState = tFormingPresident.getPrimaryActionState ();
+			tChangeStateAction.addStateChangeEffect (tFormingPresident, tPrezOldState, tPrezNewState);
+			setCurrentPlayerIndex (tPresidentIndex);
+			tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tFormingPresident);
+			gameManager.addAction (tChangeStateAction);
+			rebuildFormationPanel (tPresidentIndex);
+		}
+	}
+
+	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
+		ChangeFormationRoundStateAction tChangeFormationRoundStateAction;
+		PlayerManager tPlayerManager;
+		Player tFormingPresident;
+		String tRoundID;
+		Round tCurrentRound;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tCurrentRoundState;
+		ActorI.ActionStates tNewFormationState;
+		
+		if (actingPresident == ActorI.NO_ACTOR) {
+			tFormingPresident = getFormingPresident ();
+		} else {
+			tFormingPresident = actingPresident;
+		}
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+	
+		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, tRoundID,
+					tFormingPresident);
+		tChangeFormationRoundStateAction.setChainToPrevious (true);
+		
+		tFormingPresident.resetPrimaryActionState (aNewFormationState);
+		setFormationState (tChangeFormationRoundStateAction, aNewFormationState);
+	
+		tNewFormationState = getFormationState ();
+		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayerManager.updateCertificateLimit (tChangeFormationRoundStateAction);
+			triggeringHandleDone ();
+		} else {
+			if ((tNewFormationState == ActorI.ActionStates.TokenExchange) ||
+				(tNewFormationState == ActorI.ActionStates.AssetCollection) ||
+				(tNewFormationState == ActorI.ActionStates.StockValueCalculation)) {
+				updateToFormingPresident (tNewFormationState);
+			}
+			setupPlayers ();
+		}
+		gameManager.addAction (tChangeFormationRoundStateAction);
 	}
 }
