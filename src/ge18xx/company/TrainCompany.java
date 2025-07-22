@@ -594,9 +594,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}			
 			addLabel (tCorpInfoJPanel, "Prez: " + getPresidentName ());
 			addLabel (tCorpInfoJPanel, "Treasury: ", treasury);
-			if (canOperate () || didOperate ()) {
+			if (trainPortfolio.hasTrains () || canOperate () || didOperate ()) {
 				tTrainList = new JLabel (trainPortfolio.getTrainList ());
 				tCorpInfoJPanel.add (tTrainList);
+			}
+			if (canOperate () || didOperate ()) {
 				tThisRevenue = new JLabel ("This " + Revenue.LABEL + getFormattedThisRevenue ());
 				tCorpInfoJPanel.add (tThisRevenue);
 			}
