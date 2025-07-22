@@ -15,6 +15,8 @@ import ge18xx.round.action.effects.RemoveLicenseEffect;
 import ge18xx.round.action.effects.SetFormingPresidentAssignedEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
+import ge18xx.round.action.effects.TransferTrainEffect;
+import ge18xx.train.Train;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
@@ -29,6 +31,13 @@ public class TransferOwnershipAction extends CashTransferAction {
 	public TransferOwnershipAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
+	}
+
+	public void addTransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
+		TransferTrainEffect tBoughtTrainEffect;
+	
+		tBoughtTrainEffect = new TransferTrainEffect (aFromActor, aTrain, aToActor);
+		addEffect (tBoughtTrainEffect);
 	}
 
 	public void addCloseCorporationEffect (Corporation aCorporation, ActorI.ActionStates aOldState,
