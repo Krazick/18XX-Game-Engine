@@ -614,13 +614,11 @@ public class AssetCollection extends PlayerFormationPanel {
 		if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 			tTrain = tShareCompany.getTrain (tActionCommand [2]);
 			if (tTrain != Train.NO_TRAIN) {
-				tShareCompany.removeTrain (tTrain.getName ());
-				tFormingShareCompany.addTrain (tTrain);
 				tRoundManager = gameManager.getRoundManager ();
 				tRoundType = tRoundManager.getCurrentRoundState ();
 				tRoundID = tRoundManager.getCurrentRoundOf ();
 				tTransferTrainAction = new TransferTrainAction (tRoundType, tRoundID, tFormingShareCompany);
-				tTransferTrainAction.addTransferTrainEffect (tShareCompany, tTrain, tFormingShareCompany);
+				transferATrain (tShareCompany, tFormingShareCompany, tTrain, tTransferTrainAction);
 				tTransferTrainAction.addRebuildFormationPanelEffect (player);
 				gameManager.addAction (tTransferTrainAction);
 		} else {
@@ -631,7 +629,7 @@ public class AssetCollection extends PlayerFormationPanel {
 			System.err.println ("No Share Company " + tActionCommand [1] + " Found.");
 		}
 	}
-	
+
 	private void declineTrain (String aActionCommand) {
 		String tActionCommand [];
 		ShareCompany tShareCompany;
@@ -679,12 +677,10 @@ public class AssetCollection extends PlayerFormationPanel {
 		String tRoundID;
 		int tShareIndex;
 		int tShareCount;
-		int tCashAmount;
 		int tEffectCount;
 		FormCompany tFormCGR;
 		
 		tFormCGR = (FormCompany) formCompany;
-		// formingShareCompany
 		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
@@ -698,10 +694,7 @@ public class AssetCollection extends PlayerFormationPanel {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
 			if (tShareCompany != Corporation.NO_CORPORATION) {
 				if (tShareCompany.willFold ()) {
-					tCashAmount = tShareCompany.getCash ();
-					tShareCompany.addCash (-tCashAmount);
-					tFormingShareCompany.addCash (tCashAmount);
-					tCashTransferAction.addCashTransferEffect (tShareCompany, tFormingShareCompany, tCashAmount);
+					transferAllCash (tShareCompany, tFormingShareCompany, tCashTransferAction);
 					tCashTransferAction.addRebuildFormationPanelEffect (player);
 					tEffectCount++;
 				}
@@ -711,7 +704,7 @@ public class AssetCollection extends PlayerFormationPanel {
 			gameManager.addAction (tCashTransferAction);
 		}
 	}
-	
+
 	private void collectLicenses (String aActionCommand) {
 		ShareCompany tFormingShareCompany;
 		ShareCompany tShareCompany;

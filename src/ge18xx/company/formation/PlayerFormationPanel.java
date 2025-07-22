@@ -30,8 +30,10 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.CashTransferAction;
 import ge18xx.round.action.FormationRoundAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.GUI;
@@ -611,4 +613,36 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		}
 	}
 
+	protected void transferAllCash (TrainCompany aSourceCompany, ShareCompany aFormingShareCompany, 
+						CashTransferAction aCashTransferAction) {
+		int tCashAmount;
+		
+		tCashAmount = aSourceCompany.getCash ();
+		aSourceCompany.addCash (-tCashAmount);
+		aFormingShareCompany.addCash (tCashAmount);
+		aCashTransferAction.addCashTransferEffect (aSourceCompany, aFormingShareCompany, tCashAmount);
+	}
+
+	protected void transferAllTrains (TrainCompany aTrainCompany, ShareCompany aFormingShareCompany,  
+			TransferOwnershipAction aTransferOwnershipAction) {
+		TrainPortfolio tTrainPortfolio;
+		Train tTrain;
+		int tTrainCount;
+		
+		tTrainPortfolio = aTrainCompany.getTrainPortfolio ();
+		tTrainCount = tTrainPortfolio.getTrainCount ();
+		if (tTrainCount > 0) {
+			for (int tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+				tTrain = tTrainPortfolio.getTrainAt (tTrainIndex);
+				transferATrain (aTrainCompany, aFormingShareCompany, tTrain, aTransferOwnershipAction);
+			}
+		}
+	}
+	
+	protected void transferATrain (TrainCompany aTrainCompany, ShareCompany aFormingShareCompany, Train aTrain, 
+			TransferOwnershipAction aTransferOwnershipAction) {
+		aTrainCompany.removeTrain (aTrain.getName ());
+		aFormingShareCompany.addTrain (aTrain);
+		aTransferOwnershipAction.addTransferTrainEffect (aTrainCompany, aTrain, aFormingShareCompany);
+	}
 }
