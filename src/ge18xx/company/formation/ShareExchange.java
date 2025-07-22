@@ -274,13 +274,7 @@ public class ShareExchange extends PlayerFormationPanel {
 				}
 			}
 		}
-		// If at least one FormedCertificate has been transfered to a Player,
-		// Need to update the Corporation Ownership. But only need to do this once after all done
-		// The TransferOwnershipEffect applies this to remote clients
-		// Don't need to create the Effect
-		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
-			tFormedCertificate.updateCorporationOwnership ();
-		}
+		updateCorporationOwnership (tFormedCertificate);
 		
 		// Note, at the end of this Exchange, really should just reset the Corporation Status to at least 'Will Float' 
 		// No matter what, the newly formed company should always operated (1856 - CGR, 1835 - PR)
@@ -307,7 +301,7 @@ public class ShareExchange extends PlayerFormationPanel {
 		}
 		gameManager.addAction (tTransferOwnershipAction1);
 	}
-	
+
 	public void handleOpenMarketShareExchange () {
 		BankPool tBankPool;
 		Portfolio tBankPoolPortfolio;
