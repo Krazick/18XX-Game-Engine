@@ -9,14 +9,19 @@ import javax.swing.JPanel;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.MapToken;
 import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import geUtilities.GUI;
 import swingTweaks.KButton;
@@ -203,6 +208,7 @@ public class Nationalization extends PlayerFormationPanel {
 		int tPercentage;
 		Certificate tCertificate;
 		Certificate tFormedCertificate;
+		ReplaceTokenAction tReplaceTokenAction;
 		ShareCompany tFormingShareCompany;
 		FormPrussian tFormPrussian;
 		Bank tBank;
@@ -239,7 +245,49 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormingShareCompany = tFormPrussian.getFormingCompany ();
 		transferAllCash (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
 		transferAllTrains (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
-		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 		gameManager.addAction (tTransferOwnershipAction1);
+		
+		tReplaceTokenAction = prepareAction (tMinorCompany);
+		replaceAToken (tMinorCompany, tFormingShareCompany, tReplaceTokenAction);
+		gameManager.addAction (tReplaceTokenAction);
+		
+		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 	}
+	 
+	public void replaceAToken (TokenCompany aFoldingCompany, TokenCompany aFormingCompany, 
+			ReplaceTokenAction aReplaceTokenAction) {
+		MapToken tNewMapToken;
+		HexMap tHexMap;
+		String tHomeMapCellID;
+		String tTokenLocation;
+		String tCompanyAbbrev;
+		int tCorpID;
+		
+		
+		tHexMap = gameManager.getGameMap ();
+		tNewMapToken = aFormingCompany.getLastMapToken ();
+		tHomeMapCellID = aFoldingCompany.getHomeMapCellID (1);
+		tCompanyAbbrev = aFoldingCompany.getAbbrev ();
+		tCorpID = aFoldingCompany.getID ();
+//		public String getTokenLocation (String aMapCellID, String aAbbrev, int aCorpID) {
+		tTokenLocation = tHexMap.getTokenLocation (tHomeMapCellID, tCompanyAbbrev, tCorpID);
+		tHexMap.replaceMapToken (tTokenLocation, tNewMapToken, aFoldingCompany, aReplaceTokenAction);
+	}
+
+	public ReplaceTokenAction prepareAction (TokenCompany aTokenCompany) {
+		ReplaceTokenAction tReplaceTokenAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		Round tCurrentRound;
+		String tRoundID;
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+		tReplaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
+		
+		return tReplaceTokenAction;
+	}
+
 }
