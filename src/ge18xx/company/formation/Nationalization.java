@@ -16,13 +16,17 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
+import ge18xx.market.Market;
+import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ReplaceTokenAction;
+import ge18xx.round.action.StockValueCalculationAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.toplevel.MarketFrame;
 import geUtilities.GUI;
 import swingTweaks.KButton;
 
@@ -194,7 +198,7 @@ public class Nationalization extends PlayerFormationPanel {
 		checkAndHandleRoundEnds ();
 	}
 
-	private void handleUpgradeToPrussian (MinorCompany tMinorCompany) {
+	private void handleUpgradeToPrussian (MinorCompany aMinorCompany) {
 		TransferOwnershipAction tTransferOwnershipAction1;
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
@@ -209,6 +213,7 @@ public class Nationalization extends PlayerFormationPanel {
 		Certificate tCertificate;
 		Certificate tFormedCertificate;
 		ReplaceTokenAction tReplaceTokenAction;
+		StockValueCalculationAction tStockValueCalculationAction;
 		ShareCompany tFormingShareCompany;
 		FormPrussian tFormPrussian;
 		Bank tBank;
@@ -221,7 +226,7 @@ public class Nationalization extends PlayerFormationPanel {
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		tTransferOwnershipAction1 = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tPlayerPortfolio = player.getPortfolio ();
-		tMinorCompanyAbbrev = tMinorCompany.getAbbrev ();
+		tMinorCompanyAbbrev = aMinorCompany.getAbbrev ();
 		tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
 		for (tCertificateIndex = tCertificateCount - 1; tCertificateIndex >= 0; tCertificateIndex--) {
 			tCertificate = tPlayerPortfolio.getCertificate (tCertificateIndex);
@@ -243,17 +248,53 @@ public class Nationalization extends PlayerFormationPanel {
 		}
 		updateCorporationOwnership (tFormedCertificate);
 		tFormingShareCompany = tFormPrussian.getFormingCompany ();
-		transferAllCash (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
-		transferAllTrains (tMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
+		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
+		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
 		gameManager.addAction (tTransferOwnershipAction1);
 		
-		tReplaceTokenAction = prepareAction (tMinorCompany);
-		replaceAToken (tMinorCompany, tFormingShareCompany, tReplaceTokenAction);
+		tReplaceTokenAction = prepareAction (aMinorCompany);
+		replaceAToken (aMinorCompany, tFormingShareCompany, tReplaceTokenAction);
 		gameManager.addAction (tReplaceTokenAction);
 		
+		tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
+ 
+		setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction);
+		gameManager.addAction (tStockValueCalculationAction);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 	}
 	 
+	public void setMarketCell (MinorCompany aMinorCompany, ShareCompany aFormingShareCompany, 
+					StockValueCalculationAction aStockValueCalculationAction) {
+		MarketCell tClosestMarketCell;
+		MarketFrame tMarketFrame;
+		Market tMarket;
+		ActorI.ActionStates tNewFormingCoStatus;
+		ActorI.ActionStates tOldFormingCoStatus;
+		String tCoordinates;
+		int tNewParPrice;
+
+		tNewParPrice = aFormingShareCompany.getParPrice ();
+		tMarketFrame = gameManager.getMarketFrame ();
+		if (aFormingShareCompany.hasStartCell ()) {
+			tMarket = tMarketFrame.getMarket ();
+			tClosestMarketCell = aFormingShareCompany.getMarketStartCellAt (tMarket);
+		} else {
+			tClosestMarketCell = getClosestMarketCell (tNewParPrice);
+		}
+		tCoordinates = tClosestMarketCell.getCoordinates ();
+
+		tMarketFrame.setParPriceToMarketCell (aFormingShareCompany, tNewParPrice, tClosestMarketCell);
+		aStockValueCalculationAction.addSetParValueEffect (aFormingShareCompany, aFormingShareCompany, 
+						tNewParPrice, tCoordinates);
+		tOldFormingCoStatus = aFormingShareCompany.getActionStatus ();
+		if (tOldFormingCoStatus == ActorI.ActionStates.Owned) {
+			tNewFormingCoStatus = aMinorCompany.getActionStatus ();
+			aFormingShareCompany.resetStatus (tNewFormingCoStatus);
+			aStockValueCalculationAction.addChangeCorporationStatusEffect (aFormingShareCompany, 
+						tOldFormingCoStatus, tNewFormingCoStatus);
+		}
+	}
+	
 	public void replaceAToken (TokenCompany aFoldingCompany, TokenCompany aFormingCompany, 
 			ReplaceTokenAction aReplaceTokenAction) {
 		MapToken tNewMapToken;
@@ -263,15 +304,14 @@ public class Nationalization extends PlayerFormationPanel {
 		String tCompanyAbbrev;
 		int tCorpID;
 		
-		
 		tHexMap = gameManager.getGameMap ();
 		tNewMapToken = aFormingCompany.getLastMapToken ();
 		tHomeMapCellID = aFoldingCompany.getHomeMapCellID (1);
 		tCompanyAbbrev = aFoldingCompany.getAbbrev ();
 		tCorpID = aFoldingCompany.getID ();
-//		public String getTokenLocation (String aMapCellID, String aAbbrev, int aCorpID) {
 		tTokenLocation = tHexMap.getTokenLocation (tHomeMapCellID, tCompanyAbbrev, tCorpID);
 		tHexMap.replaceMapToken (tTokenLocation, tNewMapToken, aFoldingCompany, aReplaceTokenAction);
+		tHexMap.redrawMap ();
 	}
 
 	public ReplaceTokenAction prepareAction (TokenCompany aTokenCompany) {
