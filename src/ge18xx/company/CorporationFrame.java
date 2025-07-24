@@ -732,7 +732,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tGameManager = corporation.getGameManager ();
 				if (tGameManager != GameManager.NO_GAME_MANAGER) {
 					otherCorpsJPanel.removeAll ();
-					tMinorCorporations = tGameManager.getMinorCompanies ();
+					tMinorCorporations = tGameManager.getMinors ();
 					if (tMinorCorporations != CorporationList.NO_CORPORATION_LIST) {
 						addOtherCorps (tGameManager, tMinorCorporations);
 					}

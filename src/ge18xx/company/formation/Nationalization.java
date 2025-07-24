@@ -175,9 +175,6 @@ public class Nationalization extends PlayerFormationPanel {
 		String tActionCommand;
 		MinorCompany tMinorCompany;
 		KButton tActivatedButton;
-//		FormPrussian tFormPrussian;
-		
-//		tFormPrussian = (FormPrussian) formCompany;
 		
 		tActionCommand = aEvent.getActionCommand ();
 		tActivatedButton = getActivatedButton (aEvent);
@@ -188,11 +185,6 @@ public class Nationalization extends PlayerFormationPanel {
 					handleUpgradeToPrussian (tMinorCompany);
 				}
 			}
-//			if (tActionCommand.equals (FormCGR.FOLD)) {
-//				tFormPrussian.handleFoldIntoFormingCompany ();
-//			} else if (tActionCommand.equals (CONTINUE)) {
-//				tFormPrussian.handleFormationComplete ();
-//			}
 		}
 		
 		checkAndHandleRoundEnds ();

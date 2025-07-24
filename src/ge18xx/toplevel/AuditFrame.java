@@ -59,7 +59,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		int tTotalWidth = 0;
 		
 		tGameManager = (GameManager) gameEngineManager;
-		setMinorCompanies (tGameManager.getMinorCompanies ());
+		setMinorCompanies (tGameManager.getMinors ());
 		setShareCompanies (tGameManager.getShareCompanies ());
 
 		buildAuditTable (tColumnNames, tColWidths, tTotalWidth);

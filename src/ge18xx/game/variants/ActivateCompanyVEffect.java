@@ -80,12 +80,17 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		CorporationList tCorporationList;
 		boolean tActivated;
 
+		tActivated = false;
 		tCorporationList = aGameManager.getPrivates ();
-		tActivated = tCorporationList.activateCorporation (companyID);
+		if (tCorporationList != CorporationList.NO_CORPORATION_LIST) {
+			tActivated = tCorporationList.activateCorporation (companyID);
+		}
 
 		if (! tActivated) {
-			tCorporationList = aGameManager.getMinorCompanies ();
-			tActivated = tCorporationList.activateCorporation (companyID);
+			tCorporationList = aGameManager.getMinors ();
+			if (tCorporationList != CorporationList.NO_CORPORATION_LIST) {
+				tActivated = tCorporationList.activateCorporation (companyID);
+			}
 		}
 
 		if (! tActivated) {

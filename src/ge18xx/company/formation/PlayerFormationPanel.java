@@ -496,12 +496,28 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return false;
 	}
 	
+	public PrivateCompany findPrivateCompany (KButton aActivatedButton) {
+		PrivateCompany tFoundPrivateCompany;
+		CorporationList tPrivateCompanies;
+		
+		tFoundPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
+		tPrivateCompanies = gameManager.getPrivates ();
+		if (tPrivateCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tFoundPrivateCompany = (PrivateCompany) tPrivateCompanies.findCompanyWithButton (aActivatedButton);
+		}
+		
+		return tFoundPrivateCompany;
+	}
+
 	public MinorCompany findMinorCompany (KButton aActivatedButton) {
 		MinorCompany tFoundMinorCompany;
 		CorporationList tMinorCompanies;
 		
-		tMinorCompanies = gameManager.getMinorCompanies ();
-		tFoundMinorCompany = (MinorCompany) tMinorCompanies.findCompanyWithButton (aActivatedButton);
+		tFoundMinorCompany = MinorCompany.NO_MINOR_COMPANY;
+		tMinorCompanies = gameManager.getMinors ();
+		if (tMinorCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tFoundMinorCompany = (MinorCompany) tMinorCompanies.findCompanyWithButton (aActivatedButton);
+		}
 		
 		return tFoundMinorCompany;
 	}

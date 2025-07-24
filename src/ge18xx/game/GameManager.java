@@ -1073,7 +1073,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public CorporationList getMinors () {
-		return minorCompaniesFrame.getCompanies ();
+		CorporationList tMinorCorporationList;
+		
+		tMinorCorporationList = CorporationList.NO_CORPORATION_LIST;
+		if (privatesFrame != XMLFrame.NO_XML_FRAME) {
+			tMinorCorporationList = minorCompaniesFrame.getCompanies ();
+		}
+		
+		return tMinorCorporationList;
 	}
 
 	public CorporationList getPrivates () {
@@ -1228,7 +1235,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return marketFrame;
 	}
 
-	public CorporationList getMinorCompanies () {
+	public CorporationList getMinorsCompanies () {
 		return minorCompaniesFrame.getCompanies ();
 	}
 
@@ -1418,7 +1425,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		tPrivates = getPrivates ();
 		tPrivates.removeInactiveCompanies ();
-		tMinors = getMinorCompanies ();
+		tMinors = getMinors ();
 		tMinors.removeInactiveCompanies ();
 		tShares = getShareCompanies ();
 		tShares.removeInactiveCompanies ();
@@ -1457,7 +1464,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			playerInputFrame.randomizePlayerOrder ();
 			
 			tPrivates = getPrivates ();
-			tMinors = getMinorCompanies ();
+			tMinors = getMinors();
 			tShares = getShareCompanies ();
 			roundManager.initiateRounds (tPrivates, tMinors, tShares);
 

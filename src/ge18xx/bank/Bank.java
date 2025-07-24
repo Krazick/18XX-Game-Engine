@@ -235,7 +235,7 @@ public class Bank extends GameBank implements CashHolderI {
 		tShareCorporationList = gameManager.getShareCompanies ();
 		tShareCorporationList.discardExcessTrains (tBankPool, aBuyTrainAction);
 
-		tMinorCorporationList = gameManager.getMinorCompanies ();
+		tMinorCorporationList = gameManager.getMinors();
 		tMinorCorporationList.discardExcessTrains (tBankPool, aBuyTrainAction);
 	}
 
@@ -472,16 +472,18 @@ public class Bank extends GameBank implements CashHolderI {
 		int tCorporationIndex;
 		int tCertificateIndex;
 
-		tCorporationCount = aCorporationList.getRowCount ();
-		for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
-			tCorporation = aCorporationList.getCorporation (tCorporationIndex);
-			tCertificateCount = tCorporation.getCorporationCertificateCount ();
-			for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-				tCertificate = tCorporation.getCorporationCertificate (tCertificateIndex);
-				if (tCertificate.onlyOwnedBy (Corporation.MINOR_COMPANY)) {
-					tCorporation.addCertificate (tCertificate);
-				} else {
-					addCertificate (tCertificate);
+		if (aCorporationList != CorporationList.NO_CORPORATION_LIST) {
+			tCorporationCount = aCorporationList.getRowCount ();
+			for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
+				tCorporation = aCorporationList.getCorporation (tCorporationIndex);
+				tCertificateCount = tCorporation.getCorporationCertificateCount ();
+				for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+					tCertificate = tCorporation.getCorporationCertificate (tCertificateIndex);
+					if (tCertificate.onlyOwnedBy (Corporation.MINOR_COMPANY)) {
+						tCorporation.addCertificate (tCertificate);
+					} else {
+						addCertificate (tCertificate);
+					}
 				}
 			}
 		}
@@ -611,7 +613,7 @@ public class Bank extends GameBank implements CashHolderI {
 		tShareCorporationList = gameManager.getShareCompanies ();
 		tShareCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 
-		tMinorCorporationList = gameManager.getMinorCompanies ();
+		tMinorCorporationList = gameManager.getMinors ();
 		tMinorCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 
@@ -650,7 +652,7 @@ public class Bank extends GameBank implements CashHolderI {
 		
 		tCorpList = gameManager.getPrivates ();
 		loadCorporations (tCorpList);
-		tCorpList = gameManager.getMinorCompanies ();
+		tCorpList = gameManager.getMinors ();
 		loadCorporations (tCorpList);
 		tCorpList = gameManager.getShareCompanies ();
 		loadCorporations (tCorpList);

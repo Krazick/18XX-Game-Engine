@@ -334,7 +334,7 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 			}
 		}
 		if (tTokenCompany == Corporation.NO_CORPORATION) {
-			tMinorCompanies = gameManager.getMinorCompanies ();
+			tMinorCompanies = gameManager.getMinors ();
 			tMinorCount = tMinorCompanies.getCorporationCount ();
 			for (tMinorIndex = 0; tMinorIndex < tMinorCount; tMinorIndex++) {
 				tTokenCompany = (TokenCompany) tMinorCompanies.getCorporation (tMinorIndex);
@@ -497,7 +497,7 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 		tFormCGR = (FormCGR) formCompany;
 		tHexMap = gameManager.getGameMap ();
 		tShareCompanies = gameManager.getShareCompanies ();
-		tMinorCompanies = gameManager.getMinorCompanies ();
+		tMinorCompanies = gameManager.getMinors ();
 		tFormingShareCompany = tFormCGR.getFormingCompany ();
 		tCountReplacements = 0;
 		for (String tHomeMapCellID : aMapCellIDs) {
