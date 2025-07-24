@@ -765,7 +765,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
 			tNewState = getActionStatus ();
 			aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
-			removeBenefitButtons ();
+			if (this instanceof PrivateCompany) {
+				removeBenefitButtons ();
+			}
 			transferCertificatesToClosed (aTransferOwnershipAction);
 			updateListeners (CORPORATION_STATUS_CHANGE);
 		} else {
