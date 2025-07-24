@@ -203,14 +203,9 @@ public class Nationalization extends PlayerFormationPanel {
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
-		String tMinorCompanyAbbrev;
 		String tFormingAbbrev;
-		Portfolio tPlayerPortfolio;
 		Portfolio tBankPortfolio;
-		int tCertificateCount;
-		int tCertificateIndex;
 		int tPercentage;
-		Certificate tCertificate;
 		Certificate tFormedCertificate;
 		ReplaceTokenAction tReplaceTokenAction;
 		StockValueCalculationAction tStockValueCalculationAction;
@@ -225,17 +220,6 @@ public class Nationalization extends PlayerFormationPanel {
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		tTransferOwnershipAction1 = new TransferOwnershipAction (tRoundType, tRoundID, player);
-		tPlayerPortfolio = player.getPortfolio ();
-		tMinorCompanyAbbrev = aMinorCompany.getAbbrev ();
-		tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
-		for (tCertificateIndex = tCertificateCount - 1; tCertificateIndex >= 0; tCertificateIndex--) {
-			tCertificate = tPlayerPortfolio.getCertificate (tCertificateIndex);
-			if (tCertificate.getCompanyAbbrev ().equals (tMinorCompanyAbbrev)) {
-				transferShareToClosed (player, tCertificate, tTransferOwnershipAction1);
-				System.out.println ("Transfer the Certificate for " + tMinorCompanyAbbrev + " with " + 
-							tCertificate.getPercentage () + " % to the Closed Portfolio");
-			}
-		}
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = tFormPrussian.getPercentageForExchange ();
@@ -250,15 +234,17 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormingShareCompany = tFormPrussian.getFormingCompany ();
 		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
 		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
+		aMinorCompany.close (tTransferOwnershipAction1);
 		gameManager.addAction (tTransferOwnershipAction1);
-		
+	
 		tReplaceTokenAction = prepareAction (aMinorCompany);
 		replaceAToken (aMinorCompany, tFormingShareCompany, tReplaceTokenAction);
+		tReplaceTokenAction.setChainToPrevious (true);
 		gameManager.addAction (tReplaceTokenAction);
 		
 		tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
- 
 		setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction);
+		tStockValueCalculationAction.setChainToPrevious (true);
 		gameManager.addAction (tStockValueCalculationAction);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 	}
