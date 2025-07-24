@@ -839,7 +839,7 @@ public class ShareCompany extends TokenCompany {
 
 		if (hasStartCell ()) {
 			if (aMarket != Market.NO_MARKET) {
-				tMarketCell = getMarketCellAt (aMarket);
+				tMarketCell = getMarketStartCellAt (aMarket);
 				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					setParPrice (tMarketCell);
 				}
@@ -847,7 +847,7 @@ public class ShareCompany extends TokenCompany {
 		}
 	}
 
-	public MarketCell getMarketCellAt (Market aMarket) {
+	public MarketCell getMarketStartCellAt (Market aMarket) {
 		int tRow;
 		int tCol;
 		MarketCell tMarketCell;

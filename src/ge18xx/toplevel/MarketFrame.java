@@ -84,7 +84,7 @@ public class MarketFrame extends XMLFrame implements XMLSaveGameI {
 		MarketCell tMarketCell;
 		Token tToken;
 
-		tMarketCell = aShareCompany.getMarketCellAt (market);
+		tMarketCell = aShareCompany.getMarketStartCellAt (market);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tToken = aShareCompany.getMarketToken ();
 			if (tToken != Token.NO_TOKEN) {
