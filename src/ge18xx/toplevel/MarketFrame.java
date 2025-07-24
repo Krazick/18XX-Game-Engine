@@ -111,8 +111,6 @@ public class MarketFrame extends XMLFrame implements XMLSaveGameI {
 					aShareCompany.setParPrice (aParPrice);
 					aShareCompany.setSharePrice (aMarketCell);
 					aMarketCell.addTokenToBottom (tToken);
-				} else {
-					System.err.println ("Market Token Found in the Market Cell already, not adding it again.");
 				}
 			} else {
 				System.err.println ("No Market Token Found to set into Market Frame");
