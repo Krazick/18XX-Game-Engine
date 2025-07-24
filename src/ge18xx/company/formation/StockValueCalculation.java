@@ -13,7 +13,6 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -176,16 +175,6 @@ public class StockValueCalculation extends PlayerFormationPanel {
 	@Override
 	public void updateContinueButton (boolean aActingPlayer) {
 		continueButton.setVisible (false);
-	}
-
-	public MarketCell getClosestMarketCell (int aNewParPrice) {
-		Market tMarket;
-		MarketCell tParPriceMarketCell;
-		
-		tMarket = gameManager.getMarket ();
-		tParPriceMarketCell = tMarket.getClosestMarketCell (aNewParPrice, 0);
-		
-		return tParPriceMarketCell;
 	}
 	
 	public void completeFormingCompany (StockValueCalculationAction aStockValueCalculationAction) {

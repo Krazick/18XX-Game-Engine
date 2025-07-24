@@ -23,6 +23,8 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.market.Market;
+import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
@@ -638,7 +640,17 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
+	protected MarketCell getClosestMarketCell (int aNewParPrice) {
+		Market tMarket;
+		MarketCell tParPriceMarketCell;
+		
+		tMarket = gameManager.getMarket ();
+		tParPriceMarketCell = tMarket.getClosestMarketCell (aNewParPrice, 0);
+		
+		return tParPriceMarketCell;
+	}
+
 	protected void transferATrain (TrainCompany aTrainCompany, ShareCompany aFormingShareCompany, Train aTrain, 
 			TransferOwnershipAction aTransferOwnershipAction) {
 		aTrainCompany.removeTrain (aTrain.getName ());
