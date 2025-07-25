@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -76,11 +77,11 @@ public class SetNotificationEffect extends Effect {
 
 	public void setNotificationText (GameManager aGameManager, String aNotificationText) {
 		TriggerClass tTriggerClass;
-		FormCGR tFormationPbase;
+		FormCompany tFormationPbase;
 
 		tTriggerClass = aGameManager.getTriggerClass ();
 		if (tTriggerClass instanceof FormCGR) {
-			tFormationPbase = (FormCGR) tTriggerClass;
+			tFormationPbase = (FormCompany) tTriggerClass;
 			tFormationPbase.setNotificationText (aNotificationText);
 			tFormationPbase.refreshPanel ();
 		}

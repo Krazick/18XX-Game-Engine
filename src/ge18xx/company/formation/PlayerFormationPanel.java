@@ -159,19 +159,22 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		String tToolTip;
 		
 		tToolTip = GUI.EMPTY_STRING;
-		continueButton = formCompany.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
-		doneButton = formCompany.buildSpecialButton (DONE, DONE, tToolTip, this);
-		undoButton = formCompany.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		
 		buttonsPanel = new JPanel ();
 		buttonsPanel.setLayout (new BoxLayout (buttonsPanel, BoxLayout.Y_AXIS));
 
 		buttonsPanel.add (Box.createVerticalGlue ());
 		buttonsPanel.add (Box.createVerticalStrut (10));
+		
+		continueButton = formCompany.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
 		buttonsPanel.add (continueButton);
 		buttonsPanel.add (Box.createVerticalStrut (10));
+		
+		doneButton = formCompany.buildSpecialButton (DONE, DONE, tToolTip, this);
 		buttonsPanel.add (doneButton);
 		buttonsPanel.add (Box.createVerticalStrut (10));
+		
+		undoButton = formCompany.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		buttonsPanel.add (undoButton);
 		buttonsPanel.add (Box.createVerticalStrut (10));
 		buttonsPanel.add (Box.createVerticalGlue ());
@@ -601,7 +604,8 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		return tFormingAbbrev;
 	}
 
-	public void transferShare (PortfolioHolderI aFromActor, String aFromNickName, ActorI aToActor, String aToNickName, Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
+	public void transferShare (PortfolioHolderI aFromActor, String aFromNickName, ActorI aToActor, 
+				String aToNickName, Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tFromActorPortfolio;
 		Portfolio tToActorPortfolio;
 		PortfolioHolderI tToHolder;
@@ -611,10 +615,12 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		aToNickName = aToActor.getName ();
 		tToActorPortfolio = tToHolder.getPortfolio ();
 		tToActorPortfolio.transferOneCertificateOwnership (tFromActorPortfolio,  aCertificate);
-		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromNickName, aCertificate, aToActor, aToNickName);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromNickName, aCertificate, 
+					aToActor, aToNickName);
 	}
 
-	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
+	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, 
+				Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
 		String tToName;
 		
 		tToName = ActorI.NO_NAME;
@@ -642,7 +648,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	}
 
 	protected void transferAllTrains (TrainCompany aTrainCompany, ShareCompany aFormingShareCompany,  
-			TransferOwnershipAction aTransferOwnershipAction) {
+						TransferOwnershipAction aTransferOwnershipAction) {
 		TrainPortfolio tTrainPortfolio;
 		Train tTrain;
 		int tTrainCount;

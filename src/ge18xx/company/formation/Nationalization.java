@@ -123,7 +123,11 @@ public class Nationalization extends PlayerFormationPanel {
 		tUpgradeToPrussian = tFormPrussian.buildSpecialButton (UPGRADE_TO_PRUSSIAN, UPGRADE_TO_PRUSSIAN, 
 				tToolTip, this);
 		if (prussianIsForming (tFormPrussian, aPrivateCompany)) {
-			tUpgradeToPrussian.setEnabled (false);
+			if (aActingPlayer) {
+				tUpgradeToPrussian.setEnabled (true);
+			} else {
+				tUpgradeToPrussian.setEnabled (false);
+			}
 		}
 		tCorporation = getExchangeCorporation (aPrivateCompany);
 		if (tCorporation != Corporation.NO_CORPORATION) {
@@ -174,6 +178,7 @@ public class Nationalization extends PlayerFormationPanel {
 		
 		String tActionCommand;
 		MinorCompany tMinorCompany;
+		PrivateCompany tPrivateCompany;
 		KButton tActivatedButton;
 		
 		tActionCommand = aEvent.getActionCommand ();
@@ -184,14 +189,57 @@ public class Nationalization extends PlayerFormationPanel {
 				if (tActionCommand.startsWith (UPGRADE_TO_PRUSSIAN)) {
 					handleUpgradeToPrussian (tMinorCompany);
 				}
+			} else {
+				tPrivateCompany = findPrivateCompany (tActivatedButton);
+				if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
+					if (tActionCommand.startsWith (UPGRADE_TO_PRUSSIAN)) {
+						handleUpgradeToPrussian (tPrivateCompany);
+					}
+				}
 			}
 		}
 		
 		checkAndHandleRoundEnds ();
 	}
+	
+	private void handleUpgradeToPrussian (PrivateCompany aPrivateCompany) {
+		TransferOwnershipAction tTransferOwnershipAction;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		String tFormingAbbrev;
+		Portfolio tBankPortfolio;
+		int tPercentage;
+		Certificate tFormedCertificate;
+		FormPrussian tFormPrussian;
+		Bank tBank;
+		
+		System.out.println ("Ready to convert Private Company " + aPrivateCompany.getName ());
+		tBank = gameManager.getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tFormPrussian = (FormPrussian) formCompany;
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundState ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		tFormedCertificate = Certificate.NO_CERTIFICATE;
+		tFormingAbbrev = getFormingAbbrev ();
+		tPercentage = aPrivateCompany.getExchangePercentage ();
 
+		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
+			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction);
+		} else {
+			System.err.println ("No certificate available with All Players Total Exchange Count 1");
+		}
+		updateCorporationOwnership (tFormedCertificate);
+		aPrivateCompany.close (tTransferOwnershipAction);
+		gameManager.addAction (tTransferOwnershipAction);
+		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
+	}
+	
 	private void handleUpgradeToPrussian (MinorCompany aMinorCompany) {
-		TransferOwnershipAction tTransferOwnershipAction1;
+		TransferOwnershipAction tTransferOwnershipAction;
 		RoundManager tRoundManager;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -211,23 +259,23 @@ public class Nationalization extends PlayerFormationPanel {
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
-		tTransferOwnershipAction1 = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		tFormingAbbrev = getFormingAbbrev ();
-		tPercentage = tFormPrussian.getPercentageForExchange ();
-
+		tPercentage = aMinorCompany.getUpgradePercentage ();
+		
 		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
 		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
-			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction1);
+			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction);
 		} else {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
 		updateCorporationOwnership (tFormedCertificate);
 		tFormingShareCompany = tFormPrussian.getFormingCompany ();
-		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
-		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction1);
-		aMinorCompany.close (tTransferOwnershipAction1);
-		gameManager.addAction (tTransferOwnershipAction1);
+		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
+		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
+		aMinorCompany.close (tTransferOwnershipAction);
+		gameManager.addAction (tTransferOwnershipAction);
 	
 		tReplaceTokenAction = prepareAction (aMinorCompany);
 		replaceAToken (aMinorCompany, tFormingShareCompany, tReplaceTokenAction);
@@ -306,6 +354,32 @@ public class Nationalization extends PlayerFormationPanel {
 		tReplaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 		
 		return tReplaceTokenAction;
+	}
+	
+	@Override
+	public void updateContinueButton () {
+		continueButton.setVisible (false);
+//		if (actingPlayer) {
+//			if (tFormPrussian.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
+//				tFormingCompanyAbbrev = tFormCGR.getFormingCompanyAbbrev ();
+//				continueButton.setEnabled (true);
+//				tToolTip = GUI.EMPTY_STRING;
+//				if (tFormCGR.haveSharesToFold ()) {
+//					tToolTip = "There are Outstanding Loans, " + tFormingCompanyAbbrev + " will Form.";
+//				} else {
+//					tToolTip = "No Outstanding Loans, " + tFormingCompanyAbbrev + " will not Form.";			
+//				}
+//				continueButton.setToolTipText (tToolTip);
+//				continueButton.setVisible (true);
+//			} else {
+//				continueButton.setEnabled (false);
+//				tToolTip = "Not Ready Yet";
+//				continueButton.setToolTipText (tToolTip);
+//				continueButton.setVisible (false);
+//			}	
+//		} else {
+//			continueButton.setVisible (false);
+//		}
 	}
 
 }

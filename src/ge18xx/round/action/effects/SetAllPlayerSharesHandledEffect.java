@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.formation.FormCGR;
+import ge18xx.company.formation.FormCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.FormationRound;
 import ge18xx.round.RoundManager;
@@ -60,12 +60,12 @@ public class SetAllPlayerSharesHandledEffect extends FormationPanelEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		FormationRound tFormationRound;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tFormationRound = aRoundManager.getFormationRound ();
-			tFormCGR = (FormCGR) tFormationRound.getTriggerFormationClass ();
+			tFormCGR = (FormCompany) tFormationRound.getTriggerFormationClass ();
 			tFormCGR.setAllPlayerSharesHandled (allPlayerSharesHandled);
 			tEffectApplied = true;
 		}
@@ -77,12 +77,12 @@ public class SetAllPlayerSharesHandledEffect extends FormationPanelEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		FormationRound tFormationRound;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
 		tEffectUndone = false;
 		if (actor.isAShareCompany ()) {
 			tFormationRound = aRoundManager.getFormationRound ();
-			tFormCGR = (FormCGR) tFormationRound.getTriggerFormationClass ();
+			tFormCGR = (FormCompany) tFormationRound.getTriggerFormationClass ();
 			tFormCGR.setAllPlayerSharesHandled (allPlayerSharesHandled);
 			tEffectUndone = true;
 		}

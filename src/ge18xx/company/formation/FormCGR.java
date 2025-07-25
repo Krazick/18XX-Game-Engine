@@ -1,8 +1,6 @@
 package ge18xx.company.formation;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,7 +9,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -20,10 +17,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
-import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
-import ge18xx.round.Round;
-import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -41,7 +35,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
-	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
 	public static final String NO_OPEN_MARKET_CERTS = "NO CERTIFICATES IN OPEN MARKET";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
@@ -54,17 +47,13 @@ public class FormCGR extends FormCompany implements ActionListener {
 
 	boolean currentPlayerDone;
 	boolean formingPresidentAssigned;
-	boolean allPlayerSharesHandled;
 	boolean homeTokensExchanged;
 	boolean nonHomeTokensExchanged;
 
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
 	JPanel ipoJPanel;
-	JPanel notificationJPanel;
-	JTextArea notificationArea;
-	String notificationText;
-
+	
 	public FormCGR (GameManager aGameManager) {
 		super (aGameManager);
 		String tFullFrameTitle;
@@ -141,29 +130,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		return nonHomeTokensExchanged;
 	}
 	
-	public void buildNotificationJPanel () {
-		Color tColor;
-		
-		if (notificationJPanel == GUI.NO_PANEL) {
-			notificationJPanel = new JPanel ();
-			notificationArea = new JTextArea (5, 80);
-			notificationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
-			notificationArea.setLineWrap (true);
-			notificationArea.setWrapStyleWord (true);
-			notificationJPanel.add (notificationArea);
-			tColor = gameManager.getAlertColor ();
-			notificationJPanel.setBackground (tColor);
-		}
-	}
-
-	public void setAllPlayerSharesHandled (boolean aAllPlayerSharesHandled) {
-		allPlayerSharesHandled = aAllPlayerSharesHandled;
-	}
-	
-	public boolean getAllPlayerSharesHandled () {
-		return allPlayerSharesHandled;
-	}
-
 	public void updateDoneButton () {
 		
 	}
@@ -176,6 +142,7 @@ public class FormCGR extends FormCompany implements ActionListener {
 		shareFoldCount += aShareCountToFold;
 	}
 	
+	@Override
 	public boolean haveSharesToFold () {
 		return shareFoldCount > 0;
 	}
@@ -219,61 +186,29 @@ public class FormCGR extends FormCompany implements ActionListener {
 	}
 
 	@Override
-	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
-		Player tNextPlayer;
-		Player tFirstPresident;
+	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
+		String tNotification;
+		String tFormingAbbrev;
 		Player tCurrentPlayer;
-		PlayerManager tPlayerManager;
-		int tNextPlayerIndex;
-		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
-		ActorI.ActionStates tCurrentRoundState;
-		RoundManager tRoundManager;
-		Round tCurrentRound;
-		ChangeStateAction tChangeStateAction;
-		String tRoundID;
-
-		tPlayerManager = gameManager.getPlayerManager ();
 		
-		tCurrentPlayer = aPlayers.get (currentPlayerIndex);
-		tOldState = tCurrentPlayer.getPrimaryActionState ();
-		tCurrentPlayer.setPrimaryActionState (formationState);
-		tNewState = tCurrentPlayer.getPrimaryActionState ();
-		tRoundManager = gameManager.getRoundManager ();
-		tCurrentRound = tRoundManager.getCurrentRound ();
-		tCurrentRoundState = tCurrentRound.getRoundState ();
-		tRoundID = tCurrentRound.getID ();
-
-		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
-		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
-		rebuildFormationPanel (currentPlayerIndex);
-
-		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
-		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
-		tFirstPresident = findActingPresident ();
+		tNotification = GUI.EMPTY_STRING;
 		
-		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
-		
-		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex, tChangeStateAction);
-
-		tChangeStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
-		if (aAddAction) {
-			gameManager.addAction (tChangeStateAction);
+		tFormingAbbrev = formingShareCompany.getAbbrev ();
+		if (formationState == ActorI.ActionStates.LoanRepayment) {
+			if (! haveSharesToFold ()) {
+				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
+				setNotificationText (tNotification);
+			}
+		} else if (formationState == ActorI.ActionStates.ShareExchange) {
+			setAllPlayerSharesHandled (true);
+			tCurrentPlayer = getCurrentPlayer ();
+			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
 		}
-		
-		return tNextPlayerIndex;
-	}
-
-	private void updateToPlayer (List<Player> aPlayers, Player aNextPlayer, Player aFirstPresident,
-			int aNextPlayerIndex, ChangeStateAction tChangeStateAction) {
-		setCurrentPlayerIndex (aNextPlayerIndex);
-		if (aNextPlayer == aFirstPresident) {
-			allPlayersHandled (tChangeStateAction);
-		} else {
-			updatePlayers (aPlayers, aNextPlayer);
-		}
-	}
+		setNotificationText (tNotification);
 	
+		rebuildFormationPanel (currentPlayerIndex);
+	}
+
 	@Override
 	public boolean ends () {
 		boolean tEnds;
@@ -298,26 +233,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 		
 		return tEnds;
-	}
-	
-	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
-		String tFormingAbbrev;
-		String tNotification;
-		Player tCurrentPlayer;
-		
-		tFormingAbbrev = formingShareCompany.getAbbrev ();
-		if (formationState == ActorI.ActionStates.LoanRepayment) {
-			if (! haveSharesToFold ()) {
-				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
-				setNotificationText (tNotification);
-			}
-		} else if (formationState == ActorI.ActionStates.ShareExchange) {
-			setAllPlayerSharesHandled (true);
-			tCurrentPlayer = getCurrentPlayer ();
-			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
-		}
-
-		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
 	@Override
@@ -352,17 +267,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 		}
 		
 		return tPlayerFormationPanel;
-	}
-	
-	public void setNotificationText (String aNotificationText) {
-		notificationText = aNotificationText;
-		if (notificationArea != null) {
-			notificationArea.setText (notificationText);
-		}
-	}
-	
-	public String getNotificationText () {
-		return notificationText;
 	}
 	
 	public void buildBottomJPanel () {		

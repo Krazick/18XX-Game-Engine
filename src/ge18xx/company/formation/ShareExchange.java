@@ -723,9 +723,9 @@ public class ShareExchange extends PlayerFormationPanel {
 		ActorI.ActionStates tRoundType;
 		Round tCurrentRound;
 		String tRoundID;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tCurrentRound = tRoundManager.getCurrentRound ();

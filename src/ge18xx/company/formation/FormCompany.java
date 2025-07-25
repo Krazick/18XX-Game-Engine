@@ -1,5 +1,7 @@
 package ge18xx.company.formation;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -8,6 +10,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -48,6 +51,7 @@ public class FormCompany extends TriggerClass {
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
 	public static final AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
+	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
 	GameManager gameManager;
 	int currentPlayerIndex;
 	boolean currentPlayerDone;
@@ -60,6 +64,10 @@ public class FormCompany extends TriggerClass {
 	protected Player actingPresident;
 	protected JPanel formationJPanel;
 	protected StartFormationAction startFormationAction;
+	protected boolean allPlayerSharesHandled;
+	protected JPanel notificationJPanel;
+	protected JTextArea notificationArea;
+	protected String notificationText;
 	
 	public FormCompany () {
 		
@@ -621,4 +629,104 @@ public class FormCompany extends TriggerClass {
 		}
 		gameManager.addAction (tChangeFormationRoundStateAction);
 	}
+
+	public void setAllPlayerSharesHandled (boolean aAllPlayerSharesHandled) {
+		allPlayerSharesHandled = aAllPlayerSharesHandled;
+	}
+
+	public boolean getAllPlayerSharesHandled () {
+		return allPlayerSharesHandled;
+	}
+
+	public void buildNotificationJPanel () {
+		Color tColor;
+		
+		if (notificationJPanel == GUI.NO_PANEL) {
+			notificationJPanel = new JPanel ();
+			notificationArea = new JTextArea (5, 80);
+			notificationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
+			notificationArea.setLineWrap (true);
+			notificationArea.setWrapStyleWord (true);
+			notificationJPanel.add (notificationArea);
+			tColor = gameManager.getAlertColor ();
+			notificationJPanel.setBackground (tColor);
+		}
+	}
+
+	public void setNotificationText (String aNotificationText) {
+		notificationText = aNotificationText;
+		if (notificationArea != null) {
+			notificationArea.setText (notificationText);
+		}
+	}
+
+	public String getNotificationText () {
+		return notificationText;
+	}
+	
+	public boolean haveSharesToFold () {
+		return false;
+	}
+
+	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
+	
+		rebuildFormationPanel (currentPlayerIndex);
+	}
+
+	public void updateToPlayer (List<Player> aPlayers, Player aNextPlayer, Player aFirstPresident, 
+					int aNextPlayerIndex, ChangeStateAction aChangeStateAction) {
+		setCurrentPlayerIndex (aNextPlayerIndex);
+		if (aNextPlayer == aFirstPresident) {
+			allPlayersHandled (aChangeStateAction);
+		} else {
+			updatePlayers (aPlayers, aNextPlayer);
+		}
+	}
+
+	@Override
+	public int updateToNextPlayer (List<Player> aPlayers, boolean aAddAction) {
+		Player tNextPlayer;
+		Player tFirstPresident;
+		Player tCurrentPlayer;
+		PlayerManager tPlayerManager;
+		int tNextPlayerIndex;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ActorI.ActionStates tCurrentRoundState;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
+		ChangeStateAction tChangeStateAction;
+		String tRoundID;
+	
+		tPlayerManager = gameManager.getPlayerManager ();
+		
+		tCurrentPlayer = aPlayers.get (currentPlayerIndex);
+		tOldState = tCurrentPlayer.getPrimaryActionState ();
+		tCurrentPlayer.setPrimaryActionState (formationState);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundState = tCurrentRound.getRoundState ();
+		tRoundID = tCurrentRound.getID ();
+	
+		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
+		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
+		rebuildFormationPanel (currentPlayerIndex);
+	
+		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
+		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
+		tFirstPresident = findActingPresident ();
+		
+		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
+		
+		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex, tChangeStateAction);
+	
+		tChangeStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
+		if (aAddAction) {
+			gameManager.addAction (tChangeStateAction);
+		}
+		
+		return tNextPlayerIndex;
+	}
+
 }

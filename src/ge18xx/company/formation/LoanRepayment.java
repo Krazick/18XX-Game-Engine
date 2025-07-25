@@ -308,9 +308,9 @@ public class LoanRepayment extends PlayerFormationPanel {
 	public void updateContinueButton () {
 		String tToolTip;
 		String tFormingCompanyAbbrev;
-		FormCGR tFormCGR;
+		FormCompany tFormCGR;
 		
-		tFormCGR = (FormCGR) formCompany;
+		tFormCGR = (FormCompany) formCompany;
 
 		if (repaymentFinished () && actingPlayer) {
 			if (tFormCGR.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
