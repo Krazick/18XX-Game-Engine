@@ -139,6 +139,10 @@ public class Tokens {
 		return getMapToken (TokenType.MAP);
 	}
 	
+	public MapToken getUsedMapToken () {
+		return getUsedMapToken (TokenType.MAP);
+	}
+	
 	public Token getMarketToken () {
 		return getToken (TokenType.MARKET);
 	}
@@ -170,6 +174,36 @@ public class Tokens {
 		}
 		
 		return tToken;
+	}
+	
+	public MapToken getUsedMapToken (TokenType aTokenType) {
+		MapToken tUsedMapToken;
+		TokenInfo tTokenInfo;
+		
+		tUsedMapToken = MapToken.NO_MAP_TOKEN;
+		tTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		if (aTokenType == TokenType.MARKET) {
+			tTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		} else if (aTokenType == TokenType.HOME1) {
+			tTokenInfo = tokens.get (HOME1_INDEX);
+		} else if (aTokenType == TokenType.HOME2) {
+			tTokenInfo = tokens.get (HOME2_INDEX);
+		} else {
+			tTokenInfo = getUsedMapTokenInfo ();
+		}
+		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
+			// Have to double-check the TokenInfo retrieved is the type requested
+			// ie. just because HOME2 was requested, this could be a fixed or range type if corp has only one Home
+			if (tTokenInfo.isMatchingTokenType (aTokenType)) {
+				tUsedMapToken = tTokenInfo.getMapToken ();
+			} else { 
+				tUsedMapToken = MapToken.NO_MAP_TOKEN;
+			}
+		} else {
+			tUsedMapToken = MapToken.NO_MAP_TOKEN;
+		}
+		
+		return tUsedMapToken;
 	}
 	
 	public MapToken getMapToken (TokenType aTokenType) {
@@ -321,7 +355,24 @@ public class Tokens {
 		
 		return tFoundTokenInfo;
 	}
-	
+	public TokenInfo getUsedMapTokenInfo () {
+		TokenInfo tTokenInfo;
+		TokenInfo tUsedMapTokenInfo;
+		int tIndex;
+		int tTokenCount;
+		
+		tTokenCount = getTokenCount ();
+		tUsedMapTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		for (tIndex = startIndex; 
+				((tIndex < tTokenCount) && 
+				(tUsedMapTokenInfo == TokenInfo.NO_TOKEN_INFO)); tIndex++) {
+			tTokenInfo = tokens.get (tIndex);
+			tUsedMapTokenInfo = tTokenInfo;	
+		}
+		
+		return tUsedMapTokenInfo;
+	}
+
 	public TokenInfo getMapTokenInfo () {
 		TokenInfo tTokenInfo;
 		TokenInfo tFoundMapTokenInfo;

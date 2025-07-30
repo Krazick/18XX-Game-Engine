@@ -208,6 +208,9 @@ public abstract class TokenCompany extends TrainCompany {
 		
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			tMapToken = tokens.getMapToken ();
+			if (tMapToken == MapToken.NO_MAP_TOKEN) {
+				tMapToken = tokens.getUsedMapToken ();
+			}
 			tDistance = homeCity1.getDistanceTo (aMapCell);
 			tDistanceCost = tDistance * tMapToken.getCost ();
 		} else {
