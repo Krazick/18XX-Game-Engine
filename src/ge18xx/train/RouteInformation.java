@@ -790,10 +790,10 @@ public class RouteInformation {
 
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
-			System.out.println ("\nScenario 1 - Add Segment # 1");		// PRINTLOG
+//			System.out.println ("\nScenario 1 - Add Segment # 1");		// PRINTLOG
 			addRouteSegment (aRouteSegment, aRouteAction);
 		} else if (tInitialSegmentCount == 1) {
-			System.out.println ("\nScenario 2 - Add Segment # 2");		// PRINTLOG
+//  			System.out.println ("\nScenario 2 - Add Segment # 2");		// PRINTLOG
 			if (previousSegmentNeedsFill ()) {
 				tContinueWork = fillEndPoint (aRouteSegment, aRouteAction);
 			} else {
@@ -805,10 +805,10 @@ public class RouteInformation {
 		} else if (tInitialSegmentCount > 1) {
 			tNewMapCell = aRouteSegment.getMapCell ();
 			if (lastMapCellIs (tNewMapCell)) {
-				System.out.println ("\nScenario 3 - Cycle Track");		// PRINTLOG
+//				System.out.println ("\nScenario 3 - Cycle Track");		// PRINTLOG
 				cycleToNextTrack (aRouteAction, aCorpID);
 			} else {
-				System.out.println ("\nScenario 4 - Add Route Segment # 3+");	// PRINTLOG
+//				System.out.println ("\nScenario 4 - Add Route Segment # 3+");	// PRINTLOG
 				tContinueWork = addNewPreviousSegment (aRouteSegment, aPhase, aCorpID, aRouteAction);
 				if (tContinueWork) {
 					tContinueWork = addNextRouteSegment (aRouteSegment, aCorpID, aRouteAction);
