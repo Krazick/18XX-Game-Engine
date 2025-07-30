@@ -246,9 +246,11 @@ public class Nationalization extends PlayerFormationPanel {
 		String tFormingAbbrev;
 		Portfolio tBankPortfolio;
 		int tPercentage;
+		boolean tFindPresidentShare;
 		Certificate tFormedCertificate;
 		ReplaceTokenAction tReplaceTokenAction;
 		StockValueCalculationAction tStockValueCalculationAction;
+		ActorI.ActionStates tMinorCompanyOldStatus;
 		ShareCompany tFormingShareCompany;
 		FormPrussian tFormPrussian;
 		Bank tBank;
@@ -263,17 +265,23 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = aMinorCompany.getUpgradePercentage ();
+		tFormingShareCompany = tFormPrussian.getFormingCompany ();
 		
-		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+		if (aMinorCompany.getID () == tFormPrussian.getTriggeringCompany (tFormingShareCompany).getID ()) {
+			tFindPresidentShare = true;
+		} else {
+			tFindPresidentShare = false;
+		}
+		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, tFindPresidentShare);
 		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
 			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction);
 		} else {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
 		updateCorporationOwnership (tFormedCertificate);
-		tFormingShareCompany = tFormPrussian.getFormingCompany ();
 		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
 		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
+		tMinorCompanyOldStatus = aMinorCompany.getActionStatus ();
 		aMinorCompany.close (tTransferOwnershipAction);
 		gameManager.addAction (tTransferOwnershipAction);
 	
@@ -283,19 +291,19 @@ public class Nationalization extends PlayerFormationPanel {
 		gameManager.addAction (tReplaceTokenAction);
 		
 		tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
-		setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction);
+		setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction, tMinorCompanyOldStatus);
 		tStockValueCalculationAction.setChainToPrevious (true);
 		gameManager.addAction (tStockValueCalculationAction);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 	}
 	 
 	public void setMarketCell (MinorCompany aMinorCompany, ShareCompany aFormingShareCompany, 
-					StockValueCalculationAction aStockValueCalculationAction) {
+					StockValueCalculationAction aStockValueCalculationAction, 
+					ActorI.ActionStates aMinorCompanyOldStatus) {
 		MarketCell tClosestMarketCell;
 		MarketFrame tMarketFrame;
 		Market tMarket;
 		ActorI.ActionStates tNewFormingCoStatus;
-		ActorI.ActionStates tOldFormingCoStatus;
 		String tCoordinates;
 		int tNewParPrice;
 
@@ -312,12 +320,12 @@ public class Nationalization extends PlayerFormationPanel {
 		tMarketFrame.setParPriceToMarketCell (aFormingShareCompany, tNewParPrice, tClosestMarketCell);
 		aStockValueCalculationAction.addSetParValueEffect (aFormingShareCompany, aFormingShareCompany, 
 						tNewParPrice, tCoordinates);
-		tOldFormingCoStatus = aFormingShareCompany.getActionStatus ();
-		if (tOldFormingCoStatus == ActorI.ActionStates.Owned) {
+
+		if (aMinorCompanyOldStatus == ActorI.ActionStates.Owned) {
 			tNewFormingCoStatus = aMinorCompany.getActionStatus ();
 			aFormingShareCompany.resetStatus (tNewFormingCoStatus);
 			aStockValueCalculationAction.addChangeCorporationStatusEffect (aFormingShareCompany, 
-						tOldFormingCoStatus, tNewFormingCoStatus);
+					aMinorCompanyOldStatus, tNewFormingCoStatus);
 		}
 	}
 	
@@ -359,27 +367,5 @@ public class Nationalization extends PlayerFormationPanel {
 	@Override
 	public void updateContinueButton () {
 		continueButton.setVisible (false);
-//		if (actingPlayer) {
-//			if (tFormPrussian.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
-//				tFormingCompanyAbbrev = tFormCGR.getFormingCompanyAbbrev ();
-//				continueButton.setEnabled (true);
-//				tToolTip = GUI.EMPTY_STRING;
-//				if (tFormCGR.haveSharesToFold ()) {
-//					tToolTip = "There are Outstanding Loans, " + tFormingCompanyAbbrev + " will Form.";
-//				} else {
-//					tToolTip = "No Outstanding Loans, " + tFormingCompanyAbbrev + " will not Form.";			
-//				}
-//				continueButton.setToolTipText (tToolTip);
-//				continueButton.setVisible (true);
-//			} else {
-//				continueButton.setEnabled (false);
-//				tToolTip = "Not Ready Yet";
-//				continueButton.setToolTipText (tToolTip);
-//				continueButton.setVisible (false);
-//			}	
-//		} else {
-//			continueButton.setVisible (false);
-//		}
 	}
-
 }
