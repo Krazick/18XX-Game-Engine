@@ -6,6 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.StartFormationAction;
 
 public class FormPrussian extends FormCompany {
@@ -51,9 +52,14 @@ public class FormPrussian extends FormCompany {
 	}
 
 	@Override
+	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
+		setAllPlayerHandled (true);
+		rebuildFormationPanel (currentPlayerIndex);
+	}
+
+	@Override
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		super.updatePlayers (aPlayers, aActingPresident);
-
 	}
 	
 	@Override
@@ -67,5 +73,19 @@ public class FormPrussian extends FormCompany {
 		tPercentage = 10;
 		
 		return tPercentage;
+	}
+	
+	@Override
+	public boolean ends () {
+		boolean tEnds;
+		
+		tEnds = false;
+		if (! triggeringCompany.isClosed ()) {
+			tEnds = true;
+		} else if (allPlayersHandled) {
+			tEnds = true;
+		}
+		
+		return tEnds;
 	}
 }
