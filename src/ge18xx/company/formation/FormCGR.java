@@ -205,7 +205,6 @@ public class FormCGR extends FormCompany implements ActionListener {
 			aChangeStateAction.addSetAllPlayerSharesHandledEffect (tCurrentPlayer, allPlayerSharesHandled);
 		}
 		setNotificationText (tNotification);
-	
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 
