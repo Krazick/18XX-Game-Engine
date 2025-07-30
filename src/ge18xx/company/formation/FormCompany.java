@@ -56,6 +56,8 @@ public class FormCompany extends TriggerClass {
 	int currentPlayerIndex;
 	boolean currentPlayerDone;
 	boolean formingPresidentAssigned;
+	boolean allPlayerSharesHandled;
+	boolean allPlayersHandled;
 	XMLFrame formationFrame;
 	Corporation operatingCompany;
 	Corporation triggeringCompany;
@@ -63,11 +65,10 @@ public class FormCompany extends TriggerClass {
 	protected ActionStates formationState;
 	protected Player actingPresident;
 	protected JPanel formationJPanel;
-	protected StartFormationAction startFormationAction;
-	protected boolean allPlayerSharesHandled;
 	protected JPanel notificationJPanel;
 	protected JTextArea notificationArea;
 	protected String notificationText;
+	protected StartFormationAction startFormationAction;
 	
 	public FormCompany () {
 		
@@ -630,6 +631,14 @@ public class FormCompany extends TriggerClass {
 		gameManager.addAction (tChangeFormationRoundStateAction);
 	}
 
+	public void setAllPlayerHandled (boolean aAllPlayerHandled) {
+		allPlayersHandled = aAllPlayerHandled;
+	}
+
+	public boolean getAllPlayerHandled () {
+		return allPlayersHandled;
+	}
+
 	public void setAllPlayerSharesHandled (boolean aAllPlayerSharesHandled) {
 		allPlayerSharesHandled = aAllPlayerSharesHandled;
 	}
@@ -669,7 +678,6 @@ public class FormCompany extends TriggerClass {
 	}
 
 	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
-	
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 
@@ -728,5 +736,4 @@ public class FormCompany extends TriggerClass {
 		
 		return tNextPlayerIndex;
 	}
-
 }
