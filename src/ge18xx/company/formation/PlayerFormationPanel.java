@@ -679,4 +679,128 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		aFormingShareCompany.addTrain (aTrain);
 		aTransferOwnershipAction.addTransferTrainEffect (aTrainCompany, aTrain, aFormingShareCompany);
 	}
+
+	protected boolean givePresidentCertificate (Portfolio aBankPortfolio, int aPercentage, TransferOwnershipAction aTransferOwnershipAction, Corporation aFormingCompany) {
+		Certificate tPresidentCertificate;
+		Certificate tExchangeCertificate;
+		Certificate tPresidentZeroCertificate;
+		Certificate tRemovedCertificate;
+		Portfolio tOldPresidentPortfolio;
+		Portfolio tPlayerPortfolio;
+		PortfolioHolderI tCurrentPresident;
+		Bank tBank;
+		int tPercentageForExchange;
+		String tFormingAbbrev;
+		boolean tNewPresident;
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
+		tBank = gameManager.getBank ();
+		tPlayerPortfolio = player.getPortfolio ();
+		tCurrentPresident = aFormingCompany.getPresident ();
+		tFormingAbbrev = aFormingCompany.getAbbrev ();
+		tPercentageForExchange = tFormCGR.getPercentageForExchange ();
+		tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, tPercentageForExchange * 2, true);
+		tNewPresident = true;
+		if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
+			transferShare (tBank, Bank.IPO, player, tPresidentCertificate, aTransferOwnershipAction);
+			tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
+			transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
+			tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
+			if (tExchangeCertificate != Certificate.NO_CERTIFICATE) {
+				transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
+			}
+			if (tCurrentPresident != PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
+				tOldPresidentPortfolio = tCurrentPresident.getPortfolio ();
+				tPresidentZeroCertificate = tOldPresidentPortfolio.getCertificate (tFormingAbbrev,
+						Certificate.NO_PERCENTAGE, tNewPresident);
+				if (tPresidentZeroCertificate != Certificate.NO_CERTIFICATE) {
+					System.out.println ("Found Cert found to remove from " + tCurrentPresident.getName ());
+					tRemovedCertificate = tOldPresidentPortfolio.getThisCertificate (tPresidentZeroCertificate);
+					System.out.println ("Found 0% Cert in old President Portfolio - Removed");
+					aTransferOwnershipAction.addDeleteCertificateEffet (tCurrentPresident, tRemovedCertificate,
+									tCurrentPresident);
+				}
+			}
+		}
+		tFormCGR.setFormingPresidentAssigned  (tNewPresident);
+		aTransferOwnershipAction.SetFormingPresidentAssignedEffect (aFormingCompany, tNewPresident);
+		
+		return tNewPresident;
+	}
+
+	public void confirmFormingPresident (TransferOwnershipAction aTransferOwnershipAction) {
+		PlayerManager tPlayerManager;
+		Player tCurrentPresident;
+		PortfolioHolderI tCurrentHolder;
+		Corporation tCorporation;
+		ShareCompany tFormingCompany;
+		int tFormingCompanyID;
+		FormCompany tFormCGR;
+		
+		tFormCGR = (FormCompany) formCompany;
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
+		if (tCorporation.isAShareCompany ()) {
+			tFormingCompany = (ShareCompany) tCorporation;
+			tPlayerManager = gameManager.getPlayerManager ();
+			tCurrentHolder = tFormingCompany.getPresident ();
+			if (tCurrentHolder.isAPlayer ()) {
+				tCurrentPresident = (Player) tCurrentHolder;
+				tPlayerManager.handlePresidentialTransfer (aTransferOwnershipAction, tFormingCompany, tCurrentPresident);
+				aTransferOwnershipAction.setChainToPrevious (true);
+				tFormCGR.rebuildFormationPanel ();
+			} else {
+				System.err.println ("The Current President is not a Player");
+			}
+		} else {
+			System.err.println ("The Forming Company ID found is NOT a Share Company");
+		}
+	}
+
+	public boolean assignPresident (Portfolio aBankPortfolio, int aPercentage, ShareCompany aFormingCompany, TransferOwnershipAction aTransferOwnershipAction) {
+		Certificate tPresidentCertificate;
+		Certificate tPresidentZeroCertificate;
+		Portfolio tPlayerPortfolio;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		Bank tBank;
+		int tOwnsPercentage;
+		int tPresidentOwnedPercentage;
+		int tPresidentCertificatePercentage;
+		int tFindPercentage;
+		boolean tNewPresident;
+		FormCGR tFormCGR;
+		
+		tFormCGR = (FormCGR) formCompany;
+		tBank = gameManager.getBank ();
+		tFindPercentage = tFormCGR.getPercentageForExchange () * 2;
+		tPresidentOwnedPercentage = aFormingCompany.getPresidentOwnedPercent ();
+		tPresidentCertificate = aFormingCompany.getPresidentCertificate (tFindPercentage);
+		tPresidentCertificatePercentage = tPresidentCertificate.getPercentage ();
+		tPlayerPortfolio = player.getPortfolio ();
+		tOwnsPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
+		tNewPresident = false;
+		if (tOwnsPercentage >= tPresidentCertificatePercentage) {
+			if (tOwnsPercentage > tPresidentOwnedPercentage) {
+				tNewPresident = givePresidentCertificate (aBankPortfolio, aPercentage, aTransferOwnershipAction,
+						aFormingCompany);
+			}
+		} else if (tPresidentOwnedPercentage == Certificate.NO_PERCENTAGE) {
+			tPresidentZeroCertificate = new Certificate (aFormingCompany, true, Certificate.NO_PERCENTAGE,
+							tPlayerPortfolio);
+			tPlayerPortfolio.addCertificate (tPresidentZeroCertificate);
+			aTransferOwnershipAction.addCreateNewCertificateEffet (tBank, tPresidentZeroCertificate, player);
+			tNewPresident = true;
+		}
+		confirmFormingPresident (aTransferOwnershipAction);
+		if (! aFormingCompany.willFloat ()) {
+			tOldState = aFormingCompany.getStatus ();
+			aFormingCompany.resetStatus (ActorI.ActionStates.WillFloat);
+			tNewState = aFormingCompany.getStatus ();
+			aTransferOwnershipAction.addChangeCorporationStatusEffect (aFormingCompany, tOldState, tNewState);
+		}
+		
+		return tNewPresident;
+	}
 }
