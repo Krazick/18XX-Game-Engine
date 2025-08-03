@@ -146,8 +146,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public Corporation (int aID, String aName) {
-		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, Location.NO_LOC,
-				ActorI.ActionStates.Unowned, false);
+		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, 
+				Location.NO_LOC, ActorI.ActionStates.Unowned, false);
 	}
 
 	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
@@ -490,17 +490,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		return tSelectedTrainHolder;
 	}
-//
-//	public TrainHolderI getOtherSelectedTrainHolder () {
-//		TrainHolderI tGetOtherSelectedTrainHolder;
-//
-//		tGetOtherSelectedTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
-//		if (corpListValid ()) {
-//			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
-//		}
-//
-//		return tGetOtherSelectedTrainHolder;
-//	}
 
 	public int getSelectedTrainCount () {
 		int tGetSelectedTrainCount;
