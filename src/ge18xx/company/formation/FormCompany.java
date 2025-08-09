@@ -184,11 +184,24 @@ public class FormCompany extends TriggerClass {
 	}
 	
 	@Override
+	public boolean isTriggeringCompanySet () {
+		boolean tIsTriggeringCompanySet;
+		
+		if (triggeringCompany == Corporation.NO_CORPORATION) {
+			tIsTriggeringCompanySet = false;
+		} else {
+			tIsTriggeringCompanySet = true;
+		}
+		
+		return tIsTriggeringCompanySet;
+	}
+	
+	@Override
 	public void setTriggeringCompany (Corporation aTriggeringCompany) {
 		triggeringCompany = aTriggeringCompany;
 	}
 	
-	public Corporation getTriggeringCompany (Corporation aTriggeringCompany) {
+	public Corporation getTriggeringCompany () {
 		return triggeringCompany;
 	}
 
