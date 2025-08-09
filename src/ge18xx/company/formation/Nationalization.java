@@ -78,7 +78,7 @@ public class Nationalization extends PlayerFormationPanel {
 
 		return tShareCompanyJPanel;
 	}
-	
+
 	public String canUpgradeToPrussian (Corporation aCorporation) {
 		String tToolTip;
 		FormPrussian tFormPrussian;
@@ -218,10 +218,12 @@ public class Nationalization extends PlayerFormationPanel {
 		tBank = gameManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tFormPrussian = (FormPrussian) formCompany;
+		
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
 		tRoundID = tRoundManager.getCurrentRoundOf ();
 		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
+		
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = aPrivateCompany.getExchangePercentage ();
@@ -252,6 +254,7 @@ public class Nationalization extends PlayerFormationPanel {
 		StockValueCalculationAction tStockValueCalculationAction;
 		ActorI.ActionStates tMinorCompanyOldStatus;
 		ShareCompany tFormingShareCompany;
+		Corporation tTriggeringCompany;
 		FormPrussian tFormPrussian;
 		Bank tBank;
 		
@@ -266,8 +269,8 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = aMinorCompany.getUpgradePercentage ();
 		tFormingShareCompany = tFormPrussian.getFormingCompany ();
-		
-		if (aMinorCompany.getID () == tFormPrussian.getTriggeringCompany (tFormingShareCompany).getID ()) {
+		tTriggeringCompany = tFormPrussian.getTriggeringCompany ();
+		if (tTriggeringCompany.isSameID (aMinorCompany)) {
 			tFindPresidentShare = true;
 		} else {
 			tFindPresidentShare = false;
