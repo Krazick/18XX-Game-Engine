@@ -1154,6 +1154,17 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return (Integer.valueOf (id).toString ());
 	}
 
+	public boolean isSameID (Corporation aOtherCorporation) {
+		boolean tIsSameID;
+		
+		tIsSameID = false;
+		if (id == aOtherCorporation.getID ()) {
+			tIsSameID = true;
+		}
+		
+		return tIsSameID;
+	}
+	
 	@Override
 	public GameManager getGameManager () {
 		GameManager tGameManager;
