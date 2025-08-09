@@ -112,4 +112,8 @@ public class TriggerClass implements XMLSaveGameI {
 	public boolean isInterrupting () {
 		return false;
 	}
+	
+	public boolean isTriggeringCompanySet () {
+		return false;
+	}
 }
