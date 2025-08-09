@@ -1184,7 +1184,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				aBuyTrainAction.addConstructTriggerClassEffect (this);
 			}
 			tOperatingCorporation = tGameManager.getOperatingCompany ();
-			tTriggerFormationClass.setTriggeringCompany (tOperatingCorporation);
+			if (!tTriggerFormationClass.isTriggeringCompanySet ()) {
+				tTriggerFormationClass.setTriggeringCompany (tOperatingCorporation);
+			}
 		}
 	}
 	
