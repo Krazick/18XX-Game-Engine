@@ -316,12 +316,13 @@ public class PlayerManager implements XMLSaveGameI {
 	 */
 	public void clearAllPercentBought () {
 		SetPercentBoughtAction tSetPercentBoughtAction;
-		String tStockRoundID;
+		String tOperatingRoundID;
 		Bank tBank;
 		
-		tStockRoundID = getStockRoundID ();
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tBank = getBank ();
-		tSetPercentBoughtAction = new SetPercentBoughtAction (ActorI.ActionStates.StockRound, tStockRoundID, tBank);
+		tSetPercentBoughtAction = new SetPercentBoughtAction (ActorI.ActionStates.OperatingRound, 
+								tOperatingRoundID, tBank);
 		for (Player tPlayer : players) {
 			tPlayer.clearAllPercentBought (tSetPercentBoughtAction);
 		}
