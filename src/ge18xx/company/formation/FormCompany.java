@@ -109,9 +109,14 @@ public class FormCompany extends TriggerClass {
 		setFormingPresidentAssigned (tFormingPresidentAssigned);
 		setFormationState (tFormationState);
 
-		tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
-		tTriggeringCompany = gameManager.getShareCompany (tTriggeringCompanyAbbrev);
-		setTriggeringCompany (tTriggeringCompany);
+		if (! isTriggeringCompanySet ()) {
+			tTriggeringCompanyAbbrev = aXMLNode.getThisAttribute (AN_TRIGGERING_COMPANY);
+			tTriggeringCompany = gameManager.getShareCompany (tTriggeringCompanyAbbrev);
+			if (tTriggeringCompany == Corporation.NO_CORPORATION) {
+				tTriggeringCompany = gameManager.getMinorCompany (tTriggeringCompanyAbbrev);
+			}
+			setTriggeringCompany (tTriggeringCompany);
+		}
 		
 		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
 		tPlayer = (Player) gameManager.getActor (tPlayerName);
