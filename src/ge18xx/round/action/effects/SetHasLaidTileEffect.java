@@ -76,10 +76,10 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
 			tTrainCompany.setHasLaidTile (! getBooleanFlag ());
+			tEffectUndone = true;
 		} else {
 			setUndoFailureReason ("The provided Actor " + actor.getName () + " is not a Train Company");
 		}
-		tEffectUndone = true;
 
 		return tEffectUndone;
 	}
