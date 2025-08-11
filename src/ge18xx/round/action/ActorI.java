@@ -222,6 +222,10 @@ public interface ActorI {
 		return false;
 	}
 
+	public default boolean isAInterruptionRound () {
+		return false;
+	}
+
 	public default boolean isAContractBidRound () {
 		return false;
 	}
