@@ -9,8 +9,8 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class InterruptionRound extends Round {
-	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interupttedName");
-	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interuptionStarted");
+	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");
+	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interruptionStarted");
 	Round interruptedRound;
 	boolean interruptionStarted;
 	
@@ -150,5 +150,10 @@ public class InterruptionRound extends Round {
 		tCurrentRound = roundManager.getCurrentRound ();
 		setInterruptedRound (tCurrentRound);
 		setInterruptionStarted (true);
+	}
+	
+	@Override
+	public boolean isAInterruptionRound () {
+		return true;
 	}
 }
