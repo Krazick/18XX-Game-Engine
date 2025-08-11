@@ -71,6 +71,7 @@ public class FormPrussian extends FormCompany {
 		}
 		setTriggeringCompany (tTriggeringCompany);
 	}
+	
 	@Override
 	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
 		int tCurrentPlayerIndex;
