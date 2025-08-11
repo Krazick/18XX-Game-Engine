@@ -89,6 +89,7 @@ public class GenericActor implements ActorI {
 //		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 //		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 //		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
+//		Nationalization ("Nationalization", Arrays.asList (new String [] {"No State"})),
 
 		
 		if (aState.equals (ActionStates.CompanyFormation.toString ())) {
@@ -105,6 +106,8 @@ public class GenericActor implements ActorI {
 			tPlayerState = ActionStates.StockValueCalculation;
 		} else if (aState.equals (ActionStates.FormationComplete.toString ())) {
 			tPlayerState = ActionStates.FormationComplete;
+		} else if (aState.equals (ActionStates.Nationalization.toString ())) {
+			tPlayerState = ActionStates.Nationalization;
 		}
 		
 		return tPlayerState;
@@ -121,8 +124,9 @@ public class GenericActor implements ActorI {
 			tStateName.equals (ActionStates.ShareExchange.toString ())		||
 			tStateName.equals (ActionStates.TokenExchange.toString ())		||
 			tStateName.equals (ActionStates.AssetCollection.toString ())		||
-			tStateName.equals (ActionStates.StockValueCalculation.toString ()) ||
-			tStateName.equals (ActionStates.FormationComplete.toString ())) {
+			tStateName.equals (ActionStates.StockValueCalculation.toString ())	||
+			tStateName.equals (ActionStates.FormationComplete.toString ()) 		||
+			tStateName.equals (ActionStates.Nationalization.toString ())) {
 			tIsFormationRound = true;
 		}
 
