@@ -5,6 +5,7 @@ import ge18xx.round.action.effects.ChangeMaxORCountEffect;
 import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
+import ge18xx.round.action.effects.SetInterruptionStartedEffect;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
@@ -52,6 +53,13 @@ public class ChangeRoundAction extends ChangeStateAction {
 		
 		tHideFrameEffect = new HideFrameEffect (aActor, aXMLAuctionFrame);
 		addEffect (tHideFrameEffect);
+	}
+	
+	public void addSetInterruptionRoundStartedEffect (ActorI aActor, boolean aSetInterruptionStarted) {
+		SetInterruptionStartedEffect tSetInterruptionStartedEffect;
+
+		tSetInterruptionStartedEffect = new SetInterruptionStartedEffect (aActor, aSetInterruptionStarted);
+		addEffect (tSetInterruptionStartedEffect);
 	}
 
 	@Override
