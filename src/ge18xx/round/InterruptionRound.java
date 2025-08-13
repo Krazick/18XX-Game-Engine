@@ -122,6 +122,7 @@ public class InterruptionRound extends Round {
 
 		tChangeRoundAction = new ChangeRoundAction (tRoundState, tCurrentRoundID, this);
 		tChangeRoundAction.setChainToPrevious (true);
+		tChangeRoundAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
 		if (aInterruptionFrame != XMLFrame.NO_XML_FRAME) {
 			tChangeRoundAction.addHideFrameEffect (this, aInterruptionFrame);
 			aInterruptionFrame.hideFrame ();
