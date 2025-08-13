@@ -121,6 +121,7 @@ public class AuctionRound extends InterruptionRound {
 
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
 		tStartAuctionAction.setChainToPrevious (true);
+		tStartAuctionAction.addSetInterruptionRoundStartedEffect (this, true);
 		
 		setRoundToThis (tStartAuctionAction, true);
 		clearAuctionStates (tStartAuctionAction);
@@ -150,6 +151,7 @@ public class AuctionRound extends InterruptionRound {
 
 		super.returnTo (aInterruptedRound);
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
+		tStartAuctionAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
 		setRoundToThis (tStartAuctionAction, false);
 		showAuctionFrame ();
 	}
@@ -185,7 +187,7 @@ public class AuctionRound extends InterruptionRound {
 		
 		return tIsInterrupting;
 	}
-	
+
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
