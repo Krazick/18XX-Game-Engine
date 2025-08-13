@@ -548,6 +548,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateInfo (MapCell.NO_MAP_CELL);
 		tRoundManager = gameManager.getRoundManager ();
 		tInterrupted = tRoundManager.checkAndHandleInterruption ();
+		// Should check if the Interrupting Round is in a "Started" state, if so, 
+		// then don't check for end of Round.
 		if (!tInterrupted) {
 			tRoundManager.checkAndHandleRoundEnds ();
 		}
@@ -559,7 +561,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				
 		if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrains ())) {
 			tResponse = JOptionPane.showConfirmDialog (this,
-					"Your Company " + corporation.getAbbrev () + " does not own a Train.\nAre you sure you want to be DONE?", 
+					"Your Company " + corporation.getAbbrev () + " does not own a Train.\n" + 
+					"Are you sure you want to be DONE?", 
 					"Confirm DONE", JOptionPane.YES_NO_OPTION);
 			if (tResponse == JOptionPane.YES_OPTION) {
 				tConfirmedDoneAction = true;
