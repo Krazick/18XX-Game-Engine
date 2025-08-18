@@ -8,6 +8,7 @@ import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.StartFormationAction;
@@ -224,9 +225,14 @@ public class FormationRound extends InterruptionRound {
 	@Override
 	public void finish () {
 		XMLFrame tFormationFrame;
-
+		PlayerManager tPlayerManager;
+		
 		tFormationFrame = triggerFormationClass.getFormationFrame ();
 		super.finish (tFormationFrame);
+		if (interruptedAtStartOfRound ()) {
+			tPlayerManager = roundManager.getPlayerManager ();
+			interruptedRound.start (tPlayerManager, interruptedRound);
+		}
 	}
 
 	@Override
