@@ -342,7 +342,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
 					if (tIsInterrupting && !tInterruptionStarted) {
 						tInterruptionRound.start ();
-						tHandledInterruption = true;
+						tHandledInterruption = tInterruptionRound.interruptionStarted ();
 					}
 				}
 			} else {
