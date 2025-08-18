@@ -415,12 +415,27 @@ public class OperatingRound extends Round {
 	public void start () {
 		PlayerManager tPlayerManager;
 		Round tCurrentRound;
+		boolean tHandledInterrupt;
+		InterruptionRound tInterruptionRound;
+		
+		tHandledInterrupt = roundManager.checkAndHandleInterruption ();
+		tCurrentRound = roundManager.getCurrentRound ();
+ 		System.out.println ("Interrupt Started " + tHandledInterrupt + " Current Round " + tCurrentRound.getName ());
+		if (! tHandledInterrupt) {
+			tPlayerManager = roundManager.getPlayerManager ();
+			start (tPlayerManager, tCurrentRound);
+		} else {
+			tInterruptionRound = (InterruptionRound) tCurrentRound;
+			tInterruptionRound.setInterruptedRound (this);
+			tInterruptionRound.setAtStartOfRound (true);
+		}
+	}
+	
+	@Override
+	public void start (PlayerManager aPlayerManager, Round aCurrentRound) {
 		String tOldRoundID;
 		int tIDPart1;
 		int tIDPart2;
-
-		tPlayerManager = roundManager.getPlayerManager ();
-		tCurrentRound = roundManager.getCurrentRound ();
 
 		tOldRoundID = getID ();
 		if (repeatRound) {
@@ -432,11 +447,11 @@ public class OperatingRound extends Round {
 		}
 		super.start ();
 
-		setRoundToOperatingRound (tCurrentRound, tOldRoundID, tIDPart1, tIDPart2);
+		setRoundToOperatingRound (aCurrentRound, tOldRoundID, tIDPart1, tIDPart2);
 
 		if (tIDPart2 == calcFirstORID ()) {
-			tPlayerManager.clearAllPlayerDividends (tOldRoundID);
-			tPlayerManager.clearAllPercentBought ();
+			aPlayerManager.clearAllPercentBought ();
+			aPlayerManager.clearAllPlayerDividends (tOldRoundID);
 		}
 		if (! roundManager.applyingAction ()) {
 			if (getPrivateCompanyCount () > 0) {

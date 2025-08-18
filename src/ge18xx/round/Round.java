@@ -8,6 +8,7 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseManager;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
@@ -468,5 +469,9 @@ public abstract class Round implements ActorI {
 
 	protected boolean interruptionStarted () {
 		return false;
+	}
+
+	public void start (PlayerManager tPlayerManager, Round interruptedRound) {
+		
 	}
 }
