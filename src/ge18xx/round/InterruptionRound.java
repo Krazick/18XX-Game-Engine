@@ -11,27 +11,33 @@ import geUtilities.xml.XMLNode;
 public class InterruptionRound extends Round {
 	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");
 	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interruptionStarted");
+	public final static AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
 	Round interruptedRound;
 	boolean interruptionStarted;
+	boolean atStartOfRound;
 	
 	public InterruptionRound (RoundManager aRoundManager) {
 		super (aRoundManager);
 		setInterruptionStarted (false);
+		setAtStartOfRound (false);
 	}
 	
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		String tInterruptedRoundName;
 		boolean tInterruptionStarted;
+		boolean tAtStartOfRound;
 		Round tInterruptedRound;
 		
 		super.loadRound (aRoundNode);
 		tInterruptedRoundName = aRoundNode.getThisAttribute (AN_INTERRUPTED_ROUND_NAME);
 		tInterruptionStarted = aRoundNode.getThisBooleanAttribute (AN_INTERRUPTION_STARTED);
+		tAtStartOfRound = aRoundNode.getThisBooleanAttribute (AN_AT_START_OF_ROUND);
 		
 		tInterruptedRound = roundManager.getRoundByTypeName (tInterruptedRoundName);
 		setInterruptedRound (tInterruptedRound);
 		setInterruptionStarted (tInterruptionStarted);
+		setAtStartOfRound (tAtStartOfRound);
 	}
 	
 	public void setRoundTo (Round aNewRound, int aRoundID, String aOldRoundID, String aNewRoundID, 
@@ -55,6 +61,10 @@ public class InterruptionRound extends Round {
 	public void setInterruptionStarted (boolean aInterruptionStarted) {
 		interruptionStarted = aInterruptionStarted;
 	}
+
+	public void setAtStartOfRound (boolean aAtStartOfRound) {
+		atStartOfRound = aAtStartOfRound;
+	}
 	
 	@Override
 	public String getID () {
@@ -71,6 +81,7 @@ public class InterruptionRound extends Round {
 		if (interruptedRound != InterruptionRound.NO_ROUND) {
 			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRound.getName ());
 			aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, interruptionStarted ());
+			aXMLElement.setAttribute (AN_AT_START_OF_ROUND, interruptedAtStartOfRound ());
 		}
 	}
 	
@@ -86,6 +97,10 @@ public class InterruptionRound extends Round {
 	
 	public Round getInterruptedRound () {
 		return interruptedRound;
+	}
+	
+	public boolean interruptedAtStartOfRound () {
+		return atStartOfRound;
 	}
 	
 	/**
@@ -131,6 +146,7 @@ public class InterruptionRound extends Round {
 								tNewRoundID, tChangeRoundAction);
 		roundManager.addAction (tChangeRoundAction);
 		roundManager.updateRoundFrame ();
+		roundManager.checkAndHandleRoundEnds ();
 	}
 
 	@Override
