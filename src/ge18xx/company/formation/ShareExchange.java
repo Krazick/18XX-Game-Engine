@@ -32,7 +32,7 @@ public class ShareExchange extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	public static final String EXCHANGE = "Exchange Shares";
 	boolean oneShareToBankPool;
-	KButton exchange;
+	KButton exchangeButton;
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
@@ -80,9 +80,9 @@ public class ShareExchange extends PlayerFormationPanel {
 			tToolTip = GUI.EMPTY_STRING;
 		}
 	
-		exchange = tFormCGR.buildSpecialButton (EXCHANGE, EXCHANGE, tToolTip, this);
-	
-		tPlayerShareExchangePanel.add (exchange);
+		exchangeButton = tFormCGR.buildSpecialButton (EXCHANGE, EXCHANGE, tToolTip, this);
+
+		tPlayerShareExchangePanel.add (exchangeButton);
 		tPlayerShareExchangePanel.add (Box.createVerticalStrut (5));
 		
 		return tPlayerShareExchangePanel;
@@ -127,12 +127,20 @@ public class ShareExchange extends PlayerFormationPanel {
 		if (tTotalShareCount % 2 != 0) {
 			oneShareToBankPool = true;
 		}
-		foldingCompanyCount = tShareExchange.size ();
+		setFoldingCompanyCount (tShareExchange.size ());
 		tShareExchangeText = buildShareExchangeText (tTotalShareCount, tShareExchange);
 		
 		return tShareExchangeText;
 	}
 
+	public void setFoldingCompanyCount (int aFoldingCompanyCount) {
+		foldingCompanyCount = aFoldingCompanyCount;
+	}
+	
+	public int getFoldingCompanyCount () {
+		return foldingCompanyCount;
+	}
+	
 	private String buildShareExchangeText (int aTotalShareCount, List<String> aShareExchange) {
 		int tFoldingCompanyIndex;
 		String tShareExchangeText;
@@ -291,8 +299,8 @@ public class ShareExchange extends PlayerFormationPanel {
 		tFormCGR.setNotificationText (tNotification);
 		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
 
-		exchange.setEnabled (false);
-		exchange.setToolTipText ("President has not completed all share exchanges");
+		exchangeButton.setEnabled (false);
+		exchangeButton.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
 		tFormCGR.rebuildFormationPanel (tFormCGR.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
@@ -581,7 +589,7 @@ public class ShareExchange extends PlayerFormationPanel {
 	public boolean haveSharesBeenExchanged () {
 		boolean tHaveSharesBeenExchanged;
 		
-		if (player.getSharesExchanged ()) {
+		if (foldingCompanyCount == 0) {
 			tHaveSharesBeenExchanged = true;
 		} else {
 			tHaveSharesBeenExchanged = false;
