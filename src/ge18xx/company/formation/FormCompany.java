@@ -634,6 +634,7 @@ public class FormCompany extends TriggerClass {
 		setFormationState (tChangeFormationRoundStateAction, aNewFormationState);
 	
 		tNewFormationState = getFormationState ();
+		// TODO -- Move what follows into the FormCGR.java methods
 		if (tNewFormationState == ActorI.ActionStates.FormationComplete) {
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateCertificateLimit (tChangeFormationRoundStateAction);
@@ -721,7 +722,7 @@ public class FormCompany extends TriggerClass {
 		ActorI.ActionStates tCurrentRoundState;
 		RoundManager tRoundManager;
 		Round tCurrentRound;
-		ChangeStateAction tChangeStateAction;
+		ChangeFormationRoundStateAction tChangeFormationRoundStateAction;
 		String tRoundID;
 	
 		tPlayerManager = gameManager.getPlayerManager ();
@@ -735,21 +736,22 @@ public class FormCompany extends TriggerClass {
 		tCurrentRoundState = tCurrentRound.getRoundState ();
 		tRoundID = tCurrentRound.getID ();
 	
-		tChangeStateAction = new ChangeStateAction (tCurrentRoundState, tRoundID, tCurrentPlayer);
-		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
+		tChangeFormationRoundStateAction = new ChangeFormationRoundStateAction (tCurrentRoundState, 
+						tRoundID, tCurrentPlayer);
+		tChangeFormationRoundStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
 		rebuildFormationPanel (currentPlayerIndex);
 	
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
 		tFirstPresident = findActingPresident ();
 		
-		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
+		tChangeFormationRoundStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
 		
-		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex, tChangeStateAction);
-	
-		tChangeStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
+		updateToPlayer (aPlayers, tNextPlayer, tFirstPresident, tNextPlayerIndex, tChangeFormationRoundStateAction);
+		
+		tChangeFormationRoundStateAction.addSetNotificationEffect (tCurrentPlayer, notificationText);
 		if (aAddAction) {
-			gameManager.addAction (tChangeStateAction);
+			gameManager.addAction (tChangeFormationRoundStateAction);
 		}
 		
 		return tNextPlayerIndex;
