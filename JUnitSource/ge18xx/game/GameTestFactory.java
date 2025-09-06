@@ -1,6 +1,5 @@
 package ge18xx.game;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 import org.mockito.Mockito;
@@ -15,6 +14,7 @@ import geUtilities.xml.XMLNode;
 public class GameTestFactory {
 	UtilitiesTestFactory utilitiesTestFactory;
 	private String CLIENT_NAME = "GTF Client";
+	GameManager mGameManager;
 
 	/**
 	 * Builds the Game Test Factory by building the Utilities TestFactory
@@ -91,14 +91,10 @@ public class GameTestFactory {
 	public GameManager buildGameManagerMock (String aClientName) {
 		GameInfo tGameInfo;
 		
-		GameManager mGameManager = Mockito.mock (GameManager.class);
-
-		Mockito.when (mGameManager.getClientUserName ()).thenReturn (aClientName);
-		Mockito.when (mGameManager.getXMLBaseDirectory ()).thenReturn ("18XX XML Data" + File.separator);
-
+		mGameManager = Mockito.mock (GameManager.class);
 		tGameInfo = buildGameInfo (1);
 		Mockito.when (mGameManager.getActiveGame ()).thenReturn (tGameInfo);
-
+		
 		return mGameManager;
 	}
 
