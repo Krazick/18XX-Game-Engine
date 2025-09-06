@@ -125,7 +125,7 @@ public class ShowFrameEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " " + xmlFrameTitle + ".");
+		return (REPORT_PREFIX + actor.getName () + " will " + name + " " + xmlFrameTitle + ".");
 	}
 
 	@Override
