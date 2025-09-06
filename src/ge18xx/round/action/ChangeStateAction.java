@@ -63,10 +63,8 @@ public class ChangeStateAction extends ChangePlayerAction {
 	public void addUpdateToNextPlayerEffect (ActorI aActor, ActorI aOldPlayer, ActorI aNewPlayer) {
 		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;;
 
-		if (actor.isAPlayer ()) {
-			tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aOldPlayer, aNewPlayer);
-			addEffect (tUpdateToNextPlayerEffect);
-		}
+		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aOldPlayer, aNewPlayer);
+		addEffect (tUpdateToNextPlayerEffect);
 	}
 
 	public void addApplyDiscountEffect (ActorI aActor, String aCertificateName, int aOldDiscount, int aNewDiscount) {
