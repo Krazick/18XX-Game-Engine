@@ -12,14 +12,6 @@ import geUtilities.xml.XMLNode;
 
 public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 	public static final String NAME = "Update to Next Player";
-
-	public UpdateToNextPlayerEffect () {
-		this (NAME);
-	}
-
-	public UpdateToNextPlayerEffect (String aName) {
-		super (aName);
-	}
 	
 	public UpdateToNextPlayerEffect (ActorI aFromActor, ActorI aToActor) {
 		super (NAME, aFromActor, aToActor);
@@ -32,7 +24,15 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " from " + actor.getName () + " to " + toActor.getName () + ".");
+		String tReport;
+		
+		if (actor.getName ().equals (toActor.getName ())) {
+			tReport = REPORT_PREFIX + name + " to " + toActor.getName ();
+		} else {
+			tReport = REPORT_PREFIX + name + " from " + actor.getName () + " to " + toActor.getName () + ".";
+		}
+		
+		return tReport;
 	}
 
 	@Override
