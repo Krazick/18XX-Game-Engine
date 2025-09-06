@@ -58,6 +58,10 @@ public class TriggerClass implements XMLSaveGameI {
 		
 	}
 	
+	public void showFormationFrame (StartFormationAction aStartFormationAction) {
+		
+	}
+	
 	public void triggeringHandleDone () {
 		
 	}
