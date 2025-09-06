@@ -241,7 +241,8 @@ public class FormCompany extends TriggerClass {
 	}
 
 	@Override
-	public void showFormationFrame () {
+	public void showFormationFrame (StartFormationAction aStartFormationAction) {
+		aStartFormationAction.addShowFrameEffect (actingPresident, formationFrame);
 		formationFrame.showFrame ();
 	}
 
@@ -519,7 +520,8 @@ public class FormCompany extends TriggerClass {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 	
-		showFormationFrame ();
+//		showFormationFrame ();
+		showFormationFrame (aStartFormationAction);
 		if (aStartFormationAction != Action.NO_ACTION) {
 			tActingPlayer = (Player) triggeringCompany.getPresident ();
 			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
