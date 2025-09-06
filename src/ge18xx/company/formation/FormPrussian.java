@@ -40,7 +40,19 @@ public class FormPrussian extends FormCompany {
 
 	@Override
 	public void prepareFormation (StartFormationAction aStartFormationAction) {
-		showFormationFrame ();
+		Player tActingPresident;
+		int tCurrentPlayerIndex;
+		PlayerManager tPlayerManager;
+		
+		tActingPresident = findActingPresident ();
+		tPlayerManager = gameManager.getPlayerManager ();
+		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		setCurrentPlayerIndex (tCurrentPlayerIndex);
+		rebuildFormationPanel (tCurrentPlayerIndex);
+		// TODO -- New Effect to add "AddSetFormationPlayerIndexEffect (FromPlayer, toPlayer)
+		aStartFormationAction.addUpdateToNextPlayerEffect (tActingPresident, tActingPresident, tActingPresident);
+
+		showFormationFrame (aStartFormationAction);
 	}
 	
 	@Override
@@ -88,8 +100,8 @@ public class FormPrussian extends FormCompany {
 		Player tActingPlayer;
 		PortfolioHolderI tPresident;
 		
+		tTriggeringCorporation = getTriggeringCompany ();
 		if (actingPresident == Player.NO_PLAYER) {
-			tTriggeringCorporation = getTriggeringCompany ();
 			if (tTriggeringCorporation != Corporation.NO_CORPORATION) {
 				tPresident = tTriggeringCorporation.getPresident ();
 				if (tPresident.isAPlayer ()) {
@@ -99,6 +111,8 @@ public class FormPrussian extends FormCompany {
 					setActingPresident (Player.NO_PLAYER);
 				}
 			}
+		} else {
+			
 		}
 		tActingPlayer = actingPresident;
 	
