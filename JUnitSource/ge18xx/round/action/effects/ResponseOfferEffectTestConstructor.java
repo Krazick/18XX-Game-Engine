@@ -133,14 +133,14 @@ public class ResponseOfferEffectTestConstructor {
 	void reportsFromResponseToOfferTests () {
 		String tReportResponseTrue = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Accepted";
 		String tReportResponseFalse = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
-		String tReportResponseNoTO = "--Effect:  The offer from NULL to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
+		String tReportResponseNoTo = "--Effect:  The offer from NULL to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
 		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to President of Test Pennsylvania (ToEffectTesterGamma) was Rejected";
 
 		assertEquals (tReportResponseTrue, effectBeta.getEffectReport (null));
 		assertEquals (tReportResponseFalse, effectChi.getEffectReport (null));
 
 		effectChi.setToActor (ActorI.NO_ACTOR);
-		assertEquals (tReportResponseNoTO, effectChi.getEffectReport (null));
+		assertEquals (tReportResponseNoTo, effectChi.getEffectReport (null));
 
 		assertEquals (tReportResponseEpsilon, effectEpsilon.getEffectReport (null));
 	}

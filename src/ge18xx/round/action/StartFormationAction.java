@@ -54,6 +54,8 @@ public class StartFormationAction extends ChangeRoundAction {
 		addEffect (tStartFormationEffect);
 	}
 	
+	// TODO -- New Effect to add "AddSetFormationPlayerIndexEffect (FromPlayer, toPlayer)
+
 	public void setTriggeringShareCompanyToPrepared (Corporation aTriggeringCompany) {
 		StartFormationEffect tStartFormationEffect;
 		
