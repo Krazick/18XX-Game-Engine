@@ -16,21 +16,15 @@ import geUtilities.GUI;
 class BankTests {
 	private BankTestFactory bankTestFactory;
 	private CompanyTestFactory companyTestFactory;
-	private StartPacketTestFactory startPacketTestFactory;
 	private GameManager mGameManager;
 	private Bank bank;
-	private StartPacketFrame startPacketFrame;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		bankTestFactory = new BankTestFactory ();
 		companyTestFactory = new CompanyTestFactory ();
 		mGameManager = companyTestFactory.getGameManagerMock ();
-		
 		bank = bankTestFactory.buildBank (mGameManager);
-		startPacketTestFactory = new StartPacketTestFactory (mGameManager, bank);
-		startPacketFrame = startPacketTestFactory.buildStartPacketFrame ("Test Bank Start Packet");
-		bank.setStartPacketFrame (startPacketFrame);
 	}
 
 	@Test
