@@ -12,20 +12,8 @@ import geUtilities.xml.XMLNode;
 public class ToFormationPanelEffect extends ToEffect {
 	public static final String NAME = "To Formation Panel";
 
-	public ToFormationPanelEffect (ActorI aToActor) {
-		super (NAME, aToActor);
-	}
-
 	public ToFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		this (NAME, aToActor, aFromActor);
-	}
-	
-	public ToFormationPanelEffect (String aName, ActorI aToActor) {
-		super (aName, aToActor);
-	}
-	
-	public ToFormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
-		super (aName, aToActor, aFromActor);
+		super (NAME, aFromActor, aToActor);
 	}
 
 	public ToFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -90,6 +78,8 @@ public class ToFormationPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("Actor " + actor.getName () + " is not a Share Company");
 		}
 
 		return tEffectApplied;
@@ -119,6 +109,8 @@ public class ToFormationPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("Actor " + actor.getName () + " is not a Share Company, nor a Player");
 		}
 
 		return tEffectUndone;
