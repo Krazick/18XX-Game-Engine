@@ -60,10 +60,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 		addEffect (tSetAllPlayerSharesHandledEffect);
 	}
 
-	public void addUpdateToNextPlayerEffect (ActorI aActor, ActorI aOldPlayer, ActorI aNewPlayer) {
+	public void addUpdateToNextPlayerEffect (ActorI aActor, ActorI aFromPlayer, ActorI aToPlayer) {
 		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;;
 
-		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aOldPlayer, aNewPlayer);
+		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aFromPlayer, aToPlayer);
 		addEffect (tUpdateToNextPlayerEffect);
 	}
 
