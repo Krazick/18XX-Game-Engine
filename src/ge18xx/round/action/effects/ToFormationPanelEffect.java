@@ -13,7 +13,11 @@ public class ToFormationPanelEffect extends ToEffect {
 	public static final String NAME = "To Formation Panel";
 
 	public ToFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		super (NAME, aFromActor, aToActor);
+		this (NAME, aFromActor, aToActor);
+	}
+
+	public ToFormationPanelEffect (String aName, ActorI aFromActor, ActorI aToActor) {
+		super (aName, aFromActor, aToActor);
 	}
 
 	public ToFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {

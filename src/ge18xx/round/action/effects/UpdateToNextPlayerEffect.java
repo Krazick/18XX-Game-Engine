@@ -14,7 +14,8 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 	public static final String NAME = "Update to Next Player";
 	
 	public UpdateToNextPlayerEffect (ActorI aFromActor, ActorI aToActor) {
-		super (NAME, aFromActor, aToActor);
+		super (aFromActor, aToActor);
+		setName (NAME);
 	}
 
 	public UpdateToNextPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -45,6 +46,8 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 			tPlayerIndex = updateToNextPlayer (aRoundManager, false);
 			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("Actor " + actor.getName () + " is not a Player.");
 		}
 
 		return tEffectApplied;
@@ -55,6 +58,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		PlayerManager tPlayerManager;
 		TriggerClass tTriggerClass;
 		List<Player> tPlayers;
+		String tToActorName;
 		int tNextPlayerIndex;
 		int tToPlayerIndex;
 		
@@ -63,7 +67,8 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		tTriggerClass = tGameManager.getTriggerClass ();
 		tPlayers = tPlayerManager.getPlayers ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tToPlayerIndex = getPlayerIndex (tPlayers, toActor.getName ());
+			tToActorName = toActor.getName ();
+			tToPlayerIndex = getPlayerIndex (tPlayers, tToActorName);
 			if (tToPlayerIndex == PlayerManager.NO_PLAYER_INDEX) {
 				tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers, aAddAction);
 			} else {
@@ -114,6 +119,8 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 			tTriggerClass.setCurrentPlayerIndex (tPlayerIndex);
 			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("Actor " + actor.getName () + " is not a Player.");
 		}
 
 		return tEffectUndone;
