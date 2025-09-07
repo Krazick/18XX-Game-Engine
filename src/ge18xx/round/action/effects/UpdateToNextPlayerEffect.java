@@ -14,8 +14,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 	public static final String NAME = "Update to Next Player";
 	
 	public UpdateToNextPlayerEffect (ActorI aFromActor, ActorI aToActor) {
-		super (aFromActor, aToActor);
-		setName (NAME);
+		super (NAME, aFromActor, aToActor);
 	}
 
 	public UpdateToNextPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
