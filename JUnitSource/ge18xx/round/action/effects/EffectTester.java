@@ -3,6 +3,8 @@ package ge18xx.round.action.effects;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
+import ge18xx.company.CompanyTestFactory;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
@@ -10,6 +12,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
+import ge18xx.round.StockRound;
 
 class EffectTester {
 	GameTestFactory gameTestFactory;
@@ -18,8 +21,11 @@ class EffectTester {
 	PlayerManager mPlayerManager;
 	Player mPlayerActorAlpha;
 	Player mPlayerActorBeta;
+	CompanyTestFactory companyTestFactory;
+	ShareCompany mShareCompanyGreen;
 	RoundTestFactory roundTestFactory;
 	RoundManager mRoundManager;
+	StockRound mStockRound;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -43,6 +49,12 @@ class EffectTester {
 	
 		Mockito.when (mGameManager.getPlayerManager ()).thenReturn (mPlayerManager);
 		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
+		
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
+		mShareCompanyGreen = companyTestFactory.buildShareCompanyMock ();
+		
+		mStockRound = roundTestFactory.buildStockRoundMock (mPlayerManager, mRoundManager);
+		
 	}
 
 }
