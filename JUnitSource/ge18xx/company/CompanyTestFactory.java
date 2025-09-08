@@ -442,6 +442,7 @@ public class CompanyTestFactory {
 
 		mShareCompany = Mockito.mock (ShareCompany.class);
 		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
+		Mockito.when (mShareCompany.isAShareCompany ()).thenReturn (true);
 
 		return mShareCompany;
 	}
