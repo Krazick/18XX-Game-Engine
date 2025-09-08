@@ -38,6 +38,10 @@ class UpdateToNextPlayerEffectTests extends EffectTester {
 
 		Mockito.when (mGameManager.getTriggerClass ()).thenReturn (mTriggerClass);
 		
+		Mockito.when (mRoundManager.getPlayerManager ()).thenReturn (mPlayerManager);
+		Mockito.when (mPlayerManager.getPlayerIndex (mPlayerActorAlpha)).thenReturn (0);
+		Mockito.when (mPlayerManager.getPlayerIndex (mPlayerActorBeta)).thenReturn (1);
+		
 		updateToNextPlayerEffect = new UpdateToNextPlayerEffect (mPlayerActorAlpha, mPlayerActorBeta);
 	}
 
@@ -50,12 +54,31 @@ class UpdateToNextPlayerEffectTests extends EffectTester {
 	}
 
 	@Test
-	void testUndoEffect () {
-//		fail ("Not yet implemented");
+	void testApplyEffect () {
+		Mockito.when (mPlayerActorAlpha.isAShareCompany ()).thenReturn (false);
+		assertTrue (updateToNextPlayerEffect.applyEffect (mRoundManager));
+
+		Mockito.when (mStockRound.isAShareCompany ()).thenReturn (false);
+		Mockito.when (mStockRound.isAPlayer ()).thenReturn (false);
+		updateToNextPlayerEffect.setActor (mStockRound);
+		assertFalse (updateToNextPlayerEffect.applyEffect (mRoundManager));
+		assertEquals ("Actor Stock Round is not a Player.",
+					updateToNextPlayerEffect.getApplyFailureReason ());
+
 	}
 
 	@Test
-	void testApplyEffect () {
+	void testUndoEffect () {
+		Mockito.when (mPlayerActorAlpha.isAShareCompany ()).thenReturn (false);
+		assertTrue (updateToNextPlayerEffect.undoEffect (mRoundManager));
+		
+		Mockito.when (mStockRound.isAShareCompany ()).thenReturn (false);
+		Mockito.when (mStockRound.isAPlayer ()).thenReturn (false);
+		updateToNextPlayerEffect.setActor (mStockRound);
+		assertFalse (updateToNextPlayerEffect.undoEffect (mRoundManager));
+		assertEquals ("Actor Stock Round is not a Player.",
+					updateToNextPlayerEffect.getUndoFailureReason ());
+
 //		fail ("Not yet implemented");
 	}
 

@@ -1,6 +1,8 @@
 package ge18xx.round.action.effects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -38,13 +40,33 @@ class ToFormationPanelEffectTests extends EffectTester {
 	}
 
 	@Test
-	void testUndoEffect () {
-//		fail ("Not yet implemented");
+	void testApplyEffect () {
+		Mockito.when (mPlayerActorAlpha.isAShareCompany ()).thenReturn (false);
+		assertFalse (toFormationPanelEffect.applyEffect (mRoundManager));
+		assertEquals ("Actor FromEffectTesterAlpha is not a Share Company.",
+						toFormationPanelEffect.getApplyFailureReason ());
+
+		Mockito.when (mShareCompanyGreen.getPresident ()).thenReturn (mPlayerActorAlpha);
+		toFormationPanelEffect.setActor (mShareCompanyGreen);
+		
+		assertTrue (toFormationPanelEffect.applyEffect (mRoundManager));
 	}
 
 	@Test
-	void testApplyEffect () {
-//		fail ("Not yet implemented");
+	void testUndoEffect () {
+		assertTrue (toFormationPanelEffect.undoEffect (mRoundManager));
+
+		Mockito.when (mShareCompanyGreen.getPresident ()).thenReturn (mPlayerActorAlpha);
+		toFormationPanelEffect.setActor (mShareCompanyGreen);
+		
+		assertTrue (toFormationPanelEffect.undoEffect (mRoundManager));
+		
+		Mockito.when (mStockRound.isAShareCompany ()).thenReturn (false);
+		Mockito.when (mStockRound.isAPlayer ()).thenReturn (false);
+		toFormationPanelEffect.setActor (mStockRound);
+		assertFalse (toFormationPanelEffect.undoEffect (mRoundManager));
+		assertEquals ("Actor Stock Round is not a Share Company, nor a Player.",
+				toFormationPanelEffect.getUndoFailureReason ());
 	}
 
 	@Test
