@@ -65,6 +65,8 @@ public class RoundTestFactory {
 
 		mStockRound = Mockito.mock (StockRound.class);
 		Mockito.when (mStockRound.getID ()).thenReturn ("1");
+		Mockito.when (mStockRound.getName ()).thenReturn (StockRound.NAME);
+		Mockito.when (mStockRound.isAStockRound ()).thenReturn (true);
 
 		return mStockRound;
 	}
@@ -86,6 +88,8 @@ public class RoundTestFactory {
 		OperatingRound mOperatingRound;
 
 		mOperatingRound = Mockito.mock (OperatingRound.class);
+		Mockito.when (mOperatingRound.getName ()).thenReturn (OperatingRound.NAME);
+		Mockito.when (mOperatingRound.isAOperatingRound ()).thenReturn (true);
 
 		return mOperatingRound;
 	}
@@ -102,6 +106,8 @@ public class RoundTestFactory {
 		AuctionRound mAuctionRound;
 
 		mAuctionRound = Mockito.mock (AuctionRound.class);
+		Mockito.when (mAuctionRound.getName ()).thenReturn (AuctionRound.NAME);
+		Mockito.when (mAuctionRound.isAAuctionRound ()).thenReturn (true);
 
 		return mAuctionRound;
 	}
@@ -118,6 +124,8 @@ public class RoundTestFactory {
 		FormationRound mFormationRound;
 
 		mFormationRound = Mockito.mock (FormationRound.class);
+		Mockito.when (mFormationRound.getName ()).thenReturn (FormationRound.NAME);
+		Mockito.when (mFormationRound.isAFormationRound ()).thenReturn (true);
 
 		return mFormationRound;
 	}
@@ -134,6 +142,8 @@ public class RoundTestFactory {
 		ContractBidRound mContractBidRound;
 
 		mContractBidRound = Mockito.mock (ContractBidRound.class);
+		Mockito.when (mContractBidRound.getName ()).thenReturn (ContractBidRound.NAME);
+		Mockito.when (mContractBidRound.isAContractBidRound ()).thenReturn (true);
 
 		return mContractBidRound;
 	}
