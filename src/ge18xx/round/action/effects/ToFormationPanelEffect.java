@@ -62,11 +62,6 @@ public class ToFormationPanelEffect extends ToEffect {
 	}
 
 	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
-	}
-
-	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
@@ -82,8 +77,9 @@ public class ToFormationPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
+			setApplyFailureReason ("SUCCESS");
 		} else {
-			setApplyFailureReason ("Actor " + actor.getName () + " is not a Share Company");
+			setApplyFailureReason ("Actor " + actor.getName () + " is not a Share Company.");
 		}
 
 		return tEffectApplied;
@@ -106,6 +102,7 @@ public class ToFormationPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
+			setUndoFailureReason ("SUCCESS");
 		} else if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
@@ -113,8 +110,9 @@ public class ToFormationPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
+			setUndoFailureReason ("SUCCESS");
 		} else {
-			setUndoFailureReason ("Actor " + actor.getName () + " is not a Share Company, nor a Player");
+			setUndoFailureReason ("Actor " + actor.getName () + " is not a Share Company, nor a Player.");
 		}
 
 		return tEffectUndone;
