@@ -45,6 +45,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 			tPlayerIndex = updateToNextPlayer (aRoundManager, false);
 			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
+			setApplyFailureReason ("SUCCESS");
 		} else {
 			setApplyFailureReason ("Actor " + actor.getName () + " is not a Player.");
 		}
@@ -110,6 +111,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		int tPlayerIndex;
 		
 		tEffectUndone = false;
+
 		if (actor.isAPlayer ()) {
 			tPresident = (Player) actor;
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
@@ -118,6 +120,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 			tTriggerClass.setCurrentPlayerIndex (tPlayerIndex);
 			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
+			setUndoFailureReason ("SUCCESS");
 		} else {
 			setUndoFailureReason ("Actor " + actor.getName () + " is not a Player.");
 		}
