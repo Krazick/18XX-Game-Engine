@@ -26,14 +26,6 @@ public class ChangeMarketCellEffect extends Effect {
 	String startCellCoordinates;
 	String newCellCoordinates;
 
-	public ChangeMarketCellEffect () {
-		super (NAME);
-		setStartLocation (PlayerManager.NO_PLAYER_INDEX);
-		setStartCellCoordinates (MarketCell.NO_COORDINATES);
-		setNewCellCoordinates (MarketCell.NO_COORDINATES);
-		setNewLocation (TokenStack.NO_STACK_LOCATION);
-	}
-
 	public ChangeMarketCellEffect (ActorI aActor, MarketCell aStartMarketCell, int aLocation, 
 									MarketCell aNewMarketCell, int aNewLocation) {
 		super (NAME, aActor);
