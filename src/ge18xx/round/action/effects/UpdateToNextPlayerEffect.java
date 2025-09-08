@@ -58,7 +58,7 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		PlayerManager tPlayerManager;
 		TriggerClass tTriggerClass;
 		List<Player> tPlayers;
-		String tToActorName;
+		Player tPlayer;
 		int tNextPlayerIndex;
 		int tToPlayerIndex;
 		
@@ -67,8 +67,8 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		tTriggerClass = tGameManager.getTriggerClass ();
 		tPlayers = tPlayerManager.getPlayers ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tToActorName = toActor.getName ();
-			tToPlayerIndex = getPlayerIndex (tPlayers, tToActorName);
+			tPlayer = (Player) toActor;
+			tToPlayerIndex = getPlayerIndex (aRoundManager, tPlayer);
 			if (tToPlayerIndex == PlayerManager.NO_PLAYER_INDEX) {
 				tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers, aAddAction);
 			} else {
@@ -76,31 +76,31 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 				tNextPlayerIndex = tToPlayerIndex;
 			}
 		} else {
-			tNextPlayerIndex = 0;
+			tNextPlayerIndex = PlayerManager.NO_PLAYER_INDEX;
 		}
 		
 		return tNextPlayerIndex;
 	}
 
-	public int getPlayerIndex (List<Player> aPlayers, String aPlayerName) {
-		int tPlayerIndex;
-		int tIndex;
-		int tPlayerCount;
-		Player tPlayer;
-		String tPlayerName;
-		
-		tPlayerCount = aPlayers.size ();
-		tPlayerIndex = PlayerManager.NO_PLAYER_INDEX;
-		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-			tPlayer = aPlayers.get (tIndex);
-			tPlayerName = tPlayer.getName ();
-			if (tPlayerName.equals (aPlayerName)) {
-				tPlayerIndex = tIndex;
-			}
-		}
-		
-		return tPlayerIndex;
-	}
+//	public int getPlayerIndex (List<Player> aPlayers, String aPlayerName) {
+//		int tPlayerIndex;
+//		int tIndex;
+//		int tPlayerCount;
+//		Player tPlayer;
+//		String tPlayerName;
+//		
+//		tPlayerCount = aPlayers.size ();
+//		tPlayerIndex = PlayerManager.NO_PLAYER_INDEX;
+//		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
+//			tPlayer = aPlayers.get (tIndex);
+//			tPlayerName = tPlayer.getName ();
+//			if (tPlayerName.equals (aPlayerName)) {
+//				tPlayerIndex = tIndex;
+//			}
+//		}
+//		
+//		return tPlayerIndex;
+//	}
 	
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
@@ -111,7 +111,6 @@ public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 		int tPlayerIndex;
 		
 		tEffectUndone = false;
-
 		if (actor.isAPlayer ()) {
 			tPresident = (Player) actor;
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);

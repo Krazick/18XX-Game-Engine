@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.player.Player;
-import ge18xx.player.PlayerManager;
 
 class UpdateToNextPlayerEffectTests extends EffectTester {
 	UpdateToNextPlayerEffect updateToNextPlayerEffect;
@@ -61,10 +60,10 @@ class UpdateToNextPlayerEffectTests extends EffectTester {
 		Mockito.when (mStockRound.isAShareCompany ()).thenReturn (false);
 		Mockito.when (mStockRound.isAPlayer ()).thenReturn (false);
 		updateToNextPlayerEffect.setActor (mStockRound);
+		
 		assertFalse (updateToNextPlayerEffect.applyEffect (mRoundManager));
 		assertEquals ("Actor Stock Round is not a Player.",
 					updateToNextPlayerEffect.getApplyFailureReason ());
-
 	}
 
 	@Test
@@ -78,8 +77,6 @@ class UpdateToNextPlayerEffectTests extends EffectTester {
 		assertFalse (updateToNextPlayerEffect.undoEffect (mRoundManager));
 		assertEquals ("Actor Stock Round is not a Player.",
 					updateToNextPlayerEffect.getUndoFailureReason ());
-
-//		fail ("Not yet implemented");
 	}
 
 	@Test
@@ -89,25 +86,16 @@ class UpdateToNextPlayerEffectTests extends EffectTester {
 
 	@Test
 	void testUpdateToNextPlayer () {
-		Player mPlayerActorDelta;
-
 		assertEquals (1, updateToNextPlayerEffect.updateToNextPlayer (mRoundManager, true));
-	
-		mPlayerActorDelta = playerTestFactory.buildPlayerMock ("ToEffectTesterDelta");
-		updateToNextPlayerEffect.setToActor (mPlayerActorDelta);
-		
-		assertEquals (2, updateToNextPlayerEffect.updateToNextPlayer (mRoundManager, true));
 
-		updateToNextPlayerEffect.setToActor (mPlayerActorBeta);
 		Mockito.when (mGameManager.getTriggerClass ()).thenReturn (null);
-		assertEquals (0, updateToNextPlayerEffect.updateToNextPlayer (mRoundManager, true));
+		assertEquals (-1, updateToNextPlayerEffect.updateToNextPlayer (mRoundManager, true));
 	}
-
+	
 	@Test
-	void testGetPlayerIndexListOfPlayerString () {
-		assertEquals (2, players.size ());
-		assertEquals (1, updateToNextPlayerEffect.getPlayerIndex (players, mPlayerActorBeta.getName ()));
-		assertEquals (PlayerManager.NO_PLAYER_INDEX, updateToNextPlayerEffect.getPlayerIndex (players,
-						"FromEffectTesterGamma"));
+	void testUpdateToNextPlayerBad () {
+		Mockito.when (mPlayerManager.getPlayerIndex (mPlayerActorAlpha)).thenReturn (0);
+		Mockito.when (mPlayerManager.getPlayerIndex (mPlayerActorBeta)).thenReturn (-1);
+		assertEquals (2, updateToNextPlayerEffect.updateToNextPlayer (mRoundManager, true));
 	}
 }
