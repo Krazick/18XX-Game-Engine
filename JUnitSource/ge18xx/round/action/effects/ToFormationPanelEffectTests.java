@@ -8,16 +8,26 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
 import ge18xx.company.formation.TriggerClass;
 
+@TestInstance (Lifecycle.PER_CLASS)
 class ToFormationPanelEffectTests extends EffectTester {
 	ToFormationPanelEffect toFormationPanelEffect;
 	TriggerClass mTriggerClass;
 
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
+	
 	@Override
 	@BeforeEach
 	void setUp () throws Exception {

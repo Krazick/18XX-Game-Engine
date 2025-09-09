@@ -9,18 +9,28 @@ import static org.mockito.Mockito.doNothing;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.player.Player;
 
+@TestInstance (Lifecycle.PER_CLASS)
 class UpdateToNextPlayerEffectTests extends EffectTester {
 	UpdateToNextPlayerEffect updateToNextPlayerEffect;
 	List<Player> players;
 	TriggerClass mTriggerClass;
 	
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
+
 	@Override
 	@BeforeEach
 	void setUp () throws Exception {

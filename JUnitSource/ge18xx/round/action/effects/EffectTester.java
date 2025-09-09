@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
@@ -27,13 +28,21 @@ class EffectTester {
 	RoundManager mRoundManager;
 	StockRound mStockRound;
 
+	@BeforeAll
+	void factorySetup () {
+		gameTestFactory = new GameTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
+		
+		mGameManager = gameTestFactory.buildGameManagerMock ();
+
+	}
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tPlayer1Name;
 		String tPlayer2Name;
 
-		gameTestFactory = new GameTestFactory ();
-		mGameManager = gameTestFactory.buildGameManagerMock ();
 		tPlayer1Name = "FromEffectTesterAlpha";
 		tPlayer2Name = "ToEffectTesterBeta";
 
@@ -43,14 +52,11 @@ class EffectTester {
 		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer1Name);
 		mPlayerActorBeta = playerTestFactory.buildPlayerMock (tPlayer2Name);
 
-		roundTestFactory = new RoundTestFactory ();
 		mRoundManager = roundTestFactory.buildRoundManagerMock ();
 		Mockito.when (mRoundManager.getGameManager ()).thenReturn (mGameManager);
-	
 		Mockito.when (mGameManager.getPlayerManager ()).thenReturn (mPlayerManager);
 		Mockito.when (mGameManager.getRoundManager ()).thenReturn (mRoundManager);
 		
-		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		mShareCompanyGreen = companyTestFactory.buildShareCompanyMock ();
 		
 		mStockRound = roundTestFactory.buildStockRoundMock (mPlayerManager, mRoundManager);
