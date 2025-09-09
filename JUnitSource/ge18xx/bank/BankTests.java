@@ -4,25 +4,33 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import geUtilities.GUI;
 
+@TestInstance (Lifecycle.PER_CLASS)
 class BankTests {
 	private BankTestFactory bankTestFactory;
 	private CompanyTestFactory companyTestFactory;
 	private GameManager mGameManager;
 	private Bank bank;
 	
-	@BeforeEach
-	void setUp () throws Exception {
+	@BeforeAll
+	void factorySetup () {
 		bankTestFactory = new BankTestFactory ();
 		companyTestFactory = new CompanyTestFactory ();
+	}
+
+	@BeforeEach
+	void setUp () throws Exception {
 		mGameManager = companyTestFactory.getGameManagerMock ();
 		bank = bankTestFactory.buildBank (mGameManager);
 	}
