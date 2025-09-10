@@ -11,22 +11,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import geUtilities.GUI;
 
 @TestInstance (Lifecycle.PER_CLASS)
-class BankTests {
-	private BankTestFactory bankTestFactory;
-	private CompanyTestFactory companyTestFactory;
+class BankTests extends BankTester {
 	private GameManager mGameManager;
 	private Bank bank;
 	
+	@Override
 	@BeforeAll
 	void factorySetup () {
-		bankTestFactory = new BankTestFactory ();
-		companyTestFactory = new CompanyTestFactory ();
+		super.factorySetup ();
 	}
 
 	@BeforeEach

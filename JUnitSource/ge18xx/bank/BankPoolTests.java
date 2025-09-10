@@ -3,19 +3,20 @@ package ge18xx.bank;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
-import ge18xx.game.GameTestFactory;
 
+@TestInstance (Lifecycle.PER_CLASS)
 @DisplayName ("BankPool Tests")
-class BankPoolTests {
-	private BankTestFactory bankTestFactory;
-	private GameTestFactory gameTestFactory;
+class BankPoolTests extends BankTester {
 	private GameManager mGameManager;
 	private GameManager mGameManager1830;
 	private GameManager mGameManager1856;
@@ -25,11 +26,17 @@ class BankPoolTests {
 	BankPool bankPool;
 	BankPool bankPool1830;
 	BankPool bankPool1856;
+	
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
 
 	@BeforeEach
 	void setUp () throws Exception {
-		bankTestFactory = new BankTestFactory ();
-		gameTestFactory = new GameTestFactory ();
+//		bankTestFactory = new BankTestFactory ();
+//		gameTestFactory = new GameTestFactory ();
 		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		mGameInfo = gameTestFactory.buildGameInfoMock ();

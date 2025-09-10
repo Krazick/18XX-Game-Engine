@@ -9,21 +9,22 @@ import static org.mockito.Mockito.times;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
-import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.Corporation;
 import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.GameTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.PortfolioTestFactory;
@@ -36,10 +37,8 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 @DisplayName ("Game Bank Tests")
-class GameBankTests {
-	private BankTestFactory bankTestFactory;
-	private GameTestFactory gameTestFactory;
-	private CompanyTestFactory companyTestFactory;
+@TestInstance (Lifecycle.PER_CLASS)
+class GameBankTests extends BankTester {
 	private CertificateTestFactory certificateTestFactory;
 	private TrainTestFactory trainTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
@@ -49,16 +48,19 @@ class GameBankTests {
 	private TrainPortfolio mTrainPortfolio;
 	private GameBank gameBank;
 
-	@BeforeEach
-	void setUp () throws Exception {		
-		bankTestFactory = new BankTestFactory ();
-		gameTestFactory = new GameTestFactory ();
-		companyTestFactory = new CompanyTestFactory (gameTestFactory);
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+		
 		certificateTestFactory = new CertificateTestFactory ();
 		trainTestFactory = new TrainTestFactory ();
 		utilitiesTestFactory = new UtilitiesTestFactory ();
 		portfolioTestFactory = new PortfolioTestFactory (bankTestFactory);
-
+	}
+	
+	@BeforeEach
+	void setUp () throws Exception {		
 		mGameManager = companyTestFactory.getGameManagerMock ();
 
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
