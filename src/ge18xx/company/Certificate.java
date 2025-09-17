@@ -61,6 +61,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static final AttributeName AN_DIRECTOR = new AttributeName ("director");
 	public static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	public static final AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");
+	public static final AttributeName AN_ONLY_EXCHANGEABLE = new AttributeName ("onlyExchangeable");
 	public static final AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
 	public static final AttributeName AN_SECOND_ISSUE = new AttributeName ("secondIssue");
 	public static final Certificate NO_CERTIFICATE = null;
@@ -103,6 +104,7 @@ public class Certificate implements Comparable<Certificate> {
 	KButton infoButton;
 	boolean isPresidentShare;
 	boolean secondIssue;
+	boolean onlyExchangeable;
 	int percentage;
 	String [] allowedOwners = null;
 	Bidders bidders;
@@ -115,12 +117,13 @@ public class Certificate implements Comparable<Certificate> {
 		String tAllowedOwners;
 		boolean tIsPresidentShare;
 		boolean tSecondIssue;
+		boolean tOnlyExchangeable;
 		int tPercentage;
 		
 		tIsPresidentShare = aNode.getThisBooleanAttribute (AN_DIRECTOR);
 		tPercentage = aNode.getThisIntAttribute (AN_PERCENTAGE);
 		tSecondIssue = aNode.getThisBooleanAttribute (AN_SECOND_ISSUE);
-		
+		tOnlyExchangeable = aNode.getThisBooleanAttribute (AN_ONLY_EXCHANGEABLE);
 		tAllowedOwners = aNode.getThisAttribute (AN_ALLOWED_OWNERS);
 		if (tAllowedOwners != GUI.NULL_STRING) {
 			allowedOwners = tAllowedOwners.split (GUI.COMMA);
@@ -128,6 +131,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		setValues (aCorporation, tIsPresidentShare, tPercentage);
 		setSecondIssue (tSecondIssue);
+		setOnlyExchangeable (tOnlyExchangeable);
 
 		initCommon (CertificateHolderI.NO_OWNER);
 	}
@@ -1884,6 +1888,14 @@ public class Certificate implements Comparable<Certificate> {
 		secondIssue = aSecondIssue;
 	}
 
+	private void setOnlyExchangeable (boolean aOnlyExchangeable) {
+		onlyExchangeable = aOnlyExchangeable;
+	}
+
+	public boolean onlyExchangeable () {
+		return onlyExchangeable;
+	}
+	
 	public void sortCorporationCertificates () {
 		corporation.sortCorporationCertificates ();
 	}
