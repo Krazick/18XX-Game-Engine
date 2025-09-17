@@ -33,9 +33,7 @@ class EffectTester {
 		gameTestFactory = new GameTestFactory ();
 		roundTestFactory = new RoundTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
-		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-
 	}
 
 	@BeforeEach
