@@ -3,31 +3,36 @@ package ge18xx.company;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ge18xx.bank.Bank;
-import ge18xx.bank.BankTestFactory;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
 
 @DisplayName ("Corporation Status Update Tests")
-class CorporationStatusUpdateTests {
+@TestInstance (Lifecycle.PER_CLASS)
+class CorporationStatusUpdateTests extends CorporationTester {
 	ShareCompany alphaShareCompany;
 	ShareCompany betaShareCompany;
 	ShareCompany limaShareCompany;
 	Corporation gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
-	CompanyTestFactory companyTestFactory;
-	BankTestFactory bankTestFactory;
 	Bank bank;
 
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
+	
 	@BeforeEach
 	void setUp () throws Exception {
-		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank ();
-		companyTestFactory = new CompanyTestFactory ();
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
 		limaShareCompany = companyTestFactory.buildAShareCompany (3);
@@ -519,5 +524,4 @@ class CorporationStatusUpdateTests {
 		limaShareCompany.updateStatusWithTile (tThePreviousTile);
 		assertEquals ("Full Dividend Paid", limaShareCompany.getStatusName ());
 	}
-
 }

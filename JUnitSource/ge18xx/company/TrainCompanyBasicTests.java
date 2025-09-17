@@ -6,30 +6,36 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
-import ge18xx.bank.BankTestFactory;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 
-class TrainCompanyBasicTests {
-	CompanyTestFactory companyTestFactory;
+@TestInstance (Lifecycle.PER_CLASS)
+@DisplayName ("Train Company Basic Tests")
+class TrainCompanyBasicTests extends CorporationTester {
 	GameManager mGameManager;
-	BankTestFactory bankTestFactory;
 	Bank bank;
 	TrainCompany trainCompany;
 	TrainCompany mTrainCompany;
 
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
+
 	@BeforeEach
 	void setUp () throws Exception {
-		companyTestFactory = new CompanyTestFactory ();
 		mGameManager = companyTestFactory.getGameManagerMock ();
-		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank (mGameManager);
 		trainCompany = companyTestFactory.buildATrainCompany (1);
 		mTrainCompany = companyTestFactory.buildTrainCompanyMock ();
