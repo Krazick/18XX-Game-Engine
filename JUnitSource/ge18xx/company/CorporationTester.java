@@ -6,7 +6,6 @@ import ge18xx.bank.BankTestFactory;
 import ge18xx.game.GameTestFactory;
 
 class CorporationTester {
-
 	protected BankTestFactory bankTestFactory;
 	protected CompanyTestFactory companyTestFactory;
 	protected GameTestFactory gameTestFactory;
