@@ -134,7 +134,7 @@ public class BankTestFactory {
 
 		mBankPool = Mockito.mock (BankPool.class);
 		Mockito.when (mBankPool.getAbbrev ()).thenReturn ("Bank Pool Mock");
-
+		
 		return mBankPool;
 	}
 }
