@@ -95,8 +95,12 @@ public abstract class Round implements ActorI {
 		} else {
 			tGameInfo = roundManager.getGameInfo ();
 			tRoundType = tGameInfo.getRoundType (name);
-			roundType = tRoundType;
+			setRoundType (tRoundType);
 		}
+	}
+	
+	public void setRoundType (RoundType aRoundType) {
+		roundType = aRoundType;
 	}
 	
 	public boolean repeatRound () {
