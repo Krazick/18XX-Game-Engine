@@ -203,7 +203,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound = aStockRound;
 	}
 
-
 	public void setAuctionFrameLocation () {
 		gameManager.setAuctionFrameLocation ();
 	}
@@ -255,6 +254,44 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return tHandledInterruption;
 	}
 	
+	public boolean checkAndHandleInterruption (Action aAction) {
+		Round tInterruptionRound;
+		RoundType tCurrentRoundType;
+		RoundType tInterruptionRoundType;
+		boolean tIsInterrupting;
+		boolean tInterruptionStarted;
+		boolean tInterruptsAfterAction;
+		boolean tHandledInterruption;
+		String tActionName;
+		String tInterruptRoundName;
+		String tInterruptsAfterActions;
+
+		tCurrentRoundType = currentRound.getRoundType ();
+		tInterruptRoundName = tCurrentRoundType.getInterruptionRound ();
+		tHandledInterruption = false;
+		if (tInterruptRoundName != GUI.NULL_STRING) {
+			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
+			tInterruptionRoundType = tInterruptionRound.getRoundType ();
+			tActionName = aAction.getName ();
+			tInterruptsAfterActions = tInterruptionRoundType.getInterruptsAfterActions ();
+			if (tInterruptsAfterActions != GUI.NULL_STRING) {
+				tInterruptsAfterAction = tInterruptsAfterActions.contains (tActionName);
+				if (tInterruptsAfterAction) {
+					tIsInterrupting = tInterruptionRound.isInterrupting ();
+					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
+					if (tIsInterrupting && !tInterruptionStarted) {
+						tInterruptionRound.start ();
+						tHandledInterruption = tInterruptionRound.interruptionStarted ();
+					}
+				}
+			} else {
+				System.err.println (tInterruptRoundName + " (Interrupting) has no AfterActions set");
+			}
+		}
+		
+		return tHandledInterruption;
+	}
+
 	public boolean checkAndHandleInteruptionRoundEnds () {
 		Action tLastAction;
 		boolean tCurrentRoundEnds;
@@ -312,45 +349,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 
 		return tCurrentRoundEnds;
-	}
-	
-	public boolean checkAndHandleInterruption (Action aAction) {
-		Round tInterruptionRound;
-		RoundType tCurrentRoundType;
-		RoundType tInterruptionRoundType;
-		boolean tIsInterrupting;
-		boolean tInterruptionStarted;
-		boolean tInterruptsAfterAction;
-		boolean tHandledInterruption;
-		String tActionName;
-		String tInterruptRoundName;
-		String tInterruptsAfterActions;
-
-		tCurrentRoundType = currentRound.getRoundType ();
-		tInterruptRoundName = tCurrentRoundType.getInterruptionRound ();
-		tHandledInterruption = false;
-		
-		if (tInterruptRoundName != GUI.NULL_STRING) {
-			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
-			tInterruptionRoundType = tInterruptionRound.getRoundType ();
-			tActionName = aAction.getName ();
-			tInterruptsAfterActions = tInterruptionRoundType.getInterruptsAfterActions ();
-			if (tInterruptsAfterActions != GUI.NULL_STRING) {
-				tInterruptsAfterAction = tInterruptsAfterActions.contains (tActionName);
-				if (tInterruptsAfterAction) {
-					tIsInterrupting = tInterruptionRound.isInterrupting ();
-					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
-					if (tIsInterrupting && !tInterruptionStarted) {
-						tInterruptionRound.start ();
-						tHandledInterruption = tInterruptionRound.interruptionStarted ();
-					}
-				}
-			} else {
-				System.err.println (tInterruptRoundName + " (Interrupting) has no AfterActions set");
-			}
-		}
-		
-		return tHandledInterruption;
 	}
 	
 	public void startNextRound () {
@@ -516,21 +514,37 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		ActorI tActor;
 		
 		tActor = ActorI.NO_ACTOR;
-		if (stockRound.isActor (aActorName)) {
+		if (isRoundActor (stockRound, aActorName)) {
 			tActor = stockRound;
-		} else if (operatingRound.isActor (aActorName)) {
+		} else if (isRoundActor (operatingRound, aActorName)) {
 			tActor = operatingRound;
-		} else if (auctionRound.isActor (aActorName)) {
+		} else if (isRoundActor (auctionRound, aActorName)) {
 			tActor = auctionRound;
-		} else if (formationRound.isActor (aActorName)) {
+		} else if (isRoundActor (formationRound, aActorName)) {
 			tActor = formationRound;
-		} else if (contractBidRound.isActor (aActorName)) {
+		} else if (isRoundActor (contractBidRound, aActorName)) {
 			tActor = contractBidRound;
 		}
 
 		return tActor;
 	}
 
+	public boolean isRoundActor (Round aRound, String aActorName) {
+		boolean tIsRoundActor;
+		
+		if (aRound == Round.NO_ROUND) {
+			tIsRoundActor = false;
+		} else {
+			if (aRound.isActor (aActorName)) {
+				tIsRoundActor = true;
+			} else {
+				tIsRoundActor = false;
+			}
+		}
+		
+		return tIsRoundActor;
+	}
+	
 	public Round getRoundByTypeName (String aActorName) {
 		Round tRound;
 
@@ -1000,26 +1014,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			roundFrame.updateAll ();
 		}
 	}
-	
-//	public void setRoundTypeTo (ActorI.ActionStates aRoundType) {
-//		setCurrentRoundState (aRoundType);
-//	}
-//
-//	public void setRoundToAuctionRound () {
-////		setCurrentRoundState (ActorI.ActionStates.AuctionRound);
-//	}
-//
-//	public void setRoundToContractBidRound () {
-////		setCurrentRoundState (ActorI.ActionStates.ContractBidRound);
-//	}
-//	
-//	public void setRoundToOperatingRound () {
-////		setCurrentRoundState (ActorI.ActionStates.OperatingRound);
-//	}
-//
-//	public void setRoundToFormationRound () {
-////		setCurrentRoundState (ActorI.ActionStates.FormationRound);
-//	}
 
 	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundState, Round aNewRound,
 						String aOldRoundID, String aNewRoundID, ChangeRoundAction aChangeRoundAction) {
@@ -1458,7 +1452,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getPrivates ();
 	}
 
-	/* Method will the Next Certificate Available for Purchase/Bid that is in the Bank
+	/* Method will get the Next Certificate Available for Purchase/Bid that is in the Bank
 	 * 
 	 * @return the Certificate from the Bank
 	 */
