@@ -10,14 +10,18 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
+import geUtilities.xml.XMLNode;
 
 public class RoundTestFactory {
 	GameTestFactory gameTestFactory;
 	PlayerTestFactory playerTestFactory;
+	UtilitiesTestFactory utilitiesTestFactory;
 	GameManager gameManager;
 	String clientName;
 
 	public RoundTestFactory () {
+		utilitiesTestFactory = new UtilitiesTestFactory ();
 
 	}
 
@@ -184,5 +188,42 @@ public class RoundTestFactory {
 		doNothing ().when (mRoundFrame).setStockRoundInfo (anyString (), anyString ());
 
 		return mRoundFrame;
+	}
+	
+	String testRoundTypes [] = {
+			"	<RoundType name=\"Stock Round\" initialRound=\"true\" interruptionRound=\"Formation Round\"\n"
+			+ "			nextRound=\"Operating Round\" endsAfterActions=\"Pass Action\" />\n",
+			"<RoundType name=\"Operating Round\" interruptionRound=\"Formation Round\" \n"
+			+ "					nextRound=\"Stock Round\" maxRounds=\"3\" \n"
+			+ "					endsAfterActions=\"Done Action, Pay Revenue Action, Change Round Action\" />",
+			"<RoundType name=\"Formation Round\"\n"
+			+ "					endsAfterActions=\"Change Formation Round State Action, Final Formation Action\" \n"
+			+ "					interruptsAfterActions=\"Done Action, Change Round Action, Pass Action\" \n"
+			+ "					phase=\"2.3\" />"
+	};
+	
+	public RoundType buildRoundTypeAt (int aRoundTypeIndex) {
+		RoundType tRoundType;
+		String tRoundTypeText;
+		XMLNode tRoundTypeNode;
+
+		if ((aRoundTypeIndex >= 0) && (aRoundTypeIndex < testRoundTypes.length)) {
+			tRoundTypeText = testRoundTypes [aRoundTypeIndex];
+			tRoundTypeNode = utilitiesTestFactory.buildXMLNode (tRoundTypeText);
+
+			tRoundType = new RoundType (tRoundTypeNode);
+		} else {
+			tRoundType = RoundType.NO_ROUND_TYPE;
+		}
+		
+		return tRoundType;
+	}
+	
+	public RoundType buildRoundTypeMock () {
+		RoundType mRoundType;
+		
+		mRoundType = Mockito.mock (RoundType.class);
+
+		return mRoundType;
 	}
 }
