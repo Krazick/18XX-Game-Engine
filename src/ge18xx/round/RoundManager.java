@@ -257,36 +257,58 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public boolean checkAndHandleInterruption (Action aAction) {
 		Round tInterruptionRound;
 		RoundType tCurrentRoundType;
-		RoundType tInterruptionRoundType;
-		boolean tIsInterrupting;
-		boolean tInterruptionStarted;
-		boolean tInterruptsAfterAction;
 		boolean tHandledInterruption;
+		boolean tShouldInterrupt;
 		String tActionName;
 		String tInterruptRoundName;
-		String tInterruptsAfterActions;
 
 		tCurrentRoundType = currentRound.getRoundType ();
 		tInterruptRoundName = tCurrentRoundType.getInterruptionRound ();
 		tHandledInterruption = false;
 		if (tInterruptRoundName != GUI.NULL_STRING) {
-			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
-			tInterruptionRoundType = tInterruptionRound.getRoundType ();
 			tActionName = aAction.getName ();
-			tInterruptsAfterActions = tInterruptionRoundType.getInterruptsAfterActions ();
-			if (tInterruptsAfterActions != GUI.NULL_STRING) {
-				tInterruptsAfterAction = tInterruptsAfterActions.contains (tActionName);
-				if (tInterruptsAfterAction) {
-					tIsInterrupting = tInterruptionRound.isInterrupting ();
-					tInterruptionStarted = tInterruptionRound.interruptionStarted ();
-					if (tIsInterrupting && !tInterruptionStarted) {
-						tInterruptionRound.start ();
-						tHandledInterruption = tInterruptionRound.interruptionStarted ();
-					}
-				}
-			} else {
-				System.err.println (tInterruptRoundName + " (Interrupting) has no AfterActions set");
+			tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
+			tShouldInterrupt = shouldInterrupt (tInterruptionRound, tActionName);
+			if (tShouldInterrupt) {
+				tInterruptionRound = getRoundByTypeName (tInterruptRoundName);
+				tHandledInterruption = handleInterruption (tInterruptionRound);
 			}
+		}
+		
+		return tHandledInterruption;
+	}
+
+	public boolean shouldInterrupt (Round aInterruptionRound, String aActionName) {
+		boolean tShouldInterrupt;
+		boolean tInterruptsAfterAction;
+		RoundType tInterruptionRoundType;
+		String tInterruptsAfterActions;
+
+		tShouldInterrupt = false;
+		tInterruptionRoundType = aInterruptionRound.getRoundType ();
+		tInterruptsAfterActions = tInterruptionRoundType.getInterruptsAfterActions ();
+		if (tInterruptsAfterActions != GUI.NULL_STRING) {
+			tInterruptsAfterAction = tInterruptsAfterActions.contains (aActionName);
+			if (tInterruptsAfterAction) {
+				tShouldInterrupt = true;
+			}
+		}
+		
+		return tShouldInterrupt;
+	}
+	
+	public boolean handleInterruption (Round aInterruptionRound) {
+		boolean tIsInterrupting;
+		boolean tInterruptionStarted;
+		boolean tHandledInterruption;
+		
+		tIsInterrupting = aInterruptionRound.isInterrupting ();
+		tInterruptionStarted = aInterruptionRound.interruptionStarted ();
+		if (tIsInterrupting && !tInterruptionStarted) {
+			aInterruptionRound.start ();
+			tHandledInterruption = aInterruptionRound.interruptionStarted ();
+		} else {
+			tHandledInterruption = false;
 		}
 		
 		return tHandledInterruption;
@@ -509,6 +531,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void updatePlayerListeners (String aMessage) {
 		playerManager.updatePlayerListeners (aMessage);
 	}
+	
+	public Round getRoundByTypeName (String aActorName) {
+		Round tRound;
+
+		tRound = (Round) getActor (aActorName);
+
+		return tRound;
+	}
 
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
@@ -543,14 +573,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 		
 		return tIsRoundActor;
-	}
-	
-	public Round getRoundByTypeName (String aActorName) {
-		Round tRound;
-
-		tRound = (Round) getActor (aActorName);
-
-		return tRound;
 	}
 
 	public AuctionRound getAuctionRound () {
