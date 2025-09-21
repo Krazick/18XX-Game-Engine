@@ -1,10 +1,12 @@
 package ge18xx.toplevel;
 
+import static org.mockito.ArgumentMatchers.anyString;
+
+import org.mockito.Mockito;
+
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
-//import ge18xx.toplevel.MinorCompaniesFrame;
-//import ge18xx.toplevel.PrivatesFrame;
-//import ge18xx.toplevel.ShareCompaniesFrame;
+import ge18xx.round.action.ActorI;
 
 public class FrameTestFactory {
 
@@ -66,5 +68,23 @@ public class FrameTestFactory {
 		tShareCompaniesFrame = new ShareCompaniesFrame (aFrameTitle, roundManager);
 
 		return tShareCompaniesFrame;
+	}
+	
+	/**
+	 * Build a Mock for the ShareCompanies Frame
+	 *
+	 * @param a Frame Title
+	 * @return a Share Companies Frame;
+	 *
+	 */
+
+	public ShareCompaniesFrame buildShareCompaniesFrameMock (String aFrameTitle) {
+		ShareCompaniesFrame mShareCompaniesFrame;
+		
+		mShareCompaniesFrame = Mockito.mock (ShareCompaniesFrame.class);
+		Mockito.when (mShareCompaniesFrame.getName ()).thenReturn (aFrameTitle);
+		Mockito.when (mShareCompaniesFrame.getCorporationState (anyString ())).thenReturn (ActorI.ActionStates.NoState);
+
+		return mShareCompaniesFrame;
 	}
 }
