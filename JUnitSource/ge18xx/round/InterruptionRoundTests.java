@@ -170,6 +170,8 @@ class InterruptionRoundTests {
 		tActionName = "Lay Tile Action";
 
 		assertFalse (roundManager.shouldInterrupt (mFormationRound, tActionName));
+		Mockito.doNothing ().when (mFormationRound).start ();
+
 		assertFalse (roundManager.handleInterruption (mFormationRound));
 		
 		Mockito.when (mFormationRound.interruptionStarted ()).thenReturn (false);
