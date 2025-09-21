@@ -1,5 +1,7 @@
 package ge18xx.round.action;
 
+import org.mockito.Mockito;
+
 import ge18xx.game.GameManager;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
@@ -9,13 +11,13 @@ public class ActionEffectsFactory {
 	GameManager gameManager;
 	
 	String testActions [] = {
-			"<Action actor=\"TBNO\" chainPrevious=\"true\" class=\"ge18xx.round.action.LayTileAction\" dateTime=\"1685112002072\" name=\"Lay Tile Action\" number=\"118\" roundID=\"2.1\" roundType=\"Operating Round\" totalCash=\"12000\">\n "
+			"<Action actor=\"TBNO\" chainPrevious=\"true\" class=\"ge18xx.round.action.LayTileAction\" dateTime=\"1685112002072\" name=\"Lay Tile\" number=\"118\" roundID=\"2.1\" roundType=\"Operating Round\" totalCash=\"12000\">\n "
 			+ "     <Effects>\n "
 			+ "             <Effect actor=\"TBNO\" bases=\"TPRR,1\" class=\"ge18xx.round.action.effects.LayTileEffect\" isAPrivate=\"false\" mapCellID=\"N11\" name=\"Lay Tile\" tileNumber=\"120\" tileOrientation=\"0\" tokens=\"\"/>\n "
-			+ "             <Effect actor=\"TBNO\" class=\"ge18xx.round.action.effects.ChangeCorporationStatusEffect\" isAPrivate=\"false\" name=\"Change Corporation Status\" newState=\"Tile Laid\" previousState=\"Started Operating\"/>\n "
 			+ "             <Effect actor=\"TBNO\" class=\"ge18xx.round.action.effects.SetHasLaidTileEffect\" hasLaidTile=\"true\" isAPrivate=\"false\" name=\"Set Has Laid Tile\"/>\n "
 			+ "     </Effects>\n "
 			+ "</Action>\n ",
+						
 			"<Action actor=\"Formation Round\" chainPrevious=\"true\" class=\"ge18xx.round.action.ChangeRoundAction\" dateTime=\"1757373917050\" name=\"Change Round\" number=\"1704\" roundID=\"1\" roundType=\"Formation Round\">\n"
 				+ " <Effects>\n"
 				+ " 		<Effect actor=\"Formation Round\" class=\"ge18xx.round.action.effects.SetInterruptionStartedEffect\" fromName=\"Formation Round\" isAPrivate=\"false\" name=\"Set Interruption Started\" order=\"0\" setInterruptionStarted=\"false\"/>\n"
@@ -51,5 +53,14 @@ public class ActionEffectsFactory {
 		}
 		
 		return tAction;
+	}
+	
+	public Action buildActionMock (String aActionName) {
+		Action mAction;
+		
+		mAction = Mockito.mock (Action.class);
+		Mockito.when (mAction.getName ()).thenReturn (aActionName);
+		
+		return mAction;
 	}
 }
