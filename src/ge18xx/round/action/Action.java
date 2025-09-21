@@ -182,8 +182,8 @@ public class Action {
 			tEffect = (Effect) tEffectConstructor.newInstance (aEffectNode, aGameManager);
 		} catch (NoSuchMethodException tNoSuchMethodException) {
 			System.err.println ("Caught Exception with message ");
-			System.err.println ("Class name " + aClassName + " Action Name " + aActionName + 
-						" Action Number " + aActionNumber);
+			System.err.println ("Class name [" + aClassName + "] Action Name [" + aActionName + 
+						"[ Action Number [" + aActionNumber + "]");
 			tNoSuchMethodException.printStackTrace ();
 		}
 		
