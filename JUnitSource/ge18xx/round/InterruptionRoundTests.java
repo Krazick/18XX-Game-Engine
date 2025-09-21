@@ -23,6 +23,7 @@ import ge18xx.round.action.ActionEffectsFactory;
 import ge18xx.round.action.ActorI;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 
+@DisplayName ("Check and Handle Interruption Round Tests")
 class InterruptionRoundTests {
 	GameTestFactory gameTestFactory;
 	RoundTestFactory roundTestFactory;
@@ -132,6 +133,51 @@ class InterruptionRoundTests {
 		tFormationRound.setRoundType (tInterruptionRoundType);
 		roundManager.setFormationRound (tFormationRound);
 		assertFalse (roundManager.checkAndHandleInterruption (tAction));
+	}
+
+	@Test
+	@DisplayName ("Test Interruption Round Triggering3")
+	void testInterruptionRoundTriggering3 () {
+		String tActionName;
+		RoundType tRoundType;
+		RoundType tInterruptionRoundType;
+		OperatingRound tOperatingRound;
+		FormationRound mFormationRound;
+		GameInfo mGameInfo;
+		
+		
+		tRoundType = roundTestFactory.buildRoundTypeAt (1);
+		mGameInfo = gameTestFactory.buildGameInfoMock ();
+		Mockito.when (mGameInfo.getRoundType (anyString ())).thenReturn (tRoundType);
+	
+		gameManager.setGameInfo (mGameInfo);
+		
+		tOperatingRound = roundTestFactory.buildOperatingRound (roundManager);
+
+		roundManager.setOperatingRound (tOperatingRound);
+		roundManager.setCurrentRound (tOperatingRound);
+		
+		tInterruptionRoundType = roundTestFactory.buildRoundTypeAt (2);
+		mFormationRound = roundTestFactory.buildFormationRoundMock (roundManager);
+		Mockito.when (mGameInfo.getRoundType (anyString ())).thenReturn (tInterruptionRoundType);
+
+		roundManager.setFormationRound (mFormationRound);
+
+		Mockito.when (mFormationRound.getRoundType ()).thenReturn (tInterruptionRoundType);
+
+		Mockito.when (mFormationRound.isInterrupting ()).thenReturn (true);
+		Mockito.when (mFormationRound.interruptionStarted ()).thenReturn (true);
+		tActionName = "Lay Tile Action";
+
+		assertFalse (roundManager.shouldInterrupt (mFormationRound, tActionName));
+		assertFalse (roundManager.handleInterruption (mFormationRound));
+		
+		Mockito.when (mFormationRound.interruptionStarted ()).thenReturn (false);
+		assertFalse (roundManager.shouldInterrupt (mFormationRound, tActionName));
+		assertFalse (roundManager.handleInterruption (mFormationRound));
+
+		tActionName = "Change Round Action";
+		assertTrue (roundManager.shouldInterrupt (mFormationRound, tActionName));
 	}
 
 	@Test
