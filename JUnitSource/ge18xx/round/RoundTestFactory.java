@@ -22,7 +22,6 @@ public class RoundTestFactory {
 
 	public RoundTestFactory () {
 		utilitiesTestFactory = new UtilitiesTestFactory ();
-
 	}
 
 	public RoundManager buildRoundManager () {
