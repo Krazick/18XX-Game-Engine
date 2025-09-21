@@ -11,15 +11,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
+import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.FrameTestFactory;
 import ge18xx.toplevel.PlayerInputFrame;
+import ge18xx.toplevel.ShareCompaniesFrame;
 
 @DisplayName ("Game Manager Constructor Tests")
 class GameManagerTestConstructors {
-	GameTestFactory testFactory;
+	GameTestFactory gameTestFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
-		testFactory = new GameTestFactory ();
+		gameTestFactory = new GameTestFactory ();
 	}
 
 	@AfterEach
@@ -42,7 +47,7 @@ class GameManagerTestConstructors {
 		String tClientName;
 
 		tClientName = "GMTestBuster";
-		tGameManager = testFactory.buildGameManager (tClientName);
+		tGameManager = gameTestFactory.buildGameManager (tClientName);
 
 		assertEquals (tClientName, tGameManager.getClientUserName ());
 		assertNull (tGameManager.getRoundManager ());
@@ -57,6 +62,27 @@ class GameManagerTestConstructors {
 	}
 
 	@Test
+	@DisplayName ("Test getCorporationState via Share Companies Frame") 
+	void testGetCorporationState () {
+		GameManager tGameManager;
+		String tClientName;
+		ShareCompaniesFrame mShareCompaniesFrame;
+		FrameTestFactory frameTestFactory;
+		RoundTestFactory roundTestFactory;
+		RoundManager tRoundManager;
+		
+		tClientName = "TGIBuster";
+
+		tGameManager = gameTestFactory.buildGameManager (tClientName);
+		roundTestFactory = new RoundTestFactory ();
+		tRoundManager = roundTestFactory.buildRoundManager (tGameManager);
+		frameTestFactory = new FrameTestFactory (tGameManager, tRoundManager);
+		mShareCompaniesFrame = frameTestFactory.buildShareCompaniesFrameMock ("Share Company Frame Mock");
+		tGameManager.setShareCompaniesFrame (mShareCompaniesFrame);
+		assertEquals ( ActorI.ActionStates.NoState, tGameManager.getCorporationState (tClientName));
+	}
+	
+	@Test
 	@DisplayName ("Test Game Initiation")
 	void gameInitiationTest () {
 		GameManager tGameManager;
@@ -66,8 +92,8 @@ class GameManagerTestConstructors {
 
 		tClientName = "TGIBuster";
 
-		tGameManager = testFactory.buildGameManager (tClientName);
-		tGameInfo = testFactory.buildGameInfo (1);
+		tGameManager = gameTestFactory.buildGameManager (tClientName);
+		tGameInfo = gameTestFactory.buildGameInfo (1);
 
 		assertEquals ("<NONE>", tGameManager.getGameName ());
 		assertEquals ("", tGameManager.getActiveGameName ());
@@ -75,7 +101,7 @@ class GameManagerTestConstructors {
 		assertEquals ("<NONE>", tGameManager.getFileName ("Market"));
 		assertFalse (tGameManager.gameIsStarted ());
 
-		mPlayerInputFrame = testFactory.buildPIFMock ();
+		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
 		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
 		tGameManager.initiateGame (tGameInfo);
 
