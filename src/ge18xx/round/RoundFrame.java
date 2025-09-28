@@ -313,9 +313,10 @@ public class RoundFrame extends XMLFrame {
 				if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
 					tPlayerName = tCurrentPlayer.getName ();
 					if (tGameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
-						tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () +
-								tFastBuyCertificate.getPercentage () + "% for " +
-								Bank.formatCash (tFastBuyCertificate.getParPrice ());
+						tButtonLabel = tPlayerName + " Fast Buy " + 
+								tFastBuyCertificate.getPercentage () + "% of " +
+								tFastBuyCertificate.getCompanyAbbrev () + " for " +
+								Bank.formatCash (tFastBuyCertificate.getValue ());
 						tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
 						setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
 						addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
