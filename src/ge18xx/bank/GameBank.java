@@ -166,6 +166,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGa
 		return tCertificate;
 	}
 
+	public Certificate getCertFromCorpBuyable (Corporation aCorporation, boolean aRemoveCertificate) {
+		Certificate tCertificate;
+
+		tCertificate = portfolio.getCertFromCorpBuyable (aCorporation, aRemoveCertificate);
+
+		return tCertificate;
+	}
+
 	public int getCertificatePercentageFor (Corporation aCorporation) {
 		int tCertificatePercentage;
 
