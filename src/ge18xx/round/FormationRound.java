@@ -3,7 +3,6 @@ package ge18xx.round;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import ge18xx.company.CorporationList;
 import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
@@ -109,10 +108,6 @@ public class FormationRound extends InterruptionRound {
 		String tRoundTypePhase;
 		
 		tIsInterrupting = false;
-		// TODO: Need to add test if Interruption is required:
-		// for 1856 Purchase of 
-		//		We have Entered Phase 5 (in Phase Info)
-		//		AND at least one Share Company has at least one Loan Outstanding
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.gameHasRoundType (NAME)) {
 			tRoundTypePhase = getPhase ();
@@ -125,25 +120,7 @@ public class FormationRound extends InterruptionRound {
 			}
 		}
 		
-		// for 1835 Purchase of 
-		//		a 4 Train and Formation is Optional
-		//		OR Start of OR if PR formation started
-		//		OR Purchase of Z Train and Formation REQUIRED
-		
 		return tIsInterrupting;
-	}
-	
-	public boolean hasOutstandingLoans () {
-		CorporationList tShareCompanies;
-		boolean tCanStart;
-		
-		tCanStart = false;
-		if (roundManager.gameHasLoans ()) {
-			tShareCompanies = roundManager.getShareCompanies ();
-			tCanStart = tShareCompanies.anyHaveLoans ();
-		}
-		
-		return tCanStart;
 	}
 	
 	public void setTriggerFormationClass (TriggerClass aTriggerFormationClass) {
