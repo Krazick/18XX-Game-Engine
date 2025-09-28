@@ -44,12 +44,18 @@ public class FormPrussian extends FormCompany {
 		int tCurrentPlayerIndex;
 		PlayerManager tPlayerManager;
 		
-		tActingPresident = findActingPresident ();
 		tPlayerManager = gameManager.getPlayerManager ();
-		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		 
+		if (triggeringCompany.isClosed ()) {
+			tCurrentPlayerIndex = tPlayerManager.getPriorityPlayerIndex ();
+			tActingPresident = tPlayerManager.getPlayer (tCurrentPlayerIndex);
+		} else {
+			tActingPresident = findActingPresident ();
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		} 
+
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
 		rebuildFormationPanel (tCurrentPlayerIndex);
-		// TODO -- New Effect to add "AddSetFormationPlayerIndexEffect (FromPlayer, toPlayer)
 		aStartFormationAction.addUpdateToNextPlayerEffect (tActingPresident, tActingPresident, tActingPresident);
 
 		showFormationFrame (aStartFormationAction);
@@ -132,6 +138,11 @@ public class FormPrussian extends FormCompany {
 	
 	@Override
 	public boolean isInterrupting () {
+		// for 1835 
+		//		On Purchase of a 4 Train and Formation is Optional
+		//		OR On Start of OR if PR formation round # 1 has occurred (ie 4 Train was purchased)
+		//		OR On Purchase of 4+4 Train and Full Formation is REQUIRED
+
 		return true;
 	}
 	
