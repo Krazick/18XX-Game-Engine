@@ -615,6 +615,32 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificate;
 	}
 
+	public Certificate getCertFromCorpBuyable (Corporation aCorporation, boolean aRemove) {
+		Certificate tPortfolioCertificate;
+		Certificate tCertificate;
+		int tCertificateCount;
+		int tIndex;
+
+		tCertificate = Certificate.NO_CERTIFICATE;
+		tCertificateCount = certificates.size ();
+		for (tIndex = 0; 
+			(tIndex < tCertificateCount) && (tCertificate == Certificate.NO_CERTIFICATE); 
+			tIndex++) {
+			tPortfolioCertificate = certificates.get (tIndex);
+			if (tPortfolioCertificate.canBeBoughtFromIPO ()) {
+				if (tPortfolioCertificate.isForThis (aCorporation)) {
+					tCertificate = tPortfolioCertificate;
+					if (aRemove) {
+						certificates.remove (tIndex);
+						holder.updateListeners (CERTIFICATE_REMOVED + " from " + holder.getName ());
+					}
+				}
+			}
+		}
+
+		return tCertificate;
+	}
+
 	@Override
 	public int getShareCountFor (Corporation aCorporation) {
 		int tCount;
@@ -1291,9 +1317,6 @@ public class Portfolio implements CertificateHolderI {
 			Portfolio tPortfolio;
 			PortfolioHolderLoaderI tHolder;
 			Bank tBank;
-			Corporation tCorporation;
-			GameManager tGameManager;
-			CertificateHolderI tCertificateHolder;
 			String tCompanyAbbrev;
 			boolean tIsPresident;
 			int tPercentage;
@@ -1320,17 +1343,29 @@ public class Portfolio implements CertificateHolderI {
 					if (tCertificate != Certificate.NO_CERTIFICATE) {
 						transferOneCertificateOwnership (tPortfolio, tCertificate);
 					} else {
-						System.out.println ("Tried to find Certificate, but was not found. " + 
-								tCompanyAbbrev + " " + tPercentage + "% President " + tIsPresident);
-						tGameManager = holder.getGameManager ();
-						tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
-						tCertificateHolder = tCorporation.getPortfolio ();
-						tCertificate = new Certificate (tCorporation, tIsPresident, tPercentage, 
-								tCertificateHolder);
-						addCertificate (tCertificate);
+						createNewCertificate (tCurrentHolder, tCompanyAbbrev, tIsPresident, tPercentage);
 					}
 				}
 			}
+		}
+
+		protected void createNewCertificate (PortfolioHolderI aCurrentHolder, String aCompanyAbbrev,
+				boolean aIsPresident, int aPercentage) {
+			Certificate tCertificate;
+			Corporation tCorporation;
+			GameManager tGameManager;
+			CertificateHolderI tCertificateHolder;
+			
+			System.err.println ("Tried to find Certificate for Portfolio of "+ 
+					aCurrentHolder.getName () + ", but was not found. " + 
+					" [ Certificate Info " + aCompanyAbbrev + " " + aPercentage + 
+					"% President " + aIsPresident + " ]");
+			tGameManager = aCurrentHolder.getGameManager ();
+			tCorporation = tGameManager.getCorporationByAbbrev (aCompanyAbbrev);
+			tCertificateHolder = tCorporation.getPortfolio ();
+			tCertificate = new Certificate (tCorporation, aIsPresident, aPercentage, 
+					tCertificateHolder);
+			addCertificate (tCertificate);
 		}
 	};
 
@@ -2311,7 +2346,7 @@ public class Portfolio implements CertificateHolderI {
 												tCertParValue = tShareCompany.getParPrice ();
 												if (tPlayerCash >= tCertParValue) {
 													tBank = tCorporation.getBank ();
-													tCertToBuy = tBank.getCertificateFromCorp (tCorporation, 
+													tCertToBuy = tBank.getCertFromCorpBuyable (tCorporation, 
 																	! REMOVE_CERTIFICATE);
 												}
 											}
