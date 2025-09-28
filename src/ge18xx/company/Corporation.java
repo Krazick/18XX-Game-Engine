@@ -1548,13 +1548,17 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PortfolioHolderI tPresident;
 		GameManager tGameManager;
 		
-		tPresident = corporationCertificates.getPresident ();
-		if (tPresident == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
-			tGameManager = getGameManager ();
-			tPresident = tGameManager.getPresidentFromPlayers (this);
-		} else if (tPresident.isABank ()) {
-			tGameManager = getGameManager ();
-			tPresident = tGameManager.getPresidentFromPlayers (this);			
+		tGameManager = getGameManager ();
+		if (isClosed ()) {
+			tPresident = tGameManager.getBank ();
+		} else {
+			tPresident = corporationCertificates.getPresident ();
+			if (tPresident == PortfolioHolderI.NO_PORTFOLIO_HOLDER) {
+				tPresident = tGameManager.getPresidentFromPlayers (this);
+			} else if (tPresident.isABank ()) {
+				tGameManager = getGameManager ();
+				tPresident = tGameManager.getPresidentFromPlayers (this);			
+			}
 		}
 		
 		return tPresident;
