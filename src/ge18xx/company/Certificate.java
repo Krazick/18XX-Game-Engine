@@ -142,6 +142,7 @@ public class Certificate implements Comparable<Certificate> {
 						aCertificate.getPercentage ());
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setSecondIssue (aCertificate.isSecondIssue ());
+			setOnlyExchangeable (aCertificate.onlyExchangeable ());
 			initCommon (aCertificate.getOwner ());
 		}
 	}
@@ -1167,6 +1168,7 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement = aXMLDocument.createElement (EN_CERTIFICATE);
 		tXMLElement.setAttribute (Corporation.AN_ABBREV, corporation.getAbbrev ());
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
+		tXMLElement.setAttribute (AN_ONLY_EXCHANGEABLE, onlyExchangeable);
 		if (secondIssue) {
 			tXMLElement.setAttribute (AN_SECOND_ISSUE, secondIssue);
 		}
@@ -1894,6 +1896,10 @@ public class Certificate implements Comparable<Certificate> {
 
 	public boolean onlyExchangeable () {
 		return onlyExchangeable;
+	}
+	
+	public boolean canBeBoughtFromIPO () {
+		return !onlyExchangeable;
 	}
 	
 	public void sortCorporationCertificates () {
