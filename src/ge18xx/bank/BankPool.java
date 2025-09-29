@@ -67,7 +67,6 @@ public class BankPool extends GameBank {
 		return NAME;
 	}
 
-//	public XMLElement getBankPoolStateElements (XMLDocument aXMLDocument) {
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tXMLElement;
