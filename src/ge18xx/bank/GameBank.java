@@ -198,14 +198,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGa
 		return tCertificateToBidOn;
 	}
 
-//	public Certificate getNextCertificateWithBid () {
-//		Certificate tCertificateToBuy;
-//
-//		tCertificateToBuy = getNextCertificateWithBid ();
-//
-//		return tCertificateToBuy;
-//	}
-
 	public Certificate getCertificateToBuy () {
 		Certificate tCertificateToBuy;
 
