@@ -84,16 +84,10 @@ public class Portfolio implements CertificateHolderI {
 
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
-//	int privateIndex;
-//	int minorIndex;
-//	int shareIndex;
 
 	public Portfolio (PortfolioHolderI aHolder) {
 		certificates = new LinkedList<> ();
 		setHolder (aHolder);
-//		privateIndex = NO_COMPONENT_INDEX;
-//		minorIndex = NO_COMPONENT_INDEX;
-//		shareIndex = NO_COMPONENT_INDEX;
 	}
 
 	@Override
@@ -667,6 +661,34 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		return tCount;
+	}
+
+	@Override
+	public int getCertificatePercentsFor (Corporation aCorporation) {
+		int tCount;
+
+		tCount = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isForThis (aCorporation)) {
+				tCount++;
+			}
+		}
+
+		return tCount;
+	}
+
+	@Override
+	public String getCertificatePercentList (Corporation aCorporation) {
+		String tPercentList;
+
+		tPercentList = GUI.EMPTY_STRING;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isForThis (aCorporation)) {
+				tPercentList += tCertificate.getPercentage () + "% ";
+			}
+		}
+
+		return tPercentList;
 	}
 
 	@Override
@@ -1301,9 +1323,6 @@ public class Portfolio implements CertificateHolderI {
 	public void loadPortfolio (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
 
-//		privateIndex = aXMLNode.getThisIntAttribute (AN_PRIVATE_INDEX, NO_COMPONENT_INDEX);
-//		minorIndex = aXMLNode.getThisIntAttribute (AN_MINOR_INDEX, NO_COMPONENT_INDEX);
-//		shareIndex = aXMLNode.getThisIntAttribute (AN_SHARE_INDEX, NO_COMPONENT_INDEX);
 		tXMLNodeList = new XMLNodeList (certificateParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE);
 	}
