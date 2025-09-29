@@ -25,6 +25,12 @@ public interface CertificateHolderI {
 	
 	public abstract int getCertificatePercentageFor (Corporation aCorporation);
 
+	public abstract int getCertificatePercentsFor (Corporation aCorporation);
+
+	public abstract String getCertificatePercentList (Corporation aCorporation);
+
+	public abstract boolean hasCertificateFor (Corporation aCorporation);
+
 	public abstract String getHolderName ();
 
 	public abstract String getHolderAbbrev ();
@@ -32,8 +38,6 @@ public interface CertificateHolderI {
 	public abstract String getName ();
 
 	public abstract PortfolioHolderI getPortfolioHolder ();
-
-	public abstract boolean hasCertificateFor (Corporation aCorporation);
 
 	public boolean isABank ();
 
