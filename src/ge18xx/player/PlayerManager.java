@@ -855,18 +855,6 @@ public class PlayerManager implements XMLSaveGameI {
 
 		return tBuyStockAction;
 	}
-
-//	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
-//			ShareCompany aShareCompany, int aParPrice) {
-//		SetParValueEffect tSetParValueEffect;
-//
-//		gameManager.setParPrice (aShareCompany, aParPrice);
-//		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
-//		parPriceFrame.setParPriceFrameActive (false);
-//		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
-//
-//		return tSetParValueEffect;
-//	}
 	
 	public void setFreeCertificatePrice (Certificate aFreeCertificate, Player aPlayer, 
 				BuyStockAction aBuyStockAction) {
