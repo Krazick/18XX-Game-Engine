@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
+import ge18xx.player.Portfolio;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
@@ -39,7 +41,8 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		tCorporation = certificate.getCorporation ();
 		tInfoTitle = "Info for " + tCorporation.getAbbrev () + " Certificate";
 		setTitle (tInfoTitle);
-		fillFrame ();
+		certificateInfoJPanel = new JPanel ();
+//		fillFrame ();
 	}
 
 	public void setCertificate (Certificate aCertificate) {
@@ -55,6 +58,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		if (GET_INFO.equals (tTheAction)) {
 			tLocation = getOffset ();
 			setLocation (tLocation);
+			fillFrame ();
 			showFrame ();
 		}
 		if (OK_STRING.equals (tTheAction)) {
@@ -80,7 +84,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	
 	public void fillFrame () {
 		Corporation tCorporation;
-		String tCompanyType;
 		String tCompanyInfo;
 		String tPercentPrezInfo;
 		String tHomeLocations;
@@ -93,13 +96,12 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		KButton tOKButton;
 		Border tMargin;
 		
+		certificateInfoJPanel.removeAll ();
 		tMargin = BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1);
-		certificateInfoJPanel = new JPanel ();
 		certificateInfoJPanel.setLayout (new BoxLayout (certificateInfoJPanel, BoxLayout.Y_AXIS));
 		certificateInfoJPanel.setBorder (tMargin);
 
 		tCorporation = certificate.getCorporation ();
-		tCompanyType = tCorporation.getType ();
 		tCompanyInfo = tCorporation.getCompanyInfo ();
 		tPercentPrezInfo = certificate.getPercentPrezInfo ();
 		tTitle = new JLabel (tPercentPrezInfo + " Certificate for " + tCompanyInfo);
@@ -127,9 +129,11 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tRevenue);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		addBenefitLabels (tCorporation, tCompanyType);
+		addBenefitLabels (tCorporation);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
+		addBankHoldings (tCorporation);
+
 		tOKButton = new KButton (OK_STRING);
 		tOKButton.setActionCommand (OK_STRING);
 		tOKButton.addActionListener (this);
@@ -139,17 +143,61 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		pack ();
 		setPreferredSize (getPreferredSize ());
 	}
+	
+	public void addBankHoldings (Corporation aCorporation) {
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tIPOPortfolio;
+		Portfolio tBankPoolPortfolio;
+		String tPortfolioName;
+		
+		if (aCorporation.isAShareCompany ()) {
+			tBank = aCorporation.getBank ();
+			tIPOPortfolio = tBank.getPortfolio ();
+			tPortfolioName = tBank.getName () + " IPO";
+			addHoldingsInfo (aCorporation, tIPOPortfolio, tPortfolioName);
+			
+			tBankPool = aCorporation.getBankPool ();
+			tBankPoolPortfolio = tBankPool.getPortfolio ();
+			tPortfolioName = tBankPool.getName () + " Portfolio";
+			addHoldingsInfo (aCorporation, tBankPoolPortfolio, tPortfolioName);
+		}
+	}
+	
+	public void addHoldingsInfo (Corporation aCorporation, Portfolio aPortfolio, String aPortfolioName) {
+		JLabel tHoldingsJLabel;
+		JLabel tCertificatePercentListLabel;
+		int tCertificateCount;
+		String tCertificateCountText;
+		String tCertificatePercentList;
+		
+		if (aCorporation.isAShareCompany ()) {
+			tCertificateCount = aPortfolio.getCertificateCountFor (aCorporation);
+			tCertificateCountText = tCertificateCount + " Certificate";
+			if (tCertificateCount != 1) {
+				tCertificateCountText += "s";
+			}
+			tHoldingsJLabel = new JLabel (aPortfolioName + " Holdings: " + tCertificateCountText);
+			tCertificatePercentList = aPortfolio.getCertificatePercentList (aCorporation);
+			tCertificatePercentListLabel = new JLabel (tCertificatePercentList);
+			certificateInfoJPanel.add (tHoldingsJLabel);
+			certificateInfoJPanel.add (tCertificatePercentListLabel);
+			certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		}
+	}
 
-	public void addBenefitLabels (Corporation tCorporation, String tCompanyType) {
+	public void addBenefitLabels (Corporation aCorporation) {
 		Benefits tBenefits;
 		JLabel tBenefitJLabel;
-		
-		if (! tCorporation.isAShareCompany ()) {
-			tBenefits = tCorporation.getBenefits ();
-			if ((tCorporation.isAPrivateCompany ())  && (tBenefits == Benefits.NO_BENEFITS)) {
+		String tCompanyType;
+
+		if (! aCorporation.isAShareCompany ()) {
+			tBenefits = aCorporation.getBenefits ();
+			tCompanyType = aCorporation.getType ();
+			if ((aCorporation.isAPrivateCompany ())  && (tBenefits == Benefits.NO_BENEFITS)) {
 				tBenefitJLabel = new JLabel ("Benefits: NO BENEFITS");
 				certificateInfoJPanel.add (tBenefitJLabel);
-			} else if ((tCorporation.isAPrivateCompany ()) && (tBenefits != Benefits.NO_BENEFITS)) {
+			} else if ((aCorporation.isAPrivateCompany ()) && (tBenefits != Benefits.NO_BENEFITS)) {
 				tBenefitJLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
 				certificateInfoJPanel.add (tBenefitJLabel);
 				certificate.addBenefitLabels (certificateInfoJPanel, true);
