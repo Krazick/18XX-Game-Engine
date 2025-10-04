@@ -1033,6 +1033,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getCertificate (aIndex);
 	}
 
+	public Portfolio getCorporationCertificates () {
+		return corporationCertificates;
+	}
+	
 	/* Add to XML Element Corporation Specific Information -- For Save File */
 	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		Location tHomeLocation1;
