@@ -42,7 +42,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		tInfoTitle = "Info for " + tCorporation.getAbbrev () + " Certificate";
 		setTitle (tInfoTitle);
 		certificateInfoJPanel = new JPanel ();
-//		fillFrame ();
 	}
 
 	public void setCertificate (Certificate aCertificate) {
@@ -178,6 +177,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 				tCertificateCountText += "s";
 			}
 			tHoldingsJLabel = new JLabel (aPortfolioName + " Holdings: " + tCertificateCountText);
+			aPortfolio.sortByOwners ();
 			tCertificatePercentList = aPortfolio.getCertificatePercentList (aCorporation);
 			tCertificatePercentListLabel = new JLabel (tCertificatePercentList);
 			certificateInfoJPanel.add (tHoldingsJLabel);
