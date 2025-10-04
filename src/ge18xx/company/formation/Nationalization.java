@@ -235,6 +235,7 @@ public class Nationalization extends PlayerFormationPanel {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
 		updateCorporationOwnership (tFormedCertificate);
+		confirmFormingPresident (tTransferOwnershipAction);
 		aPrivateCompany.close (tTransferOwnershipAction);
 		gameManager.addAction (tTransferOwnershipAction);
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
@@ -282,6 +283,8 @@ public class Nationalization extends PlayerFormationPanel {
 			System.err.println ("No certificate available with All Players Total Exchange Count 1");
 		}
 		updateCorporationOwnership (tFormedCertificate);
+		confirmFormingPresident (tTransferOwnershipAction);
+
 		transferAllCash (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
 		transferAllTrains (aMinorCompany, tFormingShareCompany, tTransferOwnershipAction);
 		tMinorCompanyOldStatus = aMinorCompany.getActionStatus ();
