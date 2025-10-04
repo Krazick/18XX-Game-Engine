@@ -19,7 +19,18 @@ public class CertificateTestFactory {
 		
 		return tCertificate;
 	}
-	
+
+	public Certificate buildCertificate (Corporation aCorporation, boolean aIsPresidentShare, 
+			int aPercentage, CertificateHolderI aOwner, boolean aOnlyExchangeable) {
+		Certificate tCertificate;
+		
+		tCertificate = new Certificate (aCorporation, aIsPresidentShare, aPercentage, aOwner);
+		tCertificate.setOnlyExchangeable (aOnlyExchangeable);
+		aOwner.addCertificate (tCertificate);
+		
+		return tCertificate;
+	}
+
 	public Certificate buildCertificateMock () {
 		Certificate mCertificate;
 
