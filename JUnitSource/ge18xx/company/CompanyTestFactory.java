@@ -312,6 +312,18 @@ public class CompanyTestFactory {
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "			allowedOwners=\"IPO,Player,BankPool\" /> \n"
 				+ "	</Share>\n";
+		String tShareCompany6TestXML = "	<Share id=\"1810\" name=\"Preusische Eisenbahn\" abbrev=\"PR\" "
+				+ "		bgColor=\"Black\" startPrice=\"3,8\" group=\"2\" fgColor=\"White\" tokens=\"9\" "
+				+ "		tokenType=\"RangeCost\" formationPhase=\"2.3\" \n"
+				+ "		formationRequirement=\"MinorID 1702 Optional\" formationMandatoryPhase=\"2.4\" govtRailway=\"true\" \n"
+				+ "		status=\"Unformed\" >\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"4\" allowedOwners=\"IPO,Player,BankPool\"/>\n"
+				+ "		<Certificate director=\"YES\" percentage=\"10\" allowedOwners=\"IPO,Player\" onlyExchangeable=\"true\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"5\" quantity=\"4\" allowedOwners=\"IPO,Player,BankPool\"\n"
+				+ "				 onlyExchangeable=\"true\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"3\" allowedOwners=\"IPO,Player,BankPool\"\n"
+				+ "				 onlyExchangeable=\"true\" />\n"
+				+ "	</Share>\n";
 
 		ShareCompany tShareCompany;
 		PhaseInfo mPhaseInfo;
@@ -337,6 +349,9 @@ public class CompanyTestFactory {
 			tShareCompany = buildShareCompany (tShareCompany4TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 5) {
 			tShareCompany = buildShareCompany (tShareCompany5TestXML, tShareCompany, mCorporationList);
+		} else if (aCompanyIndex == 6) {
+			// Prussian Share Company
+			tShareCompany = buildShareCompany (tShareCompany6TestXML, tShareCompany, mCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
