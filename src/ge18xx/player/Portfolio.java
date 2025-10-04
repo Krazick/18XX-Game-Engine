@@ -684,7 +684,11 @@ public class Portfolio implements CertificateHolderI {
 		tPercentList = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
-				tPercentList += tCertificate.getPercentage () + "% ";
+				tPercentList += tCertificate.getPercentage () + "%";
+				if (tCertificate.onlyExchangeable ()) {
+					tPercentList += "^";
+				}
+				tPercentList += " ";
 			}
 		}
 
@@ -1966,18 +1970,31 @@ public class Portfolio implements CertificateHolderI {
 			int tSortOrder;
 			int tCert1Percentage;
 			int tCert2Percentage;
+			boolean tCert1OnlyExchangeable;
+			boolean tCert2OnlyExchangeable;
 
 			tOwner1 = aCertificate1.getOwnerName ();
 			tOwner2 = aCertificate2.getOwnerName ();
 
 			tSortOrder = tOwner1.compareTo (tOwner2);
 			if (tSortOrder == 0) {
-				tCert1Percentage = aCertificate1.getPercentage ();
-				tCert2Percentage = aCertificate2.getPercentage ();
-				if (tCert1Percentage > tCert2Percentage) {
-					tSortOrder = -1;
-				} else if (tCert1Percentage < tCert2Percentage) {
+				tCert1OnlyExchangeable = aCertificate1.onlyExchangeable ();
+				tCert2OnlyExchangeable = aCertificate2.onlyExchangeable ();
+				if (tCert1OnlyExchangeable == tCert2OnlyExchangeable) {
+					tSortOrder = 0;
+				} else if (tCert1OnlyExchangeable  && ! tCert2OnlyExchangeable) {
 					tSortOrder = 1;
+				} else {
+					tSortOrder = -1;
+				}
+				if (tSortOrder == 0) {
+					tCert1Percentage = aCertificate1.getPercentage ();
+					tCert2Percentage = aCertificate2.getPercentage ();
+					if (tCert1Percentage > tCert2Percentage) {
+						tSortOrder = -1;
+					} else if (tCert1Percentage < tCert2Percentage) {
+						tSortOrder = 1;
+					}
 				}
 			}
 
