@@ -1890,7 +1890,7 @@ public class Certificate implements Comparable<Certificate> {
 		secondIssue = aSecondIssue;
 	}
 
-	private void setOnlyExchangeable (boolean aOnlyExchangeable) {
+	public void setOnlyExchangeable (boolean aOnlyExchangeable) {
 		onlyExchangeable = aOnlyExchangeable;
 	}
 
