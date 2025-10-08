@@ -726,15 +726,34 @@ public class Portfolio implements CertificateHolderI {
 		return tThisCertificate;
 	}
 
-	public Certificate getCertificate (String aAbbrev, int aPercentage, boolean isPresident) {
+	public Certificate getCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
 		Certificate tThisCertificate;
 
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getCompanyAbbrev ().equals (aAbbrev)) {
 				if (tCertificate.getPercentage () == aPercentage) {
-					if (tCertificate.isPresidentShare () == isPresident) {
+					if (tCertificate.isPresidentShare () == aIsPresident) {
 						tThisCertificate = tCertificate;
+					}
+				}
+			}
+		}
+
+		return tThisCertificate;
+	}
+
+	public Certificate getCertificate (String aAbbrev, int aPercentage, boolean aIsPresident, boolean aOnlyExchangeable) {
+		Certificate tThisCertificate;
+
+		tThisCertificate = Certificate.NO_CERTIFICATE;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.getCompanyAbbrev ().equals (aAbbrev)) {
+				if (tCertificate.getPercentage () == aPercentage) {
+					if (tCertificate.isPresidentShare () == aIsPresident) {
+						if (tCertificate.onlyExchangeable () == aOnlyExchangeable) {
+							tThisCertificate = tCertificate;
+						}
 					}
 				}
 			}
