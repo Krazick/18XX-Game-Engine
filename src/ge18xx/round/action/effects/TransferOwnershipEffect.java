@@ -75,13 +75,18 @@ public class TransferOwnershipEffect extends ToEffect {
 		String tEffectReport;
 		String tToActorName;
 		String tFromActorName;
+		String tExchangeable;
 		
-		tEffectReport = "";
+		tEffectReport = GUI.EMPTY_STRING;
+		tExchangeable = GUI.EMPTY_STRING;
 		if (certificate == Certificate.NO_CERTIFICATE) {
 			tEffectReport = "No Certificate Exchange";
 		} else {
 			tEffectReport += REPORT_PREFIX + name + " of ";
-			tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
+			if (certificate.onlyExchangeable ()) {
+				tExchangeable = "^";
+			}
+			tEffectReport += certificate.getPercentage () + "%" + tExchangeable + " of " + certificate.getCompanyAbbrev ();
 			if (certificate.isPresidentShare ()) {
 				tEffectReport += " (President Share)";
 			}
