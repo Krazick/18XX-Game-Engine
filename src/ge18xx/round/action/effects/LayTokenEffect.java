@@ -117,7 +117,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		tActorName = getActor ().getName ();
 		tMapCellID = getMapCellID ();
 		
-		return (REPORT_PREFIX + getName () + " Token (Index " + tokenIndex + " Type " + tTokenType +
+		return (REPORT_PREFIX + getName () + " (Index " + tokenIndex + " Type " + tTokenType +
 				") on Tile " + tileNumber + " at Center Index " + revenueCenterIndex
 				+ " by " + tActorName + " on MapCell " + tMapCellID + "." + tBenefitReport);
 	}
