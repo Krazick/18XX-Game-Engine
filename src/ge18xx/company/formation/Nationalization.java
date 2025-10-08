@@ -228,7 +228,7 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormingAbbrev = getFormingAbbrev ();
 		tPercentage = aPrivateCompany.getExchangePercentage ();
 
-		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false, true);
 		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
 			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction);
 		} else {
@@ -276,7 +276,7 @@ public class Nationalization extends PlayerFormationPanel {
 		} else {
 			tFindPresidentShare = false;
 		}
-		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, tFindPresidentShare);
+		tFormedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, tFindPresidentShare, true);
 		if (tFormedCertificate != Certificate.NO_CERTIFICATE) {
 			transferShare (tBank, Bank.IPO, player, tFormedCertificate, tTransferOwnershipAction);
 		} else {
@@ -296,10 +296,12 @@ public class Nationalization extends PlayerFormationPanel {
 		tReplaceTokenAction.setChainToPrevious (true);
 		gameManager.addAction (tReplaceTokenAction);
 		
-		tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
-		setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction, tMinorCompanyOldStatus);
-		tStockValueCalculationAction.setChainToPrevious (true);
-		gameManager.addAction (tStockValueCalculationAction);
+		if (tFindPresidentShare) {
+			tStockValueCalculationAction = new StockValueCalculationAction (tRoundType, tRoundID, player);
+			setMarketCell (aMinorCompany, tFormingShareCompany, tStockValueCalculationAction, tMinorCompanyOldStatus);
+			tStockValueCalculationAction.setChainToPrevious (true);
+			gameManager.addAction (tStockValueCalculationAction);
+		}
 		tFormPrussian.rebuildFormationPanel (tFormPrussian.getCurrentPlayerIndex ());
 	}
 	 
