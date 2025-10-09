@@ -175,10 +175,10 @@ public class FormationRound extends InterruptionRound {
 			System.err.println ("The Trigger Formation Class was NOT setup properly when the Trigger Class was triggered!!!");
 		}
 		setTriggerFormationClass (tTriggerFormationClass);
-
-		triggerFormationClass.prepareFormation (tStartFormationAction);
 		
 		setRoundToThis (tStartFormationAction, true);
+		triggerFormationClass.prepareFormation (tStartFormationAction);
+		triggerFormationClass.showFormationFrame ();
 		roundManager.addAction (tStartFormationAction);
 	}
 	
