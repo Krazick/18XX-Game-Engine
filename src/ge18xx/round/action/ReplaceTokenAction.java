@@ -9,6 +9,7 @@ import ge18xx.round.action.effects.RemoveTokenEffect;
 import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.round.action.effects.SetNonHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
+import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class ReplaceTokenAction extends LayTokenAction {
@@ -30,10 +31,34 @@ public class ReplaceTokenAction extends LayTokenAction {
 	}
 	
 	@Override
+	public String getBriefActionReport () {
+		String tReport;
+		String tActorAbbrev;
+		
+		tActorAbbrev = GUI.EMPTY_STRING;
+		if (actor == ActorI.NO_ACTOR) {
+			tActorAbbrev = "NO-ABBREV";
+		} else {
+			if (actor.isAMinorCompany ()) {
+				tActorAbbrev = "Minor ";
+			}
+			tActorAbbrev += actor.getAbbrev ();
+		}
+		
+		tReport =  number + ". " + roundState + " " + roundID + ": " + tActorAbbrev + " performed " + name
+				+ " Chain to Previous [" + chainToPrevious + "]";
+		
+		return tReport;
+	}
+
+	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
+		String tActorName;
+		
+		tActorName = actor.getName ();
 
-		tSimpleActionReport = actor.getName () + " replaced Token on Map Cell " + getMapCellID ();
+		tSimpleActionReport = tActorName + " replaced Token on Map Cell " + getMapCellID ();
 
 		return tSimpleActionReport;
 	}
