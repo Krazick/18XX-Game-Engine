@@ -1960,11 +1960,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				// If the State is NO State, Don't need to show it
 				setTriggerFormation (TriggerClass.NO_TRIGGER_CLASS);
 			} else {
-				// Otherwise game saved in middle of Formation, need to load and show it.
 				tFormationRound = roundManager.getFormationRound ();
-//				tTriggerFormationClass = tFormationRound.constructFormationClass ();
 				tTriggerFormationClass = tFormationRound.constructFormationClass (this, aChildNode);
 				setTriggerFormation (tTriggerFormationClass);
+				if (roundManager.getCurrentRound () == tFormationRound) {
+					// Otherwise game saved in middle of Formation, need to load and show it.
+					tTriggerFormationClass.showFormationFrame ();
+				}
 			}
 		}
 	}
