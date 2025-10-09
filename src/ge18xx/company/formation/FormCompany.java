@@ -63,7 +63,7 @@ public class FormCompany extends TriggerClass {
 	Corporation triggeringCompany;
 	ShareCompany formingShareCompany;
 	protected ActionStates formationState;
-	protected Player actingPresident;
+	protected Player initialPlayer;
 	protected JPanel formationJPanel;
 	protected JPanel notificationJPanel;
 	protected JTextArea notificationArea;
@@ -77,7 +77,7 @@ public class FormCompany extends TriggerClass {
 	public FormCompany (GameManager aGameManager) {
 		gameManager = aGameManager;
 		setFormingShareCompany ();
-		setActingPresident (Player.NO_PLAYER);
+		setInitialPlayer (Player.NO_PLAYER);
 	}
 	
 	public FormCompany (XMLNode aXMLNode, GameManager aGameManager) {
@@ -121,7 +121,7 @@ public class FormCompany extends TriggerClass {
 		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
 		tPlayer = (Player) gameManager.getActor (tPlayerName);
 		if (tPlayer != Player.NO_PLAYER) {
-			setActingPresident (tPlayer);
+			setInitialPlayer (tPlayer);
 		}
 	}
 	
@@ -242,8 +242,15 @@ public class FormCompany extends TriggerClass {
 
 	@Override
 	public void showFormationFrame (StartFormationAction aStartFormationAction) {
-		aStartFormationAction.addShowFrameEffect (actingPresident, formationFrame);
-		formationFrame.showFrame ();
+		RoundManager tRoundManager;
+		
+		tRoundManager = gameManager.getRoundManager ();
+
+		if (tRoundManager.isAFormationRound ()) {
+			aStartFormationAction.addShowFrameEffect (initialPlayer, formationFrame);
+			formationFrame.showFrame ();
+//			aStartFormationAction.addShowFormationPanelEffect (actingPresident);
+		}
 	}
 
 	public void refreshPanel () {
@@ -375,10 +382,10 @@ public class FormCompany extends TriggerClass {
 	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
 		int tCurrentPlayerIndex;
 		
-		findActingPresident ();
-		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
+		findInitialPlayer ();
+		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (initialPlayer);
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
-		updatePlayers (aPlayers, actingPresident);
+		updatePlayers (aPlayers, initialPlayer);
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
@@ -429,31 +436,31 @@ public class FormCompany extends TriggerClass {
 		return tFormingPresident;
 	}
 
-	@Override
-	public void setActingPresident (Player aActingPresident) {
-		actingPresident = aActingPresident;
+	public void setInitialPlayer (Player aActingPresident) {
+		initialPlayer = aActingPresident;
 	}
 
-	public Player findActingPresident () {
+	public Player findInitialPlayer () {
 		Corporation tActingCorporation;
-		Player tActingPlayer;
+		Player tInitialPlayer;
 		PortfolioHolderI tPresident;
 		
-		if (actingPresident == Player.NO_PLAYER) {
+		tInitialPlayer = Player.NO_PLAYER;
+		if (initialPlayer == Player.NO_PLAYER) {
 			tActingCorporation = gameManager.getOperatingCompany ();
 			if (tActingCorporation != Corporation.NO_CORPORATION) {
 				tPresident = tActingCorporation.getPresident ();
 				if (tPresident.isAPlayer ()) {
-					tActingPlayer = (Player) tPresident;
-					setActingPresident (tActingPlayer);
+					tInitialPlayer = (Player) tPresident;
+					setInitialPlayer (tInitialPlayer);
 				} else {
-					setActingPresident (Player.NO_PLAYER);
+					setInitialPlayer (Player.NO_PLAYER);
 				}
 			}
 		}
-		tActingPlayer = actingPresident;
+//		tInitialPlayer = initialPlayer;
 	
-		return tActingPlayer;
+		return initialPlayer;
 	}
 	
 	public PlayerFormationPanel buildPlayerPanel (Player aPlayer, Player aActingPresident) {
@@ -520,11 +527,8 @@ public class FormCompany extends TriggerClass {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 	
-//		showFormationFrame ();
-		showFormationFrame (aStartFormationAction);
 		if (aStartFormationAction != Action.NO_ACTION) {
 			tActingPlayer = (Player) triggeringCompany.getPresident ();
-			aStartFormationAction.addShowFormationPanelEffect (tActingPlayer);
 			aStartFormationAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState,
 								formationState);
 			aStartFormationAction.addStartFormationEffect (tActingPlayer, formingShareCompany, triggeringCompany);
@@ -576,7 +580,7 @@ public class FormCompany extends TriggerClass {
 		tPlayers = tPlayerManager.getPlayers ();
 		tFormingPresident = getFormingPresident ();
 		tPresidentIndex = tPlayerManager.getPlayerIndex (tFormingPresident);
-		setActingPresident (tFormingPresident);
+		setInitialPlayer (tFormingPresident);
 	
 		if (currentPlayerIndex < 0) {
 			tCurrentPlayer = tFormingPresident;
@@ -618,10 +622,10 @@ public class FormCompany extends TriggerClass {
 		ActorI.ActionStates tCurrentRoundState;
 		ActorI.ActionStates tNewFormationState;
 		
-		if (actingPresident == ActorI.NO_ACTOR) {
+		if (initialPlayer == ActorI.NO_ACTOR) {
 			tFormingPresident = getFormingPresident ();
 		} else {
-			tFormingPresident = actingPresident;
+			tFormingPresident = initialPlayer;
 		}
 		tRoundManager = gameManager.getRoundManager ();
 		tCurrentRound = tRoundManager.getCurrentRound ();
@@ -745,7 +749,7 @@ public class FormCompany extends TriggerClass {
 	
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
-		tFirstPresident = findActingPresident ();
+		tFirstPresident = findInitialPlayer ();
 		
 		tChangeFormationRoundStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
 		

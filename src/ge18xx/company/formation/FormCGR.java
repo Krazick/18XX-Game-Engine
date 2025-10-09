@@ -107,8 +107,8 @@ public class FormCGR extends FormCompany implements ActionListener {
 		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
 		
-		if (actingPresident != ActorI.NO_ACTOR) {
-			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
+		if (initialPlayer != ActorI.NO_ACTOR) {
+			tXMLElement.setAttribute (AN_ACTING_PRESIDENT, initialPlayer.getName ());
 		}
 
 		return tXMLElement;
