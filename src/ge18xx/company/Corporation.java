@@ -1688,6 +1688,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Minor Company will override
+	@Override
 	public boolean isAMinorCompany () {
 		return false;
 	}
