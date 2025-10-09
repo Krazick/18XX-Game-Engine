@@ -205,6 +205,7 @@ public class Nationalization extends PlayerFormationPanel {
 	private void handleUpgradeToPrussian (PrivateCompany aPrivateCompany) {
 		TransferOwnershipAction tTransferOwnershipAction;
 		RoundManager tRoundManager;
+		Round tCurrentRound;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		String tFormingAbbrev;
@@ -221,7 +222,8 @@ public class Nationalization extends PlayerFormationPanel {
 		
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
-		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
 		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
@@ -244,6 +246,7 @@ public class Nationalization extends PlayerFormationPanel {
 	private void handleUpgradeToPrussian (MinorCompany aMinorCompany) {
 		TransferOwnershipAction tTransferOwnershipAction;
 		RoundManager tRoundManager;
+		Round tCurrentRound;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		String tFormingAbbrev;
@@ -264,7 +267,8 @@ public class Nationalization extends PlayerFormationPanel {
 		tFormPrussian = (FormPrussian) formCompany;
 		tRoundManager = gameManager.getRoundManager ();
 		tRoundType = tRoundManager.getCurrentRoundState ();
-		tRoundID = tRoundManager.getCurrentRoundOf ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
 		tTransferOwnershipAction = new TransferOwnershipAction (tRoundType, tRoundID, player);
 		tFormedCertificate = Certificate.NO_CERTIFICATE;
 		tFormingAbbrev = getFormingAbbrev ();
