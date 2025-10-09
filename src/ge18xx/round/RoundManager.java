@@ -283,6 +283,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		boolean tInterruptsAfterAction;
 		RoundType tInterruptionRoundType;
 		String tInterruptsAfterActions;
+		String tInterruptsCondition;
 
 		tShouldInterrupt = false;
 		tInterruptionRoundType = aInterruptionRound.getRoundType ();
@@ -290,7 +291,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (tInterruptsAfterActions != GUI.NULL_STRING) {
 			tInterruptsAfterAction = tInterruptsAfterActions.contains (aActionName);
 			if (tInterruptsAfterAction) {
-				tShouldInterrupt = true;
+				tInterruptsCondition = tInterruptionRoundType.getInterruptsCondition ();
+				if (tInterruptsCondition == RoundType.NO_INTERRUPTS_CONDITION) {
+					tShouldInterrupt = true;
+				} else if (tInterruptsCondition.equals (RoundType.ALL_PLAYERS_PASSED)) {
+					if (playerManager.haveAllPassed ()) {
+						tShouldInterrupt = true;
+					}
+				}
 			}
 		}
 		
