@@ -14,15 +14,19 @@ public class RoundType {
 	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
 	public static final AttributeName AN_INTERRUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
+	public static final AttributeName AN_INTERRUPTS_CONDITION = new AttributeName ("interruptsCondition");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	public static final AttributeName AN_PHASE = new AttributeName ("phase");
 	public static final RoundType NO_ROUND_TYPE = null;
+	public static final String NO_INTERRUPTS_CONDITION = null;
+	public static final String ALL_PLAYERS_PASSED = "All Passed";
 	
 	String name;
 	String nextRoundName;
 	String interruptionRoundName;
 	String interruptsAfterActions;
+	String interruptsCondition;
 	String endsAfterActions;
 	String phase;
 	boolean optionalExtra;
@@ -38,13 +42,18 @@ public class RoundType {
 //	<RoundType name="Operating Round" interruptionRound="Formation Round" nextRound="Stock Round" maxRounds="3" />
 //	<RoundType name="Operating Round" nextRound="Stock Round" maxRounds="3" />
 //	<RoundType name="Auction Round" afterActions="Done Player, Win Auction" />
-//	<RoundType name="Formation Round" />
+//	<RoundType name="Formation Round"
+//			endsAfterActions="Change Formation Round State Action, Final Formation Action" 
+//			interruptsAfterActions="Done Action, Pass Action, Sold Out Adjustment Action" 
+//			interruptsCondition="All Passed"
+//			phase="2.3" />
 
 	public RoundType (XMLNode aXMLRoundTypeNode) {
 		String tName;
 		String tNextRoundName;
 		String tInterruptionRoundName;
 		String tInterruptsAfterActions;
+		String tInterruptsCondition;
 		String tEndsAfterActions;
 		String tPhase;
 		boolean tOptionalExtra;
@@ -55,6 +64,7 @@ public class RoundType {
 		tNextRoundName = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND_NAME);
 		tInterruptionRoundName = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND_NAME);
 		tInterruptsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTS_AFTER_ACTIONS);
+		tInterruptsCondition = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTS_CONDITION);
 		tEndsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_ENDS_AFTER_ACTIONS);
 		tOptionalExtra = aXMLRoundTypeNode.getThisBooleanAttribute (AN_OPTIONAL_EXTRA);
 		tInitialRound = aXMLRoundTypeNode.getThisBooleanAttribute (AN_INITIAL_ROUND);
@@ -65,6 +75,7 @@ public class RoundType {
 		setNextRoundName (tNextRoundName);
 		setInterruptionRoundName (tInterruptionRoundName);
 		setInterruptsAfterActions (tInterruptsAfterActions);
+		setInterruptsCondition (tInterruptsCondition);
 		setEndsAfterActions (tEndsAfterActions);
 		setOptionalExtra (tOptionalExtra);
 		setInitialRound (tInitialRound);
@@ -86,6 +97,10 @@ public class RoundType {
 	
 	public void setInterruptsAfterActions (String aInterruptsAfterActions) {
 		interruptsAfterActions = aInterruptsAfterActions;
+	}
+	
+	public void setInterruptsCondition (String aInterruptsCondition) {
+		interruptsCondition = aInterruptsCondition;
 	}
 	
 	public void setEndsAfterActions (String aEndsAfterActions) {
@@ -122,6 +137,10 @@ public class RoundType {
 	
 	public String getInterruptsAfterActions () {
 		return interruptsAfterActions;
+	}
+	
+	public String getInterruptsCondition () {
+		return interruptsCondition;
 	}
 	
 	public String getEndsAfterActions () {
