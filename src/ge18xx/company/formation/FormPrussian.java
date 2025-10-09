@@ -40,7 +40,7 @@ public class FormPrussian extends FormCompany {
 
 	@Override
 	public void prepareFormation (StartFormationAction aStartFormationAction) {
-		Player tActingPresident;
+		Player tInitialPlayer;
 		int tCurrentPlayerIndex;
 		PlayerManager tPlayerManager;
 		
@@ -48,15 +48,16 @@ public class FormPrussian extends FormCompany {
 		 
 		if (triggeringCompany.isClosed ()) {
 			tCurrentPlayerIndex = tPlayerManager.getPriorityPlayerIndex ();
-			tActingPresident = tPlayerManager.getPlayer (tCurrentPlayerIndex);
+			tInitialPlayer = tPlayerManager.getPlayer (tCurrentPlayerIndex);
 		} else {
-			tActingPresident = findActingPresident ();
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+			tInitialPlayer = findInitialPlayer ();
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tInitialPlayer);
 		} 
-
+		setInitialPlayer (tInitialPlayer);
+		setAllPlayerHandled (false);
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
 		rebuildFormationPanel (tCurrentPlayerIndex);
-		aStartFormationAction.addUpdateToNextPlayerEffect (tActingPresident, tActingPresident, tActingPresident);
+		aStartFormationAction.addUpdateToNextPlayerEffect (tInitialPlayer, tInitialPlayer, tInitialPlayer);
 
 		showFormationFrame (aStartFormationAction);
 	}
@@ -94,33 +95,31 @@ public class FormPrussian extends FormCompany {
 	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
 		int tCurrentPlayerIndex;
 		
-		findActingPresident ();
-		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
+		findInitialPlayer ();
+		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (initialPlayer);
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
-		updatePlayers (aPlayers, actingPresident);
+		updatePlayers (aPlayers, initialPlayer);
 	}
 	
 	@Override
-	public Player findActingPresident () {
+	public Player findInitialPlayer () {
 		Corporation tTriggeringCorporation;
 		Player tActingPlayer;
 		PortfolioHolderI tPresident;
 		
 		tTriggeringCorporation = getTriggeringCompany ();
-		if (actingPresident == Player.NO_PLAYER) {
+		if (initialPlayer == Player.NO_PLAYER) {
 			if (tTriggeringCorporation != Corporation.NO_CORPORATION) {
 				tPresident = tTriggeringCorporation.getPresident ();
 				if (tPresident.isAPlayer ()) {
 					tActingPlayer = (Player) tPresident;
-					setActingPresident (tActingPlayer);
+					setInitialPlayer (tActingPlayer);
 				} else {
-					setActingPresident (Player.NO_PLAYER);
+					setInitialPlayer (Player.NO_PLAYER);
 				}
 			}
-		} else {
-			
 		}
-		tActingPlayer = actingPresident;
+		tActingPlayer = initialPlayer;
 	
 		return tActingPlayer;
 	}
