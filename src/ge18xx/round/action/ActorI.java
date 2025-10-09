@@ -249,7 +249,11 @@ public interface ActorI {
 	public default boolean isAPrivateCompany () {
 		return false;
 	}
-	
+
+	public default boolean isAMinorCompany () {
+		return false;
+	}
+
 	public default boolean isATokenCompany () {
 		return false;
 	}
