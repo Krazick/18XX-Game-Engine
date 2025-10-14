@@ -1526,9 +1526,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				} else {
 					if (corporation.hasNoTrains ()) {
 						if (corporation.getCash () < tCheapestTrain.getPrice ()) {
-							buyTrainForceButton.setVisible (true);
-							buyTrainForceButton.setEnabled (true);
-							buyTrainForceButton.setToolTipText ("OPTIONAL to Force Buy a Train");
+							if (corporation.isAMinorCompany ()) {
+								hideForceBuyTrainButton ();
+							} else {
+								buyTrainForceButton.setVisible (true);
+								buyTrainForceButton.setEnabled (true);
+								buyTrainForceButton.setToolTipText ("OPTIONAL to Force Buy a Train");
+							}
 						} else {
 							hideForceBuyTrainButton ();
 						}
