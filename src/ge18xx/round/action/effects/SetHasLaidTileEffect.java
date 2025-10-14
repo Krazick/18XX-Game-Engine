@@ -13,14 +13,6 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Has Laid Tile";
 	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
 
-	public SetHasLaidTileEffect (String aName) {
-		super (aName);
-	}
-
-	public SetHasLaidTileEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
 		super (NAME, aActor, aHasLaidTile);
 	}
@@ -42,7 +34,7 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + actor.getName () + " to " + getBooleanFlag () + ".");
 	}
 
 	@Override
