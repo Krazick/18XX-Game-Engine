@@ -146,7 +146,9 @@ public class InterruptionRound extends Round {
 								tNewRoundID, tChangeRoundAction);
 		roundManager.addAction (tChangeRoundAction);
 		roundManager.updateRoundFrame ();
-		roundManager.checkAndHandleRoundEnds ();
+		if (! interruptedAtStartOfRound ()) {
+			roundManager.checkAndHandleRoundEnds ();
+		}
 	}
 
 	@Override
