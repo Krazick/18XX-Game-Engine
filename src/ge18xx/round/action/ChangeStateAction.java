@@ -10,6 +10,7 @@ import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetAllPlayerSharesHandledEffect;
+import ge18xx.round.action.effects.SetAllPlayersHandledEffect;
 import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.ShowFrameEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
@@ -51,6 +52,13 @@ public class ChangeStateAction extends ChangePlayerAction {
 		} else if (aActor.isACorporation ()) {
 			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
 		}
+	}
+
+	public void addSetAllPlayerHandledEffect (ActorI aActor, boolean tAllPlayerSharesHandled) {
+		SetAllPlayersHandledEffect tSetAllPlayersHandledEffect;
+		
+		tSetAllPlayersHandledEffect = new SetAllPlayersHandledEffect (aActor, tAllPlayerSharesHandled);
+		addEffect (tSetAllPlayersHandledEffect);
 	}
 
 	public void addSetAllPlayerSharesHandledEffect (Player tCurrentPlayer, boolean aAllPlayerSharesHandled) {
