@@ -249,7 +249,6 @@ public class FormCompany extends TriggerClass {
 		if (tRoundManager.isAFormationRound ()) {
 			aStartFormationAction.addShowFrameEffect (initialPlayer, formationFrame);
 			formationFrame.showFrame ();
-//			aStartFormationAction.addShowFormationPanelEffect (actingPresident);
 		}
 	}
 
@@ -536,6 +535,7 @@ public class FormCompany extends TriggerClass {
 			tPlayers = tPlayerManager.getPlayers ();
 	
 			updatePlayersState (tPlayers, aStartFormationAction);
+			showFormationFrame (aStartFormationAction);
 		}
 	}
 	
