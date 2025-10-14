@@ -9,6 +9,8 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.FormationRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.StartFormationAction;
@@ -43,6 +45,8 @@ public class FormPrussian extends FormCompany {
 		Player tInitialPlayer;
 		int tCurrentPlayerIndex;
 		PlayerManager tPlayerManager;
+		RoundManager tRoundManager;
+		FormationRound tFormationRound;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		 
@@ -54,7 +58,12 @@ public class FormPrussian extends FormCompany {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tInitialPlayer);
 		} 
 		setInitialPlayer (tInitialPlayer);
+		
 		setAllPlayerHandled (false);
+		tRoundManager = gameManager.getRoundManager ();
+		tFormationRound = tRoundManager.getFormationRound ();
+		aStartFormationAction.addSetAllPlayerHandledEffect (tFormationRound, allPlayerSharesHandled);
+		
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
 		rebuildFormationPanel (tCurrentPlayerIndex);
 		aStartFormationAction.addUpdateToNextPlayerEffect (tInitialPlayer, tInitialPlayer, tInitialPlayer);
@@ -126,7 +135,14 @@ public class FormPrussian extends FormCompany {
 
 	@Override
 	public void allPlayersHandled (ChangeStateAction aChangeStateAction) {
+		RoundManager tRoundManager;
+		FormationRound tFormationRound;
+
 		setAllPlayerHandled (true);
+		tRoundManager = gameManager.getRoundManager ();
+		tFormationRound = tRoundManager.getFormationRound ();
+		aChangeStateAction.addSetAllPlayerHandledEffect (tFormationRound, allPlayerSharesHandled);
+
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 
