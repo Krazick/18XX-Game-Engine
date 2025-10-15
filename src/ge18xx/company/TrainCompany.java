@@ -23,7 +23,7 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
-import ge18xx.phase.PhaseManager;
+//import ge18xx.phase.PhaseManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
@@ -44,7 +44,7 @@ import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
-import ge18xx.round.action.PreparedAction;
+//import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
@@ -1190,58 +1190,58 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
-	public PreparedAction createPreparedFormationAction () {
-		String tPreparedFormationActionXML;
-		XMLDocument tXMLDocument;
-		XMLDocument tAXMLDocument;
-		XMLNode tXMLNode;
-		PreparedAction tPreparedAction;
-		GameManager tGameManager;
-		String tXMLNodeName;
-		PhaseInfo tCurrentPhaseInfo;
-		PhaseManager tPhaseManager;
-
-		tGameManager = getGameManager ();
-		tPhaseManager = tGameManager.getPhaseManager ();
-		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
-		tPreparedFormationActionXML = tCurrentPhaseInfo.getPreparedActionXML ();
-		tAXMLDocument = new XMLDocument ();
-		tXMLDocument = tAXMLDocument.parseXMLString (tPreparedFormationActionXML);
-		tPreparedAction = PreparedAction.NO_PREPARED_ACTION;
-		if (tXMLDocument.validDocument ()) {
-			tXMLNode = tXMLDocument.getDocumentNode ();
-			tXMLNodeName = tXMLNode.getNodeName ();
-			if (PreparedAction.EN_PREPARED_ACTION.equals (tXMLNodeName)) {
-				tPreparedAction = new PreparedAction (tXMLNode, tGameManager);
-				fillPlaceHolders (tGameManager, tPreparedAction);
-			}
-		}
-		
-		return tPreparedAction;
-	}
+//	public PreparedAction createPreparedFormationAction () {
+//		String tPreparedFormationActionXML;
+//		XMLDocument tXMLDocument;
+//		XMLDocument tAXMLDocument;
+//		XMLNode tXMLNode;
+//		PreparedAction tPreparedAction;
+//		GameManager tGameManager;
+//		String tXMLNodeName;
+//		PhaseInfo tCurrentPhaseInfo;
+//		PhaseManager tPhaseManager;
+//
+//		tGameManager = getGameManager ();
+//		tPhaseManager = tGameManager.getPhaseManager ();
+//		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
+//		tPreparedFormationActionXML = tCurrentPhaseInfo.getPreparedActionXML ();
+//		tAXMLDocument = new XMLDocument ();
+//		tXMLDocument = tAXMLDocument.parseXMLString (tPreparedFormationActionXML);
+//		tPreparedAction = PreparedAction.NO_PREPARED_ACTION;
+//		if (tXMLDocument.validDocument ()) {
+//			tXMLNode = tXMLDocument.getDocumentNode ();
+//			tXMLNodeName = tXMLNode.getNodeName ();
+//			if (PreparedAction.EN_PREPARED_ACTION.equals (tXMLNodeName)) {
+//				tPreparedAction = new PreparedAction (tXMLNode, tGameManager);
+//				fillPlaceHolders (tGameManager, tPreparedAction);
+//			}
+//		}
+//		
+//		return tPreparedAction;
+//	}
 	
-	public void fillPlaceHolders (GameManager aGameManager, PreparedAction aPreparedAction) {
-		Corporation tOperatingCorporation;
-		Player tOperatingCorpPresident;
-		Action tPreparedAction;
-		Effect tEffect;
-		int tEffectCount;
-		int tEffectIndex;
-		String tRoundID;
-		
-		tPreparedAction = aPreparedAction.getAction ();
-		tRoundID = aGameManager.getOperatingRoundID ();
-		tOperatingCorporation = aGameManager.getOperatingCompany ();
-		tPreparedAction.setActor (tOperatingCorporation);
-		tPreparedAction.setRoundID (tRoundID);
-		aPreparedAction.setTriggeringActor (tOperatingCorporation);
-		tOperatingCorpPresident = (Player) tOperatingCorporation.getPresident ();
-		tEffectCount = tPreparedAction.getEffectCount ();
-		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
-			tEffect = tPreparedAction.getEffect (tEffectIndex);
-			tEffect.setActor (tOperatingCorpPresident);
-		}
-	}
+//	public void fillPlaceHolders (GameManager aGameManager, PreparedAction aPreparedAction) {
+//		Corporation tOperatingCorporation;
+//		Player tOperatingCorpPresident;
+//		Action tPreparedAction;
+//		Effect tEffect;
+//		int tEffectCount;
+//		int tEffectIndex;
+//		String tRoundID;
+//		
+//		tPreparedAction = aPreparedAction.getAction ();
+//		tRoundID = aGameManager.getOperatingRoundID ();
+//		tOperatingCorporation = aGameManager.getOperatingCompany ();
+//		tPreparedAction.setActor (tOperatingCorporation);
+//		tPreparedAction.setRoundID (tRoundID);
+//		aPreparedAction.setTriggeringActor (tOperatingCorporation);
+//		tOperatingCorpPresident = (Player) tOperatingCorporation.getPresident ();
+//		tEffectCount = tPreparedAction.getEffectCount ();
+//		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
+//			tEffect = tPreparedAction.getEffect (tEffectIndex);
+//			tEffect.setActor (tOperatingCorpPresident);
+//		}
+//	}
 	
 	public String getTriggerClassName () {
 		String tTriggerClass;
