@@ -2,9 +2,7 @@ package ge18xx.phase;
 
 import java.util.Comparator;
 
-import org.w3c.dom.NodeList;
-
-import ge18xx.round.action.PreparedAction;
+//import ge18xx.round.action.PreparedAction;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -23,7 +21,7 @@ import geUtilities.xml.XMLNode;
 public class PhaseInfo {
 	public static final ElementName EN_PHASES = new ElementName ("Phases");
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
-	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");
+//	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_SUB_NAME = new AttributeName ("subName");
@@ -47,6 +45,8 @@ public class PhaseInfo {
 	public static final AttributeName AN_TRIGGER_CLASS = new AttributeName ("triggerClass");
 	public static final AttributeName AN_FORM_COMPANY_ID = new AttributeName ("formCompanyID");
 	public static final PhaseInfo NO_PHASE_INFO = null;
+	public static final AttributeName AN_MUST_START = new AttributeName ("mustStart");
+	public static final AttributeName AN_MUST_CONVERT = new AttributeName ("mustConvert");
 	public static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	public static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 	public static final int STANDARD_MIN_SHARES = 6;
@@ -71,6 +71,8 @@ public class PhaseInfo {
 	int minToFloatLast; // Minimum number of Shares sold to Float the Company when last Train of Phase
 						// has been Sold (ie when next train purchase triggers Phase Change)
 	int formCompanyId;
+	boolean mustStart;
+	boolean mustConvert;
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -79,8 +81,8 @@ public class PhaseInfo {
 	boolean governmentMustForm;
 	String offBoard;
 	String triggerClass;
-	String preparedActionXML;
-	PreparedAction preparedAction;
+//	String preparedActionXML;
+//	PreparedAction preparedAction;
 	
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName;
@@ -96,6 +98,8 @@ public class PhaseInfo {
 		boolean tGovernmentMustForm;
 		boolean tCanBuyTrain;
 		boolean tLoansAllowed;
+		boolean tMustStart;
+		boolean tMustConvert;
 		String tOffBoard;
 		String tTileColors;
 		String tTiles[];
@@ -127,7 +131,13 @@ public class PhaseInfo {
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm,
 				tTriggerClass, tFormCompanyId);
 		parseMajorMinorValues (aCellNode);
-		loadPreparedActionXML (aCellNode);
+//		loadPreparedActionXML (aCellNode);
+		
+		tMustStart = aCellNode.getThisBooleanAttribute (AN_MUST_START);
+		tMustConvert = aCellNode.getThisBooleanAttribute (AN_MUST_CONVERT);
+		setMustStart (tMustStart);
+		setMustConvert (tMustConvert);
+
 	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
@@ -182,35 +192,52 @@ public class PhaseInfo {
 		setTileLaysAllowed (tTileLaysAllowed);
 	}
 
-	private void loadPreparedActionXML (XMLNode aCellNode) {
-		String tChildName;
-		XMLNode tChildNode;
-		NodeList tChildren;
-		int tIndex;
-		int tChildrenCount;
+//	private void loadPreparedActionXML (XMLNode aCellNode) {
+//		String tChildName;
+//		XMLNode tChildNode;
+//		NodeList tChildren;
+//		int tIndex;
+//		int tChildrenCount;
+//
+//		tChildren = aCellNode.getChildNodes ();
+//		tChildrenCount = tChildren.getLength ();
+//		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+//			tChildNode = new XMLNode (tChildren.item (tIndex));
+//			tChildName = tChildNode.getNodeName ();
+//			if (EN_PREPARED_ACTION.equals (tChildName)) {
+//				setPreparedActionXML (tChildNode.toString ());
+//			}
+//		}
+//	}
+//	
+//	private void setPreparedActionXML (String aPreparedActionXML) {
+//		preparedActionXML = aPreparedActionXML;
+//	}
+//	
+//	public String getPreparedActionXML () {
+//		return preparedActionXML;
+//	}
+//	
+//	public void setPreparedAction (PreparedAction aPreparedAction) {
+//		preparedAction = aPreparedAction;
+//	}
+	
+	public void setMustStart (Boolean aMustStart) {
+		mustStart = aMustStart;
+	}
 
-		tChildren = aCellNode.getChildNodes ();
-		tChildrenCount = tChildren.getLength ();
-		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
-			tChildNode = new XMLNode (tChildren.item (tIndex));
-			tChildName = tChildNode.getNodeName ();
-			if (EN_PREPARED_ACTION.equals (tChildName)) {
-				setPreparedActionXML (tChildNode.toString ());
-			}
-		}
+	public boolean getMustStart () {
+		return mustStart;
 	}
-	
-	private void setPreparedActionXML (String aPreparedActionXML) {
-		preparedActionXML = aPreparedActionXML;
+
+	public void setMustConvert (Boolean aMustConvert) {
+		mustConvert = aMustConvert;
 	}
-	
-	public String getPreparedActionXML () {
-		return preparedActionXML;
+
+	public boolean getMustConvert () {
+		return mustConvert;
 	}
-	
-	public void setPreparedAction (PreparedAction aPreparedAction) {
-		preparedAction = aPreparedAction;
-	}
+
 	
 	private void setTileLaysAllowed (int aTileLaysAllowed) {
 		tileLaysAllowed = aTileLaysAllowed;
