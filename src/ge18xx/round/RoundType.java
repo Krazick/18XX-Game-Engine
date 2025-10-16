@@ -17,7 +17,7 @@ public class RoundType {
 	public static final AttributeName AN_INTERRUPTS_CONDITION = new AttributeName ("interruptsCondition");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
-	public static final AttributeName AN_PHASE = new AttributeName ("phase");
+	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final RoundType NO_ROUND_TYPE = null;
 	public static final String NO_INTERRUPTS_CONDITION = null;
 	public static final String ALL_PLAYERS_PASSED = "All Passed";
@@ -28,7 +28,7 @@ public class RoundType {
 	String interruptsAfterActions;
 	String interruptsCondition;
 	String endsAfterActions;
-	String phase;
+	String phases;
 	boolean optionalExtra;
 	boolean initialRound;
 	int maxRounds;
@@ -55,7 +55,7 @@ public class RoundType {
 		String tInterruptsAfterActions;
 		String tInterruptsCondition;
 		String tEndsAfterActions;
-		String tPhase;
+		String tPhases;
 		boolean tOptionalExtra;
 		boolean tInitialRound;
 		int tMaxRounds;
@@ -69,7 +69,7 @@ public class RoundType {
 		tOptionalExtra = aXMLRoundTypeNode.getThisBooleanAttribute (AN_OPTIONAL_EXTRA);
 		tInitialRound = aXMLRoundTypeNode.getThisBooleanAttribute (AN_INITIAL_ROUND);
 		tMaxRounds = aXMLRoundTypeNode.getThisIntAttribute (AN_MAX_ROUNDS, 1);
-		tPhase = aXMLRoundTypeNode.getThisAttribute (AN_PHASE, GUI.EMPTY_STRING);
+		tPhases = aXMLRoundTypeNode.getThisAttribute (AN_PHASES, GUI.EMPTY_STRING);
 		
 		setName (tName);
 		setNextRoundName (tNextRoundName);
@@ -80,7 +80,7 @@ public class RoundType {
 		setOptionalExtra (tOptionalExtra);
 		setInitialRound (tInitialRound);
 		setMaxRounds (tMaxRounds);
-		setPhase (tPhase);
+		setPhases (tPhases);
 	}
 	
 	public void setName (String aName) {
@@ -107,8 +107,8 @@ public class RoundType {
 		endsAfterActions = aEndsAfterActions;
 	}
 	
-	public void setPhase (String aPhase) {
-		phase = aPhase;
+	public void setPhases (String aPhases) {
+		phases = aPhases;
 	}
 	
 	public void setOptionalExtra (boolean aOptionalExtra) {
@@ -147,8 +147,8 @@ public class RoundType {
 		return endsAfterActions;
 	}
 	
-	public String getPhase () {
-		return phase;
+	public String getPhases () {
+		return phases;
 	}
 	
 	public boolean getOptionalExtra () {
@@ -202,10 +202,10 @@ public class RoundType {
 		}
 		tInfo += " Max Rounds: " + maxRounds;
 		
-		if (phase != GUI.EMPTY_STRING) {
-			tInfo += " Phase: " + phase;
+		if (phases != GUI.EMPTY_STRING) {
+			tInfo += " Phases: " + phases;
 		} else {
-			tInfo += " Phase: ANY PHASE";
+			tInfo += " Phases: ANY PHASE";
 		}
 		
 		return tInfo;
