@@ -340,8 +340,6 @@ public class FormCompany extends TriggerClass {
 	public void buildAllPlayers (String aFrameName) {
 		Border tMargin;
 		Point tRoundFrameOffset;
-		int tHeight;
-		int tWidth;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 		XMLFrame tFormationFrame;
@@ -364,11 +362,45 @@ public class FormCompany extends TriggerClass {
 		formationFrame.setLocation (tRoundFrameOffset);
 		gameManager.addNewFrame (formationFrame);
 		
-		tWidth = 1140;
-		tHeight = panelHeight ();
-		formationFrame.setSize (tWidth,  tHeight);
+		setFrameSize ();
 	}
-	
+
+	protected void setFrameSize () {
+//		int tHeight;
+//		int tWidth;
+//		
+//		tWidth = 875;
+//		tHeight = panelHeight ();
+//		formationFrame.setSize (tWidth,  tHeight);
+	}
+
+	int panelHeight () {
+		int tPanelHeight;
+		int tPlayerHeight;
+		int tPlayerCount;
+		int tCompanyCount;
+		int tCompanyHeight;
+		int tOpenMarketCompanyCount;
+		int tOpenMarketHeight;
+		BankPool tOpenMarket;
+		Portfolio tOpenMarketPortfolio;
+		
+		tPlayerCount = getPlayerCount ();
+		tPlayerHeight = 50 * tPlayerCount;
+		
+		tCompanyCount = gameManager.getCountOfCanOperate ();
+		tCompanyHeight = 85 * tCompanyCount;
+		
+		tOpenMarket = gameManager.getBankPool ();
+		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
+		tOpenMarketCompanyCount = tOpenMarketPortfolio.getUniqueCompanyCount ();
+		tOpenMarketHeight = 20 * (tOpenMarketCompanyCount + 1);
+		
+		tPanelHeight = tPlayerHeight + tCompanyHeight + tOpenMarketHeight + 40;
+		
+		return tPanelHeight;
+	}
+
 	public void setupPlayers () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
@@ -398,33 +430,6 @@ public class FormCompany extends TriggerClass {
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
 		formationJPanel.revalidate ();
-	}
-
-	int panelHeight () {
-		int tPanelHeight;
-		int tPlayerHeight;
-		int tPlayerCount;
-		int tCompanyCount;
-		int tCompanyHeight;
-		int tOpenMarketCompanyCount;
-		int tOpenMarketHeight;
-		BankPool tOpenMarket;
-		Portfolio tOpenMarketPortfolio;
-		
-		tPlayerCount = getPlayerCount ();
-		tPlayerHeight = 50 * tPlayerCount;
-		
-		tCompanyCount = gameManager.getCountOfCanOperate ();
-		tCompanyHeight = 85 * tCompanyCount;
-		
-		tOpenMarket = gameManager.getBankPool ();
-		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
-		tOpenMarketCompanyCount = tOpenMarketPortfolio.getUniqueCompanyCount ();
-		tOpenMarketHeight = 20 * (tOpenMarketCompanyCount + 1);
-		
-		tPanelHeight = tPlayerHeight + tCompanyHeight + tOpenMarketHeight + 40;
-		
-		return tPanelHeight;
 	}
 
 	public Player getFormingPresident () {
