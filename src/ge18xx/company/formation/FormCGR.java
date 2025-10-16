@@ -235,6 +235,44 @@ public class FormCGR extends FormCompany implements ActionListener {
 	}
 	
 	@Override
+	protected void setFrameSize () {
+		int tHeight;
+		int tWidth;
+		
+		tWidth = 1140;
+		tHeight = panelHeight ();
+		formationFrame.setSize (tWidth,  tHeight);
+	}
+	
+	@Override
+	int panelHeight () {
+		int tPanelHeight;
+		int tPlayerHeight;
+		int tPlayerCount;
+		int tCompanyCount;
+		int tCompanyHeight;
+		int tOpenMarketCompanyCount;
+		int tOpenMarketHeight;
+		BankPool tOpenMarket;
+		Portfolio tOpenMarketPortfolio;
+		
+		tPlayerCount = getPlayerCount ();
+		tPlayerHeight = 50 * tPlayerCount;
+		
+		tCompanyCount = gameManager.getCountOfCanOperate ();
+		tCompanyHeight = 85 * tCompanyCount;
+		
+		tOpenMarket = gameManager.getBankPool ();
+		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
+		tOpenMarketCompanyCount = tOpenMarketPortfolio.getUniqueCompanyCount ();
+		tOpenMarketHeight = 20 * (tOpenMarketCompanyCount + 1);
+		
+		tPanelHeight = tPlayerHeight + tCompanyHeight + tOpenMarketHeight + 40;
+		
+		return tPanelHeight;
+	}
+
+	@Override
 	public void rebuildFormationPanel () {
 		int tCurrentPlayerIndex;
 		

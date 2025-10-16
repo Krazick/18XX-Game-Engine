@@ -36,7 +36,7 @@ public class FormPrussian extends FormCompany {
 	
 	public FormPrussian (XMLNode aXMLNode, GameManager aGameManager) {
 		this (aGameManager);
-
+		
 		parseXML (aXMLNode);
 	}
 
@@ -70,7 +70,43 @@ public class FormPrussian extends FormCompany {
 
 		showFormationFrame (aStartFormationAction);
 	}
+
+	@Override
+	protected void setFrameSize () {
+		int tHeight;
+		int tWidth;
+		
+		tWidth = 880;
+		tHeight = panelHeight ();
+		formationFrame.setSize (tWidth,  tHeight);
+	}
 	
+	@Override
+	int panelHeight () {
+		int tPanelHeight;
+		int tPlayerHeight;
+		int tPlayerCount;
+		int tCompanyHeight;
+		int tActiveMinorCount;
+		int tActivePrivateCount;
+		
+		tPlayerCount = getPlayerCount ();
+		tPlayerHeight = 40 * tPlayerCount;
+		
+		tActiveMinorCount = gameManager.getCountOfOpenMinors ();
+		
+		tActivePrivateCount = gameManager.getCountOfOpenPrivates ();
+		
+		tCompanyHeight = 75 * tActiveMinorCount + 45 * tActivePrivateCount;
+		
+		// Note, the adjustment at the end (+ 105) may need to change based on the number of players and 
+		// and increase the player height multiplication factor above
+		
+		tPanelHeight = tPlayerHeight + tCompanyHeight + 105;
+		
+		return tPanelHeight;
+	}
+
 	@Override
 	public void rebuildFormationPanel () {
 		int tCurrentPlayerIndex;
