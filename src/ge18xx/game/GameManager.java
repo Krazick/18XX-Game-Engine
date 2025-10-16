@@ -1034,18 +1034,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return shareCompaniesFrame.getCorporationState (aCorpStateName);
 	}
 
-	public int getCountOfOpenPrivates () {
-		return privatesFrame.getCountOfOpen ();
-	}
-
-	public int getCountOfPlayerOwnedPrivates () {
-		return privatesFrame.getCountOfPlayerOwnedCompanies ();
-	}
-
-	public int getCountOfSelectedPrivates () {
-		return privatesFrame.getCountOfSelectedCertificates ();
-	}
-
 	public String getCurrentOffBoard () {
 		return phaseManager.getCurrentOffBoard ();
 	}
@@ -1124,10 +1112,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public PrivateCompany getPrivateCompany (String aCompanyAbbrev) {
 		return privatesFrame.getPrivateCompany (aCompanyAbbrev);
 	}
-
+	
 	public int getCountOfMinors () {
-		int tCountOfMinors = 0;
+		int tCountOfMinors;
 
+		tCountOfMinors = 0;
 		if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
 			tCountOfMinors = minorCompaniesFrame.getCountOfCompanies ();
 		}
@@ -1135,9 +1124,21 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tCountOfMinors;
 	}
 
-	public int getCountOfPrivates () {
-		int tCountOfPrivates = 0;
+	public int getCountOfOpenMinors () {
+		int tCountOfOpenMinors;
 
+		tCountOfOpenMinors = 0;
+		if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
+			tCountOfOpenMinors = minorCompaniesFrame.getCountOfOpen ();
+		}
+
+		return tCountOfOpenMinors;
+	}
+
+	public int getCountOfPrivates () {
+		int tCountOfPrivates;
+
+		tCountOfPrivates = 0;
 		if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
 			tCountOfPrivates = privatesFrame.getCountOfCompanies ();
 		}
@@ -1145,24 +1146,45 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tCountOfPrivates;
 	}
 
-	public int getCountOfShares () {
-		int tCountOfShares = 0;
+	public int getCountOfOpenPrivates () {
+		int tCountOfOpenPrivates;
 
+		tCountOfOpenPrivates = 0;
+		if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
+			tCountOfOpenPrivates = privatesFrame.getCountOfOpen ();
+		}
+		
+		return tCountOfOpenPrivates;
+	}
+
+	public int getCountOfPlayerOwnedPrivates () {
+		return privatesFrame.getCountOfPlayerOwnedCompanies ();
+	}
+
+	public int getCountOfSelectedPrivates () {
+		return privatesFrame.getCountOfSelectedCertificates ();
+	}
+
+	public int getCountOfShares () {
+		int tCountOfShareCompanies;
+
+		tCountOfShareCompanies = 0;
 		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
-			tCountOfShares = shareCompaniesFrame.getCountOfCompanies ();
+			tCountOfShareCompanies = shareCompaniesFrame.getCountOfCompanies ();
 		}
 
-		return tCountOfShares;
+		return tCountOfShareCompanies;
 	}
 
 	public int getCountOfCanOperate () {
-		int tCountOfShares = 0;
+		int tCountOfCompaniesCanOperate;
 
+		tCountOfCompaniesCanOperate = 0;
 		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
-			tCountOfShares = shareCompaniesFrame.getCountOfOperatingCompanies ();
+			tCountOfCompaniesCanOperate = shareCompaniesFrame.getCountOfOperatingCompanies ();
 		}
 
-		return tCountOfShares;
+		return tCountOfCompaniesCanOperate;
 	}
 
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
