@@ -105,16 +105,16 @@ public class FormationRound extends InterruptionRound {
 		GameManager tGameManager;
 		String tCurrentPhaseName;
 		PhaseInfo tCurrentPhaseInfo;
-		String tRoundTypePhase;
+		String tRoundTypePhases;
 		
 		tIsInterrupting = false;
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.gameHasRoundType (NAME)) {
-			tRoundTypePhase = getPhase ();
-			if (tRoundTypePhase != GUI.EMPTY_STRING) {
+			tRoundTypePhases = getPhase ();
+			if (tRoundTypePhases != GUI.EMPTY_STRING) {
 				tCurrentPhaseInfo = roundManager.getCurrentPhaseInfo ();
 				tCurrentPhaseName = tCurrentPhaseInfo.getFullName ();
-				if (tRoundTypePhase.equals (tCurrentPhaseName)) {
+				if (tRoundTypePhases.contains (tCurrentPhaseName)) {
 					tIsInterrupting = triggerFormationClass.isInterrupting ();
 				}
 			}
