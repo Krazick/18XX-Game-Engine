@@ -13,8 +13,8 @@ public class SetAtStartOfRoundEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set at Start of Round";
 	final static AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
 
-	public SetAtStartOfRoundEffect (ActorI aActor, boolean aHasLaidTile) {
-		super (NAME, aActor, aHasLaidTile);
+	public SetAtStartOfRoundEffect (ActorI aActor, boolean aAtStartOfRound) {
+		super (NAME, aActor, aAtStartOfRound);
 	}
 
 	public SetAtStartOfRoundEffect (XMLNode aEffectNode, GameManager aGameManager) {
