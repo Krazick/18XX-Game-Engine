@@ -301,4 +301,17 @@ public class MinorCompany extends TokenCompany {
 		
 		return tBenefitLabel;
 	}
+	
+	@Override
+	public boolean canConvertTo (int aCompanyID) {
+		boolean tCanConvertTo;
+		
+		tCanConvertTo = false;
+		if (aCompanyID == getUpgradeTo ()) {
+			tCanConvertTo = true;
+		}
+		
+		return tCanConvertTo;
+	}
+
 }

@@ -2418,4 +2418,15 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertToBuy;
 	}
+	
+	public boolean canConvertToThisCompany (int aCorporationID) {
+		boolean tCanConvertToThisCompany;
+		
+		tCanConvertToThisCompany = false;
+		for (Certificate tCertificate : certificates) {
+			tCanConvertToThisCompany |= tCertificate.canConvertToThisCompany (aCorporationID);
+		}
+		
+		return tCanConvertToThisCompany;
+	}
 }

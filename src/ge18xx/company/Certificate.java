@@ -2053,6 +2053,15 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.isLoading ();
 	}
 	
+	public boolean canConvertToThisCompany (int aCompanyID) {
+		boolean tCanConvertToThisCompany;
+		Corporation tCorporation;
+		
+		tCorporation = getCorporation ();
+		tCanConvertToThisCompany = tCorporation.canConvertTo (aCompanyID);
+		
+		return tCanConvertToThisCompany;
+	}
 	/**
 	 * Compare the Percentage of this Certificate with the Certificate Passed In.
 	 * If Same percentage, return Zero.

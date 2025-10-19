@@ -3280,6 +3280,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		specialButtons.add (aSpecialButton);
 	}
 	
+	public boolean canConvertTo (int aCompanyID) {
+		return false;
+	}
+	
 	public boolean hasSpecialButton (KButton aSpecialButton) {
 		boolean tHasSpecialButton;
 		
