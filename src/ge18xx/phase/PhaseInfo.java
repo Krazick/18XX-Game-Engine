@@ -21,7 +21,6 @@ import geUtilities.xml.XMLNode;
 public class PhaseInfo {
 	public static final ElementName EN_PHASES = new ElementName ("Phases");
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
-//	public static final ElementName EN_PREPARED_ACTION = new ElementName ("PreparedAction");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_SUB_NAME = new AttributeName ("subName");
@@ -81,8 +80,6 @@ public class PhaseInfo {
 	boolean governmentMustForm;
 	String offBoard;
 	String triggerClass;
-//	String preparedActionXML;
-//	PreparedAction preparedAction;
 	
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName;
@@ -131,7 +128,6 @@ public class PhaseInfo {
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm,
 				tTriggerClass, tFormCompanyId);
 		parseMajorMinorValues (aCellNode);
-//		loadPreparedActionXML (aCellNode);
 		
 		tMustStart = aCellNode.getThisBooleanAttribute (AN_MUST_START);
 		tMustConvert = aCellNode.getThisBooleanAttribute (AN_MUST_CONVERT);
@@ -191,36 +187,6 @@ public class PhaseInfo {
 		tTileLaysAllowed = aCellNode.getThisIntAttribute (AN_TILE_LAYS_ALLOWED, DEFAULT_TILE_LAYS);
 		setTileLaysAllowed (tTileLaysAllowed);
 	}
-
-//	private void loadPreparedActionXML (XMLNode aCellNode) {
-//		String tChildName;
-//		XMLNode tChildNode;
-//		NodeList tChildren;
-//		int tIndex;
-//		int tChildrenCount;
-//
-//		tChildren = aCellNode.getChildNodes ();
-//		tChildrenCount = tChildren.getLength ();
-//		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
-//			tChildNode = new XMLNode (tChildren.item (tIndex));
-//			tChildName = tChildNode.getNodeName ();
-//			if (EN_PREPARED_ACTION.equals (tChildName)) {
-//				setPreparedActionXML (tChildNode.toString ());
-//			}
-//		}
-//	}
-//	
-//	private void setPreparedActionXML (String aPreparedActionXML) {
-//		preparedActionXML = aPreparedActionXML;
-//	}
-//	
-//	public String getPreparedActionXML () {
-//		return preparedActionXML;
-//	}
-//	
-//	public void setPreparedAction (PreparedAction aPreparedAction) {
-//		preparedAction = aPreparedAction;
-//	}
 	
 	public void setMustStart (Boolean aMustStart) {
 		mustStart = aMustStart;
@@ -237,7 +203,6 @@ public class PhaseInfo {
 	public boolean getMustConvert () {
 		return mustConvert;
 	}
-
 	
 	private void setTileLaysAllowed (int aTileLaysAllowed) {
 		tileLaysAllowed = aTileLaysAllowed;
