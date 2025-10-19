@@ -198,6 +198,22 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
+	public void setAllPlayersToPass (ChangeRoundAction aChangeRoundAction) {
+		Player.ActionStates tOldState;
+		Player.ActionStates tNewState;
+
+		for (Player tPlayer : players) {
+			tOldState = tPlayer.getPrimaryActionState ();
+
+			tPlayer.clearPrimaryActionState ();
+			tPlayer.setPrimaryActionState (ActorI.ActionStates.Pass);
+			tNewState = tPlayer.getPrimaryActionState ();
+			if (aChangeRoundAction != ChangeStateAction.NO_CHANGE_STATE_ACTION) {
+				aChangeRoundAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+			}
+		}
+	}
+
 	private String buildPreviousRoundID (String aOldRoundID, int aOldRoundID2) {
 		String tPreviousRoundID;
 		String [] tPreviousIDs;
