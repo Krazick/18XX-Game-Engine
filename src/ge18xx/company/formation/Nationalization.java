@@ -18,6 +18,8 @@ import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
+import ge18xx.phase.PhaseInfo;
+import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.round.Round;
@@ -33,7 +35,10 @@ import swingTweaks.KButton;
 public class Nationalization extends PlayerFormationPanel {
 	private static final long serialVersionUID = 1L;
 	public static final String UPGRADE_TO_PRUSSIAN = "Upgrade to Prussian";
-
+	public final String MUST_FORM_PRUSSIAN = "The Prussian must be formed (Convert Minor 2)";
+	public final String MUST_CONVERT_PRUSSIAN = "All Minors and Privates that can Convert to Prussian MUST Convert";
+	public final String MAY_CONVERT_PRUSSIAN = "All Minors and Privates that can Convert to Prussian MAY Convert";
+	
 	public Nationalization (GameManager aGameManager, FormCompany aFormCompany, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aFormCompany, aPlayer, aActingPresident);
@@ -374,6 +379,56 @@ public class Nationalization extends PlayerFormationPanel {
 		tReplaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 		
 		return tReplaceTokenAction;
+	}
+	
+	@Override
+	public void updateDoneButton () {
+		String tToolTip;
+		PhaseManager tPhaseManager;
+		PhaseInfo tCurrentPhaseInfo;
+		FormPrussian tFormPrussian;
+		ShareCompany tFormingShareCompany;
+		int tFormingCompanyID;
+		boolean tPlayerCanConvertTo;
+		
+		tFormPrussian = (FormPrussian) formCompany;
+		tFormingShareCompany = tFormPrussian.getFormingCompany ();
+		tFormingCompanyID = tFormingShareCompany.getID ();
+		tPhaseManager = gameManager.getPhaseManager ();
+		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
+		tPlayerCanConvertTo = playerCanConvertTo (tFormingCompanyID);
+		
+		if (! tPlayerCanConvertTo) {
+			doneButton.setToolTipText (GUI.EMPTY_STRING);
+			doneButton.setEnabled (true);
+		} else if (tCurrentPhaseInfo.getMustConvert ()) {
+			tToolTip = MUST_CONVERT_PRUSSIAN;
+			doneButton.setToolTipText (tToolTip);
+			doneButton.setEnabled (false);
+		} else if (tFormingShareCompany.isFormed ()) {
+			tToolTip = MAY_CONVERT_PRUSSIAN;
+			doneButton.setToolTipText (tToolTip);
+			doneButton.setEnabled (true);
+		} else if (tCurrentPhaseInfo.getMustStart ()) {
+			tToolTip = MUST_FORM_PRUSSIAN;
+			doneButton.setToolTipText (tToolTip);
+			doneButton.setEnabled (false);
+		} else {
+			tToolTip = MAY_CONVERT_PRUSSIAN;
+			doneButton.setToolTipText (tToolTip);
+			doneButton.setEnabled (true);
+		}
+	}	
+
+	public boolean playerCanConvertTo (int aCompanyID) {
+		boolean tPlayerCanConvertTo;
+		Portfolio tPortfolio;
+		
+		tPlayerCanConvertTo = true;
+		tPortfolio = player.getPortfolio ();
+		tPlayerCanConvertTo = tPortfolio.canConvertToThisCompany (aCompanyID);
+		
+		return tPlayerCanConvertTo;
 	}
 	
 	@Override
