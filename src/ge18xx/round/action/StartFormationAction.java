@@ -4,6 +4,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.SetAtStartOfRoundEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
@@ -52,6 +53,13 @@ public class StartFormationAction extends ChangeRoundAction {
 		
 		tStartFormationEffect = new StartFormationEffect (aActor, aFormingCorporation, aTriggeringCompany);
 		addEffect (tStartFormationEffect);
+	}
+	
+	public void addSetAtStartOfRoundEffect (ActorI aActor, boolean aAtStartOfRoundEffect) {
+		SetAtStartOfRoundEffect tSetAtStartOfRoundEffect;
+		
+		tSetAtStartOfRoundEffect = new SetAtStartOfRoundEffect (aActor, aAtStartOfRoundEffect);
+		addEffect (tSetAtStartOfRoundEffect);
 	}
 
 	public void setTriggeringShareCompanyToPrepared (Corporation aTriggeringCompany) {
