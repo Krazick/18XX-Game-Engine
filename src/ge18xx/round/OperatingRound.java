@@ -3,8 +3,6 @@ package ge18xx.round;
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-//import ge18xx.company.MinorCompany;
-//import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
@@ -163,8 +161,6 @@ public class OperatingRound extends Round {
 		} else {
 			tHaveFoundOperating = true;
 		}
-		
-		// If no Minor is Operating, find Currently Operating Share Company
 		
 		if (! tHaveFoundOperating) {
 			tFoundCurrentlyOperating = updateForCurrentlyOperating (shareCompanies);
@@ -416,18 +412,21 @@ public class OperatingRound extends Round {
 		PlayerManager tPlayerManager;
 		Round tCurrentRound;
 		boolean tHandledInterrupt;
+		boolean tAtStartOfRound;
 		InterruptionRound tInterruptionRound;
 		
 		tHandledInterrupt = roundManager.checkAndHandleInterruption ();
+		tAtStartOfRound = false;
 		tCurrentRound = roundManager.getCurrentRound ();
  		System.out.println ("Interrupt Started " + tHandledInterrupt + " Current Round " + tCurrentRound.getName ());
 		if (! tHandledInterrupt) {
 			tPlayerManager = roundManager.getPlayerManager ();
 			start (tPlayerManager, tCurrentRound);
 		} else {
+			tAtStartOfRound = true;
 			tInterruptionRound = (InterruptionRound) tCurrentRound;
 			tInterruptionRound.setInterruptedRound (this);
-			tInterruptionRound.setAtStartOfRound (true);
+			tInterruptionRound.setAtStartOfRound (tAtStartOfRound);
 		}
 	}
 	
