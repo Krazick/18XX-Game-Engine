@@ -13,14 +13,6 @@ public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Interruption Started";
 	final static AttributeName AN_SET_INTERRUPTION_STARTED = new AttributeName ("setInterruptionStarted");
 
-	public SetInterruptionStartedEffect (String aName) {
-		super (aName);
-	}
-
-	public SetInterruptionStartedEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public SetInterruptionStartedEffect (ActorI aActor, boolean aSetInterruptionStarted) {
 		super (NAME, aActor, aSetInterruptionStarted);
 	}
@@ -41,7 +33,7 @@ public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + actor.getName () + " as " + getBooleanFlag () + ".");
 	}
 
 	@Override
@@ -57,7 +49,7 @@ public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
 		tEffectApplied = false;
 		if (actor.isAInterruptionRound ()) {
 			tInterruptionRound = (InterruptionRound) actor;
-			tInterruptionRound.setInterruptionStarted (tEffectApplied);
+			tInterruptionRound.setInterruptionStarted (getBooleanFlag ());
 			tEffectApplied = true;
 		} else {
 			setApplyFailureReason ("The provided Actor " + actor.getName () + 
