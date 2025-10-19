@@ -167,6 +167,8 @@ public class FormationRound extends InterruptionRound {
 		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, interruptedRound);
 		tStartFormationAction.setChainToPrevious (true);
 		
+		tStartFormationAction.addSetAtStartOfRoundEffect (interruptedRound, atStartOfRound);
+		
 		tTriggerFormationClass = tGameManager.getTriggerFormation ();
 		if (tTriggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
 			// This SHOULD NOT Happen, since the Form should have been created
@@ -202,16 +204,22 @@ public class FormationRound extends InterruptionRound {
 	@Override
 	public void finish () {
 		XMLFrame tFormationFrame;
-		PlayerManager tPlayerManager;
 		
 		tFormationFrame = triggerFormationClass.getFormationFrame ();
 		super.finish (tFormationFrame);
 		if (interruptedAtStartOfRound ()) {
-			tPlayerManager = roundManager.getPlayerManager ();
-			interruptedRound.start (tPlayerManager, interruptedRound);
+			roundManager.startNextRound ();
 		}
 	}
 
+	@Override
+	public void addSpecificEffects (ChangeRoundAction aChangeRoundAction) {
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = roundManager.getPlayerManager ();
+		tPlayerManager.setAllPlayersToPass (aChangeRoundAction);
+	}
+	
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
