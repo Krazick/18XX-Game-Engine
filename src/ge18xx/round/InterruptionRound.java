@@ -136,6 +136,7 @@ public class InterruptionRound extends Round {
 		tCurrentRoundID = getID ();
 
 		tChangeRoundAction = new ChangeRoundAction (tRoundState, tCurrentRoundID, this);
+		addSpecificEffects (tChangeRoundAction);
 		tChangeRoundAction.setChainToPrevious (true);
 		tChangeRoundAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
 		if (aInterruptionFrame != XMLFrame.NO_XML_FRAME) {
@@ -149,6 +150,10 @@ public class InterruptionRound extends Round {
 		if (! interruptedAtStartOfRound ()) {
 			roundManager.checkAndHandleRoundEnds ();
 		}
+	}
+
+	public void addSpecificEffects (ChangeRoundAction aChangeRoundAction) {
+		
 	}
 
 	@Override
