@@ -682,12 +682,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return TrainCompany.NO_REVENUE_GENERATED;
 	}
 
-	public void close () {
-		if (!updateStatus (ActorI.ActionStates.Closed)) {
-			System.err.println ("ZZZ--> Failure to update " + getName () + " to a Closed State <--");
-		}
-	}
-
 	// TODO: Build Unit Tests for forceClose methods,
 	// Refactor out tBank Calls.
 
@@ -731,6 +725,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		corporationList.appendErrorReport (aErrorReport);
 	}
 
+	public void close () {
+		if (! updateStatus (ActorI.ActionStates.Closed)) {
+			System.err.println ("ZZZ--> Failure to update " + getName () + " to a Closed State <--");
+		}
+	}
+
 	public void close (LayTokenAction aTokenAction) {
 		TransferOwnershipAction tTransferOwnershipAction;
 		List<Effect> tEffects;
@@ -750,7 +750,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		tOldState = getActionStatus ();
 		if (tOldState.equals (ActorI.ActionStates.Closed)) {
-			appendErrorReport ("The Corporation " + name + " is already Closed... don't need to close again");
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
 			tNewState = getActionStatus ();
 			aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
