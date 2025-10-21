@@ -26,6 +26,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.TransferOwnershipAction;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
@@ -592,6 +593,21 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 
 		return tTotalEscrows;
+	}
+
+	@Override
+	public void close (TransferOwnershipAction aTransferOwnershipAction) {
+		ExchangeBenefit tExchangeBenefit;
+		
+		if (! isClosed ()) {
+			tExchangeBenefit = (ExchangeBenefit) benefits.getBenefitNamed (ExchangeBenefit.NAME);
+			if (tExchangeBenefit != ExchangeBenefit.NO_BENEFIT) {
+				if (tExchangeBenefit.getConvertOnClose ()) {
+					tExchangeBenefit.handleExchangeCertificate ();
+				}
+			}
+			super.close (aTransferOwnershipAction);
+		}
 	}
 
 	@Override
