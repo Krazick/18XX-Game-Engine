@@ -11,17 +11,34 @@ import ge18xx.company.ShareCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 import swingTweaks.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {
+	public static final AttributeName AN_CONVERT_ON_CLOSE = new AttributeName ("convertOnClose");
 	public static final String NAME = "EXCHANGE";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
 	public static final int NO_PERCENTAGE = 0;
+	boolean convertOnClose;
 	
 	public ExchangeBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
+
+		boolean tConvertOnClose;
+
+		tConvertOnClose = aXMLNode.getThisBooleanAttribute (AN_CONVERT_ON_CLOSE);
+		setConvertOnClose (tConvertOnClose);
 		setName (NAME);
+
+	}
+
+	private void setConvertOnClose (boolean aConvertOnClose) {
+		convertOnClose = aConvertOnClose;
+	}
+	
+	public boolean getConvertOnClose () {
+		return convertOnClose;
 	}
 
 	@Override
@@ -138,7 +155,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		}
 	}
 
-	protected void handleExchangeCertificate () {
+	public void handleExchangeCertificate () {
 		Player tOwner;
 		Certificate tPrivateCertificate;
 
