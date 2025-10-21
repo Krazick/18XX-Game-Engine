@@ -1318,6 +1318,8 @@ public class PlayerManager implements XMLSaveGameI {
 		Portfolio tPlayerPortfolio;
 		Portfolio tClosedPortfolio;
 		PortfolioHolderI tPortfolioHolder;
+		RoundManager tRoundManager;
+		Round tCurrentRound;
 		Bank tBank;
 		ActorI.ActionStates tOldCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
@@ -1325,21 +1327,29 @@ public class PlayerManager implements XMLSaveGameI {
 		ShareCompany tShareCompany;
 		int tExchangeID;
 		int tExchangePercentage;
+		String tCurrentRoundID;
+		String tFromName;
 
 		tPrivateCompany = (PrivateCompany) aCorporation;
 		tExchangeID = tPrivateCompany.getExchangeID ();
 		tExchangePercentage = tPrivateCompany.getExchangePercentage ();
 		tShareCompany = (ShareCompany) gameManager.getCorporationByID (tExchangeID);
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tCurrentRoundID = tCurrentRound.getID ();
+		
 		tBank = stockRound.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tCertificate = tBankPortfolio.getCertificate (tShareCompany, tExchangePercentage);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
-			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundState (), 
-							stockRound.getID (), aPlayer);
+			tExchangeStockAction = new ExchangeStockAction (tCurrentRound.getRoundState (), 
+					tCurrentRoundID, aPlayer);
 			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
-			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
+			tFromName = aPlayer.getName ();
+			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, tFromName, aCertificate, tBank, Bank.CLOSED);
 			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tCertificate);
 			tExchangeStockAction.addTransferOwnershipEffect (tBank, tCertificate, aPlayer);
 			tOldState = tPrivateCompany.getActionStatus ();
@@ -1359,6 +1369,9 @@ public class PlayerManager implements XMLSaveGameI {
 					tCurrentPresident = (Player) tPortfolioHolder;
 					handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
 				}
+			}
+			if (tCurrentRound.isAOperatingRound ()) {
+				tExchangeStockAction.setChainToPrevious (true);
 			}
 			addAction (tExchangeStockAction);
 		}
