@@ -63,7 +63,7 @@ class MapCellIntegrationTests {
 	
 	@Test
 	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
-	void toronotTileUpgradeTest () {	
+	void torontoTileUpgradeTest () {	
 		
 		prepareAndVerifyMapCell ();
 		
@@ -75,7 +75,7 @@ class MapCellIntegrationTests {
 	
 	@Test
 	@DisplayName ("Test Toronto TileUpgrade via LayTileEffect")
-	void tornotoLayTileEffectUpgradeTest () {
+	void torntoLayTileEffectUpgradeTest () {
 		HexMap mHexMap;
 		RevenueCenter tDestinationCity;
 		Tile tTile;
