@@ -1170,8 +1170,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tRow;
 		int tCol;
 
-		tTerrainType = new int [15];
-		tTerrainCost = new int [15];
+		tTerrainType = new int [Terrain.MAX_TERRAIN_TYPES];
+		tTerrainCost = new int [Terrain.MAX_TERRAIN_TYPES];
 		tXMLMapRoot = aXMLDocument.getDocumentNode ();
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMapRoot.getThisIntAttribute (AN_ROWS);
