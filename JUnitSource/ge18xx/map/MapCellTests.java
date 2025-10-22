@@ -11,23 +11,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import ge18xx.game.GameTestFactory;
 import ge18xx.tiles.Tile;
-import ge18xx.tiles.TilesTestFactory;
 
-class MapCellTests {
+class MapCellTests extends MapTester {
 	MapCell mapCell;
-	MapTestFactory mapTestFactory;
-	TilesTestFactory tilesTestFactory;
-	GameTestFactory gameTestFactory;
 	Tile mTile;
 	
 	@BeforeEach
 	void setUp () throws Exception {
-		gameTestFactory = new GameTestFactory ();
-		mapTestFactory = new MapTestFactory ();
 		mapCell = mapTestFactory.buildMapCell ("N11");
-		tilesTestFactory = new TilesTestFactory (mapTestFactory);
 		mTile = tilesTestFactory.buildTileMock (7);
 	}
 

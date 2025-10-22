@@ -9,33 +9,24 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ge18xx.center.RevenueCenter;
-import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.GameTestFactory;
 import ge18xx.round.RoundManager;
-import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
-import ge18xx.tiles.TilesTestFactory;
 import ge18xx.tiles.Upgrade;
 
 import geUtilities.GUI;
 
-class MapCellIntegrationTests {
+class MapCellIntegrationTests extends MapTester {
 	MapCell mapCell;
-	MapTestFactory mapTestFactory;
-	TilesTestFactory tilesTestFactory;
-	CompanyTestFactory companyTestFactory;
-	GameTestFactory gameTestFactory;
 	ShareCompany alphaShareCompany;
 	ShareCompany betaShareCompany;
 	GameManager mGameManager;
 	TileSet tileSet;
-	RoundTestFactory roundTestFactory;
 	RoundManager mRoundManager;
 	Tile tile9995;
 	Tile tile120;
@@ -43,14 +34,9 @@ class MapCellIntegrationTests {
 	
 	@BeforeEach
 	void setUp () throws Exception {
-		gameTestFactory = new GameTestFactory ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		roundTestFactory = new RoundTestFactory ();
 		mRoundManager = roundTestFactory.buildRoundManagerMock ();
-		mapTestFactory = new MapTestFactory ();
 		mapCell = mapTestFactory.buildMapCell ("N11");
-		tilesTestFactory = new TilesTestFactory (mapTestFactory);
-		companyTestFactory = new CompanyTestFactory ();
 		
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
