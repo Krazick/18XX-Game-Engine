@@ -38,6 +38,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	public static final AttributeName AN_CATEGORY = new AttributeName ("category");
 	public static final Terrain NO_TERRAINX = null;
 	public static final Terrain NO_TERRAIN_FEATURE = null;
+	public static final int MAX_TERRAIN_TYPES = 15;
 	public static final int NO_TERRAIN = 0;
 	public static final int NO_COST = 0;
 
