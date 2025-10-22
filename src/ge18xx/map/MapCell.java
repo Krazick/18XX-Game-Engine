@@ -1251,71 +1251,77 @@ public class MapCell implements Comparator<Object> {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
-		String tCategory;
-		String tRCType;
-		Terrain tTerrain;
-		RevenueCenter tRevenueCenter;
 		int tChildrenCount;
 		int tChildrenIndex;
-		int tTerrainIndex;
-		int tTerrainType;
-		int tTileNumber;
-		int tOrientation;
-		int tSide;
-		boolean tStarting;
-
+		
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		tile = Tile.NO_TILE;
-		rebate = Rebate.NO_REBATE;
+		setTile (Tile.NO_TILE);
+		setRebate (Rebate.NO_REBATE);
 		setID (aID);
 		for (tChildrenIndex = 0; tChildrenIndex < tChildrenCount; tChildrenIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
 			tChildName = tChildNode.getNodeName ();
-			if (Terrain.EN_TERRAIN.equals (tChildName)) {
-				tTerrain = new Terrain (tChildNode);
-				if (tTerrain != Terrain.NO_TERRAINX) {
-					tTerrainType = tTerrain.getTerrain ();
-					for (tTerrainIndex = 0; tTerrainIndex < 15; tTerrainIndex++) {
-						if (aTerrainType [tTerrainIndex] == tTerrainType) {
-							tTerrain.setCost (aTerrainCost [tTerrainIndex]);
-						}
+			
+			loadXMLMapCell (aTerrainCost, aTerrainType, tChildNode, tChildName);
+		}
+	}
+
+	protected void loadXMLMapCell (int [] aTerrainCost, int [] aTerrainType, XMLNode aChildNode, String aChildName) {
+		String tCategory;
+		String tRCType;
+		Terrain tTerrain;
+		RevenueCenter tRevenueCenter;
+		boolean tStarting;
+		int tTerrainType;
+		int tTileNumber;
+		int tOrientation;
+		int tSide;
+		int tTerrainIndex;
+
+		if (Terrain.EN_TERRAIN.equals (aChildName)) {
+			tTerrain = new Terrain (aChildNode);
+			if (tTerrain != Terrain.NO_TERRAINX) {
+				tTerrainType = tTerrain.getTerrain ();
+				for (tTerrainIndex = 0; tTerrainIndex < Terrain.MAX_TERRAIN_TYPES; tTerrainIndex++) {
+					if (aTerrainType [tTerrainIndex] == tTerrainType) {
+						tTerrain.setCost (aTerrainCost [tTerrainIndex]);
 					}
 				}
-				tCategory = tTerrain.getCategory (tChildNode);
-				if (Terrain.AN_BASE.equals (tCategory)) {
-					setBaseTerrain (tTerrain);
-				} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
-					if (terrain1 == Terrain.NO_TERRAINX) {
-						terrain1 = tTerrain;
-					} else if (terrain2 == Terrain.NO_TERRAINX) {
-						terrain2 = tTerrain;
-					}
-				}
-			} else if (RevenueCenter.EN_REVENUE_CENTER.equals (tChildName)) {
-				tRCType = tChildNode.getThisAttribute (RevenueCenter.AN_TYPE);
-				if (RevenueCenterType.isTown (tRCType)) {
-					tRevenueCenter = new Town (tChildNode);
-				} else if (RevenueCenterType.isCity (tRCType)) {
-					tRevenueCenter = new City (tChildNode);
-				} else {
-					tRevenueCenter = new PrivateRailwayCenter (tChildNode);
-				}
-				tRevenueCenter.setMapCell (this);
-				centers.add (tRevenueCenter);
-			} else if (TileName.EN_TILE_NAME.equals (tChildName)) {
-				baseTileName = new TileName (tChildNode);
-			} else if (Tile.EN_TILE.equals (tChildName)) {
-				tTileNumber = tChildNode.getThisIntAttribute (Tile.AN_NUMBER);
-				tOrientation = tChildNode.getThisIntAttribute (AN_ORIENTATION);
-				tStarting = tChildNode.getThisBooleanAttribute (AN_STARTING);
-				setTileInfo (tTileNumber, tOrientation, tStarting);
-			} else if (EN_BLOCKED.equals (tChildName)) {
-				tSide = tChildNode.getThisIntAttribute (AN_SIDE);
-				blockedSides [tSide] = true;
-			} else if (Rebate.EN_REBATE.equals (tChildName)) {
-				rebate = new Rebate (tChildNode);
 			}
+			tCategory = tTerrain.getCategory (aChildNode);
+			if (Terrain.AN_BASE.equals (tCategory)) {
+				setBaseTerrain (tTerrain);
+			} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
+				if (terrain1 == Terrain.NO_TERRAINX) {
+					terrain1 = tTerrain;
+				} else if (terrain2 == Terrain.NO_TERRAINX) {
+					terrain2 = tTerrain;
+				}
+			}
+		} else if (RevenueCenter.EN_REVENUE_CENTER.equals (aChildName)) {
+			tRCType = aChildNode.getThisAttribute (RevenueCenter.AN_TYPE);
+			if (RevenueCenterType.isTown (tRCType)) {
+				tRevenueCenter = new Town (aChildNode);
+			} else if (RevenueCenterType.isCity (tRCType)) {
+				tRevenueCenter = new City (aChildNode);
+			} else {
+				tRevenueCenter = new PrivateRailwayCenter (aChildNode);
+			}
+			tRevenueCenter.setMapCell (this);
+			centers.add (tRevenueCenter);
+		} else if (TileName.EN_TILE_NAME.equals (aChildName)) {
+			baseTileName = new TileName (aChildNode);
+		} else if (Tile.EN_TILE.equals (aChildName)) {
+			tTileNumber = aChildNode.getThisIntAttribute (Tile.AN_NUMBER);
+			tOrientation = aChildNode.getThisIntAttribute (AN_ORIENTATION);
+			tStarting = aChildNode.getThisBooleanAttribute (AN_STARTING);
+			setTileInfo (tTileNumber, tOrientation, tStarting);
+		} else if (EN_BLOCKED.equals (aChildName)) {
+			tSide = aChildNode.getThisIntAttribute (AN_SIDE);
+			blockedSides [tSide] = true;
+		} else if (Rebate.EN_REBATE.equals (aChildName)) {
+			setRebate (new Rebate (aChildNode));
 		}
 	}
 
@@ -1366,6 +1372,10 @@ public class MapCell implements Comparator<Object> {
 
 	public void printlog () {
 		System.out.println ("Map Cell " + id);		// PRINTLOG
+	}
+
+	public void setRebate (Rebate aRebate) {
+		rebate = aRebate;
 	}
 
 	public void setTile (Tile aTile) {
@@ -1443,7 +1453,6 @@ public class MapCell implements Comparator<Object> {
 		String [] tBaseInfo;
 		String tAbbrev;
 		int tIndex;
-//		ShareCompany tShareCompany;
 		TokenCompany tTokenCompany;
 		RevenueCenter tRevenueCenter;
 		Location tLocation;
@@ -1459,13 +1468,11 @@ public class MapCell implements Comparator<Object> {
 				tBaseInfo = tAPreviousBase.split (",");
 				tAbbrev = tBaseInfo [0];
 				tIndex = Integer.parseInt (tBaseInfo [1]);
-//				tShareCompany = aGameManager.getShareCompany (tAbbrev);
 				tTokenCompany = aGameManager.getTokenCompany (tAbbrev);
 	
 				tRevenueCenter = tTile.getRevenueCenter (tIndex);
 				tLocation = tRevenueCenter.getLocation ();
 				tLocation = tLocation.rotateLocation (getTileOrient ());
-//				setCorporationHome (tShareCompany, tLocation);
 				setCorporationHome (tTokenCompany, tLocation);
 				tBasesApplied = true;
 			}
@@ -2052,7 +2059,7 @@ public class MapCell implements Comparator<Object> {
 		clearSelected ();
 		startingTileNumber = Tile.NOT_A_TILE;
 		startingTile = false;
-		rebate = Rebate.NO_REBATE;
+		setRebate (Rebate.NO_REBATE);
 		clearAllTrainsUsingSides ();
 	}
 
