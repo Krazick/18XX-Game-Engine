@@ -131,7 +131,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
 	Benefit benefitInUse;
-//	PreparedActions preparedActions;
 	List<KButton> specialButtons;
 	Portfolio portfolio; 	// All Certificates Owned by the Corporation (Privates, Minors, it's own,
 							// and others). Use this portfolio to find what this company can sell.
@@ -156,7 +155,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		tActorType = actorType.toString () + " " + aAbbrev;
 		bean = new MessageBean (tActorType);
-//		preparedActions = new PreparedActions ();
 		specialButtons = new LinkedList<KButton> ();
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, 
 					aStatus, aGovtRailway);
@@ -196,7 +194,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		loadFormationInfo (aXMLNode);
 
 		setStatus (aXMLNode);
-//		preparedActions = new PreparedActions ();
 		specialButtons = new LinkedList<KButton> ();
 
 		tXMLNodeList = new XMLNodeList (this);
@@ -515,7 +512,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	// Token Company will Override
 	public String getTokenLabel () {
-		return null;
+		return GUI.NULL_STRING;
 	}
 
 	public boolean canPayHalfDividend () {
@@ -551,11 +548,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	// Minor Company will override
 	public boolean canHoldDividend () {
 		return true;
-	}
-	
-	// Train Company will override
-	public boolean didOperateTrains () {
-		return false;
 	}
 
 	public boolean canBuyPrivate () {
@@ -818,18 +810,23 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		return tDidPartiallyOperate;
 	}
-
-	public boolean didOperateTrain () {
-		boolean tDidOperateTrain;
-
-		tDidOperateTrain = false;
-		if ((status == ActorI.ActionStates.OperatedTrain) || 
-			(status == ActorI.ActionStates.HandledLoanInterest)) {
-			tDidOperateTrain = true;
-		}
-
-		return tDidOperateTrain;
+	
+	// Train Company will override
+	public boolean didOperateTrains () {
+		return false;
 	}
+//
+//	public boolean didOperateTrain () {
+//		boolean tDidOperateTrain;
+//
+//		tDidOperateTrain = false;
+//		if ((status == ActorI.ActionStates.OperatedTrain) || 
+//			(status == ActorI.ActionStates.HandledLoanInterest)) {
+//			tDidOperateTrain = true;
+//		}
+//
+//		return tDidOperateTrain;
+//	}
 
 	public boolean didOperate () {
 		boolean tDidOperate;
