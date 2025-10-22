@@ -1147,7 +1147,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (aTrainCount == 0) {
 				tEnabled = true;
 				tToolTip = "Corporation has no Trains to Operate to generate Revenue.";
-			} else if ((corporation.getThisRevenue () == 0) && (corporation.didOperateTrain ())) {
+			} else if ((corporation.getThisRevenue () == 0) && (corporation.didOperateTrains ())) {
 				tEnabled = true;
 				tToolTip = "Corporation has generated no Revenues.";				
 			} else if (!corporation.canHoldDividend ()) {
@@ -1159,7 +1159,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tRevenue = corporation.getThisRevenue ();
 				payNoDividendButton.setText ("Hold " + Bank.formatCash (tRevenue) + " in Treasury.");
 				tToolTip = GUI.NO_TOOL_TIP;
-			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
+			} else if ((aTrainCount > 0) && (corporation.didOperateTrains ())) {
 				if (corporation.getThisRevenue () == 0) {
 					tEnabled = true;
 					tToolTip = "Corporation generated no Revenue.";
