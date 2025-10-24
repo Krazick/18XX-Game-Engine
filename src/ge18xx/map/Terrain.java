@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 //
 
 import ge18xx.tiles.Feature;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.LoadableXMLI;
@@ -105,7 +106,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		int tLocation;
 
 		tTerrainName = aNode.getThisAttribute (AN_TYPE);
-		if (tTerrainName != null) {
+		if (tTerrainName != GUI.NULL_STRING) {
 			tTerrain = getTypeFromName (tTerrainName);
 		} else {
 			tTerrain = NO_TERRAIN;
