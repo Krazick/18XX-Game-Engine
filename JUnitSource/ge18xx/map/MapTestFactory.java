@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.XMLFrame;
+import geUtilities.xml.XMLNode;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
@@ -92,6 +93,20 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
+//	protected void loadXMLMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
+	public MapCell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
+		
+		MapCell tMapCell;
+		HexMap mHexMap;
+		String tMapDirection;
+		
+		mHexMap = buildHexMapMock ();
+		tMapDirection = "EW";
+		tMapCell = new MapCell (mHexMap, tMapDirection);
+		
+		return tMapCell;
+	}
+	
 	public MapCell buildMapCell (String aID, int aXc, int aYc) {
 		HexMap tHexMap;
 		MapCell tMapCell;
