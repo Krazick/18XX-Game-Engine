@@ -16,10 +16,13 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileSet;
+import ge18xx.tiles.TileType;
 import ge18xx.tiles.Upgrade;
 
 import geUtilities.GUI;
+import geUtilities.xml.XMLNode;
 
 class MapCellIntegrationTests extends MapTester {
 	MapCell mapCell;
@@ -262,5 +265,116 @@ class MapCellIntegrationTests extends MapTester {
 			assertEquals (aCorpIDBases [tCenterIndex], tCorpID);
 			assertEquals (aExpectedCenterTypes [tCenterIndex], tCenterType);
 		}
+	}
+	
+	String getXMLMapText (int aXMLIndex) {
+		String tXMLMapCell;
+		String [] tXMLMapCells = {
+				"<MapCell>\n"
+				+ "   <Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "	  <Terrain category=\"optional\" location=\"16\" type=\"River\" />\n"
+				+ "	  <TileName name=\"NY\" location=\"13\" />\n"
+				+ "	  <Tile number=\"9940\" orientation=\"0\" starting=\"TRUE\" />\n"
+				+ "	  <RevenueCenter id=\"8\" location=\"8\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+				+ "	  <RevenueCenter id=\"8\" location=\"11\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+				+ "</MapCell>"
+				
+		};
+		tXMLMapCell = tXMLMapCells [aXMLIndex];
+		
+		return tXMLMapCell;
+	}
+	
+	@Test
+	@DisplayName ("Test getCostToLayTile")
+	void costToLayTileTest () {
+		String tXMLMapCell;
+//		String tXMLMapCell = "<MapCell>\n"
+//				+ "   <Terrain category=\"base\" type=\"Clear\" />\n"
+//				+ "	  <Terrain category=\"optional\" location=\"16\" type=\"River\" />\n"
+//				+ "	  <TileName name=\"NY\" location=\"13\" />\n"
+//				+ "	  <Tile number=\"9940\" orientation=\"0\" starting=\"TRUE\" />\n"
+//				+ "	  <RevenueCenter id=\"8\" location=\"8\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+//				+ "	  <RevenueCenter id=\"8\" location=\"11\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+//				+ "</MapCell>";
+		int [] tTerrainCost = { 80, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int [] tTerrainType = { 10,  13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		MapCell tMapCell;
+		Terrain tBaseTerrain;
+		Terrain tTerrain1;
+		Terrain tTerrain2;
+		Tile mTile;
+		TileType mTileType;
+		TileName mTileName;
+		
+		mTile = tilesTestFactory.buildTileMock (9940);
+		mTileType = tilesTestFactory.buildTileTypeMock (TileType.YELLOW);
+		Mockito.when (mTile.isFixedTile ()).thenReturn (true);
+		Mockito.when (mTile.getType ()).thenReturn (mTileType);
+		
+		tXMLMapCell = getXMLMapText (0);
+		tMapCell = buildMapCell (tXMLMapCell, tTerrainCost, tTerrainType, mTile);
+		assertEquals ("G19", tMapCell.getID ());
+		
+		tBaseTerrain = tMapCell.getBaseTerrain ();
+		tTerrain1 = tMapCell.getTerrain1 ();
+		tTerrain2 = tMapCell.getTerrain2 ();
+		assertEquals ("Clear", tBaseTerrain.getName ());
+		assertEquals ("River", tTerrain1.getName ());
+		assertNull (tTerrain2);
+		
+		assertEquals (0, tBaseTerrain.getCost ());
+		assertEquals (80, tTerrain1.getCost ());
+		
+		assertEquals (80, tMapCell.getTotalTerrainCost ());
+		
+		assertTrue (tMapCell.isTileOnCell ());
+		assertFalse (tMapCell.isTileLayCostFree ());
+		assertEquals (80, tMapCell.getCostToLayTile ());
+		
+		assertEquals (80, tMapCell.getCostToLayTile (mTile));
+		
+		mTileType = tilesTestFactory.buildTileTypeMock (TileType.GREEN);
+		Mockito.when (mTile.isFixedTile ()).thenReturn (true);
+		Mockito.when (mTile.getType ()).thenReturn (mTileType);
+		
+		mTileName = tilesTestFactory.buildTileNameMock (false, true);
+		Mockito.when (mTile.getTileName ()).thenReturn (mTileName);
+		assertEquals (80, tMapCell.getCostToLayTile (mTile));
+
+		mTileName = tilesTestFactory.buildTileNameMock (true, false);
+		Mockito.when (mTile.getTileName ()).thenReturn (mTileName);
+		assertEquals (80, tMapCell.getCostToLayTile (mTile));
+		
+		mTileName = tilesTestFactory.buildTileNameMock (false, false);
+		Mockito.when (mTile.getTileName ()).thenReturn (mTileName);
+		assertEquals (0, tMapCell.getCostToLayTile (mTile));
+		
+		mTileName = TileName.NO_TILE_NAME;
+		Mockito.when (mTile.getTileName ()).thenReturn (mTileName);
+		assertEquals (0, tMapCell.getCostToLayTile (mTile));
+	
+		mTileType = tilesTestFactory.buildTileTypeMock (TileType.BROWN);
+		Mockito.when (mTile.isFixedTile ()).thenReturn (true);
+		Mockito.when (mTile.getType ()).thenReturn (mTileType);
+		mTileName = tilesTestFactory.buildTileNameMock (false, true);
+		Mockito.when (mTile.getTileName ()).thenReturn (mTileName);
+		assertEquals (0, tMapCell.getCostToLayTile (mTile));
+
+		mTile = Tile.NO_TILE;
+		assertEquals (80, tMapCell.getCostToLayTile (mTile));
+
+	}
+
+	protected MapCell buildMapCell (String aXMLMapCell, int [] aTerrainCost, int [] aTerrainType, Tile mTile) {
+		XMLNode tXMLNode;
+		MapCell tMapCell;
+		
+		tXMLNode =  utilitiesTestFactory.buildXMLNode (aXMLMapCell);
+		tMapCell = mapTestFactory.buildMapCell ("A9");
+		tMapCell.loadXMLCell (tXMLNode, aTerrainCost, aTerrainType, "G19");
+		tMapCell.setTile (mTile);
+		
+		return tMapCell;
 	}
 }
