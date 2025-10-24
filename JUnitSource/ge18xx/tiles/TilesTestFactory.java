@@ -142,6 +142,25 @@ public class TilesTestFactory {
 		return mTile;
 	}
 	
+	public TileType buildTileTypeMock (int tTileTypeInt) {
+		TileType mTileType;
+		
+		mTileType = Mockito.mock (TileType.class);
+		Mockito.when (mTileType.getType ()).thenReturn (tTileTypeInt);
+		
+		return mTileType;
+	}
+	
+	public TileName buildTileNameMock (boolean aIsOOTile, boolean aIsNYTile) {
+		TileName mTileName;
+		
+		mTileName = Mockito.mock (TileName.class);
+		Mockito.when (mTileName.isOOTile ()).thenReturn (aIsOOTile);
+		Mockito.when (mTileName.isNYTile ()).thenReturn (aIsNYTile);
+		
+		return mTileName;
+	}
+
 	public void setMockCanAllTracksExit (Tile mTile, MapCell aMapCell, int aTileOrient, boolean aCanExit) {
 		
 		if (mTile != Tile.NO_TILE) {
