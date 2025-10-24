@@ -1247,7 +1247,8 @@ public class MapCell implements Comparator<Object> {
 		id = aID;
 	}
 
-	public void loadXMLCell (XMLNode aCellNode, int aTerrainCost[], int aTerrainType[], String aID) {
+	// TODO: Add Testing for these methods
+	public void loadXMLCell (XMLNode aCellNode, int aTerrainCost [], int aTerrainType [], String aID) {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
@@ -1263,11 +1264,11 @@ public class MapCell implements Comparator<Object> {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
 			tChildName = tChildNode.getNodeName ();
 			
-			loadXMLMapCell (aTerrainCost, aTerrainType, tChildNode, tChildName);
+			loadXMLMapCell (tChildNode, aTerrainCost, aTerrainType, tChildName);
 		}
 	}
 
-	protected void loadXMLMapCell (int [] aTerrainCost, int [] aTerrainType, XMLNode aChildNode, String aChildName) {
+	protected void loadXMLMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 		String tCategory;
 		String tRCType;
 		Terrain tTerrain;
@@ -2032,12 +2033,12 @@ public class MapCell implements Comparator<Object> {
 		endRoutes = new LinkedList<> ();
 		neighbors = new MapCell [6];
 		baseTileName = new TileName (aBaseName);
-		if (aBlockedSides == null) {
+		if (aBlockedSides == GUI.NULL_STRING) {
 			for (tBlockedIndex = 0; tBlockedIndex < 6; tBlockedIndex++) {
 				blockedSides [tBlockedIndex] = false;
 			}
 		} else {
-			if (aBlockedSides.equals ("")) {
+			if (aBlockedSides.equals (GUI.EMPTY_STRING)) {
 				for (tBlockedIndex = 0; tBlockedIndex < 6; tBlockedIndex++) {
 					blockedSides [tBlockedIndex] = false;
 				}
@@ -2489,44 +2490,6 @@ public class MapCell implements Comparator<Object> {
 		return 42; // any arbitrary constant will do
 	}
 
-	public boolean isTileLayCostFree () {
-		boolean tIsTileLayCostFree;
-
-		tIsTileLayCostFree = true;
-		// A Tile on the Cell, unless it is Fixed, is Free to lay
-		if (isTileOnCell ()) {
-			if (tile.isFixedTile ()) {
-				tIsTileLayCostFree = false;
-			}
-		} else {
-			tIsTileLayCostFree = false;
-		}
-
-		return tIsTileLayCostFree;
-	}
-
-	public int getCostToLayTile () {
-		int tCostToLayTile;
-
-		tCostToLayTile = 0;
-		// Test if the Tile Lay Cost if Free.
-		if (!isTileLayCostFree ()) {
-
-			if (baseTerrain != Terrain.NO_TERRAIN_FEATURE) {
-				tCostToLayTile += baseTerrain.getCost ();
-			}
-
-			if (terrain1 != Terrain.NO_TERRAIN_FEATURE) {
-				tCostToLayTile += terrain1.getCost ();
-			}
-			if (terrain2 != Terrain.NO_TERRAIN_FEATURE) {
-				tCostToLayTile += terrain2.getCost ();
-			}
-		}
-
-		return tCostToLayTile;
-	}
-
 	public String getBasePrivateAbbrev (CorporationList privateCos) {
 		String tPrivateAbbrev;
 		Corporation tPrivateCompany;
@@ -2570,6 +2533,22 @@ public class MapCell implements Comparator<Object> {
 		return tPrivatePrevents;
 	}
 
+	public boolean isTileLayCostFree () {
+		boolean tIsTileLayCostFree;
+
+		tIsTileLayCostFree = true;
+		// A Tile on the Cell, unless it is Fixed, is Free to lay
+		if (isTileOnCell ()) {
+			if (tile.isFixedTile ()) {
+				tIsTileLayCostFree = false;
+			}
+		} else {
+			tIsTileLayCostFree = false;
+		}
+
+		return tIsTileLayCostFree;
+	}
+
 	public int getTotalTerrainCost () {
 		int tTotalTerrainCost;
 		int tCostBaseTerrain;
@@ -2602,6 +2581,28 @@ public class MapCell implements Comparator<Object> {
 		return tTerrainCost;
 	}
 
+	public int getCostToLayTile () {
+		int tCostToLayTile;
+
+		tCostToLayTile = 0;
+		// Test if the Tile Lay Cost if Free.
+		if (!isTileLayCostFree ()) {
+
+			if (baseTerrain != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += baseTerrain.getCost ();
+			}
+			if (terrain1 != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += terrain1.getCost ();
+			}
+			if (terrain2 != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += terrain2.getCost ();
+			}
+		}
+
+		return tCostToLayTile;
+	}
+
+// TEST COST TO LAY
 	public int getCostToLayTile (Tile aTile) {
 		TileType tTileType;
 		TileName tTileName;
@@ -2621,7 +2622,7 @@ public class MapCell implements Comparator<Object> {
 				tCostToLay = tTotalTerrainCost;
 			} else if (tTileTypeInt == TileType.GREEN) {
 				tTileName = aTile.getTileName ();
-				if (tTileName != null) {
+				if (tTileName != TileName.NO_TILE_NAME) {
 					if (tTileName.isOOTile () || tTileName.isNYTile ()) {
 						tCostToLay = tTotalTerrainCost;
 					}
