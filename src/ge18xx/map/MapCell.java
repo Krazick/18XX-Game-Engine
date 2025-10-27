@@ -2623,7 +2623,15 @@ public class MapCell implements Comparator<Object> {
 			} else if (tTileTypeInt == TileType.GREEN) {
 				tTileName = aTile.getTileName ();
 				if (tTileName != TileName.NO_TILE_NAME) {
-					if (tTileName.isOOTile () || tTileName.isNYTile ()) {
+					if (tTileName.isOOTile () || tTileName.isNYTile ()
+						|| tTileName.isXXTile () || tTileName.isYTile ()) {
+						tCostToLay = tTotalTerrainCost;
+					}
+				}
+			} else if (tTileTypeInt == TileType.BROWN) {
+				tTileName = aTile.getTileName ();
+				if (tTileName != TileName.NO_TILE_NAME) {
+					if ( tTileName.isHHTile ()) {
 						tCostToLay = tTotalTerrainCost;
 					}
 				}
