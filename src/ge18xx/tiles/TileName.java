@@ -25,9 +25,11 @@ public class TileName extends Feature implements Cloneable {
 	public static final ElementName EN_TILE_NAME = new ElementName ("TileName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");
+	public static final String HH_NAME = "HH";
+	public static final String NY_NAME = "NY";
 	public static final String OO_NAME = "OO";
 	public static final String XX_NAME = "XX";
-	public static final String NY_NAME = "NY";
+	public static final String Y_NAME = "Y";
 	public static final TileName NO_TILE_NAME = null;
 	public static String NO_NAME = null;
 	public static String NO_NAME2 = "";
@@ -141,6 +143,39 @@ public class TileName extends Feature implements Cloneable {
 		}
 
 		return tIsOOTile;
+	}
+
+	public boolean isXXTile () {
+		boolean tIsXXTile;
+
+		tIsXXTile = false;
+		if (XX_NAME.equals (name)) {
+			tIsXXTile = true;
+		}
+
+		return tIsXXTile;
+	}
+
+	public boolean isHHTile () {
+		boolean tIsHHTile;
+
+		tIsHHTile = false;
+		if (HH_NAME.equals (name)) {
+			tIsHHTile = true;
+		}
+
+		return tIsHHTile;
+	}
+
+	public boolean isYTile () {
+		boolean tIsYTile;
+
+		tIsYTile = false;
+		if (Y_NAME.equals (name)) {
+			tIsYTile = true;
+		}
+
+		return tIsYTile;
 	}
 
 	@Override
