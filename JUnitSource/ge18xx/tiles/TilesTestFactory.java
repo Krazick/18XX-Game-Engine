@@ -27,17 +27,16 @@ public class TilesTestFactory {
 		+ "	<RevenueCenter id=\"-1\" location=\"10\" name=\"\" number=\"1\" type=\"Single City\">\n"
 		+ "		<Revenue location=\"-1\" phase=\"1\" value=\"30\" />\n"
 		+ "	</RevenueCenter>\n"
-		+ "</Tile>\n" ,
+		+ "</Tile>" ,
 		
 		"<Tile number=\"14\" type=\"Green\">\n"
 		+ "		<Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
 		+ "		<Track enter=\"1\" exit=\"50\" gauge=\"NORMAL\" />\n"
 		+ "		<Track enter=\"3\" exit=\"50\" gauge=\"NORMAL\" />\n"
 		+ "		<Track enter=\"4\" exit=\"50\" gauge=\"NORMAL\" />\n"
-		+ "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"2\"\n"
-		+ "			type=\"Double City\">\n"
+		+ "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"2\" type=\"Double City\">\n"
 		+ "			<Revenue location=\"42\" phase=\"0\" value=\"30\" />\n" + "		</RevenueCenter>\n"
-		+ "	</Tile>\n" ,
+		+ "	</Tile>" ,
 		
 		"<Tile number=\"120\" type=\"Green\">\n "
 		 + "    <TileName location=\"43\" name=\"Toronto\" />\n "
@@ -45,32 +44,112 @@ public class TilesTestFactory {
 		 + "    <Track enter=\"1\" exit=\"13\" gauge=\"NORMAL\" />\n "
 		 + "    <Track enter=\"4\" exit=\"17\" gauge=\"NORMAL\" />\n "
 		 + "    <Track enter=\"5\" exit=\"17\" gauge=\"NORMAL\" />\n "
-		 + "    <RevenueCenter id=\"-1\" location=\"13\" name=\"\" number=\"1\"\n "
-		 + "            type=\"Single City\">\n "
+		 + "    <RevenueCenter id=\"-1\" location=\"13\" name=\"\" number=\"1\" type=\"Single City\">\n "
 		 + "            <Revenue location=\"12\" phase=\"0\" value=\"60\" />\n "
 		 + "    </RevenueCenter>\n "
-		 + "    <RevenueCenter id=\"-1\" location=\"17\" name=\"\" number=\"1\"\n "
-		 + "            type=\"Single City\">\n "
+		 + "    <RevenueCenter id=\"-1\" location=\"17\" name=\"\" number=\"1\" type=\"Single City\">\n "
 		 + "            <Revenue location=\"-1\" phase=\"0\" value=\"60\" />\n "
 		 + "    </RevenueCenter>\n "
-		 + "</Tile>\n "
+		 + "</Tile>",
+		 
+		 "	<Tile number=\"54\" type=\"Green\">\n"
+		 + "		<TileName location=\"16\" name=\"NY\" />\n"
+		 + "		<Track enter=\"2\" exit=\"14\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"1\" exit=\"14\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"5\" exit=\"12\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"0\" exit=\"12\" gauge=\"NORMAL\" />\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"14\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		 + "			<Revenue location=\"17\" phase=\"0\" value=\"60\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"12\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		 + "			<Revenue location=\"17\" phase=\"0\" value=\"60\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "	</Tile>",
+		 
+		 "	<Tile number=\"59\" type=\"Green\">\n"
+		 + "		<TileName location=\"17\" name=\"OO\" />\n"
+		 + "		<Track enter=\"1\" exit=\"13\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"3\" exit=\"16\" gauge=\"NORMAL\" />\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"13\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		 + "			<Revenue location=\"50\" phase=\"0\" value=\"40\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"16\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		 + "			<Revenue location=\"50\" phase=\"0\" value=\"40\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "	</Tile>",
+		 
+		 "	<Tile number=\"55\" type=\"Yellow\">\n"
+		 + "		<Track enter=\"2\" exit=\"8\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"5\" exit=\"8\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"3\" exit=\"6\" gauge=\"OVERPASS\" />\n"
+		 + "		<Track enter=\"3\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"0\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"6\" name=\"\" type=\"Small Town\">\n"
+		 + "			<Revenue location=\"41\" phase=\"0\" value=\"10\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"8\" name=\"\" type=\"Small Town\">\n"
+		 + "			<Revenue location=\"-1\" phase=\"0\" value=\"10\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "</Tile>",
+		 
+		"	<Tile number=\"210\" type=\"Green\">\n"
+		+ "		<TileName location=\"10\" name=\"XX\" />\n"
+		+ "		<Track enter=\"0\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"3\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"1\" exit=\"14\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"2\" exit=\"14\" gauge=\"NORMAL\" />\n"
+		+ "		<RevenueCenter id=\"-1\" location=\"6\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		+ "			<Revenue location=\"15\" phase=\"0\" value=\"30\" />\n"
+		+ "		</RevenueCenter>\n"
+		+ "		<RevenueCenter id=\"-1\" location=\"14\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		+ "			<Revenue location=\"15\" phase=\"0\" value=\"30\" />\n"
+		+ "		</RevenueCenter>\n"
+		+ "	</Tile>",
+		
+		"<Tile number=\"208\" type=\"Green\">\n"
+		+ "   <TileName location=\"12\" name=\"Y\" />\n"
+		+ "   <Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "   <Track enter=\"1\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "   <Track enter=\"3\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"4\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "   <RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"2\" type=\"Double City\">\n"
+		+ "	     <Revenue location=\"42\" phase=\"0\" value=\"40\" />\n"
+		+ "   </RevenueCenter>\n"
+		+ "</Tile>",
+		
+		"<Tile number=\"221\" type=\"Brown\">\n"
+		+ "	  <TileName location=\"17\" name=\"HH\" />\n"
+		+ "	  <Track enter=\"0\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"1\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"5\" exit=\"6\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"2\" exit=\"9\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"3\" exit=\"9\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"4\" exit=\"9\" gauge=\"NORMAL\" />\n"
+		+ "	  <Track enter=\"6\" exit=\"9\" gauge=\"TUNNEL\" />\n"
+		+ "	  <RevenueCenter id=\"-1\" location=\"9\" name=\"Hamburg\" number=\"2\" type=\"Double City\">\n"
+		+ "	     <Revenue location=\"14\" phase=\"0\" value=\"60\" />\n"
+		+ "	  </RevenueCenter>\n"
+		+ "	  <RevenueCenter id=\"-1\" location=\"6\" name=\"Hamburg\" number=\"1\" type=\"Single City\">\n"
+		+ "	     <Revenue location=\"14\" phase=\"0\" value=\"60\" />\n"
+		+ "   </RevenueCenter>\n"
+		+ "</Tile>"
 	};
 	String testUpgrades [] = {
 		  " <Upgrade toNumber=\"120\" rotations=\"0\">\n "
 		+ "		<RevenueCenter from=\"7\" to=\"13\" />\n "
 		+ "		<RevenueCenter from=\"10\" to=\"17\" />\n "
-		+ "	</Upgrade>\n ",
+		+ "	</Upgrade>",
 		  "	<Upgrade toNumber=\"63\" rotations=\"0\">\n "
 		+ "		<RevenueCenter from=\"50\" to=\"50\" />\n "
-		+ "	</Upgrade>\n "
+		+ "	</Upgrade>"
 		+ "	<Upgrade toNumber=\"125\" rotations=\"0,1,2,3,4,5\">\n "
 		+ "		<BaseTileName value=\"L\" />\n "
 		+ "		<RevenueCenter from=\"50\" to=\"50\" />\n "
-		+ "</Upgrade>\n ",
+		+ "</Upgrade>",
 		 " <Upgrade toNumber=\"122\" rotations=\"0\">\n "
 		+ "		<RevenueCenter from=\"13\" to=\"13\" />\n "
 		+ "		<RevenueCenter from=\"17\" to=\"17\" />\n "
-		+ " </Upgrade>\n "
+		+ " </Upgrade>"
 	};
 
 	public TilesTestFactory () {
@@ -151,12 +230,14 @@ public class TilesTestFactory {
 		return mTileType;
 	}
 	
-	public TileName buildTileNameMock (boolean aIsOOTile, boolean aIsNYTile) {
+	public TileName buildTileNameMock (boolean aIsOOTile, boolean aIsNYTile, boolean aIsXXTile, boolean aIsHHTile) {
 		TileName mTileName;
 		
 		mTileName = Mockito.mock (TileName.class);
 		Mockito.when (mTileName.isOOTile ()).thenReturn (aIsOOTile);
 		Mockito.when (mTileName.isNYTile ()).thenReturn (aIsNYTile);
+		Mockito.when (mTileName.isXXTile ()).thenReturn (aIsXXTile);
+		Mockito.when (mTileName.isHHTile ()).thenReturn (aIsHHTile);
 		
 		return mTileName;
 	}
