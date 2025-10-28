@@ -317,15 +317,15 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public boolean canLayTwoTiles () {
-		boolean tCanLayTwpTiles;
+		boolean tCanLayTwoTiles;
 		
 		if (getTileLaysAllowed () > 1) {
-			tCanLayTwpTiles = true;
+			tCanLayTwoTiles = true;
 		} else {
-			tCanLayTwpTiles = false;
+			tCanLayTwoTiles = false;
 		}
 		
-		return tCanLayTwpTiles;
+		return tCanLayTwoTiles;
 	}
 
 	@Override
