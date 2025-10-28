@@ -571,8 +571,10 @@ public class Certificate implements Comparable<Certificate> {
 				}
 				checkBox = setupCheckedButton (aCheckBoxLabel, tCanBeSold, tNoSaleToolTip, aItemListener);
 			}
-			setFrameButton (checkBox, tGroupName);
-			aCertificateInfoJPanel.add (checkBox);
+			if (checkBox != GUI.NO_CHECK_BOX) {
+				setFrameButton (checkBox, tGroupName);
+				aCertificateInfoJPanel.add (checkBox);
+			}
 		} else {
 			// If the CheckBox is created, set it to invisible (don't want it on Explain Table)
 			if (checkBox != GUI.NO_CHECK_BOX) {
@@ -591,7 +593,9 @@ public class Certificate implements Comparable<Certificate> {
 		tEnableCheckbox = false;
 		tToolTip = GUI.NO_TOOL_TIP;	
 		tButtonLabel = Player.EXCHANGE_LABEL;
-		if (canBeExchanged (aGameManager)) {
+		if (corporation.isAMinorCompany ()) {
+			checkBox = GUI.NO_CHECK_BOX;
+		} else if (canBeExchanged (aGameManager)) {
 			tEnableCheckbox = calcCheckboxState ();
 			// TODO -- Test if the Checkbox should be "Exchange for YYY" or "Form XXX"
 			checkBox = setupCheckedButton (tButtonLabel, tEnableCheckbox, tToolTip, aItemListener);
