@@ -663,9 +663,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeBaseTileButton1);
 		addButton (placeBaseTileButton2);
 		addButton (placeTileButton);
-		if (corporation.canLayTwoTiles ()) {
-			addButton (place2ndYellowTileButton);
-		}
+		addButton (place2ndYellowTileButton);
 		addButton (placeBaseTokenButton1);
 		addButton (placeBaseTokenButton2);
 		addButton (placeTokenButton);
@@ -680,6 +678,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		}
 		addButton (payNoDividendButton);
+		// May need to add here always, but make visible when updating, like the 2ndYellow Tile
 		if (corporation.canPayHalfDividend ()) {
 			addButton (payHalfDividendButton);
 		}
@@ -1249,6 +1248,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			placeTileButton.setVisible (false);
 		}
 		if (corporation.getTileLaysAllowed () > 1) {
+			place2ndYellowTileButton.setVisible (true);
 			if ((corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
 				(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
 				tMapCell1 = corporation.getHomeCity1 ();
@@ -1265,6 +1265,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				place2ndYellowTileButton.setEnabled (false);
 				place2ndYellowTileButton.setToolTipText ("Status must be TileLaid or TileAndStationLaid");
 			}
+		} else {
+			place2ndYellowTileButton.setVisible (false);
 		}
 	}
 
