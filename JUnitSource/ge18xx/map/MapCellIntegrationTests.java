@@ -16,7 +16,6 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
-import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.tiles.Upgrade;
