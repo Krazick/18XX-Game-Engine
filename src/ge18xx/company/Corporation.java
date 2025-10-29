@@ -2968,11 +2968,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 //		Override in Train Company Class
 	}
 
-	protected boolean isPlaceTileMode () {
+	public boolean isPlaceTileMode () {
 		return corporationList.isPlaceTileMode ();
 	}
 
-	protected boolean isPlaceTokenMode () {
+	public boolean isPlaceTokenMode () {
 		return corporationList.isPlaceTokenMode ();
 	}
 

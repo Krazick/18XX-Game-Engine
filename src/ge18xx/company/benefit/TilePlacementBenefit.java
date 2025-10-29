@@ -54,7 +54,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	public String getNewButtonLabel () {
 		String tNewButtonText;
 
-		tNewButtonText = "Put Tile on " + privateCompany.getAbbrev () + " Home (" + mapCellID + ")";
+		tNewButtonText = "Place Tile on " + privateCompany.getAbbrev () + " Home (" + mapCellID + ")";
 
 		return tNewButtonText;
 	}

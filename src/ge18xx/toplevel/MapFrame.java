@@ -38,6 +38,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.company.benefit.TokenPlacementBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
@@ -729,6 +730,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					tCanPlaceToken = canPlaceToken (aTokenCompany, tSelectedCity, aMapCell);
 					if (tCanPlaceToken) {
 						putMapTokenDown (aTokenCompany, aMapToken, aTokenType, tSelectedCity, aMapCell, true);
+					} else {
+						putTokenButton.setText (PUT_TOKEN_DOWN);
 					}
 				} else {
 					System.err.println ("***Cannot Place Station on this Revenue Center");
@@ -754,6 +757,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					if (tCanPlaceToken) {
 						tMapToken = (MapToken) aTokenCompany.getToken (aTokenType);
 						putMapTokenDown (aTokenCompany, tMapToken, aTokenType, tSelectedCity, aMapCell, true);
+					} else {
+						putTokenButton.setText (PUT_TOKEN_DOWN);
 					}
 				} else {
 					System.err.println ("---Cannot Place Station on this Revenue Center");
@@ -801,6 +806,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 											aAddLayTokenAction);
 				completeBenefitInUse (aTokenCompany);
 				putTokenButton.setEnabled (false);
+				putTokenButton.setText (PUT_TOKEN_DOWN);
+
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
 				clearSecondaryBases (aTokenCompany, aMapCell, tBaseCompany);
 			} else {
@@ -906,6 +913,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		String tPutTokenLabel;
 		int tCorporationID;
 		int tRangeCost;
+		Benefit tBenefitInUse;
+		int tBenefitTokenCost;
 		
 		tCanPlaceToken = false;
 		tCorporationID = aCorporation.getID ();
@@ -924,7 +933,17 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 								if (tRangeCost <= aCorporation.getCash ()) {
 									tCanPlaceToken = true;
 								}
-								tPutTokenLabel = PUT_TOKEN_DOWN + " for " + Bank.formatCash (tRangeCost);
+								tBenefitInUse = aCorporation.getBenefitInUse ();
+								if (tBenefitInUse instanceof TokenPlacementBenefit) {
+									tBenefitTokenCost = tBenefitInUse.getCost ();
+									if (tBenefitTokenCost == 0) {
+										tPutTokenLabel = PUT_TOKEN_DOWN + " for Free";
+									} else {
+										tPutTokenLabel = PUT_TOKEN_DOWN + " for " + Bank.formatCash (tBenefitTokenCost);
+									}
+								} else {
+									tPutTokenLabel = PUT_TOKEN_DOWN + " for " + Bank.formatCash (tRangeCost);
+								}
 								putTokenButton.setText (tPutTokenLabel);
 							} else {
 								tCanPlaceToken = true;
@@ -1193,6 +1212,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		placeTokenMode = aMode;
 		exitTokenButton.setEnabled (aMode);
 		putTokenButton.setEnabled (false);
+		putTokenButton.setText (PUT_TOKEN_DOWN);
+
 		if (aMode) {
 			exitTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 			putTokenButton.setToolTipText (NO_SELECTED_RC);
@@ -1236,6 +1257,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			}
 		} else {
 			putTokenButton.setEnabled (false);
+			putTokenButton.setText (PUT_TOKEN_DOWN);
 			tToolTip = canPlaceTokenToolTip (tCorporation, aSelectedCity, aMapCell);
 			putTokenButton.setToolTipText (tToolTip);
 		}

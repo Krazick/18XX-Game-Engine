@@ -202,6 +202,12 @@ public class TokenPlacementBenefit extends MapBenefit {
 		} else if (! hasTileWithTrack ()) {
 			disableButton ();
 			setToolTip ("No Tile with Track on the MapCell, can't place Station");
+		} else if (privateCompany.isPlaceTileMode ()) {
+			disableButton ();
+			setToolTip (CorporationFrame.IN_PLACE_TILE_MODE);
+		} else if (privateCompany.isPlaceTokenMode ()) {
+			disableButton ();
+			setToolTip (CorporationFrame.IN_TOKEN_MODE);
 		} else if (hasTokenOnTile ()) {
 			hideButton ();
 			setToolTip ("Company has Station on Tile already");

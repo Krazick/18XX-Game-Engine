@@ -1240,6 +1240,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updatePlaceTileButton () {
 		MapCell tMapCell1;
 		MapCell tMapCell2;
+		boolean tEnableTile;
+		String tToolTip;
 		
 		if (corporation.hasPlacedAnyStation ()) {
 			placeTileButton.setVisible (true);
@@ -1247,24 +1249,42 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			placeTileButton.setVisible (false);
 		}
+		tEnableTile = false;
+		tToolTip = "Status must be TileLaid or TileAndStationLaid";
 		if (corporation.getTileLaysAllowed () > 1) {
 			place2ndYellowTileButton.setVisible (true);
-			if ((corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
-				(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
-				tMapCell1 = corporation.getHomeCity1 ();
-				tMapCell2 = corporation.getHomeCity2 ();
-				if (corporation.haveLaidThisBaseToken (tMapCell1) && 
-					corporation.haveLaidThisBaseToken (tMapCell2)) {	
-					place2ndYellowTileButton.setEnabled (true);
-					place2ndYellowTileButton.setToolTipText ("Can Lay second Yellow Tile - NOT Upgrade");
-				} else {
-					place2ndYellowTileButton.setEnabled (false);
-					place2ndYellowTileButton.setToolTipText ("Base Token must be laid before Tiles can be laid");
-				}
+
+			if (corporation.isPlaceTileMode ()) {
+				tEnableTile = false;
+				tToolTip = IN_PLACE_TILE_MODE;
+			} else if (corporation.isPlaceTokenMode ()) {
+				tEnableTile = false;
+				tToolTip = IN_TOKEN_MODE;
 			} else {
-				place2ndYellowTileButton.setEnabled (false);
-				place2ndYellowTileButton.setToolTipText ("Status must be TileLaid or TileAndStationLaid");
+				if ((corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
+					(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
+					updateTileButton (place2ndYellowTileButton);
+		
+					tMapCell1 = corporation.getHomeCity1 ();
+					tMapCell2 = corporation.getHomeCity2 ();
+					if (corporation.haveLaidThisBaseToken (tMapCell1) && 
+						corporation.haveLaidThisBaseToken (tMapCell2)) {	
+						tEnableTile = true;
+						tToolTip = "Can Lay second Yellow Tile - NOT Upgrade";
+//					} else if (corporation.isPlaceTileMode ()) {
+//						tEnableTile = false;
+//						tToolTip = IN_PLACE_TILE_MODE;
+//					} else if (corporation.isPlaceTokenMode ()) {
+//						tEnableTile = false;
+//						tToolTip = IN_TOKEN_MODE;
+					} else {
+						tEnableTile = false;
+						tToolTip = "Base Token must be laid before Tiles can be laid";
+					}
+				}
 			}
+			place2ndYellowTileButton.setEnabled (tEnableTile);
+			place2ndYellowTileButton.setToolTipText (tToolTip);
 		} else {
 			place2ndYellowTileButton.setVisible (false);
 		}
