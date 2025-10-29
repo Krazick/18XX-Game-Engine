@@ -870,7 +870,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public boolean hasLaidTile () {
 		// If the Company Status is one of these
-		// TileLaid, Tile2Laid, TileUpgraded, TileAndStationLaid
+		// TileLaid, TilesLaid, TileUpgraded, TileAndStationLaid, TilesAndStationLaid, TileUpgradedStationLaid
+
 		return hasLaidTile;
 	}
 
@@ -961,6 +962,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void setHasLaidTile (boolean aHasLaidTile) {
+		// If the Company Status has the set to one of the following:
+		//     TileLaid, TilesLaid, TileUpgraded, TileAndStationLaid, TilesAndStationLaid, TileUpgradedStationLaid
+		// Then at least one tile has been laid. Need to track this till the end of the Company's turn
+
 		hasLaidTile = aHasLaidTile;
 	}
 	
