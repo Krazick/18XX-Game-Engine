@@ -125,13 +125,17 @@ public class TilePlacementBenefit extends MapBenefit {
 		return tOwnerHasEnoughCash;
 	}
 
-	private boolean operatingCompanyCanLayTile () {
+	protected boolean operatingCompanyCanLayTile () {
 		boolean tOperatingCompanyCanLayTile;
 		ShareCompany tShareCompany;
-
+		int tTileLaysAllowed;
+		
 		tOperatingCompanyCanLayTile = true;
 		tShareCompany = getOperatingCompany ();
-		if (tShareCompany.hasLaidTile ()) {
+		tTileLaysAllowed = tShareCompany.getTileLaysAllowed ();
+		if (tShareCompany.canLayTile (tTileLaysAllowed)) {
+			
+		} else if (tShareCompany.hasLaidTile ()) {
 			tOperatingCompanyCanLayTile = false;
 		}
 
