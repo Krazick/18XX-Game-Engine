@@ -101,4 +101,21 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 		assertEquals ("MapCell already has Tile", tButton.getToolTipText ());
 	}
 
+	@Test
+	@DisplayName ("Tile Placement with Benefit and one or two Tile Placements")
+	void tilePlacementViaBenefits () {
+//		operatingCompanyCanLayTile
+		Mockito.when (mShareCompany.hasLaidTile ()).thenReturn (false);
+		Mockito.when (mGameManager.getOperatingCompany ()).thenReturn (mShareCompany);
+		assertTrue (tilePlacementBenefit1.operatingCompanyCanLayTile ());
+		
+		Mockito.when (mShareCompany.hasLaidTile ()).thenReturn (true);
+		Mockito.when (mGameManager.getOperatingCompany ()).thenReturn (mShareCompany);
+		assertFalse(tilePlacementBenefit1.operatingCompanyCanLayTile ());
+
+		Mockito.when (mShareCompany.getTileLaysAllowed ()).thenReturn (2);
+		Mockito.when (mShareCompany.canLayTile (2)).thenReturn (true);
+		assertTrue(tilePlacementBenefit1.operatingCompanyCanLayTile ());
+		
+	}
 }
