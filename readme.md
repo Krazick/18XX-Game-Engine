@@ -3,7 +3,7 @@
 The 18XX Game Engine allows the players to play the 18XX Game (current 1830 is fully playable). Other 18XX Games are in various stages of implementation that includes:
 
 * 1830 -- Avalon Hill initial Version -- Fully Playable
-* 1835 -- Germany - Begining to flesh out unique rule implementations
+* 1835 -- Germany - A Majority of critical function (Prussian Formation) completed
 * 1853 -- India
 * 1856 -- Upper Canada -- Final Bug fixing, Fully Playable
 * 1870 -- Mississippi Valley
@@ -12,23 +12,23 @@ The 18XX Game Engine allows the players to play the 18XX Game (current 1830 is f
 The 18XX Game Engine can be used by itself, to play the game in hot-seat mode (single Computer). Or if used in conjunction with the NetGameServer Project, and multiple platforms, each Player can run the same Game Engine and play in the same game in real-time. The NetGameServer coordinates the players into a common Game, and sends the game Actions and Effects between the players.
 
 # Table of Contents
-*[Code Base Description](#Description)*
+*[Code Base Description](#code-base-description)*
 
-*[How to Install and Run](#Install)*
+*[How to Install and Run](#how-to-install-and-run)*
 
-*[How to Use](#Use)*
+*[How to Use](#how-to-use)*
 
-*[Credits](#Credits)*
+*[Credits](#credits)*
 
-*[License](#License)*
+*[License](#license)*
 
-*[Badges](#Badges)*
+*[Badges](#badges)*
 
-*[Contribute](#Contribute)*
+*[Contribute](#how-to-contribute)*
 
-*[Tests](#Tests)*
+*[Tests](#tests)*
 
-*[Related Projects](#Related)*
+*[Related Projects](#related-projects)*
 
 # Code Base Description
 <a name="Description"></a>
