@@ -213,8 +213,15 @@ public class Game_18XX extends XMLFrame {
 	
 	public void setTitle () {
 		String tTitle;
+		String tGameName;
 		
 		tTitle = resourceBundle.getString ("frameTitle");
+		if (gameManager != GameManager.NO_GAME_MANAGER) {
+			tGameName = gameManager.getActiveGameName ();
+			if (tGameName != GUI.NULL_STRING) {
+				tTitle += " (" + tGameName + ")";
+			}
+		}
 		setTitle (tTitle);
 	}
 

@@ -1427,6 +1427,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void initiateGame (GameInfo aGameInfo) {
 		setGameID (aGameInfo.getGameID ());
 		setGameInfo (aGameInfo);
+		game18XXFrame.setTitle ();
 		initiateGame ();
 		activateCommunications ();
 		// For Normal Start, we need to Notify Clients of Actions
@@ -1776,6 +1777,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
 			bank.updateBankCashLabel ();
+			game18XXFrame.setTitle ();
 			tGoodLoad = true;
 			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." 
 					+ " Players [" + playerManager.getPlayersInOrder () + "]");
