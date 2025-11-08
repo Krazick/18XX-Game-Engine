@@ -575,12 +575,12 @@ public class MapCell implements Comparator<Object> {
 		
 		// TODO Fix how to determine if a MapCell can hold a Cattle Token for 1870
 		tCanHoldCattleToken = false;
-		if (terrain1 != null) {
+		if (terrain1 != Terrain.NO_TERRAINX) {
 			if (terrain1.isCattle ()) {
 				tCanHoldCattleToken = true;
 			}
 		} 
-		if (terrain2 != null) {
+		if (terrain2 != Terrain.NO_TERRAINX) {
 			if (terrain2.isCattle ()) {
 				tCanHoldCattleToken = true;
 			}
@@ -593,12 +593,12 @@ public class MapCell implements Comparator<Object> {
 		boolean tCanHoldPortToken;
 		
 		tCanHoldPortToken = false;
-		if (terrain1 != null) {
+		if (terrain1 != Terrain.NO_TERRAINX) {
 			if (terrain1.isPort ()) {
 				tCanHoldPortToken = true;
 			}
 		} 
-		if (terrain2 != null) {
+		if (terrain2 != Terrain.NO_TERRAINX) {
 			if (terrain2.isPort ()) {
 				tCanHoldPortToken = true;
 			}

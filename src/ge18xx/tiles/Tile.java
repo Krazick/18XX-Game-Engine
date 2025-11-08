@@ -363,7 +363,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public String getPlacedTokens () {
-		String tPlacedTokens = NO_TOKENS;
+		String tPlacedTokens;
 		String tAPlacedToken;
 		int tCityCenterCount;
 		int tCityCenterIndex;
@@ -377,6 +377,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		// a single Placed Token is identified by:
 		// Company Abbrev, Station Index, City Center Index, Token Index
 		
+		tPlacedTokens = NO_TOKENS;
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityCenterIndex = 0; tCityCenterIndex < tCityCenterCount; tCityCenterIndex++) {
@@ -389,7 +390,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tAbbrev = tMapToken.getCorporationAbbrev ();
 								tTokenIndex = tMapToken.getTokenIndex ();
-								tAPlacedToken = tAbbrev + "," + tStationIndex + "," + tCityCenterIndex + "," + tTokenIndex;
+								tAPlacedToken = tAbbrev + "," + tStationIndex + "," + tCityCenterIndex 
+												+ "," + tTokenIndex;
 								if (!(tPlacedTokens.equals (NO_TOKENS))) {
 									tPlacedTokens += ";";
 								}
@@ -417,7 +419,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tElement.setAttribute (AN_NUMBER, number);
 		tElement.setAttribute (AN_TYPE, getTypeName ());
 		tNameElement = name.createElement (aXMLDocument);
-		if (tNameElement != null) {
+		if (tNameElement != XMLElement.NO_XML_ELEMENT) {
 			tElement.appendChild (tNameElement);
 		}
 

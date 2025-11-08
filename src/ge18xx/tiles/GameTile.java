@@ -18,6 +18,7 @@ import java.util.List;
 import ge18xx.map.Hex;
 import ge18xx.map.Hex18XX;
 import ge18xx.phase.PhaseInfo;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 
@@ -62,7 +63,7 @@ public class GameTile {
 		tIsUpgradeAllowed = true;
 		for (Upgrade tUpgrade : upgrades) {
 			if (tUpgrade.getTileNumber () == aToTileNumber) {
-				tPhaseNumber = "" + (aPhase + 1);
+				tPhaseNumber = GUI.EMPTY_STRING + (aPhase + 1);
 				tIsUpgradeAllowed = tUpgrade.containsPhase (tPhaseNumber);
 			}
 		}
@@ -153,8 +154,9 @@ public class GameTile {
 
 		tTip = "<html>";
 		tTip += tile.getToolTip (PhaseInfo.NO_NAME);
-		tTip += "Total/Available: " + getTotalAndAvailable () + "<br>Tile Orientation: " + tileOrient;
-
+		tTip += "Total/Available: " + getTotalAndAvailable () + "<br>"
+			+ "Tile Orientation: " + tileOrient + "<br>";
+		tTip += "Upgrades: " + getUpgradeList ();
 		tTip += "</html>";
 
 		return tTip;
@@ -202,6 +204,21 @@ public class GameTile {
 		return tUpgrade;
 	}
 
+	public String getUpgradeList () {
+		String tUpgradeList;
+		int tUpgradeCount;
+		
+		tUpgradeList = GUI.EMPTY_STRING;
+		tUpgradeCount = upgrades.size ();
+		if (tUpgradeCount == 0) {
+			tUpgradeList += "None";
+		} else {
+			tUpgradeList = upgrades.toString ();
+		}
+		
+		return tUpgradeList;
+	}
+	
 	public boolean isFixedTile () {
 		return tile.isFixedTile ();
 	}
@@ -244,7 +261,7 @@ public class GameTile {
 	}
 
 	public void pushTile (Tile aTile) {
-		if (tiles != null) {
+		if (tiles != NO_TILES) {
 			tiles.add (aTile);
 			usedCount--;
 		}

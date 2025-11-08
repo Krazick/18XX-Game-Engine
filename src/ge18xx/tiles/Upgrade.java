@@ -189,6 +189,11 @@ public class Upgrade {
 		return toNumber;
 	}
 
+	@Override
+	public String toString () {
+		return "" + toNumber;
+	}
+	
 	public int getToIndex (int aIndex) {
 		int tTo = 0;
 
