@@ -387,6 +387,7 @@ public class GameInfo implements XMLSaveGameI {
 		}
 	};
 
+	// Method should be replaced by "gameHasRoundType"
 	public boolean hasAuctionRound () {
 		boolean tHasAuctionRound;
 		
