@@ -170,6 +170,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void buildCorporationJPanel () {
 		JPanel tTopBoxes;
 
+		bankJPanel = new JPanel ();
+		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
 		tTopBoxes = buildTopBoxes ();
 
 		corporationJPanel = new JPanel ();
@@ -179,6 +181,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationJPanel.add (Box.createVerticalStrut (10));
 		buildButtonJPanel ();
 		corporationJPanel.add (buttonsJPanel);
+		corporationJPanel.add (Box.createVerticalStrut (10));
+		corporationJPanel.add (bankJPanel);
 		corporationJPanel.add (Box.createVerticalStrut (10));
 
 		if (corporation.gameHasPrivates ()) {
@@ -197,10 +201,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			otherCorpsJPanel = new JPanel ();
 			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
 			corporationJPanel.add (otherCorpsJPanel);
-			corporationJPanel.add (Box.createVerticalStrut (10));
-			bankJPanel = new JPanel ();
-			bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
-			corporationJPanel.add (bankJPanel);
 			corporationJPanel.add (Box.createVerticalStrut (10));
 		}
 		add (corporationJPanel);
