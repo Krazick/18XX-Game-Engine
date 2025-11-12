@@ -125,6 +125,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getJMenuBar ();
 	}
 	
+	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
+		XMLFrame tXMLFrameFound;
+		
+		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
+		
+		if (formationRound != Round.NO_ROUND) {
+			tXMLFrameFound = formationRound.getXMLFrameNamed (aXMLFrameTitle);
+		} else if (contractBidRound != Round.NO_ROUND) {
+			tXMLFrameFound = contractBidRound.getXMLFrameNamed (aXMLFrameTitle);
+		};
+
+		return tXMLFrameFound;
+	}
+	
 	public void initiateGame () {
 		GameInfo tGameInfo;
 		String tInitialRoundType;
