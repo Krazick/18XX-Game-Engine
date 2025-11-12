@@ -3322,7 +3322,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
 		XMLFrame tXMLFrameFound;
-		XMLFrame tXMLFrame1;
 		String tFrameTitle;
 
 		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
@@ -3331,15 +3330,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				tFrameTitle = tXMLFrame.getTitle ();
 				if (tFrameTitle.startsWith (aXMLFrameTitle)) {
 					tXMLFrameFound = tXMLFrame;
-				}
-			}
-		}
-
-		if (triggerFormationClass != null) {
-			if (tXMLFrameFound == XMLFrame.NO_XML_FRAME) {
-				tXMLFrame1 = triggerFormationClass.getFormationFrame ();
-				if (tXMLFrame1.getTitle ().equals (aXMLFrameTitle)) {
-					tXMLFrameFound = tXMLFrame1;
 				}
 			}
 		}
