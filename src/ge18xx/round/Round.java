@@ -162,6 +162,14 @@ public abstract class Round implements ActorI {
 		return roundType;
 	}
 	
+	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
+		XMLFrame tXMLFrameFound;
+		
+		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
+
+		return tXMLFrameFound;
+	}
+
 	public String getPhases () {
 		String tPhases;
 		
