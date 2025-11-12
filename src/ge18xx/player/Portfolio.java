@@ -1398,10 +1398,10 @@ public class Portfolio implements CertificateHolderI {
 			GameManager tGameManager;
 			CertificateHolderI tCertificateHolder;
 			
-			System.err.println ("Tried to find Certificate for Portfolio of "+ 
-					aCurrentHolder.getName () + ", but was not found. " + 
-					" [ Certificate Info " + aCompanyAbbrev + " " + aPercentage + 
-					"% President " + aIsPresident + " ]");
+//			System.err.println ("Tried to find Certificate for Portfolio of "+ 
+//					aCurrentHolder.getName () + ", but was not found. " + 
+//					" [ Certificate Info " + aCompanyAbbrev + " " + aPercentage + 
+//					"% President " + aIsPresident + " ]");
 			tGameManager = aCurrentHolder.getGameManager ();
 			tCorporation = tGameManager.getCorporationByAbbrev (aCompanyAbbrev);
 			tCertificateHolder = tCorporation.getPortfolio ();
