@@ -36,6 +36,15 @@ public class FormationRound extends InterruptionRound {
 		super.loadRound (aRoundNode);
 	}
 	
+	@Override
+	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
+		XMLFrame tXMLFrameFound;
+		
+		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
+
+		return tXMLFrameFound;
+	}
+
 	public FormCompany constructFormationClass (GameManager aGameManager, XMLNode aXMLNode) {
 		String tFormationClassName;
 		FormCompany tFormCompany;
@@ -167,7 +176,7 @@ public class FormationRound extends InterruptionRound {
 		tStartFormationAction = new StartFormationAction (tRoundType, tRoundID, interruptedRound);
 		tStartFormationAction.setChainToPrevious (true);
 		
-		tStartFormationAction.addSetAtStartOfRoundEffect (interruptedRound, atStartOfRound);
+		tStartFormationAction.addSetAtStartOfRoundEffect (this, atStartOfRound);
 		
 		tTriggerFormationClass = tGameManager.getTriggerFormation ();
 		if (tTriggerFormationClass == TriggerClass.NO_TRIGGER_CLASS) {
