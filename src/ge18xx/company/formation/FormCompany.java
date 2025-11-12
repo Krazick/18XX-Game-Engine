@@ -348,7 +348,7 @@ public class FormCompany extends TriggerClass {
 		tPlayers = tPlayerManager.getPlayers ();
 		tFormationFrame = new XMLFrame (aFrameName, gameManager);
 		setFormationFrame (tFormationFrame);
-		
+		gameManager.addNewFrame (tFormationFrame);
 		formationJPanel = new JPanel ();
 		tMargin = new EmptyBorder (10,10,10,10);
 		formationJPanel.setBorder (tMargin);
