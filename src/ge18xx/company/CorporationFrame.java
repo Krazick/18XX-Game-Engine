@@ -155,13 +155,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporation = aCorporation;
 		if (isCorporationSet ()) {
 			corporation = aCorporation;
-			buttonsInfoFrame = new ButtonsInfoFrame (corporation.getName () + " Corporation Frame Info for Buttons",
-					gameManager);
+			buttonsInfoFrame = new ButtonsInfoFrame (corporation.getName () + 
+					" Corporation Frame Info for Buttons", gameManager);
 
 			buildCorporationAllInfoJPanel ();
 			buildCorporationJPanel ();
 
-			setSize (1015, 1500);
+			setPreferredSize (new Dimension (1015, 770));
+			setMinimumSize (new Dimension (1015, 600));
+			setMaximumSize (new Dimension (1700, 1070));
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
 		}
@@ -170,39 +172,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void buildCorporationJPanel () {
 		JPanel tTopBoxes;
 
+		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
+		// Companies
 		bankJPanel = new JPanel ();
 		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
 		tTopBoxes = buildTopBoxes ();
 
 		corporationJPanel = new JPanel ();
 		corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
-		corporationJPanel.add (Box.createVerticalStrut (20));
+		corporationJPanel.add (Box.createVerticalStrut (5));
 		corporationJPanel.add (tTopBoxes);
-		corporationJPanel.add (Box.createVerticalStrut (10));
+		corporationJPanel.add (Box.createVerticalStrut (5));
 		buildButtonJPanel ();
 		corporationJPanel.add (buttonsJPanel);
-		corporationJPanel.add (Box.createVerticalStrut (10));
+		corporationJPanel.add (Box.createVerticalStrut (5));
+		
 		corporationJPanel.add (bankJPanel);
-		corporationJPanel.add (Box.createVerticalStrut (10));
+		corporationJPanel.add (Box.createVerticalStrut (5));
 
 		if (corporation.gameHasPrivates ()) {
 			if (corporation.isAShareCompany ()) {
 				privatesPanel = new JPanel ();
 				privatesPanel.setLayout (new BoxLayout (privatesPanel, BoxLayout.Y_AXIS));
 				corporationJPanel.add (privatesPanel);
-				corporationJPanel.add (Box.createVerticalStrut (10));
+				corporationJPanel.add (Box.createVerticalStrut (5));
 			}
 		}
-
-		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
-		// Companies
 
 		if (corporation.isATrainCompany ()) {
 			otherCorpsJPanel = new JPanel ();
 			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
 			corporationJPanel.add (otherCorpsJPanel);
-			corporationJPanel.add (Box.createVerticalStrut (10));
+			corporationJPanel.add (Box.createVerticalStrut (5));
 		}
+		
 		add (corporationJPanel);
 	}
 
@@ -212,33 +215,31 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		tTopBoxes = new JPanel ();
 		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
-		tTopBoxes.add (Box.createHorizontalStrut (20));
+		tTopBoxes.add (Box.createHorizontalStrut (10));
 		tTopBoxes.add (corporationAllInfoJPanel);
 		tTopBoxes.add (Box.createHorizontalStrut (10));
 		tPhaseInfoBox = buildPhaseInfoPanel ();
 		tTopBoxes.add (tPhaseInfoBox);
-		tTopBoxes.add (Box.createHorizontalStrut (20));
+		tTopBoxes.add (Box.createHorizontalStrut (10));
 
 		return tTopBoxes;
 	}
 
 	private void buildCorporationAllInfoJPanel () {
-		Dimension tMinSize = new Dimension (10, 10);
+		Dimension tMinSize;
 		
 		corporationAllInfoJPanel = new JPanel ();
 		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
 		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
 		updateCorpInfoBorder ();
-
+		
+		tMinSize = new Dimension (10, 5);
 		buildCorporationInfoJPanel (tMinSize);
 
 		corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
 		corporationAllInfoJPanel.add (corporationInfoJPanel);
 		corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
 		if (corporation.isATrainCompany ()) {
-			// If the Corporation is not Formed, there is no CertJPanel, so don't add it
-			// TODO 1856 and 1835, May need to adjust code to add the newly formed CGR,
-			// or Prussian in later stages of the game.
 			if (certJPanel != GUI.NO_PANEL) {
 				corporationAllInfoJPanel.add (certJPanel);
 			}
@@ -300,16 +301,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		phaseNameLabel = new JLabel ("Current Phase Name ");
 		tPhaseInfoPanel.add (phaseNameLabel);
-		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		roundInfoLabel = new JLabel ("Round # of #");
 		tPhaseInfoPanel.add (roundInfoLabel);
-		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		trainLimitLabel = new JLabel ("Train Limit");
 		tPhaseInfoPanel.add (trainLimitLabel);
-		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		allowedTilesLabel = new JLabel ("Tile Colors");
 		tPhaseInfoPanel.add (allowedTilesLabel);
-		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 
 		return tPhaseInfoPanel;
 	}
@@ -723,6 +724,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.addButton (aButton);
 	}
 	
+	public CorporationList getShareCompanies () {
+		CorporationList tShareCorporations;
+		GameManager tGameManager;
+		
+		tGameManager = corporation.getGameManager ();
+		tShareCorporations = tGameManager.getShareCompanies ();
+		
+		return tShareCorporations;
+	}
+	
+	public CorporationList getMinorCompanies () {
+		CorporationList tMinorCorporations;
+		GameManager tGameManager;
+		
+		tGameManager = corporation.getGameManager ();
+		tMinorCorporations = tGameManager.getMinors ();
+		
+		return tMinorCorporations;
+	}
+	
 	public void fillOtherCorpsJPanel () {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
@@ -733,11 +754,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tGameManager = corporation.getGameManager ();
 				if (tGameManager != GameManager.NO_GAME_MANAGER) {
 					otherCorpsJPanel.removeAll ();
-					tMinorCorporations = tGameManager.getMinors ();
+					
+					tMinorCorporations = getMinorCompanies ();
 					if (tMinorCorporations != CorporationList.NO_CORPORATION_LIST) {
 						addOtherCorps (tGameManager, tMinorCorporations);
 					}
-					tShareCorporations = tGameManager.getShareCompanies ();
+					tShareCorporations = getShareCompanies ();
 					addOtherCorps (tGameManager, tShareCorporations);
 				}
 			}
