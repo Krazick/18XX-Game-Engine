@@ -1020,8 +1020,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tOtherCorpInfoJPanel;
 		JPanel tOperatingCorpJPanel;
 		JPanel tScrollableCorpJPanel;
+//		JScrollPane tScrollCorpPane;
 
-		JScrollPane tScrollCorpPane;
 		Color tFgColor;
 		Color tBgColor;
 		Corporation tTrainCompany;
@@ -1057,13 +1057,28 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 			tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		}
+		tScrollableCorpJPanel = buildScrollablePanel (tOtherCorpsInfoJPanel);
+//		tScrollableCorpJPanel = new JPanel ();
+//		tScrollableCorpJPanel.setLayout (new BoxLayout (tScrollableCorpJPanel, BoxLayout.X_AXIS));
+//		tScrollCorpPane = new JScrollPane (tOtherCorpsInfoJPanel);
+//		tScrollCorpPane.setLayout (new ScrollPaneLayout ());
+//		tScrollCorpPane.setBorder (EMPTY_BORDER);
+//		tScrollableCorpJPanel.add (tScrollCorpPane);
+
+		return tScrollableCorpJPanel;
+	}
+
+	public JPanel buildScrollablePanel (JPanel aInteriorJPanel) {
+		JPanel tScrollableCorpJPanel;
+		JScrollPane tScrollCorpPane;
+		
 		tScrollableCorpJPanel = new JPanel ();
 		tScrollableCorpJPanel.setLayout (new BoxLayout (tScrollableCorpJPanel, BoxLayout.X_AXIS));
-		tScrollCorpPane = new JScrollPane (tOtherCorpsInfoJPanel);
+		tScrollCorpPane = new JScrollPane (aInteriorJPanel);
 		tScrollCorpPane.setLayout (new ScrollPaneLayout ());
 		tScrollCorpPane.setBorder (EMPTY_BORDER);
 		tScrollableCorpJPanel.add (tScrollCorpPane);
-
+		
 		return tScrollableCorpJPanel;
 	}
 
