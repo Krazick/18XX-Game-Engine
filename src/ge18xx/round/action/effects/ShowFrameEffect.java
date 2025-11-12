@@ -136,7 +136,9 @@ public class ShowFrameEffect extends Effect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-
+		GameManager tGameManager;
+		XMLFrame tXMLFrame;
+		
 		tEffectUndone = false;
 		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
 			xmlFrame.setVisible (false);
@@ -144,7 +146,15 @@ public class ShowFrameEffect extends Effect {
 		} else if (isCorporationFrame ()) {
 			tEffectUndone = true;
 		} else {
-			setUndoFailureReason ("XMLFrame titled " + xmlFrameTitle + " is NULL");
+			tGameManager = aRoundManager.getGameManager ();
+			
+			tXMLFrame = tGameManager.getXMLFrameNamed (xmlFrameTitle);
+			if (tXMLFrame != XMLFrame.NO_XML_FRAME) {
+				tXMLFrame.hideFrame ();
+				tEffectUndone = true;
+			} else {
+				setUndoFailureReason ("XMLFrame titled " + xmlFrameTitle + " is NULL");
+			}
 		}
 
 		return tEffectUndone;
