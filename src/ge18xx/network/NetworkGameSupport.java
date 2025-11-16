@@ -48,6 +48,7 @@ public interface NetworkGameSupport {
 	public String getGameID ();
 	public void resetGameID (String aGameID);
 
+	public String getJavaVersion ();
 	public String getGEVersion ();
 	public String getEnvironmentVersionInfo ();
 }

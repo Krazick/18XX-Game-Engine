@@ -122,15 +122,16 @@ public class Game_18XX extends XMLFrame {
 	private KButton okButton;
 	private KButton quitButton;
 	private KButton disconnectButton;
-	
+
 	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
+	String absolutePath;
+	String javaVersion;
+	int numberOfDisplays;
 	Image iconImage;
 	Path currentRelativePath;
-	String absolutePath;
-	int numberOfDisplays;
 
 	public Game_18XX (ResourceBundle aResourceBundle) {
 		this (aResourceBundle, true);
@@ -292,6 +293,10 @@ public class Game_18XX extends XMLFrame {
 		return resourceBundle.getString (VERSION);
 	}
 
+	public String getJavaVersion () {
+		return javaVersion;
+	}
+	
 	public String getUserDir () {
 		return userDir;
 	}
@@ -453,7 +458,6 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void setFrameContents () {
-		String tJavaVersion;
 		JLabel tJavaLabel;
 		JLabel tGameEngineTitle;
 		JLabel tGameEngineVersion;
@@ -470,8 +474,8 @@ public class Game_18XX extends XMLFrame {
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 20));
 		tGameEngineTitle.setAlignmentX (Component.CENTER_ALIGNMENT);
 
-		tJavaVersion = System.getProperty ("java.version");
-		tJavaLabel = new JLabel ("Java Version " + tJavaVersion);
+		javaVersion = System.getProperty ("java.version");
+		tJavaLabel = new JLabel ("Java Version " + javaVersion);
 		tJavaLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 14));
 

@@ -835,6 +835,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 				if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 					if (serverHandler.isConnected ()) {
 						serverHandler.sendGEVersion (gameManager.getGEVersion ());
+						serverHandler.sendJavaVersion (gameManager.getJavaVersion ());
 						serverHandler.sendEnvironmentVersionInfo (gameManager.getEnvironmentVersionInfo ());
 						setForConnected ();
 						serverHandler.requestUserNameList ();

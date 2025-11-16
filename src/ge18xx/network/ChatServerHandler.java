@@ -151,6 +151,10 @@ public class ChatServerHandler extends ServerHandler {
 		println ("name " + name);
 	}
 
+	public void sendJavaVersion (String aVersion) {
+		println ("JavaVersion " + aVersion);
+	}
+
 	public void sendGEVersion (String aVersion) {
 		println ("GEVersion " + aVersion);
 	}

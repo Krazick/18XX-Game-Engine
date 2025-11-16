@@ -2064,6 +2064,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	@Override
+	public String getJavaVersion () {
+		return game18XXFrame.getJavaVersion ();
+	}
+
+	@Override
 	public String getGEVersion () {
 		return game18XXFrame.getGEVersion ();
 	}
