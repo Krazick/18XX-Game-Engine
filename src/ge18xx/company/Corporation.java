@@ -83,6 +83,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_FORMATION_STATE = new AttributeName ("formationState/formation");
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
 	public static final AttributeName AN_FORMATION_MADATORY_STATE = new AttributeName ("formationMandatoryState");
+	public static final ElementName AN_CAPITALIZATION = new ElementName ("capitalization");
 	public static final Corporation NO_CORPORATION = null;
 	public static final String CORPORATION = EN_CORPORATION.getString ();
 	public static final String COMPANIES = "Companies";
