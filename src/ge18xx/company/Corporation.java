@@ -1648,7 +1648,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public boolean isStationLaid () {
-		return (status == ActorI.ActionStates.StationLaid);
+		return ((status == ActorI.ActionStates.StationLaid) ||
+				(status == ActorI.ActionStates.TileAndStationLaid));
 	}
 
 	public boolean isInActive () {
@@ -2068,6 +2069,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			if ((aStatus == ActorI.ActionStates.TileLaid) ||
 				(aStatus == ActorI.ActionStates.TileUpgraded) ||
 				(aStatus == ActorI.ActionStates.StationLaid) ||
+				// Next is for odd case of Skipping Base Tile/Token Laid
+				(aStatus == ActorI.ActionStates.TileAndStationLaid) || 
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
 				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
@@ -2965,6 +2968,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public abstract boolean atTrainLimit ();
 
 	public void skipBaseToken () {
+//		Override in Train Company Class
+	}
+	
+	public void skipBaseTile () {
 //		Override in Train Company Class
 	}
 

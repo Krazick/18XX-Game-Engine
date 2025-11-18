@@ -715,11 +715,16 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public boolean canLayBaseToken () {
-		boolean tCanLayBaseToken = false;
-
+		boolean tCanLayBaseToken;
+		MapCell tMapCell;
+		
+		tCanLayBaseToken = false;
 		if (! haveLaidAllBaseTokens ()) {
 			if (homeMapCell1HasTile ()) {
-				tCanLayBaseToken = true;
+				tMapCell = getHomeCity1 ();
+				if (tMapCell.canLayAnyToken ()) {
+					tCanLayBaseToken = true;				
+				}
 			} else if (homeMapCell2HasTile ()) {
 				tCanLayBaseToken = true;
 			}

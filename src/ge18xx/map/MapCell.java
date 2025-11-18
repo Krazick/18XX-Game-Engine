@@ -1139,6 +1139,26 @@ public class MapCell implements Comparator<Object> {
 		return hasStation (aCorporation.getID ());
 	}
 
+	public boolean canLayAnyToken () {
+		boolean tCanLayAnyToken;
+		
+		if (isTileOnCell ()) {
+			if (tile.hasTrack ()) {
+				if (tile.hasAnyStation ()) {
+					tCanLayAnyToken = true;				
+				} else {
+					tCanLayAnyToken = false;
+				}
+			} else {
+				tCanLayAnyToken = false;
+			}
+		} else {
+			tCanLayAnyToken = false;
+		}
+		
+		return tCanLayAnyToken;
+	}
+	
 	public boolean isBlockedSide (int aSide) {
 		boolean tIsBlockedSide;
 		

@@ -65,6 +65,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
 	public static final String IN_TOKEN_MODE = "Already in Place Token Mode";
 	public static final String SKIP_BASE_TOKEN = "Skip Base Token";
+	public static final String SKIP_BASE_TILE = "Skip Base Tile";
 	public static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile Available";
 	public static final String BORROW_TRAIN = "Borrow Train";
@@ -79,8 +80,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String BUY_PRIVATE = "Buy Private";
 	public static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
 	public static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
-	public static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
-	public static final String MUST_UPGRADE_BASE_TILE = "Must upgrade Base Tile";
 	public static final String DIVIDENDS_NOT_HANDLED = "Dividends have not been handled yet";
 	public static final String TRAIN_SELECTED = "Train has been Selected for Purchase";
 	public static final String PRIVATE_SELECTED = "Private has been Selected for Purchase";
@@ -88,6 +87,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String MUST_REDEEM_LOANS = "Corporation has more loans out than Shares Owned by Players. Must Redeem Loans";
 	public static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	public static final String MUST_HOLD_DIVIDEND = "Corporation with a borrowed Train MUST hold dividends. Share Price is Fixed";
+	public static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
+	public static final String MUST_UPGRADE_BASE_TILE = "Must upgrade Base Tile";
 	public static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	public static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
 	public static final String LOANS_CANNOT_BE_TAKEN_IN_PHASE = "Loans cannot be taken in current Phase";
@@ -487,6 +488,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (SKIP_BASE_TOKEN.equals (tCommand)) {
 			corporation.showMap ();
 			corporation.skipBaseToken ();
+		}
+		if (SKIP_BASE_TILE.equals (tCommand)) {
+			corporation.showMap ();
+			corporation.skipBaseTile ();
 		}
 		if (BORROW_TRAIN.equals (tCommand)) {
 			corporation.borrowTrain ();
@@ -1313,12 +1318,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateTileButton (KButton aTileButton) {
-		String tToolTip;
-		boolean tEnableTile;
 		MapFrame tMapFrame;
+		MapCell tMapCell;
+		String tToolTip;
+		String tMapCellID;
 		int tTileLaysAllowed;
+		boolean tEnableTile;
 		
 		tTileLaysAllowed = corporation.getTileLaysAllowed ();
+		tMapCell = corporation.getHomeCity1 ();
 		if (corporation.canLayTile (tTileLaysAllowed)) {
 			if (corporation.isPlaceTileMode ()) {
 				tEnableTile = false;
@@ -1329,6 +1337,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (! corporation.allBasesHaveTiles ()) {
 				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
+			} else if (! corporation.isTileAvailableForMapCell (tMapCell)) {
+				if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
+					tEnableTile = false;
+				} else {
+					tEnableTile = true;
+					aTileButton.setText (SKIP_BASE_TILE);
+					aTileButton.setActionCommand (SKIP_BASE_TILE);
+				}
+				tMapCellID = tMapCell.getID ();
+				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
 			} else if (! corporation.baseTileHasTracks ()) {
 				tEnableTile = true;
 				tToolTip = MUST_UPGRADE_BASE_TILE;

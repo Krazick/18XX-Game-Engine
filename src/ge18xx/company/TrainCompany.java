@@ -47,6 +47,7 @@ import ge18xx.round.action.PayNoDividendAction;
 //import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
+import ge18xx.round.action.SkipBaseTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
 //import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
@@ -2011,6 +2012,32 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					this);
 			tSkipBaseTokenAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tSkipBaseTokenAction);
+			setPreviousRevenue (thisRevenue);
+			updateInfo ();
+		} else {
+			System.err.println ("Status has NOT been updated from " + status);
+		}
+	}
+	
+	@Override
+	public void skipBaseTile () {
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
+		boolean tStatusUpdated;
+		String tOperatingRoundID;
+		OperatingRound tOperatingRound;
+		SkipBaseTileAction tSkipBaseTileAction;
+
+		tCurrentStatus = status;
+		tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
+		if (tStatusUpdated) {
+			tNewStatus = status;
+			tOperatingRoundID = getOperatingRoundID ();
+			tOperatingRound = corporationList.getOperatingRound ();
+			tSkipBaseTileAction = new SkipBaseTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+					this);
+			tSkipBaseTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			tOperatingRound.addAction (tSkipBaseTileAction);
 			setPreviousRevenue (thisRevenue);
 			updateInfo ();
 		} else {
