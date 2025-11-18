@@ -69,6 +69,7 @@ public class ShareCompany extends TokenCompany {
 	public static final int NO_PAR_PRICE = -1;
 	public static final int NO_LOANS = 0;
 	public static final int NO_GROUP = 0;
+	public static final int UNSPECIFIED_CAPITALIZATION= -1;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;
@@ -77,6 +78,7 @@ public class ShareCompany extends TokenCompany {
 	int parPriceColumn;
 	int sharePriceColumn;
 	int group;
+	int capitalization;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 	boolean repaymentHandled;
@@ -86,6 +88,7 @@ public class ShareCompany extends TokenCompany {
 		int tParPrice;
 		int tLoanCount;
 		int tGroup;
+		int tCapitalization;
 		boolean tLoanTaken;
 		boolean tRepaymentHandled;
 		String tStartCell;
@@ -97,10 +100,12 @@ public class ShareCompany extends TokenCompany {
 		tGroup = aChildNode.getThisIntAttribute (AN_GROUP, NO_GROUP);
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
 		tRepaymentHandled = aChildNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED);
+		tCapitalization = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL, UNSPECIFIED_CAPITALIZATION);
 		setNoPrice ();
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, 
 					tRepaymentHandled, tStartCell);
 		setGroup (tGroup);
+		setCapitalization (tCapitalization);
 	}
 
 	@Override
@@ -410,6 +415,7 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		aXMLCorporationState.setAttribute (AN_PAR_PRICE, getParPrice ());
+		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getCapitalization ());
 		if (gameHasLoans ()) {
 			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
@@ -1021,6 +1027,14 @@ public class ShareCompany extends TokenCompany {
 		group = aGroup;
 	}
 	
+	public int getCapitalization () {
+		return capitalization;
+	}
+	
+	public void setCapitalization (int tCapitalization) {
+		capitalization = tCapitalization;
+	}
+	
 	public void setNoPrice () {
 		setParPrice (NO_PAR_PRICE);
 		setSharePrice (MarketCell.NO_SHARE_PRICE);
@@ -1105,13 +1119,17 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public int getCapitalizationLevel () {
-		int tCapitalizationAmount;
+		int tCapitalizationLevel;
 		int tSharesSold;
 
-		tSharesSold = getSharesSold ();
-		tCapitalizationAmount = super.getGameCapitalizationLevel (tSharesSold);
-
-		return tCapitalizationAmount;
+		if (capitalization == UNSPECIFIED_CAPITALIZATION) {
+			tSharesSold = getSharesSold ();
+			tCapitalizationLevel = super.getGameCapitalizationLevel (tSharesSold);
+		} else {
+			tCapitalizationLevel = capitalization;
+		}
+		
+		return tCapitalizationLevel;
 	}
 
 	@Override
