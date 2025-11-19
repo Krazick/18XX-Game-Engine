@@ -1547,14 +1547,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
 		boolean tIsTileAvailableForMapCell;
-		Tile tTile;
+		boolean tIsUpgradeAllowed;
 		int tMapCellTypeCount;
 		int tTileNumber;
-		String tTileName;
-		GameTile tGameTile;
 		int tAvailableCount;
+		String tTileName;
+		String tTileColor;
 		String tBaseTileName;
 		String tBaseCityName;
+		GameManager tGameManager;
+		GameTile tGameTile;
+		Tile tTile;
 
 		tIsTileAvailableForMapCell = true;
 		tAvailableCount = 0;
@@ -1569,7 +1572,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tBaseTileName = aMapCell.getName ();
 			tMapCellTypeCount = aMapCell.getTypeCount ();
 			if (TileName.OO_NAME.equals (tTileName)) {
-				tAvailableCount = tileSet.getAvailableCount (TileType.GREEN, tTileName);
+				tTileColor = TileType.NAMES [TileType.GREEN];
+				tGameManager = (GameManager) mapFrame.getGameManager ();
+				tIsUpgradeAllowed = tGameManager.isUpgradeAllowed (tTileColor);
+				if (tIsUpgradeAllowed) {
+					tAvailableCount = tileSet.getAvailableCount (TileType.GREEN, tTileName);
+				} else {
+					tAvailableCount = 0;
+				}
 			} else {
 				if (TileName.NO_NAME2.equals (tTileName)) {
 					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount,
