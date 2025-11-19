@@ -65,9 +65,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
 	public static final String IN_TOKEN_MODE = "Already in Place Token Mode";
 	public static final String SKIP_BASE_TOKEN = "Skip Base Token";
+	public static final String SKIP_BASE_TOKEN_ID = "Skip Base Token (%s)";
+	public static final String SKIPPED_BASE_TOKEN = "Skip Base Token (%s)";
 	public static final String SKIP_BASE_TILE = "Skip Base Tile";
+	public static final String SKIP_BASE_TILE_ID = "Skip Base Tile (%s)";
+	public static final String SKIPPED_BASE_TILE = "Skipped Base Tile (%s)";
 	public static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
-	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile Available";
+	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have a Tile Available";
+	public static final String NO_TILE_ON_HOME = "Home Map Cell %s does not have a Tile";
 	public static final String BORROW_TRAIN = "Borrow Train";
 	public static final String RETURN_BORROWED_TRAIN = "Return Borrowed Train";
 	public static final String NOT_GOVERNMENT_RAILWAY = "This is NOT a Government Railway";
@@ -88,6 +93,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	public static final String MUST_HOLD_DIVIDEND = "Corporation with a borrowed Train MUST hold dividends. Share Price is Fixed";
 	public static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
+	public static final String MUST_LAY_BASE_TILE= "Must lay Base Tile(s) before Token Lay";
 	public static final String MUST_UPGRADE_BASE_TILE = "Must upgrade Base Tile";
 	public static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	public static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
@@ -1240,27 +1246,64 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void updatePlaceBaseTileButtons () {
 		String tPlaceBaseTileLabel1;
 		String tPlaceBaseTileLabel2;
-
+		MapCell tMapCell;
+		
 		if (corporation.homeMapCell ()) {
 			tPlaceBaseTileLabel1 = createBaseTileLabel (1);
 			if (corporation.homeMapCell1HasTile ()) {
 				placeBaseTileButton1.setVisible (false);
 			} else {
-				placeBaseTileButton1.setText (tPlaceBaseTileLabel1);
-				placeBaseTileButton1.setVisible (true);
-				updateTileButton (placeBaseTileButton1);
+				tMapCell = corporation.getHomeCity1 ();
+				updateBaseTileButton (placeBaseTileButton1, tPlaceBaseTileLabel1, tMapCell);
 			}
 			tPlaceBaseTileLabel2 = createBaseTileLabel (2);
-			if (corporation.homeMapCell2HasTile () || tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
+			if (corporation.homeMapCell2HasTile () || 
+				tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
 				placeBaseTileButton2.setVisible (false);
 			} else {
 				placeBaseTileButton2.setText (tPlaceBaseTileLabel2);
 				placeBaseTileButton2.setVisible (true);
+				// Test HERE for if the Home/Base MapCell has a Tile that can be placed
+				// If NO, then change to a Skip Base Tile
+				// If YES, then update
 				updateTileButton (placeBaseTileButton2);
 			}
 		} else {
 			placeBaseTileButton1.setVisible (false);
 			placeBaseTileButton2.setVisible (false);
+		}
+	}
+
+	protected void updateBaseTileButton (KButton aPlaceBaseTileButton, String aPlaceBaseTileLabel1,
+				MapCell aMapCell) {
+		boolean tEnableTile;
+		String tMapCellID;
+		String tToolTip;
+		String tFullLabel;
+		
+		aPlaceBaseTileButton.setText (aPlaceBaseTileLabel1);
+		aPlaceBaseTileButton.setVisible (true);
+		// Test HERE for if the Home/Base MapCell has a Tile that can be placed
+		// If NO, then change to a Skip Base Tile
+		// If YES, then update
+		tMapCellID = aMapCell.getID ();
+		if (! corporation.isTileAvailableForMapCell (aMapCell)) {
+			if ((corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) ||
+				corporation.dividendsHandled ()) {
+				tEnableTile = false;
+				tFullLabel = String.format (SKIPPED_BASE_TILE, tMapCellID);
+				aPlaceBaseTileButton.setText (tFullLabel);
+			} else {
+				tEnableTile = true;
+				tFullLabel = String.format (SKIP_BASE_TILE_ID, tMapCellID);
+				aPlaceBaseTileButton.setText (tFullLabel);
+				aPlaceBaseTileButton.setActionCommand (SKIP_BASE_TILE);
+			}
+			tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
+			aPlaceBaseTileButton.setEnabled (tEnableTile);
+			aPlaceBaseTileButton.setToolTipText (tToolTip);
+		} else {
+			updateTileButton (aPlaceBaseTileButton);
 		}
 	}
 
@@ -1298,12 +1341,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						corporation.haveLaidThisBaseToken (tMapCell2)) {	
 						tEnableTile = true;
 						tToolTip = "Can Lay second Yellow Tile - NOT Upgrade";
-//					} else if (corporation.isPlaceTileMode ()) {
-//						tEnableTile = false;
-//						tToolTip = IN_PLACE_TILE_MODE;
-//					} else if (corporation.isPlaceTokenMode ()) {
-//						tEnableTile = false;
-//						tToolTip = IN_TOKEN_MODE;
 					} else {
 						tEnableTile = false;
 						tToolTip = "Base Token must be laid before Tiles can be laid";
@@ -1319,14 +1356,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updateTileButton (KButton aTileButton) {
 		MapFrame tMapFrame;
-		MapCell tMapCell;
 		String tToolTip;
-		String tMapCellID;
 		int tTileLaysAllowed;
 		boolean tEnableTile;
 		
 		tTileLaysAllowed = corporation.getTileLaysAllowed ();
-		tMapCell = corporation.getHomeCity1 ();
 		if (corporation.canLayTile (tTileLaysAllowed)) {
 			if (corporation.isPlaceTileMode ()) {
 				tEnableTile = false;
@@ -1337,16 +1371,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (! corporation.allBasesHaveTiles ()) {
 				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
-			} else if (! corporation.isTileAvailableForMapCell (tMapCell)) {
-				if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
-					tEnableTile = false;
-				} else {
-					tEnableTile = true;
-					aTileButton.setText (SKIP_BASE_TILE);
-					aTileButton.setActionCommand (SKIP_BASE_TILE);
-				}
-				tMapCellID = tMapCell.getID ();
-				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
 			} else if (! corporation.baseTileHasTracks ()) {
 				tEnableTile = true;
 				tToolTip = MUST_UPGRADE_BASE_TILE;
@@ -1384,19 +1408,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		tPlaceBaseTokenLabel2 = createBaseTokenLabel (2);
 		tMapCell = corporation.getHomeCity2 ();
-		if (corporation.haveLaidThisBaseToken (tMapCell) || tPlaceBaseTokenLabel1.equals (tPlaceBaseTokenLabel2)) {
+		if (corporation.haveLaidThisBaseToken (tMapCell) || 
+			tPlaceBaseTokenLabel1.equals (tPlaceBaseTokenLabel2)) {
 			placeBaseTokenButton2.setVisible (false);
 		} else {
 			updatePlaceBaseTokenButton (placeBaseTokenButton2, tMapCell, tPlaceBaseTokenLabel2);
 		}
 	}
 	
-	private void updatePlaceBaseTokenButton (KButton aPlaceBaseTokenButton, MapCell aMapCell, String aPlaceBaseTokenLabel1) {
+	private void updatePlaceBaseTokenButton (KButton aPlaceBaseTokenButton, 
+				MapCell aMapCell, String aPlaceBaseTokenLabel) {
+		boolean tEnableToken;
 		String tToolTip;
 		String tMapCellID;
-		boolean tEnableToken;
+		String tFullLabel;
 		
-		aPlaceBaseTokenButton.setText (aPlaceBaseTokenLabel1);
+		aPlaceBaseTokenButton.setText (aPlaceBaseTokenLabel);
 		aPlaceBaseTokenButton.setVisible (true);
 		aPlaceBaseTokenButton.setEnabled (false);
 		tMapCellID = aMapCell.getID ();
@@ -1413,12 +1440,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		} else {
 			if (corporation.isTileAvailableForMapCell (aMapCell)) {
-				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
+				tToolTip = String.format (NO_TILE_ON_HOME, tMapCellID);
 			} else {
-				aPlaceBaseTokenButton.setText (SKIP_BASE_TOKEN);
+				tFullLabel = String.format (SKIP_BASE_TOKEN_ID, tMapCellID);
+				aPlaceBaseTokenButton.setText (tFullLabel);
 				aPlaceBaseTokenButton.setActionCommand (SKIP_BASE_TOKEN);
-				tEnableToken = true;
-				tToolTip = GUI.NO_TOOL_TIP;
+				tToolTip = MUST_LAY_BASE_TILE;
 			}
 		}
 		aPlaceBaseTokenButton.setEnabled (tEnableToken);
