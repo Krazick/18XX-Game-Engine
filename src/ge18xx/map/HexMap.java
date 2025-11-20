@@ -43,6 +43,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.RotateTileAction;
+import ge18xx.round.plan.PlaceTileMapPlan;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
@@ -1706,11 +1707,28 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 // Map Plan Functionality
 	
 	public void buildMapPlan (TrainCompany aTrainCompany) {
+		PlaceTileMapPlan tPlaceTileMapPlan;
+		String tGameName;
+		
 		System.out.println ("Ready to build a Map Plan for " + aTrainCompany.getName ());
+		
+		tGameName = mapFrame.getGameName ();
+		tPlaceTileMapPlan = new PlaceTileMapPlan (aTrainCompany, tGameName, "Alpha Plan");
+		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
+							tPlaceTileMapPlan.getName () + " for " +
+							tPlaceTileMapPlan.getCorporationName ());
+
 	}
 	
 	public void buildMapPlan () {
+		PlaceTileMapPlan tPlaceTileMapPlan;
+		String tGameName;
+		
 		System.out.println ("Ready to build a Map Plan");
+		tGameName = mapFrame.getGameName ();
+		tPlaceTileMapPlan = new PlaceTileMapPlan (tGameName, "Alpha Plan");
+		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
+							tPlaceTileMapPlan.getName ());
 	}
 
 // Map Graph Functions
