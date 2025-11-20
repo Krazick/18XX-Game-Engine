@@ -88,6 +88,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private final String NO_VALID_ROTATION = "No Valid Rotation for the selected Upgrade Tile";
 	private final String RESET_ALL_FLAGS = "Reset All Flags";
 	private final String BUILD_GRAPHS = "Build Graphs";
+	private final String BUILD_MAP_PLANS = "Build Map Plans";
 	private final String CANCEL_TOKEN_MODE = "CancelToken";
 	private final String CANCEL_MODE_LABEL = "Cancel Mode";
 	private final String COMPLETE_TILE_LAY = "Complete Tile Lay";
@@ -102,6 +103,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	KButton exitTokenButton;
 	KButton putTokenButton;
 	KButton buildGraphsButton;
+	KButton buildMapPlansButton;
 	KButton resetAllFlagsButton;
 	JPanel tokenButtonsJPanel;
 	JPanel tileButtonsJPanel;
@@ -201,6 +203,12 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
 		otherButtonsJPanel.add (buildGraphsButton);
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
+		
+		buildMapPlansButton = setupButton (BUILD_MAP_PLANS, BUILD_MAP_PLANS, this, Component.CENTER_ALIGNMENT);
+		buildMapPlansButton.setToolTipText ("Build Map Plans of current Hex Map");
+		otherButtonsJPanel.add (Box.createVerticalGlue ());
+		otherButtonsJPanel.add (buildMapPlansButton);
+
 	}
 	
 	private void buildAllButtonsJPanel () {
@@ -369,6 +377,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			resetAllModes ();
 		} else if (BUILD_GRAPHS.equals (tTheAction)) {
 			handleBuildGraphs ();
+		} else if (BUILD_MAP_PLANS.equals (tTheAction)) {
+			handleBuildMapPlans ();
 		}
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
@@ -406,6 +416,21 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 				tTokenCompany = (TokenCompany) tCorporation;
 				hexMap.buildMapGraph (tTokenCompany);
 			}
+		}
+	}
+	
+	private void handleBuildMapPlans () {
+		Corporation tCorporation;
+		TrainCompany tTrainCompany;
+
+		tCorporation = getOperatingCompany ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			if (tCorporation.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tCorporation;
+				hexMap.buildMapPlan (tTrainCompany);
+			}
+		} else {
+			hexMap.buildMapPlan ();
 		}
 	}
 

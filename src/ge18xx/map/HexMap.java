@@ -36,6 +36,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenInfo.TokenType;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -1701,7 +1702,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 
 	}
+
+// Map Plan Functionality
 	
+	public void buildMapPlan (TrainCompany aTrainCompany) {
+		System.out.println ("Ready to build a Map Plan for " + aTrainCompany.getName ());
+	}
+	
+	public void buildMapPlan () {
+		System.out.println ("Ready to build a Map Plan");
+	}
+
 // Map Graph Functions
 	
 	public void buildMapGraph (TokenCompany aTokenCompany) {
