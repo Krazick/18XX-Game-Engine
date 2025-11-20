@@ -125,8 +125,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		super (aFrameName, aGameManager);
 		gameManager = (GameManager) gameEngineManager;
 
-		buildMapScrollPanel ();
 		buildNorthPanel ();
+		buildMapScrollPanel ();
 
 		setPlaceTileMode (false);
 		setPlaceTokenMode (false);
