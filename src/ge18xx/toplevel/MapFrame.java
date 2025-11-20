@@ -88,6 +88,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private final String NO_VALID_ROTATION = "No Valid Rotation for the selected Upgrade Tile";
 	private final String RESET_ALL_FLAGS = "Reset All Flags";
 	private final String BUILD_GRAPHS = "Build Graphs";
+	private final String BUILD_MAP_PLANS = "Build Map Plans";
 	private final String CANCEL_TOKEN_MODE = "CancelToken";
 	private final String CANCEL_MODE_LABEL = "Cancel Mode";
 	private final String COMPLETE_TILE_LAY = "Complete Tile Lay";
@@ -102,6 +103,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	KButton exitTokenButton;
 	KButton putTokenButton;
 	KButton buildGraphsButton;
+	KButton buildMapPlansButton;
 	KButton resetAllFlagsButton;
 	JPanel tokenButtonsJPanel;
 	JPanel tileButtonsJPanel;
@@ -146,17 +148,17 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
-	
+
+	public void setHexMap (HexMap aHexMap) {
+		map = aHexMap;
+	}
+
 	private void buildMapScrollPanel () {
 		HexMap tHexMap;
 		
 		tHexMap = new HexMap (this);
 		setHexMap (tHexMap);
 		buildScrollPane (map, BorderLayout.CENTER);
-	}
-
-	public void setHexMap (HexMap aHexMap) {
-		map = aHexMap;
 	}
 	
 	private void buildNorthPanel () {
@@ -200,6 +202,11 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		buildGraphsButton.setToolTipText ("Build Graph of current Hex Map");
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
 		otherButtonsJPanel.add (buildGraphsButton);
+		otherButtonsJPanel.add (Box.createVerticalGlue ());
+		
+		buildMapPlansButton = setupButton (BUILD_MAP_PLANS, BUILD_MAP_PLANS, this, Component.CENTER_ALIGNMENT);
+		buildMapPlansButton.setToolTipText ("Build Map Plans for Placing a Tile on the Hex Map");
+		otherButtonsJPanel.add (buildMapPlansButton);
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
 	}
 	
@@ -369,6 +376,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			resetAllModes ();
 		} else if (BUILD_GRAPHS.equals (tTheAction)) {
 			handleBuildGraphs ();
+		} else if (BUILD_MAP_PLANS.equals (tTheAction)) {
+			handleBuildMapPlans ();
 		}
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
@@ -409,6 +418,11 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		}
 	}
 
+	private void handleBuildMapPlans () {
+		System.out.println ("Ready to show Map Plans Frame");
+		gameManager.showMapPlanFrame ();
+	}
+	
 	private void completeTileLay () {
 		Corporation tOperatingCompany;
 		
@@ -1342,13 +1356,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		Tile tNewTile;
 		Tile tCurrentTile;
 		TrainCompany tOperatingTrainCompany;
-//		int tOperatingCompanyTreasury;
 		boolean tAnyAllowedRotation;
 		
 		tOperatingTrainCompany = getOperatingTrainCompany ();
 		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
-//			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
-			putTileButton.setEnabled (false);
 			tMapCell = map.getSelectedMapCell ();
 
 			// If there is a Map Cell Selected we can do further tests
