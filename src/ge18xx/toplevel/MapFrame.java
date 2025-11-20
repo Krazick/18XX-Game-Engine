@@ -112,7 +112,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	boolean placeTokenMode;
 	boolean selectRouteMode;
 	String companyAbbrev;
-	HexMap map;
+	HexMap hexMap;
 	TileSet tileSet;
 	CorporationList privateCos;
 	CorporationList minorCos;
@@ -152,11 +152,11 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		
 		tHexMap = new HexMap (this);
 		setHexMap (tHexMap);
-		buildScrollPane (map, BorderLayout.CENTER);
+		buildScrollPane (hexMap, BorderLayout.CENTER);
 	}
 
 	public void setHexMap (HexMap aHexMap) {
-		map = aHexMap;
+		hexMap = aHexMap;
 	}
 	
 	private void buildNorthPanel () {
@@ -164,7 +164,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 		tNorthPanel = new JPanel ();
 		hexScaleSlider = new JSlider (SwingConstants.HORIZONTAL, 4, 16, 8);
-		hexScaleSlider.addChangeListener (map);
+		hexScaleSlider.addChangeListener (hexMap);
 
 		// Turn on labels at major tick marks.
 		hexScaleSlider.setMajorTickSpacing (4);
@@ -260,7 +260,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	@Override
 	public int getHexScale () {
-		return map.getHexScale ();
+		return hexMap.getHexScale ();
 	}
 
 	public void setHexScaleSlider (int aScale) {
@@ -269,7 +269,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	@Override
 	public void setHexScale (int aScale) {
-		map.setHexScale (aScale);
+		hexMap.setHexScale (aScale);
 		setHexScaleSlider (aScale);
 	}
 
@@ -285,7 +285,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	 * @param aTrainNumber The Train Number to clear from the Map
 	 */
 	public void clearTrainFromMap (int aTrainNumber) {
-		map.clearTrain (aTrainNumber);
+		hexMap.clearTrain (aTrainNumber);
 		repaint ();
 	}
 
@@ -294,7 +294,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	 *
 	 */
 	public void clearAllTrainsFromMap () {
-		map.clearAllTrains ();
+		hexMap.clearAllTrains ();
 		repaint ();
 	}
 
@@ -311,18 +311,18 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		boolean tIsPlaceTileMode;
 		boolean tNewPlaceTileMode;
 
-		tIsPlaceTileMode = map.isPlaceTileMode ();
+		tIsPlaceTileMode = hexMap.isPlaceTileMode ();
 		tNewPlaceTileMode = !tIsPlaceTileMode;
 		setModes (tNewPlaceTileMode, false, false);
-		map.setSingleMapCellSelect (tNewPlaceTileMode);
+		hexMap.setSingleMapCellSelect (tNewPlaceTileMode);
 		tileSet.setSingleTileSelect (tNewPlaceTileMode);
-		map.clearAllSelected ();
+		hexMap.clearAllSelected ();
 	}
 
 	public void togglePlaceTokenMode () {
 		setModes (false, !placeTokenMode, false);
-		map.setSingleMapCellSelect (false);
-		map.clearAllSelected ();
+		hexMap.setSingleMapCellSelect (false);
+		hexMap.clearAllSelected ();
 	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
@@ -332,12 +332,12 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	public void exitSelectRouteMode () {
 		setSelectRouteMode (false);
-		map.clearAllSelected ();
+		hexMap.clearAllSelected ();
 	}
 
 	public void toggleSelectRouteMode () {
 		setSelectRouteMode (!selectRouteMode);
-		map.clearAllSelected ();
+		hexMap.clearAllSelected ();
 	}
 
 	@Override
@@ -388,9 +388,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public void resetAllModes () {
 		setModes (false, false, false);
 
-		map.clearAllTrains ();
-		map.removeAllSMC ();
-		map.setSingleMapCellSelect (true);
+		hexMap.clearAllTrains ();
+		hexMap.removeAllSMC ();
+		hexMap.setSingleMapCellSelect (true);
 		
 		tileSet.clearAllSelected ();
 		tileSet.clearAllPlayable ();
@@ -404,7 +404,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			if (tCorporation.isATokenCompany ()) {
 				tTokenCompany = (TokenCompany) tCorporation;
-				map.buildMapGraph (tTokenCompany);
+				hexMap.buildMapGraph (tTokenCompany);
 			}
 		}
 	}
@@ -412,15 +412,15 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private void completeTileLay () {
 		Corporation tOperatingCompany;
 		
-		if (map.wasTilePlaced ()) {
+		if (hexMap.wasTilePlaced ()) {
 			tOperatingCompany = gameManager.getOperatingCompany ();
 			completeBenefitInUse (tOperatingCompany);
 			removeHomeIfChoice ();
-			map.lockPlacedTile ();
+			hexMap.lockPlacedTile ();
 		}
 		togglePlaceTileMode ();
-		map.setTilePlaced (false);
-		map.removeAllSMC ();
+		hexMap.setTilePlaced (false);
+		hexMap.removeAllSMC ();
 		if (gameManager.hasDestinations ()) {
 			gameManager.checkForDestinationsReached ();
 		}
@@ -436,7 +436,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		
 		tCorporation = getOperatingCompany ();
 		if (tCorporation.isHomeTypeChoice ()) {
-			tSelectedMapCell = map.getSelectedMapCell ();
+			tSelectedMapCell = hexMap.getSelectedMapCell ();
 			tHomeMapCell1 = tCorporation.getHomeCity1 ();
 			tHomeMapCell2 = tCorporation.getHomeCity2 ();
 			tHomeLocation1 = tCorporation.getHomeLocation1 ();
@@ -465,7 +465,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		updatePickupTileButton (false, NO_TILE_PLACED);
 		updatePutTileButton ();
 		updateGraphsButton ();
-		map.setTilePlaced (false);
+		hexMap.setTilePlaced (false);
 	}
 
 	private void putTileDownOnMap () {
@@ -478,7 +478,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		String tPreviousTokens;
 		String tPreviousBases;
 
-		tMapCell = map.getSelectedMapCell ();
+		tMapCell = hexMap.getSelectedMapCell ();
 		tPreviousTile = tMapCell.getTile ();
 		if (tPreviousTile != Tile.NO_TILE) {
 			tPreviousOrientation = tMapCell.getTileOrient ();
@@ -490,7 +490,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tPreviousBases = GUI.EMPTY_STRING;
 		}
 		// Save Tokens from Previous Tile placement
-		map.putTileDown ();
+		hexMap.putTileDown ();
 		updatePickupTileButton (true, GUI.NO_TOOL_TIP);
 		tCorporation = getOperatingCompany ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
@@ -515,28 +515,28 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	public XMLElement createMapDefinitions (XMLDocument aXMLDocument) {
-		return (map.createElement (aXMLDocument));
+		return (hexMap.createElement (aXMLDocument));
 	}
 
 	public HexMap getMap () {
-		return map;
+		return hexMap;
 	}
 
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_TYPE) {
-		return map.getMapStateElements (aXMLDocument);
+		return hexMap.getMapStateElements (aXMLDocument);
 	}
 
 	public int getMaxRowCount () {
-		return map.getMaxRowCount ();
+		return hexMap.getMaxRowCount ();
 	}
 
 	public int getMaxColCount () {
-		return map.getMaxColCount ();
+		return hexMap.getMaxColCount ();
 	}
 
 	public Terrain getTerrain () {
-		return map.getTerrain ();
+		return hexMap.getTerrain ();
 	}
 
 	public TrainCompany getOperatingTrainCompany () {
@@ -587,7 +587,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	public boolean isPlaceTileMode () {
-		return map.isPlaceTileMode ();
+		return hexMap.isPlaceTileMode ();
 	}
 
 	public boolean isSelectRouteMode () {
@@ -604,8 +604,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	ParsingRoutineI mapStateParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aMapCellNode) {
-			if (map != HexMap.NO_HEX_MAP) {
-				map.loadMapCellState (aMapCellNode);
+			if (hexMap != HexMap.NO_HEX_MAP) {
+				hexMap.loadMapCellState (aMapCellNode);
 			}
 		}
 	};
@@ -640,8 +640,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		int tMaxWidth;
 		int tMaxHeight;
 		
-		tMaxWidth = map.getMaxWidth ();
-		tMaxHeight = map.getMaxHeight ();
+		tMaxWidth = hexMap.getMaxWidth ();
+		tMaxHeight = hexMap.getMaxHeight ();
 
 		scrollPane.setPreferredSize (new Dimension (tMaxWidth, tMaxHeight));
 	}
@@ -667,7 +667,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
 
-		tSelectedMapCell = map.getSelectedMapCell ();
+		tSelectedMapCell = hexMap.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
@@ -685,7 +685,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public void putATokenDown (TokenCompany aTokenCompany) {
 		putTokenDown (aTokenCompany);
 		togglePlaceTokenMode ();
-		map.removeAllSMC ();
+		hexMap.removeAllSMC ();
 	}
 	
 	public void putTokenDown (TokenCompany aTokenCompany) {
@@ -695,7 +695,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		String tHomeAbbrev;
 		String tTokenAbbrev;
 
-		tSelectedMapCell = map.getSelectedMapCell ();
+		tSelectedMapCell = hexMap.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
@@ -813,7 +813,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			} else {
 				System.err.println ("Token Placement Failed.***");
 			}
-			map.clearAllSelected ();
+			hexMap.clearAllSelected ();
 		}
 		
 		return tTokenPlaced;
@@ -854,7 +854,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	public boolean hasStation (int aCorpID) {
-		return map.hasStation (aCorpID);
+		return hexMap.hasStation (aCorpID);
 	}
 
 	public String canPlaceTokenToolTip (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
@@ -1023,14 +1023,14 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		MapCell tMapCell;
 
 		if (aCityList != CityList.NO_CITY_LIST) {
-			maxRow = map.getRowCount ();
+			maxRow = hexMap.getRowCount ();
 			for (rowIndex = 0; rowIndex < maxRow; rowIndex++) {
-				maxCol = map.getColCount (rowIndex);
+				maxCol = hexMap.getColCount (rowIndex);
 				for (colIndex = 0; colIndex < maxCol; colIndex++) {
-					tRevenueCenterID = map.getRevenueCenterID (rowIndex, colIndex);
+					tRevenueCenterID = hexMap.getRevenueCenterID (rowIndex, colIndex);
 					if (tRevenueCenterID != RevenueCenter.NO_ID) {
 						tCityInfo = aCityList.getCityInfo (tRevenueCenterID);
-						tMapCell = map.getMapCell (rowIndex, colIndex);
+						tMapCell = hexMap.getMapCell (rowIndex, colIndex);
 						if (tCityInfo != CityInfo.NO_CITY_INFO) {
 							tCityInfo.setMapCell (tMapCell);
 						}
@@ -1075,15 +1075,15 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		int tTileNumber;
 		Tile tTile;
 
-		maxRow = map.getRowCount ();
+		maxRow = hexMap.getRowCount ();
 		for (rowIndex = 0; rowIndex < maxRow; rowIndex++) {
-			maxCol = map.getColCount (rowIndex);
+			maxCol = hexMap.getColCount (rowIndex);
 			for (colIndex = 0; colIndex < maxCol; colIndex++) {
-				if (map.isTileOnCell (rowIndex, colIndex)) {
-					tTileNumber = map.getTileNumber (rowIndex, colIndex);
+				if (hexMap.isTileOnCell (rowIndex, colIndex)) {
+					tTileNumber = hexMap.getTileNumber (rowIndex, colIndex);
 					tTile = tileSet.popTile (tTileNumber);
 					if (tTile != Tile.NO_TILE) {
-						map.putStartingTile (rowIndex, colIndex, tTile);
+						hexMap.putStartingTile (rowIndex, colIndex, tTile);
 					}
 				}
 			}
@@ -1112,7 +1112,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		
 		tDestinationMapCellID = aShareCompany.getDestinationLabel ();
 		if (tDestinationMapCellID != GUI.NULL_STRING) {
-			tMapCell = map.getMapCellForID (tDestinationMapCellID);
+			tMapCell = hexMap.getMapCellForID (tDestinationMapCellID);
 			aShareCompany.setDestinationMapCell (tMapCell);
 			setDestinationCorpID (aShareCompany, tMapCell);
 		}
@@ -1144,7 +1144,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					tCorporation = aCorporationList.getCorporation (tCorporationIndex);
 					tCellID = tCorporation.getHomeCityGrid1 ();
 					tLocation = tCorporation.getHomeLocation1 ();
-					tMapCell = map.getMapCellForID (tCellID);
+					tMapCell = hexMap.getMapCellForID (tCellID);
 					if (tMapCell != MapCell.NO_MAP_CELL) {
 						tCorporation.setHome1 (tMapCell, tLocation);
 						tMapCell.setCorporationHome (tCorporation, tLocation);
@@ -1153,7 +1153,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					tLocation = tCorporation.getHomeLocation2 ();
 					if (!tLocation.isNoLocation ()) {
 						if (tCellID != Corporation.NO_NAME_STRING) {
-							tMapCell = map.getMapCellForID (tCellID);
+							tMapCell = hexMap.getMapCellForID (tCellID);
 						}
 						if (tMapCell != MapCell.NO_MAP_CELL) {
 							tCorporation.setHome2 (tMapCell, tLocation);
@@ -1167,7 +1167,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 							if (!tLocation.isNoLocation ()) {
 								tCellID = tShareCompany.getDestinationLabel ();
 								if (tCellID != Corporation.NO_NAME_STRING) {
-									tMapCell = map.getMapCellForID (tCellID);
+									tMapCell = hexMap.getMapCellForID (tCellID);
 									if (tMapCell != MapCell.NO_MAP_CELL) {
 										tShareCompany.setDestination (tMapCell, tLocation);
 										tMapCell.setCorporationHome (tShareCompany, tLocation);
@@ -1184,7 +1184,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public void setPlaceTileMode (boolean aPlaceTileMode) {
 		MapCell tSelectedMapCell;
 
-		map.setPlaceTileMode (aPlaceTileMode);
+		hexMap.setPlaceTileMode (aPlaceTileMode);
 		exitTileButton.setEnabled (aPlaceTileMode);
 		if (aPlaceTileMode) {
 			exitTileButton.setToolTipText (GUI.NO_TOOL_TIP);
@@ -1194,14 +1194,14 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tileButtonsJPanel.setBackground (getBackground ());
 		}
 		putTileButton.setEnabled (false);
-		if (map.isPlaceTileMode ()) {
+		if (hexMap.isPlaceTileMode ()) {
 			updatePickupTileButton (false, NO_TILE_PLACED);
 			putTileButton.setToolTipText (NO_SELECTED_MAP_CELL);
 		} else {
 			updatePickupTileButton (false, NOT_PLACE_TILE_MODE);
 			putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
 
-			tSelectedMapCell = map.getSelectedMapCell ();
+			tSelectedMapCell = hexMap.getSelectedMapCell ();
 			if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 				tSelectedMapCell.lockTileOrientation ();
 			}
@@ -1223,20 +1223,20 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
 			tokenButtonsJPanel.setBackground (getBackground ());
 		}
-		map.setSelectTrackSegment (aMode);
-		map.setSelectRevenueCenter (aMode);
+		hexMap.setSelectTrackSegment (aMode);
+		hexMap.setSelectRevenueCenter (aMode);
 	}
 
 	public void setSelectRouteMode (boolean aMode) {
 		selectRouteMode = aMode;
-		map.setSelectTrackSegment (aMode);
-		map.setSelectRevenueCenter (aMode);
-		map.setSingleMapCellSelect (!aMode);
+		hexMap.setSelectTrackSegment (aMode);
+		hexMap.setSelectRevenueCenter (aMode);
+		hexMap.setSingleMapCellSelect (!aMode);
 	}
 
 	public void setTileSet (TileSet aTileSet) {
 		tileSet = aTileSet;
-		map.setTileSet (aTileSet);
+		hexMap.setTileSet (aTileSet);
 	}
 
 	public void updatePutTokenButton (City aSelectedCity, MapCell aMapCell) {
@@ -1349,7 +1349,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
 //			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
 			putTileButton.setEnabled (false);
-			tMapCell = map.getSelectedMapCell ();
+			tMapCell = hexMap.getSelectedMapCell ();
 
 			// If there is a Map Cell Selected we can do further tests
 			if (tMapCell != MapCell.NO_MAP_CELL) {
@@ -1482,7 +1482,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public MapCell getMapCellForID (String aMapCellID) {
 		MapCell tMapCell;
 
-		tMapCell = map.getMapCellForID (aMapCellID);
+		tMapCell = hexMap.getMapCellForID (aMapCellID);
 
 		return tMapCell;
 	}
