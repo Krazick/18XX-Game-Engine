@@ -1,14 +1,11 @@
 package ge18xx.round.plan;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -55,22 +52,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void buildScrollPane (JLabel aMapJLabel, String aBorderLayout) {
-		Icon tIconFromMap;
-		Image tImageMap;
-		ImageIcon tImageIcon;
-		
-		tIconFromMap = aMapJLabel.getIcon ();
-		if (tIconFromMap instanceof ImageIcon) {
-			tImageIcon = (ImageIcon) tIconFromMap;
-			tImageMap = tImageIcon.getImage ();
-			mapPlanLabel = new JLabel (tIconFromMap);
-			mapPlanScrollPane = new JScrollPane ();
-			mapPlanScrollPane.setViewportView (mapPlanLabel);
-			if (aBorderLayout != GUI.NULL_STRING) {
-				add (mapPlanScrollPane, aBorderLayout);
-			} else {
-				add (mapPlanScrollPane);
-			}
+		mapPlanScrollPane = new JScrollPane ();
+		mapPlanScrollPane.add (aMapJLabel);
+		mapPlanScrollPane.setViewportView (mapPlanLabel);
+		if (aBorderLayout != GUI.NULL_STRING) {
+			add (mapPlanScrollPane, aBorderLayout);
+		} else {
+			add (mapPlanScrollPane);
 		}
 	}
 
