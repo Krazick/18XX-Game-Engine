@@ -75,8 +75,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	public static final HexMap NO_HEX_MAP = null;
+	
 	MapCell map [] [];
 	Hex18XX hex;
+	
 	TileSet tileSet;
 	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
