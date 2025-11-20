@@ -16,7 +16,6 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import ge18xx.center.Centers;
@@ -53,7 +52,6 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
-import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
@@ -75,13 +73,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	public static final HexMap NO_HEX_MAP = null;
+	
 	MapCell map [] [];
 	Hex18XX hex;
-	TileSet tileSet;
 	MapFrame mapFrame;
+	
+	TileSet tileSet;
 	SelectableMapCells selectableMapCells;
 	MapGraph mapGraph;
-	Logger logger;
 	boolean selectRevenueCenter;
 	boolean selectTrackSegment;
 	boolean tilePlaced;
@@ -98,9 +97,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
 		selectableMapCells = new SelectableMapCells ();
-		if (mapFrame != XMLFrame.NO_XML_FRAME) {
-			logger = mapFrame.getLogger ();
-		}
 	}
 
 	/**
@@ -1347,7 +1343,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tRowCount;
 		int tColCount;
 		
-
+		super.paintComponent (aGraphics);
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
