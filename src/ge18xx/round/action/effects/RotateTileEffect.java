@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
+import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
@@ -74,7 +75,7 @@ public class RotateTileEffect extends LayTileEffect {
 	}
 
 	public boolean changeOrientation (RoundManager aRoundManager, boolean aEffectApplied, MapCell aMapCell,
-			HexMap aGameMap) {
+			GameMap aGameMap) {
 		int tNewOrientation;
 		int tCurrentOrientation;
 		String tTokens;

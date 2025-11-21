@@ -7,15 +7,14 @@ import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.TokenCompany;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 
-public class GameMap extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
+public class GameMap extends JLabel implements LoadableXMLI, MouseListener, 
+								MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,9 +44,10 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener, Mous
 		super (text, icon, horizontalAlignment);
 	}
 
-	@Override
-	public void stateChanged (ChangeEvent e) {
-	}
+//	@Override
+//	public void stateChanged (ChangeEvent e) {
+//		System.out.println ("State Changed in Game Map");
+//	}
 
 	@Override
 	public void mouseDragged (MouseEvent e) {
@@ -91,7 +91,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener, Mous
 		map = new MapCell [aRows] [aCols];
 	}
 
-	public void setMapCell (int aRow, int aCol, String aDirection, HexMap hexMap) {
+	public void setMapCell (int aRow, int aCol, String aDirection, GameMap hexMap) {
 		MapCell tMapCell;
 		
 		tMapCell = new MapCell (this, aDirection);
@@ -111,6 +111,26 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener, Mous
 		map [aRow] [aCol] = aMapCell;
 	}
 
+	public int getColCount (int thisRow) {
+		if (map == MapCell.NO_MAP_CELLS) {
+			return 0;
+		}
+	
+		return (map [thisRow].length);
+	}
+
+	public int getRowCount () {
+		int tRowCount;
+		
+		if (map == MapCell.NO_MAP_CELLS) {
+			tRowCount = 0;
+		} else {
+			tRowCount = map.length;
+		}
+	
+		return tRowCount;
+	}
+
 	// Methods to be Overridden by HexMap
 	
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
@@ -126,7 +146,6 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 	
 	public void redrawMap () {
-		
 	}
 	
 	public Corporation getOperatingCompany () {
@@ -147,5 +166,17 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public boolean mapCellIsInSelectableSMC (MapCell mapCell) {
 		return false;
+	}
+
+	public int getHexWidth () {
+		return (Hex.getWidth ());
+	}
+
+	public int getHexHeight () {
+		return (hex.getYd () * 2);
+	}
+
+	public int getHexYd () {
+		return (hex.getYd ());
 	}
 }

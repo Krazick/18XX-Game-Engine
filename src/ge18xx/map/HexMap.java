@@ -59,7 +59,8 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
-public class HexMap extends GameMap implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
+public class HexMap extends GameMap implements LoadableXMLI, MouseListener, 
+						MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
 	public static final ElementName EN_ROW = new ElementName ("Row");
@@ -410,26 +411,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		return tTokenPlaced;
 	}
 
-	public int getColCount (int thisRow) {
-		if (map == MapCell.NO_MAP_CELLS) {
-			return 0;
-		}
-
-		return (map [thisRow].length);
-	}
-
-	public int getHexWidth () {
-		return (Hex.getWidth ());
-	}
-
-	public int getHexHeight () {
-		return (hex.getYd () * 2);
-	}
-
-	public int getHexYd () {
-		return (hex.getYd ());
-	}
-
 	private String [] getIDs (String aID) {
 		String [] theIDs;
 		String [] tempIDs;
@@ -727,19 +708,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		}
 
 		return tRevenueCenterID;
-	}
-
-	public int getRowCount () {
-		int tRowCount;
-		
-
-		if (map == MapCell.NO_MAP_CELLS) {
-			tRowCount = 0;
-		} else {
-			tRowCount = map.length;
-		}
-
-		return tRowCount;
 	}
 
 	@Override
@@ -1337,7 +1305,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		int tRowCount;
 		int tColCount;
 		
-
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);

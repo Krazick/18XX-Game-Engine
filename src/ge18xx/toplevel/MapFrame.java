@@ -127,8 +127,8 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		super (aFrameName, aGameManager);
 		gameManager = (GameManager) gameEngineManager;
 
-		buildNorthPanel ();
 		buildMapScrollPanel ();
+		buildNorthPanel ();
 
 		setPlaceTileMode (false);
 		setPlaceTokenMode (false);
@@ -188,7 +188,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		}
 		add (tNorthPanel, BorderLayout.NORTH);
 	}
-
+	
 	private void buildOtherButtonsJPanel () {
 		otherButtonsJPanel = new JPanel ();
 		otherButtonsJPanel.setLayout (new BoxLayout (otherButtonsJPanel, BoxLayout.Y_AXIS));

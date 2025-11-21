@@ -97,7 +97,7 @@ public class MapTestFactory {
 	public MapCell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 		
 		MapCell tMapCell;
-		HexMap mHexMap;
+		GameMap mHexMap;
 		String tMapDirection;
 		
 		mHexMap = buildHexMapMock ();
@@ -108,7 +108,7 @@ public class MapTestFactory {
 	}
 	
 	public MapCell buildMapCell (String aID, int aXc, int aYc) {
-		HexMap tHexMap;
+		GameMap tHexMap;
 		MapCell tMapCell;
 
 		tHexMap = buildHexMap ();
