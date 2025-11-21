@@ -67,7 +67,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String SKIP_BASE_TOKEN = "Skip Base Token";
 	public static final String SKIP_BASE_TILE = "Skip Base Tile";
 	public static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
-	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile Available";
+	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile ";
 	public static final String BORROW_TRAIN = "Borrow Train";
 	public static final String RETURN_BORROWED_TRAIN = "Return Borrowed Train";
 	public static final String NOT_GOVERNMENT_RAILWAY = "This is NOT a Government Railway";
@@ -122,6 +122,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton showMapButton;
 	KButton placeBaseTileButton1;
 	KButton placeBaseTileButton2;
+	KButton skipBaseTileButton1;
+	KButton skipBaseTileButton2;
 	KButton placeTileButton;
 	KButton place2ndYellowTileButton;
 	KButton placeTokenButton;
@@ -624,10 +626,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		doneButton = setupButton (DONE, DONE);
 		undoButton = setupButton (UNDO, UNDO);
-		tPlaceBaseTileLabel = createBaseTileLabel (1);
+		tPlaceBaseTileLabel = createBaseTileLabel (PLACE_BASE_TILE, 1);
 		placeBaseTileButton1 = setupButton (tPlaceBaseTileLabel, PLACE_BASE_TILE);
-		tPlaceBaseTileLabel = createBaseTileLabel (2);
+		skipBaseTileButton1 = setupButton (createBaseTileLabel (SKIP_BASE_TILE, 1), SKIP_BASE_TILE);
+		tPlaceBaseTileLabel = createBaseTileLabel (PLACE_BASE_TILE, 2);
 		placeBaseTileButton2 = setupButton (tPlaceBaseTileLabel, PLACE_BASE_TILE);
+		skipBaseTileButton2 = setupButton (createBaseTileLabel (SKIP_BASE_TILE, 2), SKIP_BASE_TILE);
 		placeTileButton = setupButton (PLACE_TILE, PLACE_TILE);
 		place2ndYellowTileButton = setupButton (PLACE_2ND_YELLOW_TILE, PLACE_2ND_YELLOW_TILE);
 		
@@ -667,7 +671,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		addButton (showMapButton);
 		addButton (placeBaseTileButton1);
+		addButton (skipBaseTileButton1, false);
 		addButton (placeBaseTileButton2);
+		addButton (skipBaseTileButton2, false);
 		addButton (placeTileButton);
 		addButton (place2ndYellowTileButton);
 		addButton (placeBaseTokenButton1);
@@ -951,6 +957,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		tTrainCount = corporation.getTrainCount ();
 		updatePlaceBaseTileButtons ();
+		updateSkipBaseTileButtons ();
 		updatePlaceTileButton ();
 		updatePlaceBaseTokenButtons ();
 		updatePlaceTokenButton (aMapCell);
@@ -1240,18 +1247,31 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void updatePlaceBaseTileButtons () {
 		String tPlaceBaseTileLabel1;
 		String tPlaceBaseTileLabel2;
-
+		String tToolTip;
+		String tMapCellID;
+		MapCell tMapCell;
+		
 		if (corporation.homeMapCell ()) {
-			tPlaceBaseTileLabel1 = createBaseTileLabel (1);
+			tPlaceBaseTileLabel1 = createBaseTileLabel (PLACE_BASE_TILE, 1);
+			tMapCell = corporation.getHomeCity1 ();
+			tMapCellID = tMapCell.getID ();
 			if (corporation.homeMapCell1HasTile ()) {
 				placeBaseTileButton1.setVisible (false);
 			} else {
 				placeBaseTileButton1.setText (tPlaceBaseTileLabel1);
 				placeBaseTileButton1.setVisible (true);
-				updateTileButton (placeBaseTileButton1);
+				if (corporation.isTileAvailableForMapCell (tMapCell)) {
+					updateTileButton (placeBaseTileButton1);
+				} else {
+					placeBaseTileButton1.setEnabled (false);
+					tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
+					placeBaseTileButton1.setToolTipText (tToolTip);
+				}
+//				updateTileButton (placeBaseTileButton1);
 			}
-			tPlaceBaseTileLabel2 = createBaseTileLabel (2);
-			if (corporation.homeMapCell2HasTile () || tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
+			tPlaceBaseTileLabel2 = createBaseTileLabel (PLACE_BASE_TILE, 2);
+			if (corporation.homeMapCell2HasTile () || 
+				tPlaceBaseTileLabel1.equals (tPlaceBaseTileLabel2)) {
 				placeBaseTileButton2.setVisible (false);
 			} else {
 				placeBaseTileButton2.setText (tPlaceBaseTileLabel2);
@@ -1261,6 +1281,55 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			placeBaseTileButton1.setVisible (false);
 			placeBaseTileButton2.setVisible (false);
+		}
+	}
+
+	public void updateSkipBaseTileButtons () {
+		String tSkipBaseTileLabel1;
+		String tSkipBaseTileLabel2;
+		String tToolTip;
+		String tMapCellID;
+		boolean tEnableTile;
+		MapCell tMapCell;
+		
+		if (corporation.homeMapCell ()) {
+			tSkipBaseTileLabel1 = createBaseTileLabel (SKIP_BASE_TILE, 1);
+			tMapCell = corporation.getHomeCity1 ();
+			tMapCellID = tMapCell.getID ();
+			if (corporation.homeMapCell1HasTile ()) {
+				skipBaseTileButton1.setVisible (false);
+			} else {
+				skipBaseTileButton1.setText (tSkipBaseTileLabel1);
+				skipBaseTileButton1.setVisible (true);
+				tEnableTile = true;
+				if (corporation.isTileAvailableForMapCell (tMapCell)) {
+					tEnableTile = false;
+					tToolTip = String.format (HOME_NO_TILE, tMapCellID);
+				} else if ((corporation.getStatus () == ActorI.ActionStates.StationLaid) ||
+					(corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
+					(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
+					skipBaseTileButton1.setVisible (false);
+					tEnableTile = false;
+					tToolTip = String.format (HOME_NO_TILE, tMapCellID);
+				} else {
+					tToolTip = GUI.EMPTY_STRING;
+				}
+				tMapCellID = tMapCell.getID ();
+				skipBaseTileButton1.setEnabled (tEnableTile);
+				skipBaseTileButton1.setToolTipText (tToolTip);
+			}
+			tSkipBaseTileLabel2 = createBaseTileLabel (SKIP_BASE_TILE, 2);
+			if (corporation.homeMapCell2HasTile () || 
+				tSkipBaseTileLabel1.equals (tSkipBaseTileLabel2)) {
+				skipBaseTileButton2.setVisible (false);
+			} else {
+				skipBaseTileButton2.setText (tSkipBaseTileLabel2);
+				skipBaseTileButton2.setVisible (true);
+//				updateTileButton (skipBaseTileButton2);
+			}
+		} else {
+			skipBaseTileButton1.setVisible (false);
+			skipBaseTileButton2.setVisible (false);
 		}
 	}
 
@@ -1337,16 +1406,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (! corporation.allBasesHaveTiles ()) {
 				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
-			} else if (! corporation.isTileAvailableForMapCell (tMapCell)) {
-				if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
-					tEnableTile = false;
-				} else {
-					tEnableTile = true;
-					aTileButton.setText (SKIP_BASE_TILE);
-					aTileButton.setActionCommand (SKIP_BASE_TILE);
-				}
-				tMapCellID = tMapCell.getID ();
-				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
+//			} else if (! corporation.isTileAvailableForMapCell (tMapCell)) {
+//				tEnableTile = true;
+//				if ((corporation.getStatus () == ActorI.ActionStates.StationLaid) ||
+//					(corporation.getStatus () == ActorI.ActionStates.TileLaid) ||
+//					(corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid)) {
+//					tEnableTile = false;
+//				}
+//				tMapCellID = tMapCell.getID ();
+//				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
 			} else if (! corporation.baseTileHasTracks ()) {
 				tEnableTile = true;
 				tToolTip = MUST_UPGRADE_BASE_TILE;
@@ -1439,7 +1507,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tBaseTokenLabel;
 	}
 
-	private String createBaseTileLabel (int aHomeID) {
+	private String createBaseTileLabel (String aBaseTitle, int aHomeID) {
 		String tMapCellID;
 		String tBaseTileLabel;
 
@@ -1447,7 +1515,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (tMapCellID == MapCell.NO_ID) {
 			tBaseTileLabel = GUI.EMPTY_STRING;
 		} else {
-			tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
+			tBaseTileLabel = createBaseLabel (aBaseTitle, tMapCellID);
 		}
 		
 		return tBaseTileLabel;
