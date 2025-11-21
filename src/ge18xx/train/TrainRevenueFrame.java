@@ -28,7 +28,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
-import ge18xx.map.HexMap;
+import ge18xx.map.GameMap;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.tiles.Track;
@@ -473,7 +473,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		RouteInformation tRouteInformation;
 		GameManager tGameManager;
 		MapFrame tMapFrame;
-		HexMap tMap;
+		GameMap tMap;
 
 		tGameManager = trainCompany.getGameManager ();
 		tMapFrame = tGameManager.getMapFrame ();

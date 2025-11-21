@@ -10,7 +10,7 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.map.HexMap;
+import ge18xx.map.GameMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.CashHolderI;
@@ -206,7 +206,7 @@ public class RouteInformation {
 		}
 	};
 
-	public void highlightRouteSegments (HexMap aMap) {
+	public void highlightRouteSegments (GameMap aMap) {
 		int tSegmentCount;
 		int tSegmentIndex;
 		RouteSegment tRouteSegment;

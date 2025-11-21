@@ -48,8 +48,8 @@ public class MapTestFactory {
 		return tHexMap;
 	}
 
-	public HexMap buildHexMap (String aMapFrameName, GameManager aGameManager) {
-		HexMap tHexMap;
+	public GameMap buildHexMap (String aMapFrameName, GameManager aGameManager) {
+		GameMap tHexMap;
 		MapFrame tMapFrame;
 		
 		tMapFrame = buildMapFrame (aMapFrameName, aGameManager);
