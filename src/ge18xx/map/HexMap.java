@@ -44,6 +44,7 @@ import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.RotateTileAction;
 import ge18xx.round.plan.PlaceTileMapPlan;
+import ge18xx.round.plan.PlanFrame;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
@@ -59,7 +60,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
-public class HexMap extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
+public class HexMap extends GameMap implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
 	public static final ElementName EN_ROW = new ElementName ("Row");
@@ -76,9 +77,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final AttributeName AN_COL_START = new AttributeName ("colStart");
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
-	public static final HexMap NO_HEX_MAP = null;
+	public static final GameMap NO_HEX_MAP = null;
 	
-	MapCell map [] [];
 	Hex18XX hex;
 	
 	TileSet tileSet;
@@ -1722,6 +1722,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public void buildMapPlan () {
 		PlaceTileMapPlan tPlaceTileMapPlan;
+		PlanFrame tPlanFrame;
 		String tGameName;
 		
 		System.out.println ("Ready to build a Map Plan");
@@ -1729,6 +1730,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tPlaceTileMapPlan = new PlaceTileMapPlan (tGameName, "Alpha Plan");
 		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
 							tPlaceTileMapPlan.getName ());
+		
+		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager ());
+		tPlanFrame.setPlaceTileMapPlan (tPlaceTileMapPlan);
 	}
 
 // Map Graph Functions
