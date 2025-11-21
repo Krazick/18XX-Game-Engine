@@ -78,8 +78,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 	public static final boolean DO_ADD_ACTION = true;
 	public static final GameMap NO_HEX_MAP = null;
 	
-	Hex18XX hex;
-	
 	TileSet tileSet;
 	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
@@ -93,6 +91,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 								// should unselect ALL and leave only the single map cell selected.
 
 	public HexMap (MapFrame aMapFrame) {
+		super ();
 		setMapFrame (aMapFrame);
 		hex = Hex18XX.NO_HEX18XX;
 		setTilePlaced (false);
@@ -112,6 +111,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 	 * @return The current Phase as int value
 	 */
 
+	@Override
 	public int getCurrentPhase () {
 		return mapFrame.getCurrentPhase ();
 	}
@@ -152,6 +152,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		return selectableMapCells.isEmpty ();
 	}
 
+	@Override
 	public boolean mapCellIsInSelectableSMC (MapCell aMapCell) {
 		boolean tIsInSelectable;
 
@@ -741,6 +742,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		return tRowCount;
 	}
 
+	@Override
 	public TokenCompany getTokenCompany (String aAbbrev) {
 		return mapFrame.getTokenCompany (aAbbrev);
 	}
@@ -1240,22 +1242,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		mapFrame.setDefaultFrameInfo ();
 	}
 
-	public void setMapCell (int aRow, int aCol, String aDirection) {
-		MapCell tMapCell;
-		
-		tMapCell = new MapCell (this, aDirection);
-		tMapCell.setOffsetCoordinates (aCol, aRow);
-		setMapCell (aRow, aCol, tMapCell);
-	}
-	
-	public void setMapCell (int aRow, int aCol, MapCell aMapCell) {
-		map [aRow] [aCol] = aMapCell;
-	}
-
-	public void buildMapArray (int aCols, int aRows) {
-		map = new MapCell [aRows] [aCols];
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -1288,6 +1274,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 	public void mouseClicked (MouseEvent e) {
 	}
 
+	@Override
 	public void redrawMap () {
 		revalidate ();
 		repaint ();
@@ -1451,6 +1438,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 
+	@Override
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
 		if (!wasTilePlaced ()) { // If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
 			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
@@ -1471,6 +1459,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		updateCorporationFrame ();
 	}
 
+	@Override
 	public Corporation getOperatingCompany () {
 		GameManager tGameManager;
 		Corporation tOperatingCompany;
@@ -1548,6 +1537,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 		return tTileName;
 	}
 
+	@Override
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
 		boolean tIsTileAvailableForMapCell;
 		boolean tIsUpgradeAllowed;
@@ -1671,10 +1661,12 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener, Mous
 
 	}
 
+	@Override
 	public Corporation getCorporationByID (int aCorporationID) {
 		return mapFrame.getCorporationByID (aCorporationID);
 	}
 
+	@Override
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}

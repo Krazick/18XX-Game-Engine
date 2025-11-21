@@ -116,21 +116,21 @@ public class MapCell implements Comparator<Object> {
 	Terrain terrain2;
 	LicenseToken licenseToken;
 	OffsetCoord offsetCoordinates;
-	HexMap hexMap;
+	GameMap gameMap;
 
-	public MapCell (HexMap aHexMap, String aMapDirection) {
-		this (0, 0, aHexMap);
+	public MapCell (GameMap aGameMap, String aMapDirection) {
+		this (0, 0, aGameMap);
 		setMapDirection (aMapDirection);
 		setOffsetCoordinates (0, 0);
 	}
 
-	public MapCell (int Xc, int Yc, HexMap aHexMap) {
-		this (Xc, Yc, aHexMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
+	public MapCell (int Xc, int Yc, GameMap aGameMap) {
+		this (Xc, Yc, aGameMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 
-	public MapCell (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient, 
+	public MapCell (int Xc, int Yc, GameMap aGameMap, int aBaseTerrain, Tile aTile, int aTileOrient, 
 			String aBaseName, String aBlockedSides) {
-		setAllValues (Xc, Yc, aHexMap, aBaseTerrain, aTile, aTileOrient, aBaseName, aBlockedSides);
+		setAllValues (Xc, Yc, aGameMap, aBaseTerrain, aTile, aTileOrient, aBaseName, aBlockedSides);
 		setupLicenseToken ();
 	}
 
@@ -983,7 +983,7 @@ public class MapCell implements Comparator<Object> {
 		if (baseTerrain.isSelectable ()) {
 			tTip = "<html>Cell <b>" + getCellID () + "</b><br>";
 			if (tile != Tile.NO_TILE) {
-				tCurrentPhase = hexMap.getCurrentPhase () + 1;
+				tCurrentPhase = gameMap.getCurrentPhase () + 1;
 				tTip += "Tile Orientation: " + tileOrient + "<br>";
 				tTip += tile.getToolTip (tCurrentPhase);
 			} else {
@@ -1045,7 +1045,7 @@ public class MapCell implements Comparator<Object> {
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		
-		tCorporation = hexMap.getCorporationByID (aCorpID);
+		tCorporation = gameMap.getCorporationByID (aCorpID);
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		} else if (tCorporation.isATokenCompany ()) {
@@ -1058,7 +1058,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public TokenCompany getTokenCompany (String aAbbrev) {
-		return hexMap.getTokenCompany (aAbbrev);
+		return gameMap.getTokenCompany (aAbbrev);
 	}
 
 	public int getTypeCount () {
@@ -1079,10 +1079,10 @@ public class MapCell implements Comparator<Object> {
 		int tTileOrient;
 
 		if (!isSelected ()) {
-			hexMap.toggleSelectedMapCell (this);
+			gameMap.toggleSelectedMapCell (this);
 		}
 		if (isTileOnCell ()) {
-			tSelectedRevenueCenter = getRCContainingPoint (aPoint, hexMap.hex);
+			tSelectedRevenueCenter = getRCContainingPoint (aPoint, gameMap.hex);
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 				tSelectedLocation = tSelectedRevenueCenter.getLocation ();
 				tTileOrient = getTileOrient ();
@@ -1090,7 +1090,7 @@ public class MapCell implements Comparator<Object> {
 				setSelectedFeature2 (tSelectedLocation);
 			}
 		} else {
-			hexMap.toggleSelectedMapCell (this);
+			gameMap.toggleSelectedMapCell (this);
 		}
 	}
 
@@ -1523,7 +1523,7 @@ public class MapCell implements Comparator<Object> {
 				tTile = aThisTile.popTile ();
 				tClonedTile = tTile.clone ();
 				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
-				hexMap.redrawMap ();
+				gameMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");
 			}
@@ -1545,7 +1545,7 @@ public class MapCell implements Comparator<Object> {
 					// Found at least one orientation that works - Put it on the Map Cell
 					putTile (tTile, tPossibleOrientation);
 					tTilePlaced = true;
-					hexMap.redrawMap ();
+					gameMap.redrawMap ();
 				}
 				aThisTile.toggleSelected ();
 				aTileSet.revalidate ();
@@ -1686,7 +1686,7 @@ public class MapCell implements Comparator<Object> {
 		tTileName = TileName.NO_NAME2;
 		
 		tRevenueCenter = getRevenueCenter (0);
-		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
+		tIsInSelectable = gameMap.mapCellIsInSelectableSMC (this) || selected;
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
 			drawMapCellWithTile (aGraphics, aHex, tIsInSelectable, tXoffset, tYoffset);
@@ -1903,12 +1903,12 @@ public class MapCell implements Comparator<Object> {
 		return tCount;
 	}
 
-	private void setAllValues (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient,
+	private void setAllValues (int Xc, int Yc, GameMap aGameMap, int aBaseTerrain, Tile aTile, int aTileOrient,
 			String aBaseName, String aBlockedSides) {
 		int tIndex;
 
 		setXY (Xc, Yc);
-		hexMap = aHexMap;
+		gameMap = aGameMap;
 		setOtherValues (aBaseTerrain, aTile, aTileOrient, aBaseName, aBlockedSides);
 		allowedRotations = new boolean [6];
 		for (tIndex = 0; tIndex < 6; tIndex++) {
@@ -1931,25 +1931,25 @@ public class MapCell implements Comparator<Object> {
 		
 		tBenefitValue = 0;
 		if (hasPortToken ()) {
-			tCorporation = hexMap.getOperatingCompany ();
+			tCorporation = gameMap.getOperatingCompany ();
 			tPortLicense = tCorporation.getPortLicense ();
 			if (tPortLicense != License.NO_LICENSE) {
 				tBenefitValue = tPortLicense.getPortValue ();
 			}
 		} else if (hasCattleToken ()) {
-			tCorporation = hexMap.getOperatingCompany ();
+			tCorporation = gameMap.getOperatingCompany ();
 			tLicense = tCorporation.getLicense (LicenseTypes.CATTLE);
 			if (tLicense != License.NO_LICENSE) {
 				tBenefitValue = tLicense.getBenefitValue ();
 			}
 		} else if (hasBridgeToken ()) {
-			tCorporation = hexMap.getOperatingCompany ();
+			tCorporation = gameMap.getOperatingCompany ();
 			tLicense = tCorporation.getLicense (LicenseTypes.BRIDGE);
 			if (tLicense != License.NO_LICENSE) {
 				tBenefitValue = tLicense.getBenefitValue ();
 			}
 		} else if (hasTunnelToken ()) {
-			tCorporation = hexMap.getOperatingCompany ();
+			tCorporation = gameMap.getOperatingCompany ();
 			tLicense = tCorporation.getLicense (LicenseTypes.TUNNEL);
 			if (tLicense != License.NO_LICENSE) {
 				tBenefitValue = tLicense.getBenefitValue ();
@@ -2772,7 +2772,7 @@ public class MapCell implements Comparator<Object> {
 	public boolean isTileAvailableForMapCell () {
 		boolean tIsTileAvailableForMapCell;
 
-		tIsTileAvailableForMapCell = hexMap.isTileAvailableForMapCell (this);
+		tIsTileAvailableForMapCell = gameMap.isTileAvailableForMapCell (this);
 
 		return tIsTileAvailableForMapCell;
 	}
@@ -2791,11 +2791,11 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public Corporation getCorporationByID (int aCorporationID) {
-		return hexMap.getCorporationByID (aCorporationID);
+		return gameMap.getCorporationByID (aCorporationID);
 	}
 
 	public Corporation getCorporation (String aCorporationAbbrev) {
-		return hexMap.getCorporation (aCorporationAbbrev);
+		return gameMap.getCorporation (aCorporationAbbrev);
 	}
 
 	public void fillMapGraph (MapGraph aMapGraph) {
