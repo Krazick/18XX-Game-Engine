@@ -62,7 +62,7 @@ class GameManagerTestConstructors {
 	}
 
 	@Test
-	@DisplayName ("Test getCorporationState via Share Companies Frame") 
+	@DisplayName ("Test getCorporationState via Share Companies Frame")
 	void testGetCorporationState () {
 		GameManager tGameManager;
 		String tClientName;
