@@ -1300,6 +1300,22 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return homeType;
 	}
 	
+	public boolean hasHandledTrackAndTokens () {
+		boolean tHasHandledTrackAndTokens;
+		
+		if ((status == ActorI.ActionStates.StationLaid) ||
+			(status == ActorI.ActionStates.TileAndStationLaid) ||
+			(status == ActorI.ActionStates.TilesAndStationLaid)) {
+			tHasHandledTrackAndTokens = true;
+		} else if (dividendsHandled ()) {
+			tHasHandledTrackAndTokens = true;
+		} else {
+			tHasHandledTrackAndTokens = false;
+		}
+		
+		return tHasHandledTrackAndTokens;
+	}
+	
 	public boolean isHomeTypeChoice () {
 		boolean tIsChoice;
 		
@@ -2936,7 +2952,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		tHomeMapCellHasTile = false;
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
-//			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
 			tHomeMapCellHasTile = homeCity1.isTileWithTrackOnCell ();
 		} else if (homeCity2 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = true;
@@ -2950,7 +2965,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		tHomeMapCellHasTile = false;
 		if (homeCity2 != MapCell.NO_MAP_CELL) {
-			tHomeMapCellHasTile = homeCity2.isTileOnCell ();
+			tHomeMapCellHasTile = homeCity2.isTileWithTrackOnCell ();
 		} else {
 			tHomeMapCellHasTile = true;
 		}
