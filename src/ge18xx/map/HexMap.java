@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
