@@ -15,7 +15,6 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import ge18xx.center.Centers;
@@ -52,13 +51,13 @@ import ge18xx.tiles.TileType;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
+import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
-import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
-public class HexMap extends GameMap implements MouseListener, 
+public class HexMap extends GameMap implements LoadableXMLI, MouseListener, 
 						MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
@@ -74,13 +73,13 @@ public class HexMap extends GameMap implements MouseListener,
 	public static final AttributeName AN_COL_START = new AttributeName ("colStart");
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
-	public static final GameMap NO_HEX_MAP = null;
+	public static final HexMap NO_HEX_MAP = null;
+
+	MapFrame mapFrame;
 	
 	TileSet tileSet;
-	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
 	MapGraph mapGraph;
-	Logger logger;
 	boolean selectRevenueCenter;
 	boolean selectTrackSegment;
 	boolean tilePlaced;
@@ -98,9 +97,6 @@ public class HexMap extends GameMap implements MouseListener,
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
 		selectableMapCells = new SelectableMapCells ();
-		if (mapFrame != XMLFrame.NO_XML_FRAME) {
-			logger = mapFrame.getLogger ();
-		}
 	}
 
 	/**
@@ -179,7 +175,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				map [rowIndex] [colIndex].clearSelected ();
+				mapCells [rowIndex] [colIndex].clearSelected ();
 			}
 		}
 		redrawMap ();
@@ -203,8 +199,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				map [rowIndex] [colIndex].clearTrain (aTrainNumber);
-				map [rowIndex] [colIndex].clearTrainUsingSides (aTrainNumber);
+				mapCells [rowIndex] [colIndex].clearTrain (aTrainNumber);
+				mapCells [rowIndex] [colIndex].clearTrainUsingSides (aTrainNumber);
 			}
 		}
 	}
@@ -224,8 +220,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				map [rowIndex] [colIndex].clearAllTrains ();
-				map [rowIndex] [colIndex].clearAllTrainsUsingSides ();
+				mapCells [rowIndex] [colIndex].clearAllTrains ();
+				mapCells [rowIndex] [colIndex].clearAllTrainsUsingSides ();
 			}
 		}
 	}
@@ -244,9 +240,9 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount); tColIndex++) {
-				if (map [tRowIndex] [tColIndex].hasStation (aCorpID)) {
-					tMapCellID = map [tRowIndex] [tColIndex].getID ();
-					tLocation = map [tRowIndex] [tColIndex].getLocationWithStation (aCorpID);
+				if (mapCells [tRowIndex] [tColIndex].hasStation (aCorpID)) {
+					tMapCellID = mapCells [tRowIndex] [tColIndex].getID ();
+					tLocation = mapCells [tRowIndex] [tColIndex].getLocationWithStation (aCorpID);
 					tTokenLocation = buildTokenLocation (aCorpID, aAbbrev, tMapCellID, tLocation);
 					if (! aHomeMapCellIDs.contains (tTokenLocation)) {
 						aNonHomeMapCellIDs.add (tTokenLocation);
@@ -295,7 +291,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && !tHasStation; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount) && !tHasStation; tColIndex++) {
-				if (map [tRowIndex] [tColIndex].hasStation (aCorpID)) {
+				if (mapCells [tRowIndex] [tColIndex].hasStation (aCorpID)) {
 					tHasStation = true;
 				}
 			}
@@ -324,7 +320,7 @@ public class HexMap extends GameMap implements MouseListener,
 			tRowElement.setAttribute (AN_INDEX, tRowIndex);
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tCellElement = map [tRowIndex] [tColIndex].createElement (aXMLDocument);
+				tCellElement = mapCells [tRowIndex] [tColIndex].createElement (aXMLDocument);
 				tRowElement.appendChild (tCellElement);
 			}
 			tElement.appendChild (tRowElement);
@@ -407,7 +403,7 @@ public class HexMap extends GameMap implements MouseListener,
 		tMapCell = MapCell.NO_MAP_CELL;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tMapCell = map [aRow] [aCol];
+				tMapCell = mapCells [aRow] [aCol];
 			}
 		}
 
@@ -426,8 +422,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-				if (map [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
-					tFoundMapCell = map [tRowIndex] [tColIndex];
+				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
+					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
 				}
 			}
 		}
@@ -449,7 +445,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell = map [tRowIndex] [tColIndex];
+				tMapCell = mapCells [tRowIndex] [tColIndex];
 				if (tMapCell != MapCell.NO_MAP_CELL) {
 					tXMLMapCellElement = tMapCell.getMapCellState (aXMLDocument);
 					if (tXMLMapCellElement != XMLElement.NO_XML_ELEMENT) {
@@ -476,8 +472,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-				if (map [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
-					tFoundMapCell = map [tRowIndex] [tColIndex];
+				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
+					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
 				}
 			}
 		}
@@ -502,8 +498,8 @@ public class HexMap extends GameMap implements MouseListener,
 					tColCount = getColCount (tRowIndex);
 					for (tColIndex = 0; (tColIndex < tColCount)
 							&& (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-						if (map [tRowIndex] [tColIndex].forID (aID)) {
-							tFoundMapCell = map [tRowIndex] [tColIndex];
+						if (mapCells [tRowIndex] [tColIndex].forID (aID)) {
+							tFoundMapCell = mapCells [tRowIndex] [tColIndex];
 						}
 					}
 				}
@@ -536,24 +532,24 @@ public class HexMap extends GameMap implements MouseListener,
 		int tMaxX1;
 		int tMaxX2;
 
-		if (map == MapCell.NO_MAP_CELLS) {
+		if (mapCells == MapCell.NO_MAP_CELLS) {
 			tMaxX = 0;
 		} else {
 			tMaxRow = getMaxRowCount ();
-			if (map [tMaxRow - 1] [0] == MapCell.NO_MAP_CELL) {
+			if (mapCells [tMaxRow - 1] [0] == MapCell.NO_MAP_CELL) {
 				tMaxX = 0;
 			} else {
-				if (map [0] [0].getMapDirection ()) {
+				if (mapCells [0] [0].getMapDirection ()) {
 					tMaxCol = getMaxColCount ();
-					tMaxX1 = map [0] [tMaxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
-					tMaxX2 = map [0] [tMaxCol - 2].getXCenter () + hex.rightEdgeDisplacement ();
+					tMaxX1 = mapCells [0] [tMaxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
+					tMaxX2 = mapCells [0] [tMaxCol - 2].getXCenter () + hex.rightEdgeDisplacement ();
 					if (tMaxX1 > tMaxX2) {
 						tMaxX = tMaxX1;
 					} else {
 						tMaxX = tMaxX2;
 					}
 				} else {
-					tMaxX = map [tMaxRow - 1] [0].getXCenter () + hex.rightEdgeDisplacement ();
+					tMaxX = mapCells [tMaxRow - 1] [0].getXCenter () + hex.rightEdgeDisplacement ();
 				}
 			}
 		}
@@ -566,21 +562,21 @@ public class HexMap extends GameMap implements MouseListener,
 		int tMaxRow;
 		int tMaxCol;
 
-		if (map == MapCell.NO_MAP_CELLS) {
+		if (mapCells == MapCell.NO_MAP_CELLS) {
 			tMaxY = 0;
 		} else {
 			tMaxRow = getMaxRowCount ();
 			tMaxCol = getMaxColCount ();
-			if (map [1] [tMaxCol - 1] == MapCell.NO_MAP_CELL) {
+			if (mapCells [1] [tMaxCol - 1] == MapCell.NO_MAP_CELL) {
 				tMaxY = 0;
 			} else {
-				if (map [0] [0].getMapDirection ()) {
-					tMaxY = map [0] [0].getYCenter () + hex.bottomEdgeDisplacement ();
+				if (mapCells [0] [0].getMapDirection ()) {
+					tMaxY = mapCells [0] [0].getYCenter () + hex.bottomEdgeDisplacement ();
 				} else {
 					if (tMaxRow > 0) {
-						tMaxY = map [1] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
+						tMaxY = mapCells [1] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
 					} else {
-						tMaxY = map [0] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
+						tMaxY = mapCells [0] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
 					}
 				}
 			}
@@ -611,7 +607,7 @@ public class HexMap extends GameMap implements MouseListener,
 		tRevenueCenterID = RevenueCenter.NO_ID;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tRevenueCenterID = map [aRow] [aCol].getRevenueCenterID ();
+				tRevenueCenterID = mapCells [aRow] [aCol].getRevenueCenterID ();
 			}
 		}
 
@@ -635,8 +631,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == MapCell.NO_MAP_CELL); colIndex++) {
-				if (map [rowIndex] [colIndex].isSelected ()) {
-					foundMapCell = map [rowIndex] [colIndex];
+				if (mapCells [rowIndex] [colIndex].isSelected ()) {
+					foundMapCell = mapCells [rowIndex] [colIndex];
 				}
 			}
 		}
@@ -653,7 +649,7 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 
 	public Terrain getTerrain () {
-		return map [0] [0].getBaseTerrain ();
+		return mapCells [0] [0].getBaseTerrain ();
 	}
 
 	public int getTileNumber (int aRow, int aCol) {
@@ -662,7 +658,7 @@ public class HexMap extends GameMap implements MouseListener,
 		tTileNumber = 0;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tTileNumber = map [aRow] [aCol].getTileNumber ();
+				tTileNumber = mapCells [aRow] [aCol].getTileNumber ();
 			}
 		}
 
@@ -845,7 +841,7 @@ public class HexMap extends GameMap implements MouseListener,
 		if (inRowRange (tRow)) {
 			if (inColRange (tRow, tCol)) {
 				if (isTileOnCell (tRow, tCol)) {
-					tDefaultTileNumber = map [tRow] [tCol].getTileNumber ();
+					tDefaultTileNumber = mapCells [tRow] [tCol].getTileNumber ();
 					if (tDefaultTileNumber == tTileNumber) {
 						placeBenefitTokens (tCol, tRow, tBenefitValue, tHasPort, tHasCattle);
 					} else {
@@ -857,8 +853,8 @@ public class HexMap extends GameMap implements MouseListener,
 									tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
-					map [tRow] [tCol].loadStationsStates (aMapCellNode);
-					map [tRow] [tCol].loadBaseStates (aMapCellNode);
+					mapCells [tRow] [tCol].loadStationsStates (aMapCellNode);
+					mapCells [tRow] [tCol].loadBaseStates (aMapCellNode);
 				}
 			}
 		}
@@ -871,9 +867,9 @@ public class HexMap extends GameMap implements MouseListener,
 		
 		tTile = getTileFromTileSet (aTileNumber);
 		if (tTile != Tile.NO_TILE) {
-			tCurrentTile = map [aRow] [aCol].getTile ();
-			map [aRow] [aCol].putTile (tTile, aTileOrientation);
-			map [aRow] [aCol].lockTileOrientation ();
+			tCurrentTile = mapCells [aRow] [aCol].getTile ();
+			mapCells [aRow] [aCol].putTile (tTile, aTileOrientation);
+			mapCells [aRow] [aCol].lockTileOrientation ();
 			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);
 		} else {
@@ -884,12 +880,12 @@ public class HexMap extends GameMap implements MouseListener,
 	private void placeBenefitTokens (int aCol, int aRow, int aBenefitValue, boolean aHasPort, 
 					boolean aHasCattle) {		
 		if (aHasPort) {
-			map [aRow] [aCol].layPortToken ();
+			mapCells [aRow] [aCol].layPortToken ();
 		}
 		if (aHasCattle) {
-			map [aRow] [aCol].layCattleToken ();
+			mapCells [aRow] [aCol].layCattleToken ();
 		}
-		map [aRow] [aCol].setBenefitValue (aBenefitValue);
+		mapCells [aRow] [aCol].setBenefitValue (aBenefitValue);
 	}
 
 	@Override
@@ -948,8 +944,8 @@ public class HexMap extends GameMap implements MouseListener,
 		tRow = 0;
 		tCol = 0;
 		setMapCell (tRow, tCol, tDirection);
-		map [0] [0].setTerrainFillColor (tFillColor);
-		hex = new Hex18XX (map [0] [0].getMapDirection ());
+		mapCells [0] [0].setTerrainFillColor (tFillColor);
+		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
 		tDefaultHexSize = mapFrame.getDefaultHexScale ();
 		if (tDefaultHexSize == 0) {
 			tDefaultHexSize = 8;
@@ -1076,7 +1072,7 @@ public class HexMap extends GameMap implements MouseListener,
 	public void putTile (int aRow, int aCol, Tile aTile) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				map [aRow] [aCol].placeTile (tileSet, aTile);
+				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
 			}
 		}
 	}
@@ -1084,8 +1080,8 @@ public class HexMap extends GameMap implements MouseListener,
 	public void putStartingTile (int aRow, int aCol, Tile aTile) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				map [aRow] [aCol].placeTile (tileSet, aTile);
-				map [aRow] [aCol].setStartingTile ();
+				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
+				mapCells [aRow] [aCol].setStartingTile ();
 			}
 		}
 	}
@@ -1093,7 +1089,7 @@ public class HexMap extends GameMap implements MouseListener,
 	public void setCityInfoXX (int aRow, int aCol, CityInfo aCityInfo) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				map [aRow] [aCol].setCityInfo (aCityInfo);
+				mapCells [aRow] [aCol].setCityInfo (aCityInfo);
 			}
 		}
 	}
@@ -1140,7 +1136,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
-		if (map != MapCell.NO_MAP_CELLS) {
+		if (mapCells != MapCell.NO_MAP_CELLS) {
 			CalcGridCenters (this);
 			setMapSize ();
 			redrawMap ();
@@ -1409,7 +1405,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell =  map [tRowIndex] [tColIndex];
+				tMapCell =  mapCells [tRowIndex] [tColIndex];
 				if (tMapCell.getRevenueCenterCount () > 0) {
 					tMapCell.removeMapTokens (aTokenCompany, aCloseCompanyAction);
 				}
@@ -1427,7 +1423,7 @@ public class HexMap extends GameMap implements MouseListener,
 		System.out.println ("Ready to build a Map Plan for " + aTrainCompany.getName ());
 		
 		tGameName = mapFrame.getGameName ();
-		tPlaceTileMapPlan = new PlaceTileMapPlan (aTrainCompany, tGameName, "Alpha Plan");
+		tPlaceTileMapPlan = new PlaceTileMapPlan (tGameName, "Alpha Plan", aTrainCompany);
 		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
 							tPlaceTileMapPlan.getName () + " for " +
 							tPlaceTileMapPlan.getCorporationName ());
@@ -1511,7 +1507,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell =  map [tRowIndex] [tColIndex];
+				tMapCell =  mapCells [tRowIndex] [tColIndex];
 				tMapCell.fillMapGraph (mapGraph);
 			}
 		}

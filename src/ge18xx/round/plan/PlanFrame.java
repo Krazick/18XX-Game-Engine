@@ -9,10 +9,9 @@ import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 
-
 public class PlanFrame extends XMLFrame {
-
 	private static final long serialVersionUID = 1L;
+	public static final String BASE_TITLE = "Plan";
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel buttonPanel;
@@ -62,5 +61,4 @@ public class PlanFrame extends XMLFrame {
 		// TODO Auto-generated method stub
 		mapPlan = tPlaceTileMapPlan;
 	}
-
 }

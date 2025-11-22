@@ -79,6 +79,7 @@ public class MapCell implements Comparator<Object> {
 	public static final MapCell [] [] NO_MAP_CELLS = null;
 	public static final MapCell NO_DESTINATION = null;
 	public static final int NO_ORIENTATION = 0;
+	public static final int NO_TILE_ORIENTATION = -1;
 	public static final int NO_ROTATION = -1;
 	public static final boolean NOT_ON_TILE = false;
 	public static final String NO_NAME = GUI.EMPTY_STRING;

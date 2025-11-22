@@ -4,8 +4,12 @@ import ge18xx.company.Corporation;
 
 public class CorporationPlan extends Plan {
 	Corporation corporation;
-	
-	public CorporationPlan (Corporation aCorporation, String aGameName, String aName) {
+
+	public CorporationPlan (String aGameName, String aName) {
+		this (aGameName, aName, Corporation.NO_CORPORATION);
+	}
+
+	public CorporationPlan (String aGameName, String aName, Corporation aCorporation) {
 		super (aGameName, aName);
 		setCorporation (aCorporation);
 	}

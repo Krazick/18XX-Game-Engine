@@ -25,7 +25,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	public static final AttributeName AN_INDEX = new AttributeName ("index");
 	public static final AttributeName AN_START_COL = new AttributeName ("startCol");
 	
-	protected MapCell map[][];
+	protected MapCell mapCells[][];
 	public Hex18XX hex;
 
 	public GameMap () {
@@ -70,7 +70,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	}
 
 	public void buildMapArray (int aCols, int aRows) {
-		map = new MapCell [aRows] [aCols];
+		mapCells = new MapCell [aRows] [aCols];
 	}
 
 	public void setMapCell (int aRow, int aCol, String aDirection, GameMap hexMap) {
@@ -90,16 +90,16 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	}
 
 	public void setMapCell (int aRow, int aCol, MapCell aMapCell) {
-		map [aRow] [aCol] = aMapCell;
+		mapCells [aRow] [aCol] = aMapCell;
 	}
 
 	public int getColCount (int thisRow) {
 		int tColCount;
 		
-		if (map == MapCell.NO_MAP_CELLS) {
+		if (mapCells == MapCell.NO_MAP_CELLS) {
 			tColCount = 0;
 		} else {
-			tColCount = map [thisRow].length;
+			tColCount = mapCells [thisRow].length;
 		}
 		
 		return tColCount;
@@ -108,10 +108,10 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	public int getRowCount () {
 		int tRowCount;
 		
-		if (map == MapCell.NO_MAP_CELLS) {
+		if (mapCells == MapCell.NO_MAP_CELLS) {
 			tRowCount = 0;
 		} else {
-			tRowCount = map.length;
+			tRowCount = mapCells.length;
 		}
 	
 		return tRowCount;
@@ -128,7 +128,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				map [tRowIndex] [tColIndex].paintComponent (aGraphics, hex);
+				mapCells [tRowIndex] [tColIndex].paintComponent (aGraphics, hex);
 			}
 		}
 	}
@@ -182,10 +182,10 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 				colCount = getColCount (rowIndex);
 				for (colIndex = 0; colIndex < colCount; colIndex++) {
 					Xc += temp_2DLR;
-					if (map [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
-						map [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
+					if (mapCells [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
+						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
 					} else {
-						map [rowIndex] [colIndex].setXY (Xc, Yc);
+						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
 					}
 				}
 				toggle = 1 - toggle;
@@ -203,10 +203,10 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 				colCount = getColCount (rowIndex);
 				for (colIndex = 0; colIndex < colCount; colIndex++) {
 					Yc += temp_2DLR;
-					if (map [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
-						map [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
+					if (mapCells [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
+						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
 					} else {
-						map [rowIndex] [colIndex].setXY (Xc, Yc);
+						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
 					}
 				}
 				toggle = 1 - toggle;
@@ -288,7 +288,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	
 		tileFound = false;
 		if (inRowColRanges (aRow, aCol)) {
-			tileFound = map [aRow] [aCol].isTileOnCell ();
+			tileFound = mapCells [aRow] [aCol].isTileOnCell ();
 		}
 	
 		return tileFound;
@@ -316,7 +316,7 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 				tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
 				if (tColIndex != 0) {
 					for (index = 0; index < tColIndex; index++) {
-						map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
+						mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 					}
 				}
 				if ((tRowIndex / 2) * 2 == tRowIndex) {
@@ -332,13 +332,13 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 					tChildName = tChildNode.getNodeName ();
 					if (MapCell.EN_MAP_CELL.equals (tChildName)) {
 						if (tColIndex < aCols) {
-							if (map [tRowIndex] [tColIndex].getMapDirection ()) {
+							if (mapCells [tRowIndex] [tColIndex].getMapDirection ()) {
 								tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
 							} else {
 								tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
 							}
-							map [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
-							tMapCell = map [tRowIndex] [tColIndex];
+							mapCells [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
+							tMapCell = mapCells [tRowIndex] [tColIndex];
 							tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
 							tColIndex++;
 						} else {
@@ -348,24 +348,24 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 				}
 				if (aCols > tColIndex) {
 					for (index = tColIndex; index < aCols; index++) {
-						map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
+						mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 					}
 				}
 			
 				for (index = 0; index < aCols; index++) {
 					if (index > 0) {
-						map [tRowIndex] [index].setNeighbor (0, map [tRowIndex] [index - 1]);
+						mapCells [tRowIndex] [index].setNeighbor (0, mapCells [tRowIndex] [index - 1]);
 					}
 					if (tRowIndex > 0) {
 						if (evenRow) {
-							map [tRowIndex] [index].setNeighbor (4, map [tRowIndex - 1] [index]);
+							mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index]);
 							if (index > 0) {
-								map [tRowIndex] [index].setNeighbor (5, map [tRowIndex - 1] [index - 1]);
+								mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index - 1]);
 							}
 						} else {
-							map [tRowIndex] [index].setNeighbor (5, map [tRowIndex - 1] [index]);
+							mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index]);
 							if ((index + 1) < aCols) {
-								map [tRowIndex] [index].setNeighbor (4, map [tRowIndex - 1] [index + 1]);
+								mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index + 1]);
 							}
 						}
 					}

@@ -148,17 +148,17 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
-	
+
+	public void setHexMap (HexMap aHexMap) {
+		hexMap = aHexMap;
+	}
+
 	private void buildMapScrollPanel () {
 		HexMap tHexMap;
 		
 		tHexMap = new HexMap (this);
 		setHexMap (tHexMap);
 		buildScrollPane (hexMap, BorderLayout.CENTER);
-	}
-
-	public void setHexMap (HexMap aHexMap) {
-		hexMap = aHexMap;
 	}
 	
 	private void buildNorthPanel () {
@@ -208,7 +208,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		buildMapPlansButton.setToolTipText ("Build Map Plans of current Hex Map");
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
 		otherButtonsJPanel.add (buildMapPlansButton);
-
 	}
 	
 	private void buildAllButtonsJPanel () {
@@ -433,7 +432,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			hexMap.buildMapPlan ();
 		}
 	}
-
+	
 	private void completeTileLay () {
 		Corporation tOperatingCompany;
 		
@@ -1367,12 +1366,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		Tile tNewTile;
 		Tile tCurrentTile;
 		TrainCompany tOperatingTrainCompany;
-//		int tOperatingCompanyTreasury;
 		boolean tAnyAllowedRotation;
 		
 		tOperatingTrainCompany = getOperatingTrainCompany ();
 		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
-//			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
 			putTileButton.setEnabled (false);
 			tMapCell = hexMap.getSelectedMapCell ();
 

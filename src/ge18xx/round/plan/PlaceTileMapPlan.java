@@ -9,15 +9,15 @@ public class PlaceTileMapPlan extends MapPlan {
 	int tileOrientation;
 	
 	public PlaceTileMapPlan (String aGameName, String aName) {
-		super (Corporation.NO_CORPORATION, aGameName, aName);	
+		super (aGameName, aName, Corporation.NO_CORPORATION);	
 	}
 	
-	public PlaceTileMapPlan (Corporation aCorporation, String aGameName, String aName) {
-		super (aCorporation, aGameName, aName);	
+	public PlaceTileMapPlan (String aGameName, String aName, Corporation aCorporation) {
+		super (aGameName, aName, aCorporation);	
 	}
 
-	public PlaceTileMapPlan (MapCell aMapCell, Corporation aCorporation, String aGameName, String aName) {
-		super (aMapCell, aCorporation, aGameName, aName);
+	public PlaceTileMapPlan (String aGameName, String aName, Corporation aCorporation, MapCell aMapCell) {
+		super (aGameName, aName, aCorporation, aMapCell);
 	}
 
 	public void setTileToPlace (Tile aTile, int aTileOrientation) {

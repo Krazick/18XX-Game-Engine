@@ -67,7 +67,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String SKIP_BASE_TOKEN = "Skip Base Token";
 	public static final String SKIP_BASE_TILE = "Skip Base Tile";
 	public static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
-	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have Tile available to play";
+	public static final String HOME_NO_TILE_AVAILABLE = "Home Map Cell %s does not have a Tile available to play";
 	public static final String BORROW_TRAIN = "Borrow Train";
 	public static final String RETURN_BORROWED_TRAIN = "Return Borrowed Train";
 	public static final String NOT_GOVERNMENT_RAILWAY = "This is NOT a Government Railway";

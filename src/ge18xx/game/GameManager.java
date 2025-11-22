@@ -75,6 +75,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.StartAuctionAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.round.plan.PlanFrame;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
@@ -189,6 +190,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	PlayerInputFrame playerInputFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	TileTrayFrame tileTrayFrame;
+	PlanFrame planFrame;
 
 	// Other Frames include:
 		// RoundFrame 				-- held by RoundManager
@@ -526,7 +528,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
-
+		HexMap tHexMap;
+		
 		if (gameIsStarted ()) {
 			tType = "Map";
 			tActiveGameName = getActiveGameName ();
@@ -537,7 +540,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tMapFrame.setTileSet (tileTrayFrame.getTileSet ());
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			try {
-				tMapFrame.loadXML (tXMLDocument, tMapFrame.getMap ());
+				tHexMap = tMapFrame.getMap ();
+				tMapFrame.loadXML (tXMLDocument, tHexMap);
 			} catch (Exception tException) {
 				logger.error (tException);
 				tException.printStackTrace ();
@@ -550,6 +554,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tMapFrame.addCorporationList (shareCompaniesFrame, CorporationList.TYPE_NAMES [2]);
 			tMapFrame.setDestinationCorpIDs (shareCompaniesFrame);
 		}
+	}
+
+	private void createMapPlansFrame () {
+		PlanFrame tMapPlanFrame;
+		
+		if (gameIsStarted ()) {
+			tMapPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, this);
+			tMapPlanFrame.setVisible (false);
+			setMapPlanFrame (tMapPlanFrame);
+		}
+	}
+	
+	private void setMapPlanFrame (PlanFrame aMapPlanFrame) {
+		planFrame = aMapPlanFrame;
 	}
 
 	public void loadColorScheme (String aBaseDir, MapFrame aMapFrame) {
@@ -2451,6 +2469,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			createCities ();
 			createTileTray ();
 			createMap ();
+			createMapPlansFrame ();
 		}
 	}
 
@@ -2567,6 +2586,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void showMap () {
 		mapFrame.showFrame ();
+	}
+	
+	public void showMapPlanFrame () {
+		planFrame.showFrame ();
 	}
 
 	public void showAuctionFrame () {
@@ -3535,6 +3558,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void hideAuctionFrame () {
 		auctionFrame.hideAuctionFrame ();
+	}
+
+	public void hideMapPlanFrame () {
+		planFrame.hideFrame ();
 	}
 
 	public void setFrameBackgrounds () {
