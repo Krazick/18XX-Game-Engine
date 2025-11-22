@@ -148,5 +148,4 @@ class PlanTests extends PlanTester {
 		assertEquals (0, tPlaceMapTilePlanDelta.getTileOrient ());
 		assertNotEquals (tTileEpsilon, tPlaceMapTilePlanDelta.getTile ());
 	}
-
 }
