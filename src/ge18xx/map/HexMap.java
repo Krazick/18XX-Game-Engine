@@ -2,7 +2,7 @@ package ge18xx.map;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -52,14 +52,13 @@ import ge18xx.tiles.TileType;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
-import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
-public class HexMap extends GameMap implements LoadableXMLI, MouseListener, 
+public class HexMap extends GameMap implements MouseListener, 
 						MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
@@ -68,8 +67,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public static final AttributeName AN_ROW = new AttributeName ("row");
 	public static final AttributeName AN_COL = new AttributeName ("col");
 	public static final AttributeName AN_COLS = new AttributeName ("cols");
-	public static final AttributeName AN_INDEX = new AttributeName ("index");
-	public static final AttributeName AN_START_COL = new AttributeName ("startCol");
 	public static final AttributeName AN_DEFAULT_TYPE = new AttributeName ("defaultType");
 	public static final AttributeName AN_DIRECTION = new AttributeName ("direction");
 	public static final AttributeName AN_FILL_COLOR = new AttributeName ("fillColor");
@@ -170,71 +167,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		// TODO -- Fill the Selectable MapCells with those Map Cells reachable
 		// from the Current Operating Company's current set of Tokens. Use the MapGraph
 		// To find these MapCells.
-	}
-
-	public void CalcGridCenters () {
-		int rowIndex;
-		int colIndex;
-		int Xc;
-		int Yc;
-		int toggle;
-		int temp_2DLR;
-		int temp_DUP_dwidth;
-		int rowCount;
-		int colCount;
-
-		if (Hex.getDirection ()) {
-			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
-			temp_DUP_dwidth = hex.getDisplaceUpDown () + Hex.getWidth ();
-			rowCount = getRowCount ();
-
-			Yc = 0 - temp_DUP_dwidth + hex.getIntDWidth ();
-			if (Double.valueOf (rowCount / 2).intValue () * 2 == rowCount) {
-				toggle = 0;
-			} else {
-				toggle = 1;
-			}
-			for (rowIndex = rowCount - 1; rowIndex >= 0; rowIndex--) {
-				if (toggle == 1) {
-					Xc = hex.getDisplaceLeftRight () - temp_2DLR;
-				} else {
-					Xc = 0;
-				}
-				Yc += temp_DUP_dwidth;
-				colCount = getColCount (rowIndex);
-				for (colIndex = 0; colIndex < colCount; colIndex++) {
-					Xc += temp_2DLR;
-					if (map [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
-						map [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
-					} else {
-						map [rowIndex] [colIndex].setXY (Xc, Yc);
-					}
-				}
-				toggle = 1 - toggle;
-			}
-		} else {
-			Xc = 0 - hex.getDisplaceUpDown ();
-			toggle = 1;
-			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
-			temp_DUP_dwidth = hex.getDisplaceUpDown () + Hex.getWidth ();
-			rowCount = getRowCount ();
-
-			for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-				Yc = 0 - hex.getDisplaceLeftRight () * toggle;
-				Xc += temp_DUP_dwidth;
-				colCount = getColCount (rowIndex);
-				for (colIndex = 0; colIndex < colCount; colIndex++) {
-					Yc += temp_2DLR;
-					if (map [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
-						map [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
-					} else {
-						map [rowIndex] [colIndex].setXY (Xc, Yc);
-					}
-				}
-				toggle = 1 - toggle;
-			}
-
-		}
 	}
 
 	public void clearAllSelected () {
@@ -581,26 +513,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		return tFoundMapCell;
 	}
 
-	public int getMaxColCount () {
-		int tIndex;
-		int tMaxColCount;
-		int tColCount;
-		int tRowCount;
-
-		tMaxColCount = getColCount (0);
-		if (tMaxColCount > 0) {
-			tRowCount = getRowCount ();
-			for (tIndex = 1; tIndex < tRowCount; tIndex++) {
-				tColCount = getColCount (tIndex);
-				if (tColCount > tMaxColCount) {
-					tMaxColCount = tColCount;
-				}
-			}
-		}
-
-		return tMaxColCount;
-	}
-
 	public int getMaxWidth () {
 		int tMaxWidth;
 		
@@ -615,10 +527,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tMaxHeight = getMaxRowCount () * getHexHeight ();
 		
 		return tMaxHeight;
-	}
-
-	public int getMaxRowCount () {
-		return (getRowCount ());
 	}
 
 	public int getMaxX () {
@@ -902,49 +810,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 	}
 
-	public boolean inColRange (int aRow, int aCol) {
-		boolean tInColRange;
-		
-		tInColRange = false;
-		if (inRowRange (aRow)) {
-			tInColRange = ((aCol >= 0) && (aCol < getColCount (aRow)));
-		}
-		
-		return tInColRange;
-	}
-
-	public boolean inRowRange (int aRow) {
-		boolean tInRowRange;
-		
-		tInRowRange = ((aRow >= 0) && (aRow < getRowCount ()));
-		
-		return tInRowRange;
-	}
-
-	public boolean inRowColRanges (int aRow, int aCol) {
-		boolean tInRowColRanges;
-
-		tInRowColRanges = false;
-		if (inRowRange (aRow)) {
-			if (inColRange (aRow, aCol)) {
-				tInRowColRanges = true;
-			}
-		}
-
-		return tInRowColRanges;
-	}
-
-	public boolean isTileOnCell (int aRow, int aCol) {
-		boolean tileFound;
-
-		tileFound = false;
-		if (inRowColRanges (aRow, aCol)) {
-			tileFound = map [aRow] [aCol].isTileOnCell ();
-		}
-
-		return tileFound;
-	}
-
 	public Tile getTileFromTileSet (int aTileNumber) {
 		Tile tTile;
 		GameTile tGameTile;
@@ -1027,90 +892,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		map [aRow] [aCol].setBenefitValue (aBenefitValue);
 	}
 
-	private boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], int aCols,
-			int aDefaultTerrainType, String [] theRowIDs, String [] theColIDs) throws IOException {
-		NodeList tChildren;
-		XMLNode tChildNode;
-		String tChildName;
-		String tID;
-		int tChildrenCount;
-		int tRowIndex;
-		int tColIndex;
-		int index;
-		int tOddRow;
-		boolean evenRow;
-		boolean tGoodLoad;
-		MapCell tMapCell;
-
-		tGoodLoad = true;
-		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
-		tChildren = aRowNode.getChildNodes ();
-		tChildrenCount = tChildren.getLength ();
-		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
-		if (tColIndex != 0) {
-			for (index = 0; index < tColIndex; index++) {
-				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
-			}
-		}
-		if ((tRowIndex / 2) * 2 == tRowIndex) {
-			evenRow = true;
-			tOddRow = 0;
-		} else {
-			evenRow = false;
-			tOddRow = 1;
-		}
-
-		for (index = 0; (index < tChildrenCount) && tGoodLoad; index++) {
-			tChildNode = new XMLNode (tChildren.item (index));
-			tChildName = tChildNode.getNodeName ();
-			if (MapCell.EN_MAP_CELL.equals (tChildName)) {
-				if (tColIndex < aCols) {
-					if (map [tRowIndex] [tColIndex].getMapDirection ()) {
-						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
-					} else {
-						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
-					}
-					map [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
-					tMapCell = map [tRowIndex] [tColIndex];
-					tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
-					tColIndex++;
-				} else {
-					tGoodLoad = false;
-				}
-			}
-		}
-		if (aCols > tColIndex) {
-			for (index = tColIndex; index < aCols; index++) {
-				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
-			}
-		}
-
-		for (index = 0; index < aCols; index++) {
-			if (index > 0) {
-				map [tRowIndex] [index].setNeighbor (0, map [tRowIndex] [index - 1]);
-			}
-			if (tRowIndex > 0) {
-				if (evenRow) {
-					map [tRowIndex] [index].setNeighbor (4, map [tRowIndex - 1] [index]);
-					if (index > 0) {
-						map [tRowIndex] [index].setNeighbor (5, map [tRowIndex - 1] [index - 1]);
-					}
-				} else {
-					map [tRowIndex] [index].setNeighbor (5, map [tRowIndex - 1] [index]);
-					if ((index + 1) < aCols) {
-						map [tRowIndex] [index].setNeighbor (4, map [tRowIndex - 1] [index + 1]);
-					}
-				}
-			}
-		}
-
-		if (!tGoodLoad) {
-			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
-		}
-
-		return tGoodLoad;
-	}
-
 	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode tXMLMapRoot;
@@ -1175,7 +956,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 		setHexScale (tDefaultHexSize);
 
-		CalcGridCenters ();
+		CalcGridCenters (this);
 
 		tChildren = tXMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -1243,12 +1024,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	}
 
 	@Override
-	public void redrawMap () {
-		revalidate ();
-		repaint ();
-	}
-
-	@Override
 	public void mouseEntered (MouseEvent e) {
 	}
 
@@ -1296,25 +1071,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 
 		redrawMap ();
-	}
-
-	@Override
-	public void paintComponent (Graphics aGraphics) {
-		int tRowIndex;
-		int tColIndex;
-		int tRowCount;
-		int tColCount;
-		
-		tRowCount = getRowCount ();
-		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				map [tRowIndex] [tColIndex].paintComponent (aGraphics, hex);
-				if (mapFrame.isATestGame ()) {
-					map [tRowIndex] [tColIndex].paintRowCol (aGraphics, hex, tRowIndex, tColIndex);
-				}
-			}
-		}
 	}
 
 	public void putTile (int aRow, int aCol, Tile aTile) {
@@ -1385,7 +1141,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
 		if (map != MapCell.NO_MAP_CELLS) {
-			CalcGridCenters ();
+			CalcGridCenters (this);
 			setMapSize ();
 			redrawMap ();
 		}
