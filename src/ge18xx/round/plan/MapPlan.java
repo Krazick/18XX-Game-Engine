@@ -4,7 +4,9 @@ import ge18xx.company.Corporation;
 import ge18xx.map.MapCell;
 
 public class MapPlan extends CorporationPlan {
+	public static final MapPlan NO_MAP_PLAN = null;
 	MapCell mapCell;
+	
 	
 	public MapPlan (String aGameName, String aName) {
 		this (aGameName, aName, Corporation.NO_CORPORATION);
