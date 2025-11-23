@@ -2,7 +2,6 @@ package ge18xx.map;
 
 import java.awt.Color;
 import java.awt.Dimension;
-//import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -41,7 +40,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.RotateTileAction;
-import ge18xx.round.plan.PlaceTileMapPlan;
+import ge18xx.round.plan.PlaceMapTilePlan;
 import ge18xx.round.plan.PlanFrame;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -86,6 +85,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	boolean placeTileMode;
 	boolean singleMapCellSelect; // Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
 								// should unselect ALL and leave only the single map cell selected.
+	private PlanFrame planFrame;
 
 	public HexMap (MapFrame aMapFrame) {
 		super ();
@@ -1417,32 +1417,45 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 // Map Plan Functionality
 	
 	public void buildMapPlan (TrainCompany aTrainCompany) {
-		PlaceTileMapPlan tPlaceTileMapPlan;
+		PlaceMapTilePlan tPlaceMapTilePlan;
 		String tGameName;
-		
-		System.out.println ("Ready to build a Map Plan for " + aTrainCompany.getName ());
-		
-		tGameName = mapFrame.getGameName ();
-		tPlaceTileMapPlan = new PlaceTileMapPlan (tGameName, "Alpha Plan", aTrainCompany);
-		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
-							tPlaceTileMapPlan.getName () + " for " +
-							tPlaceTileMapPlan.getCorporationName ());
+		MapCell tSelectedMapCell;
+		PlanFrame tPlanFrame;
 
+		System.out.println ("Ready to build a Map Plan for " + aTrainCompany.getName ());
+
+		tGameName = mapFrame.getGameName ();
+		tSelectedMapCell = getSelectedMapCell ();
+		tPlaceMapTilePlan = new PlaceMapTilePlan (tGameName, "Alpha Plan", aTrainCompany, tSelectedMapCell);
+		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
+							tPlaceMapTilePlan.getName () + " for " +
+							tPlaceMapTilePlan.getCorporationName ());
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
+		}
+
+		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), tPlaceMapTilePlan);
+		setPlanFrame (tPlanFrame);
 	}
 	
 	public void buildMapPlan () {
-		PlaceTileMapPlan tPlaceTileMapPlan;
-		PlanFrame tPlanFrame;
+		PlaceMapTilePlan tPlaceMapTilePlan;
 		String tGameName;
+		MapCell tSelectedMapCell;
+		PlanFrame tPlanFrame;
 		
-		System.out.println ("Ready to build a Map Plan");
 		tGameName = mapFrame.getGameName ();
-		tPlaceTileMapPlan = new PlaceTileMapPlan (tGameName, "Alpha Plan");
-		System.out.println (tPlaceTileMapPlan.getGameName () + " ready to build " + 
-							tPlaceTileMapPlan.getName ());
+		tSelectedMapCell = getSelectedMapCell ();
+
+		tPlaceMapTilePlan = new PlaceMapTilePlan (tGameName, "Alpha Plan", Corporation.NO_CORPORATION, tSelectedMapCell);
+		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
+				tPlaceMapTilePlan.getName ());
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
+		}
 		
-		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager ());
-		tPlanFrame.setPlaceTileMapPlan (tPlaceTileMapPlan);
+		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), tPlaceMapTilePlan);
+		setPlanFrame (tPlanFrame);
 	}
 
 // Map Graph Functions
@@ -1545,5 +1558,13 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tMapCellID = tMapCellInfo [2];
 		tMapCell = getMapCellForID (tMapCellID);
 		tMapCell.replaceMapToken (tMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
+	}
+
+	public PlanFrame getPlanFrame () {
+		return planFrame;
+	}
+
+	public void setPlanFrame (PlanFrame planFrame) {
+		this.planFrame = planFrame;
 	}
 }
