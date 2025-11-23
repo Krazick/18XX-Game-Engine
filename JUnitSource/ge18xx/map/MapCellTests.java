@@ -189,9 +189,29 @@ class MapCellTests extends MapTester {
 	@Test
 	@DisplayName ("Test loading a MapCell from XML String")
 	void mapCellFromXMLTest () {
-		MapCell tMapCellFromXML;
+		MapCell tMapCellFromXML2;
+		MapCell tMapCellFromXML3;
+		Terrain tBaseTerrain;
+		Terrain tOptionalTerrain;
+		MapCell tCloneOfMapCell;
+
+		tMapCellFromXML2 = mapTestFactory.buildAMapCellFromXML (2, "A2");
+		tBaseTerrain = tMapCellFromXML2.getBaseTerrain ();
+		assertEquals (Terrain.CLEAR, tBaseTerrain.getTerrain ());
+		tMapCellFromXML3 = mapTestFactory.buildAMapCellFromXML (3, "B3");
+		tOptionalTerrain = tMapCellFromXML3.getTerrain1 ();
+		assertEquals (Terrain.HILL, tOptionalTerrain.getTerrain (), "Optional Terrain does not Match");
+		assertEquals ("B3", tMapCellFromXML3.getID (), "Original ID Does not Match");
 		
-		tMapCellFromXML = mapTestFactory.buildAMapCellFromXML (2);
-//		assertEquals (Terrain.CLEAR, tMapCellFromXML.getBaseTerrain ());
+		try {
+			tCloneOfMapCell = (MapCell) tMapCellFromXML3.clone ();
+			assertEquals ("B3", tCloneOfMapCell.getID (), "Cloned ID Does not Match");
+			tOptionalTerrain = tCloneOfMapCell.getTerrain1 ();
+			assertEquals (Terrain.HILL, tOptionalTerrain.getTerrain (), "Cloned Terrain does not Match");
+			
+		} catch (CloneNotSupportedException eException) {
+			eException.printStackTrace ();
+		}
+
 	}
 }

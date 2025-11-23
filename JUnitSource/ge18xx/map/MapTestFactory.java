@@ -215,7 +215,7 @@ public class MapTestFactory {
 		return mLocation;
 	}
 	
-	public MapCell buildAMapCellFromXML (int tMapCellXMLIndex) {
+	public MapCell buildAMapCellFromXML (int tMapCellXMLIndex, String aMapCellID) {
 		String tMapCell1TestXML = "<MapCell>\n"
 				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
 				+ "		<Terrain category=\"optional\" location=\"16\" type=\"River\" />\n"
@@ -239,30 +239,30 @@ public class MapTestFactory {
 		tMapCell = MapCell.NO_MAP_CELL;
 
 		if (tMapCellXMLIndex == 1) {
-			tMapCell = buildMapCellFromXML (tMapCell1TestXML);
+			tMapCell = buildMapCellFromXML (tMapCell1TestXML, aMapCellID);
 		} else if (tMapCellXMLIndex == 2) {
-			tMapCell = buildMapCellFromXML (tMapCell2TestXML);
+			tMapCell = buildMapCellFromXML (tMapCell2TestXML, aMapCellID);
 		} else if (tMapCellXMLIndex == 3) {
-			tMapCell = buildMapCellFromXML (tMapCell3TestXML);
+			tMapCell = buildMapCellFromXML (tMapCell3TestXML, aMapCellID);
 		}
 		
 		return tMapCell;
 	}
 
-	private MapCell buildMapCellFromXML (String aPrivateCompanyTextXML) {
+	private MapCell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
 		XMLNode tMapCellNode;
 		int tTerrainCost [];
 		int tTerrainType [];
 		MapCell tMapCell;
 		
-		tMapCellNode = utilitiesTestFactory.buildXMLNode (aPrivateCompanyTextXML);
+		tMapCellNode = utilitiesTestFactory.buildXMLNode (aMapCellTextXML);
 		tMapCell = MapCell.NO_MAP_CELL;
 		if (tMapCellNode != XMLNode.NO_NODE) {
 			tMapCell = buildMapCell ();
 			tTerrainType = new int [Terrain.MAX_TERRAIN_TYPES];
 			tTerrainCost = new int [Terrain.MAX_TERRAIN_TYPES];
 
-			tMapCell.loadXMLCell (tMapCellNode, tTerrainCost, tTerrainType, aPrivateCompanyTextXML);
+			tMapCell.loadXMLCell (tMapCellNode, tTerrainCost, tTerrainType, aMapCellID);
 		}
 		
 		return tMapCell;
