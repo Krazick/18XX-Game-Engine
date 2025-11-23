@@ -17,7 +17,7 @@ import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 
-public class GameMap extends JLabel implements LoadableXMLI, MouseListener, 
+public class GameMap extends JLabel implements Cloneable,LoadableXMLI, MouseListener, 
 								MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -214,7 +214,29 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	
 		}
 	}
-
+	
+	@Override
+	public GameMap clone () throws CloneNotSupportedException {
+		int tColCount;
+		int tRowCount;
+		int tRowIndex;
+		int tColIndex;
+		int tMaxColCount;
+		GameMap tGameMapClone = (GameMap) super.clone ();
+		
+		tRowCount = getRowCount ();
+		tMaxColCount = this.getMaxColCount ();
+		tGameMapClone.buildMapArray (tMaxColCount, tRowCount);
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+				tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex];
+			}
+		}
+		
+		return tGameMapClone;
+	}
+	
 	// Methods to be Overridden by HexMap
 
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
@@ -295,88 +317,88 @@ public class GameMap extends JLabel implements LoadableXMLI, MouseListener,
 	}
 
 	protected boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], int aCols, int aDefaultTerrainType, String [] theRowIDs,
-			String [] theColIDs) throws IOException {
-				NodeList tChildren;
-				XMLNode tChildNode;
-				String tChildName;
-				String tID;
-				int tChildrenCount;
-				int tRowIndex;
-				int tColIndex;
-				int index;
-				int tOddRow;
-				boolean evenRow;
-				boolean tGoodLoad;
-				MapCell tMapCell;
-			
-				tGoodLoad = true;
-				tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
-				tChildren = aRowNode.getChildNodes ();
-				tChildrenCount = tChildren.getLength ();
-				tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
-				if (tColIndex != 0) {
-					for (index = 0; index < tColIndex; index++) {
-						mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
-					}
-				}
-				if ((tRowIndex / 2) * 2 == tRowIndex) {
-					evenRow = true;
-					tOddRow = 0;
-				} else {
-					evenRow = false;
-					tOddRow = 1;
-				}
-			
-				for (index = 0; (index < tChildrenCount) && tGoodLoad; index++) {
-					tChildNode = new XMLNode (tChildren.item (index));
-					tChildName = tChildNode.getNodeName ();
-					if (MapCell.EN_MAP_CELL.equals (tChildName)) {
-						if (tColIndex < aCols) {
-							if (mapCells [tRowIndex] [tColIndex].getMapDirection ()) {
-								tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
-							} else {
-								tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
-							}
-							mapCells [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
-							tMapCell = mapCells [tRowIndex] [tColIndex];
-							tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
-							tColIndex++;
-						} else {
-							tGoodLoad = false;
-						}
-					}
-				}
-				if (aCols > tColIndex) {
-					for (index = tColIndex; index < aCols; index++) {
-						mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
-					}
-				}
-			
-				for (index = 0; index < aCols; index++) {
-					if (index > 0) {
-						mapCells [tRowIndex] [index].setNeighbor (0, mapCells [tRowIndex] [index - 1]);
-					}
-					if (tRowIndex > 0) {
-						if (evenRow) {
-							mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index]);
-							if (index > 0) {
-								mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index - 1]);
-							}
-						} else {
-							mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index]);
-							if ((index + 1) < aCols) {
-								mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index + 1]);
-							}
-						}
-					}
-				}
-			
-				if (!tGoodLoad) {
-					System.err.println ("Bad Load on Row [" + tRowIndex + "].");
-				}
-			
-				return tGoodLoad;
+								String [] theColIDs) throws IOException {
+		NodeList tChildren;
+		XMLNode tChildNode;
+		String tChildName;
+		String tID;
+		int tChildrenCount;
+		int tRowIndex;
+		int tColIndex;
+		int index;
+		int tOddRow;
+		boolean evenRow;
+		boolean tGoodLoad;
+		MapCell tMapCell;
+	
+		tGoodLoad = true;
+		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
+		tChildren = aRowNode.getChildNodes ();
+		tChildrenCount = tChildren.getLength ();
+		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
+		if (tColIndex != 0) {
+			for (index = 0; index < tColIndex; index++) {
+				mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 			}
+		}
+		if ((tRowIndex / 2) * 2 == tRowIndex) {
+			evenRow = true;
+			tOddRow = 0;
+		} else {
+			evenRow = false;
+			tOddRow = 1;
+		}
+	
+		for (index = 0; (index < tChildrenCount) && tGoodLoad; index++) {
+			tChildNode = new XMLNode (tChildren.item (index));
+			tChildName = tChildNode.getNodeName ();
+			if (MapCell.EN_MAP_CELL.equals (tChildName)) {
+				if (tColIndex < aCols) {
+					if (mapCells [tRowIndex] [tColIndex].getMapDirection ()) {
+						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
+					} else {
+						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
+					}
+					mapCells [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
+					tMapCell = mapCells [tRowIndex] [tColIndex];
+					tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
+					tColIndex++;
+				} else {
+					tGoodLoad = false;
+				}
+			}
+		}
+		if (aCols > tColIndex) {
+			for (index = tColIndex; index < aCols; index++) {
+				mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
+			}
+		}
+	
+		for (index = 0; index < aCols; index++) {
+			if (index > 0) {
+				mapCells [tRowIndex] [index].setNeighbor (0, mapCells [tRowIndex] [index - 1]);
+			}
+			if (tRowIndex > 0) {
+				if (evenRow) {
+					mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index]);
+					if (index > 0) {
+						mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index - 1]);
+					}
+				} else {
+					mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index]);
+					if ((index + 1) < aCols) {
+						mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index + 1]);
+					}
+				}
+			}
+		}
+	
+		if (!tGoodLoad) {
+			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
+		}
+	
+		return tGoodLoad;
+	}
 
 	public int getMaxColCount () {
 		int tIndex;
