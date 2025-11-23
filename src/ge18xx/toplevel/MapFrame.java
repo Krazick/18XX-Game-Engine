@@ -421,7 +421,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private void handleBuildMapPlans () {
 		Corporation tCorporation;
 		TrainCompany tTrainCompany;
-
+		
 		tCorporation = getOperatingCompany ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			if (tCorporation.isATrainCompany ()) {
