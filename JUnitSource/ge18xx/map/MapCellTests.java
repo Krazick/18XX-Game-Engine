@@ -212,6 +212,5 @@ class MapCellTests extends MapTester {
 		} catch (CloneNotSupportedException eException) {
 			eException.printStackTrace ();
 		}
-
 	}
 }
