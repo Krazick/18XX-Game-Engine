@@ -61,7 +61,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class MapCell implements Comparator<Object> {
+public class MapCell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");
 	public static final AttributeName AN_ORIENTATION = new AttributeName ("orientation");
 	public static final AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
@@ -119,6 +119,13 @@ public class MapCell implements Comparator<Object> {
 	OffsetCoord offsetCoordinates;
 	GameMap gameMap;
 
+	@Override
+	public MapCell clone () throws CloneNotSupportedException {
+		MapCell tClone = (MapCell) super.clone ();
+		
+		return tClone;
+	}
+	
 	public MapCell (GameMap aGameMap, String aMapDirection) {
 		this (0, 0, aGameMap);
 		setMapDirection (aMapDirection);

@@ -22,7 +22,7 @@ class MapCellTests extends MapTester {
 		mapCell = mapTestFactory.buildMapCell ("N11");
 		mTile = tilesTestFactory.buildTileMock (7);
 	}
-
+	
 	@Test
 	@DisplayName ("Test if IDs are the same")
 	void mapCellsHaveSameID () {
@@ -169,5 +169,29 @@ class MapCellTests extends MapTester {
 		mapCell2.setOffsetCoordinates (10, 8);
 		assertEquals (2, mapCell1.getDistanceTo (mapCell2));
 		assertEquals (2, mapCell2.getDistanceTo (mapCell1));
+	}
+	
+
+	@Test
+	@DisplayName ("Test Cloning of a MapCell") 
+	void mapCellCloningTest () {
+		MapCell tCloneOfMapCell;
+		
+		try {
+			tCloneOfMapCell = (MapCell) mapCell.clone ();
+			assertEquals ("N11", tCloneOfMapCell.getID ());
+			
+		} catch (CloneNotSupportedException eException) {
+			eException.printStackTrace ();
+		}
+	}
+
+	@Test
+	@DisplayName ("Test loading a MapCell from XML String")
+	void mapCellFromXMLTest () {
+		MapCell tMapCellFromXML;
+		
+		tMapCellFromXML = mapTestFactory.buildAMapCellFromXML (2);
+//		assertEquals (Terrain.CLEAR, tMapCellFromXML.getBaseTerrain ());
 	}
 }

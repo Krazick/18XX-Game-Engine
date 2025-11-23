@@ -3,15 +3,20 @@ package ge18xx.map;
 import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
+import ge18xx.game.GameTestFactory;
 import ge18xx.toplevel.MapFrame;
+import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
+	private GameTestFactory gameTestFactory;
+	private UtilitiesTestFactory utilitiesTestFactory;
 
 	public MapTestFactory () {
-
+		gameTestFactory = new GameTestFactory ();
+		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 
 	public MapFrame buildMapFrame () {
@@ -209,4 +214,58 @@ public class MapTestFactory {
 
 		return mLocation;
 	}
+	
+	public MapCell buildAMapCellFromXML (int tMapCellXMLIndex) {
+		String tMapCell1TestXML = "<MapCell>\n"
+				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"16\" type=\"River\" />\n"
+				+ "		<TileName name=\"NY\" location=\"13\" />\n"
+				+ "		<Tile number=\"9940\" orientation=\"0\" starting=\"TRUE\" />\n"
+				+ "		<RevenueCenter id=\"8\" location=\"8\" name=\"\" number=\"1\"\n"
+				+ "			type=\"Single City\" />\n"
+				+ "		<RevenueCenter id=\"8\" location=\"11\" name=\"\" number=\"1\"\n"
+				+ "			type=\"Single City\" />\n"
+				+ " </MapCell>\n";
+		String tMapCell2TestXML = "<MapCell>\n"
+				+ " 	<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "	</MapCell>\n";
+		String tMapCell3TestXML = "<MapCell>\n"
+				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"50\" type=\"Hill\" />\n"
+				+ "	</MapCell>\n"
+				+ "";
+		MapCell tMapCell;
+		
+		tMapCell = MapCell.NO_MAP_CELL;
+
+		if (tMapCellXMLIndex == 1) {
+			tMapCell = buildMapCellFromXML (tMapCell1TestXML);
+		} else if (tMapCellXMLIndex == 2) {
+			tMapCell = buildMapCellFromXML (tMapCell2TestXML);
+		} else if (tMapCellXMLIndex == 3) {
+			tMapCell = buildMapCellFromXML (tMapCell3TestXML);
+		}
+		
+		return tMapCell;
+	}
+
+	private MapCell buildMapCellFromXML (String aPrivateCompanyTextXML) {
+		XMLNode tMapCellNode;
+		int tTerrainCost [];
+		int tTerrainType [];
+		MapCell tMapCell;
+		
+		tMapCellNode = utilitiesTestFactory.buildXMLNode (aPrivateCompanyTextXML);
+		tMapCell = MapCell.NO_MAP_CELL;
+		if (tMapCellNode != XMLNode.NO_NODE) {
+			tMapCell = buildMapCell ();
+			tTerrainType = new int [Terrain.MAX_TERRAIN_TYPES];
+			tTerrainCost = new int [Terrain.MAX_TERRAIN_TYPES];
+
+			tMapCell.loadXMLCell (tMapCellNode, tTerrainCost, tTerrainType, aPrivateCompanyTextXML);
+		}
+		
+		return tMapCell;
+	}
+
 }
