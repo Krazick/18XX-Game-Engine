@@ -1,10 +1,15 @@
 package ge18xx.round.plan;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
@@ -79,6 +84,7 @@ public class PlanFrame extends XMLFrame {
 				tMapCellInfo = null;
 			}
 		}
+		buttonPanel.setBackground (Color.green);
 	}
 
 	private void buildTilePanel () {
@@ -87,22 +93,35 @@ public class PlanFrame extends XMLFrame {
 		tTilePanelLabel = new JLabel ("This is a TilePanel");
 		tilePanel = new JPanel ();
 		tilePanel.add (tTilePanelLabel);
+		tilePanel.setBackground (Color.blue);
 	}
 
 	private void buildMapPanel () throws CloneNotSupportedException {
-		JLabel tMapPanelLabel;
+//		JLabel tMapPanelLabel;
 		GameManager tGameManager;
 		GameMap tGameMap;
+		Rectangle tViewArea;
 		
-		tMapPanelLabel = new JLabel ("This is a MapPanel");
+//		tMapPanelLabel = new JLabel ("This is a MapPanel");
 		mapPanel = new JPanel ();
-		mapPanel.setLayout (new BorderLayout ());
-		mapPanel.add (tMapPanelLabel, BorderLayout.NORTH);
+//		mapPanel.setLayout (new BorderLayout ());
+//		mapPanel.add (tMapPanelLabel, BorderLayout.NORTH);
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		planningMap = tGameMap.clone ();
-		buildScrollPane (planningMap, BorderLayout.SOUTH);
-		scrollPane.setSize (300, 300);
+		buildTheScrollPane (planningMap);
+		mapPanel.add (scrollPane);
+		tViewArea = mapPlan.buildSelectedViewArea ();
+		scrollPane.scrollRectToVisible (tViewArea);
+	}
+
+	public void buildTheScrollPane (JComponent aImage) {
+		Dimension tViewSize;
+		
+		tViewSize = new Dimension (300, 300);
+		scrollPane = new JScrollPane (aImage);
+		scrollPane.setPreferredSize (tViewSize);
+		scrollPane.setSize (tViewSize);
 	}
 
 	public void setMapPlan (MapPlan aMapPlan) {

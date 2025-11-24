@@ -555,18 +555,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tMapFrame.setDestinationCorpIDs (shareCompaniesFrame);
 		}
 	}
-
-	private void createMapPlansFrame () {
-		PlanFrame tMapPlanFrame;
-		
-		if (gameIsStarted ()) {
-			tMapPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, this);
-			tMapPlanFrame.setVisible (false);
-			setMapPlanFrame (tMapPlanFrame);
-		}
-	}
 	
-	private void setMapPlanFrame (PlanFrame aMapPlanFrame) {
+	public void setMapPlanFrame (PlanFrame aMapPlanFrame) {
 		planFrame = aMapPlanFrame;
 	}
 
@@ -1560,20 +1550,32 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void activateAllBeans (boolean aActiveFlag) {
-		for (MessageBean tBean : allBeans) {
-			tBean.setActive (aActiveFlag);
+		if (allBeans != null) {
+			for (MessageBean tBean : allBeans) {
+				tBean.setActive (aActiveFlag);
+			}
+		} else {
+			System.err.println ("Activating All Beans object is not set... why????");
 		}
 	}
 	
 	public void flushAllBeanMessages () {
+		if (allBeans != null) {
 		for (MessageBean tBean : allBeans) {
 			tBean.flushMessages ();
+		}
+		} else {
+			System.err.println ("Flushing All Beans object is not set... why????");
 		}
 	}
 	
 	public void sendAllBeanMessages () {
-		for (MessageBean tBean : allBeans) {
-			tBean.sendMessages ();
+		if (allBeans != null) {
+			for (MessageBean tBean : allBeans) {
+				tBean.sendMessages ();
+			}
+		} else {
+			System.err.println ("Sneding All Beans object is not set... why????");
 		}
 	}
 
@@ -2469,7 +2471,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			createCities ();
 			createTileTray ();
 			createMap ();
-			createMapPlansFrame ();
 		}
 	}
 
