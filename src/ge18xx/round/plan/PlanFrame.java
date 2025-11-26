@@ -9,7 +9,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
@@ -22,6 +24,7 @@ import swingTweaks.KButton;
 public class PlanFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Plan";
+	public static final JScrollBar NO_JSCROLL_BAR = null;
 	GameMap planningMap;
 	JPanel mapPanel;
 	JPanel tilePanel;
@@ -101,6 +104,7 @@ public class PlanFrame extends XMLFrame {
 		GameManager tGameManager;
 		GameMap tGameMap;
 		Rectangle tViewArea;
+		String tScrollBarInfo;
 		
 //		tMapPanelLabel = new JLabel ("This is a MapPanel");
 		mapPanel = new JPanel ();
@@ -113,12 +117,18 @@ public class PlanFrame extends XMLFrame {
 		mapPanel.add (scrollPane);
 		tViewArea = mapPlan.buildSelectedViewArea ();
 		scrollPane.scrollRectToVisible (tViewArea);
+		
+		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
+						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
+		System.out.println (tScrollBarInfo);
+		setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, 100);
+		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, 90);
 	}
 
 	public void buildTheScrollPane (JComponent aImage) {
 		Dimension tViewSize;
 		
-		tViewSize = new Dimension (300, 300);
+		tViewSize = new Dimension (300, 500);
 		scrollPane = new JScrollPane (aImage);
 		scrollPane.setPreferredSize (tViewSize);
 		scrollPane.setSize (tViewSize);
@@ -127,4 +137,40 @@ public class PlanFrame extends XMLFrame {
 	public void setMapPlan (MapPlan aMapPlan) {
 		mapPlan = aMapPlan;
 	}
+	
+	public void setScrollBarValue (String aOrientation, int aValue) {
+		JScrollBar tJScrollBar;
+		
+		tJScrollBar = NO_JSCROLL_BAR;
+		if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
+			tJScrollBar = scrollPane.getHorizontalScrollBar ();
+		} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
+			tJScrollBar = scrollPane.getHorizontalScrollBar ();
+		}
+		if (tJScrollBar != NO_JSCROLL_BAR) {
+			tJScrollBar.setValue (aValue);
+		}
+	}
+	
+	public String getScrollBarInfo (String aOrientation) {
+		JScrollBar tJScrollBar;
+		String tScrollBarInfo;
+		
+		tJScrollBar = NO_JSCROLL_BAR;
+		if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
+			tJScrollBar = scrollPane.getHorizontalScrollBar ();
+		} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
+			tJScrollBar = scrollPane.getHorizontalScrollBar ();
+		}
+		if (tJScrollBar != NO_JSCROLL_BAR) {
+			tScrollBarInfo = aOrientation + " Min Value " + tJScrollBar.getMinimum () +
+						" Max Value " + tJScrollBar.getMaximum () +
+						" Current Value " + tJScrollBar.getValue ();
+		} else {
+			tScrollBarInfo = "No ScrollBar found ;";
+		}
+		
+		return tScrollBarInfo;
+	}
+
 }
