@@ -176,7 +176,7 @@ public class NodeInformation {
 			if (aRevenueCenter.isTown () || aRevenueCenter.isDotTown ()) {
 				setOpenFlow (true);
 			} else if (aRevenueCenter.isCity ()) {
-				if (aRevenueCenter.cityHasOpenStation ()) {
+				if (aRevenueCenter.hasOpenStation ()) {
 					setOpenFlow (true);
 				}
 			}
