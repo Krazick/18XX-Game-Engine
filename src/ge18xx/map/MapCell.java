@@ -1152,10 +1152,10 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		
 		if (isTileOnCell ()) {
 			if (tile.hasTrack ()) {
-				if (tile.hasAnyStation ()) {
+				if (tile.hasOpenStation ()) {
 					tCanLayAnyToken = true;				
 				} else {
-					tCanLayAnyToken = false;
+					tCanLayAnyToken = false;				
 				}
 			} else {
 				tCanLayAnyToken = false;
