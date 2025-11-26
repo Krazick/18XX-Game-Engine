@@ -52,7 +52,7 @@ class NodeInformationTestConstuctors {
 		Mockito.when (mCenterCity.isTown ()).thenReturn (false);
 		Mockito.when (mCenterCity.isDotTown ()).thenReturn (false);
 		Mockito.when (mCenterCity.isCity ()).thenReturn (true);
-		Mockito.when (mCenterCity.cityHasOpenStation ()).thenReturn (true);
+		Mockito.when (mCenterCity.hasOpenStation ()).thenReturn (true);
 
 		// NodeInformation (Location aLocation,
 		// boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
