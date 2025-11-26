@@ -34,7 +34,7 @@ public class MapPlan extends CorporationPlan {
 	public String getMapCellID () {
 		return mapCell.getCellID ();
 	}
-
+	
 	public Rectangle buildSelectedViewArea () {
 		int tXc;
 		int tYc;
