@@ -719,6 +719,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tHasCenters;
 	}
 
+	public boolean hasOpenStation () {
+		if (hasCenters ()) {
+			return centers.hasOpenStation ();
+		} else {
+			return false;
+		}
+	}
+
 	public boolean hasAnyStation () {
 		if (hasCenters ()) {
 			return centers.hasAnyStation ();
