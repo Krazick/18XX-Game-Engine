@@ -132,20 +132,20 @@ public class City extends RevenueCenter implements Cloneable {
 		return (type.canPlaceStation ());
 	}
 
-//	@Override
-//	public boolean cityHasOpenStation () {
-//		boolean tHasOpenStation;
-//		int tIndex;
-//
-//		tHasOpenStation = false;
-//		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-//			if (hasNoMapTokenAtStation (tIndex)) {
-//				tHasOpenStation = true;
-//			}
-//		}
-//
-//		return tHasOpenStation;
-//	}
+	@Override
+	public boolean hasOpenStation () {
+		boolean tHasOpenStation;
+		int tIndex;
+
+		tHasOpenStation = false;
+		for (tIndex = 0; tIndex < stationCount; tIndex++) {
+			if (hasNoMapTokenAtStation (tIndex)) {
+				tHasOpenStation = true;
+			}
+		}
+
+		return tHasOpenStation;
+	}
 
 	public boolean hasNoMapTokenAtStation (int aIndex) {
 		return (corpStations [aIndex] == MapToken.NO_MAP_TOKEN);

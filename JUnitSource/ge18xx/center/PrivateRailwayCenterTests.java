@@ -32,7 +32,7 @@ class PrivateRailwayCenterTests {
 	void privateRailwayCenterTests () {
 		assertFalse (privateRailywayCenter.cityOrTown ());
 		assertFalse (privateRailywayCenter.isCity ());
-		assertFalse (privateRailywayCenter.cityHasOpenStation ());
+		assertFalse (privateRailywayCenter.hasOpenStation ());
 		assertTrue (privateRailywayCenter.validCityInfo ());
 	}
 

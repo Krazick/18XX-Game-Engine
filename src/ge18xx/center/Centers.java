@@ -558,8 +558,9 @@ public class Centers implements Cloneable {
 	}
 
 	public boolean hasStation (int aCorpID) {
-		boolean tHasStation = false;
+		boolean tHasStation;
 
+		tHasStation = false;
 		for (RevenueCenter tRC : centers) {
 			if (tRC.cityHasStation (aCorpID)) {
 				tHasStation = true;
@@ -569,9 +570,23 @@ public class Centers implements Cloneable {
 		return tHasStation;
 	}
 
-	public boolean hasAnyStation () {
-		boolean tHasAnyStation = false;
+	public boolean hasOpenStation () {
+		boolean tHasOpenStation;
 
+		tHasOpenStation = false;
+		for (RevenueCenter tRC : centers) {
+			if (tRC.hasOpenStation ()) {
+				tHasOpenStation = true;
+			}
+		}
+
+		return tHasOpenStation;
+	}
+
+	public boolean hasAnyStation () {
+		boolean tHasAnyStation;
+
+		tHasAnyStation = false;
 		for (RevenueCenter tRC : centers) {
 			if (tRC.cityHasAnyStation ()) {
 				tHasAnyStation = true;
@@ -582,8 +597,9 @@ public class Centers implements Cloneable {
 	}
 
 	public boolean hasAnyCorporationBase () {
-		boolean tHasAnyCorporationBase = false;
+		boolean tHasAnyCorporationBase;
 
+		tHasAnyCorporationBase = false;
 		for (RevenueCenter tRC : centers) {
 			if (tRC.hasAnyCorporationBase ()) {
 				tHasAnyCorporationBase = true;
