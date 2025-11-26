@@ -179,6 +179,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return tHasAnyStation;
 	}
 
+	public boolean hasOpenStation () {
+		return false;
+	}
+	
 	public boolean cityHasAnyStation () {
 		return false;
 	}
@@ -699,5 +703,5 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public abstract void draw (Graphics aGraphics, int aXc, int aYc, int aTileOrient, Hex aHex, boolean aOnTile,
 			Feature2 aSelectedFeature);
 
-	public abstract boolean cityHasOpenStation ();
+//	public abstract boolean cityHasOpenStation ();
 }

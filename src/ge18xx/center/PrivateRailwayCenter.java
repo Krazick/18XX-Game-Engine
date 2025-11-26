@@ -25,8 +25,8 @@ public class PrivateRailwayCenter extends RevenueCenter {
 		}
 	}
 
-	@Override
-	public boolean cityHasOpenStation () {
-		return false;
-	}
+//	@Override
+//	public boolean cityHasOpenStation () {
+//		return false;
+//	}
 }
