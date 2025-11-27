@@ -1322,6 +1322,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			if (tCorporation.isInActive ()) {
 				tCorporation.removeHomeBases ();
 			} else {
+				if (tCorporation.isClosed ()) {
+					tCorporation.removeHomeBases ();
+				}
 				tCorporations.add (tCorporation);
 			}
 		}
