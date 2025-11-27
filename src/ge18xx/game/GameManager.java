@@ -1986,11 +1986,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			marketFrame.loadMarketTokens (aChildNode);
 		} else if (PrivatesFrame.EN_PRIVATES.equals (aChildName)) {
 			privatesFrame.loadStates (aChildNode);
+			removeInactiveCompanies ();
 			cleanupLoadedPrivates ();
 		} else if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
 			minorCompaniesFrame.loadStates (aChildNode);
+			removeInactiveCompanies ();
 		} else if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
 			shareCompaniesFrame.loadStates (aChildNode);
+			removeInactiveCompanies ();
 		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
 		} else if (FormCompany.EN_FORM_COMPANY.equals (aChildName)) {
