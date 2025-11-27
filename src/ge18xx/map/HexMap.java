@@ -1033,7 +1033,9 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 
 	@Override
 	public void mouseReleased (MouseEvent aMouseEvent) {
-		handleClick (aMouseEvent);
+		if (aMouseEvent.getSource () == this) {
+			handleClick (aMouseEvent);
+		}
 	}
 
 	public void handleClick (MouseEvent aMouseEvent) {
