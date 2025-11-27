@@ -3,8 +3,8 @@ package ge18xx.round.plan;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -12,11 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.tiles.Tile;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
@@ -42,7 +46,7 @@ public class PlanFrame extends XMLFrame {
 		super (aFrameName, aGameManager);
 		setMapPlan (aMapPlan);
 		try {
-			setSize (500, 500);
+			setSize (900, 500);
 			buildMapPanel ();
 			buildTilePanel ();
 			buildButtonPanel ();
@@ -61,21 +65,32 @@ public class PlanFrame extends XMLFrame {
 		JLabel tButtonLabel;
 		JLabel tCompanyInfo;
 		JLabel tMapCellInfo;
+		JLabel tBuildCostLabel;
+		JLabel tTileInfoLabel;
 		Corporation tCorporation;
 		MapCell tMapCell;
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		Dimension tViewSize;
+		Border tMargin;
+		String tBuildCost;
+		Tile tTile;
 		
+		tMargin = new EmptyBorder (10,10,10,10);
 		buttonPanel = new JPanel ();
-		mapPanel.setLayout (new BoxLayout (mapPanel, BoxLayout.Y_AXIS));
+		buttonPanel.setLayout (new BoxLayout (buttonPanel, BoxLayout.Y_AXIS));
+		buttonPanel.setBorder (tMargin);
 		tButtonLabel = new JLabel ("This is a ButtonPanel");
 		buttonPanel.add (tButtonLabel);
+		buttonPanel.add (Box.createVerticalStrut (10));
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			tCorporation = tPlaceMapTilePlan.getCorporation ();
 			if (tCorporation != Corporation.NO_CORPORATION) {
-				tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getName ());
+				tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
 				buttonPanel.add (tCompanyInfo);
+				buttonPanel.add (Box.createVerticalStrut (10));
+
 			} else {
 				tCompanyInfo = null;
 			}
@@ -83,52 +98,73 @@ public class PlanFrame extends XMLFrame {
 			if (tMapCell != MapCell.NO_MAP_CELL) {
 				tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
 				buttonPanel.add (tMapCellInfo);
+				buttonPanel.add (Box.createVerticalStrut (10));
+				
+				tBuildCost = Bank.formatCash (tMapCell.getCostToLayTile ());
+				tBuildCostLabel = new JLabel ("Build Cost " + tBuildCost);
+				buttonPanel.add (tBuildCostLabel);
+				buttonPanel.add (Box.createVerticalStrut (10));
+
+				if (tMapCell.isTileOnCell ()) {
+					tTile = tMapCell.getTile ();
+					tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
+				} else {
+					tTileInfoLabel = new JLabel ("No Tile on the MapCell");
+				}
+				buttonPanel.add (tTileInfoLabel);
+				buttonPanel.add (Box.createVerticalStrut (10));
+
 			} else {
 				tMapCellInfo = null;
 			}
 		}
 		buttonPanel.setBackground (Color.green);
+		tViewSize = new Dimension (300, 500);
+		buttonPanel.setSize (tViewSize);
+		buttonPanel.setPreferredSize (tViewSize);
 	}
 
 	private void buildTilePanel () {
 		JLabel tTilePanelLabel;
+		Dimension tViewSize;
 		
 		tTilePanelLabel = new JLabel ("This is a TilePanel");
 		tilePanel = new JPanel ();
 		tilePanel.add (tTilePanelLabel);
-		tilePanel.setBackground (Color.blue);
+		tilePanel.setBackground (Color.cyan);
+		tViewSize = new Dimension (300, 500);
+		tilePanel.setSize (tViewSize);
+		tilePanel.setPreferredSize (tViewSize);
 	}
 
 	private void buildMapPanel () throws CloneNotSupportedException {
-//		JLabel tMapPanelLabel;
 		GameManager tGameManager;
 		GameMap tGameMap;
-		Rectangle tViewArea;
 		String tScrollBarInfo;
+		Dimension tViewSize;
 		
-//		tMapPanelLabel = new JLabel ("This is a MapPanel");
 		mapPanel = new JPanel ();
-//		mapPanel.setLayout (new BorderLayout ());
-//		mapPanel.add (tMapPanelLabel, BorderLayout.NORTH);
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		planningMap = tGameMap.clone ();
 		buildTheScrollPane (planningMap);
+		tViewSize = new Dimension (300, 460);
+		mapPanel.setSize (tViewSize);
+		mapPanel.setPreferredSize (tViewSize);
 		mapPanel.add (scrollPane);
-		tViewArea = mapPlan.buildSelectedViewArea ();
-		scrollPane.scrollRectToVisible (tViewArea);
 		
 		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
 						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
 		System.out.println (tScrollBarInfo);
 		setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, 100);
-		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, 90);
+		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, 100);
+
 	}
 
 	public void buildTheScrollPane (JComponent aImage) {
 		Dimension tViewSize;
 		
-		tViewSize = new Dimension (300, 500);
+		tViewSize = new Dimension (300, 460);
 		scrollPane = new JScrollPane (aImage);
 		scrollPane.setPreferredSize (tViewSize);
 		scrollPane.setSize (tViewSize);
@@ -172,5 +208,4 @@ public class PlanFrame extends XMLFrame {
 		
 		return tScrollBarInfo;
 	}
-
 }
