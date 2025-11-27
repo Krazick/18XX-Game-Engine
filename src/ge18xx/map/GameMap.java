@@ -1,9 +1,9 @@
 package ge18xx.map;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+//import java.awt.event.MouseEvent;
+//import java.awt.event.MouseListener;
+//import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
 import javax.swing.JLabel;
@@ -17,8 +17,7 @@ import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 
-public class GameMap extends JLabel implements Cloneable,LoadableXMLI, MouseListener, 
-								MouseMotionListener {
+public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,34 +28,6 @@ public class GameMap extends JLabel implements Cloneable,LoadableXMLI, MouseList
 	public Hex18XX hex;
 
 	public GameMap () {
-	}
-
-	@Override
-	public void mouseDragged (MouseEvent e) {
-	}
-
-	@Override
-	public void mouseMoved (MouseEvent e) {
-	}
-
-	@Override
-	public void mouseClicked (MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed (MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased (MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered (MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited (MouseEvent e) {
 	}
 
 	@Override
