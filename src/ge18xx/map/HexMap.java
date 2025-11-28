@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JSlider;
@@ -1204,6 +1205,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 	}
 	
+	@Override
 	public void setPlayableTiles (MapCell aSelectedMapCell) {
 		int tMapCellTypeCount;
 		int tTileNumber;
@@ -1235,7 +1237,22 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 		tileSet.tileTrayFrameToFront ();
 	}
-
+	
+	@Override
+	public List<GameTile> getPlayableGameTiles () {
+		List<GameTile> tPlayableGameTiles;
+		
+		tPlayableGameTiles = new LinkedList<GameTile> ();
+		tileSet.fillPlayableGameTiles (tPlayableGameTiles);
+		
+		return tPlayableGameTiles;
+	}
+	
+	@Override
+	public void clearPlayableTiles () {
+		tileSet.clearAllPlayable ();
+	}
+	
 	public String getBaseCityName (MapCell aMapCell) {
 		String tBaseCityName;
 
