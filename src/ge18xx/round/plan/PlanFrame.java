@@ -27,12 +27,12 @@ import swingTweaks.KButton;
 
 public class PlanFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_TITLE = "Plan";
+	public static final String BASE_TITLE = "Map Plan Frame";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
 	GameMap planningMap;
 	JPanel mapPanel;
 	JPanel tilePanel;
-	JPanel buttonPanel;
+	JPanel infoAndActionPanel;
 	KButton discardPlan;
 	KButton applyPlan;
 	KButton savePlan;
@@ -44,24 +44,28 @@ public class PlanFrame extends XMLFrame {
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager, MapPlan aMapPlan) {
 		super (aFrameName, aGameManager);
+		
+		String tFullFrameTitle;
+		
 		setMapPlan (aMapPlan);
 		try {
 			setSize (900, 500);
 			buildMapPanel ();
 			buildTilePanel ();
-			buildButtonPanel ();
+			buildInfoAndActionPanel ();
 			
 			add (mapPanel, BorderLayout.WEST);
 			add (tilePanel, BorderLayout.CENTER);
-			add (buttonPanel, BorderLayout.EAST);
+			add (infoAndActionPanel, BorderLayout.EAST);
+			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
+			setTitle (tFullFrameTitle);
 			showFrame ();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void buildButtonPanel () {
+	private void buildInfoAndActionPanel () {
 		JLabel tButtonLabel;
 		JLabel tCompanyInfo;
 		JLabel tMapCellInfo;
@@ -76,20 +80,20 @@ public class PlanFrame extends XMLFrame {
 		Tile tTile;
 		
 		tMargin = new EmptyBorder (10,10,10,10);
-		buttonPanel = new JPanel ();
-		buttonPanel.setLayout (new BoxLayout (buttonPanel, BoxLayout.Y_AXIS));
-		buttonPanel.setBorder (tMargin);
-		tButtonLabel = new JLabel ("This is a ButtonPanel");
-		buttonPanel.add (tButtonLabel);
-		buttonPanel.add (Box.createVerticalStrut (10));
+		infoAndActionPanel = new JPanel ();
+		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
+		infoAndActionPanel.setBorder (tMargin);
+		tButtonLabel = new JLabel ("This is the Info And Action Panel");
+		infoAndActionPanel.add (tButtonLabel);
+		infoAndActionPanel.add (Box.createVerticalStrut (10));
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			tCorporation = tPlaceMapTilePlan.getCorporation ();
 			if (tCorporation != Corporation.NO_CORPORATION) {
 				tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
-				buttonPanel.add (tCompanyInfo);
-				buttonPanel.add (Box.createVerticalStrut (10));
+				infoAndActionPanel.add (tCompanyInfo);
+				infoAndActionPanel.add (Box.createVerticalStrut (10));
 
 			} else {
 				tCompanyInfo = null;
@@ -97,31 +101,36 @@ public class PlanFrame extends XMLFrame {
 			tMapCell = tPlaceMapTilePlan.getMapCell ();
 			if (tMapCell != MapCell.NO_MAP_CELL) {
 				tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
-				buttonPanel.add (tMapCellInfo);
-				buttonPanel.add (Box.createVerticalStrut (10));
+				infoAndActionPanel.add (tMapCellInfo);
+				infoAndActionPanel.add (Box.createVerticalStrut (10));
 				
 				tBuildCost = Bank.formatCash (tMapCell.getCostToLayTile ());
 				tBuildCostLabel = new JLabel ("Build Cost " + tBuildCost);
-				buttonPanel.add (tBuildCostLabel);
-				buttonPanel.add (Box.createVerticalStrut (10));
+				infoAndActionPanel.add (tBuildCostLabel);
+				infoAndActionPanel.add (Box.createVerticalStrut (10));
 
 				if (tMapCell.isTileOnCell ()) {
 					tTile = tMapCell.getTile ();
 					tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
 				} else {
 					tTileInfoLabel = new JLabel ("No Tile on the MapCell");
+					// Build a set of Tiles that can be placed on this MapCell
+					// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
+					// in the game's inventory. This will allow it to be placed on the Planning Map 
+					tPlaceMapTilePlan.setPlayableTiles (planningMap);
+					
 				}
-				buttonPanel.add (tTileInfoLabel);
-				buttonPanel.add (Box.createVerticalStrut (10));
+				infoAndActionPanel.add (tTileInfoLabel);
+				infoAndActionPanel.add (Box.createVerticalStrut (10));
 
 			} else {
 				tMapCellInfo = null;
 			}
 		}
-		buttonPanel.setBackground (Color.green);
+		infoAndActionPanel.setBackground (Color.green);
 		tViewSize = new Dimension (300, 500);
-		buttonPanel.setSize (tViewSize);
-		buttonPanel.setPreferredSize (tViewSize);
+		infoAndActionPanel.setSize (tViewSize);
+		infoAndActionPanel.setPreferredSize (tViewSize);
 	}
 
 	private void buildTilePanel () {
