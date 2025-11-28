@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -151,6 +152,10 @@ public class PlanFrame extends XMLFrame {
 		GameMap tGameMap;
 		String tScrollBarInfo;
 		Dimension tViewSize;
+		float tHorizontalPercent;
+		float tVerticalPercent;
+		float tImageWidth;
+		float tImageHeight;
 		
 		mapPanel = new JPanel ();
 		tGameManager = (GameManager) gameEngineManager;
@@ -164,10 +169,19 @@ public class PlanFrame extends XMLFrame {
 		
 		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
 						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
-		System.out.println (tScrollBarInfo);
-		setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, 100);
-		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, 100);
-
+		System.out.println (tScrollBarInfo + " MapCell Coords " + mapPlan.getMapCellCoords ());
+		
+		tImageWidth = planningMap.getMaxX ();
+		tImageHeight = planningMap.getMaxY ();
+	
+		tVerticalPercent = (mapPlan.getMapCellYc () - 250.0f)/tImageHeight;
+		setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+		tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
+		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+		
+		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
+				getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
+		System.out.println (tScrollBarInfo + " MapCell Coords " + mapPlan.getMapCellCoords ());	
 	}
 
 	public void buildTheScrollPane (JComponent aImage) {
@@ -183,18 +197,39 @@ public class PlanFrame extends XMLFrame {
 		mapPlan = aMapPlan;
 	}
 	
-	public void setScrollBarValue (String aOrientation, int aValue) {
-		JScrollBar tJScrollBar;
+	public void setScrollBarValue (String aOrientation, float aPercentOfMax) {
 		
-		tJScrollBar = NO_JSCROLL_BAR;
-		if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
-			tJScrollBar = scrollPane.getHorizontalScrollBar ();
-		} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
-			tJScrollBar = scrollPane.getHorizontalScrollBar ();
-		}
-		if (tJScrollBar != NO_JSCROLL_BAR) {
-			tJScrollBar.setValue (aValue);
-		}
+		SwingUtilities.invokeLater ( () -> {
+			JScrollBar tJScrollBar;
+			int tTargetValue;
+//			float tImageWidth;
+//			float tImageHeight;
+//			float tPercentOfMax;
+//			float tMapCellValue;
+			float tScrollMax;
+
+			tJScrollBar = NO_JSCROLL_BAR;
+//			tImageWidth = planningMap.getMaxX ();
+//			tImageHeight = planningMap.getMaxY ();
+//			tPercentOfMax = 1;
+//			tMapCellValue = 0;
+			if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
+				tJScrollBar = scrollPane.getHorizontalScrollBar ();
+//				tMapCellValue = mapPlan.getMapCellXc ();
+//				tPercentOfMax = (aMapCellValue - 150.0f)/tImageWidth;
+			} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
+				tJScrollBar = scrollPane.getVerticalScrollBar ();
+//				tMapCellValue = mapPlan.getMapCellYc ();
+//				tPercentOfMax = (aMapCellValue - 250.0f)/tImageHeight;
+			}
+			if (tJScrollBar != NO_JSCROLL_BAR) {
+				tScrollMax = tJScrollBar.getMaximum ();
+				tTargetValue = (int) (tScrollMax * aPercentOfMax);
+				tJScrollBar.setValue (tTargetValue);
+				System.out.println ("Percent of Max " + aPercentOfMax + " Target Value " + tTargetValue);
+			}
+		});
+		
 	}
 	
 	public String getScrollBarInfo (String aOrientation) {
@@ -205,7 +240,7 @@ public class PlanFrame extends XMLFrame {
 		if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
 			tJScrollBar = scrollPane.getHorizontalScrollBar ();
 		} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
-			tJScrollBar = scrollPane.getHorizontalScrollBar ();
+			tJScrollBar = scrollPane.getVerticalScrollBar ();
 		}
 		if (tJScrollBar != NO_JSCROLL_BAR) {
 			tScrollBarInfo = aOrientation + " Min Value " + tJScrollBar.getMinimum () +
