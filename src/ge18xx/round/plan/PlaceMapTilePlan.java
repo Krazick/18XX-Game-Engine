@@ -14,18 +14,18 @@ public class PlaceMapTilePlan extends MapPlan {
 	int tileOrient;
 	List<GameTile> gameTiles = new LinkedList<GameTile> ();
 	
-	public PlaceMapTilePlan (String aGameName, String aName) {
-		this (aGameName, aName, Corporation.NO_CORPORATION);
+	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName) {
+		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
 	}
 
-	public PlaceMapTilePlan (String aGameName, String aName, 
+	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName, 
 			Corporation aCorporation) {
-		this (aGameName, aName, aCorporation, MapCell.NO_MAP_CELL);
+		this (aPlayerName, aGameName, aName, aCorporation, MapCell.NO_MAP_CELL);
 	}
 
-	public PlaceMapTilePlan (String aGameName, String aName, 
+	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName, 
 			Corporation aCorporation, MapCell aMapCell) {
-		super (aGameName, aName, aCorporation, aMapCell);
+		super (aPlayerName, aGameName, aName, aCorporation, aMapCell);
 		setTileAndOrientation (Tile.NO_TILE, MapCell.NO_TILE_ORIENTATION);
 	}
 
