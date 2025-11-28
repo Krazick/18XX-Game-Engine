@@ -1418,7 +1418,8 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
 		}
 		
-		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), tPlaceMapTilePlan);
+		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), 
+					tPlaceMapTilePlan);
 		setPlanFrame (tPlanFrame);
 	}
 
