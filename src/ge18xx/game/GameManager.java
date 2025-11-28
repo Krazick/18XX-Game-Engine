@@ -45,6 +45,7 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
+import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
@@ -528,7 +529,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
-		HexMap tHexMap;
+		GameMap tHexMap;
 		
 		if (gameIsStarted ()) {
 			tType = "Map";
