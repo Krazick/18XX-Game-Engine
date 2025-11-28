@@ -10,17 +10,17 @@ public class MapPlan extends CorporationPlan {
 	public static final String NO_MAP_CELL = "No Selected MapCell";
 	MapCell mapCell;
 	
-	public MapPlan (String aGameName, String aName) {
-		this (aGameName, aName, Corporation.NO_CORPORATION);
+	public MapPlan (String aPlayerName, String aGameName, String aName) {
+		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
 	}
 	
-	public MapPlan (String aGameName, String aName, Corporation aCorporation) {
-		super (aGameName, aName, aCorporation);
+	public MapPlan (String aPlayerName, String aGameName, String aName, Corporation aCorporation) {
+		super (aPlayerName, aGameName, aName, aCorporation);
 		setMapCell (MapCell.NO_MAP_CELL);
 	}
 	
-	public MapPlan (String aGameName, String aName, Corporation aCorporation, MapCell aMapCell) {
-		super (aGameName, aName, aCorporation);
+	public MapPlan (String aPlayerName, String aGameName, String aName, Corporation aCorporation, MapCell aMapCell) {
+		super (aPlayerName, aGameName, aName, aCorporation);
 		setMapCell (aMapCell);
 	}
 
