@@ -1,12 +1,18 @@
 package ge18xx.round.plan;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ge18xx.company.Corporation;
+import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
 	int tileOrient;
+	List<GameTile> gameTiles = new LinkedList<GameTile> ();
 	
 	public PlaceMapTilePlan (String aGameName, String aName) {
 		this (aGameName, aName, Corporation.NO_CORPORATION);
@@ -44,4 +50,22 @@ public class PlaceMapTilePlan extends MapPlan {
 		return tileOrient;
 	}
 
+	public void setPlayableTiles (GameMap aPlanningMap) {
+		aPlanningMap.setPlayableTiles (mapCell);
+		gameTiles = aPlanningMap.getPlayableGameTiles ();
+		System.out.println ("There are " + gameTiles.size () + " PlayableTiles");
+		aPlanningMap.clearPlayableTiles ();
+	}
+	
+	public int playableTilesCount () {
+		return gameTiles.size ();
+	}
+	
+	public GameTile getPlayableTileAt (int aIndex) {
+		GameTile tGameTile;
+			
+		tGameTile = gameTiles.get (aIndex);
+		
+		return tGameTile;
+	}
 }
