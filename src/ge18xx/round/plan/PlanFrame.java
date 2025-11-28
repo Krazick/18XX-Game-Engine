@@ -74,17 +74,9 @@ public class PlanFrame extends XMLFrame {
 
 	private void buildInfoAndActionPanel () {
 		JLabel tButtonLabel;
-		JLabel tCompanyInfo;
-		JLabel tMapCellInfo;
-		JLabel tBuildCostLabel;
-		JLabel tTileInfoLabel;
-		Corporation tCorporation;
-		MapCell tMapCell;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		Dimension tViewSize;
 		Border tMargin;
-		String tBuildCost;
-		Tile tTile;
 		
 		tMargin = new EmptyBorder (10,10,10,10);
 		infoAndActionPanel = new JPanel ();
@@ -96,48 +88,65 @@ public class PlanFrame extends XMLFrame {
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
-			tCorporation = tPlaceMapTilePlan.getCorporation ();
-			if (tCorporation != Corporation.NO_CORPORATION) {
-				tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
-				infoAndActionPanel.add (tCompanyInfo);
-				infoAndActionPanel.add (Box.createVerticalStrut (10));
-
-			} else {
-				tCompanyInfo = null;
-			}
-			tMapCell = tPlaceMapTilePlan.getMapCell ();
-			if (tMapCell != MapCell.NO_MAP_CELL) {
-				tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
-				infoAndActionPanel.add (tMapCellInfo);
-				infoAndActionPanel.add (Box.createVerticalStrut (10));
-				
-				tBuildCost = Bank.formatCash (tMapCell.getCostToLayTile ());
-				tBuildCostLabel = new JLabel ("Build Cost " + tBuildCost);
-				infoAndActionPanel.add (tBuildCostLabel);
-				infoAndActionPanel.add (Box.createVerticalStrut (10));
-
-				if (tMapCell.isTileOnCell ()) {
-					tTile = tMapCell.getTile ();
-					tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
-				} else {
-					tTileInfoLabel = new JLabel ("No Tile on the MapCell");
-					// Build a set of Tiles that can be placed on this MapCell
-					// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
-					// in the game's inventory. This will allow it to be placed on the Planning Map 
-					tPlaceMapTilePlan.setPlayableTiles (planningMap);
-					
-				}
-				infoAndActionPanel.add (tTileInfoLabel);
-				infoAndActionPanel.add (Box.createVerticalStrut (10));
-
-			} else {
-				tMapCellInfo = null;
-			}
+			addCorporationInfo (tPlaceMapTilePlan);
+			addMapCellInfo (tPlaceMapTilePlan);
 		}
 		infoAndActionPanel.setBackground (Color.green);
 		tViewSize = new Dimension (300, 500);
 		infoAndActionPanel.setSize (tViewSize);
 		infoAndActionPanel.setPreferredSize (tViewSize);
+	}
+
+	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
+		JLabel tCompanyInfo;
+		Corporation tCorporation;
+		
+		tCorporation = aPlaceMapTilePlan.getCorporation ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
+			infoAndActionPanel.add (tCompanyInfo);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
+		} else {
+			tCompanyInfo = null;
+		}
+	}
+
+	protected void addMapCellInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
+		JLabel tMapCellInfo;
+		JLabel tBuildCostLabel;
+		JLabel tTileInfoLabel;
+		MapCell tMapCell;
+		String tBuildCost;
+		Tile tTile;
+		
+		tMapCell = aPlaceMapTilePlan.getMapCell ();
+		if (tMapCell != MapCell.NO_MAP_CELL) {
+			tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
+			infoAndActionPanel.add (tMapCellInfo);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
+			
+			tBuildCost = Bank.formatCash (tMapCell.getCostToLayTile ());
+			tBuildCostLabel = new JLabel ("Build Cost " + tBuildCost);
+			infoAndActionPanel.add (tBuildCostLabel);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
+
+			if (tMapCell.isTileOnCell ()) {
+				tTile = tMapCell.getTile ();
+				tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
+			} else {
+				tTileInfoLabel = new JLabel ("No Tile on the MapCell");
+				// Build a set of Tiles that can be placed on this MapCell
+				// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
+				// in the game's inventory. This will allow it to be placed on the Planning Map 
+				aPlaceMapTilePlan.setPlayableTiles (planningMap);
+				
+			}
+			infoAndActionPanel.add (tTileInfoLabel);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
+
+		} else {
+			tMapCellInfo = null;
+		}
 	}
 
 	private void buildTilePanel () {
