@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
@@ -47,7 +48,12 @@ public class PlanFrame extends XMLFrame {
 		super (aFrameName, aGameManager);
 		
 		String tFullFrameTitle;
+		TrainCompany tTrainCompany;
 		
+		tTrainCompany = (TrainCompany) aMapPlan.getCorporation ();
+		System.out.println ("Ready to build a Map Plan for " + tTrainCompany.getName () +
+				" Player is " + aMapPlan.getPlayerName ());
+
 		setMapPlan (aMapPlan);
 		try {
 			setSize (900, 500);
@@ -150,7 +156,7 @@ public class PlanFrame extends XMLFrame {
 	private void buildMapPanel () throws CloneNotSupportedException {
 		GameManager tGameManager;
 		GameMap tGameMap;
-		String tScrollBarInfo;
+//		String tScrollBarInfo;
 		Dimension tViewSize;
 		float tHorizontalPercent;
 		float tVerticalPercent;
@@ -167,21 +173,21 @@ public class PlanFrame extends XMLFrame {
 		mapPanel.setPreferredSize (tViewSize);
 		mapPanel.add (scrollPane);
 		
-		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
-						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
-		System.out.println (tScrollBarInfo + " MapCell Coords " + mapPlan.getMapCellCoords ());
+//		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
+//						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
 		
 		tImageWidth = planningMap.getMaxX ();
 		tImageHeight = planningMap.getMaxY ();
 	
-		tVerticalPercent = (mapPlan.getMapCellYc () - 250.0f)/tImageHeight;
-		setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
-		tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
-		setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
-		
-		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
-				getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
-		System.out.println (tScrollBarInfo + " MapCell Coords " + mapPlan.getMapCellCoords ());	
+		if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
+			tVerticalPercent = (mapPlan.getMapCellYc () - 250.0f)/tImageHeight;
+			setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+			tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
+			setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+//		
+//			tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
+//				getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
+		}
 	}
 
 	public void buildTheScrollPane (JComponent aImage) {
@@ -202,25 +208,13 @@ public class PlanFrame extends XMLFrame {
 		SwingUtilities.invokeLater ( () -> {
 			JScrollBar tJScrollBar;
 			int tTargetValue;
-//			float tImageWidth;
-//			float tImageHeight;
-//			float tPercentOfMax;
-//			float tMapCellValue;
 			float tScrollMax;
 
 			tJScrollBar = NO_JSCROLL_BAR;
-//			tImageWidth = planningMap.getMaxX ();
-//			tImageHeight = planningMap.getMaxY ();
-//			tPercentOfMax = 1;
-//			tMapCellValue = 0;
 			if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
 				tJScrollBar = scrollPane.getHorizontalScrollBar ();
-//				tMapCellValue = mapPlan.getMapCellXc ();
-//				tPercentOfMax = (aMapCellValue - 150.0f)/tImageWidth;
 			} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
 				tJScrollBar = scrollPane.getVerticalScrollBar ();
-//				tMapCellValue = mapPlan.getMapCellYc ();
-//				tPercentOfMax = (aMapCellValue - 250.0f)/tImageHeight;
 			}
 			if (tJScrollBar != NO_JSCROLL_BAR) {
 				tScrollMax = tJScrollBar.getMaximum ();
