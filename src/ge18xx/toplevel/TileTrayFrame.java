@@ -108,6 +108,7 @@ public class TileTrayFrame extends XMLFrame {
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
+		
 		return tGameManager.isPlaceTileMode ();
 	}
 
