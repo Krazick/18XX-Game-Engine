@@ -103,6 +103,14 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		redrawTileTray ();
 	}
 
+	public void fillPlayableGameTiles (List<GameTile> aPlayableGameTiles) {
+		for (GameTile tGameTile : gameTiles) {
+			if (tGameTile.isPlayable ()) {
+				aPlayableGameTiles.add (tGameTile);
+			}
+		}
+	}
+	
 	public void clearAllSelected () {
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.clearSelected ();
@@ -482,6 +490,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			tTile = tGameTile.getTile ();
 			if (tTile != Tile.NO_TILE) {
 				if (showThisTile (tTile)) {
+					setBackgroundForTile (aGraphics, tX, tY, tWidth, tHeight, tGameTile);
 					drawThisTile (aGraphics, tX, tY, tYNumOffset, tWidth, tHeight, tTile, tGameTile);
 				}
 			}
@@ -504,7 +513,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tTileOrient;
 		String tIdLabel;
 
-		setBackgroundForTile (aGraphics, aX, aY, aWidth, aHeight, aGameTile);
 		tTileOrient = aGameTile.getTileOrient ();
 		aTile.paintComponent (aGraphics, tTileOrient, hex, new Feature2 (), aGameTile.isSelected ());
 		hex.drawRotateRightArrow (aGraphics, aX, aY);
@@ -585,7 +593,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		setHex (tHexDirection);
 	}
-
+	
 	public void setPlayableUpgradeTiles (GameTile aGameTile, String aTileName, String aBaseCityName) {
 		int tUpgradeCount;
 		int tUpgradeIndex;
