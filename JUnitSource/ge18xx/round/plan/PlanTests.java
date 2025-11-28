@@ -23,12 +23,14 @@ class PlanTests extends PlanTester {
 	@DisplayName ("Basic Tests of Plan")
 	void planTests () {
 		Plan tPlan;
-		String tPlanName;
 		String tGameName;
+		String tPlanName;
+		String tPlayerName;
 		
 		tGameName = "1830";
 		tPlanName = "Test Plan Alpha";
-		tPlan = new Plan (tGameName, tPlanName);
+		tPlayerName = "Buster";
+		tPlan = new Plan (tPlayerName, tGameName, tPlanName);
 		
 		assertEquals ("Test Plan Alpha", tPlan.getName ());
 	}
@@ -39,19 +41,21 @@ class PlanTests extends PlanTester {
 		CorporationPlan tCorporationPlanAlpha;
 		CorporationPlan tCorporationPlanBeta;
 		Corporation tCorporation;
-		String tPlanName;
 		String tGameName;
+		String tPlanName;
+		String tPlayerName;
 		
 		tGameName = "1830";
+		tPlayerName = "Buster";
 		tPlanName = "Test Corporation Plan Alpha";
 		
-		tCorporationPlanAlpha = new CorporationPlan (tGameName, tPlanName);
+		tCorporationPlanAlpha = new CorporationPlan (tPlayerName, tGameName, tPlanName);
 		assertEquals ("Test Corporation Plan Alpha", tCorporationPlanAlpha.getName ());
 		assertNull (tCorporationPlanAlpha.getCorporation ());
 		
 		tPlanName = "Test Corporation Plan Beta";
 		tCorporation = companyTestFactory.buildAShareCompany (1);
-		tCorporationPlanBeta = new CorporationPlan (tGameName, tPlanName, tCorporation);
+		tCorporationPlanBeta = new CorporationPlan (tPlayerName, tGameName, tPlanName, tCorporation);
 		assertEquals ("Test Corporation Plan Beta", tCorporationPlanBeta.getName ());
 		assertEquals (tCorporation, tCorporationPlanBeta.getCorporation ());
 	}
@@ -65,26 +69,28 @@ class PlanTests extends PlanTester {
 		Corporation tCorporationBeta;
 		Corporation tCorporationGamma;
 		MapCell tMapCellGamma;
-		String tPlanName;
 		String tGameName;
+		String tPlanName;
+		String tPlayerName;
 		
 		tGameName = "1830";
 		tPlanName = "Test Map Plan Alpha";
+		tPlayerName = "Buster";
 		
-		tMapPlanAlpha = new MapPlan (tGameName, tPlanName);
+		tMapPlanAlpha = new MapPlan (tPlayerName, tGameName, tPlanName);
 		assertEquals ("Test Map Plan Alpha", tMapPlanAlpha.getName ());
 		assertNull (tMapPlanAlpha.getCorporation ());
 		
 		tPlanName = "Test Map Plan Beta";
 		tCorporationBeta = companyTestFactory.buildAShareCompany (2);
-		tMapPlanBeta = new MapPlan (tGameName, tPlanName, tCorporationBeta);
+		tMapPlanBeta = new MapPlan (tPlayerName, tGameName, tPlanName, tCorporationBeta);
 		assertEquals ("Test Map Plan Beta", tMapPlanBeta.getName ());
 		assertEquals (tCorporationBeta, tMapPlanBeta.getCorporation ());
 		
 		tPlanName = "Test Map Plan Gamma";
 		tCorporationGamma = companyTestFactory.buildAShareCompany (3);
 		tMapCellGamma = mapTestFactory.buildMapCell ();
-		tMapPlanGamma = new MapPlan (tGameName, tPlanName, tCorporationGamma, 
+		tMapPlanGamma = new MapPlan (tPlayerName, tGameName, tPlanName, tCorporationGamma, 
 								tMapCellGamma);
 		
 		assertEquals ("Test Map Plan Gamma", tMapPlanGamma.getName ());
@@ -106,26 +112,28 @@ class PlanTests extends PlanTester {
 		MapCell tMapCellDelta;
 		Tile tTileDelta;
 		Tile tTileEpsilon;
-		String tPlanName;
 		String tGameName;
+		String tPlanName;
+		String tPlayerName;
 		
 		tGameName = "1830";
 		tPlanName = "Test PlaceMapTile Plan Alpha";
+		tPlayerName = "Buster";
 
-		tPlaceMapTilePlanAlpha = new PlaceMapTilePlan (tGameName, tPlanName);
+		tPlaceMapTilePlanAlpha = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName);
 		assertEquals ("Test PlaceMapTile Plan Alpha", tPlaceMapTilePlanAlpha.getName ());
 		assertNull (tPlaceMapTilePlanAlpha.getCorporation ());
 		
 		tPlanName = "Test PlaceMapTile Plan Beta";
 		tCorporationBeta = companyTestFactory.buildAShareCompany (2);
-		tPlaceMapTilePlanBeta = new PlaceMapTilePlan (tGameName, tPlanName, tCorporationBeta);
+		tPlaceMapTilePlanBeta = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, tCorporationBeta);
 		assertEquals ("Test PlaceMapTile Plan Beta", tPlaceMapTilePlanBeta.getName ());
 		assertEquals (tCorporationBeta, tPlaceMapTilePlanBeta.getCorporation ());
 		
 		tPlanName = "Test PlaceMapTile Plan Gamma";
 		tCorporationGamma = companyTestFactory.buildAShareCompany (3);
 		tMapCellGamma = mapTestFactory.buildMapCell ();
-		tPlaceMapTilePlanGamma = new PlaceMapTilePlan (tGameName, tPlanName, 
+		tPlaceMapTilePlanGamma = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
 					tCorporationGamma, tMapCellGamma);
 		
 		assertEquals ("Test PlaceMapTile Plan Gamma", tPlaceMapTilePlanGamma.getName ());
@@ -137,7 +145,7 @@ class PlanTests extends PlanTester {
 		tMapCellDelta = mapTestFactory.buildMapCell ("D5");
 		tTileDelta = tilesTestFactory.buildTile (0);
 		tTileEpsilon = tilesTestFactory.buildTile (1);
-		tPlaceMapTilePlanDelta = new PlaceMapTilePlan (tGameName, tPlanName, 
+		tPlaceMapTilePlanDelta = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
 					tCorporationDelta, tMapCellDelta);
 		tPlaceMapTilePlanDelta.setTileAndOrientation (tTileDelta, 0);
 		
