@@ -73,7 +73,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public static final AttributeName AN_COL_START = new AttributeName ("colStart");
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
-	public static final HexMap NO_HEX_MAP = null;
+	public static final GameMap NO_HEX_MAP = null;
 
 	MapFrame mapFrame;
 	
@@ -524,66 +524,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tMaxHeight = getMaxRowCount () * getHexHeight ();
 		
 		return tMaxHeight;
-	}
-
-	public int getMaxX () {
-		int tMaxRow;
-		int tMaxCol;
-		int tMaxX;
-		int tMaxX1;
-		int tMaxX2;
-
-		if (mapCells == MapCell.NO_MAP_CELLS) {
-			tMaxX = 0;
-		} else {
-			tMaxRow = getMaxRowCount ();
-			if (mapCells [tMaxRow - 1] [0] == MapCell.NO_MAP_CELL) {
-				tMaxX = 0;
-			} else {
-				if (mapCells [0] [0].getMapDirection ()) {
-					tMaxCol = getMaxColCount ();
-					tMaxX1 = mapCells [0] [tMaxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
-					tMaxX2 = mapCells [0] [tMaxCol - 2].getXCenter () + hex.rightEdgeDisplacement ();
-					if (tMaxX1 > tMaxX2) {
-						tMaxX = tMaxX1;
-					} else {
-						tMaxX = tMaxX2;
-					}
-				} else {
-					tMaxX = mapCells [tMaxRow - 1] [0].getXCenter () + hex.rightEdgeDisplacement ();
-				}
-			}
-		}
-
-		return (tMaxX + 3);
-	}
-
-	public int getMaxY () {
-		int tMaxY;
-		int tMaxRow;
-		int tMaxCol;
-
-		if (mapCells == MapCell.NO_MAP_CELLS) {
-			tMaxY = 0;
-		} else {
-			tMaxRow = getMaxRowCount ();
-			tMaxCol = getMaxColCount ();
-			if (mapCells [1] [tMaxCol - 1] == MapCell.NO_MAP_CELL) {
-				tMaxY = 0;
-			} else {
-				if (mapCells [0] [0].getMapDirection ()) {
-					tMaxY = mapCells [0] [0].getYCenter () + hex.bottomEdgeDisplacement ();
-				} else {
-					if (tMaxRow > 0) {
-						tMaxY = mapCells [1] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
-					} else {
-						tMaxY = mapCells [0] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
-					}
-				}
-			}
-		}
-
-		return (tMaxY + 3);
 	}
 
 	public int getMinX () {
