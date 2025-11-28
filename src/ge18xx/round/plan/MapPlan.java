@@ -7,6 +7,7 @@ import ge18xx.map.MapCell;
 
 public class MapPlan extends CorporationPlan {
 	public static final MapPlan NO_MAP_PLAN = null;
+	public static final String NO_MAP_CELL = "No Selected MapCell";
 	MapCell mapCell;
 	
 	public MapPlan (String aGameName, String aName) {
@@ -33,6 +34,25 @@ public class MapPlan extends CorporationPlan {
 	
 	public String getMapCellID () {
 		return mapCell.getCellID ();
+	}
+	
+	public int getMapCellXc () {
+		return mapCell.getXCenter ();
+	}
+	
+	public int getMapCellYc () {
+		return mapCell.getYCenter ();
+	}
+	
+	public String getMapCellCoords () {
+		String tMapCellCoords;
+		
+		tMapCellCoords = NO_MAP_CELL;
+		if (mapCell != MapCell.NO_MAP_CELL) {
+			tMapCellCoords = "[" + getMapCellXc () + ", " + getMapCellYc () + "]";
+		}
+		
+		return tMapCellCoords;
 	}
 	
 	public Rectangle buildSelectedViewArea () {
