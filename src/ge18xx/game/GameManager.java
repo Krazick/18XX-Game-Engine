@@ -2875,6 +2875,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		roundManager.addAction (aAction);
 	}
 
+	// For building a Plan to upgrade tile, want to Always allow the upgrade test
+	//
 	public boolean isUpgradeAllowed (String tTileColor) {
 		return phaseManager.isUpgradeAllowed (tTileColor);
 	}
