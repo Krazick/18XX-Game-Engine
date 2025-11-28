@@ -5,6 +5,7 @@ import java.awt.Graphics;
 //import java.awt.event.MouseListener;
 //import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JLabel;
 
@@ -12,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.TokenCompany;
+import ge18xx.tiles.GameTile;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
@@ -393,5 +395,17 @@ public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
 
 	public int getMaxRowCount () {
 		return (getRowCount ());
+	}
+	
+	public void setPlayableTiles (MapCell mapCell) {
+		
+	}
+	
+	public void clearPlayableTiles () {
+		
+	}
+
+	public List<GameTile> getPlayableGameTiles () {
+		return null;
 	}
 }
