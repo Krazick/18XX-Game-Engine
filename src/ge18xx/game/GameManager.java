@@ -347,6 +347,40 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		playerManager.clearAllPlayerSelections ();
 	}
 
+	public String [] getPlayerCompanies (String aPlayerName) {
+		String [] tPlayerCompanies;
+		List<String> tShareCompanyAbbrevs;
+		List<String> tMinorCompanyAbbrevs;
+		String tAbbrev;
+		CorporationList tShareCompanies;
+		CorporationList tMinorCompanies;
+		int tIndex;
+		int tShareCount;
+		int tMinorCount;
+		
+		tShareCompanyAbbrevs = new LinkedList<String> ();
+		tShareCompanies = shareCompaniesFrame.getCompanies ();
+		tShareCompanyAbbrevs = tShareCompanies.fillCompaniesForPresident (aPlayerName);
+		
+		tMinorCompanyAbbrevs = new LinkedList<String> ();
+		tMinorCompanies = minorCompaniesFrame.getCompanies ();
+		tMinorCompanyAbbrevs = tMinorCompanies.fillCompaniesForPresident (aPlayerName);
+	
+		tShareCount = tShareCompanyAbbrevs.size ();
+		tMinorCount = tMinorCompanyAbbrevs.size ();
+		tPlayerCompanies = new String [tMinorCount + tShareCount];
+		for (tIndex = 0; tIndex < tShareCount; tIndex++) {
+			tAbbrev = tShareCompanyAbbrevs.get (tIndex);
+			tPlayerCompanies [tIndex] = "Share " + tAbbrev;
+		}
+		for (tIndex = 0; tIndex < tMinorCount; tIndex++) {
+			tAbbrev = tMinorCompanyAbbrevs.get (tIndex);
+			tPlayerCompanies [tIndex + tShareCount] = "Minor " + tAbbrev;
+		}
+		
+		return tPlayerCompanies;
+	}
+	
 	public void closeCompany (int aCompanyID, TransferOwnershipAction aTransferOwnershipAction) {
 		privatesFrame.closeCompany (aCompanyID, aTransferOwnershipAction);
 	}
