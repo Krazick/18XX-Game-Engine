@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,10 +19,10 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
-import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
@@ -35,6 +36,7 @@ public class PlanFrame extends XMLFrame {
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel infoAndActionPanel;
+	PlanTileSet planTileSet;
 	KButton discardPlan;
 	KButton applyPlan;
 	KButton savePlan;
@@ -48,11 +50,8 @@ public class PlanFrame extends XMLFrame {
 		super (aFrameName, aGameManager);
 		
 		String tFullFrameTitle;
-		TrainCompany tTrainCompany;
-		
-		tTrainCompany = (TrainCompany) aMapPlan.getCorporation ();
-		System.out.println ("Ready to build a Map Plan for " + tTrainCompany.getName () +
-				" Player is " + aMapPlan.getPlayerName ());
+
+		System.out.println ("Ready to build a Map Plan for Player is " + aMapPlan.getPlayerName ());
 
 		setMapPlan (aMapPlan);
 		try {
@@ -62,8 +61,8 @@ public class PlanFrame extends XMLFrame {
 			buildInfoAndActionPanel ();
 			
 			add (mapPanel, BorderLayout.WEST);
-			add (tilePanel, BorderLayout.CENTER);
 			add (infoAndActionPanel, BorderLayout.EAST);
+			add (tilePanel, BorderLayout.CENTER);
 			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
 			setTitle (tFullFrameTitle);
 			showFrame ();
@@ -99,7 +98,11 @@ public class PlanFrame extends XMLFrame {
 
 	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
 		JLabel tCompanyInfo;
+		JLabel tCompanyChoice;
+		JComboBox<String> tCompanyList;
 		Corporation tCorporation;
+		GameManager tGameManager;
+		String [] tPlayerCompanies;
 		
 		tCorporation = aPlaceMapTilePlan.getCorporation ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
@@ -107,6 +110,12 @@ public class PlanFrame extends XMLFrame {
 			infoAndActionPanel.add (tCompanyInfo);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 		} else {
+			tGameManager = (GameManager) getGameManager ();
+			tPlayerCompanies = tGameManager.getPlayerCompanies (mapPlan.getPlayerName ());
+			tCompanyChoice = new JLabel ("Company to Plan for: ");
+			tCompanyList = new JComboBox<String> (tPlayerCompanies);
+			infoAndActionPanel.add (tCompanyChoice);
+			infoAndActionPanel.add (tCompanyList);
 			tCompanyInfo = null;
 		}
 	}
@@ -139,7 +148,7 @@ public class PlanFrame extends XMLFrame {
 				// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
 				// in the game's inventory. This will allow it to be placed on the Planning Map 
 				aPlaceMapTilePlan.setPlayableTiles (planningMap);
-				
+				fillPlanTileSet ();
 			}
 			infoAndActionPanel.add (tTileInfoLabel);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
@@ -155,6 +164,8 @@ public class PlanFrame extends XMLFrame {
 		
 		tTilePanelLabel = new JLabel ("This is a TilePanel");
 		tilePanel = new JPanel ();
+		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
+
 		tilePanel.add (tTilePanelLabel);
 		tilePanel.setBackground (Color.cyan);
 		tViewSize = new Dimension (300, 500);
@@ -162,10 +173,44 @@ public class PlanFrame extends XMLFrame {
 		tilePanel.setPreferredSize (tViewSize);
 	}
 
+	protected void fillPlanTileSet () {
+		int tIndex;
+		int tCount;
+		PlaceMapTilePlan tPlaceMapTilePlan;
+		GameTile tGameTile;
+		Dimension tViewSize;
+		JScrollPane tTileScrollPane;
+		Tile tTile;
+		int tTileCountToShow;
+		
+		planTileSet = new PlanTileSet ("Plan Tile Set");
+		
+		if (mapPlan instanceof PlaceMapTilePlan) {
+			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+			tCount = tPlaceMapTilePlan.playableTilesCount ();
+			for (tIndex = 0; tIndex < tCount; tIndex++) {
+				tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
+				tTile = tGameTile.getTile ();
+				planTileSet.addTile (tTile, 1);
+				System.out.println ("Adding Tile # " + tTile.getNumber ());
+			}
+			planTileSet.setBounds (0, 0, 300, 500);
+			tViewSize = new Dimension (250, 400);
+			tTileScrollPane = buildaScrollPane (planTileSet, tViewSize);
+			tilePanel.add (tTileScrollPane);
+//			tilePanel.add (planTileSet);
+			tTileCountToShow = planTileSet.getTileCountToShow ();
+			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
+			planTileSet.validate ();
+			tilePanel.validate ();
+			repaint ();
+			revalidate ();
+		}
+	}
+
 	private void buildMapPanel () throws CloneNotSupportedException {
 		GameManager tGameManager;
 		GameMap tGameMap;
-//		String tScrollBarInfo;
 		Dimension tViewSize;
 		float tHorizontalPercent;
 		float tVerticalPercent;
@@ -176,14 +221,12 @@ public class PlanFrame extends XMLFrame {
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		planningMap = tGameMap.clone ();
-		buildTheScrollPane (planningMap);
 		tViewSize = new Dimension (300, 460);
+
+		scrollPane = buildaScrollPane (planningMap, tViewSize);
 		mapPanel.setSize (tViewSize);
 		mapPanel.setPreferredSize (tViewSize);
 		mapPanel.add (scrollPane);
-		
-//		tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
-//						getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
 		
 		tImageWidth = planningMap.getMaxX ();
 		tImageHeight = planningMap.getMaxY ();
@@ -193,19 +236,19 @@ public class PlanFrame extends XMLFrame {
 			setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
 			tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
 			setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
-//		
-//			tScrollBarInfo = getScrollBarInfo (ScrollPaneConstants.HORIZONTAL_SCROLLBAR) + "\n" +
-//				getScrollBarInfo (ScrollPaneConstants.VERTICAL_SCROLLBAR);
 		}
 	}
 
-	public void buildTheScrollPane (JComponent aImage) {
-		Dimension tViewSize;
+	public JScrollPane buildaScrollPane (JComponent aImage, Dimension aViewSize) {
+		JScrollPane tScrollPane;
 		
-		tViewSize = new Dimension (300, 460);
-		scrollPane = new JScrollPane (aImage);
-		scrollPane.setPreferredSize (tViewSize);
-		scrollPane.setSize (tViewSize);
+		tScrollPane = new JScrollPane (aImage);
+		tScrollPane.setPreferredSize (aViewSize);
+		tScrollPane.setSize (aViewSize);
+		tScrollPane.setMaximumSize (aViewSize);
+//		tScrollPane.setHorizontalScrollBarPolicy (ScrolPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		return tScrollPane;
 	}
 
 	public void setMapPlan (MapPlan aMapPlan) {
@@ -229,7 +272,6 @@ public class PlanFrame extends XMLFrame {
 				tScrollMax = tJScrollBar.getMaximum ();
 				tTargetValue = (int) (tScrollMax * aPercentOfMax);
 				tJScrollBar.setValue (tTargetValue);
-				System.out.println ("Percent of Max " + aPercentOfMax + " Target Value " + tTargetValue);
 			}
 		});
 		
