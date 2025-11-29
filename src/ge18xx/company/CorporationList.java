@@ -575,6 +575,23 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCountOfPlayerOwned;
 	}
 
+	public List<String> fillCompaniesForPresident (String aPlayerName) {
+		String tCompanyAbbrev;
+		List<String> tCompanyAbbrevs;
+		
+		tCompanyAbbrevs = new LinkedList<String> ();
+		if (aPlayerName != null) {
+			for (Corporation tCorporation : corporations) {
+				if (aPlayerName.equals (tCorporation.getPresidentName ())) {
+					tCompanyAbbrev = tCorporation.getAbbrev ();
+					tCompanyAbbrevs.add (tCompanyAbbrev);
+				}
+			}
+		}
+		
+		return tCompanyAbbrevs;
+	}
+	
 	public ElementName getElementName () {
 		ElementName tElementName;
 		Corporation tCorporation;
