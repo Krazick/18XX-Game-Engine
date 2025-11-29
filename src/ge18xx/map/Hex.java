@@ -64,7 +64,7 @@ public class Hex {
 		setDirection (aHexDirection);
 		setScaleAndSize (aScale, offsetX, offsetY);
 	}
-
+	
 	public int bottomEdgeDisplacement () {
 		return getMaxY ();
 	}
