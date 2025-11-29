@@ -15,6 +15,8 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import ge18xx.map.Hex;
+
 //
 //  TileSet.java
 //  Java_18XX
@@ -69,7 +71,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		setShowAllTiles (false);
 	}
 
-	private void setShowAllTiles (boolean aShowAllTiles) {
+	public void setShowAllTiles (boolean aShowAllTiles) {
 		showAllTiles = aShowAllTiles;
 	}
 
@@ -476,6 +478,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tHeight;
 		Tile tTile;
 
+		super.paintComponent (aGraphics);
 		tXoffset = Double.valueOf (Hex18XX.getWidth () * 2.25).intValue ();
 		tYoffset = hex.getYd () * 2 + 25;
 		tYNumOffset = hex.getYd () + 17;
@@ -484,7 +487,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tX = tXoffset - tWidth;
 		tY = tYoffset - tHeight;
 		tIndex = 0;
-
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.setXY (tX, tY);
 			tTile = tGameTile.getTile ();
@@ -495,7 +497,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				}
 			}
 			tIndex++;
-			if (tIndex == TILES_PER_ROW) {
+			if (tIndex == getTilesPerRow ()) {
 				tX = tXoffset - tWidth;
 				tY += tYoffset;
 				tIndex = 0;
@@ -536,18 +538,22 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		tXUpperLeft = aX - aWidth;
 		tYUpperLeft = aY - aHeight;
-		if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
-			if (aGameTile.isPlayable ()) {
-				if (aGameTile.availableCount () > 0) {
-					aGraphics.setColor (Color.ORANGE);
-				} else {
-					aGraphics.setColor (Color.LIGHT_GRAY);
+		if (tileTrayFrame == TileTrayFrame.NO_TILE_TRAY_FRAME) {
+			aGraphics.setColor (Color.LIGHT_GRAY);
+		} else {
+			if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
+				if (aGameTile.isPlayable ()) {
+					if (aGameTile.availableCount () > 0) {
+						aGraphics.setColor (Color.ORANGE);
+					} else {
+						aGraphics.setColor (Color.LIGHT_GRAY);
+					}
+					aGraphics.fillRect (tXUpperLeft, tYUpperLeft, aWidth * 2, aHeight * 2);
 				}
+			} else {
+				aGraphics.setColor (Color.GRAY);
 				aGraphics.fillRect (tXUpperLeft, tYUpperLeft, aWidth * 2, aHeight * 2);
 			}
-		} else {
-			aGraphics.setColor (Color.GRAY);
-			aGraphics.fillRect (tXUpperLeft, tYUpperLeft, aWidth * 2, aHeight * 2);
 		}
 	}
 
@@ -592,6 +598,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 
 		setHex (tHexDirection);
+	}
+	
+	public boolean getHexDirection () {
+		return Hex.getDirection ();
 	}
 	
 	public void setPlayableUpgradeTiles (GameTile aGameTile, String aTileName, String aBaseCityName) {
@@ -944,12 +954,16 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		double tRowCountD;
 
 		tTileCount = getTileCountToShow ();
-		tRowCountD = Double.valueOf (tTileCount / TILES_PER_ROW);
+		tRowCountD = Double.valueOf (tTileCount / getTilesPerRow ());
 		tRowCount = (int) Math.ceil (tRowCountD);
 
 		return tRowCount;
 	}
 
+	public int getTilesPerRow () {
+		return TILES_PER_ROW;
+	}
+	
 	public void setTraySize () {
 		int tMaxX;
 		int tMaxY;
@@ -960,10 +974,12 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			setHex (Hex18XX.getDirection ());
 		}
 		tRowCount = calcRowCount ();
-		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
+		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * getTilesPerRow () + 10).intValue ();
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		tNewDimension = new Dimension (tMaxX, tMaxY);
-		tileTrayFrame.setScrollPanePSize (tNewDimension);
+		if (tileTrayFrame != TileTrayFrame.NO_TILE_TRAY_FRAME) {
+			tileTrayFrame.setScrollPanePSize (tNewDimension);
+		}
 		setPreferredSize (tNewDimension);
 	}
 
