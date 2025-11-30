@@ -580,12 +580,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		List<String> tCompanyAbbrevs;
 		
 		tCompanyAbbrevs = new LinkedList<String> ();
-		if (aPlayerName != null) {
-			for (Corporation tCorporation : corporations) {
+		for (Corporation tCorporation : corporations) {
+			tCompanyAbbrev = tCorporation.getAbbrev ();
+			if (aPlayerName != Player.NO_PLAYER_NAME) {
 				if (aPlayerName.equals (tCorporation.getPresidentName ())) {
-					tCompanyAbbrev = tCorporation.getAbbrev ();
 					tCompanyAbbrevs.add (tCompanyAbbrev);
 				}
+			} else {
+				tCompanyAbbrevs.add (tCompanyAbbrev);
 			}
 		}
 		
