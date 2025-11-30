@@ -113,9 +113,14 @@ public class PlanFrame extends XMLFrame {
 			tGameManager = (GameManager) getGameManager ();
 			tPlayerCompanies = tGameManager.getPlayerCompanies (mapPlan.getPlayerName ());
 			tCompanyChoice = new JLabel ("Company to Plan for: ");
+			if (tPlayerCompanies.length == 0) {
+				tPlayerCompanies = tGameManager.getAllCompanyAbbrevs ();
+			}
 			tCompanyList = new JComboBox<String> (tPlayerCompanies);
 			infoAndActionPanel.add (tCompanyChoice);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			infoAndActionPanel.add (tCompanyList);
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			tCompanyInfo = null;
 		}
 	}
@@ -192,13 +197,11 @@ public class PlanFrame extends XMLFrame {
 				tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
 				tTile = tGameTile.getTile ();
 				planTileSet.addTile (tTile, 1);
-				System.out.println ("Adding Tile # " + tTile.getNumber ());
 			}
 			planTileSet.setBounds (0, 0, 300, 500);
 			tViewSize = new Dimension (250, 400);
 			tTileScrollPane = buildaScrollPane (planTileSet, tViewSize);
 			tilePanel.add (tTileScrollPane);
-//			tilePanel.add (planTileSet);
 			tTileCountToShow = planTileSet.getTileCountToShow ();
 			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
 			planTileSet.validate ();
@@ -256,7 +259,6 @@ public class PlanFrame extends XMLFrame {
 	}
 	
 	public void setScrollBarValue (String aOrientation, float aPercentOfMax) {
-		
 		SwingUtilities.invokeLater ( () -> {
 			JScrollBar tJScrollBar;
 			int tTargetValue;
@@ -274,7 +276,6 @@ public class PlanFrame extends XMLFrame {
 				tJScrollBar.setValue (tTargetValue);
 			}
 		});
-		
 	}
 	
 	public String getScrollBarInfo (String aOrientation) {
