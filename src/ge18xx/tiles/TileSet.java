@@ -604,7 +604,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return Hex.getDirection ();
 	}
 	
-	public void setPlayableUpgradeTiles (GameTile aGameTile, String aTileName, String aBaseCityName) {
+	public void setPlayableUpgradeTiles (GameTile aGameTile, String aTileName, 
+						String aBaseCityName, boolean aEnforcePhase) {
 		int tUpgradeCount;
 		int tUpgradeIndex;
 		int tToTileNumber;
@@ -624,7 +625,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 					tBaseCityName = tUpgrade.getBaseCityName ();
 					tToTileNumber = tUpgrade.getTileNumber ();
 					tUpgradeGameTile = getGameTile (tToTileNumber);
-					if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+					if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile, aEnforcePhase)) {
 						if (aBaseCityName.equals (tBaseCityName)) {
 							tUpgradeGameTile.setPlayable (true);
 							tPlayableCount++;
@@ -660,7 +661,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 						if (tUpgrade != Upgrade.NO_UPGRADE) {
 							tToTileNumber = tUpgrade.getTileNumber ();
 							tUpgradeGameTile = getGameTile (tToTileNumber);
-							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile, aEnforcePhase)) {
 								tUpgradeGameTile.setPlayable (true);
 								tPlayableCount++;
 							}

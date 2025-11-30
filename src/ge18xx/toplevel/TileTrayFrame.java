@@ -150,23 +150,27 @@ public class TileTrayFrame extends XMLFrame {
 	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
 	 *
 	 */
+	public boolean isUpgradeAllowed (GameTile aGameTile, boolean aEnforcePhase) {
+		boolean tUpgradeAllowed;
+		
+		if (aEnforcePhase) {
+			tUpgradeAllowed = isUpgradeAllowed (aGameTile);
+		} else {
+			tUpgradeAllowed = true;
+		}
+		
+		return tUpgradeAllowed;
+	}
+	
 	public boolean isUpgradeAllowed (GameTile aGameTile) {
 		boolean tUpgradeAllowed;
 		String tTileColor;
-//		int tToTileNumber;
-//		int tPhaseNumber;
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
-
 		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = tGameManager.isUpgradeAllowed (tTileColor);
-//		if (tUpgradeAllowed) {
-//			tToTileNumber = aGameTile.getTileNumber ();
-//			tPhaseNumber = gameManager.getCurrentPhase ();
-//			tUpgradeAllowed = aGameTile.isUpgradeAllowedInPhase (tToTileNumber, tPhaseNumber);
-//		}
-
+		
 		return tUpgradeAllowed;
 	}
 
