@@ -50,8 +50,9 @@ public class PlaceMapTilePlan extends MapPlan {
 		return tileOrient;
 	}
 
+	// Collect the set of Playable Tiles, without regards to the Current Phase
 	public void setPlayableTiles (GameMap aPlanningMap) {
-		aPlanningMap.setPlayableTiles (mapCell);
+		aPlanningMap.setPlayableTiles (mapCell, false);
 		gameTiles = aPlanningMap.getPlayableGameTiles ();
 		System.out.println ("There are " + gameTiles.size () + " PlayableTiles");
 		aPlanningMap.clearPlayableTiles ();

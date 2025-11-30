@@ -147,6 +147,8 @@ public class PlanFrame extends XMLFrame {
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
 				tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
+				aPlaceMapTilePlan.setPlayableTiles (planningMap);
+				fillPlanTileSet ();
 			} else {
 				tTileInfoLabel = new JLabel ("No Tile on the MapCell");
 				// Build a set of Tiles that can be placed on this MapCell
