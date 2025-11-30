@@ -83,6 +83,7 @@ import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 
 import ge18xx.toplevel.CitiesFrame;
+import ge18xx.toplevel.CorporationTableFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
 import ge18xx.toplevel.MinorCompaniesFrame;
@@ -347,24 +348,25 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		playerManager.clearAllPlayerSelections ();
 	}
 
+	public String [] getAllCompanyAbbrevs () {
+		String [] tAllCompanyAbbrevs;
+		
+		tAllCompanyAbbrevs = getPlayerCompanies (Player.NO_PLAYER_NAME);
+		
+		return tAllCompanyAbbrevs;
+	}
+	
 	public String [] getPlayerCompanies (String aPlayerName) {
 		String [] tPlayerCompanies;
 		List<String> tShareCompanyAbbrevs;
 		List<String> tMinorCompanyAbbrevs;
 		String tAbbrev;
-		CorporationList tShareCompanies;
-		CorporationList tMinorCompanies;
 		int tIndex;
 		int tShareCount;
 		int tMinorCount;
 		
-		tShareCompanyAbbrevs = new LinkedList<String> ();
-		tShareCompanies = shareCompaniesFrame.getCompanies ();
-		tShareCompanyAbbrevs = tShareCompanies.fillCompaniesForPresident (aPlayerName);
-		
-		tMinorCompanyAbbrevs = new LinkedList<String> ();
-		tMinorCompanies = minorCompaniesFrame.getCompanies ();
-		tMinorCompanyAbbrevs = tMinorCompanies.fillCompaniesForPresident (aPlayerName);
+		tShareCompanyAbbrevs = getAllCompanyAbbrevs (shareCompaniesFrame, aPlayerName);
+		tMinorCompanyAbbrevs = getAllCompanyAbbrevs (minorCompaniesFrame, aPlayerName);
 	
 		tShareCount = tShareCompanyAbbrevs.size ();
 		tMinorCount = tMinorCompanyAbbrevs.size ();
@@ -379,6 +381,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 		
 		return tPlayerCompanies;
+	}
+
+	protected List<String> getAllCompanyAbbrevs (CorporationTableFrame aCompaniesFrame, 
+								String aPlayerName) {
+		List<String> tCompanyAbbrevs;
+		CorporationList tCompanies;
+		
+		tCompanyAbbrevs = new LinkedList<String> ();
+		tCompanies = aCompaniesFrame.getCompanies ();
+		tCompanyAbbrevs = tCompanies.fillCompaniesForPresident (aPlayerName);
+		
+		return tCompanyAbbrevs;
 	}
 	
 	public void closeCompany (int aCompanyID, TransferOwnershipAction aTransferOwnershipAction) {
