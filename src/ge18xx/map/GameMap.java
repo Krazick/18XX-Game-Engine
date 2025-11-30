@@ -401,6 +401,10 @@ public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
 		
 	}
 	
+	public void setPlayableTiles (MapCell mapCell, boolean aEnforcePhase) {
+		
+	}
+	
 	public void clearPlayableTiles () {
 		
 	}
