@@ -1147,6 +1147,11 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	
 	@Override
 	public void setPlayableTiles (MapCell aSelectedMapCell) {
+		setPlayableTiles (aSelectedMapCell, true);
+	}
+
+	@Override
+	public void setPlayableTiles (MapCell aSelectedMapCell, boolean aEnforcePhase) {
 		int tMapCellTypeCount;
 		int tTileNumber;
 		String tTileName;
@@ -1161,7 +1166,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			tTile = aSelectedMapCell.getTile ();
 			tTileNumber = tTile.getNumber ();
 			tGameTile = tileSet.getGameTile (tTileNumber);
-			tileSet.setPlayableUpgradeTiles (tGameTile, tTileName, tBaseCityName);
+			tileSet.setPlayableUpgradeTiles (tGameTile, tTileName, tBaseCityName, aEnforcePhase);
 		} else {
 			tBaseTileName = aSelectedMapCell.getName ();
 			tMapCellTypeCount = aSelectedMapCell.getTypeCount ();
