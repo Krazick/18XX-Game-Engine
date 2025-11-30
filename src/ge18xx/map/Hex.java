@@ -64,7 +64,11 @@ public class Hex {
 		setDirection (aHexDirection);
 		setScaleAndSize (aScale, offsetX, offsetY);
 	}
-	
+
+	public static boolean getDirection () {
+		return direction;
+	}
+
 	public int bottomEdgeDisplacement () {
 		return getMaxY ();
 	}
@@ -247,10 +251,6 @@ public class Hex {
 
 	public int getCityWidth () {
 		return cityWidth;
-	}
-
-	public static boolean getDirection () {
-		return direction;
 	}
 
 	public Polygon getHexPolygon () {
