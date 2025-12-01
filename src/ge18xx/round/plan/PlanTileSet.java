@@ -3,11 +3,11 @@ package ge18xx.round.plan;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import ge18xx.map.GameMap;
 import ge18xx.map.Hex;
 import ge18xx.tiles.TileSet;
 
 public class PlanTileSet extends TileSet {
-
 	private static final long serialVersionUID = 1L;
 	public static final int PLAN_TILES_PER_ROW = 1;
 
@@ -35,4 +35,43 @@ public class PlanTileSet extends TileSet {
     public Dimension getPreferredSize() {
         return new Dimension (300, 500); // Example size
     }
+	
+	@Override
+	public void setTraySize () {
+		int tMaxX;
+		int tMaxY;
+//		int tRowCount;
+		Dimension tNewDimension;
+
+//		if (hex == Hex18XX.NO_HEX18XX) {
+//			setHex (Hex18XX.getDirection ());
+//		}
+//		tRowCount = calcRowCount ();
+//		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * getTilesPerRow () + 10).intValue ();
+//		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
+		
+		tMaxX = 200;
+		tMaxY = 700;
+		tNewDimension = new Dimension (tMaxX, tMaxY);
+		setPreferredSize (tNewDimension);
+	}
+
+	public void setTraySize (GameMap planningMap, PlaceMapTilePlan tPlaceMapTilePlan) {
+		int tMaxX;
+		int tMaxY;
+		int tCount;
+		Dimension tNewDimension;
+
+		tCount = tPlaceMapTilePlan.playableTilesCount ();
+//		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 + 10).intValue ();
+//		tMaxY = (hex.getYd () * 2 + 25) * tCount + 20;
+		
+		tMaxX = planningMap.getMaxX ();
+		tMaxY = (planningMap.getHexHeight () + 20) * tCount;
+		tNewDimension = new Dimension (tMaxX, tMaxY);
+		setSize (tNewDimension);
+
+		setPreferredSize (tNewDimension);
+	}
+
 }

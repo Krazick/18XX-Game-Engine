@@ -30,13 +30,14 @@ import swingTweaks.KButton;
 
 public class PlanFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_TITLE = "Map Plan Frame";
+	public static final String BASE_TITLE = "Map Plan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
 	GameMap planningMap;
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel infoAndActionPanel;
 	PlanTileSet planTileSet;
+	JScrollPane tileScrollPane;
 	KButton discardPlan;
 	KButton applyPlan;
 	KButton savePlan;
@@ -64,6 +65,7 @@ public class PlanFrame extends XMLFrame {
 			add (infoAndActionPanel, BorderLayout.EAST);
 			add (tilePanel, BorderLayout.CENTER);
 			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
+			tFullFrameTitle = aGameManager.createFrameTitle (tFullFrameTitle);
 			setTitle (tFullFrameTitle);
 			showFrame ();
 		} catch (CloneNotSupportedException e) {
@@ -186,10 +188,13 @@ public class PlanFrame extends XMLFrame {
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		GameTile tGameTile;
 		Dimension tViewSize;
-		JScrollPane tTileScrollPane;
 		Tile tTile;
 		int tTileCountToShow;
-		
+		float tHorizontalPercent;
+		float tVerticalPercent;
+		float tImageWidth;
+		float tImageHeight;
+
 		planTileSet = new PlanTileSet ("Plan Tile Set");
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
@@ -200,10 +205,19 @@ public class PlanFrame extends XMLFrame {
 				tTile = tGameTile.getTile ();
 				planTileSet.addTile (tTile, 1);
 			}
-			planTileSet.setBounds (0, 0, 300, 500);
-			tViewSize = new Dimension (250, 400);
-			tTileScrollPane = buildaScrollPane (planTileSet, tViewSize);
-			tilePanel.add (tTileScrollPane);
+			planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
+
+			tViewSize = new Dimension (190, 400);
+			tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
+			
+			tImageHeight = 700.0f;
+			tImageWidth = 200.0f;
+			tVerticalPercent = tImageHeight;
+			setScrollBarValue (tileScrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+			tHorizontalPercent = tImageWidth;
+			setScrollBarValue (tileScrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+
+			tilePanel.add (tileScrollPane);
 			tTileCountToShow = planTileSet.getTileCountToShow ();
 			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
 			planTileSet.validate ();
@@ -238,9 +252,9 @@ public class PlanFrame extends XMLFrame {
 	
 		if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
 			tVerticalPercent = (mapPlan.getMapCellYc () - 250.0f)/tImageHeight;
-			setScrollBarValue (ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+			setScrollBarValue (scrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
 			tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
-			setScrollBarValue (ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+			setScrollBarValue (scrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
 		}
 	}
 
@@ -260,7 +274,7 @@ public class PlanFrame extends XMLFrame {
 		mapPlan = aMapPlan;
 	}
 	
-	public void setScrollBarValue (String aOrientation, float aPercentOfMax) {
+	public void setScrollBarValue (JScrollPane aScrollPane, String aOrientation, float aPercentOfMax) {
 		SwingUtilities.invokeLater ( () -> {
 			JScrollBar tJScrollBar;
 			int tTargetValue;
@@ -268,9 +282,9 @@ public class PlanFrame extends XMLFrame {
 
 			tJScrollBar = NO_JSCROLL_BAR;
 			if (aOrientation == ScrollPaneConstants.HORIZONTAL_SCROLLBAR) {
-				tJScrollBar = scrollPane.getHorizontalScrollBar ();
+				tJScrollBar = aScrollPane.getHorizontalScrollBar ();
 			} else if (aOrientation == ScrollPaneConstants.VERTICAL_SCROLLBAR) {
-				tJScrollBar = scrollPane.getVerticalScrollBar ();
+				tJScrollBar = aScrollPane.getVerticalScrollBar ();
 			}
 			if (tJScrollBar != NO_JSCROLL_BAR) {
 				tScrollMax = tJScrollBar.getMaximum ();

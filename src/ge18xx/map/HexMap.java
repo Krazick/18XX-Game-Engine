@@ -110,7 +110,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public int getCurrentPhase () {
 		return mapFrame.getCurrentPhase ();
 	}
-
+	
 	public void setMapFrame (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
 	}
@@ -1386,6 +1386,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		String tPlayerName;
 		MapCell tSelectedMapCell;
 		PlanFrame tPlanFrame;
+		GameManager tGameManager;
 
 		tPlayerName = mapFrame.getPlayerName ();
 		tGameName = mapFrame.getGameName ();
@@ -1399,8 +1400,9 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		} else {
 			System.out.println ("");
 		}
-
-		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), tPlaceMapTilePlan);
+		
+		tGameManager = (GameManager) mapFrame.getGameManager ();
+		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
 		setPlanFrame (tPlanFrame);
 	}
 	
@@ -1410,7 +1412,8 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		String tPlayerName;
 		MapCell tSelectedMapCell;
 		PlanFrame tPlanFrame;
-		
+		GameManager tGameManager;
+
 		tGameName = mapFrame.getGameName ();
 		tPlayerName = mapFrame.getPlayerName ();
 		tSelectedMapCell = getSelectedMapCell ();
@@ -1423,8 +1426,8 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
 		}
 		
-		tPlanFrame = new PlanFrame ("Map Plan Frame", mapFrame.getGameManager (), 
-					tPlaceMapTilePlan);
+		tGameManager = (GameManager) mapFrame.getGameManager ();
+		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
 		setPlanFrame (tPlanFrame);
 	}
 
