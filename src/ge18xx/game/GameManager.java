@@ -2045,6 +2045,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			removeInactiveCompanies ();
 		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
+			removeInactiveCompanies ();
 		} else if (FormCompany.EN_FORM_COMPANY.equals (aChildName)) {
 			// If the Formation State is in a NoState, the game was undone, saved, and reloaded 
 			// It might be better to clear the formationPhase so it is not saved.
