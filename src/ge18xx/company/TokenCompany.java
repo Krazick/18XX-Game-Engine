@@ -291,6 +291,8 @@ public abstract class TokenCompany extends TrainCompany {
 				tMapToken = getHome1Token ();
 				tMapFrame.putTokenDownHere (this, tMapToken, TokenType.HOME1, aMapCell, tHomeRevenueCenter);
 				if (isHomeTypeChoice ()) {
+					// TODO: add Effect to remove "the Other Home" when a corporation has a choice of two
+					// bases, the other must be cleared on the remote clients, and restored if undone
 					removeOtherHome (aMapCell, aHomeLocation);
 				}
 			} else { // Given multiple choice for base location on tile
