@@ -28,6 +28,7 @@ public class PlanTileSet extends TileSet {
 
 	@Override
 	public void paintComponent (Graphics aGraphics) {
+		System.out.println ("Paint the Plan Tile Set");
 		super.paintComponent (aGraphics);
 	}
 	
