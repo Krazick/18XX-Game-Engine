@@ -155,14 +155,20 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public void appendCorporationBase (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		XMLElement tCorporationBaseElement;
 		String tCorporationAbbrev;
+		Corporation tCorporation;
 
 		tCorporationBaseElement = aXMLDocument.createElement (EN_CORPORATE_BASE);
-		tCorporationAbbrev = cityInfo.getCorporationAbbrev ();
-		if (tCorporationAbbrev != Corporation.NO_ABBREV) {
-			if (tCorporationAbbrev.length () > 0) {
-				tCorporationBaseElement.setAttribute (Corporation.AN_ABBREV, tCorporationAbbrev);
-				tCorporationBaseElement.setAttribute (AN_LOCATION, location.getLocation ());
-				aMapCellElement.appendChild (tCorporationBaseElement);
+		tCorporation = cityInfo.getCorporation ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			if (! (tCorporation.isClosed () || tCorporation.isInActive ())) {
+				tCorporationAbbrev = cityInfo.getCorporationAbbrev ();
+				if (tCorporationAbbrev != Corporation.NO_ABBREV) {
+					if (tCorporationAbbrev.length () > 0) {
+						tCorporationBaseElement.setAttribute (Corporation.AN_ABBREV, tCorporationAbbrev);
+						tCorporationBaseElement.setAttribute (AN_LOCATION, location.getLocation ());
+						aMapCellElement.appendChild (tCorporationBaseElement);
+					}
+				}
 			}
 		}
 	}
