@@ -176,7 +176,7 @@ public class PlanFrame extends XMLFrame {
 		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
 
 		tilePanel.add (tTilePanelLabel);
-		tilePanel.setBackground (Color.cyan);
+//		tilePanel.setBackground (Color.cyan);
 		tViewSize = new Dimension (300, 500);
 		tilePanel.setSize (tViewSize);
 		tilePanel.setPreferredSize (tViewSize);
@@ -218,6 +218,9 @@ public class PlanFrame extends XMLFrame {
 			setScrollBarValue (tileScrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
 
 			tilePanel.add (tileScrollPane);
+			
+//			tilePanel.add (planTileSet);
+			
 			tTileCountToShow = planTileSet.getTileCountToShow ();
 			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
 			planTileSet.validate ();
