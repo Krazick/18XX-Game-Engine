@@ -1239,6 +1239,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		return getPlayerName ();
 	}
 
+	@Override
 	public String getPlayerName () {
 		return playerName.getText ();
 	}
