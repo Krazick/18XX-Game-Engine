@@ -2,16 +2,20 @@ package ge18xx.round.plan;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 
 import ge18xx.map.GameMap;
 import ge18xx.map.Hex;
+import ge18xx.tiles.GameTile;
 import ge18xx.tiles.TileSet;
 
 public class PlanTileSet extends TileSet {
 	private static final long serialVersionUID = 1L;
-	public static final int PLAN_TILES_PER_ROW = 1;
+	public static final int PLAN_TILES_PER_ROW = 2;
+	PlanFrame planFrame;
 
-	public PlanTileSet (String aSetName) {
+	public PlanTileSet (String aSetName, PlanFrame aPlanFrame) {
 		super (aSetName);
 		
 		boolean tHexDirection;
@@ -19,8 +23,13 @@ public class PlanTileSet extends TileSet {
 		setShowAllTiles (true);
 		tHexDirection = Hex.getDirection ();
 		setHex (tHexDirection);
+		setPlanFrame (aPlanFrame);
 	}
 
+	public void setPlanFrame (PlanFrame aPlanFrame) {
+		planFrame = aPlanFrame;
+	}
+	
 	@Override
 	public int getTilesPerRow () {
 		return PLAN_TILES_PER_ROW;
@@ -28,7 +37,6 @@ public class PlanTileSet extends TileSet {
 
 	@Override
 	public void paintComponent (Graphics aGraphics) {
-		System.out.println ("Paint the Plan Tile Set");
 		super.paintComponent (aGraphics);
 	}
 	
@@ -75,4 +83,21 @@ public class PlanTileSet extends TileSet {
 		setPreferredSize (tNewDimension);
 	}
 
+	@Override
+	public void handleClick (MouseEvent aMouseEvent) {
+		Point tPoint;
+		GameTile tGameTile;
+
+		tPoint = aMouseEvent.getPoint ();
+		tGameTile = getTileContainingPoint (tPoint);
+
+		if (tGameTile != GameTile.NO_GAME_TILE) {
+			System.out.println ("Clicked Game Tile " + tGameTile.getTileNumber ());
+			switchSelectedTile (tGameTile);
+			planFrame.repaint ();
+		} else {
+			super.handleClick (aMouseEvent);
+			System.out.println ("Point at " + tPoint.x + ", " + tPoint.y);
+		}
+	}
 }
