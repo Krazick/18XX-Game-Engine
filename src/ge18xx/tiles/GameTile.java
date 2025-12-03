@@ -336,6 +336,10 @@ public class GameTile {
 		usedCount = aUsedCount;
 	}
 
+	public int getUsedCount () {
+		return usedCount;
+	}
+	
 	public int getTotalCount () {
 		return totalCount;
 	}
