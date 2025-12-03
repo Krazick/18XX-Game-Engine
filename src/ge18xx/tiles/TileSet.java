@@ -367,21 +367,12 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		Point tPoint = aMouseEvent.getPoint ();
 		GameTile tGameTile = getTileContainingPoint (tPoint);
 		GameTile tRotateGameTile;
-		GameTile tPreviousGameTile;
 		boolean tShiftDown;
 		
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			if (tGameTile.tileAvailable ()) {
 				if (singleTileSelect) {
-					tPreviousGameTile = getSelectedTile ();
-					if (tPreviousGameTile == GameTile.NO_GAME_TILE) {
-						toggleSelectedTile (tGameTile);
-					} else {
-						if (tGameTile != tPreviousGameTile) {
-							toggleSelectedTile (tPreviousGameTile);
-							toggleSelectedTile (tGameTile);
-						}
-					}
+					switchSelectedTile (tGameTile);
 				} else {
 					toggleSelectedTile (tGameTile);
 				}
@@ -403,6 +394,19 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			tileTrayFrameToFront ();
 		}
 		redrawTileTray ();
+	}
+
+	protected void switchSelectedTile (GameTile tGameTile) {
+		GameTile tPreviousGameTile;
+		tPreviousGameTile = getSelectedTile ();
+		if (tPreviousGameTile == GameTile.NO_GAME_TILE) {
+			toggleSelectedTile (tGameTile);
+		} else {
+			if (tGameTile != tPreviousGameTile) {
+				toggleSelectedTile (tPreviousGameTile);
+				toggleSelectedTile (tGameTile);
+			}
+		}
 	}
 
 	/*
@@ -946,7 +950,9 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (aGameTile.isSelectable ()) {
 			aGameTile.toggleSelected ();
 		}
-		tileTrayFrame.notifyMapFrame ();
+		if (tileTrayFrame != TileTrayFrame.NO_TILE_TRAY_FRAME) {
+			tileTrayFrame.notifyMapFrame ();
+		}
 	}
 
 	public int calcRowCount () {
