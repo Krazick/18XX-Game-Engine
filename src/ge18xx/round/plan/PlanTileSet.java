@@ -47,10 +47,10 @@ public class PlanTileSet extends TileSet {
 	
 	@Override
 	public void setTraySize () {
+		Dimension tNewDimension;
 		int tMaxX;
 		int tMaxY;
 //		int tRowCount;
-		Dimension tNewDimension;
 
 //		if (hex == Hex18XX.NO_HEX18XX) {
 //			setHex (Hex18XX.getDirection ());
@@ -97,7 +97,6 @@ public class PlanTileSet extends TileSet {
 			planFrame.repaint ();
 		} else {
 			super.handleClick (aMouseEvent);
-			System.out.println ("Point at " + tPoint.x + ", " + tPoint.y);
 		}
 	}
 }
