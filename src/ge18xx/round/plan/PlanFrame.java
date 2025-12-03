@@ -181,15 +181,12 @@ public class PlanFrame extends XMLFrame {
 	protected void fillPlanTileSet () {
 		int tIndex;
 		int tCount;
+		int tTotalCount;
+		int tUsedCount;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		GameTile tGameTile;
 		Dimension tViewSize;
 		Tile tTile;
-//		int tTileCountToShow;
-//		float tHorizontalPercent;
-//		float tVerticalPercent;
-//		float tImageWidth;
-//		float tImageHeight;
 
 		planTileSet = new PlanTileSet ("Plan Tile Set", this);
 		
@@ -199,24 +196,17 @@ public class PlanFrame extends XMLFrame {
 			for (tIndex = 0; tIndex < tCount; tIndex++) {
 				tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
 				tTile = tGameTile.getTile ();
-				planTileSet.addTile (tTile, 1);
+				tTotalCount = tGameTile.getTotalCount ();
+				tUsedCount = tGameTile.getUsedCount ();
+				planTileSet.addTile (tTile, tTotalCount, tUsedCount);
 			}
 			planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
 
 			tViewSize = new Dimension (300, 460);
 			tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
 			
-//			tImageHeight = 700.0f;
-//			tImageWidth = 200.0f;
-//			tVerticalPercent = tImageHeight;
-//			setScrollBarValue (tileScrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
-//			tHorizontalPercent = tImageWidth;
-//			setScrollBarValue (tileScrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
 
 			tilePanel.add (tileScrollPane);
-			
-//			tTileCountToShow = planTileSet.getTileCountToShow ();
-//			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
 			planTileSet.validate ();
 			tilePanel.validate ();
 			repaint ();
