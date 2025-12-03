@@ -168,15 +168,11 @@ public class PlanFrame extends XMLFrame {
 	}
 
 	private void buildTilePanel () {
-		JLabel tTilePanelLabel;
 		Dimension tViewSize;
 		
-		tTilePanelLabel = new JLabel ("This is a TilePanel");
 		tilePanel = new JPanel ();
 		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
 
-		tilePanel.add (tTilePanelLabel);
-//		tilePanel.setBackground (Color.cyan);
 		tViewSize = new Dimension (300, 500);
 		tilePanel.setSize (tViewSize);
 		tilePanel.setPreferredSize (tViewSize);
@@ -189,13 +185,13 @@ public class PlanFrame extends XMLFrame {
 		GameTile tGameTile;
 		Dimension tViewSize;
 		Tile tTile;
-		int tTileCountToShow;
-		float tHorizontalPercent;
-		float tVerticalPercent;
-		float tImageWidth;
-		float tImageHeight;
+//		int tTileCountToShow;
+//		float tHorizontalPercent;
+//		float tVerticalPercent;
+//		float tImageWidth;
+//		float tImageHeight;
 
-		planTileSet = new PlanTileSet ("Plan Tile Set");
+		planTileSet = new PlanTileSet ("Plan Tile Set", this);
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
@@ -207,22 +203,20 @@ public class PlanFrame extends XMLFrame {
 			}
 			planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
 
-			tViewSize = new Dimension (190, 400);
+			tViewSize = new Dimension (300, 460);
 			tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
 			
-			tImageHeight = 700.0f;
-			tImageWidth = 200.0f;
-			tVerticalPercent = tImageHeight;
-			setScrollBarValue (tileScrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
-			tHorizontalPercent = tImageWidth;
-			setScrollBarValue (tileScrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+//			tImageHeight = 700.0f;
+//			tImageWidth = 200.0f;
+//			tVerticalPercent = tImageHeight;
+//			setScrollBarValue (tileScrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+//			tHorizontalPercent = tImageWidth;
+//			setScrollBarValue (tileScrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
 
 			tilePanel.add (tileScrollPane);
 			
-//			tilePanel.add (planTileSet);
-			
-			tTileCountToShow = planTileSet.getTileCountToShow ();
-			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
+//			tTileCountToShow = planTileSet.getTileCountToShow ();
+//			tilePanel.add (new JLabel ("Tile Count To Show: " + tTileCountToShow));
 			planTileSet.validate ();
 			tilePanel.validate ();
 			repaint ();
