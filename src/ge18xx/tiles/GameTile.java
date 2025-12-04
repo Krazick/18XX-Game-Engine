@@ -56,6 +56,7 @@ public class GameTile {
 		this (aTileNumber, aTotalCount, false);
 	}
 
+	// This is an actual Downgrade of a tile, not based upon the Color of the Tile
 	public boolean isUpgradeAllowedInPhase (int aToTileNumber, int aPhase) {
 		boolean tIsUpgradeAllowed;
 		String tPhaseNumber;
