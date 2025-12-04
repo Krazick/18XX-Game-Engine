@@ -4,7 +4,7 @@ import ge18xx.map.MapCell;
 
 public class NoTileOnMapCell extends Condition {
 	public static final String NAME = "No Tile on MapCell";
-	MapCell mapCell;
+	MapCell mapCell;		// Must be MapCell on the Live Map, not the Planning Map
 	
 	public NoTileOnMapCell (MapCell aMapCell) {
 		this (NAME, aMapCell);

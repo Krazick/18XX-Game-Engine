@@ -2,7 +2,10 @@ package ge18xx.round.plan;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,11 +27,13 @@ import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileSet;
+import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
 
-public class PlanFrame extends XMLFrame {
+public class PlanFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Map Plan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
@@ -36,12 +41,16 @@ public class PlanFrame extends XMLFrame {
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel infoAndActionPanel;
+	JPanel mapButtonsPanel;
 	PlanTileSet planTileSet;
 	JScrollPane tileScrollPane;
+	KButton putdownTileButton;
+	KButton pickupTileButton;
 	KButton discardPlan;
 	KButton applyPlan;
 	KButton savePlan;
 	MapPlan mapPlan;
+	boolean tilePlaced;
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {
 		this (aFrameName, aGameManager, MapPlan.NO_MAP_PLAN);
@@ -227,7 +236,7 @@ public class PlanFrame extends XMLFrame {
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		planningMap = tGameMap.clone ();
-		tViewSize = new Dimension (300, 460);
+		tViewSize = new Dimension (300, 400);
 
 		scrollPane = buildaScrollPane (planningMap, tViewSize);
 		mapPanel.setSize (tViewSize);
@@ -238,11 +247,13 @@ public class PlanFrame extends XMLFrame {
 		tImageHeight = planningMap.getMaxY ();
 	
 		if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
-			tVerticalPercent = (mapPlan.getMapCellYc () - 250.0f)/tImageHeight;
+			tVerticalPercent = (mapPlan.getMapCellYc () - 200.0f)/tImageHeight;
 			setScrollBarValue (scrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
 			tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
 			setScrollBarValue (scrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
 		}
+		
+		buildMapButtonsPanel ();
 	}
 
 	public JScrollPane buildaScrollPane (JComponent aImage, Dimension aViewSize) {
@@ -281,6 +292,70 @@ public class PlanFrame extends XMLFrame {
 		});
 	}
 	
+	protected void buildMapButtonsPanel () {
+		mapButtonsPanel = new JPanel ();
+		mapButtonsPanel.setLayout (new BoxLayout (mapButtonsPanel, BoxLayout.X_AXIS));
+		
+		putdownTileButton = setupButton (MapFrame.PUT_TILE_LABEL, MapFrame.PUT_TILE, this, Component.CENTER_ALIGNMENT);
+		mapButtonsPanel.add (putdownTileButton);
+		mapButtonsPanel.add (Box.createHorizontalStrut (10));
+
+		updatePutdownTileButton ();
+		
+		pickupTileButton = setupButton (MapFrame.PICKUP_TILE_LABEL, MapFrame.PICKUP_TILE, this, Component.CENTER_ALIGNMENT);
+		mapButtonsPanel.add (pickupTileButton);
+		mapButtonsPanel.add (Box.createHorizontalStrut (10));
+		
+		updatePickupTileButton ();
+		
+		setTilePlaced (false);
+		mapPanel.add (mapButtonsPanel);
+	}
+
+	public void setTilePlaced (boolean aTilePlaced) {
+		tilePlaced = aTilePlaced;
+	}
+	
+	public void updatePickupTileButton () {
+		GameTile tSelectedGameTile;
+		
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			tSelectedGameTile = planTileSet.getSelectedTile ();
+			if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
+				pickupTileButton.setEnabled (false);
+				pickupTileButton.setToolTipText ("No placed GameTile to pickup");
+			} else if (tilePlaced) {
+				pickupTileButton.setEnabled (true);
+				pickupTileButton.setToolTipText ("GameTile has been placed, can pickup");
+			} else {
+				pickupTileButton.setEnabled (false);
+				pickupTileButton.setToolTipText ("No placed GameTile to pickup");		
+			}
+		} else {
+			pickupTileButton.setEnabled (false);
+			pickupTileButton.setToolTipText ("No placed GameTile to pickup");
+		}
+	}
+	
+	public void updatePutdownTileButton () {
+		GameTile tSelectedGameTile;
+		
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			tSelectedGameTile = planTileSet.getSelectedTile ();
+			if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
+				putdownTileButton.setEnabled (false);
+				putdownTileButton.setToolTipText ("No Selected GameTile to place");
+			} else {
+				putdownTileButton.setEnabled (true);
+				putdownTileButton.setToolTipText ("GameTile has been selected to place");
+			}
+		} else {
+			putdownTileButton.setEnabled (false);
+			putdownTileButton.setToolTipText ("No Selected GameTile to place");
+		}
+
+	}
+	
 	public String getScrollBarInfo (String aOrientation) {
 		JScrollBar tJScrollBar;
 		String tScrollBarInfo;
@@ -301,4 +376,30 @@ public class PlanFrame extends XMLFrame {
 		
 		return tScrollBarInfo;
 	}
+	
+	/**
+	 * Create a new KButton with the specified parameters.
+	 * 
+	 * @param aLabel Label for the Button
+	 * @param aAction Action Command for the Button
+	 * @param aListener The Action Listener Class
+	 * @param aAlignment The Alignment
+	 * @return the newly create KButton
+	 */
+	@Override
+	public KButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
+		KButton tButton;
+	
+		tButton = new KButton (aLabel);
+		setupButton (aAction, aListener, aAlignment, tButton);
+	
+		return tButton;
+	}
+
+	@Override
+	public void actionPerformed (ActionEvent e) {
+		
+		
+	}
+
 }

@@ -5,7 +5,6 @@ import ge18xx.tiles.Tile;
 
 public class SpecifiedTileOnMapCell extends NoTileOnMapCell {
 	public static final String NAME = "Specified Tile on MapCell";
-	MapCell mapCell;
 	int tileNumber;
 	int tileOrientation;
 	
@@ -18,6 +17,10 @@ public class SpecifiedTileOnMapCell extends NoTileOnMapCell {
 	public void setTileOrientation (int aTileOrientation) {
 		tileOrientation = aTileOrientation;
 	}
+	
+	public int getTileOrientation () {
+		return tileOrientation;
+	}
 
 	public void setTileNumber (int aTileNumber) {
 		tileNumber = aTileNumber;
@@ -25,10 +28,6 @@ public class SpecifiedTileOnMapCell extends NoTileOnMapCell {
 
 	public int getTileNumber () {
 		return tileNumber;
-	}
-	
-	public int getTileOrientation () {
-		return tileOrientation;
 	}
 	
 	@Override
