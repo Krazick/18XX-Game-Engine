@@ -94,6 +94,7 @@ public class Upgrade {
 		}
 	}
 
+	// Phases is used in 1856 when a Tile is being "DownGraded"
 	public void setPhases (String aPhases) {
 		if (aPhases == GUI.NULL_STRING) {
 			phases = NO_PHASES;
