@@ -92,10 +92,13 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private final String CANCEL_TOKEN_MODE = "CancelToken";
 	private final String CANCEL_MODE_LABEL = "Cancel Mode";
 	private final String COMPLETE_TILE_LAY = "Complete Tile Lay";
-	private final String PUT_TILE = "PutTile";
-	private final String PICKUP_TILE = "PickupTile";
-	private final String PUT_TOKEN = "PutToken";
-	private final String PUT_TOKEN_DOWN = "Put Token";
+	public static final String PUT_TILE = "PutTile";
+	public static final String PUT_TILE_LABEL = "Put Down";
+	public static final String PICKUP_TILE = "PickupTile";
+	public static final String PICKUP_TILE_LABEL = "Pickup Tile";
+	public static final String PUT_TOKEN = "PutToken";
+	public static final String PUT_TOKEN_DOWN = "Put Token";
+	public static final String PUT_DOWN_TOKEN = "Put Down";
 
 	KButton exitTileButton;
 	KButton putTileButton;
@@ -232,11 +235,11 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		tileButtonsJPanel.add (tLabelTileMode);
 		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
-		putTileButton = setupButton ("Put Down", PUT_TILE, this, Component.CENTER_ALIGNMENT);
+		putTileButton = setupButton (PUT_TILE_LABEL, PUT_TILE, this, Component.CENTER_ALIGNMENT);
 		tileButtonsJPanel.add (putTileButton);
 		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
-		pickupTileButton = setupButton ("Pickup", PICKUP_TILE, this, Component.CENTER_ALIGNMENT);
+		pickupTileButton = setupButton (PICKUP_TILE_LABEL, PICKUP_TILE, this, Component.CENTER_ALIGNMENT);
 		tileButtonsJPanel.add (pickupTileButton);
 		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
@@ -1317,27 +1320,29 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	/**
 	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the
-	 * current Phase of the Game and the Tile Color
+	 * current Phase of the Game and the Tile Color. Note, the second test is for Downgrading based
+	 * upon the Tile Number and if that tile has the "phases" attribute set.
 	 *
-	 * @param aGameTile The Tile to test if allowed to be placed
+	 * @param aNewGameTile The Tile to test if allowed to be placed
 	 * @param aCurrentGameTile the Tile currently on the MapCell that is proposed for Upgrading from
 	 *
 	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
 	 *
 	 */
-	public boolean isUpgradeAllowed (GameTile aGameTile, GameTile aCurrentGameTile) {
+	public boolean isUpgradeAllowed (GameTile aNewGameTile, GameTile aCurrentGameTile) {
 		boolean tUpgradeAllowed;
 		String tTileColor;
 		int tPhase;
 		int tToTileNumber;
 		
 		tUpgradeAllowed = true;
-		tTileColor = aGameTile.getTileColor ();
+		tTileColor = aNewGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 		if (aCurrentGameTile != GameTile.NO_GAME_TILE) {
 			if (tUpgradeAllowed) {
 				tPhase = getCurrentPhase ();
-				tToTileNumber = aGameTile.getTileNumber ();
+				tToTileNumber = aNewGameTile.getTileNumber ();
+				// Test 
 				tUpgradeAllowed = aCurrentGameTile.isUpgradeAllowedInPhase (tToTileNumber, tPhase);
 			}
 		}
