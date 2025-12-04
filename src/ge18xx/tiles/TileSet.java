@@ -409,6 +409,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	protected void switchSelectedTile (GameTile tGameTile) {
 		GameTile tPreviousGameTile;
+		
 		tPreviousGameTile = getSelectedTile ();
 		if (tPreviousGameTile == GameTile.NO_GAME_TILE) {
 			toggleSelectedTile (tGameTile);
@@ -416,6 +417,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			if (tGameTile != tPreviousGameTile) {
 				toggleSelectedTile (tPreviousGameTile);
 				toggleSelectedTile (tGameTile);
+			} else {
+				toggleSelectedTile (tPreviousGameTile);
 			}
 		}
 	}
