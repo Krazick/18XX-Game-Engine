@@ -9,6 +9,7 @@ public class MapPlan extends CorporationPlan {
 	public static final MapPlan NO_MAP_PLAN = null;
 	public static final String NO_MAP_CELL = "No Selected MapCell";
 	MapCell mapCell;
+	MapCell planningMapCell;
 	
 	public MapPlan (String aPlayerName, String aGameName, String aName) {
 		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
@@ -30,6 +31,14 @@ public class MapPlan extends CorporationPlan {
 
 	public MapCell getMapCell () {
 		return mapCell;
+	}
+
+	public void setPlanningMapCell (MapCell aPlanningMapCell) {
+		planningMapCell = aPlanningMapCell;
+	}
+
+	public MapCell getPlanningMapCell () {
+		return planningMapCell;
 	}
 	
 	public String getMapCellID () {
