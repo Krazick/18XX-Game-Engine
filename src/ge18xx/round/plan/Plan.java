@@ -8,6 +8,7 @@ public class Plan {
 	String gameName;
 	String name;
 	int id;
+	PlanFrame planFrame;
 	
 	public Plan (String aPlayerName, String aGameName, String aName) {
 		setGameName (aGameName);
@@ -15,6 +16,14 @@ public class Plan {
 		setPlayerName (aPlayerName);
 	}
 
+	public void setPlanFrame (PlanFrame aPlanFrame) {
+		planFrame = aPlanFrame;
+	}
+	
+	public PlanFrame getPlanFrame () {
+		return planFrame;
+	}
+	
 	private void setGameName (String aGameName) {
 		gameName = aGameName;
 	}
