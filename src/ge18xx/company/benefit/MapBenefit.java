@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI;
@@ -216,7 +217,7 @@ public class MapBenefit extends Benefit {
 	}
 
 	protected MapCell getSelectedMapCell () {
-		HexMap tMap;
+		GameMap tMap;
 		MapCell tSelectedMapCell;
 		
 		tMap = getMap ();

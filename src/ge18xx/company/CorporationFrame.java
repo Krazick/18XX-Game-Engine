@@ -24,6 +24,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.center.Revenue;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
+import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -462,7 +463,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		boolean tInterrupted;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
-		HexMap tMap;
+		GameMap tMap;
 		
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
