@@ -560,27 +560,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		return mapFrame.getTokenCompany (aAbbrev);
 	}
 
-	public MapCell getSelectedMapCell () {
-		int rowIndex;
-		int colIndex;
-		int rowCount;
-		int colCount;
-		MapCell foundMapCell;
-
-		rowCount = getRowCount ();
-		foundMapCell = MapCell.NO_MAP_CELL;
-		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
-			colCount = getColCount (rowIndex);
-			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == MapCell.NO_MAP_CELL); colIndex++) {
-				if (mapCells [rowIndex] [colIndex].isSelected ()) {
-					foundMapCell = mapCells [rowIndex] [colIndex];
-				}
-			}
-		}
-
-		return foundMapCell;
-	}
-
 	public boolean getSelectRevenueCenter () {
 		return selectRevenueCenter;
 	}
@@ -974,7 +953,10 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 
 	@Override
 	public void mouseReleased (MouseEvent aMouseEvent) {
-		if (aMouseEvent.getSource () == this) {
+		Object tEventSource;
+		
+		tEventSource = aMouseEvent.getSource ();
+		if (tEventSource == this) {
 			handleClick (aMouseEvent);
 		}
 	}
