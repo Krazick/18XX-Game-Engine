@@ -46,6 +46,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	JScrollPane tileScrollPane;
 	KButton putdownTileButton;
 	KButton pickupTileButton;
+	KButton rotateTileButton;
 	KButton discardPlan;
 	KButton applyPlan;
 	KButton savePlan;
@@ -190,12 +191,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	protected void fillPlanTileSet () {
 		int tIndex;
 		int tCount;
-		int tTotalCount;
-		int tUsedCount;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		GameTile tGameTile;
 		Dimension tViewSize;
-		Tile tTile;
 
 		planTileSet = new PlanTileSet ("Plan Tile Set", this);
 		
@@ -204,17 +202,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tCount = tPlaceMapTilePlan.playableTilesCount ();
 			for (tIndex = 0; tIndex < tCount; tIndex++) {
 				tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
-				tTile = tGameTile.getTile ();
-				tTotalCount = tGameTile.getTotalCount ();
-				tUsedCount = tGameTile.getUsedCount ();
-				planTileSet.addTile (tTile, tTotalCount, tUsedCount);
+				planTileSet.addGameTile (tGameTile);
 			}
 			planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
 
 			tViewSize = new Dimension (300, 460);
 			tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
 			
-
 			tilePanel.add (tileScrollPane);
 			planTileSet.validate ();
 			tilePanel.validate ();
@@ -223,10 +217,15 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	public PlanTileSet getPlanTileSet () {
+		return planTileSet;
+	}
+	
 	private void buildMapPanel () throws CloneNotSupportedException {
 		GameManager tGameManager;
 		GameMap tGameMap;
 		Dimension tViewSize;
+		MapCell tPlanningMapCell;
 		float tHorizontalPercent;
 		float tVerticalPercent;
 		float tImageWidth;
@@ -236,6 +235,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		planningMap = tGameMap.clone ();
+		tPlanningMapCell = planningMap.getSelectedMapCell ();
+		mapPlan.setPlanningMapCell (tPlanningMapCell);
 		tViewSize = new Dimension (300, 400);
 
 		scrollPane = buildaScrollPane (planningMap, tViewSize);
@@ -270,6 +271,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 	public void setMapPlan (MapPlan aMapPlan) {
 		mapPlan = aMapPlan;
+		if (mapPlan != MapPlan.NO_MAP_PLAN) {
+			mapPlan.setPlanFrame (this);
+		}
 	}
 	
 	public void setScrollBarValue (JScrollPane aScrollPane, String aOrientation, float aPercentOfMax) {
@@ -308,6 +312,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		
 		updatePickupTileButton ();
 		
+		rotateTileButton = setupButton (MapFrame.ROTATE_TILE_LABEL, MapFrame.ROTATE_TILE, this, Component.CENTER_ALIGNMENT);
+		mapButtonsPanel.add (rotateTileButton);
+		mapButtonsPanel.add (Box.createHorizontalStrut (10));
+		
+		updatePickupTileButton ();
+		
 		setTilePlaced (false);
 		mapPanel.add (mapButtonsPanel);
 	}
@@ -316,25 +326,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tilePlaced = aTilePlaced;
 	}
 	
-	public void updatePickupTileButton () {
-		GameTile tSelectedGameTile;
-		
-		if (planTileSet != TileSet.NO_TILE_SET) {
-			tSelectedGameTile = planTileSet.getSelectedTile ();
-			if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
-				pickupTileButton.setEnabled (false);
-				pickupTileButton.setToolTipText ("No placed GameTile to pickup");
-			} else if (tilePlaced) {
-				pickupTileButton.setEnabled (true);
-				pickupTileButton.setToolTipText ("GameTile has been placed, can pickup");
-			} else {
-				pickupTileButton.setEnabled (false);
-				pickupTileButton.setToolTipText ("No placed GameTile to pickup");		
-			}
-		} else {
-			pickupTileButton.setEnabled (false);
-			pickupTileButton.setToolTipText ("No placed GameTile to pickup");
-		}
+	public void update () {
+		updatePutdownTileButton ();
+		updatePickupTileButton ();
+		updateRotateTileButton ();
+		validate ();
+		repaint ();
 	}
 	
 	public void updatePutdownTileButton () {
@@ -353,7 +350,36 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			putdownTileButton.setEnabled (false);
 			putdownTileButton.setToolTipText ("No Selected GameTile to place");
 		}
-
+	}
+	
+	public void updatePickupTileButton () {
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			if (tilePlaced) {
+				pickupTileButton.setEnabled (true);
+				pickupTileButton.setToolTipText ("GameTile has been placed, can pickup");
+			} else {
+				pickupTileButton.setEnabled (false);
+				pickupTileButton.setToolTipText ("No placed GameTile to pickup");		
+			}
+		} else {
+			pickupTileButton.setEnabled (false);
+			pickupTileButton.setToolTipText ("No placed GameTile to pickup");
+		}
+	}
+	
+	public void updateRotateTileButton () {
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			if (tilePlaced) {
+				rotateTileButton.setEnabled (true);
+				rotateTileButton.setToolTipText ("GameTile has been placed, can rotate");
+			} else {
+				rotateTileButton.setEnabled (false);
+				rotateTileButton.setToolTipText ("No placed GameTile to rotate");		
+			}
+		} else {
+			rotateTileButton.setEnabled (false);
+			rotateTileButton.setToolTipText ("No placed GameTile to rotate");
+		}
 	}
 	
 	public String getScrollBarInfo (String aOrientation) {
@@ -397,9 +423,22 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed (ActionEvent e) {
+	public void actionPerformed (ActionEvent aActionEvent) {
+		String tTheAction;
+		PlaceMapTilePlan tPlaceMapTilePlan;
 		
-		
+		tTheAction = aActionEvent.getActionCommand ();
+		if (mapPlan instanceof PlaceMapTilePlan) {
+			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+			
+			if (MapFrame.PUT_TILE.equals (tTheAction)) {
+				tPlaceMapTilePlan.putTileDownOnMap ();
+			} else if (MapFrame.PICKUP_TILE.equals (tTheAction)) {
+				tPlaceMapTilePlan.pickupTile ();
+			} else if (MapFrame.ROTATE_TILE.equals (tTheAction)) {
+				tPlaceMapTilePlan.rotateTile ();
+			}
+		}
 	}
 
 }
