@@ -8,6 +8,7 @@ import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import geUtilities.GUI;
 
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
@@ -29,6 +30,10 @@ public class PlaceMapTilePlan extends MapPlan {
 		setTileAndOrientation (Tile.NO_TILE, MapCell.NO_TILE_ORIENTATION);
 	}
 
+	public void setGameTiles (List<GameTile> aGameTiles) {
+		gameTiles = aGameTiles;
+	}
+	
 	public void setTileAndOrientation (Tile aTile, int aTileOrient) {
 		setTile (aTile);
 		setTileOrient (aTileOrient);
@@ -54,7 +59,6 @@ public class PlaceMapTilePlan extends MapPlan {
 	public void setPlayableTiles (GameMap aPlanningMap) {
 		aPlanningMap.setPlayableTiles (mapCell, false);
 		gameTiles = aPlanningMap.getPlayableGameTiles ();
-		System.out.println ("There are " + gameTiles.size () + " PlayableTiles");
 		aPlanningMap.clearPlayableTiles ();
 	}
 	
@@ -68,5 +72,52 @@ public class PlaceMapTilePlan extends MapPlan {
 		tGameTile = gameTiles.get (aIndex);
 		
 		return tGameTile;
+	}
+	
+	public void putTileDownOnMap () {
+		Corporation tCorporation;
+		
+		Tile tTile;
+		Tile tPreviousTile;
+		int tOrientation;
+		int tPreviousOrientation;
+		boolean tTilePlaced;
+		String tPreviousTokens;
+		String tPreviousBases;
+		PlanTileSet tPlanTileSet;
+
+		System.out.println ("Ready to Putdown Tile on Planning Map");
+		tPreviousTile = planningMapCell.getTile ();
+		if (tPreviousTile != Tile.NO_TILE) {
+			tPreviousOrientation = planningMapCell.getTileOrient ();
+			tPreviousTokens = tPreviousTile.getPlacedTokens ();
+			tPreviousBases = tPreviousTile.getCorporationBases ();
+		} else {
+			tPreviousOrientation = 0;
+			tPreviousTokens = GUI.EMPTY_STRING;
+			tPreviousBases = GUI.EMPTY_STRING;
+		}
+		// Save Tokens from Previous Tile placement
+		tPlanTileSet = planFrame.getPlanTileSet ();
+		tTilePlaced = planningMapCell.putTileDown (tPlanTileSet);
+
+		tCorporation = getCorporation ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			tTile = planningMapCell.getTile ();
+			tOrientation = planningMapCell.getTileOrient ();
+			tCorporation.placeTileOnMapCell (planningMapCell, tTile, tOrientation, tPreviousTile, 
+					tPreviousOrientation, tPreviousTokens, tPreviousBases);
+		}
+		planFrame.setTilePlaced (tTilePlaced);
+		tPlanTileSet.clearAllSelected ();
+		planFrame.update ();
+	}
+	
+	public void pickupTile () {
+		System.out.println ("Ready to Pickup Tile on Planning Map");
+	}
+	
+	public void rotateTile () {
+		System.out.println ("Ready to Rotate Tile on Planning Map");
 	}
 }
