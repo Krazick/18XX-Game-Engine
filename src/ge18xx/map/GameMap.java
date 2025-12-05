@@ -1,9 +1,6 @@
 package ge18xx.map;
 
 import java.awt.Graphics;
-//import java.awt.event.MouseEvent;
-//import java.awt.event.MouseListener;
-//import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +16,7 @@ import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 
-public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
+public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 
 	private static final long serialVersionUID = 1L;
 
@@ -203,7 +200,11 @@ public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex];
+				if (mapCells [tRowIndex] [tColIndex].selected) {
+					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex].clone ();
+				} else {
+					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex];
+				}
 			}
 		}
 		
@@ -471,5 +472,26 @@ public class GameMap extends JLabel implements Cloneable,LoadableXMLI {
 		}
 	
 		return (tMaxY + 3);
+	}
+
+	public MapCell getSelectedMapCell () {
+		int rowIndex;
+		int colIndex;
+		int rowCount;
+		int colCount;
+		MapCell foundMapCell;
+	
+		rowCount = getRowCount ();
+		foundMapCell = MapCell.NO_MAP_CELL;
+		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
+			colCount = getColCount (rowIndex);
+			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == MapCell.NO_MAP_CELL); colIndex++) {
+				if (mapCells [rowIndex] [colIndex].isSelected ()) {
+					foundMapCell = mapCells [rowIndex] [colIndex];
+				}
+			}
+		}
+	
+		return foundMapCell;
 	}
 }
