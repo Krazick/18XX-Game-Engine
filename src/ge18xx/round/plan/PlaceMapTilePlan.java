@@ -75,16 +75,14 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 	
 	public void putTileDownOnMap () {
-		Corporation tCorporation;
-		
-		Tile tTile;
-		Tile tPreviousTile;
-		int tOrientation;
 		int tPreviousOrientation;
-		boolean tTilePlaced;
 		String tPreviousTokens;
 		String tPreviousBases;
 		PlanTileSet tPlanTileSet;
+		boolean tTilePlaced;
+		GameTile tSelectedTile;
+		Tile tNewTile;
+		Tile tPreviousTile;
 
 		System.out.println ("Ready to Putdown Tile on Planning Map");
 		tPreviousTile = planningMapCell.getTile ();
@@ -97,17 +95,11 @@ public class PlaceMapTilePlan extends MapPlan {
 			tPreviousTokens = GUI.EMPTY_STRING;
 			tPreviousBases = GUI.EMPTY_STRING;
 		}
-		// Save Tokens from Previous Tile placement
 		tPlanTileSet = planFrame.getPlanTileSet ();
-		tTilePlaced = planningMapCell.putTileDown (tPlanTileSet);
-
-		tCorporation = getCorporation ();
-		if (tCorporation != Corporation.NO_CORPORATION) {
-			tTile = planningMapCell.getTile ();
-			tOrientation = planningMapCell.getTileOrient ();
-			tCorporation.placeTileOnMapCell (planningMapCell, tTile, tOrientation, tPreviousTile, 
-					tPreviousOrientation, tPreviousTokens, tPreviousBases);
-		}
+		tSelectedTile = tPlanTileSet.getSelectedTile ();
+		tTilePlaced = planningMapCell.putThisTileDown (tPlanTileSet, tSelectedTile, MapCell.NO_ROTATION);
+		tNewTile = planningMapCell.getTile ();
+		setTile (tNewTile);
 		planFrame.setTilePlaced (tTilePlaced);
 		tPlanTileSet.clearAllSelected ();
 		planFrame.update ();
@@ -118,6 +110,14 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 	
 	public void rotateTile () {
+		GameMap tPlanningMap;
+		int tPossible;
+		
+		tPlanningMap = planFrame.getPlanningMap ();
+		tPossible = planningMapCell.getTileOrient ();
+
 		System.out.println ("Ready to Rotate Tile on Planning Map");
+		tPlanningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
+		planFrame.update ();
 	}
 }
