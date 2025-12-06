@@ -19,6 +19,14 @@ public class MapTestFactory {
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 
+	public GameTestFactory getGameTestFactory () {
+		return gameTestFactory;
+	}
+	
+	public UtilitiesTestFactory getUtilitiesTestFactory () {
+		return utilitiesTestFactory;
+	}
+	
 	public MapFrame buildMapFrame () {
 		MapFrame tMapFrame;
 
@@ -98,7 +106,6 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
-//	protected void loadXMLMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 	public MapCell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 		
 		MapCell tMapCell;
@@ -267,5 +274,4 @@ public class MapTestFactory {
 		
 		return tMapCell;
 	}
-
 }
