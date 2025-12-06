@@ -95,9 +95,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	public static final String PUT_TILE = "PutTile";
 	public static final String PUT_TILE_LABEL = "Put Down";
 	public static final String PICKUP_TILE = "PickupTile";
-	public static final String PICKUP_TILE_LABEL = "Pickup Tile";
+	public static final String PICKUP_TILE_LABEL = "Pickup";
 	public static final String ROTATE_TILE = "RotateTile";
-	public static final String ROTATE_TILE_LABEL = "Rotate Tile";
+	public static final String ROTATE_TILE_LABEL = "Rotate";
 	public static final String PUT_TOKEN = "PutToken";
 	public static final String PUT_TOKEN_DOWN = "Put Token";
 	public static final String PUT_DOWN_TOKEN = "Put Down";
