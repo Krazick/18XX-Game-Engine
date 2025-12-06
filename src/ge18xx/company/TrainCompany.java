@@ -2447,6 +2447,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewTileTokens = aTile.getPlacedTokens ();
 		tOperatingRoundID = getOperatingRoundID ();
+		
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		if (aPreviousTile != Tile.NO_TILE) {
 			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
@@ -2478,6 +2479,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
 		}
 		addAction (tLayTileAction);
+		
 		updateInfo ();
 	}
 
