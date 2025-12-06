@@ -221,6 +221,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return planTileSet;
 	}
 	
+	public GameMap getPlanningMap () {
+		return planningMap;
+	}
+	
 	private void buildMapPanel () throws CloneNotSupportedException {
 		GameManager tGameManager;
 		GameMap tGameMap;
@@ -300,24 +304,21 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		mapButtonsPanel = new JPanel ();
 		mapButtonsPanel.setLayout (new BoxLayout (mapButtonsPanel, BoxLayout.X_AXIS));
 		
+		mapButtonsPanel.add (Box.createHorizontalStrut (5));
+		
 		putdownTileButton = setupButton (MapFrame.PUT_TILE_LABEL, MapFrame.PUT_TILE, this, Component.CENTER_ALIGNMENT);
 		mapButtonsPanel.add (putdownTileButton);
-		mapButtonsPanel.add (Box.createHorizontalStrut (10));
+		mapButtonsPanel.add (Box.createHorizontalStrut (5));
 
-		updatePutdownTileButton ();
-		
 		pickupTileButton = setupButton (MapFrame.PICKUP_TILE_LABEL, MapFrame.PICKUP_TILE, this, Component.CENTER_ALIGNMENT);
 		mapButtonsPanel.add (pickupTileButton);
-		mapButtonsPanel.add (Box.createHorizontalStrut (10));
-		
-		updatePickupTileButton ();
+		mapButtonsPanel.add (Box.createHorizontalStrut (5));
 		
 		rotateTileButton = setupButton (MapFrame.ROTATE_TILE_LABEL, MapFrame.ROTATE_TILE, this, Component.CENTER_ALIGNMENT);
 		mapButtonsPanel.add (rotateTileButton);
-		mapButtonsPanel.add (Box.createHorizontalStrut (10));
+		mapButtonsPanel.add (Box.createHorizontalStrut (5));
 		
-		updatePickupTileButton ();
-		
+		update ();
 		setTilePlaced (false);
 		mapPanel.add (mapButtonsPanel);
 	}
