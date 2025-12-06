@@ -123,8 +123,9 @@ public class CityInfo implements Cloneable {
 
 	@Override
 	public CityInfo clone () {
-		CityInfo tCityInfo = CityInfo.NO_CITY_INFO;
-
+		CityInfo tCityInfo;
+		
+		tCityInfo = CityInfo.NO_CITY_INFO;
 
 		try {
 			tCityInfo = (CityInfo) super.clone ();
@@ -382,15 +383,26 @@ public class CityInfo implements Cloneable {
 			return false;
 		}
 	}
-
+	
 	public void printCityInfo () {
-		System.out.println ("City ID " + id + ", Type " + type + ", Name [" + 
-				name + "] on Map Cell " + getMapCellID ());
+		String tFullCityInfo;
+		
+		tFullCityInfo = getFullCityInfo ();
+		System.out.println (tFullCityInfo);
+	}
+	
+	public String getFullCityInfo () {
+		String tFullCityInfo;
+		
+		tFullCityInfo = "City ID " + id + ", Type " + type + ", Name [" + 
+				name + "] on Map Cell " + getMapCellID () + "\n";
 		if (corporation == Corporation.NO_CORPORATION) {
-			System.out.println ("No Corporation Base");		// PRINTLOG method
+			tFullCityInfo += "No Corporation Base\n";		// PRINTLOG method
 		} else {
-			System.out.println ("Base for " + corporation.getAbbrev () + " Corporation");
+			tFullCityInfo += "Base for " + corporation.getAbbrev () + " Corporation";
 		}
+		
+		return tFullCityInfo;
 	}
 
 	public void setCorporation (String aCorporationAbbrev) {
@@ -409,7 +421,7 @@ public class CityInfo implements Cloneable {
 	public void setCorporationHome (Corporation aCorporation, RevenueCenter aRevenueCenter) {
 		center = aRevenueCenter;
 		if (!center.isDestination ()) {
-			corporation = aCorporation;
+			setCorporation (aCorporation);
 		}
 	}
 
