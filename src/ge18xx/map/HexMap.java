@@ -74,6 +74,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	public static final GameMap NO_HEX_MAP = null;
+	public MouseEvent NO_MOUSE_EVENT = null;
 
 	MapFrame mapFrame;
 	
@@ -677,7 +678,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public void rotateTileInPlace (MapCell aThisMapCell, boolean aAddAction, MouseEvent aMouseEvent) {
 		int tCountOfRotations;
 		int tPossible;
-		int tSteps;
 		int tNewOrientation;
 		int tPreviousOrientation;
 		boolean tShiftDown;
@@ -690,23 +690,18 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		String tBases;
 		String tOperatingRoundID;
 
+		tTile = aThisMapCell.getTile ();
+		tPossible = aThisMapCell.getTileOrient ();
+		tPreviousOrientation = tPossible;
 		tCountOfRotations = aThisMapCell.getCountofAllowedRotations ();
-		if (tCountOfRotations > 1) {
-			tTile = aThisMapCell.getTile ();
-			tPossible = aThisMapCell.getTileOrient ();
-			tPreviousOrientation = tPossible;
+		if (aMouseEvent != NO_MOUSE_EVENT) {
 			tShiftDown = aMouseEvent.isShiftDown ();
-			tSteps = aThisMapCell.calculateSteps (tPossible, tTile, tShiftDown);
-			if (tShiftDown) {
-				aThisMapCell.rotateTileLeft (tSteps);
-			} else {
-				aThisMapCell.rotateTileRight (tSteps);
-			}
-			if (tTile.getRevenueCenterCount () == 2) {
-				// Two Revenue Centers, need to Swap Tokens -- "OO" in 1830 and 1856 to keep on
-				// the correct centers -- a bit kludgy
-				aThisMapCell.swapTokens ();
-			}
+		} else {
+			tShiftDown = false;
+		}
+		rotateTileInPlace (aThisMapCell, tPossible, tShiftDown, tTile);
+		
+		if (tCountOfRotations > 1) {
 			if (aAddAction == DO_ADD_ACTION) {
 				tNewOrientation = aThisMapCell.getTileOrient ();
 				tGameManager = (GameManager) mapFrame.getGameManager ();
@@ -724,6 +719,29 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		} else {
 			System.err.println ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
 		}
+	}
+
+	@Override
+	public void rotateTileInPlace (MapCell aThisMapCell, int aPossible, boolean aShiftDown, Tile aTile) {
+		int tSteps;
+		int tCountOfRotations;
+		
+		tCountOfRotations = aThisMapCell.getCountofAllowedRotations ();
+		if (tCountOfRotations > 1) {
+			tSteps = aThisMapCell.calculateSteps (aPossible, aTile, aShiftDown);
+			if (aShiftDown) {
+				aThisMapCell.rotateTileLeft (tSteps);
+			} else {
+				aThisMapCell.rotateTileRight (tSteps);
+			}
+		}
+		
+		if (aTile.getRevenueCenterCount () == 2) {
+			// Two Revenue Centers, need to Swap Tokens -- "OO" in 1830 and 1856 to keep on
+			// the correct centers -- a bit kludgy
+			aThisMapCell.swapTokens ();
+		}
+
 	}
 
 	public Tile getTileFromTileSet (int aTileNumber) {
