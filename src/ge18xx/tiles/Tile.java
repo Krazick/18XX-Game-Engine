@@ -234,8 +234,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	@Override
 	public Tile clone () {
+		Tile tTile;
+		
 		try {
-			Tile tTile = (Tile) super.clone ();
+			tTile = (Tile) super.clone ();
 			tTile.number = number;
 			tTile.XCenter = XCenter;
 			tTile.YCenter = YCenter;
