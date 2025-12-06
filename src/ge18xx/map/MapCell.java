@@ -121,7 +121,14 @@ public class MapCell implements Cloneable, Comparator<Object> {
 
 	@Override
 	public MapCell clone () throws CloneNotSupportedException {
-		MapCell tClone = (MapCell) super.clone ();
+		MapCell tClone;
+		Tile tTile;
+		
+		tClone = (MapCell) super.clone ();
+		if (tile != Tile.NO_TILE) {
+			tTile = tile.clone ();
+			tClone.setTile (tTile);
+		}
 		
 		return tClone;
 	}
