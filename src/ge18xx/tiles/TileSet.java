@@ -682,14 +682,16 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 					}
 				}
 				if (tPlayableCount == 0) {
-					if (tUpgradeCount == 1) {
-						tUpgrade = aGameTile.getUpgrade (0);
-						if (tUpgrade != Upgrade.NO_UPGRADE) {
-							tToTileNumber = tUpgrade.getTileNumber ();
-							tUpgradeGameTile = getGameTile (tToTileNumber);
-							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile, aEnforcePhase)) {
-								tUpgradeGameTile.setPlayable (true);
-								tPlayableCount++;
+					if (tUpgradeCount > 0) {
+						for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
+							tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
+							if (tUpgrade != Upgrade.NO_UPGRADE) {
+								tToTileNumber = tUpgrade.getTileNumber ();
+								tUpgradeGameTile = getGameTile (tToTileNumber);
+								if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile, aEnforcePhase)) {
+									tUpgradeGameTile.setPlayable (true);
+									tPlayableCount++;
+								}
 							}
 						}
 					}
