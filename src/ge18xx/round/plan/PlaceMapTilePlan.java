@@ -8,6 +8,7 @@ import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileSet;
 import geUtilities.GUI;
 
 public class PlaceMapTilePlan extends MapPlan {
@@ -79,6 +80,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		String tPreviousTokens;
 		String tPreviousBases;
 		PlanTileSet tPlanTileSet;
+		TileSet tFullTileSet;
 		boolean tTilePlaced;
 		GameTile tSelectedTile;
 		Tile tNewTile;
@@ -95,9 +97,11 @@ public class PlaceMapTilePlan extends MapPlan {
 			tPreviousTokens = GUI.EMPTY_STRING;
 			tPreviousBases = GUI.EMPTY_STRING;
 		}
+		tFullTileSet = planFrame.getFullTileSet ();
+		
 		tPlanTileSet = planFrame.getPlanTileSet ();
 		tSelectedTile = tPlanTileSet.getSelectedTile ();
-		tTilePlaced = planningMapCell.putThisTileDown (tPlanTileSet, tSelectedTile, MapCell.NO_ROTATION);
+		tTilePlaced = planningMapCell.putThisTileDown (tFullTileSet, tSelectedTile, MapCell.NO_ROTATION);
 		tNewTile = planningMapCell.getTile ();
 		setTile (tNewTile);
 		planFrame.setTilePlaced (tTilePlaced);
