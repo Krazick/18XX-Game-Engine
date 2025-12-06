@@ -256,16 +256,18 @@ public class Centers implements Cloneable {
 
 	@Override
 	public Centers clone () {
-		List<RevenueCenter> tCentersCopy = new LinkedList<> ();
+		List<RevenueCenter> tCentersClone;
+		
+		tCentersClone = new LinkedList<> ();
 		for (RevenueCenter tCenter : centers) {
 			if (tCenter != RevenueCenter.NO_CENTER) {
-				tCentersCopy.add (tCenter.clone ());
+				tCentersClone.add (tCenter.clone ());
 			} else {
-				tCentersCopy.add (null);
+				tCentersClone.add (null);
 			}
 		}
 
-		return new Centers (tCentersCopy);
+		return new Centers (tCentersClone);
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument, int aIndex) {
