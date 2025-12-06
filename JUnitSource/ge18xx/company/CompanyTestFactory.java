@@ -35,10 +35,6 @@ public class CompanyTestFactory {
 		setCorporationList (Mockito.mock (CorporationList.class));
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 	}
-
-	public void setCorporationList (CorporationList aCorporationList) {
-		mCorporationList = aCorporationList;
-	}
 	
 	/**
 	 * Builds the Company Test Factory using the provided GameTest Factory, and getting the Utilities Test Factory
@@ -53,6 +49,10 @@ public class CompanyTestFactory {
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		setCorporationList (Mockito.mock (CorporationList.class));
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+	}
+
+	public void setCorporationList (CorporationList aCorporationList) {
+		mCorporationList = aCorporationList;
 	}
 
 	/**
