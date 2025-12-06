@@ -43,6 +43,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	JPanel infoAndActionPanel;
 	JPanel mapButtonsPanel;
 	PlanTileSet planTileSet;
+	TileSet fullTileSet;
 	JScrollPane tileScrollPane;
 	KButton putdownTileButton;
 	KButton pickupTileButton;
@@ -61,7 +62,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		super (aFrameName, aGameManager);
 		
 		String tFullFrameTitle;
-
+		TileSet tFullTileSet;
+		GameManager tGameManager;
+		
 		System.out.println ("Ready to build a Map Plan for Player is " + aMapPlan.getPlayerName ());
 
 		setMapPlan (aMapPlan);
@@ -74,6 +77,11 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			add (mapPanel, BorderLayout.WEST);
 			add (infoAndActionPanel, BorderLayout.EAST);
 			add (tilePanel, BorderLayout.CENTER);
+			
+			tGameManager = (GameManager) gameEngineManager;
+			tFullTileSet = tGameManager.getTileSet ();
+			setFullTileSet (tFullTileSet);
+			
 			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
 			tFullFrameTitle = aGameManager.createFrameTitle (tFullFrameTitle);
 			setTitle (tFullFrameTitle);
@@ -83,6 +91,14 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	public void setFullTileSet (TileSet aFullTileSet) {
+		fullTileSet = aFullTileSet;
+	}
+	
+	public TileSet getFullTileSet () {
+		return fullTileSet;
+	}
+	
 	private void buildInfoAndActionPanel () {
 		JLabel tButtonLabel;
 		PlaceMapTilePlan tPlaceMapTilePlan;
