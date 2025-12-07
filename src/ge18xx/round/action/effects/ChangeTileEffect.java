@@ -26,7 +26,7 @@ public class ChangeTileEffect extends ChangeMapEffect {
 	}
 
 	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile) {
-		this (aActor, aMapCell, aTile, MapCell.NO_ORIENTATION, NO_BENEFIT_IN_USE);
+		this (aActor, aMapCell, aTile, MapCell.NO_TILE_ORIENTATION, NO_BENEFIT_IN_USE);
 	}
 	
 	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
@@ -40,7 +40,7 @@ public class ChangeTileEffect extends ChangeMapEffect {
 		
 		setName (NAME);
 		setTileNumber (aTile.getNumber ());
-		if (aOrientation == MapCell.NO_ORIENTATION) {
+		if (aOrientation == MapCell.NO_TILE_ORIENTATION) {
 			tOrientation = aMapCell.getTileOrient ();
 		} else {
 			tOrientation = aOrientation;
