@@ -210,22 +210,33 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		GameTile tGameTile;
 		Dimension tViewSize;
+		JLabel tNoUpgrades;
+		Border tMargin;
 
 		planTileSet = new PlanTileSet ("Plan Tile Set", this);
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			tCount = tPlaceMapTilePlan.playableTilesCount ();
-			for (tIndex = 0; tIndex < tCount; tIndex++) {
-				tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
-				planTileSet.addGameTile (tGameTile);
+			if (tCount == 0) {
+				tMargin = new EmptyBorder (30,30,30,30);
+				tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
+				tilePanel.setBorder (tMargin);
+				tNoUpgrades = new JLabel ("No Upgrades available");
+				tilePanel.add (Box.createVerticalStrut (30));
+				tilePanel.add (tNoUpgrades);
+			} else {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
+					planTileSet.addGameTile (tGameTile);
+				}
+				planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
+	
+				tViewSize = new Dimension (300, 460);
+				tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
+				
+				tilePanel.add (tileScrollPane);
 			}
-			planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
-
-			tViewSize = new Dimension (300, 460);
-			tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
-			
-			tilePanel.add (tileScrollPane);
 			planTileSet.validate ();
 			tilePanel.validate ();
 			repaint ();
