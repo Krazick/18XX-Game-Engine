@@ -15,6 +15,9 @@ public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
 	int tileOrient;
 	List<GameTile> gameTiles = new LinkedList<GameTile> ();
+	private int previousOrientation;
+	private String previousTokens;
+	private String previousBases;
 	
 	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName) {
 		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
@@ -76,12 +79,9 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 	
 	public void putTileDownOnMap () {
-		int tPreviousOrientation;
-		String tPreviousTokens;
-		String tPreviousBases;
+		boolean tTilePlaced;
 		PlanTileSet tPlanTileSet;
 		TileSet tFullTileSet;
-		boolean tTilePlaced;
 		GameTile tSelectedTile;
 		Tile tNewTile;
 		Tile tPreviousTile;
@@ -89,13 +89,13 @@ public class PlaceMapTilePlan extends MapPlan {
 		System.out.println ("Ready to Putdown Tile on Planning Map");
 		tPreviousTile = planningMapCell.getTile ();
 		if (tPreviousTile != Tile.NO_TILE) {
-			tPreviousOrientation = planningMapCell.getTileOrient ();
-			tPreviousTokens = tPreviousTile.getPlacedTokens ();
-			tPreviousBases = tPreviousTile.getCorporationBases ();
+			previousOrientation = planningMapCell.getTileOrient ();
+			previousTokens = tPreviousTile.getPlacedTokens ();
+			previousBases = tPreviousTile.getCorporationBases ();
 		} else {
-			tPreviousOrientation = 0;
-			tPreviousTokens = GUI.EMPTY_STRING;
-			tPreviousBases = GUI.EMPTY_STRING;
+			previousOrientation = 0;
+			previousTokens = GUI.EMPTY_STRING;
+			previousBases = GUI.EMPTY_STRING;
 		}
 		tFullTileSet = planFrame.getFullTileSet ();
 		
@@ -110,7 +110,26 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 	
 	public void pickupTile () {
+		PlanTileSet tPlanTileSet;
+		TileSet tFullTileSet;
+		int tTileNumber;
+		GameTile tPreviousGameTile;
+		
 		System.out.println ("Ready to Pickup Tile on Planning Map");
+		tPlanTileSet = planFrame.getPlanTileSet ();
+		tFullTileSet = planFrame.getFullTileSet ();
+		if (tile == Tile.NO_TILE) {
+			planningMapCell.removeTile ();
+
+			
+		} else {
+			tTileNumber = tile.getNumber ();
+			tPreviousGameTile = tFullTileSet.getGameTile (tTileNumber);
+			planningMapCell.putThisTileDown (tFullTileSet, tPreviousGameTile, previousOrientation);
+		}
+		planFrame.setTilePlaced (false);
+		tPlanTileSet.clearAllSelected ();
+		planFrame.update ();
 	}
 	
 	public void rotateTile () {
