@@ -140,7 +140,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	public MapCell (int Xc, int Yc, GameMap aGameMap) {
-		this (Xc, Yc, aGameMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
+		this (Xc, Yc, aGameMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_TILE_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 
 	public MapCell (int Xc, int Yc, GameMap aGameMap, int aBaseTerrain, Tile aTile, int aTileOrient, 
@@ -1517,6 +1517,36 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		return tBasesApplied;
 	}
 
+	public boolean applyTokens (String aTokens, GameManager aGameManager) {
+		String [] tTokens;
+		String [] tTokenInfo;
+		String tAbbrev;
+		int tStationIndex;
+		int tCityIndex;
+		int tTokenIndex;
+		boolean tTokensApplied;
+		TokenCompany tTokenCompany;
+		
+		tTokens = aTokens.split (";");
+		tTokensApplied = false;
+		if (!(Tile.NO_TOKENS.equals (aTokens))) {
+			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex"
+			for (String tAToken : tTokens) {
+				tTokenInfo = tAToken.split (",");
+				tAbbrev = tTokenInfo [0];
+				tStationIndex = Integer.parseInt (tTokenInfo [1]);
+				tCityIndex = Integer.parseInt (tTokenInfo [2]);
+				tTokenIndex = Integer.parseInt (tTokenInfo [3]);
+				tTokenCompany = aGameManager.getTokenCompany (tAbbrev);
+				returnStation (tTokenCompany);
+				setStationAt (tTokenCompany, tStationIndex, tCityIndex, tTokenIndex);
+				tTokensApplied = true;
+			}
+		}
+		
+		return tTokensApplied;
+	}
+	
 	public boolean putThisTileDown (TileSet aTileSet, GameTile aThisTile, int aThisRotation) {
 		GameTile tGameTileOnMapCell;
 		Tile tTile;
@@ -1662,7 +1692,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	public void removeTile () {
-		setTileOrientation (NO_ORIENTATION);
+		setTileOrientation (NO_TILE_ORIENTATION);
 		setTileNumber (0);
 		setTile (Tile.NO_TILE);
 	}
@@ -2028,7 +2058,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	public void setEmptyMapCell (int aBaseTerrain) {
-		setOtherValues (aBaseTerrain, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
+		setOtherValues (aBaseTerrain, Tile.NO_TILE, NO_TILE_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 
 	public static void setMapDirection (boolean aMapDirection) {
