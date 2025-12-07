@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.TokenCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
@@ -86,29 +85,14 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		return aRoundManager.getTileSet ();
 	}
 
-	public void applyTokens (RoundManager aRoundManager, MapCell aMapCell, String aTokens) {
-		String [] tTokens;
-		String [] tTokenInfo;
-		String tAbbrev;
-		int tStationIndex;
-		int tCityIndex;
-		int tTokenIndex;
-		TokenCompany tTokenCompany;
-
-		if (!(Tile.NO_TOKENS.equals (aTokens))) {
-			tTokens = aTokens.split (";");
-			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex"
-			for (String tAToken : tTokens) {
-				tTokenInfo = tAToken.split (",");
-				tAbbrev = tTokenInfo [0];
-				tStationIndex = Integer.parseInt (tTokenInfo [1]);
-				tCityIndex = Integer.parseInt (tTokenInfo [2]);
-				tTokenIndex = Integer.parseInt (tTokenInfo [3]);
-				tTokenCompany = aRoundManager.getTokenCompany (tAbbrev);
-				aMapCell.returnStation (tTokenCompany);
-				aMapCell.setStationAt (tTokenCompany, tStationIndex, tCityIndex, tTokenIndex);
-			}
-		}
+	public boolean applyTokens (RoundManager aRoundManager, MapCell aMapCell, String aTokens) {
+		GameManager tGameManager;
+		boolean tTokensApplied;
+		
+		tGameManager = aRoundManager.getGameManager ();
+		tTokensApplied = aMapCell.applyTokens (aTokens, tGameManager);
+			 
+		return tTokensApplied;
 	}
 
 	public boolean applyBases (RoundManager aRoundManager, MapCell aMapCell) {
