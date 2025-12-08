@@ -36,6 +36,12 @@ import swingTweaks.KButton;
 public class PlanFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Map Plan";
+	public static final String APPROVE_PLAN_LABEL = "Approve Plan";
+	public static final String APPROVE_PLAN = "ApprovePlan";
+	public static final String DISCARD_PLAN_LABEL = "Discard Plan";
+	public static final String DISCARD_PLAN = "DiscardPlan";
+	public static final String APPLY_PLAN_LABEL = "Apply Plan";
+	public static final String APPLY_PLAN = "ApplyPlan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
 	GameMap planningMap;
 	JPanel mapPanel;
@@ -48,9 +54,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	KButton putdownTileButton;
 	KButton pickupTileButton;
 	KButton rotateTileButton;
-	KButton discardPlan;
-	KButton applyPlan;
-	KButton savePlan;
+	KButton approvePlanButton;
+	KButton discardPlanButton;
+	KButton applyPlanButton;
+	JLabel tileToPlayInfoLabel;
 	MapPlan mapPlan;
 	boolean tilePlaced;
 	
@@ -100,17 +107,17 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	private void buildInfoAndActionPanel () {
-		JLabel tButtonLabel;
+		JLabel tPanelLabel;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		Dimension tViewSize;
 		Border tMargin;
 		
-		tMargin = new EmptyBorder (10,10,10,10);
+		tMargin = new EmptyBorder (5, 5, 5, 5);
 		infoAndActionPanel = new JPanel ();
 		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
 		infoAndActionPanel.setBorder (tMargin);
-		tButtonLabel = new JLabel ("This is the Info And Action Panel");
-		infoAndActionPanel.add (tButtonLabel);
+		tPanelLabel = new JLabel ("This is the Info And Action Panel");
+		infoAndActionPanel.add (tPanelLabel);
 		infoAndActionPanel.add (Box.createVerticalStrut (10));
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
@@ -149,7 +156,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			infoAndActionPanel.add (tCompanyList);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
-			tCompanyInfo = null;
+
 		}
 	}
 
@@ -160,6 +167,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		MapCell tMapCell;
 		String tBuildCost;
 		Tile tTile;
+		String tTileInfoText;
+		String tSelectedTileInfoText;
 		
 		tMapCell = aPlaceMapTilePlan.getMapCell ();
 		if (tMapCell != MapCell.NO_MAP_CELL) {
@@ -174,25 +183,68 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
-				tTileInfoLabel = new JLabel (tTile.getType ().getName () + " Tile # " + tTile.getNumber ());
+				tTileInfoText = buildTileInfoText (tTile, true);
+//				tTileInfoText = "Original " + tTile.getType ().getName () + 
+//								" Tile # " + tTile.getNumber ();
+				
 				aPlaceMapTilePlan.setPlayableTiles (planningMap);
 				fillPlanTileSet ();
 			} else {
-				tTileInfoLabel = new JLabel ("No Tile on the MapCell");
+				tTileInfoText = buildTileInfoText (Tile.NO_TILE, true);
+//				tTileInfoText = "No Tile on the Selected MapCell";
 				// Build a set of Tiles that can be placed on this MapCell
 				// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
 				// in the game's inventory. This will allow it to be placed on the Planning Map 
 				aPlaceMapTilePlan.setPlayableTiles (planningMap);
 				fillPlanTileSet ();
 			}
+			tTileInfoLabel = new JLabel (tTileInfoText);
 			infoAndActionPanel.add (tTileInfoLabel);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
+			
+			approvePlanButton = setupButton (APPROVE_PLAN_LABEL, APPROVE_PLAN, this, Component.CENTER_ALIGNMENT);
+			infoAndActionPanel.add (approvePlanButton);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
+
+			discardPlanButton = setupButton (DISCARD_PLAN_LABEL, DISCARD_PLAN, this, Component.CENTER_ALIGNMENT);
+			infoAndActionPanel.add (discardPlanButton);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
+
+			applyPlanButton = setupButton (APPLY_PLAN_LABEL, APPLY_PLAN, this, Component.CENTER_ALIGNMENT);
+			infoAndActionPanel.add (applyPlanButton);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
+
+			tSelectedTileInfoText = buildTileInfoText (Tile.NO_TILE, false);
+
+			tileToPlayInfoLabel = new JLabel (tSelectedTileInfoText);
+			infoAndActionPanel.add (tileToPlayInfoLabel);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
 
 		} else {
 			tMapCellInfo = null;
 		}
 	}
 
+	private String buildTileInfoText (Tile aTile, boolean aOriginalTile) {
+		String tTileInfoText;
+		
+		if (aOriginalTile) {
+			if (aTile == Tile.NO_TILE) {
+				tTileInfoText = "No Tile on the Selected MapCell";
+			} else {
+				tTileInfoText = "Original " + aTile.getType ().getName () + " Tile # " + aTile.getNumber ();
+			}
+		} else {
+			if (aTile == Tile.NO_TILE) {
+				tTileInfoText = "No Tile Selected to place yet";
+			} else {
+				tTileInfoText = "Selected " + aTile.getType ().getName () + " Tile # " + aTile.getNumber ();
+			}
+		}
+		
+		return tTileInfoText;
+	}
+	
 	private void buildTilePanel () {
 		Dimension tViewSize;
 		
@@ -209,6 +261,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		int tCount;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		GameTile tGameTile;
+		GameTile tGameTileClone;
+		Tile tTile;
 		Dimension tViewSize;
 		JLabel tNoUpgrades;
 		Border tMargin;
@@ -226,9 +280,16 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tilePanel.add (Box.createVerticalStrut (30));
 				tilePanel.add (tNoUpgrades);
 			} else {
+				// Add the GameTile on the Selected MapCell to the Plan Tile Set, with a Count of Zero (0)
+				// Deep Clone GameTile and Set Count to one (1).
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
-					planTileSet.addGameTile (tGameTile);
+					tGameTileClone = (GameTile) tGameTile.clone ();
+					tTile = tGameTileClone.getTile ();
+					tGameTileClone.pushTile (tTile);
+					tGameTileClone.setUsedCount (0);
+					tGameTileClone.setTotalCount (1);
+					planTileSet.addGameTile (tGameTileClone);
 				}
 				planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
 	
@@ -354,6 +415,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tilePlaced = aTilePlaced;
 	}
 	
+	public boolean tileIsPlaced () {
+		return tilePlaced;
+	}
+	
 	public void update () {
 		updatePutdownTileButton ();
 		updatePickupTileButton ();
@@ -364,6 +429,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	
 	public void updatePutdownTileButton () {
 		GameTile tSelectedGameTile;
+		Tile tToPlayTile;
+		String tToPlayTileInfoText;
 		
 		if (planTileSet != TileSet.NO_TILE_SET) {
 			tSelectedGameTile = planTileSet.getSelectedTile ();
@@ -373,6 +440,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			} else {
 				putdownTileButton.setEnabled (true);
 				putdownTileButton.setToolTipText ("GameTile has been selected to place");
+				tToPlayTile = tSelectedGameTile.getTile ();
+				tToPlayTileInfoText = this.buildTileInfoText (tToPlayTile, false);
+				tileToPlayInfoLabel.setText (tToPlayTileInfoText);
 			}
 		} else {
 			putdownTileButton.setEnabled (false);
