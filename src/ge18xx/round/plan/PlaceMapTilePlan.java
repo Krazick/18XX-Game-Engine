@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ge18xx.company.Corporation;
+import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
-import geUtilities.GUI;
 
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
@@ -18,6 +18,7 @@ public class PlaceMapTilePlan extends MapPlan {
 	private int previousOrientation;
 	private String previousTokens;
 	private String previousBases;
+	private Tile previousTile;
 	
 	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName) {
 		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
@@ -84,18 +85,17 @@ public class PlaceMapTilePlan extends MapPlan {
 		TileSet tFullTileSet;
 		GameTile tSelectedTile;
 		Tile tNewTile;
-		Tile tPreviousTile;
-
+		
 		System.out.println ("Ready to Putdown Tile on Planning Map");
-		tPreviousTile = planningMapCell.getTile ();
-		if (tPreviousTile != Tile.NO_TILE) {
+		previousTile = planningMapCell.getTile ();
+		if (previousTile != Tile.NO_TILE) {
 			previousOrientation = planningMapCell.getTileOrient ();
-			previousTokens = tPreviousTile.getPlacedTokens ();
-			previousBases = tPreviousTile.getCorporationBases ();
+			previousTokens = previousTile.getPlacedTokens ();
+			previousBases = previousTile.getCorporationBases ();
 		} else {
-			previousOrientation = 0;
-			previousTokens = GUI.EMPTY_STRING;
-			previousBases = GUI.EMPTY_STRING;
+			previousOrientation = MapCell.NO_TILE_ORIENTATION;
+			previousTokens = Tile.NO_TOKENS;
+			previousBases = Tile.NO_BASES;
 		}
 		tFullTileSet = planFrame.getFullTileSet ();
 		
@@ -112,21 +112,27 @@ public class PlaceMapTilePlan extends MapPlan {
 	public void pickupTile () {
 		PlanTileSet tPlanTileSet;
 		TileSet tFullTileSet;
-		int tTileNumber;
+		int tPreviousTileNumber;
 		GameTile tPreviousGameTile;
+		GameManager tGameManager;
+		Tile tFoundTile;
 		
 		System.out.println ("Ready to Pickup Tile on Planning Map");
 		tPlanTileSet = planFrame.getPlanTileSet ();
 		tFullTileSet = planFrame.getFullTileSet ();
-		if (tile == Tile.NO_TILE) {
-			planningMapCell.removeTile ();
+		tFoundTile = planningMapCell.removeTile ();
 
-			
-		} else {
-			tTileNumber = tile.getNumber ();
-			tPreviousGameTile = tFullTileSet.getGameTile (tTileNumber);
+		if (previousTile != Tile.NO_TILE) {
+			tPreviousTileNumber = previousTile.getNumber ();
+			tPreviousGameTile = tFullTileSet.getGameTile (tPreviousTileNumber);
 			planningMapCell.putThisTileDown (tFullTileSet, tPreviousGameTile, previousOrientation);
 		}
+		if (tFoundTile != Tile.NO_TILE) {
+			planningMapCell.restoreTile (tFullTileSet, tile);
+		}
+		tGameManager = planFrame.getGameManager ();
+		planningMapCell.applyTokens (previousTokens, tGameManager);
+		planningMapCell.applyBases (previousBases, tGameManager);
 		planFrame.setTilePlaced (false);
 		tPlanTileSet.clearAllSelected ();
 		planFrame.update ();
