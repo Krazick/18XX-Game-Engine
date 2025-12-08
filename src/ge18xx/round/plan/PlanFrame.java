@@ -469,4 +469,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	@Override
+	public GameManager getGameManager () {
+		return (GameManager) gameEngineManager;
+	}
 }
