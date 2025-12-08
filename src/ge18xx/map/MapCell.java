@@ -1691,10 +1691,20 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		rotateTileRight (1);
 	}
 
-	public void removeTile () {
+	public Tile removeTile () {
+		Tile tTileOnMapCell;
+		
+		if (isTileOnCell ()) {
+			// Tile on MapCell -- Upgrade Required
+			tTileOnMapCell = getTile ();
+		} else {
+			tTileOnMapCell = Tile.NO_TILE;
+		}
 		setTileOrientation (NO_TILE_ORIENTATION);
-		setTileNumber (0);
+		setTileNumber (Tile.NOT_A_TILE);
 		setTile (Tile.NO_TILE);
+		
+		return tTileOnMapCell;
 	}
 
 	public boolean pseudoYellowTile () {
