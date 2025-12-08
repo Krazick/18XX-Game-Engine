@@ -115,6 +115,30 @@ public class Tile implements Comparable<Object>, Cloneable {
 		type.setFixed (tFixed);
 	}
 
+	@Override
+	public Tile clone () {
+		Tile tTile;
+		
+		try {
+			tTile = (Tile) super.clone ();
+			tTile.number = number;
+			tTile.XCenter = XCenter;
+			tTile.YCenter = YCenter;
+			if (name == TileName.NO_TILE_NAME) {
+				tTile.name = TileName.NO_TILE_NAME;
+			} else {
+				tTile.name = name.clone ();
+			}
+			tTile.type = type.clone ();
+			tTile.tracks = tracks.clone ();
+			tTile.centers = centers.clone ();
+
+			return tTile;
+		} catch (CloneNotSupportedException e) {
+			throw new Error ("Tile.clone Not Supported Exception");
+		}
+	}
+
 	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
 		Track tTrack;
 
@@ -230,30 +254,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public MapToken getMapTokenFor (int aCorporationID) {
 		return centers.getMapTokenFor (aCorporationID);
-	}
-
-	@Override
-	public Tile clone () {
-		Tile tTile;
-		
-		try {
-			tTile = (Tile) super.clone ();
-			tTile.number = number;
-			tTile.XCenter = XCenter;
-			tTile.YCenter = YCenter;
-			if (name == TileName.NO_TILE_NAME) {
-				tTile.name = TileName.NO_TILE_NAME;
-			} else {
-				tTile.name = name.clone ();
-			}
-			tTile.type = type.clone ();
-			tTile.tracks = tracks.clone ();
-			tTile.centers = centers.clone ();
-
-			return tTile;
-		} catch (CloneNotSupportedException e) {
-			throw new Error ("Tile.clone Not Supported Exception");
-		}
 	}
 
 	@Override
