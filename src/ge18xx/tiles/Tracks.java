@@ -76,12 +76,14 @@ public class Tracks implements Cloneable {
 
 	@Override
 	public Tracks clone () {
-		List<Track> tSegmentsCopy = new LinkedList<> ();
+		List<Track> tSegmentsClone;
+		
+		tSegmentsClone = new LinkedList<> ();
 		for (Track tSegment : segments) {
-			tSegmentsCopy.add (tSegment.clone ());
+			tSegmentsClone.add (tSegment.clone ());
 		}
 
-		return new Tracks (tSegmentsCopy);
+		return new Tracks (tSegmentsClone);
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument, int aIndex) {
