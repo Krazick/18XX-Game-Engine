@@ -1569,7 +1569,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			if (tUpgradeCount > 0) {
 				tClonedTile = tTile.clone ();
 				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
-				gameMap.redrawMap ();
+//				gameMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");
 			}
@@ -1590,16 +1590,19 @@ public class MapCell implements Cloneable, Comparator<Object> {
 					// Found at least one orientation that works - Put it on the Map Cell
 					putTile (tTile, tPossibleOrientation);
 					tTilePlaced = true;
-					gameMap.redrawMap ();
+//					gameMap.redrawMap ();
 				}
 				aThisTile.toggleSelected ();
-				aTileSet.revalidate ();
-				aTileSet.repaint ();
+//				aTileSet.revalidate ();
+//				aTileSet.repaint ();
 			} else {
 				// Count of Revenue Types don't match - Can't place
 				System.err.println ("Different Type Counts between Tiles");
 			}
 		}
+		gameMap.redrawMap ();
+		aTileSet.revalidate ();
+		aTileSet.repaint ();
 
 		return tTilePlaced;
 	}
