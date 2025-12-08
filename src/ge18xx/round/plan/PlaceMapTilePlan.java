@@ -82,7 +82,6 @@ public class PlaceMapTilePlan extends MapPlan {
 	public void putTileDownOnMap () {
 		boolean tTilePlaced;
 		PlanTileSet tPlanTileSet;
-		TileSet tFullTileSet;
 		GameTile tSelectedTile;
 		Tile tNewTile;
 		
@@ -97,11 +96,10 @@ public class PlaceMapTilePlan extends MapPlan {
 			previousTokens = Tile.NO_TOKENS;
 			previousBases = Tile.NO_BASES;
 		}
-		tFullTileSet = planFrame.getFullTileSet ();
 		
 		tPlanTileSet = planFrame.getPlanTileSet ();
 		tSelectedTile = tPlanTileSet.getSelectedTile ();
-		tTilePlaced = planningMapCell.putThisTileDown (tFullTileSet, tSelectedTile, MapCell.NO_ROTATION);
+		tTilePlaced = planningMapCell.putThisTileDown (tPlanTileSet, tSelectedTile, MapCell.NO_ROTATION);
 		tNewTile = planningMapCell.getTile ();
 		setTile (tNewTile);
 		planFrame.setTilePlaced (tTilePlaced);
@@ -128,7 +126,7 @@ public class PlaceMapTilePlan extends MapPlan {
 			planningMapCell.putThisTileDown (tFullTileSet, tPreviousGameTile, previousOrientation);
 		}
 		if (tFoundTile != Tile.NO_TILE) {
-			planningMapCell.restoreTile (tFullTileSet, tile);
+			planningMapCell.restoreTile (tPlanTileSet, tile);
 		}
 		tGameManager = planFrame.getGameManager ();
 		planningMapCell.applyTokens (previousTokens, tGameManager);
@@ -145,7 +143,6 @@ public class PlaceMapTilePlan extends MapPlan {
 		tPlanningMap = planFrame.getPlanningMap ();
 		tPossible = planningMapCell.getTileOrient ();
 
-		System.out.println ("Ready to Rotate Tile on Planning Map");
 		tPlanningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
 		planFrame.update ();
 	}
