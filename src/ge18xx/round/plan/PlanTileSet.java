@@ -88,17 +88,19 @@ public class PlanTileSet extends TileSet {
 		Point tPoint;
 		GameTile tGameTile;
 
-		tPoint = aMouseEvent.getPoint ();
-		tGameTile = getTileContainingPoint (tPoint);
-
-		if (tGameTile != GameTile.NO_GAME_TILE) {
-			System.out.println ("Clicked Game Tile " + tGameTile.getTileNumber ());
-			switchSelectedTile (tGameTile);
-			planFrame.updatePutdownTileButton ();
-			planFrame.updatePickupTileButton ();
-			planFrame.repaint ();
-		} else {
-			super.handleClick (aMouseEvent);
+		if (! planFrame.tileIsPlaced ()) {
+			tPoint = aMouseEvent.getPoint ();
+			tGameTile = getTileContainingPoint (tPoint);
+	
+			if (tGameTile != GameTile.NO_GAME_TILE) {
+				System.out.println ("Clicked Game Tile " + tGameTile.getTileNumber ());
+				switchSelectedTile (tGameTile);
+				planFrame.updatePutdownTileButton ();
+				planFrame.updatePickupTileButton ();
+				planFrame.repaint ();
+			} else {
+				super.handleClick (aMouseEvent);
+			}
 		}
 	}
 }
