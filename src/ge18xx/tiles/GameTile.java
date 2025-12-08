@@ -22,7 +22,7 @@ import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 
-public class GameTile {
+public class GameTile implements Cloneable {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");
 	public static final AttributeName AN_OVERRIDE = new AttributeName ("override");
 	public static final GameTile NO_GAME_TILE = null;
@@ -40,6 +40,22 @@ public class GameTile {
 	boolean playable;
 	boolean override;
 
+	@Override
+	public GameTile clone () {
+		GameTile tGameTileClone;
+		
+		tGameTileClone = NO_GAME_TILE;
+		try {
+			tGameTileClone = (GameTile) super.clone ();
+
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return tGameTileClone;
+	}
+	
 	public GameTile () {
 		this (new Tile (), 0);
 	}
