@@ -1558,6 +1558,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		boolean tTilePlaced;
 
 		tTilePlaced = false;
+		tTile = aThisTile.popTile ();
+
 		if (isTileOnCell ()) {
 			// Tile on MapCell -- Upgrade Required
 			tTileOnMapCell = getTile ();
@@ -1565,7 +1567,6 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			tGameTileOnMapCell = aTileSet.getGameTile (tTileNumber);
 			tUpgradeCount = tGameTileOnMapCell.getUpgradeCount ();
 			if (tUpgradeCount > 0) {
-				tTile = aThisTile.popTile ();
 				tClonedTile = tTile.clone ();
 				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
 				gameMap.redrawMap ();
@@ -1577,7 +1578,6 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			
 			if (sameTypeCount (aThisTile) || aThisTile.canOverride ()) {
 				// Have a Tile, and a MapCell Selected with same Revenue Center Types
-				tTile = aThisTile.popTile ();
 				if (aThisRotation != NO_ROTATION) {
 					tPossibleOrientation = aThisRotation;
 				} else {
