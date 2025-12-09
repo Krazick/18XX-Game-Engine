@@ -73,6 +73,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		GameManager tGameManager;
 		
 		System.out.println ("Ready to build a Map Plan for Player is " + aMapPlan.getPlayerName ());
+		tGameManager = (GameManager) gameEngineManager;
+		tFullTileSet = tGameManager.getTileSet ();
+		setFullTileSet (tFullTileSet);
 
 		setMapPlan (aMapPlan);
 		try {
@@ -85,9 +88,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			add (infoAndActionPanel, BorderLayout.EAST);
 			add (tilePanel, BorderLayout.CENTER);
 			
-			tGameManager = (GameManager) gameEngineManager;
-			tFullTileSet = tGameManager.getTileSet ();
-			setFullTileSet (tFullTileSet);
 			
 			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
 			tFullFrameTitle = aGameManager.createFrameTitle (tFullFrameTitle);
@@ -259,9 +259,11 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	protected void fillPlanTileSet () {
 		int tIndex;
 		int tCount;
+		int tTileNumber;
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		TileSet tFullTileSet;
+		MapCell tMapCell;
 		GameTile tGameTile;
-		GameTile tGameTileClone;
 		Tile tTile;
 		Dimension tViewSize;
 		JLabel tNoUpgrades;
@@ -280,16 +282,17 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tilePanel.add (Box.createVerticalStrut (30));
 				tilePanel.add (tNoUpgrades);
 			} else {
-				// Add the GameTile on the Selected MapCell to the Plan Tile Set, with a Count of Zero (0)
-				// Deep Clone GameTile and Set Count to one (1).
+				tMapCell = tPlaceMapTilePlan.getMapCell ();
+				if (tMapCell.isTileOnCell ()) {
+					tTile = tMapCell.getTile ();
+					tTileNumber = tTile.getNumber ();
+					tFullTileSet = getFullTileSet ();
+					tGameTile = tFullTileSet.getGameTile (tTileNumber);
+					cloneAndAddGameTile (tGameTile, 1);
+				}
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
-					tGameTileClone = (GameTile) tGameTile.clone ();
-					tTile = tGameTileClone.getTile ();
-					tGameTileClone.pushTile (tTile);
-					tGameTileClone.setUsedCount (0);
-					tGameTileClone.setTotalCount (1);
-					planTileSet.addGameTile (tGameTileClone);
+					cloneAndAddGameTile (tGameTile, 0);
 				}
 				planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
 	
@@ -303,6 +306,18 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			repaint ();
 			revalidate ();
 		}
+	}
+
+	protected void cloneAndAddGameTile (GameTile aGameTile, int aUsedCount) {
+		GameTile tGameTileClone;
+		Tile tTile;
+		
+		tGameTileClone = (GameTile) aGameTile.clone ();
+		tTile = tGameTileClone.getTile ();
+		tGameTileClone.pushTile (tTile);
+		tGameTileClone.setUsedCount (aUsedCount);
+		tGameTileClone.setTotalCount (1);
+		planTileSet.addGameTile (tGameTileClone);
 	}
 
 	public PlanTileSet getPlanTileSet () {
