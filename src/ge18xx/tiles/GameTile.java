@@ -47,9 +47,7 @@ public class GameTile implements Cloneable {
 		tGameTileClone = NO_GAME_TILE;
 		try {
 			tGameTileClone = (GameTile) super.clone ();
-
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
