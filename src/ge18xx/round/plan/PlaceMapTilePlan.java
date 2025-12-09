@@ -13,6 +13,7 @@ import ge18xx.tiles.Tile;
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
 	int tileOrient;
+	boolean tileOrientLocked;
 	List<GameTile> gameTiles = new LinkedList<GameTile> ();
 	private int previousOrientation;
 	private String previousTokens;
@@ -34,6 +35,14 @@ public class PlaceMapTilePlan extends MapPlan {
 		setTileAndOrientation (Tile.NO_TILE, MapCell.NO_TILE_ORIENTATION);
 	}
 
+	public void lockTileOrientation () {
+		tileOrientLocked = true;
+	}
+	
+	public boolean isTileOrientationLocked () {
+		return tileOrientLocked;
+	}
+	
 	public void setGameTiles (List<GameTile> aGameTiles) {
 		gameTiles = aGameTiles;
 	}
@@ -41,6 +50,7 @@ public class PlaceMapTilePlan extends MapPlan {
 	public void setTileAndOrientation (Tile aTile, int aTileOrient) {
 		setTile (aTile);
 		setTileOrient (aTileOrient);
+		tileOrientLocked = false;
 	}
 	
 	public void setTile (Tile aTile) {
@@ -103,7 +113,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		setTile (tNewTile);
 		planFrame.setTilePlaced (tTilePlaced);
 		tPlanTileSet.clearAllSelected ();
-		planFrame.update ();
+		planFrame.updateFrame ();
 	}
 	
 	public void pickupTile () {
@@ -130,7 +140,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		planningMapCell.applyBases (previousBases, tGameManager);
 		planFrame.setTilePlaced (false);
 		tPlanTileSet.clearAllSelected ();
-		planFrame.update ();
+		planFrame.updateFrame ();
 	}
 	
 	public void rotateTile () {
@@ -141,6 +151,6 @@ public class PlaceMapTilePlan extends MapPlan {
 		tPossible = planningMapCell.getTileOrient ();
 
 		tPlanningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
-		planFrame.update ();
+		planFrame.updateFrame ();
 	}
 }

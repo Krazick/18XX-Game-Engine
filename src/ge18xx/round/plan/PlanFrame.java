@@ -36,11 +36,11 @@ import swingTweaks.KButton;
 public class PlanFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_TITLE = "Map Plan";
-	public static final String APPROVE_PLAN_LABEL = "Approve Plan";
+	public static final String APPROVE_PLAN_LABEL = "Approve";
 	public static final String APPROVE_PLAN = "ApprovePlan";
-	public static final String DISCARD_PLAN_LABEL = "Discard Plan";
+	public static final String DISCARD_PLAN_LABEL = "Discard";
 	public static final String DISCARD_PLAN = "DiscardPlan";
-	public static final String APPLY_PLAN_LABEL = "Apply Plan";
+	public static final String APPLY_PLAN_LABEL = "Apply";
 	public static final String APPLY_PLAN = "ApplyPlan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
 	GameMap planningMap;
@@ -88,7 +88,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			add (infoAndActionPanel, BorderLayout.EAST);
 			add (tilePanel, BorderLayout.CENTER);
 			
-			
+			updateFrame ();
+
 			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
 			tFullFrameTitle = aGameManager.createFrameTitle (tFullFrameTitle);
 			setTitle (tFullFrameTitle);
@@ -201,6 +202,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tTileInfoLabel = new JLabel (tTileInfoText);
 			infoAndActionPanel.add (tTileInfoLabel);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
+
+			tSelectedTileInfoText = buildTileInfoText (Tile.NO_TILE, false);
+
+			tileToPlayInfoLabel = new JLabel (tSelectedTileInfoText);
+			infoAndActionPanel.add (tileToPlayInfoLabel);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
 			
 			approvePlanButton = setupButton (APPROVE_PLAN_LABEL, APPROVE_PLAN, this, Component.CENTER_ALIGNMENT);
 			infoAndActionPanel.add (approvePlanButton);
@@ -212,12 +219,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 			applyPlanButton = setupButton (APPLY_PLAN_LABEL, APPLY_PLAN, this, Component.CENTER_ALIGNMENT);
 			infoAndActionPanel.add (applyPlanButton);
-			infoAndActionPanel.add (Box.createHorizontalStrut (5));
-
-			tSelectedTileInfoText = buildTileInfoText (Tile.NO_TILE, false);
-
-			tileToPlayInfoLabel = new JLabel (tSelectedTileInfoText);
-			infoAndActionPanel.add (tileToPlayInfoLabel);
 			infoAndActionPanel.add (Box.createHorizontalStrut (5));
 
 		} else {
@@ -421,7 +422,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		mapButtonsPanel.add (rotateTileButton);
 		mapButtonsPanel.add (Box.createHorizontalStrut (5));
 		
-		update ();
 		setTilePlaced (false);
 		mapPanel.add (mapButtonsPanel);
 	}
@@ -434,10 +434,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return tilePlaced;
 	}
 	
-	public void update () {
+	public void updateFrame () {
 		updatePutdownTileButton ();
 		updatePickupTileButton ();
 		updateRotateTileButton ();
+		updateApprovePlanButton ();
+		updateDiscardPlanButton ();
+		updateApplyPlanButton ();
 		validate ();
 		repaint ();
 	}
@@ -454,7 +457,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				putdownTileButton.setToolTipText ("No Selected GameTile to place");
 			} else {
 				putdownTileButton.setEnabled (true);
-				putdownTileButton.setToolTipText ("GameTile has been selected to place");
+				putdownTileButton.setToolTipText ("GameTile has been selected to be placed");
 				tToPlayTile = tSelectedGameTile.getTile ();
 				tToPlayTileInfoText = this.buildTileInfoText (tToPlayTile, false);
 				tileToPlayInfoLabel.setText (tToPlayTileInfoText);
@@ -467,7 +470,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	
 	public void updatePickupTileButton () {
 		if (planTileSet != TileSet.NO_TILE_SET) {
-			if (tilePlaced) {
+			if (mapPlan.isApproved ()) {
+				pickupTileButton.setEnabled (false);
+				pickupTileButton.setToolTipText ("The Plan has been approved, cannot pickup tile");
+			} else if (tilePlaced) {
 				pickupTileButton.setEnabled (true);
 				pickupTileButton.setToolTipText ("GameTile has been placed, can pickup");
 			} else {
@@ -481,10 +487,24 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void updateRotateTileButton () {
+		PlaceMapTilePlan tPlaceMapTilePlan;
+		boolean tTileOrientationLocked;
+
+		tTileOrientationLocked = false;
 		if (planTileSet != TileSet.NO_TILE_SET) {
-			if (tilePlaced) {
+			if (mapPlan instanceof PlaceMapTilePlan) {
+				tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+				tTileOrientationLocked = tPlaceMapTilePlan.isTileOrientationLocked ();
+			}
+			if (mapPlan.isApproved ()) {
+				rotateTileButton.setEnabled (false);
+				rotateTileButton.setToolTipText ("The Plan has been approved, cannot rotate tile");
+			} else if (tTileOrientationLocked) {
+				rotateTileButton.setEnabled (false);
+				rotateTileButton.setToolTipText ("Tile is Placed and Locked, cannot rotate the tile");					
+			} else if (tilePlaced) {
 				rotateTileButton.setEnabled (true);
-				rotateTileButton.setToolTipText ("GameTile has been placed, can rotate");
+				rotateTileButton.setToolTipText ("GameTile has been placed, can rotate the tile");
 			} else {
 				rotateTileButton.setEnabled (false);
 				rotateTileButton.setToolTipText ("No placed GameTile to rotate");		
@@ -495,6 +515,50 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 	
+	public void updateApprovePlanButton () {
+		GameTile tSelectedGameTile;
+		
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			tSelectedGameTile = planTileSet.getSelectedTile ();
+			if (mapPlan.isApproved ()) {
+				approvePlanButton.setEnabled (false);
+				approvePlanButton.setToolTipText ("The Plan has already been approved");
+			} else if (tilePlaced) {
+				approvePlanButton.setEnabled (true);
+				approvePlanButton.setToolTipText ("GameTile has been placed, plan can be approved");
+			} else if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
+				approvePlanButton.setEnabled (false);
+				approvePlanButton.setToolTipText ("No GameTile selected yet to be placed on MapCell, plan connot be approved");
+			} else {
+				approvePlanButton.setEnabled (false);
+				approvePlanButton.setToolTipText ("The GameTile has not been placed, plan cannot be approved");				
+			}
+		} else {
+			approvePlanButton.setEnabled (false);
+			approvePlanButton.setToolTipText ("No Selected GameTile to place");
+		}
+	}
+	
+	public void updateDiscardPlanButton () {
+		discardPlanButton.setEnabled (true);
+		discardPlanButton.setToolTipText ("Plan can be discarded at any time");
+	}
+	
+	public void updateApplyPlanButton () {
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			if (mapPlan.isApproved ()) {
+				applyPlanButton.setEnabled (true);
+				applyPlanButton.setToolTipText ("The Plan was approved, can apply");
+			} else {
+				applyPlanButton.setEnabled (false);
+				applyPlanButton.setToolTipText ("The Plan has not been approved, the plan cannot be applied");		
+			}
+		} else {
+			applyPlanButton.setEnabled (false);
+			applyPlanButton.setToolTipText ("The Plan Tile Set filled yet.");
+		}
+	}
+
 	public String getScrollBarInfo (String aOrientation) {
 		JScrollBar tJScrollBar;
 		String tScrollBarInfo;
@@ -550,8 +614,41 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tPlaceMapTilePlan.pickupTile ();
 			} else if (MapFrame.ROTATE_TILE.equals (tTheAction)) {
 				tPlaceMapTilePlan.rotateTile ();
+			} else if (APPROVE_PLAN.equals (tTheAction)) {
+				approvePlan ();
+			} else if (DISCARD_PLAN.equals (tTheAction)) {
+				discardPlan ();
+			} else if (APPLY_PLAN.equals (tTheAction)) {
+				applyPlan ();
 			}
+			updateFrame ();
 		}
+	}
+
+	public void applyPlan () {
+		System.out.println ("Ready to Apply Plan");
+	}
+
+	private void discardPlan () {
+		System.out.println ("Ready to Discard Plan");
+		// Delete Plan from List of Plans
+		// Close Map Plan Frame
+	}
+
+	private void approvePlan () {
+		PlaceMapTilePlan tPlaceMapTilePlan;
+		
+		System.out.println ("Ready to Approve Plan");
+		if (mapPlan instanceof PlaceMapTilePlan) {
+			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+			tPlaceMapTilePlan.lockTileOrientation ();
+		}
+		// Lock Tile Orientation
+		// Capture Conditions
+		// Generate Action
+		// Add Plan to List of Plans
+		
+		mapPlan.setApproved (Plan.APPROVED);
 	}
 
 	@Override
