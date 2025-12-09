@@ -9,7 +9,6 @@ import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
-import ge18xx.tiles.TileSet;
 
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
@@ -109,21 +108,19 @@ public class PlaceMapTilePlan extends MapPlan {
 	
 	public void pickupTile () {
 		PlanTileSet tPlanTileSet;
-		TileSet tFullTileSet;
 		int tPreviousTileNumber;
 		GameTile tPreviousGameTile;
 		GameManager tGameManager;
 		Tile tFoundTile;
 		
-		System.out.println ("Ready to Pickup Tile on Planning Map");
 		tPlanTileSet = planFrame.getPlanTileSet ();
-		tFullTileSet = planFrame.getFullTileSet ();
 		tFoundTile = planningMapCell.removeTile ();
 
 		if (previousTile != Tile.NO_TILE) {
 			tPreviousTileNumber = previousTile.getNumber ();
-			tPreviousGameTile = tFullTileSet.getGameTile (tPreviousTileNumber);
-			planningMapCell.putThisTileDown (tFullTileSet, tPreviousGameTile, previousOrientation);
+			tPreviousGameTile = tPlanTileSet.getGameTile (tPreviousTileNumber);
+			planningMapCell.putThisTileDown (tPlanTileSet, tPreviousGameTile, previousOrientation);
+			
 		}
 		if (tFoundTile != Tile.NO_TILE) {
 			planningMapCell.restoreTile (tPlanTileSet, tile);
