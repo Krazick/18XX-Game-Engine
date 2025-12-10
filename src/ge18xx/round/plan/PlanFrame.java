@@ -686,7 +686,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tPlaceMapTilePlan.addCondition (tCondition);
 			
 			
-			// Condition - RoundIs
 			// Condition - TileAllowedInPhase
 			// Condition - TileAvailableInTileSet
 			// Condition - MapCell has No Private Company Restriction --- CREATE Later Maybe
