@@ -648,7 +648,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		if (status == ActorI.ActionStates.Operated) {
 			tReason = "Company completed Operations";
 		}
-
+		if (notFloated ()) {
+			tReason = "Company has not floated yet";
+		}
+		
 		return tReason;
 	}
 
@@ -2382,6 +2385,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setHome2 (aHomeCity2, aHomeLocation2);
 		setStatus (aStatus);
 		govtRailway = aGovtRailway;
+	}
+
+	public boolean notFloated () {
+		boolean tNotFloated;
+		
+		tNotFloated = false;
+		if ((status == ActorI.ActionStates.Owned) ||
+			(status == ActorI.ActionStates.WillFloat) ||
+			(status == ActorI.ActionStates.MayFloat)) {
+			tNotFloated = true;
+		}
+		
+		return tNotFloated;
 	}
 
 	public boolean hasOperated () {
