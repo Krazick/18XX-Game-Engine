@@ -1,5 +1,8 @@
 package ge18xx.round.plan;
 
+import ge18xx.round.plan.condition.Condition;
+import ge18xx.round.plan.condition.Conditions;
+
 public class Plan {
 	public static final boolean DISAPPROVED = false;
 	public static final boolean APPROVED = true;
@@ -12,12 +15,18 @@ public class Plan {
 	int id;
 	PlanFrame planFrame;
 	boolean approved;
+	Conditions conditions;
 	
 	public Plan (String aPlayerName, String aGameName, String aName) {
+		Conditions tConditions;
+		
 		setGameName (aGameName);
 		setName (aName);
 		setPlayerName (aPlayerName);
 		setApproved (DISAPPROVED);
+		
+		tConditions = new Conditions ();
+		setConditions (tConditions);
 	}
 
 	public void setApproved (boolean aApproved) {
@@ -66,5 +75,33 @@ public class Plan {
 	
 	public String getPlayerName () {
 		return playerName;
+	}
+	
+	public void setConditions (Conditions aConditions) {
+		conditions = aConditions;
+	}
+	
+	public Conditions getConditions () {
+		return conditions;
+	}
+	
+	public void addCondition (Condition aCondition) {
+		conditions.addCondition (aCondition);
+	}
+	
+	public Condition getConditionAt (int aIndex) {
+		return conditions.getConditionAt (aIndex);
+	}
+	
+	public String getConditionReport () {
+		return conditions.getConditionReport ();
+	}
+	
+	public boolean allConditionsMet () {
+		return conditions.meetsAll ();
+	}
+	
+	public String getFailsReasons () {
+		return conditions.getFailsReasons ();
 	}
 }

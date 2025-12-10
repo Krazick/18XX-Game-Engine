@@ -25,10 +25,14 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.round.plan.condition.Condition;
+import ge18xx.round.plan.condition.CorporationCanLayTile;
+import ge18xx.round.plan.condition.CorporationExists;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.MapFrame;
+import geUtilities.GUI;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import swingTweaks.KButton;
@@ -60,6 +64,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	JLabel tileToPlayInfoLabel;
 	MapPlan mapPlan;
 	boolean tilePlaced;
+	private JComboBox<String> companyList;
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {
 		this (aFrameName, aGameManager, MapPlan.NO_MAP_PLAN);
@@ -135,7 +140,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
 		JLabel tCompanyInfo;
 		JLabel tCompanyChoice;
-		JComboBox<String> tCompanyList;
 		Corporation tCorporation;
 		GameManager tGameManager;
 		String [] tPlayerCompanies;
@@ -152,10 +156,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			if (tPlayerCompanies.length == 0) {
 				tPlayerCompanies = tGameManager.getAllCompanyAbbrevs ();
 			}
-			tCompanyList = new JComboBox<String> (tPlayerCompanies);
+			companyList = new JComboBox<String> (tPlayerCompanies);
 			infoAndActionPanel.add (tCompanyChoice);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
-			infoAndActionPanel.add (tCompanyList);
+			infoAndActionPanel.add (companyList);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 
 		}
@@ -184,21 +188,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
-				tTileInfoText = buildTileInfoText (tTile, true);
-//				tTileInfoText = "Original " + tTile.getType ().getName () + 
-//								" Tile # " + tTile.getNumber ();
-				
-				aPlaceMapTilePlan.setPlayableTiles (planningMap);
-				fillPlanTileSet ();
 			} else {
-				tTileInfoText = buildTileInfoText (Tile.NO_TILE, true);
-//				tTileInfoText = "No Tile on the Selected MapCell";
-				// Build a set of Tiles that can be placed on this MapCell
-				// show these in the Tile Panel. Need to Clone the Tiles, regardless if there are none available
-				// in the game's inventory. This will allow it to be placed on the Planning Map 
-				aPlaceMapTilePlan.setPlayableTiles (planningMap);
-				fillPlanTileSet ();
+				tTile = Tile.NO_TILE;
 			}
+			aPlaceMapTilePlan.setPlayableTiles (planningMap);
+			fillPlanTileSet ();
+			tTileInfoText = buildTileInfoText (tTile, true);
 			tTileInfoLabel = new JLabel (tTileInfoText);
 			infoAndActionPanel.add (tTileInfoLabel);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
@@ -545,10 +540,19 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void updateApplyPlanButton () {
+		String tFailsReasons;
+		
+		tFailsReasons = GUI.EMPTY_STRING;
 		if (planTileSet != TileSet.NO_TILE_SET) {
 			if (mapPlan.isApproved ()) {
-				applyPlanButton.setEnabled (true);
-				applyPlanButton.setToolTipText ("The Plan was approved, can apply");
+				if (mapPlan.allConditionsMet ()) {
+					applyPlanButton.setEnabled (true);
+					applyPlanButton.setToolTipText ("The Plan was approved, can apply");
+				} else {
+					tFailsReasons = mapPlan.getFailsReasons ();
+					applyPlanButton.setEnabled (false);
+					applyPlanButton.setToolTipText (tFailsReasons);
+				}
 			} else {
 				applyPlanButton.setEnabled (false);
 				applyPlanButton.setToolTipText ("The Plan has not been approved, the plan cannot be applied");		
@@ -635,20 +639,49 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		// Close Map Plan Frame
 	}
 
+	private void captureConditions () {
+		Condition tCondition;
+		Corporation tCorporation;
+		
+		tCorporation = mapPlan.getCorporation ();
+		tCondition = new CorporationExists (tCorporation);
+		mapPlan.addCondition (tCondition);
+		
+		tCondition = new CorporationCanLayTile (tCorporation);
+		mapPlan.addCondition (tCondition);
+	}
+	
 	private void approvePlan () {
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		String tConditionReport;
+		String tCompanyAbbrev;
+		Corporation tCorporation;
+		GameManager tGameManager;
 		
 		System.out.println ("Ready to Approve Plan");
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			tPlaceMapTilePlan.lockTileOrientation ();
+			tCorporation = mapPlan.getCorporation ();
+			if (tCorporation == Corporation.NO_CORPORATION) {
+				tCompanyAbbrev = ((String) companyList.getSelectedItem ()).substring (6);
+
+				tGameManager = getGameManager ();
+				tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
+				tPlaceMapTilePlan.setCorporation (tCorporation);
+			}
 		}
-		// Lock Tile Orientation
+
+		// Lock in the Corporation for the Plan
 		// Capture Conditions
 		// Generate Action
 		// Add Plan to List of Plans
+		captureConditions ();
+		tConditionReport = mapPlan.getConditionReport ();
+		System.out.println (tConditionReport);
 		
 		mapPlan.setApproved (Plan.APPROVED);
+		
 	}
 
 	@Override
