@@ -1,5 +1,6 @@
 package ge18xx.round.plan.condition;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 
 public class EnoughCash extends CorporationExists {
@@ -39,4 +40,17 @@ public class EnoughCash extends CorporationExists {
 		
 		return tMeets;
 	}
+	
+
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + " (" + Bank.formatCash (corporation.getCash ()) + 
+										" >= " + Bank.formatCash (amountNeeded) + ")";
+		tReport = appendStatus (tReport);
+		
+		return tReport;
+	}
+
 }

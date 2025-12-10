@@ -28,6 +28,9 @@ import ge18xx.map.MapCell;
 import ge18xx.round.plan.condition.Condition;
 import ge18xx.round.plan.condition.CorporationCanLayTile;
 import ge18xx.round.plan.condition.CorporationExists;
+import ge18xx.round.plan.condition.EnoughCash;
+import ge18xx.round.plan.condition.NoTileOnMapCell;
+import ge18xx.round.plan.condition.SpecifiedTileOnMapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -170,8 +173,9 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		JLabel tBuildCostLabel;
 		JLabel tTileInfoLabel;
 		MapCell tMapCell;
-		String tBuildCost;
+		String tBuildCostText;
 		Tile tTile;
+		int tBuildCostValue;
 		String tTileInfoText;
 		String tSelectedTileInfoText;
 		
@@ -181,8 +185,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			infoAndActionPanel.add (tMapCellInfo);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			
-			tBuildCost = Bank.formatCash (tMapCell.getCostToLayTile ());
-			tBuildCostLabel = new JLabel ("Build Cost " + tBuildCost);
+			tBuildCostValue = tMapCell.getCostToLayTile ();
+			tBuildCostText = Bank.formatCash (tBuildCostValue);
+			tBuildCostLabel = new JLabel ("Build Cost " + tBuildCostText);
+			aPlaceMapTilePlan.setBuildCost (tBuildCostValue);
 			infoAndActionPanel.add (tBuildCostLabel);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 
@@ -192,6 +198,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tTile = Tile.NO_TILE;
 			}
 			aPlaceMapTilePlan.setPlayableTiles (planningMap);
+			
 			fillPlanTileSet ();
 			tTileInfoText = buildTileInfoText (tTile, true);
 			tTileInfoLabel = new JLabel (tTileInfoText);
@@ -642,13 +649,40 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private void captureConditions () {
 		Condition tCondition;
 		Corporation tCorporation;
-		
+		PlaceMapTilePlan tPlaceMapTilePlan;
+		MapCell tMapCell;
+		int tTileNumber;
+		int tTileOrient;
+
 		tCorporation = mapPlan.getCorporation ();
 		tCondition = new CorporationExists (tCorporation);
 		mapPlan.addCondition (tCondition);
 		
 		tCondition = new CorporationCanLayTile (tCorporation);
 		mapPlan.addCondition (tCondition);
+
+		if (mapPlan instanceof PlaceMapTilePlan) {
+			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+
+			tCondition = new EnoughCash (tPlaceMapTilePlan.getBuildCost (), tCorporation);
+			tPlaceMapTilePlan.addCondition (tCondition);
+			
+			tMapCell = tPlaceMapTilePlan.getMapCell ();
+			if (tMapCell.isTileOnCell ()) {
+				tTileNumber = tMapCell.getTileNumber ();
+				tTileOrient = tMapCell.getTileOrient ();
+				tCondition = new SpecifiedTileOnMapCell (tMapCell, tTileNumber, tTileOrient);
+			} else {
+				tCondition = new NoTileOnMapCell (tMapCell);
+			}
+			tPlaceMapTilePlan.addCondition (tCondition);
+			// Condition - RoundIs
+			// Condition - TileAllowedInPhase
+			// Condition - TileAvailableInTileSet
+			// Condition - MapCell has No Private Company Restriction --- CREATE Maybe
+			
+		}
+		
 	}
 	
 	private void approvePlan () {

@@ -13,6 +13,7 @@ import ge18xx.tiles.Tile;
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
 	int tileOrient;
+	int buildCost;
 	boolean tileOrientLocked;
 	List<GameTile> gameTiles = new LinkedList<GameTile> ();
 	private int previousOrientation;
@@ -67,6 +68,14 @@ public class PlaceMapTilePlan extends MapPlan {
 
 	public int getTileOrient () {
 		return tileOrient;
+	}
+
+	public void setBuildCost (int aBuildCost) {
+		buildCost = aBuildCost;
+	}
+
+	public int getBuildCost () {
+		return buildCost;
 	}
 
 	// Collect the set of Playable Tiles, without regards to the Current Phase

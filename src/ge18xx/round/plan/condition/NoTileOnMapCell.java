@@ -11,7 +11,7 @@ public class NoTileOnMapCell extends Condition {
 	}
 
 	public NoTileOnMapCell (String aName, MapCell aMapCell) {
-		super (NAME);
+		super (aName);
 		setMapCell (aMapCell);		
 	}
 
@@ -38,5 +38,15 @@ public class NoTileOnMapCell extends Condition {
 		}
 		
 		return tMeets;
+	}
+	
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + "(" + mapCell.getID () + ")";
+		tReport = appendStatus (tReport);
+		
+		return tReport;
 	}
 }

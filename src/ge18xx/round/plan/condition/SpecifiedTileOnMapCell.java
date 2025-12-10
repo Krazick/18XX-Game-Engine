@@ -52,4 +52,14 @@ public class SpecifiedTileOnMapCell extends NoTileOnMapCell {
 		
 		return tMeets;
 	}
+	
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + " (Tile Number: " + tileNumber + " Orientation: " + tileOrientation + ")";
+		tReport = appendStatus (tReport);
+		
+		return tReport;
+	}
 }
