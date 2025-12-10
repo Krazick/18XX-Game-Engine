@@ -1379,7 +1379,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private void updateTileButton (KButton aTileButton) {
+	public boolean updateTileButton (KButton aTileButton) {
 		MapFrame tMapFrame;
 		String tToolTip;
 		int tTileLaysAllowed;
@@ -1417,6 +1417,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		aTileButton.setToolTipText (tToolTip);
 		tMapFrame = getMapFrame ();
 		tMapFrame.setEnabledBuildGraphsButton (tEnableTile, "Not ready to place a tile");
+		
+		return tEnableTile;
 	}
 	
 	public void updatePlaceBaseTokenButtons () {
