@@ -1,6 +1,7 @@
 package ge18xx.round.plan.condition;
 
 import ge18xx.company.Corporation;
+import geUtilities.GUI;
 
 public class CorporationIsInStatus extends CorporationExists {
 	public static final String NAME = "Corporation is in Status";
@@ -27,17 +28,22 @@ public class CorporationIsInStatus extends CorporationExists {
 	public boolean meets () {
 		boolean tMeets;
 		String tStatus;
+		String tFailsReason;
 		
+		tFailsReason = GUI.EMPTY_STRING;
 		if (super.meets ()) {
 			tStatus = corporation.getStatusName ();
 			if (statusList.contains (tStatus)) {
 				tMeets = MEETS;
 			} else {
 				tMeets = FAILS;
+				tFailsReason = "Current Status of " + tStatus + " is not one of " + statusList;
 			}
 		} else {
 			tMeets = FAILS;
+			tFailsReason = failsReason;
 		}
+		setFailsReason (tFailsReason);
 		
 		return tMeets;
 	}

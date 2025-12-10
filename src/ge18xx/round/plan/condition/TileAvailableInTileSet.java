@@ -3,9 +3,10 @@ package ge18xx.round.plan.condition;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
+import geUtilities.GUI;
 
 public class TileAvailableInTileSet extends Condition {
-	public static final String NAME = "Specified Tile on TileSet";
+	public static final String NAME = "Specified Tile in TileSet";
 	int tileNumber;
 	TileSet liveTileSet;
 	
@@ -35,12 +36,16 @@ public class TileAvailableInTileSet extends Condition {
 	public boolean meets () {
 		boolean tMeets;
 		int tAvailableCount;
+		String tFailsReason;
 		GameTile tGameTile;
 		
+		tFailsReason = GUI.EMPTY_STRING;
 		if (liveTileSet == TileSet.NO_TILE_SET) {
 			tMeets = FAILS;
+			tFailsReason = "TileSet is NOT set";
 		} else if (tileNumber == Tile.NOT_A_TILE){
 			tMeets = FAILS;
+			tFailsReason = "Tile Number is not set";
 		} else {
 			tGameTile = liveTileSet.getGameTile (tileNumber);
 			tAvailableCount = tGameTile.getAvailableCount ();
@@ -48,9 +53,22 @@ public class TileAvailableInTileSet extends Condition {
 				tMeets = MEETS;
 			} else {
 				tMeets = FAILS;
+				tFailsReason = "There is no Tile with number " + tileNumber + " Left in the TileSet";
 			}
 		}
+		setFailsReason (tFailsReason);
 		
 		return tMeets;
+	}
+	
+
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + " (" + tileNumber + ")";
+		tReport = appendStatus (tReport);
+		
+		return tReport;
 	}
 }

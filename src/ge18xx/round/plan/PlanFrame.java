@@ -25,11 +25,14 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.plan.condition.Condition;
 import ge18xx.round.plan.condition.CorporationCanLayTile;
 import ge18xx.round.plan.condition.CorporationExists;
 import ge18xx.round.plan.condition.EnoughCash;
 import ge18xx.round.plan.condition.NoTileOnMapCell;
+import ge18xx.round.plan.condition.RoundIs;
 import ge18xx.round.plan.condition.SpecifiedTileOnMapCell;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -646,11 +649,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		// Close Map Plan Frame
 	}
 
-	private void captureConditions () {
+	public void captureConditions (GameManager aGameManager) {
 		Condition tCondition;
 		Corporation tCorporation;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		MapCell tMapCell;
+		RoundManager tRoundManager;
 		int tTileNumber;
 		int tTileOrient;
 
@@ -659,6 +663,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		mapPlan.addCondition (tCondition);
 		
 		tCondition = new CorporationCanLayTile (tCorporation);
+		mapPlan.addCondition (tCondition);
+
+		tRoundManager = aGameManager.getRoundManager ();
+		tCondition = new RoundIs (OperatingRound.NAME, tRoundManager);
 		mapPlan.addCondition (tCondition);
 
 		if (mapPlan instanceof PlaceMapTilePlan) {
@@ -676,10 +684,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tCondition = new NoTileOnMapCell (tMapCell);
 			}
 			tPlaceMapTilePlan.addCondition (tCondition);
+			
+			
 			// Condition - RoundIs
 			// Condition - TileAllowedInPhase
 			// Condition - TileAvailableInTileSet
-			// Condition - MapCell has No Private Company Restriction --- CREATE Maybe
+			// Condition - MapCell has No Private Company Restriction --- CREATE Later Maybe
 			
 		}
 		
@@ -693,6 +703,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		GameManager tGameManager;
 		
 		System.out.println ("Ready to Approve Plan");
+		tGameManager = getGameManager ();
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			tPlaceMapTilePlan.lockTileOrientation ();
@@ -700,7 +711,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			if (tCorporation == Corporation.NO_CORPORATION) {
 				tCompanyAbbrev = ((String) companyList.getSelectedItem ()).substring (6);
 
-				tGameManager = getGameManager ();
 				tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
 				tPlaceMapTilePlan.setCorporation (tCorporation);
 			}
@@ -710,7 +720,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		// Capture Conditions
 		// Generate Action
 		// Add Plan to List of Plans
-		captureConditions ();
+		captureConditions (tGameManager);
 		tConditionReport = mapPlan.getConditionReport ();
 		System.out.println (tConditionReport);
 		
