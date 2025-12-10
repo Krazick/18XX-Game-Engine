@@ -14,7 +14,7 @@ public class CorporationPlan extends Plan {
 		setCorporation (aCorporation);
 	}
 
-	private void setCorporation (Corporation aCorporation) {
+	public void setCorporation (Corporation aCorporation) {
 		corporation = aCorporation;
 	}
 
