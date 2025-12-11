@@ -41,7 +41,6 @@ public class EnoughCash extends CorporationExists {
 		return tMeets;
 	}
 	
-
 	@Override
 	public String getReport () {
 		String tReport;
@@ -52,5 +51,4 @@ public class EnoughCash extends CorporationExists {
 		
 		return tReport;
 	}
-
 }

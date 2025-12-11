@@ -34,6 +34,8 @@ import ge18xx.round.plan.condition.EnoughCash;
 import ge18xx.round.plan.condition.NoTileOnMapCell;
 import ge18xx.round.plan.condition.RoundIs;
 import ge18xx.round.plan.condition.SpecifiedTileOnMapCell;
+import ge18xx.round.plan.condition.TileAllowedInPhase;
+import ge18xx.round.plan.condition.TileAvailableInTileSet;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -653,8 +655,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		Condition tCondition;
 		Corporation tCorporation;
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		TileSet tLiveTileSet;
+		MapFrame tLiveMapFrame;
 		MapCell tMapCell;
+		GameTile tNewGameTile;
+		GameTile tCurrentGameTile;
 		RoundManager tRoundManager;
+		int tNewTileNumber;
 		int tTileNumber;
 		int tTileOrient;
 
@@ -676,22 +683,31 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tPlaceMapTilePlan.addCondition (tCondition);
 			
 			tMapCell = tPlaceMapTilePlan.getMapCell ();
+			tNewGameTile = tPlaceMapTilePlan.getSelectedGameTile ();
 			if (tMapCell.isTileOnCell ()) {
 				tTileNumber = tMapCell.getTileNumber ();
 				tTileOrient = tMapCell.getTileOrient ();
 				tCondition = new SpecifiedTileOnMapCell (tMapCell, tTileNumber, tTileOrient);
+				tPlaceMapTilePlan.addCondition (tCondition);
+			
+				tLiveMapFrame = aGameManager.getMapFrame ();
+				tCurrentGameTile = tPlaceMapTilePlan.getPreviousGameTile ();
+				if (tCurrentGameTile != GameTile.NO_GAME_TILE) {
+					tCondition = new TileAllowedInPhase (tNewGameTile, tCurrentGameTile, tLiveMapFrame);
+					tPlaceMapTilePlan.addCondition (tCondition);
+				}
 			} else {
 				tCondition = new NoTileOnMapCell (tMapCell);
+				tPlaceMapTilePlan.addCondition (tCondition);
 			}
+			
+			tNewTileNumber = tNewGameTile.getTileNumber ();
+			tLiveTileSet = aGameManager.getTileSet ();
+			tCondition = new TileAvailableInTileSet (tNewTileNumber, tLiveTileSet);
 			tPlaceMapTilePlan.addCondition (tCondition);
-			
-			
-			// Condition - TileAllowedInPhase
-			// Condition - TileAvailableInTileSet
+
 			// Condition - MapCell has No Private Company Restriction --- CREATE Later Maybe
-			
 		}
-		
 	}
 	
 	private void approvePlan () {

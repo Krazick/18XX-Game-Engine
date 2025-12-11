@@ -5,7 +5,7 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.GUI;
 
 public class TileAllowedInPhase extends Condition {
-	public static final String NAME = "Tile allowed in Phase";
+	public static final String NAME = "Tile Type allowed in Phase";
 	MapFrame liveMapFrame;
 	GameTile currentGameTile;
 	GameTile newGameTile;
@@ -61,12 +61,22 @@ public class TileAllowedInPhase extends Condition {
 				tMeets = MEETS;
 			} else {
 				tMeets = FAILS;
-				tFailsReason = "Upgrade to a " + newGameTile.getTileColor () + 
-							" not allowing to be used in current Phase";
+				tFailsReason = "Upgrade to " + newGameTile.getTileColor () + 
+							" not allowed in current Phase";
 			}
 		}
 		setFailsReason (tFailsReason);
 		
 		return tMeets;
+	}
+	
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + " (" + newGameTile.getTileColor () + " Tile)";
+		tReport = appendStatus (tReport);
+		
+		return tReport;
 	}
 }

@@ -47,4 +47,14 @@ public class CorporationIsInStatus extends CorporationExists {
 		
 		return tMeets;
 	}
+	
+	@Override
+	public String getReport () {
+		String tReport;
+		
+		tReport = super.getReport () + ("Status: " + corporation.getStatusName () + ")");
+		tReport = appendStatus (tReport);
+		
+		return tReport;
+	}
 }

@@ -53,7 +53,7 @@ public class TileAvailableInTileSet extends Condition {
 				tMeets = MEETS;
 			} else {
 				tMeets = FAILS;
-				tFailsReason = "There is no Tile with number " + tileNumber + " Left in the TileSet";
+				tFailsReason = "There is no Tile number " + tileNumber + " Left in the TileSet";
 			}
 		}
 		setFailsReason (tFailsReason);
@@ -61,12 +61,11 @@ public class TileAvailableInTileSet extends Condition {
 		return tMeets;
 	}
 	
-
 	@Override
 	public String getReport () {
 		String tReport;
 		
-		tReport = super.getReport () + " (" + tileNumber + ")";
+		tReport = super.getReport () + " (Tile Number: " + tileNumber + ")";
 		tReport = appendStatus (tReport);
 		
 		return tReport;

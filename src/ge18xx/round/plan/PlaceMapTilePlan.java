@@ -20,6 +20,8 @@ public class PlaceMapTilePlan extends MapPlan {
 	private String previousTokens;
 	private String previousBases;
 	private Tile previousTile;
+	GameTile previousGameTile;
+	GameTile selectedGameTile;
 	
 	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName) {
 		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
@@ -46,6 +48,22 @@ public class PlaceMapTilePlan extends MapPlan {
 	
 	public void setGameTiles (List<GameTile> aGameTiles) {
 		gameTiles = aGameTiles;
+	}
+	
+	public void setSelectedGameTile (GameTile aSelectedGameTile) {
+		selectedGameTile = aSelectedGameTile;
+	}
+	
+	public GameTile getSelectedGameTile () {
+		return selectedGameTile;
+	}
+	
+	public void setPreviousGameTile (GameTile aPreviousGameTile) {
+		previousGameTile = aPreviousGameTile;
+	}
+	
+	public GameTile getPreviousGameTile () {
+		return previousGameTile;
 	}
 	
 	public void setTileAndOrientation (Tile aTile, int aTileOrient) {
@@ -101,6 +119,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		boolean tTilePlaced;
 		PlanTileSet tPlanTileSet;
 		GameTile tSelectedTile;
+		GameTile tPreviousGameTile;
 		Tile tNewTile;
 		
 		System.out.println ("Ready to Putdown Tile on Planning Map");
@@ -117,6 +136,12 @@ public class PlaceMapTilePlan extends MapPlan {
 		
 		tPlanTileSet = planFrame.getPlanTileSet ();
 		tSelectedTile = tPlanTileSet.getSelectedTile ();
+		
+		setSelectedGameTile (tSelectedTile);
+		tPlanTileSet = planFrame.getPlanTileSet ();
+		tPreviousGameTile = getPreviousGameTile (tPlanTileSet);
+		setPreviousGameTile (tPreviousGameTile);
+		
 		tTilePlaced = planningMapCell.putThisTileDown (tPlanTileSet, tSelectedTile, MapCell.NO_ROTATION);
 		tNewTile = planningMapCell.getTile ();
 		setTile (tNewTile);
@@ -127,7 +152,6 @@ public class PlaceMapTilePlan extends MapPlan {
 	
 	public void pickupTile () {
 		PlanTileSet tPlanTileSet;
-		int tPreviousTileNumber;
 		GameTile tPreviousGameTile;
 		GameManager tGameManager;
 		Tile tFoundTile;
@@ -136,8 +160,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		tFoundTile = planningMapCell.removeTile ();
 
 		if (previousTile != Tile.NO_TILE) {
-			tPreviousTileNumber = previousTile.getNumber ();
-			tPreviousGameTile = tPlanTileSet.getGameTile (tPreviousTileNumber);
+			tPreviousGameTile = getPreviousGameTile (tPlanTileSet);
 			planningMapCell.putThisTileDown (tPlanTileSet, tPreviousGameTile, previousOrientation);
 			
 		}
@@ -150,6 +173,20 @@ public class PlaceMapTilePlan extends MapPlan {
 		planFrame.setTilePlaced (false);
 		tPlanTileSet.clearAllSelected ();
 		planFrame.updateFrame ();
+	}
+
+	protected GameTile getPreviousGameTile (PlanTileSet aPlanTileSet) {
+		int tPreviousTileNumber;
+		GameTile tPreviousGameTile;
+		
+		if (previousTile == Tile.NO_TILE) {
+			tPreviousGameTile = GameTile.NO_GAME_TILE;
+		} else {
+			tPreviousTileNumber = previousTile.getNumber ();
+			tPreviousGameTile = aPlanTileSet.getGameTile (tPreviousTileNumber);
+		}
+		
+		return tPreviousGameTile;
 	}
 	
 	public void rotateTile () {
