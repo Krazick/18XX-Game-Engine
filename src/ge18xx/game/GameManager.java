@@ -2121,6 +2121,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void notifyMapFrame () {
 		mapFrame.updatePutTileButton ();
+		mapFrame.updateMapPlansButton ();
 	}
 
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
