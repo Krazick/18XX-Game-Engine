@@ -213,6 +213,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		buildMapPlansButton.setToolTipText ("Build Map Plans of current Hex Map");
 		otherButtonsJPanel.add (Box.createVerticalGlue ());
 		otherButtonsJPanel.add (buildMapPlansButton);
+		updateMapPlansButton ();
 	}
 	
 	private void buildAllButtonsJPanel () {
@@ -494,6 +495,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		updatePickupTileButton (false, NO_TILE_PLACED);
 		updatePutTileButton ();
 		updateGraphsButton ();
+		updateMapPlansButton ();
 		hexMap.setTilePlaced (false);
 	}
 
@@ -532,6 +534,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
 		updateGraphsButton ();
+		updateMapPlansButton ();
 		toTheFront ();
 	}
 
@@ -1353,6 +1356,18 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		return tUpgradeAllowed;
 	}
 
+	public void updateMapPlansButton () {
+		MapCell tMapCell;
+		
+		tMapCell = hexMap.getSelectedMapCell ();
+		if (tMapCell == MapCell.NO_MAP_CELL) {
+			buildMapPlansButton.setEnabled (false);
+			buildMapPlansButton.setToolTipText ("No MapCell is selected to plan for");
+		} else {
+			buildMapPlansButton.setEnabled (true);
+			buildMapPlansButton.setToolTipText (GUI.EMPTY_STRING);
+		}
+	}
 	public void updateGraphsButton () {
 		// TODO -- Find if the Operating Company has any Tokens placed on Map. If so, enable the testGraphsButton
 //		testGraphsButton

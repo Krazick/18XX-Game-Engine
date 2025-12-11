@@ -1117,6 +1117,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			}
 			tileSet.clearAllSelected ();
 			mapFrame.updatePutTileButton ();
+			mapFrame.updateMapPlansButton ();
 		}
 		updateCorporationFrame ();
 	}
