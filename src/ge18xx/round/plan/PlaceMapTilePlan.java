@@ -228,7 +228,6 @@ public class PlaceMapTilePlan extends MapPlan {
 		tRoundManager = aGameManager.getRoundManager ();
 		tCurrentRound = tRoundManager.getCurrentRound ();
 		tRoundID = tCurrentRound.getID ();
-//		tNewTokens = GUI.EMPTY_STRING;
 		tNewTokens = tile.getPlacedTokens ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tRoundID, corporation);
 		System.out.println ("Time to create a " + tLayTileAction.getName () + " for " + corporation.getAbbrev ());
