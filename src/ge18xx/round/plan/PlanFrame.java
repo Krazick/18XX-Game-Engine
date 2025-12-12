@@ -27,6 +27,8 @@ import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
 import ge18xx.round.plan.condition.Condition;
 import ge18xx.round.plan.condition.CorporationCanLayTile;
 import ge18xx.round.plan.condition.CorporationExists;
@@ -641,10 +643,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void applyPlan () {
-		System.out.println ("Ready to Apply Plan");
-	}
-
 	private void discardPlan () {
 		System.out.println ("Ready to Discard Plan");
 		// Delete Plan from List of Plans
@@ -731,16 +729,41 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			}
 		}
 
-		// Lock in the Corporation for the Plan
-		// Capture Conditions
-		// Generate Action
 		// Add Plan to List of Plans
 		captureConditions (tGameManager);
 		tConditionReport = mapPlan.getConditionReport ();
 		System.out.println (tConditionReport);
 		
-		mapPlan.setApproved (Plan.APPROVED);
+		mapPlan.setApproved (Plan.APPROVED);		
+	}
+
+	public void applyPlan () {
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		ActionManager tActionManager;
+		Action tActionToApply;
 		
+		tGameManager = getGameManager ();
+		tRoundManager = tGameManager.getRoundManager ();
+		tActionManager = tRoundManager.getActionManager ();
+
+		System.out.println ("Ready to Apply Plan");
+		// Generate Action
+
+		mapPlan.createActions (tGameManager);
+		// Add the Tile to send off to other players via addAction
+		
+		tActionToApply = mapPlan.getAction ();
+		if (tActionToApply == Action.NO_ACTION) {
+			System.out.println ("No Action to apply");
+		} else {
+			tActionManager.addAction (tActionToApply);
+//			tActionManager.applyAction (tActionToApply, true);
+			
+			tActionManager.applyAction (tActionToApply);
+			tGameManager.autoSaveGame (true);
+
+		}
 	}
 
 	@Override

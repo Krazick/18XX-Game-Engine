@@ -1,5 +1,10 @@
 package ge18xx.round.plan;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import ge18xx.game.GameManager;
+import ge18xx.round.action.Action;
 import ge18xx.round.plan.condition.Condition;
 import ge18xx.round.plan.condition.Conditions;
 
@@ -16,6 +21,8 @@ public class Plan {
 	PlanFrame planFrame;
 	boolean approved;
 	Conditions conditions;
+	List<Action> planActions = new LinkedList<Action> ();
+	Action action;
 	
 	public Plan (String aPlayerName, String aGameName, String aName) {
 		Conditions tConditions;
@@ -103,5 +110,21 @@ public class Plan {
 	
 	public String getFailsReasons () {
 		return conditions.getFailsReasons ();
+	}
+	
+	public void createActions (GameManager aGameManager) {
+		System.out.println ("Sub-Classes should create the proper Plan");
+	}
+	
+	public void setAction (Action aAction) {
+		action = aAction;
+	}
+	
+	public Action getAction () {
+		return action;
+	}
+
+	public List<Action> getPlanActions () {
+		return planActions;
 	}
 }

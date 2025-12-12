@@ -3,10 +3,16 @@ package ge18xx.round.plan;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import ge18xx.round.Round;
+import ge18xx.round.RoundManager;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.LayTileAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 
@@ -121,6 +127,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		GameTile tSelectedTile;
 		GameTile tPreviousGameTile;
 		Tile tNewTile;
+		int tTileOrient;
 		
 		System.out.println ("Ready to Putdown Tile on Planning Map");
 		previousTile = planningMapCell.getTile ();
@@ -145,6 +152,8 @@ public class PlaceMapTilePlan extends MapPlan {
 		tTilePlaced = planningMapCell.putThisTileDown (tPlanTileSet, tSelectedTile, MapCell.NO_ROTATION);
 		tNewTile = planningMapCell.getTile ();
 		setTile (tNewTile);
+		tTileOrient = planningMapCell.getTileOrient ();
+		setTileOrient (tTileOrient);
 		planFrame.setTilePlaced (tTilePlaced);
 		tPlanTileSet.clearAllSelected ();
 		planFrame.updateFrame ();
@@ -192,11 +201,59 @@ public class PlaceMapTilePlan extends MapPlan {
 	public void rotateTile () {
 		GameMap tPlanningMap;
 		int tPossible;
+		int tTileOrient;
 		
 		tPlanningMap = planFrame.getPlanningMap ();
 		tPossible = planningMapCell.getTileOrient ();
 
 		tPlanningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
+		tTileOrient = planningMapCell.getTileOrient ();
+		setTileOrient (tTileOrient);
+
 		planFrame.updateFrame ();
+	}
+	
+	@Override
+	public void createActions (GameManager aGameManager) {
+		LayTileAction tLayTileAction;
+		RoundManager tRoundManager;
+		TrainCompany tTrainCompany;
+		Bank tBank;
+		Round tCurrentRound;
+		String tNewTokens;
+		String tRoundID;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
+
+		tRoundManager = aGameManager.getRoundManager ();
+		tCurrentRound = tRoundManager.getCurrentRound ();
+		tRoundID = tCurrentRound.getID ();
+//		tNewTokens = GUI.EMPTY_STRING;
+		tNewTokens = tile.getPlacedTokens ();
+		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tRoundID, corporation);
+		System.out.println ("Time to create a " + tLayTileAction.getName () + " for " + corporation.getAbbrev ());
+			
+		tLayTileAction.addLayTileEffect (corporation, mapCell, tile, tileOrient, previousTokens, previousBases, 
+				tNewTokens);
+		if (corporation instanceof TrainCompany) {
+			tTrainCompany = (TrainCompany) corporation;
+			tTrainCompany.addRemoveHomeEffect (tLayTileAction, mapCell);
+			
+			if (previousTile != Tile.NO_TILE) {
+				tTrainCompany.createAndAddRemoveTileAction (mapCell, previousTile, previousOrientation, 
+						previousTokens, previousBases, tRoundID);
+				tLayTileAction.setChainToPrevious (true);
+			}
+			if (buildCost > 0) {
+				tBank = aGameManager.getBank ();
+				tLayTileAction.addCashTransferEffect (tTrainCompany, tBank, buildCost);
+			}
+		}
+		tCurrentStatus = corporation.getStatus ();
+		tNewStatus = corporation.getNewStatusWithTile (previousTile);
+		tLayTileAction.addChangeCorporationStatusEffect (corporation, tCurrentStatus, tNewStatus);
+		tLayTileAction.addSetHasLaidTileEffect (corporation, true);
+		setAction (tLayTileAction);
+		planActions.add (tLayTileAction);
 	}
 }

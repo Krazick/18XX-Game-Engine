@@ -23,6 +23,14 @@ public class CorporationPlan extends Plan {
 	}
 	
 	public String getCorporationName () {
-		return corporation.getName ();
+		String tCorporationName;
+		
+		if (corporation == Corporation.NO_CORPORATION) {
+			tCorporationName = Corporation.NO_NAME;
+		} else {
+			tCorporationName = corporation.getName ();
+		}
+		
+		return tCorporationName;
 	}
 }
