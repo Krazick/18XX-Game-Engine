@@ -2426,7 +2426,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
 			int aPreviousOrientation, String aPreviousTokens, String aPreviousBases) {
-		RemoveTileAction tRemoveTileAction;
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
 		String tNewTileTokens;
@@ -2450,12 +2449,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		if (aPreviousTile != Tile.NO_TILE) {
-			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
-					tOperatingRoundID, this);
-			tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
-					aPreviousTokens, aPreviousBases);
-			tRemoveTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			addAction (tRemoveTileAction);
+			createAndAddRemoveTileAction (aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
+					aPreviousBases, tOperatingRoundID);
 			tLayTileAction.setChainToPrevious (true);
 		}
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
@@ -2483,7 +2478,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateInfo ();
 	}
 
-	public void updateStatusWithTile (Tile aPreviousTile) {
+	public void createAndAddRemoveTileAction (MapCell aMapCell, Tile aPreviousTile, int aPreviousOrientation,
+			String aPreviousTokens, String aPreviousBases, String aOperatingRoundID) {
+		RemoveTileAction tRemoveTileAction;
+		
+		tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
+				aOperatingRoundID, this);
+		tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
+				aPreviousTokens, aPreviousBases);
+		addAction (tRemoveTileAction);
+	}
+
+	@Override
+	public ActorI.ActionStates getNewStatusWithTile (Tile aPreviousTile) {
 		ActorI.ActionStates tTargetStatus;
 		
 		if (aPreviousTile == Tile.NO_TILE) {
@@ -2507,6 +2514,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tTargetStatus = status;
 			}
 		}
+		
+		return tTargetStatus;
+	}
+	
+	public void updateStatusWithTile (Tile aPreviousTile) {
+		ActorI.ActionStates tTargetStatus;
+		
+		tTargetStatus = getNewStatusWithTile (aPreviousTile);
 		updateStatus (tTargetStatus);
 	}
 
@@ -2521,7 +2536,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCost;
 	}
 	
-	private void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
+	public void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
 		MapCell tHomeMapCell1;
 		MapCell tHomeMapCell2;
 		Location tHomeLocation1;
