@@ -10,15 +10,6 @@ import geUtilities.xml.XMLNode;
 public class RotateTileAction extends LayTileAction {
 	public final static String NAME = "Rotate Tile";
 
-	public RotateTileAction () {
-		this (NAME);
-	}
-
-	public RotateTileAction (String aName) {
-		super (aName);
-		setChainToPrevious (true);
-	}
-
 	public RotateTileAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
