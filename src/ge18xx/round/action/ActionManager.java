@@ -561,11 +561,7 @@ public class ActionManager implements XMLSaveGameI {
 						} else {
 							tAddChecksum = GameManager.ADD_CHECKSUM;
 						}
-						actions.add (tAction);
-						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From "
-								+ tAction.getActor ().getName () + " Add Checksum " + tAddChecksum);
-						applyAction (tAction);
-						gameManager.autoSaveGame (tAddChecksum);
+						applyAction (tAction, tAddChecksum);
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
 						// Game Activity Frame
 						appendActionReport (tAction);
@@ -597,6 +593,14 @@ public class ActionManager implements XMLSaveGameI {
 			eException.printStackTrace ();
 		}
 		gameManager.setNotifyNetwork (true);
+	}
+
+	public void applyAction (Action aAction, boolean aAddChecksum) {
+		actions.add (aAction);
+		logger.info ("Network Action # " + actionNumber + " Name " + aAction.getName () + " From "
+				+ aAction.getActor ().getName () + " Add Checksum " + aAddChecksum);
+		applyAction (aAction);
+		gameManager.autoSaveGame (aAddChecksum);
 	}
 
 	public void appendToJGameClient (Action aAction) {
