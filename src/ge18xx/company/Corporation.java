@@ -3331,4 +3331,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		return tHasSpecialButton;
 	}
+
+	public ActionStates getNewStatusWithTile (Tile previousTile) {
+		return ActionStates.NoState;
+	};
 }
