@@ -44,8 +44,12 @@ public class NoTileOnMapCell extends Condition {
 	public String getReport () {
 		String tReport;
 		
-		tReport = super.getReport () + "(" + mapCell.getID () + ")";
-		tReport = appendStatus (tReport);
+		tReport = super.getReport () + " (" + mapCell.getID () + ")";
+		if (this instanceof SpecifiedTileOnMapCell) {
+			
+		} else {
+			tReport = appendStatus (tReport);
+		}
 		
 		return tReport;
 	}
