@@ -51,9 +51,9 @@ public class Conditions {
 		if (conditions.isEmpty ()) {
 			tConditionReport = "No Conditions to report\n";
 		} else if (conditions.size () == 1) {
-			tConditionReport = "There is 1 Condition in this Plan\n";
+			tConditionReport = "There is 1 Condition in this Plan\n\n";
 		} else {
-			tConditionReport = "There are " + conditions.size () + " Conditions in this Plan: \n";
+			tConditionReport = "There are " + conditions.size () + " Conditions in this Plan: \n\n";
 		}
 
 		if (! conditions.isEmpty ()) {
