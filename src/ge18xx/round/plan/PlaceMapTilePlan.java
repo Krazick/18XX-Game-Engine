@@ -7,7 +7,6 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
@@ -103,10 +102,11 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 
 	// Collect the set of Playable Tiles, without regards to the Current Phase
-	public void setPlayableTiles (GameMap aPlanningMap) {
-		aPlanningMap.setPlayableTiles (mapCell, false);
-		gameTiles = aPlanningMap.getPlayableGameTiles ();
-		aPlanningMap.clearPlayableTiles ();
+	public void setPlayableTiles () {
+		
+		planningMap.setPlayableTiles (mapCell, false);
+		gameTiles = planningMap.getPlayableGameTiles ();
+		planningMap.clearPlayableTiles ();
 	}
 	
 	public int playableTilesCount () {
@@ -129,7 +129,6 @@ public class PlaceMapTilePlan extends MapPlan {
 		Tile tNewTile;
 		int tTileOrient;
 		
-		System.out.println ("Ready to Putdown Tile on Planning Map");
 		previousTile = planningMapCell.getTile ();
 		if (previousTile != Tile.NO_TILE) {
 			previousOrientation = planningMapCell.getTileOrient ();
@@ -199,14 +198,11 @@ public class PlaceMapTilePlan extends MapPlan {
 	}
 	
 	public void rotateTile () {
-		GameMap tPlanningMap;
 		int tPossible;
 		int tTileOrient;
 		
-		tPlanningMap = planFrame.getPlanningMap ();
 		tPossible = planningMapCell.getTileOrient ();
-
-		tPlanningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
+		planningMap.rotateTileInPlace (planningMapCell, tPossible, false, tile);
 		tTileOrient = planningMapCell.getTileOrient ();
 		setTileOrient (tTileOrient);
 
@@ -230,7 +226,6 @@ public class PlaceMapTilePlan extends MapPlan {
 		tRoundID = tCurrentRound.getID ();
 		tNewTokens = tile.getPlacedTokens ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tRoundID, corporation);
-		System.out.println ("Time to create a " + tLayTileAction.getName () + " for " + corporation.getAbbrev ());
 			
 		tLayTileAction.addLayTileEffect (corporation, mapCell, tile, tileOrient, previousTokens, previousBases, 
 				tNewTokens);
