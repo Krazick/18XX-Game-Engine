@@ -6,12 +6,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -54,10 +57,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	public static final String APPROVE_PLAN = "ApprovePlan";
 	public static final String DISCARD_PLAN_LABEL = "Discard";
 	public static final String DISCARD_PLAN = "DiscardPlan";
+	public static final String REVIEW_CONDITIONS_LABEL = "Review Conditions";
+	public static final String REVIEW_CONDITIONS = "ReviewConditions";
 	public static final String APPLY_PLAN_LABEL = "Apply";
 	public static final String APPLY_PLAN = "ApplyPlan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
-	GameMap planningMap;
+
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel infoAndActionPanel;
@@ -71,14 +76,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	KButton approvePlanButton;
 	KButton discardPlanButton;
 	KButton applyPlanButton;
+	KButton reviewConditionsButton;
 	JLabel tileToPlayInfoLabel;
+	List<Plan> allPlans = new LinkedList<Plan> ();
 	MapPlan mapPlan;
 	boolean tilePlaced;
 	private JComboBox<String> companyList;
-	
-	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {
-		this (aFrameName, aGameManager, MapPlan.NO_MAP_PLAN);
-	}
+	private JLabel companyInfoLabel;
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager, MapPlan aMapPlan) {
 		super (aFrameName, aGameManager);
@@ -87,12 +91,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		TileSet tFullTileSet;
 		GameManager tGameManager;
 		
-		System.out.println ("Ready to build a Map Plan for Player is " + aMapPlan.getPlayerName ());
 		tGameManager = (GameManager) gameEngineManager;
 		tFullTileSet = tGameManager.getTileSet ();
 		setFullTileSet (tFullTileSet);
 
 		setMapPlan (aMapPlan);
+		allPlans.add (aMapPlan);
+		
 		try {
 			setSize (900, 500);
 			buildMapPanel ();
@@ -148,33 +153,41 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 
 	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
-		JLabel tCompanyInfo;
-		JLabel tCompanyChoice;
+//		JLabel tCompanyChoice;
 		Corporation tCorporation;
 		GameManager tGameManager;
 		String [] tPlayerCompanies;
 		
 		tCorporation = aPlaceMapTilePlan.getCorporation ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
-			tCompanyInfo = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
-			infoAndActionPanel.add (tCompanyInfo);
-			infoAndActionPanel.add (Box.createVerticalStrut (10));
+			companyInfoLabel = new JLabel ("Operating Company is " + tCorporation.getAbbrev ());
+			infoAndActionPanel.add (companyInfoLabel);
+			infoAndActionPanel.add (Box.createVerticalStrut (5));
 		} else {
 			tGameManager = (GameManager) getGameManager ();
 			tPlayerCompanies = tGameManager.getPlayerCompanies (mapPlan.getPlayerName ());
-			tCompanyChoice = new JLabel ("Company to Plan for: ");
+			companyInfoLabel = new JLabel ("Company to Plan for: ");
 			if (tPlayerCompanies.length == 0) {
 				tPlayerCompanies = tGameManager.getAllCompanyAbbrevs ();
 			}
 			companyList = new JComboBox<String> (tPlayerCompanies);
-			infoAndActionPanel.add (tCompanyChoice);
-			infoAndActionPanel.add (Box.createVerticalStrut (10));
+			infoAndActionPanel.add (companyInfoLabel);
+			infoAndActionPanel.add (Box.createVerticalStrut (5));
 			infoAndActionPanel.add (companyList);
-			infoAndActionPanel.add (Box.createVerticalStrut (10));
-
+			infoAndActionPanel.add (Box.createVerticalStrut (5));
 		}
 	}
 
+	private void updateCorporationInfo () {
+		Corporation tCorporation;
+		
+		tCorporation = mapPlan.getCorporation ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			companyInfoLabel.setText ("Operating Company is " + tCorporation.getAbbrev ());
+			companyList.setVisible (false);
+		}
+	}
+	
 	protected void addMapCellInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
 		JLabel tMapCellInfo;
 		JLabel tBuildCostLabel;
@@ -204,7 +217,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			} else {
 				tTile = Tile.NO_TILE;
 			}
-			aPlaceMapTilePlan.setPlayableTiles (planningMap);
+			aPlaceMapTilePlan.setPlayableTiles ();
 			
 			fillPlanTileSet ();
 			tTileInfoText = buildTileInfoText (tTile, true);
@@ -224,6 +237,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 			discardPlanButton = setupButton (DISCARD_PLAN_LABEL, DISCARD_PLAN, this, Component.CENTER_ALIGNMENT);
 			infoAndActionPanel.add (discardPlanButton);
+			infoAndActionPanel.add (Box.createHorizontalStrut (5));
+
+			reviewConditionsButton = setupButton (REVIEW_CONDITIONS_LABEL, REVIEW_CONDITIONS, this, Component.CENTER_ALIGNMENT);
+			infoAndActionPanel.add (reviewConditionsButton);
 			infoAndActionPanel.add (Box.createHorizontalStrut (5));
 
 			applyPlanButton = setupButton (APPLY_PLAN_LABEL, APPLY_PLAN, this, Component.CENTER_ALIGNMENT);
@@ -271,6 +288,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		int tCount;
 		int tTileNumber;
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		GameMap tPlanningMap;
 		TileSet tFullTileSet;
 		MapCell tMapCell;
 		GameTile tGameTile;
@@ -304,7 +322,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 					tGameTile = tPlaceMapTilePlan.getPlayableTileAt (tIndex);
 					cloneAndAddGameTile (tGameTile, 0);
 				}
-				planTileSet.setTraySize (planningMap, tPlaceMapTilePlan);
+				tPlanningMap = tPlaceMapTilePlan.getPlanningMap ();
+				planTileSet.setTraySize (tPlanningMap, tPlaceMapTilePlan);
 	
 				tViewSize = new Dimension (300, 460);
 				tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
@@ -334,13 +353,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return planTileSet;
 	}
 	
-	public GameMap getPlanningMap () {
-		return planningMap;
-	}
-	
 	private void buildMapPanel () throws CloneNotSupportedException {
 		GameManager tGameManager;
 		GameMap tGameMap;
+		GameMap tPlanningMap;
 		Dimension tViewSize;
 		MapCell tPlanningMapCell;
 		float tHorizontalPercent;
@@ -351,18 +367,19 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		mapPanel = new JPanel ();
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
-		planningMap = tGameMap.clone ();
-		tPlanningMapCell = planningMap.getSelectedMapCell ();
+		tPlanningMap = tGameMap.clone ();
+		mapPlan.setPlanningMap (tPlanningMap);
+		tPlanningMapCell = tPlanningMap.getSelectedMapCell ();
 		mapPlan.setPlanningMapCell (tPlanningMapCell);
 		tViewSize = new Dimension (300, 400);
 
-		scrollPane = buildaScrollPane (planningMap, tViewSize);
+		scrollPane = buildaScrollPane (tPlanningMap, tViewSize);
 		mapPanel.setSize (tViewSize);
 		mapPanel.setPreferredSize (tViewSize);
 		mapPanel.add (scrollPane);
 		
-		tImageWidth = planningMap.getMaxX ();
-		tImageHeight = planningMap.getMaxY ();
+		tImageWidth = tPlanningMap.getMaxX ();
+		tImageHeight = tPlanningMap.getMaxY ();
 	
 		if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
 			tVerticalPercent = (mapPlan.getMapCellYc () - 200.0f)/tImageHeight;
@@ -381,7 +398,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tScrollPane.setPreferredSize (aViewSize);
 		tScrollPane.setSize (aViewSize);
 		tScrollPane.setMaximumSize (aViewSize);
-//		tScrollPane.setHorizontalScrollBarPolicy (ScrolPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		return tScrollPane;
 	}
@@ -450,6 +466,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		updateApprovePlanButton ();
 		updateDiscardPlanButton ();
 		updateApplyPlanButton ();
+		updateReviewConditionsButton ();
 		validate ();
 		repaint ();
 	}
@@ -553,6 +570,21 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		discardPlanButton.setToolTipText ("Plan can be discarded at any time");
 	}
 	
+	public void updateReviewConditionsButton () {
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			if (mapPlan.isApproved ()) {
+				reviewConditionsButton.setEnabled (true);
+				reviewConditionsButton.setToolTipText ("The Plan was approved, can review conditions");
+			} else {
+				reviewConditionsButton.setEnabled (false);
+				reviewConditionsButton.setToolTipText ("The Plan has not been approved, the conditions cannot be reviewed");		
+			}
+		} else {
+			reviewConditionsButton.setEnabled (false);
+			reviewConditionsButton.setToolTipText ("The Plan Tile Set filled yet.");
+		}
+	}
+
 	public void updateApplyPlanButton () {
 		String tFailsReasons;
 		
@@ -636,6 +668,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				approvePlan ();
 			} else if (DISCARD_PLAN.equals (tTheAction)) {
 				discardPlan ();
+			} else if (REVIEW_CONDITIONS.equals (tTheAction)) {
+				reviewConditions ();
 			} else if (APPLY_PLAN.equals (tTheAction)) {
 				applyPlan ();
 			}
@@ -643,6 +677,15 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	private void reviewConditions () {
+		String tConditionReport;
+		
+		System.out.println ("Ready to Review Conditions");
+		tConditionReport = mapPlan.getConditionReport ();
+		JOptionPane.showMessageDialog (NO_JSCROLL_BAR, tConditionReport, 
+					mapPlan.getName () + " Plan Conditions", JOptionPane.PLAIN_MESSAGE);
+	}
+	
 	private void discardPlan () {
 		System.out.println ("Ready to Discard Plan");
 		// Delete Plan from List of Plans
@@ -726,6 +769,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 				tCorporation = tGameManager.getCorporationByAbbrev (tCompanyAbbrev);
 				tPlaceMapTilePlan.setCorporation (tCorporation);
+				updateCorporationInfo ();
 			}
 		}
 
@@ -747,18 +791,13 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tRoundManager = tGameManager.getRoundManager ();
 		tActionManager = tRoundManager.getActionManager ();
 
-		System.out.println ("Ready to Apply Plan");
-		// Generate Action
-
 		mapPlan.createActions (tGameManager);
-		// Add the Tile to send off to other players via addAction
 		
 		tActionToApply = mapPlan.getAction ();
 		if (tActionToApply == Action.NO_ACTION) {
 			System.out.println ("No Action to apply");
 		} else {
 			tActionManager.addAction (tActionToApply);
-//			tActionManager.applyAction (tActionToApply, true);
 			
 			tActionManager.applyAction (tActionToApply);
 			tGameManager.autoSaveGame (true);
