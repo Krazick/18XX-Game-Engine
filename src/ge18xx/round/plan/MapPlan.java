@@ -3,6 +3,7 @@ package ge18xx.round.plan;
 import java.awt.Rectangle;
 
 import ge18xx.company.Corporation;
+import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
 
 public class MapPlan extends CorporationPlan {
@@ -10,7 +11,8 @@ public class MapPlan extends CorporationPlan {
 	public static final String NO_MAP_CELL = "No Selected MapCell";
 	MapCell mapCell;
 	MapCell planningMapCell;
-	
+	GameMap planningMap;
+
 	public MapPlan (String aPlayerName, String aGameName, String aName) {
 		this (aPlayerName, aGameName, aName, Corporation.NO_CORPORATION);
 	}
@@ -23,6 +25,14 @@ public class MapPlan extends CorporationPlan {
 	public MapPlan (String aPlayerName, String aGameName, String aName, Corporation aCorporation, MapCell aMapCell) {
 		super (aPlayerName, aGameName, aName, aCorporation);
 		setMapCell (aMapCell);
+	}
+
+	public void setPlanningMap (GameMap aPlannngMap) {
+		planningMap = aPlannngMap;
+	}
+
+	public GameMap getPlanningMap () {
+		return planningMap;
 	}
 
 	public void setMapCell (MapCell aMapCell) {
