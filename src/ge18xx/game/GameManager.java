@@ -189,10 +189,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	FrameInfoSupport frameInfoFrame;
 	MapFrame mapFrame;
 	MarketFrame marketFrame;
+	PlanFrame planFrame;
 	PlayerInputFrame playerInputFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	TileTrayFrame tileTrayFrame;
-	PlanFrame planFrame;
 
 	// Other Frames include:
 		// RoundFrame 				-- held by RoundManager
@@ -263,6 +263,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		setPlayerInputFrame (XMLFrame.NO_XML_FRAME);
 		setMapFrame (XMLFrame.NO_XML_FRAME);
+		setPlanFrame (XMLFrame.NO_XML_FRAME);
 		setCitiesFrame (XMLFrame.NO_XML_FRAME);
 		setPrivatesFrame (XMLFrame.NO_XML_FRAME);
 		setMinorCompaniesFrame (XMLFrame.NO_XML_FRAME);
@@ -605,10 +606,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 	
-	public void setMapPlanFrame (PlanFrame aMapPlanFrame) {
-		planFrame = aMapPlanFrame;
+	public void createPlanFrame () {
+		PlanFrame tPlanFrame;
+		String tFullTitle;
+		String tType;
+		
+		if (gameIsStarted ()) {
+			tType = "Plan";
+			tFullTitle = createFrameTitle (tType);
+			tPlanFrame = new PlanFrame (tFullTitle, this);
+			setPlanFrame (tPlanFrame);
+			addNewFrame (tPlanFrame);
+		}
+	}
+	
+	public void setPlanFrame (PlanFrame aPlanFrame) {
+		planFrame = aPlanFrame;
 	}
 
+	public PlanFrame getPlanFrame () {
+		return planFrame;
+	}
+	
 	public void loadColorScheme (String aBaseDir, MapFrame aMapFrame) {
 		String tFullURL;
 		XMLDocument tXMLDocument;
@@ -1610,9 +1629,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void flushAllBeanMessages () {
 		if (allBeans != null) {
-		for (MessageBean tBean : allBeans) {
-			tBean.flushMessages ();
-		}
+			for (MessageBean tBean : allBeans) {
+				tBean.flushMessages ();
+			}
 		} else {
 			System.err.println ("Flushing All Beans object is not set... why????");
 		}
@@ -1750,7 +1769,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		createUserPreferencesFrame ();
 		tSaveDirectoryPath = configData.getSaveGameDirectory ();
 		if (tSaveDirectoryPath == null) {
-			tSaveDirectoryPath = "";
+			tSaveDirectoryPath = GUI.EMPTY_STRING;
 			configData.setSaveGameDirectory (tSaveDirectoryPath);
 		}
 		tSaveDirectory = new File (tSaveDirectoryPath);
@@ -2472,6 +2491,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		addNewFrame (aXMLFrame);
 	}
 
+	public void setPlanFrame (XMLFrame aXMLFrame) {
+		planFrame = (PlanFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+
 	public void setPlayerInputFrame (XMLFrame aXMLFrame) {
 		playerInputFrame = (PlayerInputFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -2525,6 +2549,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			createCities ();
 			createTileTray ();
 			createMap ();
+			createPlanFrame ();
 		}
 	}
 
@@ -2643,7 +2668,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		mapFrame.showFrame ();
 	}
 	
-	public void showMapPlanFrame () {
+	public void showPlanFrame () {
 		planFrame.showFrame ();
 	}
 
@@ -2685,6 +2710,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		mapFrame.toTheFront ();
 	}
 
+	public void bringPlanToFront () {
+		planFrame.toTheFront ();
+	}
+
 	public void bringPlayerFrameToFront () {
 		playerManager.bringPlayerFrameToFront ();
 	}
@@ -2711,6 +2740,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 		if (marketFrame != MarketFrame.NO_XML_FRAME) {
 			marketFrame.updateFrame ();
+		}
+		if (planFrame != PlanFrame.NO_XML_FRAME) {
+			planFrame.updateFrame ();
 		}
 		if (tileTrayFrame != TileTrayFrame.NO_XML_FRAME) {
 			tileTrayFrame.updateFrame ();
