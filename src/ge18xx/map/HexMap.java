@@ -1385,6 +1385,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		String tGameName;
 		String tPlayerName;
+		String tPlanName;
 		MapCell tSelectedMapCell;
 		PlanFrame tPlanFrame;
 		GameManager tGameManager;
@@ -1392,7 +1393,11 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tPlayerName = mapFrame.getPlayerName ();
 		tGameName = mapFrame.getGameName ();
 		tSelectedMapCell = getSelectedMapCell ();
-		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, "Alpha Plan", aTrainCompany, tSelectedMapCell);
+		tGameManager = (GameManager) mapFrame.getGameManager ();
+		tPlanFrame = tGameManager.getPlanFrame ();
+		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
+
+		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, aTrainCompany, tSelectedMapCell);
 		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
 							tPlaceMapTilePlan.getName () + " for " +
 							tPlaceMapTilePlan.getCorporationName ());
@@ -1402,9 +1407,11 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			System.out.println ("");
 		}
 		
-		tGameManager = (GameManager) mapFrame.getGameManager ();
-		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
 		setPlanFrame (tPlanFrame);
+		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
+//		tGameManager = (GameManager) mapFrame.getGameManager ();
+//		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
+//		setPlanFrame (tPlanFrame);
 	}
 	
 	public void buildMapPlan () {
@@ -1414,22 +1421,23 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		MapCell tSelectedMapCell;
 		PlanFrame tPlanFrame;
 		GameManager tGameManager;
+		String tPlanName;
 
 		tGameName = mapFrame.getGameName ();
 		tPlayerName = mapFrame.getPlayerName ();
 		tSelectedMapCell = getSelectedMapCell ();
-
-		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, "Alpha Plan", 
+		tGameManager = (GameManager) mapFrame.getGameManager ();
+		tPlanFrame = tGameManager.getPlanFrame ();
+		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
+		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
 							Corporation.NO_CORPORATION, tSelectedMapCell);
 		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
 				tPlaceMapTilePlan.getName ());
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
 		}
-		
-		tGameManager = (GameManager) mapFrame.getGameManager ();
-		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
 		setPlanFrame (tPlanFrame);
+		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
 	}
 
 // Map Graph Functions
