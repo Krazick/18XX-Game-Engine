@@ -52,7 +52,7 @@ import swingTweaks.KButton;
 
 public class PlanFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_TITLE = "Map Plan";
+	public static final String BASE_TITLE = "Plan";
 	public static final String APPROVE_PLAN_LABEL = "Approve";
 	public static final String APPROVE_PLAN = "ApprovePlan";
 	public static final String DISCARD_PLAN_LABEL = "Discard";
@@ -84,38 +84,42 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private JComboBox<String> companyList;
 	private JLabel companyInfoLabel;
 	
+	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {		
+		this (aFrameName, aGameManager, MapPlan.NO_MAP_PLAN);
+	}
+	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager, MapPlan aMapPlan) {
 		super (aFrameName, aGameManager);
 		
-		String tFullFrameTitle;
 		TileSet tFullTileSet;
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tFullTileSet = tGameManager.getTileSet ();
 		setFullTileSet (tFullTileSet);
+		setSize (900, 500);
 
+		addMapPlan (aMapPlan);
+	}
+
+	public void addMapPlan (MapPlan aMapPlan) {
 		setMapPlan (aMapPlan);
-		allPlans.add (aMapPlan);
-		
-		try {
-			setSize (900, 500);
-			buildMapPanel ();
-			buildTilePanel ();
-			buildInfoAndActionPanel ();
-			
-			add (mapPanel, BorderLayout.WEST);
-			add (infoAndActionPanel, BorderLayout.EAST);
-			add (tilePanel, BorderLayout.CENTER);
-			
-			updateFrame ();
-
-			tFullFrameTitle = BASE_TITLE + " (" + aMapPlan.getName () + ")";
-			tFullFrameTitle = aGameManager.createFrameTitle (tFullFrameTitle);
-			setTitle (tFullFrameTitle);
-			showFrame ();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+		if (mapPlan != MapPlan.NO_MAP_PLAN) {
+			allPlans.add (aMapPlan);
+			try {
+				buildMapPanel ();
+				buildTilePanel ();
+				buildInfoAndActionPanel ();
+				
+				add (mapPanel, BorderLayout.WEST);
+				add (infoAndActionPanel, BorderLayout.EAST);
+				add (tilePanel, BorderLayout.CENTER);
+				
+				updateFrame ();
+				showFrame ();
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -133,11 +137,16 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		Dimension tViewSize;
 		Border tMargin;
 		
+		if (infoAndActionPanel == null) {
+			infoAndActionPanel = new JPanel ();
+		} else {
+			infoAndActionPanel.removeAll ();
+		}
+
 		tMargin = new EmptyBorder (5, 5, 5, 5);
-		infoAndActionPanel = new JPanel ();
 		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
 		infoAndActionPanel.setBorder (tMargin);
-		tPanelLabel = new JLabel ("This is the Info And Action Panel");
+		tPanelLabel = new JLabel (mapPlan.getName ());
 		infoAndActionPanel.add (tPanelLabel);
 		infoAndActionPanel.add (Box.createVerticalStrut (10));
 		
@@ -153,7 +162,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 
 	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
-//		JLabel tCompanyChoice;
 		Corporation tCorporation;
 		GameManager tGameManager;
 		String [] tPlayerCompanies;
@@ -275,7 +283,11 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private void buildTilePanel () {
 		Dimension tViewSize;
 		
-		tilePanel = new JPanel ();
+		if (tilePanel == null) {
+			tilePanel = new JPanel ();
+		} else {
+			tilePanel.removeAll ();
+		}
 		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
 
 		tViewSize = new Dimension (300, 500);
@@ -364,13 +376,15 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		float tImageWidth;
 		float tImageHeight;
 		
-		mapPanel = new JPanel ();
+		if (mapPanel == null) {
+			mapPanel = new JPanel ();
+		} else {
+			mapPanel.removeAll ();
+		}
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		tPlanningMap = tGameMap.clone ();
-		mapPlan.setPlanningMap (tPlanningMap);
 		tPlanningMapCell = tPlanningMap.getSelectedMapCell ();
-		mapPlan.setPlanningMapCell (tPlanningMapCell);
 		tViewSize = new Dimension (300, 400);
 
 		scrollPane = buildaScrollPane (tPlanningMap, tViewSize);
@@ -380,12 +394,16 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		
 		tImageWidth = tPlanningMap.getMaxX ();
 		tImageHeight = tPlanningMap.getMaxY ();
-	
-		if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
-			tVerticalPercent = (mapPlan.getMapCellYc () - 200.0f)/tImageHeight;
-			setScrollBarValue (scrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
-			tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
-			setScrollBarValue (scrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+
+		if (mapPlan != MapPlan.NO_MAP_PLAN) {
+			mapPlan.setPlanningMap (tPlanningMap);
+			mapPlan.setPlanningMapCell (tPlanningMapCell);
+			if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
+				tVerticalPercent = (mapPlan.getMapCellYc () - 200.0f)/tImageHeight;
+				setScrollBarValue (scrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
+				tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
+				setScrollBarValue (scrollPane, ScrollPaneConstants.HORIZONTAL_SCROLLBAR, tHorizontalPercent);
+			}
 		}
 		
 		buildMapButtonsPanel ();
@@ -680,16 +698,38 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private void reviewConditions () {
 		String tConditionReport;
 		
-		System.out.println ("Ready to Review Conditions");
 		tConditionReport = mapPlan.getConditionReport ();
 		JOptionPane.showMessageDialog (NO_JSCROLL_BAR, tConditionReport, 
 					mapPlan.getName () + " Plan Conditions", JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	public int getPlanCount () {
+		return allPlans.size ();
+	}
+	
+	public Plan getPlanAt (int aIndex) {
+		return allPlans.get (aIndex);
+	}
+	
+	public String getNextPlanName () {
+		int tPlanCount;
+		String tNextPlanName;
+		
+		tPlanCount = getPlanCount ();
+		if (tPlanCount == 0) {
+			tNextPlanName = Plan.GREEK_ALPHABET [tPlanCount];
+		} else if (tPlanCount < Plan.GREEK_ALPHABET.length) {
+			tNextPlanName = Plan.GREEK_ALPHABET [tPlanCount + 1];
+		} else {
+			tNextPlanName = "TOO MANY";
+		}
+		
+		return tNextPlanName;
+	}
 	private void discardPlan () {
 		System.out.println ("Ready to Discard Plan");
+		allPlans.remove (mapPlan);
 		// Delete Plan from List of Plans
-		// Close Map Plan Frame
 	}
 
 	public void captureConditions (GameManager aGameManager) {
