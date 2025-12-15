@@ -11,7 +11,7 @@ import ge18xx.round.plan.condition.Conditions;
 public class Plan {
 	public static final boolean DISAPPROVED = false;
 	public static final boolean APPROVED = true;
-	public final String [] GREEK_ALPHABET = {"Alpha", "Beta", "Gamma", "Delta", "Epsilon",
+	public static final String [] GREEK_ALPHABET = {"Alpha", "Beta", "Gamma", "Delta", "Epsilon",
 			"Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron",
 			"Pi", "Rho", "Sigma", "Tau", "Upsilon"};
 	String playerName;
