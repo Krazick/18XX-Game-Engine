@@ -51,6 +51,7 @@ import ge18xx.round.action.LayTokenAction;
 //import ge18xx.round.action.PreparedActions;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.plan.PlanFrame;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
@@ -2882,6 +2883,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return 0;
 	}
 
+	public void showPlanFrame () {
+		GameManager tGameManager;
+		PlanFrame tPlanFrame;
+		
+		tGameManager = getGameManager ();
+		tPlanFrame = tGameManager.getPlanFrame ();
+		tPlanFrame.showFrame ();
+	}
+	
 	public Border setupBorder () {
 		Border tCorpBorder;
 
