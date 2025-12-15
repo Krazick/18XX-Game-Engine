@@ -477,16 +477,25 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return tilePlaced;
 	}
 	
+
+	@Override
+	public void showFrame () {
+		updateFrame ();
+		super.showFrame ();
+	}
+
 	public void updateFrame () {
-		updatePutdownTileButton ();
-		updatePickupTileButton ();
-		updateRotateTileButton ();
-		updateApprovePlanButton ();
-		updateDiscardPlanButton ();
-		updateApplyPlanButton ();
-		updateReviewConditionsButton ();
-		validate ();
-		repaint ();
+		if (getPlanCount () > 0) {
+			updatePutdownTileButton ();
+			updatePickupTileButton ();
+			updateRotateTileButton ();
+			updateApprovePlanButton ();
+			updateDiscardPlanButton ();
+			updateApplyPlanButton ();
+			updateReviewConditionsButton ();
+			validate ();
+			repaint ();
+		}
 	}
 	
 	public void updatePutdownTileButton () {
@@ -719,7 +728,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (tPlanCount == 0) {
 			tNextPlanName = Plan.GREEK_ALPHABET [tPlanCount];
 		} else if (tPlanCount < Plan.GREEK_ALPHABET.length) {
-			tNextPlanName = Plan.GREEK_ALPHABET [tPlanCount + 1];
+			tNextPlanName = Plan.GREEK_ALPHABET [tPlanCount];
 		} else {
 			tNextPlanName = "TOO MANY";
 		}
