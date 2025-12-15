@@ -35,6 +35,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.plan.PlanFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -96,6 +97,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public static final String LOANS_CANNOT_BE_TAKEN_IN_PHASE = "Loans cannot be taken in current Phase";
 	public static final String GET_LOAN = "Get Loan";
 	public static final String REDEEM_LOAN = "Redeem Loan";
+	public static final String SHOW_PLANS = "Show Plans";
 	public static final String MUST_REDEEM_LOAN = "Must Redeem at least %d Loan";
 	public static final String PAY_LOAN_INTEREST = "Pay Loan Interest";
 	public static final String DONE = "Done";
@@ -145,6 +147,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	KButton doneButton;
 	KButton undoButton;
 	KButton explainButton;
+	KButton showPlansButton;
 	ButtonsInfoFrame buttonsInfoFrame;
 	Corporation corporation;
 	GameManager gameManager;
@@ -534,6 +537,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (REDEEM_LOAN.equals (tCommand)) {
 			corporation.redeemLoan ();
 		}
+		if (SHOW_PLANS.equals (tCommand)) {
+			corporation.showPlanFrame ();
+		}
 		if (DONE.equals (tCommand)) {
 			tConfirmedDoneAction = confirmDoneAction ();
 			if (tConfirmedDoneAction) {	
@@ -650,6 +656,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		payFullDividendButton = setupButton (PAY_FULL_DIVIDEND, PAY_FULL_DIVIDEND);
 		buyTrainForceButton = setupButton (FORCE_BUY_TRAIN, FORCE_BUY_TRAIN);
 		buyTrainButton = setupButton (BUY_TRAIN, BUY_TRAIN);
+		showPlansButton = setupButton (SHOW_PLANS, SHOW_PLANS);
 		
 		tPrivateCompanies = gameManager.getPrivates ();
 		if (tPrivateCompanies != CorporationList.NO_CORPORATION_LIST) {
@@ -713,6 +720,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (doneButton);
 		addButton (undoButton);
 		addButton (explainButton);
+		addButton (showPlansButton);
 	}
 
 	private void addButtonsSubPanel (JPanel aButtonsSubPanel, KButton aButton) {
@@ -949,6 +957,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateForceBuyTrainButton ();
 		updateBuyPrivateButton ();
 		updateDoneButton ();
+		updateShowPlansButton ();
 		updatePrivateBenefitButtons ();
 		repaint ();
 		revalidate ();
@@ -1591,6 +1600,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
+	private void updateShowPlansButton () {
+		String tToolTip;
+		PlanFrame tPlanFrame;
+		
+		tPlanFrame = gameManager.getPlanFrame ();
+		if (tPlanFrame.getPlanCount () > 0) {
+			showPlansButton.setEnabled (true);
+			tToolTip = GUI.EMPTY_STRING;
+		} else {
+			showPlansButton.setEnabled (false);
+			tToolTip = "No Plans to show";
+		}
+		
+		showPlansButton.setToolTipText (tToolTip);
+	}
+	
 	private void updateDoneButton () {
 		String tToolTip;
 
@@ -1945,6 +1970,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			updateForceBuyTrainButton ();
 			updateBuyPrivateButton ();
 			updateDoneButton ();
+			updateShowPlansButton ();
 		}
 	}
 	
