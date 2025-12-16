@@ -1381,40 +1381,45 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 
 // Map Plan Functionality
 	
-	public void buildMapPlan (TrainCompany aTrainCompany) {
-		PlaceMapTilePlan tPlaceMapTilePlan;
-		String tGameName;
-		String tPlayerName;
-		String tPlanName;
-		MapCell tSelectedMapCell;
-		PlanFrame tPlanFrame;
-		GameManager tGameManager;
-
-		tPlayerName = mapFrame.getPlayerName ();
-		tGameName = mapFrame.getGameName ();
-		tSelectedMapCell = getSelectedMapCell ();
-		tGameManager = (GameManager) mapFrame.getGameManager ();
-		tPlanFrame = tGameManager.getPlanFrame ();
-		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
-
-		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, aTrainCompany, tSelectedMapCell);
-		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
-							tPlaceMapTilePlan.getName () + " for " +
-							tPlaceMapTilePlan.getCorporationName ());
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
-			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
-		} else {
-			System.out.println ("");
-		}
-		
-		setPlanFrame (tPlanFrame);
-		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
+//	public void buildMapPlan (TrainCompany aTrainCompany) {
+//		PlaceMapTilePlan tPlaceMapTilePlan;
+//		String tGameName;
+//		String tPlayerName;
+//		String tPlanName;
+//		MapCell tSelectedMapCell;
+//		PlanFrame tPlanFrame;
+//		GameManager tGameManager;
+//
+//		tPlayerName = mapFrame.getPlayerName ();
+//		tGameName = mapFrame.getGameName ();
+//		tSelectedMapCell = getSelectedMapCell ();
 //		tGameManager = (GameManager) mapFrame.getGameManager ();
-//		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
+//		tPlanFrame = tGameManager.getPlanFrame ();
+//		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
+//
+//		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, aTrainCompany, tSelectedMapCell);
+//		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
+//							tPlaceMapTilePlan.getName () + " for " +
+//							tPlaceMapTilePlan.getCorporationName ());
+//		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+//			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
+//		} else {
+//			System.out.println ("");
+//		}
+//		
 //		setPlanFrame (tPlanFrame);
-	}
+//		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
+////		tGameManager = (GameManager) mapFrame.getGameManager ();
+////		tPlanFrame = new PlanFrame (PlanFrame.BASE_TITLE, tGameManager, tPlaceMapTilePlan);
+////		setPlanFrame (tPlanFrame);
+//	}
 	
 	public void buildMapPlan () {
+		buildMapPlan (TrainCompany.NO_TRAIN_COMPANY);
+	}
+	
+	public void buildMapPlan (TrainCompany aTrainCompany) {
+
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		String tGameName;
 		String tPlayerName;
@@ -1429,8 +1434,10 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tGameManager = (GameManager) mapFrame.getGameManager ();
 		tPlanFrame = tGameManager.getPlanFrame ();
 		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
+//		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
+//				Corporation.NO_CORPORATION, tSelectedMapCell);
 		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
-							Corporation.NO_CORPORATION, tSelectedMapCell);
+							aTrainCompany, tSelectedMapCell);
 		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
 				tPlaceMapTilePlan.getName ());
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
