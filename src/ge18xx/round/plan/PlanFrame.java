@@ -63,12 +63,16 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	public static final String APPLY_PLAN = "ApplyPlan";
 	public static final JScrollBar NO_JSCROLL_BAR = null;
 
+	PlanTileSet planTileSet;
+	TileSet fullTileSet;
+	List<Plan> allPlans = new LinkedList<Plan> ();
+	MapPlan mapPlan;
+	boolean tilePlaced;
+	
 	JPanel mapPanel;
 	JPanel tilePanel;
 	JPanel infoAndActionPanel;
 	JPanel mapButtonsPanel;
-	PlanTileSet planTileSet;
-	TileSet fullTileSet;
 	JScrollPane tileScrollPane;
 	KButton putdownTileButton;
 	KButton pickupTileButton;
@@ -78,10 +82,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	KButton applyPlanButton;
 	KButton reviewConditionsButton;
 	JLabel tileToPlayInfoLabel;
-	List<Plan> allPlans = new LinkedList<Plan> ();
-	MapPlan mapPlan;
-	boolean tilePlaced;
 	private JComboBox<String> companyList;
+	private JComboBox<String> planList;
 	private JLabel companyInfoLabel;
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {		
@@ -131,27 +133,34 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return fullTileSet;
 	}
 	
+	private JPanel buildOrEmptyPanel (JPanel aPanel) {
+		
+		if (aPanel == null) {
+			aPanel = new JPanel ();
+		} else {
+			aPanel.removeAll ();
+		}
+
+		return aPanel;
+	}
+	
 	private void buildInfoAndActionPanel () {
-		JLabel tPanelLabel;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		Dimension tViewSize;
 		Border tMargin;
 		
-		if (infoAndActionPanel == null) {
-			infoAndActionPanel = new JPanel ();
-		} else {
-			infoAndActionPanel.removeAll ();
-		}
+		infoAndActionPanel = buildOrEmptyPanel (infoAndActionPanel);
 
 		tMargin = new EmptyBorder (5, 5, 5, 5);
 		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
 		infoAndActionPanel.setBorder (tMargin);
-		tPanelLabel = new JLabel (mapPlan.getName ());
-		infoAndActionPanel.add (tPanelLabel);
-		infoAndActionPanel.add (Box.createVerticalStrut (10));
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+			
+			addPlanChoice (tPlaceMapTilePlan);
+			
+			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			addCorporationInfo (tPlaceMapTilePlan);
 			addMapCellInfo (tPlaceMapTilePlan);
 		}
@@ -161,6 +170,29 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		infoAndActionPanel.setPreferredSize (tViewSize);
 	}
 
+	protected void addPlanChoice (PlaceMapTilePlan aPlaceMapTilePlan) {
+		JLabel tPanelLabel;
+		int tPlanCount;
+		int tPlanIndex;
+		Plan tPlan;
+		String tPlanName;
+		
+		tPlanCount = getPlanCount ();
+		if (tPlanCount == 1) {
+			tPanelLabel = new JLabel (mapPlan.getName ());
+			infoAndActionPanel.add (tPanelLabel);
+		} else {
+			planList = new JComboBox<String> ();
+			planList.addActionListener(this);
+			for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
+				tPlan = getPlanAt (tPlanIndex);
+				tPlanName = tPlan.getName ();
+				planList.addItem (tPlanName);
+			}
+			infoAndActionPanel.add (planList);
+		}
+	}
+	
 	protected void addCorporationInfo (PlaceMapTilePlan aPlaceMapTilePlan) {
 		Corporation tCorporation;
 		GameManager tGameManager;
@@ -208,6 +240,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		String tSelectedTileInfoText;
 		
 		tMapCell = aPlaceMapTilePlan.getMapCell ();
+		emptyPlanTileSet ();
 		if (tMapCell != MapCell.NO_MAP_CELL) {
 			tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
 			infoAndActionPanel.add (tMapCellInfo);
@@ -225,6 +258,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			} else {
 				tTile = Tile.NO_TILE;
 			}
+			aPlaceMapTilePlan.emptyGameTiles ();
 			aPlaceMapTilePlan.setPlayableTiles ();
 			
 			fillPlanTileSet ();
@@ -283,18 +317,24 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private void buildTilePanel () {
 		Dimension tViewSize;
 		
-		if (tilePanel == null) {
-			tilePanel = new JPanel ();
-		} else {
-			tilePanel.removeAll ();
-		}
+		tilePanel = buildOrEmptyPanel (tilePanel);
 		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
-
 		tViewSize = new Dimension (300, 500);
 		tilePanel.setSize (tViewSize);
 		tilePanel.setPreferredSize (tViewSize);
 	}
 
+	protected void emptyPlanTileSet () {
+		if (planTileSet != TileSet.NO_TILE_SET) {
+			planTileSet.removeAllTiles (); 
+		}
+	}
+	
+//	protected PlanTileSet getSelectedMapPlanTileSet () {
+//		
+//		return selectedMapPlanTileSet;
+//	}
+	
 	protected void fillPlanTileSet () {
 		int tIndex;
 		int tCount;
@@ -376,11 +416,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		float tImageWidth;
 		float tImageHeight;
 		
-		if (mapPanel == null) {
-			mapPanel = new JPanel ();
-		} else {
-			mapPanel.removeAll ();
-		}
+		mapPanel = buildOrEmptyPanel (mapPanel);
 		tGameManager = (GameManager) gameEngineManager;
 		tGameMap = tGameManager.getGameMap ();
 		tPlanningMap = tGameMap.clone ();
@@ -425,6 +461,26 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
 			mapPlan.setPlanFrame (this);
 		}
+	}
+	
+	public MapPlan findMapPlan (String aMapPlanName) {
+		int tPlanCount;
+		int tPlanIndex;
+		String tMapPlanName;
+		MapPlan tFoundMapPlan;
+		MapPlan tMapPlan;
+		
+		tFoundMapPlan = MapPlan.NO_MAP_PLAN;
+		tPlanCount = getPlanCount ();
+		for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
+			tMapPlan = (MapPlan) allPlans.get (tPlanIndex);
+			tMapPlanName = tMapPlan.getName ();
+			if (tMapPlanName.equals (aMapPlanName)) {
+				tFoundMapPlan = tMapPlan;
+			}
+		}
+		
+		return tFoundMapPlan;
 	}
 	
 	public void setScrollBarValue (JScrollPane aScrollPane, String aOrientation, float aPercentOfMax) {
@@ -676,32 +732,49 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return tButton;
 	}
 
+	@SuppressWarnings ("unchecked")
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction;
 		PlaceMapTilePlan tPlaceMapTilePlan;
+		JComboBox<String> tPlanCoice;
+		Object tEventSource;
+		String tSelectedPlan;
+		MapPlan tSelectedMapPlan;
+//		PlanTileSet tSelectedPlanTileSet;
 		
-		tTheAction = aActionEvent.getActionCommand ();
-		if (mapPlan instanceof PlaceMapTilePlan) {
-			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
-			
-			if (MapFrame.PUT_TILE.equals (tTheAction)) {
-				tPlaceMapTilePlan.putTileDownOnMap ();
-			} else if (MapFrame.PICKUP_TILE.equals (tTheAction)) {
-				tPlaceMapTilePlan.pickupTile ();
-			} else if (MapFrame.ROTATE_TILE.equals (tTheAction)) {
-				tPlaceMapTilePlan.rotateTile ();
-			} else if (APPROVE_PLAN.equals (tTheAction)) {
-				approvePlan ();
-			} else if (DISCARD_PLAN.equals (tTheAction)) {
-				discardPlan ();
-			} else if (REVIEW_CONDITIONS.equals (tTheAction)) {
-				reviewConditions ();
-			} else if (APPLY_PLAN.equals (tTheAction)) {
-				applyPlan ();
-			}
+		tEventSource = aActionEvent.getSource ();
+		if (tEventSource instanceof JComboBox) {
+			tPlanCoice = (JComboBox<String>) tEventSource;
+			tSelectedPlan = (String) tPlanCoice.getSelectedItem ();
+			tSelectedMapPlan = findMapPlan (tSelectedPlan);
+			setMapPlan (tSelectedMapPlan);
+//			tSelectedPlanTileSet = tSelectedMapPlan.getPlanTileSet ();
+//			setPlanTileSet (tSelectedPlanTileSet);
 			updateFrame ();
+		} else {
+			tTheAction = aActionEvent.getActionCommand ();
+			if (mapPlan instanceof PlaceMapTilePlan) {
+				tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
+				
+				if (MapFrame.PUT_TILE.equals (tTheAction)) {
+					tPlaceMapTilePlan.putTileDownOnMap ();
+				} else if (MapFrame.PICKUP_TILE.equals (tTheAction)) {
+					tPlaceMapTilePlan.pickupTile ();
+				} else if (MapFrame.ROTATE_TILE.equals (tTheAction)) {
+					tPlaceMapTilePlan.rotateTile ();
+				} else if (APPROVE_PLAN.equals (tTheAction)) {
+					approvePlan ();
+				} else if (DISCARD_PLAN.equals (tTheAction)) {
+					discardPlan ();
+				} else if (REVIEW_CONDITIONS.equals (tTheAction)) {
+					reviewConditions ();
+				} else if (APPLY_PLAN.equals (tTheAction)) {
+					applyPlan ();
+				}
+			}
 		}
+		updateFrame ();
 	}
 
 	private void reviewConditions () {
