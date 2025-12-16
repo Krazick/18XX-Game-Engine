@@ -1605,12 +1605,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		PlanFrame tPlanFrame;
 		
 		tPlanFrame = gameManager.getPlanFrame ();
-		if (tPlanFrame.getPlanCount () > 0) {
-			showPlansButton.setEnabled (true);
-			tToolTip = GUI.EMPTY_STRING;
+		if (tPlanFrame != PlanFrame.NO_XML_FRAME) {
+			if (tPlanFrame.getPlanCount () > 0) {
+				showPlansButton.setEnabled (true);
+				tToolTip = GUI.EMPTY_STRING;
+			} else {
+				showPlansButton.setEnabled (false);
+				tToolTip = "No Plans to show";
+			}
 		} else {
-			showPlansButton.setEnabled (false);
-			tToolTip = "No Plans to show";
+			tToolTip = GUI.EMPTY_STRING;
 		}
 		
 		showPlansButton.setToolTipText (tToolTip);
