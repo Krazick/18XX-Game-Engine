@@ -139,6 +139,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		redrawTileTray ();
 	}
 
+	public boolean removeAllTiles () {
+		return gameTiles.removeAll (gameTiles);
+	}
+	
 	public void redrawTileTray () {
 		revalidate ();
 		repaint ();
