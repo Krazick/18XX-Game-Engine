@@ -101,6 +101,10 @@ public class PlaceMapTilePlan extends MapPlan {
 		return buildCost;
 	}
 
+	public void emptyGameTiles () {
+		gameTiles.removeAll (gameTiles);
+	}
+	
 	// Collect the set of Playable Tiles, without regards to the Current Phase
 	public void setPlayableTiles () {
 		
