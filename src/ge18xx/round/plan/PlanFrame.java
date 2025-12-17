@@ -82,6 +82,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	KButton applyPlanButton;
 	KButton reviewConditionsButton;
 	JLabel tileToPlayInfoLabel;
+	Dimension panelSize;
+	Dimension subpanelSize;
 	private JComboBox<String> companyList;
 	private JComboBox<String> planList;
 	private JLabel companyInfoLabel;
@@ -99,7 +101,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tGameManager = (GameManager) gameEngineManager;
 		tFullTileSet = tGameManager.getTileSet ();
 		setFullTileSet (tFullTileSet);
-		setSize (900, 500);
+		panelSize = new Dimension (900, 500);
+		subpanelSize = new Dimension (300, 400);
+		setSize (panelSize);
+		
 
 		addMapPlan (aMapPlan);
 	}
@@ -109,9 +114,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
 			allPlans.add (aMapPlan);
 			try {
-				buildMapPanel ();
-				buildTilePanel ();
-				buildInfoAndActionPanel ();
+				buildAllPanels ();
 				
 				add (mapPanel, BorderLayout.WEST);
 				add (infoAndActionPanel, BorderLayout.EAST);
@@ -124,6 +127,22 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	}
+	
+	private JPanel buildOrEmptyPanel (JPanel aPanel) {
+		if (aPanel == null) {
+			aPanel = new JPanel ();
+		} else {
+			aPanel.removeAll ();
+		}
+
+		return aPanel;
+	}
+
+	private void buildAllPanels () throws CloneNotSupportedException {
+		buildMapPanel ();
+		buildTilePanel ();
+		buildInfoAndActionPanel ();
+	}
 
 	public void setFullTileSet (TileSet aFullTileSet) {
 		fullTileSet = aFullTileSet;
@@ -133,20 +152,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return fullTileSet;
 	}
 	
-	private JPanel buildOrEmptyPanel (JPanel aPanel) {
-		
-		if (aPanel == null) {
-			aPanel = new JPanel ();
-		} else {
-			aPanel.removeAll ();
-		}
-
-		return aPanel;
-	}
-	
 	private void buildInfoAndActionPanel () {
-		PlaceMapTilePlan tPlaceMapTilePlan;
-		Dimension tViewSize;
 		Border tMargin;
 		
 		infoAndActionPanel = buildOrEmptyPanel (infoAndActionPanel);
@@ -155,25 +161,30 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
 		infoAndActionPanel.setBorder (tMargin);
 		
+		fillInfoAndActionPanel ();
+		infoAndActionPanel.setBackground (Color.green);
+		infoAndActionPanel.setSize (subpanelSize);
+		infoAndActionPanel.setPreferredSize (subpanelSize);
+	}
+
+	private void fillInfoAndActionPanel () {
+		PlaceMapTilePlan tPlaceMapTilePlan;
+		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			
 			addPlanChoice (tPlaceMapTilePlan);
-			
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			addCorporationInfo (tPlaceMapTilePlan);
 			addMapCellInfo (tPlaceMapTilePlan);
 		}
-		infoAndActionPanel.setBackground (Color.green);
-		tViewSize = new Dimension (300, 500);
-		infoAndActionPanel.setSize (tViewSize);
-		infoAndActionPanel.setPreferredSize (tViewSize);
 	}
 
 	protected void addPlanChoice (PlaceMapTilePlan aPlaceMapTilePlan) {
 		JLabel tPanelLabel;
 		int tPlanCount;
 		int tPlanIndex;
+		int tNewPlanIndex;
 		Plan tPlan;
 		String tPlanName;
 		
@@ -182,12 +193,17 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tPanelLabel = new JLabel (mapPlan.getName ());
 			infoAndActionPanel.add (tPanelLabel);
 		} else {
-			planList = new JComboBox<String> ();
-			planList.addActionListener(this);
-			for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
-				tPlan = getPlanAt (tPlanIndex);
-				tPlanName = tPlan.getName ();
-				planList.addItem (tPlanName);
+			if (planList == null) {
+				planList = new JComboBox<String> ();
+				planList.removeActionListener (this);
+				for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
+					tPlan = getPlanAt (tPlanIndex);
+					tPlanName = tPlan.getName ();
+					planList.addItem (tPlanName);
+				}
+				tNewPlanIndex = tPlanIndex - 1;
+				planList.setSelectedIndex (tNewPlanIndex);
+				planList.addActionListener(this);
 			}
 			infoAndActionPanel.add (planList);
 		}
@@ -315,13 +331,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	private void buildTilePanel () {
-		Dimension tViewSize;
-		
 		tilePanel = buildOrEmptyPanel (tilePanel);
 		tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
-		tViewSize = new Dimension (300, 500);
-		tilePanel.setSize (tViewSize);
-		tilePanel.setPreferredSize (tViewSize);
+		tilePanel.setSize (subpanelSize);
+		tilePanel.setPreferredSize (subpanelSize);
 	}
 
 	protected void emptyPlanTileSet () {
@@ -329,11 +342,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			planTileSet.removeAllTiles (); 
 		}
 	}
-	
-//	protected PlanTileSet getSelectedMapPlanTileSet () {
-//		
-//		return selectedMapPlanTileSet;
-//	}
 	
 	protected void fillPlanTileSet () {
 		int tIndex;
@@ -377,8 +385,12 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tPlanningMap = tPlaceMapTilePlan.getPlanningMap ();
 				planTileSet.setTraySize (tPlanningMap, tPlaceMapTilePlan);
 	
-				tViewSize = new Dimension (300, 460);
-				tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
+				if (tileScrollPane == null) {
+					tViewSize = new Dimension (300, 460);
+					tileScrollPane = buildaScrollPane (planTileSet, tViewSize);
+				} else {
+					tileScrollPane.setViewportView (planTileSet);
+				}
 				
 				tilePanel.add (tileScrollPane);
 			}
@@ -409,7 +421,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		GameManager tGameManager;
 		GameMap tGameMap;
 		GameMap tPlanningMap;
-		Dimension tViewSize;
 		MapCell tPlanningMapCell;
 		float tHorizontalPercent;
 		float tVerticalPercent;
@@ -421,11 +432,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tGameMap = tGameManager.getGameMap ();
 		tPlanningMap = tGameMap.clone ();
 		tPlanningMapCell = tPlanningMap.getSelectedMapCell ();
-		tViewSize = new Dimension (300, 400);
 
-		scrollPane = buildaScrollPane (tPlanningMap, tViewSize);
-		mapPanel.setSize (tViewSize);
-		mapPanel.setPreferredSize (tViewSize);
+		scrollPane = buildaScrollPane (tPlanningMap, subpanelSize);
+		mapPanel.setSize (subpanelSize);
+		mapPanel.setPreferredSize (subpanelSize);
 		mapPanel.add (scrollPane);
 		
 		tImageWidth = tPlanningMap.getMaxX ();
@@ -561,7 +571,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		
 		if (planTileSet != TileSet.NO_TILE_SET) {
 			tSelectedGameTile = planTileSet.getSelectedTile ();
-			if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
+			if (mapPlan.isApproved ()) {
+				putdownTileButton.setEnabled (false);
+				putdownTileButton.setToolTipText ("The Plan has been approved, tile cannot be placed");
+			} else if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
 				putdownTileButton.setEnabled (false);
 				putdownTileButton.setToolTipText ("No Selected GameTile to place");
 			} else {
@@ -732,26 +745,14 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		return tButton;
 	}
 
-	@SuppressWarnings ("unchecked")
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction;
 		PlaceMapTilePlan tPlaceMapTilePlan;
-		JComboBox<String> tPlanCoice;
 		Object tEventSource;
-		String tSelectedPlan;
-		MapPlan tSelectedMapPlan;
-//		PlanTileSet tSelectedPlanTileSet;
-		
 		tEventSource = aActionEvent.getSource ();
 		if (tEventSource instanceof JComboBox) {
-			tPlanCoice = (JComboBox<String>) tEventSource;
-			tSelectedPlan = (String) tPlanCoice.getSelectedItem ();
-			tSelectedMapPlan = findMapPlan (tSelectedPlan);
-			setMapPlan (tSelectedMapPlan);
-//			tSelectedPlanTileSet = tSelectedMapPlan.getPlanTileSet ();
-//			setPlanTileSet (tSelectedPlanTileSet);
-			updateFrame ();
+			changeSelectedPlan (tEventSource);
 		} else {
 			tTheAction = aActionEvent.getActionCommand ();
 			if (mapPlan instanceof PlaceMapTilePlan) {
@@ -775,6 +776,36 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			}
 		}
 		updateFrame ();
+	}
+	
+	@SuppressWarnings ("unchecked")
+	private void changeSelectedPlan (Object tEventSource) {
+		GameMap tPlanningMap;
+		JComboBox<String> tPlanChoice;
+		String tSelectedPlanName;
+		MapPlan tSelectedMapPlan;
+		int tSelectedIndex;
+		Dimension tViewSize;
+		
+		tPlanChoice = (JComboBox<String>) tEventSource;
+		tSelectedPlanName = (String) tPlanChoice.getSelectedItem ();
+		tSelectedIndex = tPlanChoice.getSelectedIndex ();
+		planList.setSelectedIndex (tSelectedIndex);
+		tSelectedMapPlan = findMapPlan (tSelectedPlanName);
+		System.out.println ("Trying to fetch " + tSelectedPlanName + 
+							" Found " + tSelectedMapPlan.getName ());
+		setMapPlan (tSelectedMapPlan);
+		tPlanningMap = mapPlan.getPlanningMap ();
+		mapPanel = buildOrEmptyPanel (mapPanel);
+		tViewSize = new Dimension (300, 400);
+		scrollPane = buildaScrollPane (tPlanningMap, tViewSize);
+		mapPanel.add (scrollPane);
+		buildMapButtonsPanel ();
+		tilePanel = buildOrEmptyPanel (tilePanel);
+		fillPlanTileSet ();
+		infoAndActionPanel = buildOrEmptyPanel (infoAndActionPanel);
+		fillInfoAndActionPanel ();
+//		updateFrame ();
 	}
 
 	private void reviewConditions () {
