@@ -11,9 +11,31 @@ import ge18xx.round.plan.condition.Conditions;
 public class Plan {
 	public static final boolean DISAPPROVED = false;
 	public static final boolean APPROVED = true;
+
+	public enum PlanStatus {
+		NO_STATUS ("No Status"), 
+		UNAPPROVED ("Unapproved"), 
+		APPROVED ("Approved"),
+		TILE_SELECTED ("Tile Selected"), 
+		TILE_PLACED ("Tile Placed"),
+		APPLIED ("Applied"),
+		DISCARDED ("Discarded");
+
+		private String enumString;
+
+		PlanStatus (String aEnumString) {
+			enumString = aEnumString;
+		}
+
+		@Override
+		public String toString () {
+			return enumString;
+		}
+	}
 	public static final String [] GREEK_ALPHABET = {"Alpha", "Beta", "Gamma", "Delta", "Epsilon",
 			"Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron",
 			"Pi", "Rho", "Sigma", "Tau", "Upsilon"};
+	Plan.PlanStatus status;
 	String playerName;
 	String gameName;
 	String name;
@@ -30,18 +52,68 @@ public class Plan {
 		setGameName (aGameName);
 		setName (aName);
 		setPlayerName (aPlayerName);
-		setApproved (DISAPPROVED);
+		setPlanStatus (Plan.PlanStatus.UNAPPROVED);
 		
 		tConditions = new Conditions ();
 		setConditions (tConditions);
 	}
 
-	public void setApproved (boolean aApproved) {
-		approved = aApproved;
+	public void setApplied () {
+		setPlanStatus (PlanStatus.APPLIED);
+	}
+	
+	public void setApproved () {
+		setPlanStatus (PlanStatus.APPROVED);
+	}
+	
+	public boolean isActive () {
+		boolean isActive;
+		
+		isActive = false;
+		if (status != PlanStatus.DISCARDED) {
+			isActive = true;
+		}
+		
+		return isActive;
+	}
+	
+	public boolean isTileSelected () {
+		boolean isTileSelected;
+		
+		isTileSelected = false;
+		if ((status == PlanStatus.APPLIED) || 
+			(status == PlanStatus.APPROVED) ||
+			(status == PlanStatus.TILE_PLACED) ||
+			(status == PlanStatus.TILE_SELECTED)){
+			isTileSelected = true;
+		}
+		
+		return isTileSelected;
+	}
+	
+	public boolean isTilePlaced () {
+		boolean isTilePlaced;
+		
+		isTilePlaced = false;
+		if ((status == PlanStatus.APPLIED) || 
+			(status == PlanStatus.APPROVED) ||
+			(status == PlanStatus.TILE_PLACED)) {
+			isTilePlaced = true;
+		}
+		
+		return isTilePlaced;
 	}
 	
 	public boolean isApproved () {
-		return approved;
+		return (status == PlanStatus.APPROVED);
+	}
+	
+	public void setPlanStatus (Plan.PlanStatus aStatus) {
+		status = aStatus;
+	}
+	
+	public Plan.PlanStatus getPlanStatus () {
+		return status;
 	}
 	
 	public void setPlanFrame (PlanFrame aPlanFrame) {

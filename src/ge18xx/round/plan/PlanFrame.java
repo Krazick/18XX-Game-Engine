@@ -32,6 +32,7 @@ import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
+import ge18xx.round.plan.Plan.PlanStatus;
 import ge18xx.round.plan.condition.Condition;
 import ge18xx.round.plan.condition.CorporationCanLayTile;
 import ge18xx.round.plan.condition.CorporationExists;
@@ -198,8 +199,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				planList.removeActionListener (this);
 				for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
 					tPlan = getPlanAt (tPlanIndex);
-					tPlanName = tPlan.getName ();
-					planList.addItem (tPlanName);
+					if (tPlan.isActive ()) {
+						tPlanName = tPlan.getName ();
+						planList.addItem (tPlanName);
+					}
 				}
 				tNewPlanIndex = tPlanIndex - 1;
 				planList.setSelectedIndex (tNewPlanIndex);
@@ -803,9 +806,11 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		buildMapButtonsPanel ();
 		tilePanel = buildOrEmptyPanel (tilePanel);
 		fillPlanTileSet ();
+		if (mapPlan.isTileSelected ()) {
+			
+		}
 		infoAndActionPanel = buildOrEmptyPanel (infoAndActionPanel);
 		fillInfoAndActionPanel ();
-//		updateFrame ();
 	}
 
 	private void reviewConditions () {
@@ -839,10 +844,15 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		
 		return tNextPlanName;
 	}
+	
+	public void setSelectedTile () {
+		mapPlan.setPlanStatus (PlanStatus.TILE_SELECTED);	
+	}
+
 	private void discardPlan () {
 		System.out.println ("Ready to Discard Plan");
-		allPlans.remove (mapPlan);
-		// Delete Plan from List of Plans
+//		allPlans.remove (mapPlan);
+		mapPlan.setPlanStatus (PlanStatus.DISCARDED);
 	}
 
 	public void captureConditions (GameManager aGameManager) {
@@ -931,7 +941,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tConditionReport = mapPlan.getConditionReport ();
 		System.out.println (tConditionReport);
 		
-		mapPlan.setApproved (Plan.APPROVED);		
+//		mapPlan.setApproved (Plan.APPROVED);
+		mapPlan.setApproved ();
 	}
 
 	public void applyPlan () {
@@ -954,7 +965,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			
 			tActionManager.applyAction (tActionToApply);
 			tGameManager.autoSaveGame (true);
-
+			mapPlan.setPlanStatus (PlanStatus.APPLIED);
 		}
 	}
 

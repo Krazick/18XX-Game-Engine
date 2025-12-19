@@ -158,7 +158,8 @@ public class PlaceMapTilePlan extends MapPlan {
 		tTileOrient = planningMapCell.getTileOrient ();
 		setTileOrient (tTileOrient);
 		planFrame.setTilePlaced (tTilePlaced);
-		tPlanTileSet.clearAllSelected ();
+		setPlanStatus (PlanStatus.TILE_PLACED);
+//		tPlanTileSet.clearAllSelected ();
 		planFrame.updateFrame ();
 	}
 	
@@ -183,6 +184,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		planningMapCell.applyTokens (previousTokens, tGameManager);
 		planningMapCell.applyBases (previousBases, tGameManager);
 		planFrame.setTilePlaced (false);
+		setPlanStatus (PlanStatus.UNAPPROVED);
 		tPlanTileSet.clearAllSelected ();
 		planFrame.updateFrame ();
 	}

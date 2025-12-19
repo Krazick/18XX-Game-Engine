@@ -95,6 +95,7 @@ public class PlanTileSet extends TileSet {
 			if (tGameTile != GameTile.NO_GAME_TILE) {
 				System.out.println ("Clicked Game Tile " + tGameTile.getTileNumber ());
 				switchSelectedTile (tGameTile);
+				planFrame.setSelectedTile ();
 				planFrame.updatePutdownTileButton ();
 				planFrame.updatePickupTileButton ();
 				planFrame.repaint ();
