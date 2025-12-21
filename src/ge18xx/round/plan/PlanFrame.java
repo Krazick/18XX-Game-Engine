@@ -369,8 +369,8 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 				tMargin = new EmptyBorder (30,30,30,30);
 				tilePanel.setLayout (new BoxLayout (tilePanel, BoxLayout.Y_AXIS));
 				tilePanel.setBorder (tMargin);
-				tNoUpgrades = new JLabel ("No Upgrades available");
 				tilePanel.add (Box.createVerticalStrut (30));
+				tNoUpgrades = new JLabel ("No Upgrades available");
 				tilePanel.add (tNoUpgrades);
 			} else {
 				tMapCell = tPlaceMapTilePlan.getMapCell ();
