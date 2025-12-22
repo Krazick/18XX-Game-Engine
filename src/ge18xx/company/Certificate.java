@@ -446,6 +446,9 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		setupInfoBuffon ();
 		tCertificateInfoJPanel.add (infoButton);
+		if (! corporation.isAShareCompany ()) {
+			addBenefitLabels (tCertificateInfoJPanel, false);
+		}
 
 		return tCertificateInfoJPanel;
 	}
