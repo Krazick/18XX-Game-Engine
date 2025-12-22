@@ -106,7 +106,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		subpanelSize = new Dimension (300, 400);
 		setSize (panelSize);
 		
-
 		addMapPlan (aMapPlan);
 	}
 
@@ -194,20 +193,17 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tPanelLabel = new JLabel (mapPlan.getName ());
 			infoAndActionPanel.add (tPanelLabel);
 		} else {
-			if (planList == null) {
-				planList = new JComboBox<String> ();
-				planList.removeActionListener (this);
-				for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
-					tPlan = getPlanAt (tPlanIndex);
-					if (tPlan.isActive ()) {
-						tPlanName = tPlan.getName ();
-						planList.addItem (tPlanName);
-					}
+			planList = new JComboBox<String> ();
+			for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
+				tPlan = getPlanAt (tPlanIndex);
+				if (tPlan.isActive ()) {
+					tPlanName = tPlan.getName ();
+					planList.addItem (tPlanName);
 				}
-				tNewPlanIndex = tPlanIndex - 1;
-				planList.setSelectedIndex (tNewPlanIndex);
-				planList.addActionListener(this);
 			}
+			tNewPlanIndex = tPlanIndex - 1;
+			planList.setSelectedIndex (tNewPlanIndex);
+			planList.addActionListener(this);
 			infoAndActionPanel.add (planList);
 		}
 	}
