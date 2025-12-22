@@ -1411,9 +1411,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else if (corporation.canLayBaseToken ()) {
 				tEnableTile = false;
 				tToolTip = MUST_LAY_BASE_TOKEN;
-			} else if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
-				tEnableTile = false;
-				tToolTip = "Already laid Yellow Tile";
+//			} else if (corporation.getStatus () == ActorI.ActionStates.TileAndStationLaid) {
+//				tEnableTile = false;
+//				tToolTip = "Already laid Yellow Tile";
 			} else {
 				tEnableTile = true;
 				tToolTip = GUI.NO_TOOL_TIP;
