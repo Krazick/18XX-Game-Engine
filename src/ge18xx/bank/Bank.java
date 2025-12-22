@@ -8,6 +8,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -165,8 +166,8 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer) {
-		JPanel tPortfolioJPanel;
 		JPanel tStartPacketJPanel;
+		JScrollPane tPortfolioScrollPane;
 		BoxLayout tLayout;
 
 		tStartPacketJPanel = new JPanel ();
@@ -174,9 +175,9 @@ public class Bank extends GameBank implements CashHolderI {
 		tLayout = new BoxLayout (tStartPacketJPanel, BoxLayout.Y_AXIS);
 		tStartPacketJPanel.setLayout (tLayout);
 
-		tPortfolioJPanel = startPacketFrame.buildStartPacketInfoJPanel (aItemListener, aPlayer, gameManager);
+		tPortfolioScrollPane = startPacketFrame.buildStartPacketInfoJPanel (aItemListener, aPlayer, gameManager);
 		tStartPacketJPanel.add (Box.createVerticalGlue ());
-		tStartPacketJPanel.add (tPortfolioJPanel);
+		tStartPacketJPanel.add (tPortfolioScrollPane);
 		tStartPacketJPanel.add (Box.createVerticalGlue ());
 
 		return tStartPacketJPanel;

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.LoadedCertificate;
@@ -83,13 +84,13 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return nextShareHasBids (0);
 	}
 
-	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+	public JScrollPane buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tSPPortfolioJPanel;
 		JPanel tRowJPanel;
 		BoxLayout tSPLayout;
-		boolean tPreviousRowSoldOut;
 		String tSelectedButtonLabel;
 		StartPacketStates tSPState;
+		boolean tPreviousRowSoldOut;
 		int tRowCount;
 		int tBuyNItems;
 
@@ -129,8 +130,9 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 				}
 			}
 		}
+		buildScrollPane (tSPPortfolioJPanel);
 
-		return tSPPortfolioJPanel;
+		return scrollPane;
 	}
 
 	public StartPacketStates getInitialSPState () {
