@@ -60,7 +60,6 @@ public class StartPacketItem implements ParsingRoutineI {
 		if (available) {
 			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 					aItemListener, true, aPlayer, aGameManager);
-			certificate.addBenefitLabels (tCertificateInfoPanel, false);
 		} else {
 			tCertificateInfoPanel = GUI.NO_PANEL;
 		}
