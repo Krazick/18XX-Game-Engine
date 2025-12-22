@@ -639,44 +639,50 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	public void updateApprovePlanButton () {
 		GameTile tSelectedGameTile;
 		
-		if (planTileSet != TileSet.NO_TILE_SET) {
-			tSelectedGameTile = planTileSet.getSelectedTile ();
-			if (mapPlan.isApproved ()) {
-				approvePlanButton.setEnabled (false);
-				approvePlanButton.setToolTipText ("The Plan has already been approved");
-			} else if (tilePlaced) {
-				approvePlanButton.setEnabled (true);
-				approvePlanButton.setToolTipText ("GameTile has been placed, plan can be approved");
-			} else if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
-				approvePlanButton.setEnabled (false);
-				approvePlanButton.setToolTipText ("No GameTile selected yet to be placed on MapCell, plan connot be approved");
+		if (approvePlanButton != KButton.NO_KBUTTON) {
+			if (planTileSet != TileSet.NO_TILE_SET) {
+				tSelectedGameTile = planTileSet.getSelectedTile ();
+				if (mapPlan.isApproved ()) {
+					approvePlanButton.setEnabled (false);
+					approvePlanButton.setToolTipText ("The Plan has already been approved");
+				} else if (tilePlaced) {
+					approvePlanButton.setEnabled (true);
+					approvePlanButton.setToolTipText ("GameTile has been placed, plan can be approved");
+				} else if (tSelectedGameTile == GameTile.NO_GAME_TILE) {
+					approvePlanButton.setEnabled (false);
+					approvePlanButton.setToolTipText ("No GameTile selected yet to be placed on MapCell, plan connot be approved");
+				} else {
+					approvePlanButton.setEnabled (false);
+					approvePlanButton.setToolTipText ("The GameTile has not been placed, plan cannot be approved");				
+				}
 			} else {
 				approvePlanButton.setEnabled (false);
-				approvePlanButton.setToolTipText ("The GameTile has not been placed, plan cannot be approved");				
+				approvePlanButton.setToolTipText ("No Selected GameTile to place");
 			}
-		} else {
-			approvePlanButton.setEnabled (false);
-			approvePlanButton.setToolTipText ("No Selected GameTile to place");
 		}
 	}
 	
 	public void updateDiscardPlanButton () {
-		discardPlanButton.setEnabled (true);
-		discardPlanButton.setToolTipText ("Plan can be discarded at any time");
+		if (discardPlanButton != KButton.NO_KBUTTON) {
+			discardPlanButton.setEnabled (true);
+			discardPlanButton.setToolTipText ("Plan can be discarded at any time");
+		}
 	}
 	
 	public void updateReviewConditionsButton () {
-		if (planTileSet != TileSet.NO_TILE_SET) {
-			if (mapPlan.isApproved ()) {
-				reviewConditionsButton.setEnabled (true);
-				reviewConditionsButton.setToolTipText ("The Plan was approved, can review conditions");
+		if (reviewConditionsButton != KButton.NO_KBUTTON) {
+			if (planTileSet != TileSet.NO_TILE_SET) {
+				if (mapPlan.isApproved ()) {
+					reviewConditionsButton.setEnabled (true);
+					reviewConditionsButton.setToolTipText ("The Plan was approved, can review conditions");
+				} else {
+					reviewConditionsButton.setEnabled (false);
+					reviewConditionsButton.setToolTipText ("The Plan has not been approved, the conditions cannot be reviewed");		
+				}
 			} else {
 				reviewConditionsButton.setEnabled (false);
-				reviewConditionsButton.setToolTipText ("The Plan has not been approved, the conditions cannot be reviewed");		
+				reviewConditionsButton.setToolTipText ("The Plan Tile Set filled yet.");
 			}
-		} else {
-			reviewConditionsButton.setEnabled (false);
-			reviewConditionsButton.setToolTipText ("The Plan Tile Set filled yet.");
 		}
 	}
 
@@ -684,23 +690,25 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		String tFailsReasons;
 		
 		tFailsReasons = GUI.EMPTY_STRING;
-		if (planTileSet != TileSet.NO_TILE_SET) {
-			if (mapPlan.isApproved ()) {
-				if (mapPlan.allConditionsMet ()) {
-					applyPlanButton.setEnabled (true);
-					applyPlanButton.setToolTipText ("The Plan was approved, can apply");
+		if (applyPlanButton != KButton.NO_KBUTTON) {
+			if (planTileSet != TileSet.NO_TILE_SET) {
+				if (mapPlan.isApproved ()) {
+					if (mapPlan.allConditionsMet ()) {
+						applyPlanButton.setEnabled (true);
+						applyPlanButton.setToolTipText ("The Plan was approved, can apply");
+					} else {
+						tFailsReasons = mapPlan.getFailsReasons ();
+						applyPlanButton.setEnabled (false);
+						applyPlanButton.setToolTipText (tFailsReasons);
+					}
 				} else {
-					tFailsReasons = mapPlan.getFailsReasons ();
 					applyPlanButton.setEnabled (false);
-					applyPlanButton.setToolTipText (tFailsReasons);
+					applyPlanButton.setToolTipText ("The Plan has not been approved, the plan cannot be applied");		
 				}
 			} else {
 				applyPlanButton.setEnabled (false);
-				applyPlanButton.setToolTipText ("The Plan has not been approved, the plan cannot be applied");		
+				applyPlanButton.setToolTipText ("The Plan Tile Set filled yet.");
 			}
-		} else {
-			applyPlanButton.setEnabled (false);
-			applyPlanButton.setToolTipText ("The Plan Tile Set filled yet.");
 		}
 	}
 
