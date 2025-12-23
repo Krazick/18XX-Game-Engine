@@ -13,6 +13,7 @@ public class Capitalization {
 	public static final ElementName EN_CAPITALIZATION = new ElementName ("Capitalization");
 	public static final AttributeName AN_AVAILABLE_TRAIN = new AttributeName ("availableTrain");
 	public static final AttributeName AN_LEVEL = new AttributeName ("level");
+	public static final String INCREMENTAL_0 = "Incremental_0";
 	public static final String INCREMENTAL_5 = "Incremental_5";
 	public static final String INCREMENTAL_10 = "Incremental_10";
 	public static final String FULL_GAME_CAPITALIZATION = "FULL";
@@ -69,6 +70,8 @@ public class Capitalization {
 
 		if (tLevel.equals (FULL_GAME_CAPITALIZATION)) {
 			tCapitalizationLevel = FULL_CAPITALIZATION;
+		} else if (tLevel.equals (INCREMENTAL_0)) {
+			tCapitalizationLevel = aSharesSold;
 		} else if (tLevel.equals (INCREMENTAL_5)) {
 			tCapitalizationLevel = Math.min (INCREMENTAL_5_MAX, aSharesSold);
 		} else if (tLevel.equals (INCREMENTAL_10)) {
