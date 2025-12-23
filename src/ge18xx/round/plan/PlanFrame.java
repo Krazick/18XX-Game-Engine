@@ -88,6 +88,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	private JComboBox<String> companyList;
 	private JComboBox<String> planList;
 	private JLabel companyInfoLabel;
+	private int newPlanIndex;
 	
 	public PlanFrame (String aFrameName, GameEngineManager aGameManager) {		
 		this (aFrameName, aGameManager, MapPlan.NO_MAP_PLAN);
@@ -161,19 +162,25 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		infoAndActionPanel.setLayout (new BoxLayout (infoAndActionPanel, BoxLayout.Y_AXIS));
 		infoAndActionPanel.setBorder (tMargin);
 		
-		fillInfoAndActionPanel ();
+		fillInfoAndActionPanel (true);
 		infoAndActionPanel.setBackground (Color.green);
 		infoAndActionPanel.setSize (subpanelSize);
 		infoAndActionPanel.setPreferredSize (subpanelSize);
 	}
 
-	private void fillInfoAndActionPanel () {
+	private void fillInfoAndActionPanel (boolean aAddPlanChoice) {
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		
 		if (mapPlan instanceof PlaceMapTilePlan) {
 			tPlaceMapTilePlan = (PlaceMapTilePlan) mapPlan;
 			
-			addPlanChoice (tPlaceMapTilePlan);
+			if (aAddPlanChoice) {
+				addPlanChoice (tPlaceMapTilePlan);
+			}
+			if (planList != null) {
+				infoAndActionPanel.add (planList);
+			}
+			
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
 			addCorporationInfo (tPlaceMapTilePlan);
 			addMapCellInfo (tPlaceMapTilePlan);
@@ -184,7 +191,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		JLabel tPanelLabel;
 		int tPlanCount;
 		int tPlanIndex;
-		int tNewPlanIndex;
 		Plan tPlan;
 		String tPlanName;
 		
@@ -194,19 +200,18 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			infoAndActionPanel.add (tPanelLabel);
 		} else {
 			planList = new JComboBox<String> ();
-			tNewPlanIndex = tPlanCount - 1;
+			newPlanIndex = tPlanCount - 1;
 			for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
 				tPlan = getPlanAt (tPlanIndex);
 				if (tPlan.isActive ()) {
 					tPlanName = tPlan.getName ();
 					planList.addItem (tPlanName);
-					tNewPlanIndex = tPlanIndex;
+					newPlanIndex = tPlanIndex;
 				}
 			}
-
-			planList.setSelectedIndex (tNewPlanIndex);
+			
+			planList.setSelectedIndex (newPlanIndex);
 			planList.addActionListener(this);
-			infoAndActionPanel.add (planList);
 		}
 	}
 	
@@ -759,6 +764,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		String tTheAction;
 		PlaceMapTilePlan tPlaceMapTilePlan;
 		Object tEventSource;
+		
 		tEventSource = aActionEvent.getSource ();
 		if (tEventSource instanceof JComboBox) {
 			changeSelectedPlan (tEventSource);
@@ -796,9 +802,11 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		int tSelectedIndex;
 		Dimension tViewSize;
 		
+		planList.removeActionListener (this);
 		tPlanChoice = (JComboBox<String>) tEventSource;
 		tSelectedPlanName = (String) tPlanChoice.getSelectedItem ();
 		tSelectedIndex = tPlanChoice.getSelectedIndex ();
+		
 		planList.setSelectedIndex (tSelectedIndex);
 		tSelectedMapPlan = findMapPlan (tSelectedPlanName);
 		System.out.println ("Trying to fetch " + tSelectedPlanName + 
@@ -815,8 +823,10 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (mapPlan.isTileSelected ()) {
 			
 		}
+		planList.addActionListener (this);
+		
 		infoAndActionPanel = buildOrEmptyPanel (infoAndActionPanel);
-		fillInfoAndActionPanel ();
+		fillInfoAndActionPanel (false);		// Don't rebuild the planList, just add it.
 	}
 
 	private void reviewConditions () {
@@ -857,7 +867,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 	private void discardPlan () {
 		System.out.println ("Ready to Discard Plan");
-//		allPlans.remove (mapPlan);
 		mapPlan.setPlanStatus (PlanStatus.DISCARDED);
 	}
 
@@ -947,7 +956,6 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		tConditionReport = mapPlan.getConditionReport ();
 		System.out.println (tConditionReport);
 		
-//		mapPlan.setApproved (Plan.APPROVED);
 		mapPlan.setApproved ();
 	}
 
