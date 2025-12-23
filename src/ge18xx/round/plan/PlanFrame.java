@@ -194,14 +194,16 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			infoAndActionPanel.add (tPanelLabel);
 		} else {
 			planList = new JComboBox<String> ();
+			tNewPlanIndex = tPlanCount - 1;
 			for (tPlanIndex = 0; tPlanIndex < tPlanCount; tPlanIndex++) {
 				tPlan = getPlanAt (tPlanIndex);
 				if (tPlan.isActive ()) {
 					tPlanName = tPlan.getName ();
 					planList.addItem (tPlanName);
+					tNewPlanIndex = tPlanIndex;
 				}
 			}
-			tNewPlanIndex = tPlanIndex - 1;
+
 			planList.setSelectedIndex (tNewPlanIndex);
 			planList.addActionListener(this);
 			infoAndActionPanel.add (planList);
