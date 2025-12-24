@@ -99,8 +99,14 @@ public class TokenPlacementBenefit extends MapBenefit {
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
+		String tPlaceTokenText;
 
-		tNewButtonText = "Place Token on " + privateCompany.getAbbrev () + " Home (" + mapCellID + ")";
+		if (getCost () == 0) {
+			tPlaceTokenText = "Place Free Token on ";
+		} else {
+			tPlaceTokenText = "Place Token on ";
+		}
+		tNewButtonText = tPlaceTokenText + privateCompany.getAbbrev () + " Home (" + mapCellID + ")";
 
 		return tNewButtonText;
 	}

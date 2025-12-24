@@ -37,7 +37,7 @@ class TilePlacementBenefitTests extends MapBenefitTests {
 		assertEquals ("Free Extra Tile Placement", tilePlacementBenefit1.getName ());
 		assertEquals ("Free Tile Placement", tilePlacementBenefit2.getName ());
 		assertEquals ("Tile Placement", tilePlacementBenefit3.getName ());
-		assertEquals ("Place Tile on TEST-C&A Home (M15)", tilePlacementBenefit2.getNewButtonLabel ());
+		assertEquals ("Place Free Tile on TEST-C&A Home (M15)", tilePlacementBenefit2.getNewButtonLabel ());
 		assertFalse (tilePlacementBenefit2.hasButton ());
 		assertTrue (tilePlacementBenefit2.shouldConfigure ());
 	}
