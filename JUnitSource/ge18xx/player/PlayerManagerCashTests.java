@@ -282,4 +282,32 @@ class PlayerManagerCashTests {
 		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
 		assertEquals (tResult, tCashHolder.getName ());		
 	}
+	
+	@Test
+	@DisplayName ("For Operated Non-Destinated Share Company with Incremental Capitalizaiton Pay Cash To Test")
+	void forNonDestinationedIncCapShareGetPayCashToTest () {
+		CashHolderI tCashHolder;
+		Portfolio tSourcePortfolio;
+		ShareCompany tShareCompany;
+		Certificate tShareCertificate;
+		String tResult = "Bayerische Eisenbahn";
+		Coupon mNextTrain;
+
+		mNextTrain = Mockito.mock (Coupon.class);
+		Mockito.when (mNextTrain.getName ()).thenReturn ("4");
+
+		Mockito.when (mBank.getNextAvailableTrain ()).thenReturn (mNextTrain);
+
+		tSourcePortfolio = mBank.getPortfolio ();
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (5);
+		tShareCompany.resetStatus (ActorI.ActionStates.Operated);
+		tShareCompany.setReachedDestination (false);
+		tShareCertificate = certificateTestFactory.buildCertificate (tShareCompany, true, 100,
+							tSourcePortfolio);
+		Mockito.when (mGameManager.isAlwaysIncrementalCapitalization ()).thenReturn (true);
+		Mockito.when (mGameManager.getCapitalizationLevel (Mockito.anyInt ())).thenReturn (Capitalization.INCREMENTAL_10_MAX);
+		tCashHolder = playerManager.getPayCashTo (mBank, tShareCertificate, tSourcePortfolio);
+		assertEquals (tResult, tCashHolder.getName ());		
+	}
 }

@@ -1488,6 +1488,23 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tGameVariantsXMLElement;
 	}
 
+	public boolean isAlwaysIncrementalCapitalization () {
+		boolean tIsAlwaysIncrementalCapitalization;
+		Coupon tNextTrain;
+		String tNextTrainName;
+		
+		tNextTrain = bank.getNextAvailableTrain ();
+		tNextTrainName = tNextTrain.getName ();
+
+		if (activeGame.isAlwaysIncrementalCapitalization (tNextTrainName)) {
+			tIsAlwaysIncrementalCapitalization = true;
+		} else {
+			tIsAlwaysIncrementalCapitalization = false;
+		}
+		
+		return tIsAlwaysIncrementalCapitalization;
+	}
+	
 	public int getCapitalizationLevel (int aSharesSold) {
 		int tCapitalizationLevel;
 		Coupon tNextTrain;

@@ -1106,9 +1106,13 @@ public class ShareCompany extends TokenCompany {
 	public int calculateStartingTreasury () {
 		int tStartingTreasury;
 		int tCapitalizationLevel;
+		GameManager tGameManager;
 		
+		tGameManager = getGameManager ();
 		if (hasDestination ()) {
 			tCapitalizationLevel = getDestinationCapitalizationLevel ();
+		} else if (tGameManager.isAlwaysIncrementalCapitalization ()) {
+			tCapitalizationLevel = getSharesSold ();
 		} else {
 			tCapitalizationLevel = getCapitalizationLevel ();
 		}

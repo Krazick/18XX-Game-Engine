@@ -599,6 +599,18 @@ public class GameInfo implements XMLSaveGameI {
 		}
 	}
 	
+	public boolean isAlwaysIncrementalCapitalization (String aNextTrainName) {
+		boolean tIsAlwaysIncrementalCapitalization;
+		
+		if (capitalizations.isAlwaysIncrementalCapitalization (aNextTrainName)) {
+			tIsAlwaysIncrementalCapitalization = true;
+		} else {
+			tIsAlwaysIncrementalCapitalization = false;
+		}
+		
+		return tIsAlwaysIncrementalCapitalization;
+	}
+
 	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
 		int tCapitalizationLevel;
 		

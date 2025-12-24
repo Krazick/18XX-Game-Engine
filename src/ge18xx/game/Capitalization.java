@@ -16,6 +16,7 @@ public class Capitalization {
 	public static final String INCREMENTAL_0 = "Incremental_0";
 	public static final String INCREMENTAL_5 = "Incremental_5";
 	public static final String INCREMENTAL_10 = "Incremental_10";
+	public static final String ALWAYS_INCREMENTAL = "Always_Incremental";
 	public static final String FULL_GAME_CAPITALIZATION = "FULL";
 	public static final int FULL_CAPITALIZATION = 10;
 	public static final int INCREMENTAL_10_MAX = 10;
@@ -62,6 +63,21 @@ public class Capitalization {
 		return tItemInfo;
 	}
 	
+	public boolean isAlwaysIncrementalCapitalization (String aNextTrainName) {
+		boolean tIsAlwaysIncrementalCapitalization;
+		String tLevel;
+		
+		tLevel = levels.get (aNextTrainName);
+
+		if (tLevel.equals (ALWAYS_INCREMENTAL)) {
+			tIsAlwaysIncrementalCapitalization = true;
+		} else {
+			tIsAlwaysIncrementalCapitalization = false;
+		}
+		
+		return tIsAlwaysIncrementalCapitalization;
+	}
+
 	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
 		int tCapitalizationLevel;
 		String tLevel;
@@ -76,6 +92,8 @@ public class Capitalization {
 			tCapitalizationLevel = Math.min (INCREMENTAL_5_MAX, aSharesSold);
 		} else if (tLevel.equals (INCREMENTAL_10)) {
 			tCapitalizationLevel = Math.min (INCREMENTAL_10_MAX, aSharesSold);
+		} else if (tLevel.equals (ALWAYS_INCREMENTAL)) {
+			tCapitalizationLevel = INCREMENTAL_10_MAX;
 		} else {
 			tCapitalizationLevel = FULL_CAPITALIZATION;
 		}

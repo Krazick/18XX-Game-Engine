@@ -922,14 +922,14 @@ public class PlayerManager implements XMLSaveGameI {
 		} else if (! tShareCompany.hasFloated ()) {
 			tPayCashTo = aBank;
 		} else if (! tShareCompany.hasDestination ()) {
-			tPayCashTo = aBank;
-		} else if (tShareCompany.hasReachedDestination ()) {
-			tCapitalizationLevel = getCapitalizationLevel (tShareCompany);
-			if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
-				tPayCashTo = aBank;
-			} else {
+			if (gameManager.isAlwaysIncrementalCapitalization ()) {
 				tPayCashTo = tShareCompany;
+			} else {
+				tPayCashTo = aBank;
 			}
+//			tPayCashTo = inverseGetPayCashTo (aBank, tShareCompany);
+		} else if (tShareCompany.hasReachedDestination ()) {
+			tPayCashTo = getPayCashTo (aBank, tShareCompany);
 		} else {
 			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
 			tCapitalizationLevel = getCapitalizationLevel (tShareCompany);
@@ -940,6 +940,34 @@ public class PlayerManager implements XMLSaveGameI {
 			} else {
 				tPayCashTo = tShareCompany;
 			}
+		}
+		
+		return tPayCashTo;
+	}
+	
+//	private CashHolderI inverseGetPayCashTo (Bank aBank, ShareCompany aShareCompany) {
+//		CashHolderI tPayCashTo;
+//		int tCapitalizationLevel;
+//		
+//		tCapitalizationLevel = getCapitalizationLevel (aShareCompany);
+//		if (tCapitalizationLevel != Capitalization.INCREMENTAL_10_MAX) {
+//			tPayCashTo = aBank;
+//		} else {
+//			tPayCashTo = aShareCompany;
+//		}
+//		
+//		return tPayCashTo;
+//	}
+
+	private CashHolderI getPayCashTo (Bank aBank, ShareCompany aShareCompany) {
+		CashHolderI tPayCashTo;
+		int tCapitalizationLevel;
+		
+		tCapitalizationLevel = getCapitalizationLevel (aShareCompany);
+		if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
+			tPayCashTo = aBank;
+		} else {
+			tPayCashTo = aShareCompany;
 		}
 		
 		return tPayCashTo;
