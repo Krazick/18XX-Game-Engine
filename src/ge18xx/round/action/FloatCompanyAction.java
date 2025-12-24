@@ -10,10 +10,6 @@ import geUtilities.xml.XMLNode;
 public class FloatCompanyAction extends CashTransferAction {
 	public final static String NAME = "Float Company";
 
-	public FloatCompanyAction () {
-		super (NAME);
-	}
-
 	public FloatCompanyAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
