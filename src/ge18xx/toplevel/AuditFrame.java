@@ -78,7 +78,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
-
+	
 	private JPanel buildNorthComponents () {
 		JPanel tNorthComponents = new JPanel ();
 
