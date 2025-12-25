@@ -112,10 +112,14 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 
 	@Override
 	public void setVisible (boolean aVisible) {
-		if (mapPanel.getComponentCount () > 0) {
-			super.setVisible (aVisible);
-		} else {
+		if (mapPanel == null) {
 			super.setVisible (false);
+		} else {
+			if (mapPanel.getComponentCount () > 0) {
+				super.setVisible (aVisible);
+			} else {
+				super.setVisible (false);
+			}
 		}
 	}
 
