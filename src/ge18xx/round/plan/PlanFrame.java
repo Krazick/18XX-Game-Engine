@@ -110,6 +110,15 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		addMapPlan (aMapPlan);
 	}
 
+	@Override
+	public void setVisible (boolean aVisible) {
+		if (mapPanel.getComponentCount () > 0) {
+			super.setVisible (aVisible);
+		} else {
+			super.setVisible (false);
+		}
+	}
+
 	public void addMapPlan (MapPlan aMapPlan) {
 		setMapPlan (aMapPlan);
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
