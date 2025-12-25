@@ -67,6 +67,18 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		add (tNorthComponents, BorderLayout.NORTH);
 	}
 
+	@Override
+	public void setVisible (boolean aVisible) {
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			super.setVisible (aVisible);
+		} else {
+			super.setVisible (false);
+		}
+	}
+
 	public int getTotalWidth (int [] aColumnWidths) {
 		int tTotalWidth;
 		int tColumnCount;
