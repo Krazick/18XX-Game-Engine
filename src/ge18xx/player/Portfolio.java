@@ -2191,7 +2191,8 @@ public class Portfolio implements CertificateHolderI {
 						tHandled = true;
 					} else if (tSourceButton == tComboBox) {
 						tParPrice = tCertificate.getComboParValue ();
-						tCostToBuy = tCertificate.calcCertificateValue (tParPrice);
+//						tCostToBuy = tCertificate.calcCertificateValue (tParPrice);
+						tCostToBuy = calcCertificateValue (tCertificate);
 						aPlayerFrame.updateBuyButton ((tParPrice > 0), tCostToBuy);
 						tHandled = true;
 					}
@@ -2202,6 +2203,16 @@ public class Portfolio implements CertificateHolderI {
 		return tHandled;
 	}
 
+	private int calcCertificateValue (Certificate aCertificateToBuy) {
+		int tCostToBuy;
+		int tParPrice;
+		
+		tParPrice = aCertificateToBuy.getComboParValue ();
+		tCostToBuy = aCertificateToBuy.calcCertificateValue (tParPrice);
+
+		return tCostToBuy;
+	}
+	
 	private String buildAbbrevAndType (String aAbbrev, String aType) {
 		String tAbbrevAndType;
 

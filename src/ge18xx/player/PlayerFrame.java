@@ -388,13 +388,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return player.getCountSelectedCosToBid ();
 	}
 
-	public int getCostSelectedStocksToBuy () {
-		int tSelectedStocksToBuyCost;
-
-		tSelectedStocksToBuyCost = player.getCostSelectedStockToBuy ();
-
-		return tSelectedStocksToBuyCost;
-	}
+//	public int getCostSelectedStocksToBuy () {
+//		int tSelectedStocksToBuyCost;
+//
+//		tSelectedStocksToBuyCost = player.getCostSelectedStockToBuy ();
+//
+//		return tSelectedStocksToBuyCost;
+//	}
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
@@ -762,6 +762,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tCostToBuy;
 		
 		tCostToBuy = player.getCostSelectedStockToBuy ();
+
 		updateBuyButton (aCanBuy, tCostToBuy);
 	}
 	

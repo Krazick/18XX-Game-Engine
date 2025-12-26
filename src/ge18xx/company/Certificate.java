@@ -1124,11 +1124,11 @@ public class Certificate implements Comparable<Certificate> {
 			if (owner.isABankPool ()) {
 				tCertificateCost = getValue ();
 			} else if (owner.isABank ()) {
-				tCertificateCost = getParPrice ();
-				if (tCertificateCost == ShareCompany.NO_PAR_PRICE) {
+				tParPrice = getParPrice ();
+				if (tParPrice == ShareCompany.NO_PAR_PRICE) {
 					tParPrice = getComboParValue ();
-					tCertificateCost = calcCertificateValue (tParPrice);
 				}
+				tCertificateCost = calcCertificateValue (tParPrice);
 			} else {
 				tCertificateCost = getValue ();
 			}
@@ -1488,6 +1488,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (secondIssue) {
 			tValue = tValue + tValue;
 		}
+		
 		return tValue;
 	}
 
