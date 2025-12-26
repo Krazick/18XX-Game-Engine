@@ -18,18 +18,16 @@ import geUtilities.xml.XMLNode;
 public class SetParValueEffect extends Effect {
 	public final static String NAME = "Set Par Value";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	final static AttributeName AN_FIXED_PAR_VALUE = new AttributeName ("fixedParValue");
 	final static AttributeName AN_PAR_VALUE = new AttributeName ("parValue");
 	final static AttributeName AN_COORDINATES = new AttributeName ("coordinates");
 	int parValue;
 	String companyAbbrev;
 	String coordinates;
+	boolean fixedParValue;
 
-	public SetParValueEffect () {
-		super ();
-		setName (NAME);
-	}
-
-	public SetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
+	public SetParValueEffect (ActorI aActor, ShareCompany aShareCompany, 
+			int aParPrice, String aCoordinates, boolean aFixedParValue) {
 		super (NAME, aActor);
 		
 		String tCompanyAbbrev;
@@ -38,6 +36,7 @@ public class SetParValueEffect extends Effect {
 		setCompanyAbbrev (tCompanyAbbrev);
 		setParValue (aParPrice);
 		setCoordinates (aCoordinates);
+		setFixedParValue (aFixedParValue);
 	}
 
 	public SetParValueEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -46,15 +45,22 @@ public class SetParValueEffect extends Effect {
 		String tCompanyAbbrev;
 		String tCoordinates;
 		int tParValue;
+		boolean tFixedParValue;
 
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tParValue = aEffectNode.getThisIntAttribute (AN_PAR_VALUE);
 		tCoordinates = aEffectNode.getThisAttribute (AN_COORDINATES);
+		tFixedParValue = aEffectNode.getThisBooleanAttribute (AN_FIXED_PAR_VALUE);
 		setCompanyAbbrev (tCompanyAbbrev);
 		setParValue (tParValue);
 		setCoordinates (tCoordinates);
+		setFixedParValue (tFixedParValue);
 	}
 
+	public void setFixedParValue (boolean aFixedParValue) {
+		fixedParValue = aFixedParValue;
+	}
+	
 	public String getCoordinates () {
 		return coordinates;
 	}
@@ -67,6 +73,10 @@ public class SetParValueEffect extends Effect {
 		return parValue;
 	}
 
+	public boolean isFixedParValue () {
+		return fixedParValue;
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -75,7 +85,8 @@ public class SetParValueEffect extends Effect {
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
 		tEffectElement.setAttribute (AN_PAR_VALUE, getParValue ());
 		tEffectElement.setAttribute (AN_COORDINATES, getCoordinates ());
-
+		tEffectElement.setAttribute (AN_FIXED_PAR_VALUE, fixedParValue);
+		
 		return tEffectElement;
 	}
 
@@ -85,7 +96,11 @@ public class SetParValueEffect extends Effect {
 		String tParValue;
 		
 		if (parValue > 0) {
-			tParValue = Bank.formatCash (parValue);
+			tParValue = GUI.EMPTY_STRING;
+			if (isFixedParValue ()) {
+				tParValue += "Fixed Par Value of ";
+			}
+			tParValue += Bank.formatCash (parValue);
 		} else {
 			tParValue = "NO PAR VALUE";
 		}
@@ -182,7 +197,9 @@ public class SetParValueEffect extends Effect {
 		
 		tToken = aMarketCell.getToken (companyAbbrev);
 		tShareCompany = (ShareCompany) tToken.getWhichCompany ();
-		tShareCompany.setNoPrice ();
+		if (! isFixedParValue ()) {
+			tShareCompany.setNoPrice ();
+		}
 		aMarketCell.redrawMarket ();
 	}
 }

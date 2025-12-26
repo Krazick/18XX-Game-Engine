@@ -33,8 +33,10 @@ public class StockValueCalculationAction extends FormationRoundAction {
 	
 	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, String aCoordinates) {
 		SetParValueEffect tSetParValueEffect;
-
-		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
+		boolean tFixedParPrice;
+		
+		tFixedParPrice = true;
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates, tFixedParPrice);
 		addEffect (tSetParValueEffect);
 	}
 

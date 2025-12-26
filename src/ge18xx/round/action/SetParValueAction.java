@@ -12,11 +12,6 @@ import geUtilities.xml.XMLNode;
 public class SetParValueAction extends SetWaitStateAction {
 	public final static String NAME = "Set Par Value";
 
-	public SetParValueAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public SetParValueAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
@@ -27,18 +22,21 @@ public class SetParValueAction extends SetWaitStateAction {
 		setName (NAME);
 	}
 
-	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, 
+						int aParPrice, boolean aFixedParPrice) {
 		SetParValueEffect tSetParValueEffect;
 
-		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, GUI.EMPTY_STRING);
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, 
+					GUI.EMPTY_STRING, aFixedParPrice);
 		addEffect (tSetParValueEffect);
 	}
 
 	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, 
-								String aCoordinates) {
+								String aCoordinates, boolean aFixedParPrice) {
 		SetParValueEffect tSetParValueEffect;
 
-		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, 
+								aCoordinates, aFixedParPrice);
 		addEffect (tSetParValueEffect);
 	}
 

@@ -776,6 +776,7 @@ public class PlayerManager implements XMLSaveGameI {
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock;
 		boolean tChainToPrevious;
+		boolean tFixedParValue;
 //		SetParValueEffect tSetParValueEffect;
 		
 		tCanBuyStock = true;
@@ -812,7 +813,9 @@ public class PlayerManager implements XMLSaveGameI {
 //								tShareCompany, tParPrice);
 //						aBuyStockAction.addEffect (tSetParValueEffect);
 						gameManager.setParPrice (tShareCompany, tParPrice);
-						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+						tFixedParValue = false;
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, 
+								tParPrice, tFixedParValue);
 					} else {
 						System.err.println ("***Selected Par Price is " + tParPrice + 
 											" or tShareCompany is NULL***");
@@ -821,7 +824,9 @@ public class PlayerManager implements XMLSaveGameI {
 					if (! gameManager.marketHasTokenFor (tShareCompany)) {
 						gameManager.setParPriceToken (tShareCompany);
 						tParPrice = tShareCompany.getParPrice ();
-						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+						tFixedParValue = true;
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, 
+								tParPrice, tFixedParValue);
 					}
 				}
 			} else {
@@ -876,6 +881,7 @@ public class PlayerManager implements XMLSaveGameI {
 				BuyStockAction aBuyStockAction) {
 		ShareCompany tShareCompany;
 		int tParPrice;
+		boolean tFixedParPrice;
 		
 		/*
 		 * If this Free Certificate is a President Share -- 
@@ -888,7 +894,8 @@ public class PlayerManager implements XMLSaveGameI {
 				tShareCompany = aFreeCertificate.getShareCompany ();
 				tParPrice = aFreeCertificate.getParPrice ();
 				gameManager.setParPrice (tShareCompany, tParPrice);
-				aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+				tFixedParPrice = false;
+				aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice, tFixedParPrice);
 			}
 		}
 	}

@@ -28,18 +28,21 @@ public class BuyStockAction extends TransferOwnershipAction {
 		addEffect (tSetPercentBoughtEffect);
 	}
 
-	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
+	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, 
+						int aParPrice, boolean aFixedParValue) {
 		SetParValueEffect tSetParValueEffect;
 
-		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, GUI.EMPTY_STRING);
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice,
+							GUI.EMPTY_STRING, aFixedParValue);
 		addEffect (tSetParValueEffect);
 	}
 
 	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice, 
-										String aCoordinates) {
+										String aCoordinates, boolean aFixedParValue) {
 		SetParValueEffect tSetParValueEffect;
 
-		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, aCoordinates);
+		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice, 
+				aCoordinates, aFixedParValue);
 		addEffect (tSetParValueEffect);
 	}
 

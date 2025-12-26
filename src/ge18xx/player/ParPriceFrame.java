@@ -291,12 +291,14 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		String tCoordinates;
+		boolean tFixedParPrice;
 		
 		tRoundType = stockRound.getRoundState ();
 		tRoundID = stockRound.getID ();
 		tCoordinates = GUI.EMPTY_STRING;
+		tFixedParPrice = false;
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
-		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates);
+		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tCoordinates, tFixedParPrice);
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
 
 		handleResetPlayerStates (tSetParValueAction);
@@ -309,11 +311,13 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		SetParValueEffect tSetParValueEffect;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
+		boolean tFixedParPrice;
 	
 		tRoundType = stockRound.getRoundState ();
 		tRoundID = stockRound.getID ();
 		tSetParValueAction = new SetParValueAction (tRoundType, tRoundID, player);
-		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
+		tFixedParPrice = false;
+		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice, tFixedParPrice);
 		tSetParValueEffect = (SetParValueEffect) tSetParValueAction.getEffect (0);
 		
 		return tSetParValueEffect;
