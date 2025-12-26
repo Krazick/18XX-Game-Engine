@@ -509,7 +509,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		String tPreviousTokens;
 		String tPreviousBases;
 
-		System.out.println ("Putting down tile on LIVE MAP");
 		tMapCell = hexMap.getSelectedMapCell ();
 		tPreviousTile = tMapCell.getTile ();
 		if (tPreviousTile != Tile.NO_TILE) {

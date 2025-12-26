@@ -418,7 +418,6 @@ public class OperatingRound extends Round {
 		tHandledInterrupt = roundManager.checkAndHandleInterruption ();
 		tAtStartOfRound = false;
 		tCurrentRound = roundManager.getCurrentRound ();
- 		System.out.println ("Interrupt Started " + tHandledInterrupt + " Current Round " + tCurrentRound.getName ());
 		if (! tHandledInterrupt) {
 			tPlayerManager = roundManager.getPlayerManager ();
 			start (tPlayerManager, tCurrentRound);
