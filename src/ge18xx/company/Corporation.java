@@ -1472,13 +1472,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Train Company and Private Company will Override
-	public JPanel buildCorpInfoJPanel () {
-		JPanel tCorpInfoJPanel;
-		
-		tCorpInfoJPanel = null;
-		
-		return tCorpInfoJPanel;
-	}
+	public abstract JPanel buildCorpInfoJPanel ();
+//	{
+//		JPanel tCorpInfoJPanel;
+//		
+//		tCorpInfoJPanel = null;
+//		
+//		return tCorpInfoJPanel;
+//	}
 	
 	public String buildCorpInfoLabel (String aLoanInfo) {
 		return ">> OVERRIDE buildCorpInfoLabel <<";

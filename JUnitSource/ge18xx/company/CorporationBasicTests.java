@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
 
 @DisplayName ("Abstract Corporation Class Tests via Concrete extension")
 class CorporationBasicTests {
@@ -54,6 +55,11 @@ class CorporationBasicTests {
 		@Override
 		public int getTrainLimit () {
 			return 2;
+		}
+
+		@Override
+		public JPanel buildCorpInfoJPanel () {
+			return GUI.NO_PANEL;
 		}
 	}
 

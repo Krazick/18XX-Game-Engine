@@ -577,6 +577,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
+		
 		tCorpLabel = buildCorpNameLabel ();
 		tCorpInfoJPanel.add (tCorpLabel);
 		tStatus = new JLabel ("[" + getStatusName () + "]");
@@ -612,6 +613,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JLabel tCorpLabel;
 		String tCorpAbbrev;
 		
+		tCorpAbbrev = buildCorpNameText ();
+		tCorpLabel = new JLabel (tCorpAbbrev);
+		
+		return tCorpLabel;
+	}
+
+	public String buildCorpNameText () {
+		String tCorpAbbrev;
+		
 		tCorpAbbrev = getAbbrev ();
 		if (isGovtRailway ()) {
 			tCorpAbbrev += " [Gov't]";
@@ -624,9 +634,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				}
 			}
 		}
-		tCorpLabel = new JLabel (tCorpAbbrev);
 		
-		return tCorpLabel;
+		return tCorpAbbrev;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {

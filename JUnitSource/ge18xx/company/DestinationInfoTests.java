@@ -2,21 +2,20 @@ package ge18xx.company;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ge18xx.bank.Bank;
-import ge18xx.bank.BankTestFactory;
-import ge18xx.game.GameTestFactory;
 import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
 
-class DestinationInfoTests {
-	GameTestFactory gameTestFactory;
-	BankTestFactory bankTestFactory;
-	CompanyTestFactory companyTestFactory;
+@DisplayName ("Destination Info Tests")
+@TestInstance (Lifecycle.PER_CLASS)
+class DestinationInfoTests extends CorporationTester {
 	MapTestFactory mapTestFactory;
 	ShareCompany noDestinationShareCompany;
 	ShareCompany destinationShareCompany;
@@ -25,27 +24,22 @@ class DestinationInfoTests {
 	Bank bank;
 	MapCell mMapCell;
 	
+	@Override
+	@BeforeAll
+	void factorySetup () {
+		super.factorySetup ();
+	}
+
 	@BeforeEach
 	void setUp () throws Exception {
-		String tMapCellID;
-		String tCityName;
-		
-		gameTestFactory = new GameTestFactory ();
-		bankTestFactory = new BankTestFactory ();
 		mapTestFactory = new MapTestFactory ();
 		bank = bankTestFactory.buildBank ();
-		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		noDestinationShareCompany = companyTestFactory.buildAShareCompany (1);
 		noDestinationInfo = noDestinationShareCompany.getDestinationInfo ();
 		destinationShareCompany = companyTestFactory.buildAShareCompany (3);
-		destinationInfo = destinationShareCompany.getDestinationInfo ();
-		
-		tMapCellID = "N17";
-		tCityName = "Welland";
-		mMapCell = mapTestFactory.buildMapCellMock (tMapCellID);
-		Mockito.when (mMapCell.getCellID ()).thenReturn (tMapCellID);
-		Mockito.when (mMapCell.getCityName ()).thenReturn (tCityName);
-		destinationInfo.setMapCell (mMapCell);
+		destinationInfo = companyTestFactory.setupDestinationInfo (mapTestFactory, 
+									destinationShareCompany);
+		mMapCell = destinationInfo.getMapCell ();
 	}
 
 	@Test

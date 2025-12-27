@@ -9,6 +9,8 @@ import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.map.MapCell;
+import ge18xx.map.MapTestFactory;
 import ge18xx.phase.PhaseInfo;
 import geUtilities.GUI;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
@@ -739,4 +741,24 @@ public class CompanyTestFactory {
 
 		return mMapToken;
 	}
+	
+	public DestinationInfo setupDestinationInfo (MapTestFactory aMapTestFactory,
+								ShareCompany aDestinationShareCompany) {
+		String tMapCellID;
+		String tCityName;
+		DestinationInfo tDestinationInfo;
+		MapCell mMapCell;
+		
+		tDestinationInfo = aDestinationShareCompany.getDestinationInfo ();
+		
+		tMapCellID = "N17";
+		tCityName = "Welland";
+		mMapCell = aMapTestFactory.buildMapCellMock (tMapCellID);
+		Mockito.when (mMapCell.getCellID ()).thenReturn (tMapCellID);
+		Mockito.when (mMapCell.getCityName ()).thenReturn (tCityName);
+		tDestinationInfo.setMapCell (mMapCell);
+		
+		return tDestinationInfo;
+	}
+
 }
