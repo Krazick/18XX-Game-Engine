@@ -18,21 +18,6 @@ public class AllCorporationsPanel extends ListenerPanel {
 		super (aRoundManager, NAME);
 		buildAllCorporationsJPanel ();
 	}
-//
-//	public AllCorporationsPanel (LayoutManager layout, RoundManager aRoundManager) {
-//		super (layout, aRoundManager, NAME);
-//		buildAllCorporationsJPanel ();
-//	}
-//
-//	public AllCorporationsPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-//		super (isDoubleBuffered, aRoundManager, NAME);
-//		buildAllCorporationsJPanel ();
-//	}
-//
-//	public AllCorporationsPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-//		super (layout, isDoubleBuffered, aRoundManager, NAME);
-//		buildAllCorporationsJPanel ();
-//	}
 
 	private void buildAllCorporationsJPanel () {
 		setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));
