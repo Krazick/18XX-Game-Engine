@@ -57,7 +57,6 @@ public class ShareCompany extends TokenCompany {
 	public static final AttributeName AN_LOAN_TAKEN = new AttributeName ("loanTaken");
 	public static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
 	public static final AttributeName AN_DESTINATION = new AttributeName ("destination");
-	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	public static final AttributeName AN_GROUP = new AttributeName ("group");
