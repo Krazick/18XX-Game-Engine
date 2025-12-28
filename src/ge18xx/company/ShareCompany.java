@@ -176,22 +176,24 @@ public class ShareCompany extends TokenCompany {
 		int tCorpID;
 		
 		tHomeMapCell = getHomeCity1 ();
-		tCorpID = getID ();
-		tLocation = tHomeMapCell.getLocationWithStation (tCorpID);
-		tHomeVertexID = Vertex.buildID (tHomeMapCell, tLocation);
-		
-		if (tHomeVertexID != Vertex.NO_VERTEX_ID) {
-			tDestinationMapCell = destinationInfo.getMapCell ();
+		if (tHomeMapCell != MapCell.NO_MAP_CELL) {
+			tCorpID = getID ();
+			tLocation = tHomeMapCell.getLocationWithStation (tCorpID);
+			tHomeVertexID = Vertex.buildID (tHomeMapCell, tLocation);
 			
-			tDestinationMapCellID = destinationInfo.getMapCellID ();
-			if (! destinationInfo.hasReached ()) {
-				tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
-				tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
-				if (tContainsHomeMapCell && tContainsDestinationMapCell) {
-					aHexMap.breadthFirstSearch (tHomeVertexID);
-					tFoundInBFS = aHexMap.foundInBFS (tDestinationMapCellID);
-					if (tFoundInBFS) {
-						handleReachedDestination ();
+			if (tHomeVertexID != Vertex.NO_VERTEX_ID) {
+				tDestinationMapCell = destinationInfo.getMapCell ();
+				
+				tDestinationMapCellID = destinationInfo.getMapCellID ();
+				if (! destinationInfo.hasReached ()) {
+					tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
+					tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
+					if (tContainsHomeMapCell && tContainsDestinationMapCell) {
+						aHexMap.breadthFirstSearch (tHomeVertexID);
+						tFoundInBFS = aHexMap.foundInBFS (tDestinationMapCellID);
+						if (tFoundInBFS) {
+							handleReachedDestination ();
+						}
 					}
 				}
 			}
