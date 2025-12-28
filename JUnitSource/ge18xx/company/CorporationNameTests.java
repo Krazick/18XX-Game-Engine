@@ -21,7 +21,7 @@ class CorporationNameTests extends CorporationTester {
 	ShareCompany betaShareCompany;
 	ShareCompany limaShareCompany;
 	ShareCompany phiShareCompany;
-	Corporation gammaPrivateCompany;
+	PrivateCompany gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
 	DestinationInfo destinationInfo;
 	Bank bank;
@@ -50,8 +50,38 @@ class CorporationNameTests extends CorporationTester {
 	}
 
 	@Test
-	@DisplayName ("Building the Corporation Name Label Test")
-	void CorporationNameTest () {
+	@DisplayName ("Building the PrivateCompany Name Label Tests") 
+	void privateCompanyNameLabelTests () {
+		JLabel tGammaNameLabel;
+		String tGammaName;
+		String tGammaName2;
+
+		tGammaNameLabel = gammaPrivateCompany.buildCorpNameLabel ();
+		tGammaName = tGammaNameLabel.getText ();
+		assertEquals ("TEST-C&SL", tGammaName);
+
+		tGammaName2 = gammaPrivateCompany.buildCorpNameText ();
+		assertEquals ("TEST-C&SL", tGammaName2);
+	}
+
+	@Test
+	@DisplayName ("Building the MinorCompany Name Label Tests") 
+	void minorCompanyNameLabelTests () {
+		JLabel tDeltaNameLabel;
+		String tDeltaName;
+		String tDeltaName2;
+
+		tDeltaNameLabel = deltaMinorCompany.buildCorpNameLabel ();
+		tDeltaName = tDeltaNameLabel.getText ();
+		assertEquals ("Minor 1", tDeltaName);
+
+		tDeltaName2 = deltaMinorCompany.buildCorpNameText ();
+		assertEquals ("Minor 1", tDeltaName2);
+	}
+	
+	@Test
+	@DisplayName ("Building the ShareCompany Name Label Tests")
+	void shareCompanyNameLabelTests () {
 		JLabel tAlphaNameLabel;
 		String tAlphaName;
 		String tAlphaName2;
@@ -76,7 +106,6 @@ class CorporationNameTests extends CorporationTester {
 		tPhiName2 = phiShareCompany.buildCorpNameText ();
 		assertEquals ("CGR [Gov't]", tPhiName2);
 
-		
 		tLimaNameLabel = limaShareCompany.buildCorpNameLabel ();
 		tLimaName = tLimaNameLabel.getText ();
 		assertEquals ("BBG (N17)", tLimaName);

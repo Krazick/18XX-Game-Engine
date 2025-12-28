@@ -305,9 +305,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		int tBidderCount;
 		String tBidderNames;
 		Certificate tCertificate;
+		KButton tInfoButton;
 		JPanel tCorpInfoJPanel;
 		JLabel tCorpName;
-		KButton tInfoButton;
 		JLabel tPrice;
 		JLabel tRevenue;
 		JLabel tPercentOwned;
@@ -319,7 +319,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
-		tCorpName = new JLabel (getAbbrev ());
+		tCorpName = buildCorpNameLabel ();
 		tPrice = new JLabel ("Price: " + Bank.formatCash (getCost ()));
 		tRevenue =  new JLabel (Revenue.LABEL + getFormattedThisRevenue ());
 		tCorpInfoJPanel.add (tCorpName);

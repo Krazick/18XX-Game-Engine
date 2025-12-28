@@ -456,6 +456,37 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void buyTrain () {
 		System.err.println ("Trying to -BUY TRAIN- Should be handled by Train Company");
 	}
+	
+	public JLabel buildCorpNameLabel () {
+		JLabel tCorpLabel;
+		String tCorpNameText;
+		
+		tCorpNameText = buildCorpNameText ();
+		tCorpLabel = new JLabel (tCorpNameText);
+		
+		return tCorpLabel;
+	}
+
+	public String buildCorpNameText () {
+		String tCorpAbbrev;
+		
+		tCorpAbbrev = getAbbrev ();
+		if (isGovtRailway ()) {
+			tCorpAbbrev += " [Gov't]";
+		} else if (isAMinorCompany ()){
+			tCorpAbbrev = "Minor " + tCorpAbbrev;
+		} else {
+			if (hasDestination ()) {
+				if (hasReachedDestination ()) {
+					tCorpAbbrev += "*";
+				} else {
+					tCorpAbbrev += " (" + destinationMapCellID () + ")";
+				}
+			}
+		}
+		
+		return tCorpAbbrev;
+	}
 
 	public void clearOperatedStatus () {
 		if (status == ActorI.ActionStates.Operated) {

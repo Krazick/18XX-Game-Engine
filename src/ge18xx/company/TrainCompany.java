@@ -558,10 +558,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean hasReachedDestination () {
 		return false;
 	}
-//
-//	public String destinationMapCellID () {
-//		return GUI.EMPTY_STRING;
-//	}
 	
 	@Override
 	public JPanel buildCorpInfoJPanel () {
@@ -607,35 +603,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		return tCorpInfoJPanel;
-	}
-
-	public JLabel buildCorpNameLabel () {
-		JLabel tCorpLabel;
-		String tCorpAbbrev;
-		
-		tCorpAbbrev = buildCorpNameText ();
-		tCorpLabel = new JLabel (tCorpAbbrev);
-		
-		return tCorpLabel;
-	}
-
-	public String buildCorpNameText () {
-		String tCorpAbbrev;
-		
-		tCorpAbbrev = getAbbrev ();
-		if (isGovtRailway ()) {
-			tCorpAbbrev += " [Gov't]";
-		} else {
-			if (hasDestination ()) {
-				if (hasReachedDestination ()) {
-					tCorpAbbrev += "*";
-				} else {
-					tCorpAbbrev += " (" + destinationMapCellID () + ")";
-				}
-			}
-		}
-		
-		return tCorpAbbrev;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {
