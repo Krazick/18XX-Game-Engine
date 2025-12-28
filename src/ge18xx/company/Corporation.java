@@ -2944,7 +2944,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public String getDestinationLabel () {
 		return GUI.EMPTY_STRING;
 	}
-	
+
+	public String destinationMapCellID () {
+		return GUI.EMPTY_STRING;
+	}
+
 	public String getNote () {
 		return NO_NOTE;
 	}

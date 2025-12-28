@@ -558,10 +558,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean hasReachedDestination () {
 		return false;
 	}
-
-	public String destinationMapCellID () {
-		return GUI.EMPTY_STRING;
-	}
+//
+//	public String destinationMapCellID () {
+//		return GUI.EMPTY_STRING;
+//	}
 	
 	@Override
 	public JPanel buildCorpInfoJPanel () {
