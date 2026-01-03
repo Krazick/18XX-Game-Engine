@@ -35,6 +35,7 @@ public class CorporationCanLayTile extends CorporationIsActive {
 			}
 		} else {
 			tMeets = FAILS;
+			tFailsReason = "Corporation is not Active";
 		}
 		
 		setFailsReason (tFailsReason);
