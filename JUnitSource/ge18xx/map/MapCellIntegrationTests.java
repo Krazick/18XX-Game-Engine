@@ -311,7 +311,14 @@ class MapCellIntegrationTests extends MapTester {
 				+ "	  <RevenueCenter id=\"3\" location=\"14\" name=\"\" number=\"1\" type=\"Single City\" />\n"
 				+ "	  <RevenueCenter id=\"3\" location=\"11\" name=\"\" number=\"1\" type=\"Single City\" />\n"
 				+ "   <Tile number=\"9972\" starting=\"TRUE\" />\n"
-				+ "</MapCell>"
+				+ "</MapCell>",
+				"<MapCell>\n"
+				+ "	  <Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "   <Terrain category=\"optional\" location=\"16\" type=\"River\" />\n"
+				+ "   <RevenueCenter id=\"19\" location=\"50\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+				+ "	  <Tile number=\"201\" starting=\"FALSE\" />\n"
+				+ "</MapCell>\n",
+
 		};
 		tXMLMapCell = tXMLMapCells [aXMLIndex];
 		
@@ -326,7 +333,8 @@ class MapCellIntegrationTests extends MapTester {
 				{ 5,  0,  80,  80,  80,  80,  80 },
 				{ 6,  0,  50,  50,  50,  50,  50 },
 				{ 7,  0,  50,  50,  50,  50,  50 },
-				{ 8,  0,  50,  50,  50,  50,  50 }
+				{ 8,  0,  50,  50,  50,  50,  50 },
+				{ 9,  0,  50,  50,  50,  50,  50 }
 		};
 		
 		tIntAnswers = tAllIntAnswers [aIntIndex];
@@ -340,6 +348,7 @@ class MapCellIntegrationTests extends MapTester {
 				{ 80, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 80, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 80, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+				{ 50,  70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 50,  70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 50,  70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 50,  70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -356,6 +365,7 @@ class MapCellIntegrationTests extends MapTester {
 				{ 10,  13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 10,  13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 10,  13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+				{ 10,  14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 10,  14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 10,  14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 10,  14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
@@ -375,7 +385,6 @@ class MapCellIntegrationTests extends MapTester {
 		MapCell tMapCell;
 		Terrain tBaseTerrain;
 		Terrain tTerrain1;
-//		Terrain tTerrain2;
 		Tile tTile;
 		Tile mTile;
 		TileType mTileType;
@@ -384,7 +393,7 @@ class MapCellIntegrationTests extends MapTester {
 		int tTestCount;
 		int tAnswerIndex;
 		
-		tTestCount = 6;
+		tTestCount = 7;
 		for (tTestSetIndex = 0; tTestSetIndex < tTestCount; tTestSetIndex++ ) {
 			mTile = tilesTestFactory.buildTileMock (9940);
 			mTileType = tilesTestFactory.buildTileTypeMock (TileType.YELLOW);
@@ -401,7 +410,6 @@ class MapCellIntegrationTests extends MapTester {
 			
 			tBaseTerrain = tMapCell.getBaseTerrain ();
 			tTerrain1 = tMapCell.getTerrain1 ();
-//			tTerrain2 = tMapCell.getTerrain2 ();
 			
 			tTile = tilesTestFactory.buildTile (tIntAnswers [tAnswerIndex++]);
 			assertEquals (tIntAnswers [tAnswerIndex++], tBaseTerrain.getCost (), "Set " + tTestSetIndex + " Answer Index " + tAnswerIndex);
