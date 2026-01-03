@@ -29,6 +29,7 @@ public class CorporationIsActive extends CorporationExists {
 			}
 		} else {
 			tMeets = FAILS;
+			tFailsReason = "Corporation is does not Exist";
 		}
 		setFailsReason (tFailsReason);
 		
