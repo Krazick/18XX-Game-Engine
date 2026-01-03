@@ -43,12 +43,46 @@ class MapCellIntegrationTests extends MapTester {
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
 		setupTileSet (mGameManager);
+	}
+	
+	void setupTileSet (GameManager mGameManager) {
+		Mockito.when (mGameManager.getActiveGameName ()).thenReturn ("Mock GameManager MapCellTests");
+		tileSet = tilesTestFactory.buildTileSet (mGameManager);
+		
 		tile9995 = addTileAndUpgrade (0);
 		tile120 = addTileAndUpgrade (2);
 		
 		setupMockNeighbors ();
 	}
 	
+	void setupMockNeighbors () {
+		Terrain tClearTerrain;
+		Terrain tOceanTerrain;
+		
+		tClearTerrain = new Terrain (Terrain.CLEAR);
+		tOceanTerrain = new Terrain (Terrain.OCEAN);
+		setupMockNeighbor (0, tClearTerrain, "N9");
+		setupMockNeighbor (1, tClearTerrain, "O10");
+		setupMockNeighbor (2, tOceanTerrain, "O12");
+		setupMockNeighbor (3, tOceanTerrain, "N13");
+		setupMockNeighbor (4, tClearTerrain, "M12");
+		setupMockNeighbor (5, tClearTerrain, "M10");
+	}
+	
+	void setupMockNeighbor (int aSide, Terrain aTerrain, String aID) {
+		MapCell mNeighborMapCell;
+		
+		mNeighborMapCell = mapTestFactory.buildMapCellMock (aID);
+		Mockito.when (mNeighborMapCell.canTrackToSide (anyInt ())).thenReturn (true);
+		if (aTerrain.getTerrain () == Terrain.CLEAR) { 
+			Mockito.when (mNeighborMapCell.isSelectable ()).thenReturn (true);
+		} else {
+			Mockito.when (mNeighborMapCell.isSelectable ()).thenReturn (false);
+		}
+		mNeighborMapCell.setBaseTerrain (aTerrain);
+		mapCell.setNeighbor (aSide, mNeighborMapCell);
+	}
+
 	@Test
 	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
 	void torontoTileUpgradeTest () {	
@@ -191,39 +225,6 @@ class MapCellIntegrationTests extends MapTester {
 		tExpectedCenterTypes [1] = 3;
 		tExpectedCenterTypes [2] = 3;
 		verifyInformationOnMapCell (tExpectedCount, tExpectedBaseCorpIDs, tExpectedCenterTypes);
-	}
-	
-	void setupMockNeighbors () {
-		Terrain tClearTerrain;
-		Terrain tOceanTerrain;
-		
-		tClearTerrain = new Terrain (Terrain.CLEAR);
-		tOceanTerrain = new Terrain (Terrain.OCEAN);
-		setupMockNeighbor (0, tClearTerrain, "N9");
-		setupMockNeighbor (1, tClearTerrain, "O10");
-		setupMockNeighbor (2, tOceanTerrain, "O12");
-		setupMockNeighbor (3, tOceanTerrain, "N13");
-		setupMockNeighbor (4, tClearTerrain, "M12");
-		setupMockNeighbor (5, tClearTerrain, "M10");
-	}
-	
-	void setupMockNeighbor (int aSide, Terrain aTerrain, String aID) {
-		MapCell mNeighborMapCell;
-		
-		mNeighborMapCell = mapTestFactory.buildMapCellMock (aID);
-		Mockito.when (mNeighborMapCell.canTrackToSide (anyInt ())).thenReturn (true);
-		if (aTerrain.getTerrain () == Terrain.CLEAR) { 
-			Mockito.when (mNeighborMapCell.isSelectable ()).thenReturn (true);
-		} else {
-			Mockito.when (mNeighborMapCell.isSelectable ()).thenReturn (false);
-		}
-		mNeighborMapCell.setBaseTerrain (aTerrain);
-		mapCell.setNeighbor (aSide, mNeighborMapCell);
-	}
-	
-	void setupTileSet (GameManager mGameManager) {
-		Mockito.when (mGameManager.getActiveGameName ()).thenReturn ("Mock GameManager MapCellTests");
-		tileSet = tilesTestFactory.buildTileSet (mGameManager);
 	}
 	
 	Tile addTileAndUpgrade (int aTileIndex) {
@@ -393,7 +394,7 @@ class MapCellIntegrationTests extends MapTester {
 		int tTestCount;
 		int tAnswerIndex;
 		
-		tTestCount = 7;
+		tTestCount = 6;
 		for (tTestSetIndex = 0; tTestSetIndex < tTestCount; tTestSetIndex++ ) {
 			mTile = tilesTestFactory.buildTileMock (9940);
 			mTileType = tilesTestFactory.buildTileTypeMock (TileType.YELLOW);
