@@ -74,17 +74,17 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
-	public static final String NO_ID = GUI.EMPTY_STRING;
-	public static final MapCell NO_MAP_CELL = null;
-	public static final MapCell [] [] NO_MAP_CELLS = null;
-	public static final MapCell NO_DESTINATION = null;
-	public static final int NO_ORIENTATION = 0;
-	public static final int NO_TILE_ORIENTATION = -1;
-	public static final int NO_ROTATION = -1;
-	public static final boolean NOT_ON_TILE = false;
-	public static final String NO_NAME = GUI.EMPTY_STRING;
+	public static final MapCell NO_MAP_CELL 		= null;
+	public static final MapCell [] [] NO_MAP_CELLS 	= null;
+	public static final MapCell NO_DESTINATION 		= null;
+	public static final String NO_ID 			= GUI.EMPTY_STRING;
+	public static final String NO_NAME 			= GUI.EMPTY_STRING;
 	public static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
-	public static final String NO_DIRECTION = null;
+	public static final String NO_DIRECTION 	= null;
+	public static final int NO_ORIENTATION 		= 0;
+	public static final int NO_TILE_ORIENTATION = -1;
+	public static final int NO_ROTATION 		= -1;
+	public static final boolean NOT_ON_TILE 	= false;
 	public static boolean mapDirection;
 	boolean tileOrientLocked;
 	boolean selected;
@@ -94,17 +94,19 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	boolean hasBridgeToken;
 	boolean hasTunnelToken;
 	boolean allowedRotations [] = new boolean [6];
-	boolean blockedSides [] = new boolean [6];
-	int trainUsingSide [] = new int [6]; // Train Number using the side;
+	boolean blockedSides [] 	= new boolean [6];
+	int trainUsingSide [] 		= new int [6]; // Train Number using the side;
 	int XCenter;
 	int YCenter;
 	int tileNumber;
 	int tileOrient;
-	int startingTileNumber;
-	int destinationCorpID;
 	int benefitValue;
+	int startingTileNumber;
+	int destinationCorpID;	// For 1870, Need to add at least one additional Destination Corp
+							// IE, 1870 has two Map Cells with two Companies
+							// TODO
 	Paint terrainFillPaint;
-	String id = "A1";
+	String id = "A1";		// Default Map Cell ID
 	Tile tile;
 	TileName baseTileName;
 	Rebate rebate;
