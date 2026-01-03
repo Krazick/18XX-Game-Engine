@@ -159,7 +159,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		setTileOrient (tTileOrient);
 		planFrame.setTilePlaced (tTilePlaced);
 		setPlanStatus (PlanStatus.TILE_PLACED);
-//		tPlanTileSet.clearAllSelected ();
+		tPlanTileSet.clearAllSelected ();
 		planFrame.updateFrame ();
 	}
 	
