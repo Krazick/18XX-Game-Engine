@@ -23,6 +23,7 @@ import ge18xx.tiles.Upgrade;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
+@DisplayName ("Map Cell Integration Tests")
 class MapCellIntegrationTests extends MapTester {
 	MapCell mapCell;
 	ShareCompany alphaShareCompany;
