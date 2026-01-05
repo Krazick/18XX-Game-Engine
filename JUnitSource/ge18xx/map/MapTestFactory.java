@@ -241,6 +241,18 @@ public class MapTestFactory {
 				+ "		<Terrain category=\"optional\" location=\"50\" type=\"Hill\" />\n"
 				+ "	</MapCell>\n"
 				+ "";
+		String tMapCell4TestXML = "<MapCell>\n"
+				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"50\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"50\" type=\"River\" />\n"
+				+ "	</MapCell>\n"
+				+ "";
+		String tMapCell5TestXML = "<MapCell>\n"
+				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"11\" type=\"Hill\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"8\" type=\"River\" />\n"
+				+ "	</MapCell>\n"
+				+ "";
 		MapCell tMapCell;
 		
 		tMapCell = MapCell.NO_MAP_CELL;
@@ -251,6 +263,10 @@ public class MapTestFactory {
 			tMapCell = buildMapCellFromXML (tMapCell2TestXML, aMapCellID);
 		} else if (tMapCellXMLIndex == 3) {
 			tMapCell = buildMapCellFromXML (tMapCell3TestXML, aMapCellID);
+		} else if (tMapCellXMLIndex == 4) {
+			tMapCell = buildMapCellFromXML (tMapCell4TestXML, aMapCellID);
+		} else if (tMapCellXMLIndex == 5) {
+			tMapCell = buildMapCellFromXML (tMapCell5TestXML, aMapCellID);
 		}
 		
 		return tMapCell;
