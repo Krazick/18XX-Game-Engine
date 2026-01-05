@@ -1306,48 +1306,15 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	protected void loadXMLMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
-		String tCategory;
-		String tRCType;
-		Terrain tTerrain;
-		RevenueCenter tRevenueCenter;
 		boolean tStarting;
-		int tTerrainType;
 		int tTileNumber;
 		int tOrientation;
 		int tSide;
-		int tTerrainIndex;
-
+		
 		if (Terrain.EN_TERRAIN.equals (aChildName)) {
-			tTerrain = new Terrain (aChildNode);
-			if (tTerrain != Terrain.NO_TERRAINX) {
-				tTerrainType = tTerrain.getTerrain ();
-				for (tTerrainIndex = 0; tTerrainIndex < Terrain.MAX_TERRAIN_TYPES; tTerrainIndex++) {
-					if (aTerrainType [tTerrainIndex] == tTerrainType) {
-						tTerrain.setCost (aTerrainCost [tTerrainIndex]);
-					}
-				}
-			}
-			tCategory = tTerrain.getCategory (aChildNode);
-			if (Terrain.AN_BASE.equals (tCategory)) {
-				setBaseTerrain (tTerrain);
-			} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
-				if (terrain1 == Terrain.NO_TERRAINX) {
-					terrain1 = tTerrain;
-				} else if (terrain2 == Terrain.NO_TERRAINX) {
-					terrain2 = tTerrain;
-				}
-			}
+			parseTerrain (aChildNode, aTerrainCost, aTerrainType);
 		} else if (RevenueCenter.EN_REVENUE_CENTER.equals (aChildName)) {
-			tRCType = aChildNode.getThisAttribute (RevenueCenter.AN_TYPE);
-			if (RevenueCenterType.isTown (tRCType)) {
-				tRevenueCenter = new Town (aChildNode);
-			} else if (RevenueCenterType.isCity (tRCType)) {
-				tRevenueCenter = new City (aChildNode);
-			} else {
-				tRevenueCenter = new PrivateRailwayCenter (aChildNode);
-			}
-			tRevenueCenter.setMapCell (this);
-			centers.add (tRevenueCenter);
+			parseRevenueCenter (aChildNode);
 		} else if (TileName.EN_TILE_NAME.equals (aChildName)) {
 			baseTileName = new TileName (aChildNode);
 		} else if (Tile.EN_TILE.equals (aChildName)) {
@@ -1360,6 +1327,49 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			blockedSides [tSide] = true;
 		} else if (Rebate.EN_REBATE.equals (aChildName)) {
 			setRebate (new Rebate (aChildNode));
+		}
+	}
+
+	public void parseRevenueCenter (XMLNode aRevenueCenterNode) {
+		String tRCType;
+		RevenueCenter tRevenueCenter;
+		
+		tRCType = aRevenueCenterNode.getThisAttribute (RevenueCenter.AN_TYPE);
+		if (RevenueCenterType.isTown (tRCType)) {
+			tRevenueCenter = new Town (aRevenueCenterNode);
+		} else if (RevenueCenterType.isCity (tRCType)) {
+			tRevenueCenter = new City (aRevenueCenterNode);
+		} else {
+			tRevenueCenter = new PrivateRailwayCenter (aRevenueCenterNode);
+		}
+		tRevenueCenter.setMapCell (this);
+		centers.add (tRevenueCenter);
+	}
+
+	public void parseTerrain (XMLNode aTerrainNode, int [] aTerrainCost, int [] aTerrainType) {
+		String tCategory;
+		Terrain tTerrain;
+		int tTerrainType;
+		int tTerrainIndex;
+		
+		tTerrain = new Terrain (aTerrainNode);
+		if (tTerrain != Terrain.NO_TERRAINX) {
+			tTerrainType = tTerrain.getTerrain ();
+			for (tTerrainIndex = 0; tTerrainIndex < Terrain.MAX_TERRAIN_TYPES; tTerrainIndex++) {
+				if (aTerrainType [tTerrainIndex] == tTerrainType) {
+					tTerrain.setCost (aTerrainCost [tTerrainIndex]);
+				}
+			}
+		}
+		tCategory = tTerrain.getCategory (aTerrainNode);
+		if (Terrain.AN_BASE.equals (tCategory)) {
+			setBaseTerrain (tTerrain);
+		} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
+			if (terrain1 == Terrain.NO_TERRAINX) {
+				terrain1 = tTerrain;
+			} else if (terrain2 == Terrain.NO_TERRAINX) {
+				terrain2 = tTerrain;
+			}
 		}
 	}
 
@@ -2612,7 +2622,9 @@ public class MapCell implements Cloneable, Comparator<Object> {
 
 		return tPrivatePrevents;
 	}
-
+	
+// Methods to determine the cost of laying a Tile
+	
 	public boolean isTileLayCostFree () {
 		boolean tIsTileLayCostFree;
 
@@ -2682,7 +2694,6 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		return tCostToLayTile;
 	}
 
-// TEST COST TO LAY
 	public int getCostToLayTile (Tile aTile) {
 		TileType tTileType;
 		TileName tTileName;
