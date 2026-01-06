@@ -1020,11 +1020,11 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 	}
 
-	public void putStartingTile (int aRow, int aCol, Tile aTile) {
+	public void putFixedTile (int aRow, int aCol, Tile aTile) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
-				mapCells [aRow] [aCol].setStartingTile ();
+				mapCells [aRow] [aCol].setFixedTile ();
 			}
 		}
 	}
