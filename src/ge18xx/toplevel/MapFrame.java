@@ -1115,7 +1115,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 					tTileNumber = hexMap.getTileNumber (rowIndex, colIndex);
 					tTile = tileSet.popTile (tTileNumber);
 					if (tTile != Tile.NO_TILE) {
-						hexMap.putStartingTile (rowIndex, colIndex, tTile);
+						hexMap.putFixedTile (rowIndex, colIndex, tTile);
 					}
 				}
 			}
