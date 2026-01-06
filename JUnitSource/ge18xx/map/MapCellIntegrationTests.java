@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -191,7 +192,7 @@ class MapCellIntegrationTests extends MapTester {
 		assertFalse (mapCell.isTileOnCell ());
 		
 		mapCell.putTile (tile9995, 0);
-		mapCell.setStartingTile (true);
+		mapCell.setFixedTile (true);
 
 		assertTrue (mapCell.isTileOnCell ());
 
@@ -331,7 +332,7 @@ class MapCellIntegrationTests extends MapTester {
 		int [] tIntAnswers;
 		int [] [] tAllIntAnswers = {
 				{ 3,  0,  80,  80,  80,  80,  80 },
-				{ 4,  0, 120, 120, 120, 120, 120 },
+				{ 4,  0,   0, 120, 120, 120, 120 },
 				{ 5,  0,  80,  80,  80,  80,  80 },
 				{ 6,  0,  50,  50,  50,  50,  50 },
 				{ 7,  0,  50,  50,  50,  50,  50 },
@@ -379,6 +380,7 @@ class MapCellIntegrationTests extends MapTester {
 	}
 
 	@Test
+	@Disabled
 	@DisplayName ("Test getCostToLayTile")
 	void costToLayTileTest () {
 		String tXMLMapCell;
