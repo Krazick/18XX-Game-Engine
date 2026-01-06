@@ -16,6 +16,7 @@ public class TilesTestFactory {
 	UtilitiesTestFactory utilitiesTestFactory;
 	MapTestFactory mapTestFactory;
 	String testTiles [] = {
+			// Tile 0 - Yellow # 9995
 		"<Tile number=\"9995\" type=\"Yellow\" fixed=\"true\">\n"
 		+ "	<TileName location=\"43\" name=\"Toronto\" />\n"
 		+ "	<Track enter=\"1\" exit=\"7\" gauge=\"NORMAL\" />\n"
@@ -29,6 +30,7 @@ public class TilesTestFactory {
 		+ "	</RevenueCenter>\n"
 		+ "</Tile>" ,
 		
+			// Tile 1 - Green # 14
 		"<Tile number=\"14\" type=\"Green\">\n"
 		+ "		<Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
 		+ "		<Track enter=\"1\" exit=\"50\" gauge=\"NORMAL\" />\n"
@@ -38,6 +40,7 @@ public class TilesTestFactory {
 		+ "			<Revenue location=\"42\" phase=\"0\" value=\"30\" />\n" + "		</RevenueCenter>\n"
 		+ "	</Tile>" ,
 		
+			// Tile 2 - Green # 120
 		"<Tile number=\"120\" type=\"Green\">\n "
 		 + "    <TileName location=\"43\" name=\"Toronto\" />\n "
 		 + "    <Track enter=\"0\" exit=\"13\" gauge=\"NORMAL\" />\n "
@@ -52,6 +55,7 @@ public class TilesTestFactory {
 		 + "    </RevenueCenter>\n "
 		 + "</Tile>",
 		 
+			// Tile 3 - Green # 54
 		 "	<Tile number=\"54\" type=\"Green\">\n"
 		 + "		<TileName location=\"16\" name=\"NY\" />\n"
 		 + "		<Track enter=\"2\" exit=\"14\" gauge=\"NORMAL\" />\n"
@@ -66,6 +70,7 @@ public class TilesTestFactory {
 		 + "		</RevenueCenter>\n"
 		 + "	</Tile>",
 		 
+			// Tile 4 - Green # 59
 		 "	<Tile number=\"59\" type=\"Green\">\n"
 		 + "		<TileName location=\"17\" name=\"OO\" />\n"
 		 + "		<Track enter=\"1\" exit=\"13\" gauge=\"NORMAL\" />\n"
@@ -78,6 +83,7 @@ public class TilesTestFactory {
 		 + "		</RevenueCenter>\n"
 		 + "	</Tile>",
 		 
+			// Tile 5 - Yellow # 55
 		 "	<Tile number=\"55\" type=\"Yellow\">\n"
 		 + "		<Track enter=\"2\" exit=\"8\" gauge=\"NORMAL\" />\n"
 		 + "		<Track enter=\"5\" exit=\"8\" gauge=\"NORMAL\" />\n"
@@ -92,6 +98,7 @@ public class TilesTestFactory {
 		 + "		</RevenueCenter>\n"
 		 + "</Tile>",
 		 
+			// Tile 6 - Green # 210
 		"	<Tile number=\"210\" type=\"Green\">\n"
 		+ "		<TileName location=\"10\" name=\"XX\" />\n"
 		+ "		<Track enter=\"0\" exit=\"6\" gauge=\"NORMAL\" />\n"
@@ -106,6 +113,7 @@ public class TilesTestFactory {
 		+ "		</RevenueCenter>\n"
 		+ "	</Tile>",
 		
+			// Tile 7 - Green # 208
 		"<Tile number=\"208\" type=\"Green\">\n"
 		+ "   <TileName location=\"12\" name=\"Y\" />\n"
 		+ "   <Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
@@ -117,6 +125,7 @@ public class TilesTestFactory {
 		+ "   </RevenueCenter>\n"
 		+ "</Tile>",
 		
+			// Tile 8 - Brown # 221
 		"<Tile number=\"221\" type=\"Brown\">\n"
 		+ "	  <TileName location=\"17\" name=\"HH\" />\n"
 		+ "	  <Track enter=\"0\" exit=\"6\" gauge=\"NORMAL\" />\n"
@@ -132,7 +141,18 @@ public class TilesTestFactory {
 		+ "	  <RevenueCenter id=\"-1\" location=\"6\" name=\"Hamburg\" number=\"1\" type=\"Single City\">\n"
 		+ "	     <Revenue location=\"14\" phase=\"0\" value=\"60\" />\n"
 		+ "   </RevenueCenter>\n"
-		+ "</Tile>"
+		+ "</Tile>",
+		
+			// Tile 9 - Yellow # 57
+		 "		<Tile number=\"57\" type=\"Yellow\">\n"
+		 + "		<Track enter=\"2\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		 + "		<Track enter=\"5\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		 + "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"1\"\n"
+		 + "			type=\"Single City\">\n"
+		 + "			<Revenue location=\"13\" phase=\"0\" value=\"20\" />\n"
+		 + "		</RevenueCenter>\n"
+		 + "	</Tile>\n"
+
 	};
 	String testUpgrades [] = {
 		  " <Upgrade toNumber=\"120\" rotations=\"0\">\n "
@@ -180,9 +200,13 @@ public class TilesTestFactory {
 		Tile tTile;
 		String tTileXML;
 		
-		tTileXML = testTiles [aTileIndex];
-		tTile = constructTile (tTileXML);
-
+		if ((aTileIndex >= 0) && (aTileIndex < testTiles.length)) {
+			tTileXML = testTiles [aTileIndex];
+			tTile = constructTile (tTileXML);
+		} else {
+			tTile = Tile.NO_TILE;
+		}
+		
 		return tTile;
 	}
 
