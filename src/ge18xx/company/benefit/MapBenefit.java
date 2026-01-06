@@ -166,23 +166,23 @@ public class MapBenefit extends Benefit {
 		return tHasTileWithTrack;
 	}
 	
-	protected boolean hasNonStartingTile () {
-		boolean tHasNonStartingTile;
+	protected boolean hasNonFixedTile () {
+		boolean tHasNonFixedTile;
 		MapCell tMapCell;
 
-		tHasNonStartingTile = false;
+		tHasNonFixedTile = false;
 		tMapCell = getMapCell ();
 		if (tMapCell.isTileOnCell ()) {
-			if (tMapCell.isStartingTile ()) {
-				tHasNonStartingTile = false;
+			if (tMapCell.isFixedTile ()) {
+				tHasNonFixedTile = false;
 			} else {
-				tHasNonStartingTile = true;
+				tHasNonFixedTile = true;
 			}
 		} else {
-			tHasNonStartingTile = false;
+			tHasNonFixedTile = false;
 		}
 
-		return tHasNonStartingTile;
+		return tHasNonFixedTile;
 	}
 
 	protected boolean hasTile () {

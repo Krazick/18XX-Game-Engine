@@ -85,7 +85,7 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	protected void updateButton () {
-		if (hasNonStartingTile ()) {
+		if (hasNonFixedTile ()) {
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
 		} else if (! isTileAvailable ()) {
