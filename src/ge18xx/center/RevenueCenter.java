@@ -132,7 +132,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	@Override
-	public boolean bleedThroughJustStarting () {
+	public boolean bleedThroughJustFixed () {
 		return false;
 	}
 
