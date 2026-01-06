@@ -49,7 +49,7 @@ public class Feature implements Cloneable {
 		return false;
 	}
 
-	public boolean bleedThroughJustStarting () {
+	public boolean bleedThroughJustFixed () {
 		return true;
 	}
 

@@ -115,6 +115,6 @@ class FeatureTests {
 		assertSame (locationDeadEnd, tFeatureBetaLocation,
 				"Dead End Location (null) and Feature Beta Location Objects are the same");
 		assertFalse (featureDelta.bleedThroughAll (), "Feature Will not Bleed Through");
-		assertTrue (featureBeta.bleedThroughJustStarting (), "Feature Will Bleed Through First");
+		assertTrue (featureBeta.bleedThroughJustFixed (), "Feature Will Bleed Through First");
 	}
 }

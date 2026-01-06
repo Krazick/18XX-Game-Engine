@@ -132,6 +132,6 @@ class Feature2Tests {
 
 		tFeatureA = tilesTestFactory.buildFeature2 (17, 20);
 		assertFalse (tFeatureA.bleedThroughAll ());
-		assertTrue (tFeatureA.bleedThroughJustStarting ());
+		assertTrue (tFeatureA.bleedThroughJustFixed ());
 	}
 }
