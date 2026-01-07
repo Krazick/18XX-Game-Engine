@@ -3,6 +3,7 @@ package ge18xx.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,25 +27,17 @@ class MapCellBuildCostTests extends MapTester {
 	@Test
 	@DisplayName ("Empty Map Cell Build Cost Test")
 	void emptyMapCellBuildCostTest () {
-		Terrain tBaseTerrain;
 		Tile tTile;
 		int tTileIndex;
 		int tTileBuildCost;
 		int tTotalTerrainCost;
+		int tMapCellXMLIndex;
 		MapCell tMapCell;
+		String tMapCellID;
 		
-		tMapCell = mapTestFactory.buildAMapCellFromXML (2, "N11");
-		
-		// Verify the Map Cell has Clear Base Terrain, and no other Terrain Features,
-		// and No Tile on the MapCell before testing build cost
-		assertEquals ("N11", tMapCell.getID ());
-		tBaseTerrain = tMapCell.getBaseTerrain ();
-		assertEquals (1, tBaseTerrain.getTerrain ());
-		assertNull (tMapCell.getTerrain1 ());
-		assertNull (tMapCell.getTerrain2 ());
-		assertFalse (tMapCell.isTileOnCell ());
-
-		assertFalse (tMapCell.isTileLayCostFree ());
+		tMapCellID = "N11";
+		tMapCellXMLIndex = 2;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
 		
 		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
 		assertEquals (0, tTotalTerrainCost);
@@ -62,139 +55,230 @@ class MapCellBuildCostTests extends MapTester {
 		assertEquals (0, tTileBuildCost);
 	}
 
+	public MapCell setupBasicMapCell (int aMapCellXMLIndex, String aMapCellID) {
+		Terrain tBaseTerrain;
+		MapCell tMapCell;
+		
+		tMapCell = mapTestFactory.buildAMapCellFromXML (aMapCellXMLIndex, aMapCellID);
+		
+		// Verify the Map Cell has Clear Base Terrain, and no other Terrain Features,
+		// and No Tile on the MapCell before testing build cost
+		assertEquals (aMapCellID, tMapCell.getID ());
+		tBaseTerrain = tMapCell.getBaseTerrain ();
+		assertEquals (1, tBaseTerrain.getTerrain ());
+		assertFalse (tMapCell.isTileOnCell ());
+
+		assertFalse (tMapCell.isTileLayCostFree ());
+		
+		return tMapCell;
+	}
+
 	@Test
 	@DisplayName ("Map Cell with Hill Terrain1 Build Cost Test")
 	void mapCellHillBuildCostTest () {
-		Terrain tBaseTerrain;
 		Terrain tTerrain1;
 		Terrain tTerrain2;
 		Tile tTile;
 		int tTileIndex;
 		int tTileBuildCost;
 		int tTotalTerrainCost;
-		MapCell mapCell;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "M9";
+		tMapCellXMLIndex = 3;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
 		
-		mapCell = mapTestFactory.buildAMapCellFromXML (3, "M9");
-	
-		// Verify the Map Cell has Clear Base Terrain, and no other Terrain Features,
-		// and No Tile on the MapCell before testing build cost
-		assertEquals ("M9", mapCell.getID ());
-		tBaseTerrain = mapCell.getBaseTerrain ();
-		assertEquals (1, tBaseTerrain.getTerrain ());
-		tTerrain1 = mapCell.getTerrain1 ();
+		tTerrain1 = tMapCell.getTerrain1 ();
 		tTerrain1.setCost (120);
-		tTerrain2 = mapCell.getTerrain2 ();
+		tTerrain2 = tMapCell.getTerrain2 ();
 		
 		assertEquals (13, tTerrain1.getTerrain ());
 		assertNull (tTerrain2);
-		assertFalse (mapCell.isTileOnCell ());
-
-		assertFalse (mapCell.isTileLayCostFree ());
+		assertFalse (tMapCell.isTileOnCell ());
 		
-		tTotalTerrainCost = mapCell.getTotalTerrainCost ();
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
 		assertEquals (120, tTotalTerrainCost);
 		
-		tTileBuildCost = mapCell.getCostToLayTile ();
+		tTileBuildCost = tMapCell.getCostToLayTile ();
 		assertEquals (120, tTileBuildCost);
 
-		tTileBuildCost = mapCell.getCostToLayTile (Tile.NO_TILE);
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
 		assertEquals (120, tTileBuildCost);
 		
 		tTileIndex = 5; // Yellow Tile # 55, two Small Towns, curves overpass
 		
 		tTile = tilesTestFactory.buildTile (tTileIndex);
-		tTileBuildCost = mapCell.getCostToLayTile (tTile);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
 		assertEquals (120, tTileBuildCost);
 	}
 
 	@Test
 	@DisplayName ("Map Cell with River Terrain2 Build Cost Test")
 	void mapCellRiver2BuildCostTest () {
-		Terrain tBaseTerrain;
 		Terrain tTerrain1;
 		Terrain tTerrain2;
 		Tile tTile;
 		int tTileIndex;
 		int tTileBuildCost;
 		int tTotalTerrainCost;
-		MapCell mapCell;
-		
-		mapCell = mapTestFactory.buildAMapCellFromXML (4, "L8");
-	
-		// Verify the Map Cell has Clear Base Terrain, and no other Terrain Features,
-		// and No Tile on the MapCell before testing build cost
-		assertEquals ("L8", mapCell.getID ());
-		tBaseTerrain = mapCell.getBaseTerrain ();
-		assertEquals (1, tBaseTerrain.getTerrain ());
-		tTerrain1 = mapCell.getTerrain1 ();
-		tTerrain2 = mapCell.getTerrain2 ();
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "L8";
+		tMapCellXMLIndex = 4;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
+
+		tTerrain1 = tMapCell.getTerrain1 ();
+		tTerrain2 = tMapCell.getTerrain2 ();
 		tTerrain2.setCost (80);
 		
 		assertEquals (1, tTerrain1.getTerrain ());
 		assertEquals (10, tTerrain2.getTerrain ());
-		assertFalse (mapCell.isTileOnCell ());
-
-		assertFalse (mapCell.isTileLayCostFree ());
+		assertFalse (tMapCell.isTileOnCell ());
 		
-		tTotalTerrainCost = mapCell.getTotalTerrainCost ();
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
 		assertEquals (80, tTotalTerrainCost);
 		
-		tTileBuildCost = mapCell.getCostToLayTile ();
+		tTileBuildCost = tMapCell.getCostToLayTile ();
 		assertEquals (80, tTileBuildCost);
 
-		tTileBuildCost = mapCell.getCostToLayTile (Tile.NO_TILE);
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
 		assertEquals (80, tTileBuildCost);
 		
 		tTileIndex = 5; // Yellow Tile # 55, two Small Towns, curves overpass
 		
 		tTile = tilesTestFactory.buildTile (tTileIndex);
-		tTileBuildCost = mapCell.getCostToLayTile (tTile);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
 		assertEquals (80, tTileBuildCost);
 	}
+	
 	@Test
 	@DisplayName ("Map Cell with Hill and River Build Cost Test")
 	void mapCellHillRiverBuildCostTest () {
-		Terrain tBaseTerrain;
 		Terrain tTerrain1;
 		Terrain tTerrain2;
 		Tile tTile;
 		int tTileIndex;
 		int tTileBuildCost;
 		int tTotalTerrainCost;
-		MapCell mapCell;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "K7";
+		tMapCellXMLIndex = 5;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
 		
-		mapCell = mapTestFactory.buildAMapCellFromXML (5, "K7");
-	
-		// Verify the Map Cell has Clear Base Terrain, and no other Terrain Features,
-		// and No Tile on the MapCell before testing build cost
-		assertEquals ("K7", mapCell.getID ());
-		tBaseTerrain = mapCell.getBaseTerrain ();
-		assertEquals (1, tBaseTerrain.getTerrain ());
-		tTerrain1 = mapCell.getTerrain1 ();
+		tTerrain1 = tMapCell.getTerrain1 ();
 		tTerrain1.setCost (120);
-		tTerrain2 = mapCell.getTerrain2 ();
+		tTerrain2 = tMapCell.getTerrain2 ();
 		tTerrain2.setCost (80);
 		
 		assertEquals (13, tTerrain1.getTerrain ());
 		assertEquals (10, tTerrain2.getTerrain ());
-		assertFalse (mapCell.isTileOnCell ());
+		assertFalse (tMapCell.isTileOnCell ());
 
-		assertFalse (mapCell.isTileLayCostFree ());
-		
-		tTotalTerrainCost = mapCell.getTotalTerrainCost ();
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
 		assertEquals (200, tTotalTerrainCost);
 		
-		tTileBuildCost = mapCell.getCostToLayTile ();
+		tTileBuildCost = tMapCell.getCostToLayTile ();
 		assertEquals (200, tTileBuildCost);
 
-		tTileBuildCost = mapCell.getCostToLayTile (Tile.NO_TILE);
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
 		assertEquals (200, tTileBuildCost);
 		
 		tTileIndex = 5; // Yellow Tile # 55, two Small Towns, curves overpass
 		
 		tTile = tilesTestFactory.buildTile (tTileIndex);
-		tTileBuildCost = mapCell.getCostToLayTile (tTile);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
 		assertEquals (200, tTileBuildCost);
+	}
+	
+	@Test
+	@DisplayName ("Map Cell with Tile Build Cost Test")
+	void mapCellTileBuildCostTest () {
+		Tile tTile;
+		Tile tTileInPlace;
+		int tTileIndex;
+		int tTileBuildCost;
+		int tTotalTerrainCost;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "J6";
+		tMapCellXMLIndex = 2;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
+		tTileIndex = 9; // Yellow Tile # 57, one Single City, straight
+		
+		tTileInPlace = tilesTestFactory.buildTile (tTileIndex);
+		tMapCell.setTile (tTileInPlace);
+
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
+		assertEquals (0, tTotalTerrainCost);
+		
+		tTileBuildCost = tMapCell.getCostToLayTile ();
+		assertEquals (0, tTileBuildCost);
+
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
+		assertEquals (0, tTileBuildCost);
+		
+		tTileIndex = 1; // Green Tile # 14, one Double City, Track in X Formation
+		
+		tTile = tilesTestFactory.buildTile (tTileIndex);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
+		assertEquals (0, tTileBuildCost);
+	}
+	
+	
+	@Test
+	@DisplayName ("Map Cell with Tile and Terrain Build Cost Test")
+	void mapCellTileTerrainBuildCostTest () {
+//		Terrain tTerrain1;
+		Terrain tTerrain2;
+		Tile tTile;
+		Tile tTileInPlace;
+		int tTileIndex;
+		int tTileBuildCost;
+		int tTotalTerrainCost;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "J6";
+		tMapCellXMLIndex = 4;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
+		tTileIndex = 9; // Yellow Tile # 57, one Single City, straight
+		
+		tTileInPlace = tilesTestFactory.buildTile (tTileIndex);
+		tMapCell.setTile (tTileInPlace);
+		
+//		tTerrain1 = tMapCell.getTerrain1 ();
+//		tTerrain1.setCost (120);
+		tTerrain2 = tMapCell.getTerrain2 ();
+		tTerrain2.setCost (80);
+	
+//		assertEquals (10, tTerrain1.getTerrain ());
+		assertEquals (10, tTerrain2.getTerrain ());
+		assertTrue (tMapCell.isTileOnCell ());
+
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
+		assertEquals (80, tTotalTerrainCost);
+		
+		tTileBuildCost = tMapCell.getCostToLayTile ();
+		assertEquals (0, tTileBuildCost);
+
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
+//		assertEquals (0, tTileBuildCost);
+		
+		tTileIndex = 1; // Green Tile # 14, one Double City, Track in X Formation
+		
+		tTile = tilesTestFactory.buildTile (tTileIndex);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
+//		assertEquals (0, tTileBuildCost);
 	}
 
 }

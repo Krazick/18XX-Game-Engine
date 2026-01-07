@@ -65,7 +65,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");
 	public static final AttributeName AN_ORIENTATION = new AttributeName ("orientation");
 	public static final AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
-	public static final AttributeName AN_STARTING = new AttributeName ("starting");
+	public static final AttributeName AN_FIXED = new AttributeName ("starting");
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
 	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
 	public static final AttributeName AN_CATTLE_TOKEN = new AttributeName ("cattle");
@@ -88,7 +88,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static boolean mapDirection;
 	boolean tileOrientLocked;
 	boolean selected;
-	boolean startingTile; // If the board has a initial tile placed, need to have terrain features show through.
+	boolean fixedTile; // If the board has a initial tile placed, need to have terrain features show through.
 	boolean hasPortToken;
 	boolean hasCattleToken;
 	boolean hasBridgeToken;
@@ -101,7 +101,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	int tileNumber;
 	int tileOrient;
 	int benefitValue;
-	int startingTileNumber;
+	int fixedTileNumber;
 	int destinationCorpID;	// For 1870, Need to add at least one additional Destination Corp
 							// IE, 1870 has two Map Cells with two Companies
 							// TODO
@@ -566,8 +566,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			if (tileOrient > 0) {
 				tTileElement.setAttribute (AN_ORIENTATION, tileOrient);
 			}
-			if (isStartingTile ()) {
-				tTileElement.setAttribute (AN_STARTING, "TRUE");
+			if (isFixedTile ()) {
+				tTileElement.setAttribute (AN_FIXED, "TRUE");
 			}
 			tXMLElement.appendChild (tTileElement);
 		}
@@ -1195,8 +1195,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		return baseTerrain.isSelectable ();
 	}
 
-	public boolean isStartingTile () {
-		return (tileNumber == startingTileNumber);
+	public boolean isFixedTile () {
+		return (tileNumber == fixedTileNumber);
 	}
 
 	public boolean isTileOrientationLocked () {
@@ -1306,7 +1306,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	protected void loadXMLMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
-		boolean tStarting;
+		boolean tFixed;
 		int tTileNumber;
 		int tOrientation;
 		int tSide;
@@ -1320,8 +1320,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		} else if (Tile.EN_TILE.equals (aChildName)) {
 			tTileNumber = aChildNode.getThisIntAttribute (Tile.AN_NUMBER);
 			tOrientation = aChildNode.getThisIntAttribute (AN_ORIENTATION);
-			tStarting = aChildNode.getThisBooleanAttribute (AN_STARTING);
-			setTileInfo (tTileNumber, tOrientation, tStarting);
+			tFixed = aChildNode.getThisBooleanAttribute (AN_FIXED);
+			setTileInfo (tTileNumber, tOrientation, tFixed);
 		} else if (EN_BLOCKED.equals (aChildName)) {
 			tSide = aChildNode.getThisIntAttribute (AN_SIDE);
 			blockedSides [tSide] = true;
@@ -1450,10 +1450,10 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		setTileInfo (tNewTileNumber, aTileOrient, false);
 	}
 
-	public void setTileInfo (int aTileNumber, int aTileOrient, boolean aStarting) {
+	public void setTileInfo (int aTileNumber, int aTileOrient, boolean aFixedTile) {
 		setTileNumber (aTileNumber);
 		setTileOrientation (aTileOrient);
-		setStartingTile (aStarting);
+		setFixedTile (aFixedTile);
 	}
 
 	public void setTileNumber (int aTileNumber) {
@@ -1796,7 +1796,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			tDrawBorder = baseTerrain.drawBorder ();
 			aHex.drawBorders (tGraphics2D, XCenter, YCenter, tDrawBorder, blockedSides);
 		}
-		if (isStartingTile ()) {
+		if (isFixedTile ()) {
 			drawAllTerrain (aGraphics, aHex, aXoffset, aYoffset);
 		} else {
 			drawTerrainBleedThrough (aGraphics, terrain1, aHex, aXoffset, aYoffset);
@@ -2148,8 +2148,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		setBaseTerrain (aBaseTerrain);
 		putTile (aTile, aTileOrient);
 		clearSelected ();
-		startingTileNumber = Tile.NOT_A_TILE;
-		startingTile = false;
+		fixedTileNumber = Tile.NOT_A_TILE;
+		fixedTile = false;
 		setRebate (Rebate.NO_REBATE);
 		clearAllTrainsUsingSides ();
 	}
@@ -2187,16 +2187,16 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		tCity.setStation (aStationIndex, tMapToken);
 	}
 
-	public void setStartingTile (boolean aStarting) {
-		if (aStarting) {
-			startingTileNumber = tileNumber;
+	public void setFixedTile (boolean aFixed) {
+		if (aFixed) {
+			fixedTileNumber = tileNumber;
 		}
-		startingTile = aStarting;
-		setTileOrientationLocked (startingTile);
+		fixedTile = aFixed;
+		setTileOrientationLocked (fixedTile);
 	}
 
-	public void setStartingTile () {
-		setStartingTile (true);
+	public void setFixedTile () {
+		setFixedTile (true);
 	}
 
 	public void setTerrain1 (int aTerrain, int aCost, Location aLocation) {
@@ -2696,7 +2696,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 
 	public int getCostToLayTile (Tile aTile) {
 		TileType tTileType;
-		TileName tTileName;
+//		TileName tTileName;
 		int tCostToLay;
 		int tTileTypeInt;
 		int tTotalTerrainCost;
@@ -2711,21 +2711,25 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			tTileTypeInt = tTileType.getType ();
 			if (tTileTypeInt == TileType.YELLOW) {
 				tCostToLay = tTotalTerrainCost;
-			} else if (tTileTypeInt == TileType.GREEN) {
-				tTileName = aTile.getTileName ();
-				if (tTileName != TileName.NO_TILE_NAME) {
-					if (tTileName.isOOTile () || tTileName.isNYTile ()
-						|| tTileName.isXXTile () || tTileName.isYTile ()) {
-						tCostToLay = tTotalTerrainCost;
-					}
+			} else {
+				if (fixedTile) {
+					tCostToLay = tTotalTerrainCost;
 				}
-			} else if (tTileTypeInt == TileType.BROWN) {
-				tTileName = aTile.getTileName ();
-				if (tTileName != TileName.NO_TILE_NAME) {
-					if ( tTileName.isHHTile ()) {
-						tCostToLay = tTotalTerrainCost;
-					}
-				}
+//			} else if (tTileTypeInt == TileType.GREEN) {
+//				tTileName = aTile.getTileName ();
+//				if (tTileName != TileName.NO_TILE_NAME) {
+//					if (tTileName.isOOTile () || tTileName.isNYTile ()
+//						|| tTileName.isXXTile () || tTileName.isYTile ()) {
+//						tCostToLay = tTotalTerrainCost;
+//					}
+//				}
+//			} else if (tTileTypeInt == TileType.BROWN) {
+//				tTileName = aTile.getTileName ();
+//				if (tTileName != TileName.NO_TILE_NAME) {
+//					if ( tTileName.isHHTile ()) {
+//						tCostToLay = tTotalTerrainCost;
+//					}
+//				}
 			}
 		}
 
