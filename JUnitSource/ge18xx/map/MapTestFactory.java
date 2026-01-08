@@ -253,6 +253,11 @@ public class MapTestFactory {
 				+ "		<Terrain category=\"optional\" location=\"8\" type=\"River\" />\n"
 				+ "	</MapCell>\n"
 				+ "";
+		String tMapCell6TestXML = "<MapCell>\n"
+				+ "		<Terrain category=\"base\" type=\"Clear\" />\n"
+				+ "		<Terrain category=\"optional\" location=\"50\" type=\"River\" />\n"
+				+ "	</MapCell>\n"
+				+ "";
 		MapCell tMapCell;
 		
 		tMapCell = MapCell.NO_MAP_CELL;
@@ -267,6 +272,8 @@ public class MapTestFactory {
 			tMapCell = buildMapCellFromXML (tMapCell4TestXML, aMapCellID);
 		} else if (tMapCellXMLIndex == 5) {
 			tMapCell = buildMapCellFromXML (tMapCell5TestXML, aMapCellID);
+		} else if (tMapCellXMLIndex == 6) {
+			tMapCell = buildMapCellFromXML (tMapCell6TestXML, aMapCellID);
 		}
 		
 		return tMapCell;

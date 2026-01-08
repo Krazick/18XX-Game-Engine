@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeMapEffect;
+import ge18xx.round.action.effects.SetFixedTileEffect;
 import geUtilities.xml.XMLNode;
 
 public class ChangeMapAction extends CashTransferAction {
@@ -43,5 +44,14 @@ public class ChangeMapAction extends CashTransferAction {
 			tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 			addEffect (tChangeCorporationStatusEffect);
 		}
+	}
+	
+	public void addSetFixedTileEffect (ActorI aActor, MapCell aMapCell, boolean aFixedTile,
+					boolean aPreivousState) {
+		SetFixedTileEffect tSetFixedTileEffect;
+
+		tSetFixedTileEffect = new SetFixedTileEffect (aActor, aMapCell, aFixedTile, 
+				aPreivousState);
+		addEffect (tSetFixedTileEffect);
 	}
 }

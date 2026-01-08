@@ -1024,7 +1024,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
-				mapCells [aRow] [aCol].setFixedTile ();
+				mapCells [aRow] [aCol].setFixedTileFlag (true);
 			}
 		}
 	}
@@ -1302,6 +1302,10 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 	}
 
+	public TileSet getTileSet () {
+		return tileSet;
+	}
+	
 	public void setTilePlaced (boolean aTilePlaced) {
 		tilePlaced = aTilePlaced;
 	}

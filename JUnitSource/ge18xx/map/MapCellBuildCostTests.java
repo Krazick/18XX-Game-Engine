@@ -237,7 +237,6 @@ class MapCellBuildCostTests extends MapTester {
 	@Test
 	@DisplayName ("Map Cell with Tile and Terrain Build Cost Test")
 	void mapCellTileTerrainBuildCostTest () {
-//		Terrain tTerrain1;
 		Terrain tTerrain2;
 		Tile tTile;
 		Tile tTileInPlace;
@@ -256,12 +255,9 @@ class MapCellBuildCostTests extends MapTester {
 		tTileInPlace = tilesTestFactory.buildTile (tTileIndex);
 		tMapCell.setTile (tTileInPlace);
 		
-//		tTerrain1 = tMapCell.getTerrain1 ();
-//		tTerrain1.setCost (120);
 		tTerrain2 = tMapCell.getTerrain2 ();
 		tTerrain2.setCost (80);
 	
-//		assertEquals (10, tTerrain1.getTerrain ());
 		assertEquals (10, tTerrain2.getTerrain ());
 		assertTrue (tMapCell.isTileOnCell ());
 
@@ -272,13 +268,101 @@ class MapCellBuildCostTests extends MapTester {
 		assertEquals (0, tTileBuildCost);
 
 		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
-//		assertEquals (0, tTileBuildCost);
+		assertEquals (80, tTileBuildCost);
 		
 		tTileIndex = 1; // Green Tile # 14, one Double City, Track in X Formation
 		
 		tTile = tilesTestFactory.buildTile (tTileIndex);
 		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
-//		assertEquals (0, tTileBuildCost);
+		assertEquals (0, tTileBuildCost);
+	}
+	
+	@Test
+	@DisplayName ("Map Cell with Fixed Tile and Terrain Build Cost Test")
+	void mapCellFixedTileTerrainBuildCostTest () {
+		Terrain tTerrain1;
+		Tile tTile;
+		Tile tTileInPlace;
+		int tTileIndex;
+		int tTileBuildCost;
+		int tTotalTerrainCost;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "I5";
+		tMapCellXMLIndex = 6;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
+		tTileIndex = 9; // Yellow Tile # 57, one Single City, straight
+		
+		tTileInPlace = tilesTestFactory.buildTile (tTileIndex);
+		tMapCell.setTile (tTileInPlace);
+		tMapCell.setFixedTileFlag (true);
+		
+		tTerrain1 = tMapCell.getTerrain1 ();
+		tTerrain1.setCost (80);
+	
+		assertEquals (10, tTerrain1.getTerrain ());
+		assertTrue (tMapCell.isTileOnCell ());
+
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
+		assertEquals (80, tTotalTerrainCost);
+		
+		tTileBuildCost = tMapCell.getCostToLayTile ();
+		assertEquals (0, tTileBuildCost);
+
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
+		assertEquals (80, tTileBuildCost);
+		
+		tTileIndex = 1; // Green Tile # 14, one Double City, Track in X Formation
+		
+		tTile = tilesTestFactory.buildTile (tTileIndex);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
+		assertEquals (80, tTileBuildCost);
+	}
+	
+	@Test
+	@DisplayName ("Map Cell BA Home with Fixed Tile and Terrain Build Cost Test")
+	void mapCellBAFixedTileTerrainBuildCostTest () {
+		Terrain tTerrain1;
+		Tile tTile;
+		Tile tTileInPlace;
+		int tTileIndex;
+		int tTileBuildCost;
+		int tTotalTerrainCost;
+		int tMapCellXMLIndex;
+		MapCell tMapCell;
+		String tMapCellID;
+
+		tMapCellID = "L6";
+		tMapCellXMLIndex = 6;
+		tMapCell = setupBasicMapCell (tMapCellXMLIndex, tMapCellID);
+		tTileIndex = 10;
+		
+		tTileInPlace = tilesTestFactory.buildTile (tTileIndex);
+		tMapCell.setTile (tTileInPlace);
+		tMapCell.setFixedTileFlag (true);
+		
+		tTerrain1 = tMapCell.getTerrain1 ();
+		tTerrain1.setCost (50);
+	
+		assertEquals (10, tTerrain1.getTerrain ());
+		assertTrue (tMapCell.isTileOnCell ());
+
+		tTotalTerrainCost = tMapCell.getTotalTerrainCost ();
+		assertEquals (50, tTotalTerrainCost);
+		
+		tTileBuildCost = tMapCell.getCostToLayTile ();
+		assertEquals (50, tTileBuildCost);
+
+		tTileBuildCost = tMapCell.getCostToLayTile (Tile.NO_TILE);
+		assertEquals (50, tTileBuildCost);
+		
+		tTileIndex = 1; // Green Tile # 14, one Double City, Track in X Formation
+		
+		tTile = tilesTestFactory.buildTile (tTileIndex);
+		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
+		assertEquals (50, tTileBuildCost);
 	}
 
 }

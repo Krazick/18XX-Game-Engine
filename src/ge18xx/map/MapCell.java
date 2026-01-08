@@ -1044,6 +1044,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			if (rebate != Rebate.NO_REBATE) {
 				tTip += "Rebate: " + rebate.getFormattedAmount () + "<br>";
 			}
+			tTip += "Fixed Tile: " + fixedTile + "<br>";
 			if (destinationCorpID != Corporation.NO_ID) {
 				tDestinationCorporation = getCorporationByID (destinationCorpID);
 				if (tDestinationCorporation != Corporation.NO_CORPORATION) {
@@ -1196,7 +1197,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	public boolean isFixedTile () {
-		return (tileNumber == fixedTileNumber);
+		return fixedTile;
 	}
 
 	public boolean isTileOrientationLocked () {
@@ -1431,6 +1432,10 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	public void putTile (Tile aTile, int aTileOrient) {
+		putTile (aTile, aTileOrient, false);
+	}
+	
+	public void putTile (Tile aTile, int aTileOrient, boolean aFixedTile) {
 		int tNewTileNumber;
 
 		if (centers != Centers.NO_CENTERS) {
@@ -1447,13 +1452,20 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		}
 		setTile (aTile);
 		lockTileOrientation ();
-		setTileInfo (tNewTileNumber, aTileOrient, false);
+		setTileNumber (tNewTileNumber);
+		setTileOrientation (aTileOrient);
+		setFixedTileFlag (aFixedTile);
+		if (aFixedTile) {
+			if (fixedTileNumber == Tile.NOT_A_TILE) {
+				setFixedTileNumber (tNewTileNumber);
+			}
+		}
 	}
 
 	public void setTileInfo (int aTileNumber, int aTileOrient, boolean aFixedTile) {
 		setTileNumber (aTileNumber);
 		setTileOrientation (aTileOrient);
-		setFixedTile (aFixedTile);
+		setFixedTileFlag (aFixedTile);
 	}
 
 	public void setTileNumber (int aTileNumber) {
@@ -1581,7 +1593,6 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			if (tUpgradeCount > 0) {
 				tClonedTile = tTile.clone ();
 				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
-//				gameMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");
 			}
@@ -1602,11 +1613,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 					// Found at least one orientation that works - Put it on the Map Cell
 					putTile (tTile, tPossibleOrientation);
 					tTilePlaced = true;
-//					gameMap.redrawMap ();
 				}
 				aThisTile.toggleSelected ();
-//				aTileSet.revalidate ();
-//				aTileSet.repaint ();
 			} else {
 				// Count of Revenue Types don't match - Can't place
 				System.err.println ("Different Type Counts between Tiles");
@@ -2186,18 +2194,26 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		tCity = tile.getCityAt (aCityIndex);
 		tCity.setStation (aStationIndex, tMapToken);
 	}
+//
+//	public void setFixedTile () {
+//		setFixedTileFlag (true);
+//	}
 
-	public void setFixedTile (boolean aFixed) {
-		if (aFixed) {
-			fixedTileNumber = tileNumber;
-		}
-		fixedTile = aFixed;
-		setTileOrientationLocked (fixedTile);
+	public void setFixedTileFlag (boolean aFixedTileFlag) {
+		fixedTile = aFixedTileFlag;
 	}
-
-	public void setFixedTile () {
-		setFixedTile (true);
+	
+	public void setFixedTileNumber (int aFixedTileNumber) {
+		fixedTileNumber = aFixedTileNumber;
 	}
+	
+//	public void setFixedTile (boolean aFixed) {
+//		if (aFixed) {
+//			fixedTileNumber = tileNumber;
+//		}
+////		fixedTile = aFixed;
+//		setTileOrientationLocked (fixedTile);
+//	}
 
 	public void setTerrain1 (int aTerrain, int aCost, Location aLocation) {
 		terrain1 = new Terrain (aTerrain, aCost, aLocation);
@@ -2338,7 +2354,11 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		setTile (aNewTile);
 		lockTileOrientation ();
 		tTileNumber = aNewTile.getNumber ();
-		setTileInfo (tTileNumber, tFirstPossibleRotation, false);
+		setTileInfo (tTileNumber, tFirstPossibleRotation, false);	
+		
+		// BUG Need to Capture current Tile's Fixed Flag (to be reset), and used
+		// TO Calculate the Cost of the Tile Lay.
+					
 		aNewTile.setMapCell (this);
 
 		// For the Tile on Map, find Revenue Centers, and Tokens on them. Place them

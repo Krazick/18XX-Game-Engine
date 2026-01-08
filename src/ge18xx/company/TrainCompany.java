@@ -2408,6 +2408,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
 		int tCostToLayTile;
+		boolean tFixedTile;
 		Bank tBank;
 		GameManager tGameManager;
 
@@ -2429,6 +2430,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					aPreviousBases, tOperatingRoundID);
 			tLayTileAction.setChainToPrevious (true);
 		}
+		
+		tCostToLayTile = getCostForTile (aTile, aMapCell);
+		if (tCostToLayTile > 0) {
+			tBank = corporationList.getBank ();
+			transferCashTo (tBank, tCostToLayTile);
+			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
+		}
+
+		tFixedTile = aMapCell.isFixedTile ();
+		if (tFixedTile) {
+			tLayTileAction.addSetFixedTileEffect (this, aMapCell, ! tFixedTile, tFixedTile);
+		}
+		
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
 					aPreviousTokens, aPreviousBases, tNewTileTokens);
 		addRemoveHomeEffect (tLayTileAction, aMapCell);
@@ -2443,12 +2457,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			setTileLaid (tLayTileAction);
 		}
-		tCostToLayTile = getCostForTile (aTile, aMapCell);
-		if (tCostToLayTile > 0) {
-			tBank = corporationList.getBank ();
-			transferCashTo (tBank, tCostToLayTile);
-			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
-		}
 		addAction (tLayTileAction);
 		
 		updateInfo ();
@@ -2457,11 +2465,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void createAndAddRemoveTileAction (MapCell aMapCell, Tile aPreviousTile, int aPreviousOrientation,
 			String aPreviousTokens, String aPreviousBases, String aOperatingRoundID) {
 		RemoveTileAction tRemoveTileAction;
+		boolean tFixedTile;
 		
 		tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
 				aOperatingRoundID, this);
 		tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
 				aPreviousTokens, aPreviousBases);
+		tFixedTile = aMapCell.isFixedTile ();
+		tRemoveTileAction.addSetFixedTileEffect (this, aMapCell, ! tFixedTile, tFixedTile);
 		addAction (tRemoveTileAction);
 	}
 

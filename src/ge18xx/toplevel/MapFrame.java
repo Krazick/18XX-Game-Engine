@@ -502,8 +502,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private void putTileDownOnMap () {
 		Corporation tCorporation;
 		MapCell tMapCell;
+		GameTile tGameTile;
 		Tile tTile;
 		Tile tPreviousTile;
+		TileSet tTileSet;
 		int tOrientation;
 		int tPreviousOrientation;
 		String tPreviousTokens;
@@ -521,14 +523,17 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tPreviousBases = GUI.EMPTY_STRING;
 		}
 		// Save Tokens from Previous Tile placement
-		hexMap.putTileDown ();
-		updatePickupTileButton (true, GUI.NO_TOOL_TIP);
 		tCorporation = getOperatingCompany ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
-			tTile = tMapCell.getTile ();
+			tTileSet = hexMap.getTileSet ();
+			tGameTile = tTileSet.getSelectedTile ();
+			tTile = tGameTile.popTile ();
+			tGameTile.pushTile (tTile);
 			tOrientation = tMapCell.getTileOrient ();
 			tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, 
 					tPreviousOrientation, tPreviousTokens, tPreviousBases);
+			hexMap.putTileDown ();
+			updatePickupTileButton (true, GUI.NO_TOOL_TIP);
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();

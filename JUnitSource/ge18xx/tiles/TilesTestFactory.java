@@ -144,14 +144,20 @@ public class TilesTestFactory {
 		+ "</Tile>",
 		
 			// Tile 9 - Yellow # 57
-		 "		<Tile number=\"57\" type=\"Yellow\">\n"
-		 + "		<Track enter=\"2\" exit=\"50\" gauge=\"NORMAL\" />\n"
-		 + "		<Track enter=\"5\" exit=\"50\" gauge=\"NORMAL\" />\n"
-		 + "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"1\"\n"
-		 + "			type=\"Single City\">\n"
-		 + "			<Revenue location=\"13\" phase=\"0\" value=\"20\" />\n"
-		 + "		</RevenueCenter>\n"
-		 + "	</Tile>\n"
+		 "<Tile number=\"57\" type=\"Yellow\">\n"
+		 + "	<Track enter=\"2\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		 + "	<Track enter=\"5\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		 + "	<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		 + "		<Revenue location=\"13\" phase=\"0\" value=\"20\" />\n"
+		 + "	</RevenueCenter>\n"
+		 + "</Tile>\n",
+
+			// Tile 10 - Yellow # 9966
+		"<Tile number=\"9966\" type=\"Yellow\" fixed=\"true\">\n"
+		+ "	<TileName location=\"12\" name=\"XX\" />\n"
+		+ "	<RevenueCenter id=\"-1\" location=\"15\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+		+ "	<RevenueCenter id=\"-1\" location=\"19\" name=\"\" number=\"1\" type=\"Single City\" />\n"
+		+ "</Tile>" ,
 
 	};
 	String testUpgrades [] = {

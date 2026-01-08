@@ -192,7 +192,7 @@ class MapCellIntegrationTests extends MapTester {
 		assertFalse (mapCell.isTileOnCell ());
 		
 		mapCell.putTile (tile9995, 0);
-		mapCell.setFixedTile (true);
+		mapCell.setFixedTileFlag (true);
 
 		assertTrue (mapCell.isTileOnCell ());
 
