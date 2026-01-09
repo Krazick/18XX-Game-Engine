@@ -567,7 +567,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 				tTileElement.setAttribute (AN_ORIENTATION, tileOrient);
 			}
 			if (isFixedTile ()) {
-				tTileElement.setAttribute (AN_FIXED, "TRUE");
+				tTileElement.setAttribute (AN_FIXED, "True");
 			}
 			tXMLElement.appendChild (tTileElement);
 		}
