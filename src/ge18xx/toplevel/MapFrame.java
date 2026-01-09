@@ -366,7 +366,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
 			togglePlaceTokenMode ();
 			if (tCorporation.isATokenCompany ()) {
-				resetBenefitInUse (tCorporation);
+				completeBenefitInUse (tCorporation);
 				resetAllModes ();
 			}
 		} else if (PICKUP_TILE.equals (tTheAction)) {
@@ -387,16 +387,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		}
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
-		}
-	}
-
-	private void resetBenefitInUse (Corporation aCorporation) {
-		Benefit tBenefitInUse;
-		
-		tBenefitInUse = aCorporation.getBenefitInUse ();
-		if (tBenefitInUse.isRealBenefit ()) {
-			tBenefitInUse.setUsed (false);
-			aCorporation.setBenefitInUse (Benefit.FAKE_BENEFIT);
 		}
 	}
 	
