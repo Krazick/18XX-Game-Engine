@@ -236,7 +236,10 @@ public class TokenPlacementBenefit extends MapBenefit {
 		if (extraTokenPlacement) {
 			tBenefitText = "Extra " + tBenefitText;
 		}
-		
+		if (getCost () == 0) {
+			tBenefitText = "Free " + tBenefitText;
+		}
+
 		tBenefitLabel = new JLabel (tBenefitText);
 		
 		return tBenefitLabel;

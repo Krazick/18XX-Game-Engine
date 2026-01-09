@@ -91,6 +91,9 @@ public class TilePlacementBenefit extends MapBenefit {
 		} else if (! isTileAvailable ()) {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
+		} else if (getCost () == 0) {
+			enableButton ();
+			setToolTip ("Free Tile Placement");
 		} else if (! operatingCompanyHasEnoughCash ()) {
 			disableButton ();
 			setToolTip ("Operating Train Company does not have enough cash to pay for Tile");
@@ -214,6 +217,9 @@ public class TilePlacementBenefit extends MapBenefit {
 		tBenefitText = "Tile Placement on " + getMapCellID ();
 		if (extraTilePlacement) {
 			tBenefitText = "Extra " + tBenefitText;
+		}
+		if (getCost () == 0) {
+			tBenefitText = "Free " + tBenefitText;
 		}
 		
 		tBenefitLabel = new JLabel (tBenefitText);
