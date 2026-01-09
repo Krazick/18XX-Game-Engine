@@ -568,6 +568,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			}
 			if (isFixedTile ()) {
 				tTileElement.setAttribute (AN_FIXED, "True");
+			} else {
+				tTileElement.setAttribute (AN_FIXED, "False");
 			}
 			tXMLElement.appendChild (tTileElement);
 		}
@@ -775,6 +777,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			tXMLElement = aXMLDocument.createElement (EN_MAP_CELL);
 			tXMLElement.setAttribute (Tile.AN_TILE_NUMBER, tile.getNumber ());
 			tXMLElement.setAttribute (AN_ORIENTATION, tileOrient);
+			tXMLElement.setAttribute (AN_FIXED, fixedTile);
 			if (hasPortToken) {
 				tXMLElement.setAttribute (AN_PORT_TOKEN, true);
 			}
