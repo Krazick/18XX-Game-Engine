@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
+//import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -302,35 +302,6 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		return tHasStation;
 	}
 
-//	public XMLElement createElement (XMLDocument aXMLDocument) {
-//		XMLElement tElement;
-//		XMLElement tCellElement;
-//		XMLElement tRowElement;
-//		int tRowIndex;
-//		int tColIndex;
-//		int tRowCount;
-//		int tColCount;
-//		int tMaxColCount;
-//
-//		tElement = aXMLDocument.createElement (EN_MAP);
-//		tRowCount = getRowCount ();
-//		tMaxColCount = getMaxColCount ();
-//		tElement.setAttribute (AN_ROWS, tRowCount);
-//		tElement.setAttribute (AN_COLS, tMaxColCount);
-//		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-//			tRowElement = aXMLDocument.createElement (EN_ROW);
-//			tRowElement.setAttribute (AN_INDEX, tRowIndex);
-//			tColCount = getColCount (tRowIndex);
-//			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-//				tCellElement = mapCells [tRowIndex] [tColIndex].createElement (aXMLDocument);
-//				tRowElement.appendChild (tCellElement);
-//			}
-//			tElement.appendChild (tRowElement);
-//		}
-//
-//		return tElement;
-//	}
-
 	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, 
 					City aCity, MapCell aMapCell, boolean aAddLayTokenAtion) {
 		boolean tTokenPlaced;
@@ -412,26 +383,26 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		return tMapCell;
 	}
 
-	public MapCell getMapCellContainingPoint (Point2D.Double aPoint) {
-		int tRowIndex;
-		int tColIndex;
-		int tRowCount;
-		int tColCount;
-		MapCell tFoundMapCell;
-
-		tFoundMapCell = MapCell.NO_MAP_CELL;
-		tRowCount = getRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
-			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
-					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
-				}
-			}
-		}
-
-		return tFoundMapCell;
-	}
+//	public MapCell getMapCellContainingPoint (Point2D.Double aPoint) {
+//		int tRowIndex;
+//		int tColIndex;
+//		int tRowCount;
+//		int tColCount;
+//		MapCell tFoundMapCell;
+//
+//		tFoundMapCell = MapCell.NO_MAP_CELL;
+//		tRowCount = getRowCount ();
+//		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
+//			tColCount = getColCount (tRowIndex);
+//			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
+//				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
+//					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
+//				}
+//			}
+//		}
+//
+//		return tFoundMapCell;
+//	}
 
 	public XMLElement getMapStateElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;

@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Shape;
-import java.awt.geom.Point2D;
+//import java.awt.geom.Point2D;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -507,75 +507,13 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		}
 	}
 
-	public boolean containingPoint (Point2D.Double point, Hex hex) {
-		return hex.contains (point, XCenter, YCenter);
-	}
+//	public boolean containingPoint (Point2D.Double point, Hex hex) {
+//		return hex.contains (point, XCenter, YCenter);
+//	}
 
 	public boolean containingPoint (Point point, Hex hex) {
 		return hex.contains (point, XCenter, YCenter);
 	}
-
-//	/* Generate XMLElement of all the Map Cell Information for saving to File */
-//	public XMLElement createElement (XMLDocument aXMLDocument) {
-//		XMLElement tXMLElement;
-//		XMLElement tTerrainElement;
-//		XMLElement tNameElement;
-//		XMLElement tTileElement;
-//		XMLElement tBlockedElement;
-//		int tIndex;
-//
-//		tXMLElement = aXMLDocument.createElement (EN_MAP_CELL);
-//		tTerrainElement = baseTerrain.createElement (aXMLDocument);
-//		if (tTerrainElement != XMLElement.NO_XML_ELEMENT) {
-//			tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "base");
-//			tXMLElement.appendChild (tTerrainElement);
-//		}
-//		if (terrain1 != Terrain.NO_TERRAINX) {
-//			tTerrainElement = terrain1.createElement (aXMLDocument);
-//			if (tTerrainElement != XMLElement.NO_XML_ELEMENT) {
-//				tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "optional");
-//				tXMLElement.appendChild (tTerrainElement);
-//			}
-//		}
-//		if (terrain2 != Terrain.NO_TERRAINX) {
-//			tTerrainElement = terrain2.createElement (aXMLDocument);
-//			if (tTerrainElement != XMLElement.NO_XML_ELEMENT) {
-//				tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "optional");
-//				tXMLElement.appendChild (tTerrainElement);
-//			}
-//		}
-//		if (baseTileName != TileName.NO_TILE_NAME) {
-//			tNameElement = new XMLElement (baseTileName.createElement (aXMLDocument).getElement ());
-//			if (tNameElement != XMLElement.NO_XML_ELEMENT) {
-//				tXMLElement.appendChild (tNameElement);
-//			}
-//		}
-//
-//		centers.appendCenters (tXMLElement, aXMLDocument);
-//
-//		for (tIndex = 0; tIndex < 6; tIndex++) {
-//			if (blockedSides [tIndex]) {
-//				tBlockedElement = aXMLDocument.createElement (EN_BLOCKED);
-//				tBlockedElement.setAttribute (AN_SIDE, tIndex);
-//				tXMLElement.appendChild (tBlockedElement);
-//			}
-//		}
-//		if (tile != Tile.NO_TILE) {
-//			tTileElement = aXMLDocument.createElement (Tile.EN_TILE);
-//			tTileElement.setAttribute (Tile.AN_NUMBER, tile.getNumber ());
-//			if (tileOrient > 0) {
-//				tTileElement.setAttribute (AN_ORIENTATION, tileOrient);
-//			}
-//			if (isFixedTile ()) {
-//				tTileElement.setAttribute (AN_FIXED, "True");
-//			} else {
-//				tTileElement.setAttribute (AN_FIXED, "False");
-//			}
-//			tXMLElement.appendChild (tTileElement);
-//		}
-//		
-//		return tXMLElement;
-//	}
 
 	public boolean forID (String aID) {
 		return (aID.equals (id));
