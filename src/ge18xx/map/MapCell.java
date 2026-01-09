@@ -1534,6 +1534,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 			if (tUpgradeCount > 0) {
 				tClonedTile = tTile.clone ();
 				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
+				unlockTileOrientation ();
 			} else {
 				System.err.println ("No Upgrades Available");
 			}
@@ -1553,6 +1554,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 				} else {
 					// Found at least one orientation that works - Put it on the Map Cell
 					putTile (tTile, tPossibleOrientation);
+					unlockTileOrientation ();
 					tTilePlaced = true;
 				}
 				aThisTile.toggleSelected ();
