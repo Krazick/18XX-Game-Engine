@@ -302,34 +302,34 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		return tHasStation;
 	}
 
-	public XMLElement createElement (XMLDocument aXMLDocument) {
-		XMLElement tElement;
-		XMLElement tCellElement;
-		XMLElement tRowElement;
-		int tRowIndex;
-		int tColIndex;
-		int tRowCount;
-		int tColCount;
-		int tMaxColCount;
-
-		tElement = aXMLDocument.createElement (EN_MAP);
-		tRowCount = getRowCount ();
-		tMaxColCount = getMaxColCount ();
-		tElement.setAttribute (AN_ROWS, tRowCount);
-		tElement.setAttribute (AN_COLS, tMaxColCount);
-		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-			tRowElement = aXMLDocument.createElement (EN_ROW);
-			tRowElement.setAttribute (AN_INDEX, tRowIndex);
-			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tCellElement = mapCells [tRowIndex] [tColIndex].createElement (aXMLDocument);
-				tRowElement.appendChild (tCellElement);
-			}
-			tElement.appendChild (tRowElement);
-		}
-
-		return tElement;
-	}
+//	public XMLElement createElement (XMLDocument aXMLDocument) {
+//		XMLElement tElement;
+//		XMLElement tCellElement;
+//		XMLElement tRowElement;
+//		int tRowIndex;
+//		int tColIndex;
+//		int tRowCount;
+//		int tColCount;
+//		int tMaxColCount;
+//
+//		tElement = aXMLDocument.createElement (EN_MAP);
+//		tRowCount = getRowCount ();
+//		tMaxColCount = getMaxColCount ();
+//		tElement.setAttribute (AN_ROWS, tRowCount);
+//		tElement.setAttribute (AN_COLS, tMaxColCount);
+//		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+//			tRowElement = aXMLDocument.createElement (EN_ROW);
+//			tRowElement.setAttribute (AN_INDEX, tRowIndex);
+//			tColCount = getColCount (tRowIndex);
+//			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+//				tCellElement = mapCells [tRowIndex] [tColIndex].createElement (aXMLDocument);
+//				tRowElement.appendChild (tCellElement);
+//			}
+//			tElement.appendChild (tRowElement);
+//		}
+//
+//		return tElement;
+//	}
 
 	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, 
 					City aCity, MapCell aMapCell, boolean aAddLayTokenAtion) {

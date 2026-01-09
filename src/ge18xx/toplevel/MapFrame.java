@@ -551,9 +551,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		pickupTileButton.setToolTipText (aToolTip);
 	}
 
-	public XMLElement createMapDefinitions (XMLDocument aXMLDocument) {
-		return (hexMap.createElement (aXMLDocument));
-	}
+//	public XMLElement createMapDefinitions (XMLDocument aXMLDocument) {
+//		return (hexMap.createElement (aXMLDocument));
+//	}
 
 	public HexMap getMap () {
 		return hexMap;
