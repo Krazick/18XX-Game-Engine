@@ -412,6 +412,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		int tRowCount;
 		int tColCount;
 		MapCell tMapCell;
+		String tMapCellID;
 
 		tXMLElement = aXMLDocument.createElement (EN_MAP);
 		tRowCount = getRowCount ();
@@ -424,7 +425,8 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 					if (tXMLMapCellElement != XMLElement.NO_XML_ELEMENT) {
 						tXMLMapCellElement.setAttribute (AN_ROW, tRowIndex);
 						tXMLMapCellElement.setAttribute (AN_COL, tColIndex);
-						tXMLElement.appendChild (tXMLMapCellElement);
+						tMapCellID = tMapCell.getID ();
+						tXMLElement.appendChild (tXMLMapCellElement, tMapCellID);
 					}
 				}
 			}
