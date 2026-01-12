@@ -298,10 +298,10 @@ public class Action {
 		tEffectsElement = aXMLDocument.createElement (Effect.EN_EFFECTS);
 		for (Effect tEffect : effects) {
 			tEffectElement = tEffect.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
-			tEffectsElement.appendChild (tEffectElement);
+			tEffectsElement.appendChild (tEffectElement, ! XMLElement.ADD_CHECKSUM);
 		}
 
-		tActionElement.appendChild (tEffectsElement);
+		tActionElement.appendChild (tEffectsElement, ! XMLElement.ADD_CHECKSUM);
 
 		return tActionElement;
 	}
