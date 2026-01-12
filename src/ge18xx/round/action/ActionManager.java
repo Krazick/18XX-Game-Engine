@@ -251,7 +251,7 @@ public class ActionManager implements XMLSaveGameI {
 		tElements = aXMLDocument.createElement (aEN_Type);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
-			tElements.appendChild (tActionElement);
+			tElements.appendChild (tActionElement, ! XMLElement.ADD_CHECKSUM);
 		}
 
 		return tElements;
