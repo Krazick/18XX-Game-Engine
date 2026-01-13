@@ -1004,14 +1004,16 @@ public class Portfolio implements CertificateHolderI {
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLCertificateElements;
 		XMLElement tXMLElement;
+		int tIndex;
+		String tLabel;
 
 		tXMLElement = aXMLDocument.createElement (EN_PORTFOLIO);
-//		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
-//		setRealAttributes (tXMLElement, AN_MINOR_INDEX, minorIndex);
-//		setRealAttributes (tXMLElement, AN_SHARE_INDEX, shareIndex);
-		for (Certificate tCertficate : certificates) {
-			tXMLCertificateElements = tCertficate.getElement (aXMLDocument);
-			tXMLElement.appendChild (tXMLCertificateElements);
+		tIndex = 0;
+		for (Certificate tCertificate : certificates) {
+			tXMLCertificateElements = tCertificate.getElement (aXMLDocument);
+			tLabel = tCertificate.getCompanyID () + "-" + tIndex + "-" + holder.getName ();
+			tXMLElement.appendChild (tXMLCertificateElements, tLabel);
+			tIndex++;
 		}
 
 		return tXMLElement;

@@ -546,11 +546,13 @@ public class PlayerManager implements XMLSaveGameI {
 	public XMLElement addPlayerElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tPlayerElement;
+		String tPlayerName;
 
 		tXMLElement = aXMLDocument.createElement (Player.EN_PLAYERS);
 		for (Player tPlayer : players) {
 			tPlayerElement = tPlayer.getPlayerElement (aXMLDocument);
-			tXMLElement.appendChild (tPlayerElement);
+			tPlayerName = tPlayer.getName ();
+			tXMLElement.appendChild (tPlayerElement, tPlayerName);
 		}
 
 		return tXMLElement;
@@ -559,11 +561,13 @@ public class PlayerManager implements XMLSaveGameI {
 	public XMLElement addPlayerStateElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tPlayerStateElement;
+		String tPlayerName;
 
 		tXMLElement = aXMLDocument.createElement (Player.EN_PLAYER_STATES);
 		for (Player tPlayer : players) {
 			tPlayerStateElement = tPlayer.getPlayerStateElement (aXMLDocument);
-			tXMLElement.appendChild (tPlayerStateElement);
+			tPlayerName = tPlayer.getName ();
+			tXMLElement.appendChild (tPlayerStateElement, tPlayerName);
 		}
 
 		return tXMLElement;

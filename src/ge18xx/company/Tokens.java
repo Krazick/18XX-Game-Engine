@@ -479,11 +479,13 @@ public class Tokens {
 		}
 	}
 
-	public void appendTokensElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
+	public void appendTokensElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument, 
+							String aCompanyID) {
 		XMLElement tTokensElement;
 		XMLElement tTokenInfoElement;
 		int tTokenCount;
 		int tTokenIndex;
+		String tLabel;
 		
 		tTokenCount = getTokenCount ();
 		aXMLCorporationState.setAttribute (AN_AVAILABLE_TOKEN_COUNT, getTokenCount ());
@@ -494,9 +496,10 @@ public class Tokens {
 				tTokenInfoElement = tTokenInfo.getTokenInfoElement (aXMLDocument);
 				tTokenInfoElement.setAttribute (AN_TOKEN_INDEX, tTokenIndex);
 				tTokenIndex++;
-				tTokensElement.appendChild (tTokenInfoElement);
+				tLabel = aCompanyID + tTokenIndex ;
+				tTokensElement.appendChild (tTokenInfoElement, tLabel);
 			}
-			aXMLCorporationState.appendChild (tTokensElement);
+			aXMLCorporationState.appendChild (tTokensElement, aCompanyID);
 		}
 	}
 }

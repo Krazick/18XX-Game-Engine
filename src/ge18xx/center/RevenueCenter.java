@@ -156,6 +156,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		XMLElement tCorporationBaseElement;
 		String tCorporationAbbrev;
 		Corporation tCorporation;
+		String tLabel;
 
 		tCorporationBaseElement = aXMLDocument.createElement (EN_CORPORATE_BASE);
 		tCorporation = cityInfo.getCorporation ();
@@ -166,7 +167,8 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 					if (tCorporationAbbrev.length () > 0) {
 						tCorporationBaseElement.setAttribute (Corporation.AN_ABBREV, tCorporationAbbrev);
 						tCorporationBaseElement.setAttribute (AN_LOCATION, location.getLocation ());
-						aMapCellElement.appendChild (tCorporationBaseElement);
+						tLabel = tCorporation.getIDToString ();
+						aMapCellElement.appendChild (tCorporationBaseElement, tLabel);
 					}
 				}
 			}

@@ -72,12 +72,14 @@ public class BankPool extends GameBank {
 		XMLElement tXMLElement;
 		XMLElement tTrainPortfolioElements;
 		XMLElement tStockPortfolioElements;
+		String tLabel;
 	
 		tXMLElement = aXMLDocument.createElement (EN_BANK_POOL_STATE);
 		tStockPortfolioElements = getPortfolioElements (aXMLDocument);
-		tXMLElement.appendChild (tStockPortfolioElements);
+		tLabel = "Open Market";
+		tXMLElement.appendChild (tStockPortfolioElements, tLabel);
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
-		tXMLElement.appendChild (tTrainPortfolioElements);
+		tXMLElement.appendChild (tTrainPortfolioElements, tLabel);
 
 		return tXMLElement;
 	}

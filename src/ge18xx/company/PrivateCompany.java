@@ -496,6 +496,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		XMLElement tXMLElement;
 		XMLElement tBidders;
 		XMLElement tXMLBenefits;
+		String tLabel;
 
 		tXMLElement = aXMLDocument.createElement (EN_PRIVATE);
 		super.getCorporationStateElement (tXMLElement, aXMLDocument);
@@ -507,8 +508,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 		if (benefits != Benefits.NO_BENEFITS) {
 			if (benefits.getCount () > 0) {
-				tXMLBenefits = benefits.getBenefitsStateElement (aXMLDocument);
-				tXMLElement.appendChild (tXMLBenefits);
+				tLabel = getIDToString ();
+				tXMLBenefits = benefits.getBenefitsStateElement (aXMLDocument, tLabel);
+				tXMLElement.appendChild (tXMLBenefits, tLabel);
 			}
 		}
 

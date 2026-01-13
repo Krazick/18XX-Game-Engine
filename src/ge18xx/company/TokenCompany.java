@@ -464,7 +464,7 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
-		tokens.appendTokensElement (aXMLCorporationState, aXMLDocument);
+		tokens.appendTokensElement (aXMLCorporationState, aXMLDocument, getIDToString ());
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
 	}
 

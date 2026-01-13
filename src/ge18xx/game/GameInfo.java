@@ -578,7 +578,7 @@ public class GameInfo implements XMLSaveGameI {
 		tXMLElement = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
 		for (VariantEffect tVariantEffect : activeVariantEffects) {
 			tVariantEffectXMLElement = tVariantEffect.getEffectElement (aXMLDocument);
-			tXMLElement.appendChild (tVariantEffectXMLElement);
+			tXMLElement.appendChild (tVariantEffectXMLElement, ! XMLElement.ADD_CHECKSUM);
 		}
 		
 		return tXMLElement;
@@ -776,7 +776,7 @@ public class GameInfo implements XMLSaveGameI {
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
 		tGameVariantEffects = getGameVariantsXMLElement (aXMLDocument);
 		if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
-			tXMLElement.appendChild (tGameVariantEffects);
+			tXMLElement.appendChild (tGameVariantEffects, ! XMLElement.ADD_CHECKSUM);
 		}
 		
 		return tXMLElement;

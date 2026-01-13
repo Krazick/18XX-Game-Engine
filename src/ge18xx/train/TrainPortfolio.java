@@ -525,12 +525,14 @@ public class TrainPortfolio implements TrainHolderI {
 
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-		XMLElement tXMLTrainElements;
+		XMLElement tXMLTrainElement;
+		String tTrainID;
 
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		for (Train tTrain : trains) {
-			tXMLTrainElements = tTrain.getElement (aXMLDocument);
-			tXMLElement.appendChild (tXMLTrainElements);
+			tXMLTrainElement = tTrain.getElement (aXMLDocument);
+			tTrainID = tTrain.getID () + "";
+			tXMLElement.appendChild (tXMLTrainElement, tTrainID);
 		}
 
 		return tXMLElement;
@@ -542,14 +544,18 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public XMLElement getRustedElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
+//		XMLElement tXMLElement;
 		XMLElement tXMLRustedTrains;
 
-		tXMLElement = aXMLDocument.createElement (EN_RUSTED_TRAIN_PORTFOLIO);
-		tXMLRustedTrains = getElements (aXMLDocument, EN_TRAIN_PORTFOLIO);
-		tXMLElement.appendChild (tXMLRustedTrains);
+//		tXMLElement = aXMLDocument.createElement (EN_RUSTED_TRAIN_PORTFOLIO);
+//		tXMLRustedTrains = getElements (aXMLDocument, EN_TRAIN_PORTFOLIO);
+//		tXMLElement.appendChild (tXMLRustedTrains);
+		
+//		tXMLElement = aXMLDocument.createElement (EN_RUSTED_TRAIN_PORTFOLIO);
+		tXMLRustedTrains = getElements (aXMLDocument, EN_RUSTED_TRAIN_PORTFOLIO);
+//		tXMLElement.appendChild (tXMLRustedTrains);
 
-		return tXMLElement;
+		return tXMLRustedTrains;
 	}
 
 	@Override

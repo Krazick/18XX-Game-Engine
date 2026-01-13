@@ -772,14 +772,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
 		tXMLAllPercentBoughtElements = allPercentBought.getElements (aXMLDocument);
-		tXMLElement.appendChild (tXMLAllPercentBoughtElements);
+		tXMLElement.appendChild (tXMLAllPercentBoughtElements, name);
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
-		tXMLElement.appendChild (tXMLPortofolioElements);
+		tXMLElement.appendChild (tXMLPortofolioElements, name);
 		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
-		tXMLElement.appendChild (tXMLEscrows);
+		tXMLElement.appendChild (tXMLEscrows, name);
 		if (queryOffer != QueryOffer.NO_QUERY_OFFER) {
 			tXMLQueryOfferElements = queryOffer.getElements (aXMLDocument);
-			tXMLElement.appendChild (tXMLQueryOfferElements);
+			tXMLElement.appendChild (tXMLQueryOfferElements, name);
 		}
 
 		return tXMLElement;

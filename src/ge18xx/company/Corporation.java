@@ -1104,9 +1104,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tPortfolioElements;
+		String tLabel;
 
 		tPortfolioElements = portfolio.getElements (aXMLDocument);
-		aXMLCorporationState.appendChild (tPortfolioElements);
+		tLabel = getIDToString ();
+		aXMLCorporationState.appendChild (tPortfolioElements, tLabel);
 	}
 
 	public int getCountOfSelectedCertificates () {

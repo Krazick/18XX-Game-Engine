@@ -332,11 +332,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tCorporationElement;
+		String tLabel;
 
 		tXMLElement = aXMLDocument.createElement (EN_CORPORATIONS);
 		for (Corporation tCorporation : corporations) {
 			tCorporationElement = tCorporation.createElement (aXMLDocument);
-			tXMLElement.appendChild (tCorporationElement);
+			tLabel = tCorporation.getIDToString ();
+			tXMLElement.appendChild (tCorporationElement, tLabel);
 		}
 		aXMLDocument.appendChild (tXMLElement);
 
@@ -517,10 +519,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void getCorporationStateElements (XMLDocument aXMLDocument, XMLElement aXMLParent) {
 		XMLElement tXMLCorporationState;
+		String tLabel;
 
 		for (Corporation tCorporation : corporations) {
 			tXMLCorporationState = tCorporation.getCorporationStateElement (aXMLDocument);
-			aXMLParent.appendChild (tXMLCorporationState);
+			tLabel = tCorporation.getIDToString ();
+			aXMLParent.appendChild (tXMLCorporationState, tLabel);
 		}
 	}
 

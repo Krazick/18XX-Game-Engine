@@ -43,8 +43,7 @@ public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
 	public static final AttributeName AN_COMPANY = new AttributeName ("company");
 	public static final AttributeName AN_STATION_INDEX = new AttributeName ("stationIndex");
-	public static final ElementName CorporationBase = new ElementName ("CorporationBase");
-	public static final ElementName EN_CORPORATE_STATION = new ElementName ("CorporateStation");
+	public static final ElementName EN_CORPORATION_STATION = new ElementName ("CorporateStation");
 	public static final City NO_CITY = null;
 	public static final int NO_STATIONS = 0;
 	public static final int NOT_VALID_STATION = -1;
@@ -105,6 +104,7 @@ public class City extends RevenueCenter implements Cloneable {
 		int tTokenIndex;
 		String tAbbrev;
 		String tMapCellID;
+		String tLabel;
 		XMLElement tXMLTokenState;
 		MapToken tMapToken;
 		TokenCompany tTokenCompany;
@@ -116,13 +116,14 @@ public class City extends RevenueCenter implements Cloneable {
 				tAbbrev = tTokenCompany.getAbbrev ();
 				tTokenIndex = tTokenCompany.getTokenIndex (tMapToken);
 				tMapCellID = corpStations [tIndex].getMapCellID ();
-				tXMLTokenState = aXMLDocument.createElement (EN_CORPORATE_STATION);
+				tXMLTokenState = aXMLDocument.createElement (EN_CORPORATION_STATION);
 				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, tAbbrev);
 				tXMLTokenState.setAttribute (AN_STATION_INDEX, tIndex);
 				tXMLTokenState.setAttribute (Location.AN_LOCATION, location.getLocation ());
 				tXMLTokenState.setAttribute (MapCell.AN_MAP_CELL_ID, tMapCellID);
 				tXMLTokenState.setAttribute (Tokens.AN_TOKEN_INDEX, tTokenIndex);
-				aMapCellElement.appendChild (tXMLTokenState);
+				tLabel = tTokenCompany.getIDToString ();
+				aMapCellElement.appendChild (tXMLTokenState, tLabel);
 			}
 		}
 	}
@@ -388,16 +389,18 @@ public class City extends RevenueCenter implements Cloneable {
 		XMLElement tCorpStation;
 		TokenCompany tTokenCompany;
 		int tIndex;
+		String tLabel;
 
 		tXMLElement = super.createElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_NUMBER, stationCount);
 		if (stationCount > 0) {
 			for (tIndex = 0; tIndex < stationCount; tIndex++) {
 				if (hasMapTokenAtStation (tIndex)) {
-					tCorpStation = aXMLDocument.createElement (EN_CORPORATE_STATION);
+					tCorpStation = aXMLDocument.createElement (EN_CORPORATION_STATION);
 					tTokenCompany = corpStations [tIndex].getWhichCompany ();
 					tCorpStation.setAttribute (AN_COMPANY, tTokenCompany.getID ());
-					tXMLElement.appendChild (tCorpStation);
+					tLabel = tTokenCompany.getIDToString ();
+					tXMLElement.appendChild (tCorpStation, tLabel);
 				}
 			}
 		}
@@ -1177,7 +1180,7 @@ public class City extends RevenueCenter implements Cloneable {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (tokenParsingRoutine, this);
-		tXMLNodeList.parseXMLNodeList (aMapCellNode, EN_CORPORATE_STATION);
+		tXMLNodeList.parseXMLNodeList (aMapCellNode, EN_CORPORATION_STATION);
 	}
 
 	ParsingRoutineI tokenParsingRoutine = new ParsingRoutineIO () {

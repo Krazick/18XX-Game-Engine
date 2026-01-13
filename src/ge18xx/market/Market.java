@@ -401,6 +401,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tRowCount;
 		int tColCount;
 		MarketCell tMarketCell;
+		String tLabel;
 
 		tMarketElements = aXMLDocument.createElement (EN_MARKET);
 		tRowCount = getMaxRowCount ();
@@ -408,12 +409,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
 				tMarketCell = market [tRowIndex] [tColIndex];
+				tLabel = tRowIndex + "-" + tColIndex;
 				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-					tMarketCellElementTokens = tMarketCell.getCellTokenElements (aXMLDocument);
+					tMarketCellElementTokens = tMarketCell.getCellTokenElements (aXMLDocument, tLabel);
 					if (tMarketCellElementTokens != XMLElement.NO_XML_ELEMENT) {
 						tMarketCellElementTokens.setAttribute (AN_ROW, tRowIndex);
 						tMarketCellElementTokens.setAttribute (AN_COL, tColIndex);
-						tMarketElements.appendChild (tMarketCellElementTokens);
+						tMarketElements.appendChild (tMarketCellElementTokens, tLabel);
 					}
 				}
 			}

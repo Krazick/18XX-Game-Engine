@@ -244,11 +244,13 @@ public class TokenStack {
 	public XMLElement getTokenStackElements (XMLDocument aXMLDocument) {
 		XMLElement tTokenStackElements;
 		XMLElement tTokenElement;
+		String tLabel;
 
 		tTokenStackElements = aXMLDocument.createElement (EN_TOKENS);
 		for (Token tToken : tokens) {
 			tTokenElement = tToken.getTokenElement (aXMLDocument);
-			tTokenStackElements.appendChild (tTokenElement);
+			tLabel = "MarketToken-" + tToken.getCorporationID ();
+			tTokenStackElements.appendChild (tTokenElement, tLabel);
 		}
 
 		return tTokenStackElements;

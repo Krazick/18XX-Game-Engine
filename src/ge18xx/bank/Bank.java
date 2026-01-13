@@ -442,13 +442,17 @@ public class Bank extends GameBank implements CashHolderI {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tRustedTrainPortfolioElements;
 		XMLElement tClosedPortfolioElements;
+		String tLabel;
 
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
-		aXMLElement.appendChild (tTrainPortfolioElements);
+		tLabel = getName ();
+		aXMLElement.appendChild (tTrainPortfolioElements, tLabel);
 		tRustedTrainPortfolioElements = getRustedTrainPortfolioElements (aXMLDocument);
-		aXMLElement.appendChild (tRustedTrainPortfolioElements);
+		tLabel = "Rusted " + getName ();
+		aXMLElement.appendChild (tRustedTrainPortfolioElements, tLabel);
 		tClosedPortfolioElements = getClosedPortfolioElements (aXMLDocument);
-		aXMLElement.appendChild (tClosedPortfolioElements);
+		tLabel = "Closed " + getName ();
+		aXMLElement.appendChild (tClosedPortfolioElements, tLabel);
 	}
 
 	public boolean isBroken () {

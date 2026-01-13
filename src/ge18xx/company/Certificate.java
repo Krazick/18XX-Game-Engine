@@ -1287,6 +1287,10 @@ public class Certificate implements Comparable<Certificate> {
 	public String getCompanyAbbrev () {
 		return corporation.getAbbrev ();
 	}
+	
+	public int getCompanyID () {
+		return corporation.getID ();
+	}
 
 	public String getCompanyName () {
 		return corporation.getName ();

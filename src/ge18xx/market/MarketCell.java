@@ -519,7 +519,7 @@ public class MarketCell {
 		return marketRegion.getExceedPlayerCorpShareLimit ();
 	}
 
-	public XMLElement getCellTokenElements (XMLDocument aXMLDocument) {
+	public XMLElement getCellTokenElements (XMLDocument aXMLDocument, String aLabel) {
 		XMLElement tMarketCellElements;
 		XMLElement tTokenStackElements;
 
@@ -527,7 +527,7 @@ public class MarketCell {
 		if (tokens.getTokenCount () > 0) {
 			tMarketCellElements = aXMLDocument.createElement (EN_MARKET_CELL);
 			tTokenStackElements = tokens.getTokenStackElements (aXMLDocument);
-			tMarketCellElements.appendChild (tTokenStackElements);
+			tMarketCellElements.appendChild (tTokenStackElements, aLabel);
 		}
 
 		return tMarketCellElements;

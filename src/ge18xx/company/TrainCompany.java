@@ -461,6 +461,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tPurchaseOfferElements;
+		String tLabel;
 
 		aXMLCorporationState.setAttribute (AN_PREVIOUS_REVENUE, getPreviousRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
@@ -468,14 +469,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_MUST_PAY_FULL_PRICE, mustPayFullPrice ());
 		aXMLCorporationState.setAttribute (AN_CAN_BORROW_TRAIN, canBorrowTrain ());
 		aXMLCorporationState.setAttribute (AN_ONLY_PERMANENT_TRAIN, onlyPermanentTrain ());
+		tLabel = getIDToString ();
 		if (! hasNoTrains ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
-			aXMLCorporationState.appendChild (tTrainPortfolioElements);
+			aXMLCorporationState.appendChild (tTrainPortfolioElements, tLabel);
 		}
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
 		if (queryOffer != QueryOffer.NO_QUERY_OFFER) {
 			tPurchaseOfferElements = queryOffer.getElements (aXMLDocument);
-			aXMLCorporationState.appendChild (tPurchaseOfferElements);
+			aXMLCorporationState.appendChild (tPurchaseOfferElements, tLabel);
 		}
 	}
 

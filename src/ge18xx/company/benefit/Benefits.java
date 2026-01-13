@@ -280,14 +280,19 @@ public class Benefits {
 		return benefits.size ();
 	}
 
-	public XMLElement getBenefitsStateElement (XMLDocument aXMLDocument) {
+	public XMLElement getBenefitsStateElement (XMLDocument aXMLDocument, String aLabel) {
 		XMLElement tXMLElement;
 		XMLElement tXMLBenefitElement;
+		String tLabel;
+		int tIndex;
 
 		tXMLElement = aXMLDocument.createElement (EN_BENEFITS);
+		tIndex = 0;
 		for (Benefit tBenefit : benefits) {
 			tXMLBenefitElement = tBenefit.getCorporationStateElement (aXMLDocument);
-			tXMLElement.appendChild (tXMLBenefitElement);
+			tLabel = aLabel + "-" + tIndex + tBenefit.getName ();
+			tXMLElement.appendChild (tXMLBenefitElement, tLabel);
+			tIndex++;
 		}
 
 		return tXMLElement;
