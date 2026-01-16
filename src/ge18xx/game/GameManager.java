@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 import checksum.Checksum;
 import checksum.ChecksumCalc;
@@ -207,6 +209,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			// Loan Redemption Payment	-- held by ShareCompany, in ForceBuyCoupon Method
 
 	// Network Game Objects
+	HashMap<String, String> savedChecksums;
 	JGameClient networkJGameClient;		// Extends XMLFrame
 	SavedGames networkSavedGames;
 	boolean notifyNetwork;
@@ -214,6 +217,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	List<MessageBean> allBeans;
 
 	public GameManager () {
+		savedChecksums = new HashMap<String, String> ();
 		fileUtils = new FileUtils ("18xx.");
 		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		setUserDir ();
@@ -2273,7 +2277,63 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		tFullActionReport = roundManager.getFullActionReport ();
 		outputToFile (tFullActionReport, autoSaveActionReportFile);
+		addToSavedHashMap (tXMLDocument);
 	}
+
+	private void addToSavedHashMap (XMLDocument aXMLDocument) {
+		Node tNode;
+		String tPriorNodeName;
+		
+		tNode = aXMLDocument.getDocument ().getDocumentElement ();
+		tPriorNodeName = GUI.EMPTY_STRING;
+		walkTree (tNode, tPriorNodeName);
+	}
+    
+	private void walkTree (Node aNode, String aParentNodeName) {
+		NodeList nodeList;
+		Node childNode;
+		XMLNode tXMLNode;
+		String tParentNodeName;
+		String tChildNodeName;
+		String tNodeName;
+		String tLabel;
+		String tChecksumValue;
+		String tKey;
+		
+        if (aNode.getNodeType () == Node.ELEMENT_NODE) {
+        	tNodeName = aNode.getNodeName ();
+            // Process the current element node (e.g., print its name)
+        	
+        	if (XMLElement.EN_CHECKSUM_XMLELEMENT.toString ().equals (tNodeName)) {
+        		tXMLNode = new XMLNode (aNode);
+        		tLabel = tXMLNode.getThisAttribute (XMLElement.AN_LABEL);
+        		tChildNodeName = tXMLNode.getThisAttribute (XMLElement.AN_NODE_NAME);
+        		tChecksumValue = tXMLNode.getThisAttribute (XMLElement.AN_CHECKSUM);
+        		tKey = aParentNodeName + "-" + tChildNodeName + "-" + tLabel;
+        		tKey = tKey.replaceAll ("^-", GUI.EMPTY_STRING).replaceAll ("-$", GUI.EMPTY_STRING);
+//       		System.out.println ("Save the Checksum for " + tKey + " Value " + tChecksumValue);
+        		savedChecksums.put (tKey, tChecksumValue);
+        		
+        		for (String tAKey : savedChecksums.keySet ()) {
+        			System.out.println ("Key: " + tAKey + ", Value: " + savedChecksums.get (tAKey));
+        		}
+        	} else {
+//	            System.out.println("Element: " + tNodeName);
+        		tParentNodeName = aParentNodeName + "-" + tNodeName;
+	            // Get all child nodes
+	            nodeList = aNode.getChildNodes ();
+	
+	            // Iterate over child nodes and recurse
+	            for (int i = 0; i < nodeList.getLength (); i++) {
+	                childNode = nodeList.item (i);
+	                // Recursively call walkTree for child elements
+	                if (childNode.getNodeType () == Node.ELEMENT_NODE) {
+	                    walkTree (childNode, tParentNodeName);
+	                }
+	            }
+        	}
+        }
+    }
 
 	public void addChecksum (XMLDocument aXMLDocument) {
 		addChecksum (EN_GAME, aXMLDocument);
