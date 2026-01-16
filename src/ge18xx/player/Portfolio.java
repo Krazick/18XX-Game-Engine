@@ -1011,7 +1011,7 @@ public class Portfolio implements CertificateHolderI {
 		tIndex = 0;
 		for (Certificate tCertificate : certificates) {
 			tXMLCertificateElements = tCertificate.getElement (aXMLDocument);
-			tLabel = tCertificate.getCompanyID () + "-" + tIndex + "-" + holder.getName ();
+			tLabel = tCertificate.getCompanyID () + "-" + tIndex + "-" + holder.getAbbrev ();
 			tXMLElement.appendChild (tXMLCertificateElements, tLabel);
 			tIndex++;
 		}
