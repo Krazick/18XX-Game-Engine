@@ -25,7 +25,7 @@ public class NetworkMessages {
 		xmlDocument.clearDocumentChildren ();
 		xmlGameMessage = xmlDocument.createElement (aPrimaryEN);
 		xmlElement = xmlDocument.createElement (aSecondaryEN);
-		xmlGameMessage.appendChild (xmlElement);
+		xmlGameMessage.appendChild (xmlElement, ! XMLElement.ADD_CHECKSUM);
 		xmlDocument.appendChild (xmlGameMessage);
 	}
 
@@ -77,7 +77,7 @@ public class NetworkMessages {
 
 		tXMLPrimaryElement = getXMLGameMessage (aPrimaryEN);
 		tXMLSecondaryElement = getXMLChildElement (tXMLPrimaryElement, aSecondaryEN);
-		tXMLSecondaryElement.appendChild (aXMLElement);
+		tXMLSecondaryElement.appendChild (aXMLElement, ! XMLElement.ADD_CHECKSUM);
 	}
 
 	public XMLElement getXMLGameMessage (ElementName aElementName) {
