@@ -6,6 +6,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+import geUtilities.GUI;
+
 public class ChatServerHandler extends ServerHandler {
 	protected JGameClient jClient;
 
@@ -182,8 +184,9 @@ public class ChatServerHandler extends ServerHandler {
 	@Override
 	public String buildGameSupportXML (String aGameID, String tXMLChild) {
 		String tGameSupportXML;
-		String tGameIDChunk = "";
+		String tGameIDChunk;
 
+		tGameIDChunk = GUI.EMPTY_STRING;
 		if (isValidGameID (aGameID)) {
 			tGameIDChunk = " gameID=\"" + aGameID + "\"";
 		}
@@ -193,8 +196,9 @@ public class ChatServerHandler extends ServerHandler {
 	}
 
 	public boolean isValidGameID (String aGameID) {
-		boolean tIsValidGameID = false;
+		boolean tIsValidGameID;
 
+		tIsValidGameID = false;
 		if (! (aGameID.equals (JGameClient.NO_GAME_ID) || 
 			   aGameID.equals (JGameClient.EMPTY_GAME_ID))) {
 			tIsValidGameID = true;

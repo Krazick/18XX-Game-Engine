@@ -57,8 +57,9 @@ public abstract class ServerHandler implements Runnable {
 
 	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager)
 			throws ConnectException, SocketTimeoutException {
-		boolean tContinueRunning = false;
+		boolean tContinueRunning;
 
+		tContinueRunning = false;
 		gameManager = aGameManager;
 		setupLogger ();
 		try {

@@ -111,16 +111,16 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	public static final String REQUEST_LAST_ACTION = "<ActionNumber requestLast=\"TRUE\">";
 	public static final String DISCONNECT = "DISCONNECT";
 	public static final String BASE_TITLE = "Chat Client";
+	public static final String READY_TO_PLAY = "READY";
 	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private static final String START_NEW_GAME = "START NEW GAME";
 	private static final String SELECT_GAME = "SELECT GAME";
-	public static final String READY_TO_PLAY = "READY";
+	private static final String START_GAME = "START";
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
 	public static final String PLAY_GAME = "PLAY SAVED GAME";
 	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
-	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
 	// Static Labels
 	JLabel nameLabel = new JLabel ("Name:");
@@ -315,8 +315,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		refreshPlayersButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction = aActionEvent.getActionCommand ();
+				String tAction;
 
+				tAction = aActionEvent.getActionCommand ();
 				if (REFRESH.equals (tAction)) {
 					refreshPlayers ();
 				}
@@ -333,8 +334,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		awayFromKeyboardAFKButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction = aActionEvent.getActionCommand ();
+				String tAction;
 
+				tAction = aActionEvent.getActionCommand ();
 				if (AFK.equals (tAction)) {
 					serverHandler.sendUserIsAFK ();
 					networkPlayers.setPlayerAFK (playerName.getText (), true);
@@ -364,14 +366,15 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		startReadyButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction = aActionEvent.getActionCommand ();
+				String tAction;
 
+				tAction = aActionEvent.getActionCommand ();
 				if (PLAY_GAME.equals (tAction)) {
 					updateReadyButton (PLAY_GAME, false, GAME_ALREADY_STARTED);
 					updateButtonGameStarted (chooseGameButton);
 					loadAndStartGame ();
 				} else {
-					if (getGameID ().equals ("")) {
+					if (getGameID ().equals (GUI.EMPTY_STRING)) {
 						setGameIDFromNetwork ();
 					}
 					if (SELECT_GAME.equals (tAction)) {
@@ -390,8 +393,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		disconnectButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction = aActionEvent.getActionCommand ();
+				String tAction;
 
+				tAction = aActionEvent.getActionCommand ();
 				if (DISCONNECT.equals (tAction)) {
 					disconnect ();
 				}
@@ -403,7 +407,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		if (!gameStarted) {
 			// Send to all Players command to unselect game, clear all Ready Flags
 		}
-		if (serverHandler != null) {
+		if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 			serverHandler.shutdown ();
 			networkPlayers.removeAllPlayers ();
 			setForUnconnected ();
@@ -795,9 +799,10 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	private boolean connectToServer (String aPlayerName) throws Exception {
-		boolean tSuccess = false;
+		boolean tSuccess;
 		ChatServerHandler tChatServerHandler;
 
+		tSuccess = false;
 		try {
 			tChatServerHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
 			if (tChatServerHandler != ServerHandler.NO_SERVER_HANDLER) {
@@ -847,8 +852,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public boolean isConnected () {
-		boolean tIsConnected = false;
+		boolean tIsConnected;
 
+		tIsConnected = false;
 		if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 			tIsConnected = serverHandler.isConnected ();
 		}
@@ -904,7 +910,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void sendPlayerOrder () {
-		String tBroadcastMessage, tGameActivity;
+		String tBroadcastMessage;
+		String tGameActivity;
 		String tPlayerOrder;
 
 		gameManager.randomizePlayerOrder ();
@@ -920,7 +927,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void sendGameSelection () {
-		String tBroadcastMessage, tGameActivity;
+		String tBroadcastMessage;
+		String tGameActivity;
 		String tGameID;
 		XMLElement tVariantEffects;
 		GameInfo tGameInfo;
@@ -998,8 +1006,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	public String buildGameActivityXML (ElementName aElementName,
 						AttributeName aAttributeName1, String aAttributeValue1,
 						AttributeName aAttributeName2, String aAttributeValue2) {
-		String tGameActivity = "";
+		String tGameActivity;
 
+		tGameActivity = GUI.EMPTY_STRING;
 		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2);
 
@@ -1010,8 +1019,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 						AttributeName aAttributeName1, String aAttributeValue1,
 						AttributeName aAttributeName2, String aAttributeValue2,
 						AttributeName aAttributeName3, String aAttributeValue3) {
-		String tGameActivity = "";
+		String tGameActivity;
 
+		tGameActivity = GUI.EMPTY_STRING;
 		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aChildElement, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2, aAttributeName3, aAttributeValue3);
 
@@ -1022,8 +1032,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 						AttributeName aAttributeName1, String aAttributeValue1,
 						AttributeName aAttributeName2, String aAttributeValue2,
 						AttributeName aAttributeName3, String aAttributeValue3) {
-		String tGameActivity = "";
+		String tGameActivity;
 
+		tGameActivity = GUI.EMPTY_STRING;
 		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2, aAttributeName3, aAttributeValue3);
 
@@ -1032,8 +1043,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 
 	public String buildGameSupportXML (ElementName aElementName,
 						AttributeName aAttributeName1, String aAttributeValue1) {
-		String tGameSupport = "";
+		String tGameSupport;
 
+		tGameSupport = GUI.EMPTY_STRING;
 		networkMessage.buildGameXML (EN_GAME_SUPPORT, aElementName);
 		networkMessage.addAttribute (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
 		tGameSupport = networkMessage.toString ();
@@ -1128,7 +1140,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 					appendToChat ("I said: " + tMessage, iSaid);
 				}
 			}
-			messageField.setText ("");
+			messageField.setText (GUI.EMPTY_STRING);
 		}
 	}
 
@@ -1177,6 +1189,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 
 	public void appendToChat (String aString, SimpleAttributeSet aStyle) {
 		Document tDocument;
+		
 		try {
 			tDocument = chatText.getDocument ();
 			tDocument.insertString (tDocument.getLength (), GUI.NEWLINE + aString, aStyle);
