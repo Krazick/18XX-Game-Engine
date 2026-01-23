@@ -8,14 +8,6 @@ import geUtilities.xml.XMLNode;
 public class UndoLastAction extends Action {
 	public static final String NAME = "Undo Last";
 
-	public UndoLastAction () {
-		super (NAME);
-	}
-
-	public UndoLastAction (String aName) {
-		super (aName);
-	}
-
 	public UndoLastAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

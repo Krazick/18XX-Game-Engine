@@ -14,11 +14,6 @@ import geUtilities.xml.XMLNode;
 public class ReplaceTokenAction extends LayTokenAction {
 	public final static String NAME = "Replace Token";
 
-	public ReplaceTokenAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public ReplaceTokenAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
