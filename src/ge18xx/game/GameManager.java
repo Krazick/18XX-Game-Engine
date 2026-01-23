@@ -209,6 +209,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			// Loan Redemption Payment	-- held by ShareCompany, in ForceBuyCoupon Method
 
 	// Network Game Objects
+	String previousChecksum;
 	HashMap<String, String> savedChecksums;
 	JGameClient networkJGameClient;		// Extends XMLFrame
 	SavedGames networkSavedGames;
@@ -223,6 +224,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		setUserDir ();
 		setDefaults ();
 		setGameInfo (GameInfo.NO_GAME_INFO);
+		setPreviousChecksum (GUI.EMPTY_STRING);
 	}
 
 	public GameManager (String aClientUserName) {
@@ -241,6 +243,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
 	}
 
+	public void setPreviousChecksum (String aPreviousChecksum) {
+		previousChecksum = aPreviousChecksum;
+	}
+	
+	public String getPreviousChecksum () {
+		return previousChecksum;
+	}
+	
 	@Override
 	public String getEnvironmentVersionInfo () {
 		return game18XXFrame.getEnvironmentVersionInfo ();
@@ -2312,11 +2322,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
         		tKey = aParentNodeName + "-" + tChildNodeName + "-" + tLabel;
         		tKey = tKey.replaceAll ("^-", GUI.EMPTY_STRING).replaceAll ("-$", GUI.EMPTY_STRING);
 //       		System.out.println ("Save the Checksum for " + tKey + " Value " + tChecksumValue);
-        		savedChecksums.put (tKey, tChecksumValue);
+//        		savedChecksums.put (tKey, tChecksumValue);
         		
-        		for (String tAKey : savedChecksums.keySet ()) {
-        			System.out.println ("Key: " + tAKey + ", Value: " + savedChecksums.get (tAKey));
-        		}
+//        		for (String tAKey : savedChecksums.keySet ()) {
+//        			System.out.println ("Key: " + tAKey + ", Value: " + savedChecksums.get (tAKey));
+//        		}
         	} else {
 //	            System.out.println("Element: " + tNodeName);
         		tParentNodeName = aParentNodeName + "-" + tNodeName;
@@ -2365,6 +2375,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex, tActionNumber);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
+		setPreviousChecksum (tChecksumValue);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRowByWorker (tChecksum, false);
 		tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
