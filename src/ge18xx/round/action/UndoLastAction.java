@@ -41,4 +41,12 @@ public class UndoLastAction extends Action {
 		return tActionUndone;
 	}
 
+	@Override
+	public String getBriefActionReport () {
+		String tReport;
+		
+		tReport = super.getBriefActionReport ();
+		
+		return tReport;
+	}
 }
