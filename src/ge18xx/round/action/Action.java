@@ -34,6 +34,7 @@ public class Action {
 	public final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	public final static AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
 	public final static AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
+	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previousChecksum");
 	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
@@ -396,11 +397,7 @@ public class Action {
 		String tReport;
 		String tActorAbbrev;
 		
-		if (actor == ActorI.NO_ACTOR) {
-			tActorAbbrev = "NO-ABBREV";
-		} else {
-			tActorAbbrev = actor.getAbbrev ();
-		}
+		tActorAbbrev = getActorAbbrev ();
 		
 		tReport =  number + ". " + roundState + " " + roundID + ": " + tActorAbbrev + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
@@ -408,6 +405,22 @@ public class Action {
 		return tReport;
 	}
 
+	public String getActorAbbrev () {
+		String tActorAbbrev;
+		
+		tActorAbbrev = GUI.EMPTY_STRING;
+		if (actor == ActorI.NO_ACTOR) {
+			tActorAbbrev = "NO-ABBREV";
+		} else {
+			if (actor.isAMinorCompany ()) {
+				tActorAbbrev = "Minor ";
+			}
+			tActorAbbrev += actor.getAbbrev ();
+		}
+
+		return tActorAbbrev;
+	}
+	
 	public void printBriefActionReport () {
 		System.out.println (getBriefActionReport ());
 	}
