@@ -18,6 +18,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
 import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -26,6 +27,7 @@ import geUtilities.xml.XMLSaveGameI;
 
 public class ActionManager implements XMLSaveGameI {
 	public final static ActionManager NO_ACTION_MANAGER = null;
+	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previous_checksum");
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
 	public final static int PREVIOUS_ACTION = 1;
@@ -59,12 +61,7 @@ public class ActionManager implements XMLSaveGameI {
 	}
 	
 	public void setActionNumber (int aNumber) {
-		String tReportActionNumber;
-
-		tReportActionNumber = "\nChange Action Number from " + actionNumber + " to " + aNumber + GUI.NEWLINE;
-
 		actionNumber = aNumber;
-		appendReport (tReportActionNumber);
 	}
 
 	public int getActionNumber () {
@@ -93,8 +90,8 @@ public class ActionManager implements XMLSaveGameI {
 
 		return tNewNumber;
 	}
-
-	public int generateNewActionNumber () {
+	
+	public int generateNewActionNumber (boolean aUndoAction) {
 		String tReportActionNumber;
 		String tActionNumberString;
 		int tNewActionNumber;
@@ -105,11 +102,12 @@ public class ActionManager implements XMLSaveGameI {
 			if (tNewActionNumber > 0) {
 				actionNumber = tNewActionNumber;
 				tReportActionNumber = "\nRetrieved New Action Number " + actionNumber + " from Game Server\n";
-				appendReport (tReportActionNumber);
 			} else {
 				actionNumber++;
 				tReportActionNumber = "FAILED to retrieve New Action Number from Game Server\n";
-				appendErrorReport (tActionNumberString);
+			}
+			if (! aUndoAction) {
+				appendReport (tReportActionNumber);
 			}
 		} else {
 			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + GUI.NEWLINE;
@@ -201,8 +199,9 @@ public class ActionManager implements XMLSaveGameI {
 			appendToJGameClient (aAction);
 		}
 	}
-
+	
 	public boolean sendActionToNetwork (Action aAction) {
+
 		String tXMLFormat;
 		boolean tAppendAction;
 		
@@ -212,7 +211,7 @@ public class ActionManager implements XMLSaveGameI {
 		tAppendAction = false;
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
-			tXMLFormat = tXMLFormat.replaceAll (GUI.NEWLINE, "");
+			tXMLFormat = tXMLFormat.replaceAll (GUI.NEWLINE, GUI.EMPTY_STRING);
 			sendGameActivity (tXMLFormat, false);
 			tAppendAction = true;
 		}
@@ -220,10 +219,15 @@ public class ActionManager implements XMLSaveGameI {
 		return tAppendAction;
 	}
 
-	private void setNewActionNumber (Action aAction) {
+	public void setNewActionNumber (Action aAction) {
+		setNewActionNumber (aAction, false);
+	}
+
+	private void setNewActionNumber (Action aAction, boolean aUndoAction) {
 		int tActionNumber;
 
-		tActionNumber = generateNewActionNumber ();
+		
+		tActionNumber = generateNewActionNumber (aUndoAction);
 		aAction.setNumber (tActionNumber);
 	}
 
@@ -245,16 +249,19 @@ public class ActionManager implements XMLSaveGameI {
 
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
-		XMLElement tElements;
+		XMLElement tActionElements;
 		XMLElement tActionElement;
-
-		tElements = aXMLDocument.createElement (aEN_Type);
+		String tPreviousChecksum;
+		
+		tActionElements = aXMLDocument.createElement (aEN_Type);
+		tPreviousChecksum = gameManager.getPreviousChecksum ();
+		tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tPreviousChecksum);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
-			tElements.appendChild (tActionElement, ! XMLElement.ADD_CHECKSUM);
+			tActionElements.appendChild (tActionElement, ! XMLElement.ADD_CHECKSUM);
 		}
 
-		return tElements;
+		return tActionElements;
 	}
 
 	public Action getActionAt (int aIndex) {
@@ -450,15 +457,16 @@ public class ActionManager implements XMLSaveGameI {
 		ActorI tActor;
 		ActionStates tRoundType;
 		String tRoundID;
-		boolean tLastActionUndone = true;
+		boolean tLastActionUndone;
 
+		tLastActionUndone = true;
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tLastAction = getLastAction ();
 			tActor = tLastAction.getActor ();
 			tRoundType = tLastAction.getRoundState ();
 			tRoundID = tLastAction.getRoundID ();
 			tUndoAction = new UndoLastAction (tRoundType, tRoundID, tActor);
-			setNewActionNumber (tUndoAction);
+			setNewActionNumber (tUndoAction, true);
 			tXMLFormat = tUndoAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
 			sendGameActivity (tXMLFormat, false);
 			removeActionFromNetwork (tUndoAction); // Queue up Undo to be removed from Network
@@ -497,7 +505,9 @@ public class ActionManager implements XMLSaveGameI {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + GUI.NEWLINE);
+		if (! (tLastAction instanceof UndoLastAction)) {
+			appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + GUI.NEWLINE);
+		}
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {
 			undoLastActionNetwork ();
