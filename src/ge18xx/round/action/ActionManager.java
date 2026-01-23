@@ -408,6 +408,7 @@ public class ActionManager implements XMLSaveGameI {
 		removeActionFromNetwork (tLastAction);
 		tActionIndex = actions.size () - 1;
 		if (gameManager.isNetworkGame ()) {
+			// Need to remove Last Checksum Action
 			gameManager.removeChecksumFor (tActionIndex);			
 		}
 		actions.remove (tActionIndex);
@@ -574,7 +575,9 @@ public class ActionManager implements XMLSaveGameI {
 						applyAction (tAction, tAddChecksum);
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
 						// Game Activity Frame
-						appendActionReport (tAction);
+						if (! (tAction instanceof UndoLastAction)) {
+							appendActionReport (tAction);
+						}
 						appendToJGameClient (tAction);
 					} else if (tThisActionNumber <= actionNumber) {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
