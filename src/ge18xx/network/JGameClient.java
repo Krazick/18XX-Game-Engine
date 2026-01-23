@@ -115,7 +115,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final String START_NEW_GAME = "START NEW GAME";
 	private static final String SELECT_GAME = "SELECT GAME";
 	public static final String READY_TO_PLAY = "READY";
-//	private final String ACTIVE = "ACTIVE";
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
@@ -250,9 +249,11 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	private boolean setupNewPlayer (String aAction) {
-		boolean tValidNewPlayer = false;
-		String tPlayerName = playerName.getText ();
+		boolean tValidNewPlayer;
+		String tPlayerName;
 
+		tValidNewPlayer = false;
+		tPlayerName = playerName.getText ();
 		tValidNewPlayer = NetworkPlayer.validPlayerName (tPlayerName);
 		if (tValidNewPlayer) {
 			try {
@@ -1132,9 +1133,11 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void appendToGameActivity (String aGameActivity) {
+		Document tDocument;
+		
 		try {
-			Document doc = gameActivityTextPane.getDocument ();
-			doc.insertString (doc.getLength (), GUI.NEWLINE + aGameActivity, normal);
+			tDocument = gameActivityTextPane.getDocument ();
+			tDocument.insertString (tDocument.getLength (), GUI.NEWLINE + aGameActivity, normal);
 			scroll (gameActivityScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
@@ -1149,7 +1152,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void handleServerMessage (String tMessage) {
-		String tPatternStart, tPatternEnd;
+		String tPatternStart;
+		String tPatternEnd;
 
 		tPatternStart = GAME_ACTIVITY_PREFIX + " " + GA_XML_START;
 		tPatternEnd = GA_XML_END;
@@ -1164,17 +1168,18 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		appendToChat (aString, normal);
 	}
 
-	public void appendToChat (String aString, boolean aISent) {
-		if (aISent) {
+	public void appendToChat (String aString, boolean aItalicFlagSent) {
+		if (aItalicFlagSent) {
 			StyleConstants.setItalic (iSaid, true);
 			appendToChat (aString, iSaid);
 		}
 	}
 
 	public void appendToChat (String aString, SimpleAttributeSet aStyle) {
+		Document tDocument;
 		try {
-			Document doc = chatText.getDocument ();
-			doc.insertString (doc.getLength (), GUI.NEWLINE + aString, aStyle);
+			tDocument = chatText.getDocument ();
+			tDocument.insertString (tDocument.getLength (), GUI.NEWLINE + aString, aStyle);
 			scroll (chatTextScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
@@ -1195,9 +1200,11 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void playerReady (String aPlayerName) {
-		int tIndex = aPlayerName.indexOf (aPlayerName);
-		String tPlayerName = aPlayerName;
+		int tIndex;
+		String tPlayerName;
 
+		tIndex = aPlayerName.indexOf (aPlayerName);
+		tPlayerName = aPlayerName;
 		if (tIndex > 0) {
 			tPlayerName = aPlayerName.substring (0, tIndex);
 		}
@@ -1288,24 +1295,29 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	 */
 
 	public static void scroll (JScrollPane aScrollPane, ScrollDirection aDirection) {
-		final JScrollBar tVerticalBar = aScrollPane.getVerticalScrollBar ();
-
+		final JScrollBar tVerticalBar;
+		final int tTopOrBottom;
+		AdjustmentListener tScroller;
+		
+		tVerticalBar = aScrollPane.getVerticalScrollBar ();
 		// If we want to scroll to the top, set this value to the minimum,
 		// else to the maximum
-		final int tTopOrBottom = aDirection == ScrollDirection.UP ? tVerticalBar.getMinimum ()
+		tTopOrBottom = aDirection == ScrollDirection.UP ? tVerticalBar.getMinimum ()
 				: tVerticalBar.getMaximum ();
 
-		AdjustmentListener scroller = new AdjustmentListener () {
+		tScroller = new AdjustmentListener () {
 			@Override
-			public void adjustmentValueChanged (AdjustmentEvent tEvent) {
-				Adjustable adjustable = tEvent.getAdjustable ();
+			public void adjustmentValueChanged (AdjustmentEvent aEvent) {
+				Adjustable adjustable;
+				
+				adjustable = aEvent.getAdjustable ();
 				adjustable.setValue (tTopOrBottom);
 				// We have to remove the listener, otherwise the
 				// user would be unable to scroll afterwards
 				tVerticalBar.removeAdjustmentListener (this);
 			}
 		};
-		tVerticalBar.addAdjustmentListener (scroller);
+		tVerticalBar.addAdjustmentListener (tScroller);
 	}
 
 	public XMLElement addElements (XMLDocument aXMLDocument) {
