@@ -5,6 +5,7 @@ import javax.swing.DefaultListModel;
 public class NetworkPlayers {
 	public static final boolean OK_TO_ADD = true;
 	public static final boolean NOT_OK_TO_ADD = false;
+	public static final int NO_PLAYER_INDEX = -1;
 	private DefaultListModel<NetworkPlayer> playerList;
 	private NetworkGameSupportTier2 gameManager;
 
@@ -48,10 +49,12 @@ public class NetworkPlayers {
 	}
 
 	public NetworkPlayer getNetworkPlayer (String aPlayerName) {
-		int tIndex, tNetworkPlayerCount;
-		NetworkPlayer tNetworkPlayer = NetworkPlayer.NO_NETWORK_PLAYER;
+		int tIndex;
+		int tNetworkPlayerCount;
+		NetworkPlayer tNetworkPlayer;
 		NetworkPlayer tThisNetworkPlayer;
 
+		tNetworkPlayer = NetworkPlayer.NO_NETWORK_PLAYER;
 		if (NetworkPlayer.validPlayerName (aPlayerName)) {
 			tNetworkPlayerCount = playerList.size ();
 			if (tNetworkPlayerCount > 0) {
@@ -69,8 +72,9 @@ public class NetworkPlayers {
 
 	public boolean playerIsAFK (String aPlayerName) {
 		NetworkPlayer tNetworkPlayer;
-		boolean tPlayerIsAFK = false;
+		boolean tPlayerIsAFK;
 
+		tPlayerIsAFK = false;
 		if (NetworkPlayer.validPlayerName (aPlayerName)) {
 			tNetworkPlayer = getNetworkPlayer (aPlayerName);
 			tPlayerIsAFK = tNetworkPlayer.isAFK ();
@@ -142,11 +146,11 @@ public class NetworkPlayers {
 	}
 
 	public void setAllPlayerReady (boolean aReady) {
-		int tIndex, tNetworkPlayerCount;
+		int tIndex;
+		int tNetworkPlayerCount;
 		NetworkPlayer tNetworkPlayer;
 
 		tNetworkPlayerCount = playerList.size ();
-
 		if (tNetworkPlayerCount > 0) {
 			for (tIndex = 0; tIndex < tNetworkPlayerCount; tIndex++) {
 				tNetworkPlayer = playerList.get (tIndex);
@@ -156,10 +160,12 @@ public class NetworkPlayers {
 	}
 
 	public int getPlayerIndex (String aPlayerName) {
-		int tPlayerIndex, tPlayerCount, tFoundPlayerIndex;
+		int tPlayerIndex;
+		int tPlayerCount;
+		int tFoundPlayerIndex;
 		NetworkPlayer tNetworkPlayer;
 
-		tFoundPlayerIndex = -1;
+		tFoundPlayerIndex = NO_PLAYER_INDEX;
 		tPlayerCount = playerList.size ();
 		if (aPlayerName != null) {
 			if (tPlayerCount > 0) {
@@ -180,10 +186,12 @@ public class NetworkPlayers {
 	}
 
 	public boolean allPlayersAreReady () {
-		int tIndex, tNetworkPlayerCount;
+		int tIndex;
+		int tNetworkPlayerCount;
 		NetworkPlayer tNetworkPlayer;
-		boolean tAllPlayersAreReady = true;
+		boolean tAllPlayersAreReady;
 
+		tAllPlayersAreReady = true;
 		tNetworkPlayerCount = getPlayerCount ();
 
 		if (tNetworkPlayerCount > 0) {
@@ -201,10 +209,12 @@ public class NetworkPlayers {
 	}
 
 	public boolean playerInList (String aPlayerName) {
-		boolean tPlayerInList = false;
-		int tIndex, tNetworkPlayerCount;
+		boolean tPlayerInList;
+		int tIndex;
+		int tNetworkPlayerCount;
 		NetworkPlayer tNetworkPlayer;
 
+		tPlayerInList = false;
 		if (NetworkPlayer.validPlayerName (aPlayerName)) {
 			tNetworkPlayerCount = playerList.size ();
 
