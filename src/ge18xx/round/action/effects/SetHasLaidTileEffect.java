@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set Has Laid Tile";
+	public final static String NAME = "Set Has Laid Tile Flag";
 	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
 
 	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
