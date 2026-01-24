@@ -17,14 +17,6 @@ public class RotateTileEffect extends LayTileEffect {
 	public static final AttributeName AN_PREVIOUS_ORIENTATION = new AttributeName ("tilePreviousOrientation");
 	int previousOrientation;
 
-	public RotateTileEffect () {
-		this (NAME);
-	}
-
-	public RotateTileEffect (String aName) {
-		super (aName);
-	}
-
 	public RotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aNewOrientation, int aPreviousOrientation,
 			String aTokens, String aBases, String aNewTileTokens) {
 		super (aActor, aMapCell, aTile, aNewOrientation, aTokens, aBases, aNewTileTokens);

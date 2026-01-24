@@ -16,11 +16,6 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 	final static AttributeName AN_PREVIOUS_TOKENS = new AttributeName ("previousTokens");
 	final static AttributeName AN_PREVIOUS_BASES = new AttributeName ("previousBases");
 
-	public RemoveTileEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public RemoveTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aPreviousTokens,
 			String aPreviousBases) {
 		super (aActor, aMapCell, aTile, aOrientation, aPreviousTokens, aPreviousBases);

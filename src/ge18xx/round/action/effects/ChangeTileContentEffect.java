@@ -20,10 +20,6 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	String tokens;
 	String bases;
 
-	public ChangeTileContentEffect () {
-		this (NAME);
-	}
-
 	public ChangeTileContentEffect (String aName) {
 		super (aName);
 	}

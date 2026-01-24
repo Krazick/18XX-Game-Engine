@@ -20,11 +20,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	String newTileTokens;
 	
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
-		this (NAME);
-	}
-
-	public LayTileEffect (String aName) {
-		super (aName);
+		super (NAME);
 	}
 
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
