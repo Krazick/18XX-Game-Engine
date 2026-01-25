@@ -474,7 +474,7 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 		
 		tLastActionNumber = gameManager.getActionNumber ();
 		System.out.println ("Player hit UNDO ------ Undoing Action #" + tLastActionNumber);
-		player.undoAction ();
+		player.undoLastAction ();
 		if (formCompany.getFormationState () != ActorI.ActionStates.NoState) {
 			tCurrentPlayerIndex = getCurrentPlayerIndex ();
 			formCompany.rebuildFormationPanel (tCurrentPlayerIndex);

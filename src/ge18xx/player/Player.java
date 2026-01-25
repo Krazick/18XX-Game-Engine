@@ -1528,8 +1528,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - SOLD");
 	}
 
-	public void undoAction () {
-		playerManager.undoAction (this);
+	public void undoLastAction () {
+		playerManager.undoLastAction (this);
 	}
 
 	public void passAction () {
@@ -1745,7 +1745,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			exchangeAction ();
 		}
 		if (PlayerFrame.UNDO.equals (tActionCommand)) {
-			undoAction ();
+			undoLastAction ();
 		}
 		if (ButtonsInfoFrame.EXPLAIN.equals (tActionCommand)) {
 			playerFrame.handleExplainButtons ();
