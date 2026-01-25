@@ -47,8 +47,8 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.DeclareBankruptcyAction;
 import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.LayTokenAction;
-//import ge18xx.round.action.PreparedActions;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.plan.PlanFrame;
@@ -958,9 +958,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Train Company will Override
-	public void placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
+	public LayTileAction placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
 			int aPreviousTileOrientation, String aPreviousTokens, String aPreviousBases) {
 		System.err.println ("Trying to Verify Place a Tile on a MapCell as Corporation - WRONG");
+		
+		return LayTileAction.NO_LAY_TILE_ACTION;
 	}
 
 	// Token Company will Override
@@ -2307,55 +2309,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		return tStatusUpdated;
 	}
-
-//	public void applyPreparedActions () {
-//		int tPreparedActionCount;
-//		int tPreparedActionIndex;
-//		PreparedAction tPreparedAction;
-//		
-//		tPreparedActionCount = preparedActions.getCount ();
-//		for (tPreparedActionIndex = 0; tPreparedActionIndex < tPreparedActionCount; tPreparedActionIndex++) {
-//			tPreparedAction = preparedActions.getAction (tPreparedActionIndex);
-//			if (tPreparedAction.getTargetState ().equals (status)) {
-//				applyPreparedAction (tPreparedAction);
-//				preparedActions.removeAction (tPreparedActionIndex);
-//			}
-//		}
-//	}
-	
-//	public void applyPreparedAction (PreparedAction aPreparedAction) {
-//		Action tAction;
-//		StartFormationAction tStartFormationAction;
-//		GameManager tGameManager;
-//		RoundManager tRoundManager;
-//		PlayerManager tPlayerManager;
-//		ShareCompany tTriggeringCompany;
-//		Player tActingPresident;
-//		TriggerClass tTriggerFormationClass;
-//		int tCurrentPlayerIndex;
-//		
-//		tAction = aPreparedAction.getAction ();
-//		tGameManager = getGameManager ();
-//		tRoundManager = tGameManager.getRoundManager ();
-//		tGameManager.prepareFormation ();
-//		tTriggerFormationClass = tGameManager.getTriggerFormation ();
-//		if (aPreparedAction.getTriggeringActor ().isAShareCompany ()) {
-//			tTriggeringCompany = (ShareCompany) aPreparedAction.getTriggeringActor ();
-//			tActingPresident = (Player) tTriggeringCompany.getPresident ();
-//			tPlayerManager = tGameManager.getPlayerManager ();
-//			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
-//			tTriggerFormationClass.setCurrentPlayerIndex (tCurrentPlayerIndex);
-//			tTriggerFormationClass.setTriggeringShareCompany (tTriggeringCompany);
-//			tTriggerFormationClass.setActingPresident (tActingPresident);
-//			if (tAction instanceof StartFormationAction) {
-//				tStartFormationAction = (StartFormationAction) tAction;
-//				tStartFormationAction.setTriggeringShareCompanyToPrepared (tTriggeringCompany);
-//			}
-//		}
-//
-//		tAction.applyAction (tRoundManager);
-//		tRoundManager.addAction (tAction);
-//	}
 	
 	/**
 	 * Default Corporation knows how big a loan can be.
