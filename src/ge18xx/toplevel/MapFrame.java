@@ -47,6 +47,7 @@ import ge18xx.map.Terrain;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ExtendRouteAction;
+import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.RouteAction;
 import ge18xx.round.action.StartRouteAction;
 import ge18xx.round.action.effects.LayBenefitTokenEffect;
@@ -490,6 +491,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	private void putTileDownOnMap () {
+		LayTileAction tLayTileAction;
 		Corporation tCorporation;
 		MapCell tMapCell;
 		GameTile tGameTile;
@@ -508,9 +510,9 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tPreviousTokens = tPreviousTile.getPlacedTokens ();
 			tPreviousBases = tPreviousTile.getCorporationBases ();
 		} else {
-			tPreviousOrientation = 0;
+			tPreviousOrientation = MapCell.NO_ORIENTATION;
 			tPreviousTokens = GUI.EMPTY_STRING;
-			tPreviousBases = GUI.EMPTY_STRING;
+			tPreviousBases = tMapCell.getCorporationBases ();
 		}
 		// Save Tokens from Previous Tile placement
 		tCorporation = getOperatingCompany ();
@@ -519,11 +521,13 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tGameTile = tTileSet.getSelectedTile ();
 			tTile = tGameTile.popTile ();
 			tGameTile.pushTile (tTile);
-			tOrientation = tMapCell.getTileOrient ();
-			tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, 
+			tOrientation = MapCell.NO_ORIENTATION;
+			tLayTileAction = tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, 
 					tPreviousOrientation, tPreviousTokens, tPreviousBases);
 			hexMap.putTileDown ();
+			tMapCell.applyBases (tPreviousBases, gameManager);
 			updatePickupTileButton (true, GUI.NO_TOOL_TIP);
+			gameManager.addAction (tLayTileAction);
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
