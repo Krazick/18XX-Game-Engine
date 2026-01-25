@@ -14,11 +14,6 @@ public class ClearCorporationEffect extends ChangeTileEffect {
 	public final static String NAME = "Clear Corporation";
 	int revenueCenterIndex;
 
-	public ClearCorporationEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public ClearCorporationEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
 		super (aActor, aMapCell, aTile);
 		
