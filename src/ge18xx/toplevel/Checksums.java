@@ -41,6 +41,10 @@ public class Checksums {
 		return tLastChecksum;
 	}
 	
+	public void removeLast () {
+		remove (checksums.size () - 1);
+	}
+	
 	public int findIndexFor (int aActionIndex) {
 		int tIndex;
 		int tCount;

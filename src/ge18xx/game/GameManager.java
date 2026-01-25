@@ -2441,6 +2441,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 	
+	public void removeLastChecksum () {
+		checksums.removeLast ();
+		checksumAuditFrame.refreshAuditTable ();
+	}
+	
 	/* Update to use the method in the File Utils */
 	public void outputToFile (String aReport, File aFile) {
 		FileWriter tFWout;
