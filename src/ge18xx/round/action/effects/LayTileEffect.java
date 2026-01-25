@@ -18,10 +18,6 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	public final static String NAME = "Lay Tile";
 	final static AttributeName AN_NEW_TILE_TOKENS = new AttributeName ("newTileTokens");
 	String newTileTokens;
-	
-	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
-		super (NAME);
-	}
 
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
 			String aBases, String aNewTileTokens) {
@@ -60,8 +56,9 @@ public class LayTileEffect extends ChangeTileContentEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		String tBenefitReport = getBenefitEffectReport ();
+		String tBenefitReport;
 
+		tBenefitReport = getBenefitEffectReport ();
 		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation + " by "
 				+ actor.getName () + " on MapCell " + mapCellID + " Tokens [ " + getTokens () + " ] New Bases [ "
 				+ getBases () + " ]" + " New Tile Tokens [" + getNewTileTokens () + "]." + tBenefitReport);
