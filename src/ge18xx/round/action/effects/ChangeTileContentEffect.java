@@ -20,10 +20,6 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	String tokens;
 	String bases;
 
-	public ChangeTileContentEffect (String aName) {
-		super (aName);
-	}
-
 	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
 			String aBases) {
 		this (aActor, aMapCell, aTile, aOrientation, aTokens, aBases, NO_BENEFIT_IN_USE);
