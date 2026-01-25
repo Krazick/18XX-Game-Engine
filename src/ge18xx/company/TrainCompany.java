@@ -2402,7 +2402,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public void placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
+	public LayTileAction placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
 			int aPreviousOrientation, String aPreviousTokens, String aPreviousBases) {
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
@@ -2412,7 +2412,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tCostToLayTile;
 		boolean tFixedTile;
 		Bank tBank;
-		GameManager tGameManager;
 
 		tCurrentStatus = status;
 		if (! benefitInUse.isRealBenefit ()) {
@@ -2421,8 +2420,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			updateStatusWithTile (aPreviousTile);
 		}
 		tNewStatus = status;
-		tGameManager = getGameManager ();
-		aMapCell.applyBases (aPreviousBases, tGameManager);
 		tNewTileTokens = aTile.getPlacedTokens ();
 		tOperatingRoundID = getOperatingRoundID ();
 		
@@ -2458,10 +2455,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		} else {
 			setTileLaid (tLayTileAction);
-		}
-		addAction (tLayTileAction);
-		
+		}		
 		updateInfo ();
+		
+		return tLayTileAction;
 	}
 
 	public void createAndAddRemoveTileAction (MapCell aMapCell, Tile aPreviousTile, int aPreviousOrientation,
