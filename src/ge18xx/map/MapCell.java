@@ -80,6 +80,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static final String NO_ID 			= GUI.EMPTY_STRING;
 	public static final String NO_NAME 			= GUI.EMPTY_STRING;
 	public static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
+	public static final String NO_BASES 		= GUI.EMPTY_STRING;
 	public static final String NO_DIRECTION 	= null;
 	public static final int NO_ORIENTATION 		= 0;
 	public static final int NO_TILE_ORIENTATION = -1;
@@ -217,7 +218,9 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	 * @param aTrainNumber The Train Number to Clear
 	 */
 	public void clearTrainUsingSides (int aTrainNumber) {
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+		int tSideIndex;
+		
+		for (tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			if (trainUsingSide [tSideIndex] == aTrainNumber) {
 				clearTrainUsingASide (tSideIndex);
 			}
@@ -228,7 +231,9 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	 * Clear ALL Trains from every side of the Map Cell
 	 */
 	public void clearAllTrainsUsingSides () {
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+		int tSideIndex;
+		
+		for (tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			clearTrainUsingASide (tSideIndex);
 		}
 	}
@@ -355,9 +360,10 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	 */
 	public int getSideFromNeighbor (MapCell aNeighborMapCell) {
 		int tSideFromNeighbor;
-
+		int tSideIndex;
+		
 		tSideFromNeighbor = Location.NO_LOCATION;
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+		for (tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			if (neighbors [tSideIndex] == aNeighborMapCell) {
 				tSideFromNeighbor = (tSideIndex + 3) % 6;
 			}
@@ -439,6 +445,41 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		}
 
 		return tCanTrackToSide;
+	}
+	
+	public String getCorporationBases () {
+		String tCorporationBases;
+		String tCorporationBase;
+		int tCityCenterCount;
+		int tCityIndex;
+		RevenueCenter tRevenueCenter;
+		City tCity;
+		String tAbbrev;
+
+		tCorporationBases = NO_BASES;
+		tCityCenterCount = getCityCenterCount ();
+		if (tCityCenterCount > 0) {
+			for (tCityIndex = 0; tCityIndex < tCityCenterCount; tCityIndex++) {
+				tRevenueCenter = getRevenueCenter (tCityIndex);
+				if (tRevenueCenter.isCity ()) {
+					tCity = (City) getRevenueCenter (tCityIndex);
+					if (tCity.isCorporationBase ()) {
+						tAbbrev = tCity.getHomeCompanyAbbrev ();
+						tCorporationBase = tAbbrev + "," + tCityIndex;
+						if (!(tCorporationBases.equals (NO_BASES))) {
+							tCorporationBases += ";";
+						}
+						tCorporationBases += tCorporationBase;
+					}
+				}
+			}
+		}
+
+		return tCorporationBases;
+	}
+	
+	public int getCityCenterCount () {
+		return centers.getCityCenterCount ();
 	}
 
 	public void clearCorporation () {
@@ -1454,6 +1495,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		String [] tBaseInfo;
 		String tAbbrev;
 		int tIndex;
+		int tTileOrientation;
 		TokenCompany tTokenCompany;
 		RevenueCenter tRevenueCenter;
 		Location tLocation;
@@ -1471,9 +1513,15 @@ public class MapCell implements Cloneable, Comparator<Object> {
 				tIndex = Integer.parseInt (tBaseInfo [1]);
 				tTokenCompany = aGameManager.getTokenCompany (tAbbrev);
 	
-				tRevenueCenter = tTile.getRevenueCenter (tIndex);
+				if (tTile == Tile.NO_TILE) {
+					tRevenueCenter = getRevenueCenter (tIndex);
+					tTileOrientation = NO_TILE_ORIENTATION;
+				} else {
+					tRevenueCenter = tTile.getRevenueCenter (tIndex);
+					tTileOrientation = getTileOrient ();
+				}
 				tLocation = tRevenueCenter.getLocation ();
-				tLocation = tLocation.rotateLocation (getTileOrient ());
+				tLocation = tLocation.rotateLocation (tTileOrientation);
 				setCorporationHome (tTokenCompany, tLocation);
 				tBasesApplied = true;
 			}
