@@ -9,12 +9,14 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.round.action.effects.SetHasLaidTileEffect;
+import ge18xx.round.action.effects.SetCorporationBaseEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class LayTileAction extends ChangeMapAction {
 	public final static String NAME = "Lay Tile";
-
+	public final static LayTileAction NO_LAY_TILE_ACTION = (LayTileAction) NO_ACTION;
+	
 	public LayTileAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
@@ -33,6 +35,14 @@ public class LayTileAction extends ChangeMapAction {
 		addEffect (tTileLayEffect);
 	}
 
+	public void SetCorporationBaseEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
+							int aRevenueCenterIndex) {
+		SetCorporationBaseEffect tSetCorporationBaseEffect;
+		
+		tSetCorporationBaseEffect = new SetCorporationBaseEffect (aActor, aMapCell, aTile, aRevenueCenterIndex);
+		addEffect (tSetCorporationBaseEffect);
+	}
+	
 	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, 
 			MapCell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
