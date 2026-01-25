@@ -2307,7 +2307,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tChildNodeName;
 		String tNodeName;
 		String tLabel;
-		String tChecksumValue;
+//		String tChecksumValue;
 		String tKey;
 		
         if (aNode.getNodeType () == Node.ELEMENT_NODE) {
@@ -2318,7 +2318,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
         		tXMLNode = new XMLNode (aNode);
         		tLabel = tXMLNode.getThisAttribute (XMLElement.AN_LABEL);
         		tChildNodeName = tXMLNode.getThisAttribute (XMLElement.AN_NODE_NAME);
-        		tChecksumValue = tXMLNode.getThisAttribute (XMLElement.AN_CHECKSUM);
+//        		tChecksumValue = tXMLNode.getThisAttribute (XMLElement.AN_CHECKSUM);
         		tKey = aParentNodeName + "-" + tChildNodeName + "-" + tLabel;
         		tKey = tKey.replaceAll ("^-", GUI.EMPTY_STRING).replaceAll ("-$", GUI.EMPTY_STRING);
 //       		System.out.println ("Save the Checksum for " + tKey + " Value " + tChecksumValue);
@@ -2328,7 +2328,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 //        			System.out.println ("Key: " + tAKey + ", Value: " + savedChecksums.get (tAKey));
 //        		}
         	} else {
-//	            System.out.println("Element: " + tNodeName);
         		tParentNodeName = aParentNodeName + "-" + tNodeName;
 	            // Get all child nodes
 	            nodeList = aNode.getChildNodes ();

@@ -455,7 +455,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
-		// Need to create a Bankrupt "Round" to hold this state 
+		// TODO: Need to create a Bankrupt "Round" to hold this state 
 //		setCurrentRoundState (ActorI.ActionStates.Bankrupt);
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
@@ -1112,7 +1112,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void setStockRoundInfo (int aRoundIDPart1) {
 		String tRoundID;
 		
-		tRoundID = aRoundIDPart1 + "";
+		tRoundID = aRoundIDPart1 + GUI.EMPTY_STRING;
 		roundFrame.setStockRoundInfo (gameName, tRoundID);
 	}
 

@@ -79,10 +79,13 @@ public class ActionManager implements XMLSaveGameI {
 	}
 
 	public int getActionNumberFrom (String aResponse) {
-		Matcher tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
-		String tFoundNewNumber = "NOID";
-		int tNewNumber = 0;
+		Matcher tMatcher;
+		String tFoundNewNumber;
+		int tNewNumber;
 
+		tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
+		tFoundNewNumber = "NOID";
+		tNewNumber = 0;
 		if (tMatcher.find ()) {
 			tFoundNewNumber = tMatcher.group (1);
 			tNewNumber = Integer.parseInt (tFoundNewNumber);
@@ -201,7 +204,6 @@ public class ActionManager implements XMLSaveGameI {
 	}
 	
 	public boolean sendActionToNetwork (Action aAction) {
-
 		String tXMLFormat;
 		boolean tAppendAction;
 		
@@ -226,7 +228,6 @@ public class ActionManager implements XMLSaveGameI {
 	private void setNewActionNumber (Action aAction, boolean aUndoAction) {
 		int tActionNumber;
 
-		
 		tActionNumber = generateNewActionNumber (aUndoAction);
 		aAction.setNumber (tActionNumber);
 	}
@@ -379,12 +380,13 @@ public class ActionManager implements XMLSaveGameI {
 			NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		String tANodeName;
 		String tClassName;
-		Action tAction = Action.NO_ACTION;
+		Action tAction;
 		Class<?> tActionToLoad;
 		Class<?> tGameManagerClass;
 		Class<?> tActionNodeClass;
 		Constructor<?> tActionConstructor;
 
+		tAction = Action.NO_ACTION;
 		tANodeName = aActionNode.getNodeName ();
 		if (Action.EN_ACTION.equals (tANodeName)) {
 			// Use Reflections to identify the Action and call the constructor with the
@@ -452,12 +454,12 @@ public class ActionManager implements XMLSaveGameI {
 	}
 
 	public boolean undoLastActionNetwork () {
-		String tXMLFormat;
+		ActorI tActor;
 		Action tUndoAction;
 		Action tLastAction;
-		ActorI tActor;
 		ActionStates tRoundType;
 		String tRoundID;
+		String tXMLFormat;
 		boolean tLastActionUndone;
 
 		tLastActionUndone = true;
@@ -475,18 +477,6 @@ public class ActionManager implements XMLSaveGameI {
 		}
 
 		return tLastActionUndone;
-	}
-
-	public void sendGameActivity (String aXMLFormat, boolean aWrap) {
-		JGameClient tNetworkJGameClient;
-		String tXMLFormat;
-
-		tXMLFormat = aXMLFormat.replaceAll (GUI.NEWLINE, "");
-		tNetworkJGameClient = gameManager.getNetworkJGameClient ();
-		if (aWrap) {
-			tXMLFormat = tNetworkJGameClient.wrapWithGA (tXMLFormat);
-		}
-		tNetworkJGameClient.sendGameActivity (tXMLFormat);
 	}
 
 	// This is called on Local Client Issuing the Undo Action
@@ -525,10 +515,23 @@ public class ActionManager implements XMLSaveGameI {
 		return tLastActionUndone;
 	}
 
+	public void sendGameActivity (String aXMLFormat, boolean aWrap) {
+		JGameClient tNetworkJGameClient;
+		String tXMLFormat;
+
+		tXMLFormat = aXMLFormat.replaceAll (GUI.NEWLINE, "");
+		tNetworkJGameClient = gameManager.getNetworkJGameClient ();
+		if (aWrap) {
+			tXMLFormat = tNetworkJGameClient.wrapWithGA (tXMLFormat);
+		}
+		tNetworkJGameClient.sendGameActivity (tXMLFormat);
+	}
+
 	public boolean wasLastActionStartAuction () {
 		Action tLastAction;
-		boolean tWasLastActionStartAuction = false;
+		boolean tWasLastActionStartAuction;
 
+		tWasLastActionStartAuction = false;
 		tLastAction = getLastAction ();
 		tWasLastActionStartAuction = tLastAction.wasLastActionStartAuction ();
 
@@ -622,7 +625,7 @@ public class ActionManager implements XMLSaveGameI {
 
 		tGameManager = roundManager.getGameManager ();
 		tSimpleActionReport = aAction.getSimpleActionReport ();
-		if (!tSimpleActionReport.equals ("")) {
+		if (!tSimpleActionReport.equals (GUI.EMPTY_STRING)) {
 			tGameManager.appendToGameActivity (tSimpleActionReport);
 		}
 	}
@@ -692,11 +695,11 @@ public class ActionManager implements XMLSaveGameI {
 
 	private void handleAuctionReporting (AuditFrame aAuditFrame, String aActorName, Action aAction, 
 				String aActionName, int aActionNumber) {
-		String tActionEventDescription;
 		int tDebit;
 		int tCredit;
 		String tRoundID;
 		String tAuctionWinner;
+		String tActionEventDescription;
 
 		tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport (aActorName);
 		tDebit = 0;
@@ -711,8 +714,9 @@ public class ActionManager implements XMLSaveGameI {
 	}
 	
 	public boolean isLastActionComplete () {
-		boolean tIsLastActionComplete = true;
+		boolean tIsLastActionComplete;
 
+		tIsLastActionComplete = true;
 		if (gameManager.isNetworkGame ()) {
 //			tLastActionComplete = gameManager.requestGameSupport (JGameClient.REQUEST_LAST_ACTION_COMPLETE);
 		} else {
