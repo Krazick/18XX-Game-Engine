@@ -101,7 +101,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		tColumnWidths [0] = 50;
 		tColumnWidths [1] = 50;
 		tColumnWidths [2] = 80;
-		tColumnWidths [3] = 6000;
+		tColumnWidths [3] = 600;
 		for (tColumnIndex = 3; tColumnIndex < aColumnCount; tColumnIndex++) {
 			tColumnWidths [tColumnIndex] = 300;
 		}
@@ -223,10 +223,6 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			setHeaderRenderer ((TableCellRenderer) tHeaderRenderer);
 	}
 	
-	public void addRowByWorker (Checksum aNewChecksum, boolean aAllChecksums) {
-		addRow (aNewChecksum, aAllChecksums);
-	}
-	
 	public void addRow (Checksum aChecksum, boolean aAllChecksums) {
 		GameManager tGameManager;
 		RoundManager tRoundManager;
@@ -322,99 +318,7 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 		checksumAuditTable.setValueAt (aChecksumValue, aChecksumIndex, STARTING_COLUMN_COUNT + aPlayerIndex);
 		repaint ();
 	}
-	
-//	private void startSwing (Checksum aNewChecksum) {
-//		Checksum newChecksum;
-//		 
-//		newChecksum = aNewChecksum;
-//		
-//		SwingWorker<Void, Object []> swingWorker = new SwingWorker<Void, Object []>() {
-//			int itemCount;
-//			
-//			@Override
-//			protected Void doInBackground() throws Exception {
-//				int tPlayerCount;
-//				GameManager tGameManager;
-//				RoundManager tRoundManager;
-//				Object [] tDataRow;
-//				
-//				tGameManager = (GameManager) gameEngineManager;
-//				tRoundManager = tGameManager.getRoundManager ();
-//
-//				tPlayerCount = tRoundManager.getPlayerManager ().getPlayerCount ();
-//				itemCount = STARTING_COLUMN_COUNT + tPlayerCount;
-//
-//				tDataRow = buildDataRow (newChecksum);
-//
-//				if (tDataRow != null) {
-//					publish (tDataRow);
-//				}
-//				
-//				return null;
-//			}
-//			
-//			@Override
-//			protected void process (java.util.List<Object []> aDataRows) {
-//				Object [] tDataRow;
-//				int tDataRowCount;
-//				
-//				tDataRowCount = aDataRows.size ();
-//				tDataRow = aDataRows.get (tDataRowCount - 1);
-//		 		checksumAuditModel.insertRow (0, tDataRow);
-//
-////				SwingUtilities.invokeLater (new Runnable () {
-////					@Override
-////					public void run () {
-//////						addRow (tLastChecksum);
-////				 		checksumAuditModel.insertRow (0, tDataRow);
-////					}
-////				});
-//			}
-//			
-//			private Object [] buildDataRow (Checksum aChecksum) {
-//				GameManager tGameManager;
-//				ActionManager tActionManager;
-//				RoundManager tRoundManager;
-//				Action tAction;
-//				Object [] tDataRow;
-//				String [] tChecksums;
-//				String tActionReport;
-//				int tItemIndex;
-//				int tActionNumber;
-//				int tActionIndex;
-//				int tEffectCount;
-//				
-//				tGameManager = (GameManager) gameEngineManager;
-//				tRoundManager = tGameManager.getRoundManager ();
-//				tActionManager = tRoundManager.getActionManager ();
-//				tActionIndex = aChecksum.getActionIndex ();
-//				tAction = tActionManager.getActionAt (tActionIndex);
-//				if (tAction != Action.NO_ACTION) {
-//					tActionNumber = tAction.getNumber ();
-//					tChecksums = aChecksum.getChecksums ();
-//					tEffectCount = tAction.getEffectCount ();
-//					tActionReport = tAction.getSimpleActionReport ();
-//					
-//					tDataRow = new Object [itemCount];
-//					tDataRow [0] = tActionNumber;
-//					tDataRow [1] = aChecksum.getNodeName ();
-//					tDataRow [2] = tEffectCount;
-//					tDataRow [3] = tActionReport;
-//					for (tItemIndex = STARTING_COLUMN_COUNT; tItemIndex < itemCount; tItemIndex++) {
-//						tDataRow [tItemIndex] = tChecksums [tItemIndex - STARTING_COLUMN_COUNT];
-//					}
-////			 		checksumAuditModel.insertRow (0, tDataRow);
-//				} else {
-//					tDataRow = null;
-//				}
-//				
-//				return tDataRow;
-//			}
-//		};
-//		
-//		swingWorker.execute();
-//	}
-	
+		
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 
@@ -426,14 +330,10 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 
 		tTheAction = aActionEvent.getActionCommand ();
 		if (REFRESH_LIST.equals (tTheAction)) {
-			updateAuditTable ();
+			refreshAuditTable ();
 		}
 	}
-
-	private void updateAuditTable () {
-		refreshAuditTable ();
-	}
-
+	
 	public void refreshAuditTable () {
 		GameManager tGameManager;
 		
