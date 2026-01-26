@@ -411,8 +411,9 @@ public class ActionManager implements XMLSaveGameI {
 		tActionIndex = actions.size () - 1;
 		if (gameManager.isNetworkGame ()) {
 			// Need to remove Last Checksum Action
-//			gameManager.removeChecksumFor (tActionIndex);
-			gameManager.removeLastChecksum ();
+			if (! (tLastAction instanceof UndoLastAction)) {
+				gameManager.removeLastChecksum ();
+			}
 		}
 		actions.remove (tActionIndex);
 		
