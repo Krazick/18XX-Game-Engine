@@ -1,5 +1,6 @@
 package ge18xx.round.action;
 
+import ge18xx.company.MinorCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
@@ -69,9 +70,15 @@ public class LayTileAction extends ChangeMapAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
-
-		tSimpleActionReport = actor.getName () + " laid Tile " + getTileNumber () + 
-				" with Orientation of " + getOrientation () + " onto MapCell " + getMapCellID () + ".";
+		String tActorAbbrev;
+		
+		tActorAbbrev = actor.getAbbrev ();
+		if (actor.isAMinorCompany ()) {
+			tActorAbbrev = MinorCompany.MINOR_COMPANY + " " + tActorAbbrev;
+		}
+		tSimpleActionReport = tActorAbbrev + " laid Tile " + getTileNumber () + 
+				" with Orientation of " + getOrientation () + " onto MapCell " + 
+				getMapCellID () + ".";
 
 		return tSimpleActionReport;
 	}
