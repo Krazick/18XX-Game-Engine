@@ -34,7 +34,6 @@ public class Action {
 	public final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	public final static AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
 	public final static AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
-	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previousChecksum");
 	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
