@@ -27,7 +27,7 @@ import geUtilities.xml.XMLSaveGameI;
 
 public class ActionManager implements XMLSaveGameI {
 	public final static ActionManager NO_ACTION_MANAGER = null;
-	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previous_checksum");
+	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previousChecksum");
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
 	public final static int PREVIOUS_ACTION = 1;
