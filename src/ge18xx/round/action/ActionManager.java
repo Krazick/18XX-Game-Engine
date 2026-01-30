@@ -253,9 +253,11 @@ public class ActionManager implements XMLSaveGameI {
 		XMLElement tActionElements;
 		XMLElement tActionElement;
 		String tPreviousChecksum;
+		int tPreviousChecksumIndex;
 		
 		tActionElements = aXMLDocument.createElement (aEN_Type);
-		tPreviousChecksum = gameManager.getPreviousChecksum ();
+		tPreviousChecksumIndex = gameManager.getPreviousChecksumCount () - 1;
+		tPreviousChecksum = gameManager.getPreviousChecksum (tPreviousChecksumIndex);
 		tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tPreviousChecksum);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);

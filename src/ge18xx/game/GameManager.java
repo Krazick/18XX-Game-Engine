@@ -210,6 +210,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	// Network Game Objects
 	String previousChecksum;
+	List<String> previousChecksums;
 	HashMap<String, String> savedChecksums;
 	JGameClient networkJGameClient;		// Extends XMLFrame
 	SavedGames networkSavedGames;
@@ -219,12 +220,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public GameManager () {
 		savedChecksums = new HashMap<String, String> ();
+		previousChecksums = new LinkedList<String> ();
 		fileUtils = new FileUtils ("18xx.");
 		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		setUserDir ();
 		setDefaults ();
 		setGameInfo (GameInfo.NO_GAME_INFO);
-		setPreviousChecksum (GUI.EMPTY_STRING);
+		addPreviousChecksum (GUI.EMPTY_STRING);
 	}
 
 	public GameManager (String aClientUserName) {
@@ -243,13 +245,29 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
 	}
 
-	public void setPreviousChecksum (String aPreviousChecksum) {
-		previousChecksum = aPreviousChecksum;
+	public void addPreviousChecksum (String aPreviousChecksum) {
+		previousChecksums.add (aPreviousChecksum);
 	}
 	
-	public String getPreviousChecksum () {
-		return previousChecksum;
+	public String getPreviousChecksum (int aIndex) {
+		return previousChecksums.get (aIndex);
 	}
+	
+	public int getPreviousChecksumCount () {
+		return previousChecksums.size ();
+	}
+	
+	public void setPreviousChecksumValue (String aPreviousChecksum) {
+		int tIndex;
+		
+		tIndex = getPreviousChecksumCount () - 1;
+		previousChecksums.set (tIndex, aPreviousChecksum);
+//		previousChecksum = aPreviousChecksum;
+	}
+	
+//	public String getPreviousChecksum () {
+//		return previousChecksum;
+//	}
 	
 	@Override
 	public String getEnvironmentVersionInfo () {
@@ -2251,9 +2269,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		/* Save the Actions performed */
 		tActionManager = roundManager.getActionManager ();
 		tSavedPreviousChecksum = previousChecksum;
-		setPreviousChecksum (GUI.EMPTY_STRING);
+		setPreviousChecksumValue (GUI.EMPTY_STRING);
 		tActionsXMLElement = addElements (tActionManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
-		setPreviousChecksum (tSavedPreviousChecksum);
+		setPreviousChecksumValue (tSavedPreviousChecksum);
 
 		/* Save the Round Information, Stock and Operating */
 		addElements (roundManager, tXMLDocument, tSaveGameElement, RoundManager.EN_ROUNDS);
@@ -2384,7 +2402,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex, tActionNumber);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-		setPreviousChecksum (tChecksumValue);
+		addPreviousChecksum (tChecksumValue);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRow (tChecksum, false);
 		tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
