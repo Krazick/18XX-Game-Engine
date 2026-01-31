@@ -263,7 +263,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		Action tLastAction;
 		
 		tLastAction = getLastAction ();
-		tHandledInterruption = checkAndHandleInterruption (tLastAction);
+		if (tLastAction != Action.NO_ACTION) {
+			tHandledInterruption = checkAndHandleInterruption (tLastAction);
+		} else {
+			tHandledInterruption = false;
+		}
 		
 		return tHandledInterruption;
 	}
@@ -380,18 +384,20 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 		tCurrentRoundEnds = false;
 		tCurrentRoundType = currentRound.getRoundType ();
-		tActionName = aAction.getName ();
-		tEndsAfterActions = tCurrentRoundType.getEndsAfterActions ();
-		if (tEndsAfterActions != GUI.NULL_STRING) {
-			tEndsAfterAction = tEndsAfterActions.contains (tActionName);
-			if (tEndsAfterAction) {
-				if (currentRound.ends ()) {
-					currentRound.finish ();
-					tCurrentRoundEnds = true;
+		if (aAction != Action.NO_ACTION) {
+			tActionName = aAction.getName ();
+			tEndsAfterActions = tCurrentRoundType.getEndsAfterActions ();
+			if (tEndsAfterActions != GUI.NULL_STRING) {
+				tEndsAfterAction = tEndsAfterActions.contains (tActionName);
+				if (tEndsAfterAction) {
+					if (currentRound.ends ()) {
+						currentRound.finish ();
+						tCurrentRoundEnds = true;
+					}
 				}
 			}
 		}
-
+		
 		return tCurrentRoundEnds;
 	}
 	
