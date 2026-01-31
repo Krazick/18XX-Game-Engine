@@ -159,6 +159,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	FileUtils fileUtils;
 	FileGEFilter fileGEFilter;
 	Checksums checksums;
+//	String previousChecksum;
+	List<String> previousChecksums;
+	HashMap<String, String> savedChecksums;
 
 	// 18XX Game Specific Objects
 	GameInfo activeGame;
@@ -209,9 +212,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			// Loan Redemption Payment	-- held by ShareCompany, in ForceBuyCoupon Method
 
 	// Network Game Objects
-	String previousChecksum;
-	List<String> previousChecksums;
-	HashMap<String, String> savedChecksums;
 	JGameClient networkJGameClient;		// Extends XMLFrame
 	SavedGames networkSavedGames;
 	boolean notifyNetwork;
@@ -245,8 +245,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
 	}
 
+	// Methods to store and manage Previous Full Save Game Checksums
+	
 	public void addPreviousChecksum (String aPreviousChecksum) {
 		previousChecksums.add (aPreviousChecksum);
+	}
+	
+	public String getLastPreviousChecksum ( ) {
+		String tLastPreviousChecksum;
+		int tLastPreviousChecksumIndex;
+		
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
+		tLastPreviousChecksum = getPreviousChecksum (tLastPreviousChecksumIndex);
+		
+		return tLastPreviousChecksum;
+	}
+	
+	public int getLastPreviousChecksumIndex () {
+		int tLastPreviousChecksumIndex;
+		
+		tLastPreviousChecksumIndex = getPreviousChecksumCount () - 1;
+
+		return tLastPreviousChecksumIndex;
 	}
 	
 	public String getPreviousChecksum (int aIndex) {
@@ -258,16 +278,20 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void setPreviousChecksumValue (String aPreviousChecksum) {
-		int tIndex;
+		int tLastPreviousChecksumIndex;
 		
-		tIndex = getPreviousChecksumCount () - 1;
-		previousChecksums.set (tIndex, aPreviousChecksum);
-//		previousChecksum = aPreviousChecksum;
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
+		previousChecksums.set (tLastPreviousChecksumIndex, aPreviousChecksum);
 	}
 	
-//	public String getPreviousChecksum () {
-//		return previousChecksum;
-//	}
+	public void removeLastPreviousChecksum () {
+		int tLastPreviousChecksumIndex;
+		
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
+		previousChecksums.remove (tLastPreviousChecksumIndex);
+	}
+	
+	// Last method to support Previous Checksums
 	
 	@Override
 	public String getEnvironmentVersionInfo () {
@@ -2268,7 +2292,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		/* Save the Actions performed */
 		tActionManager = roundManager.getActionManager ();
-		tSavedPreviousChecksum = previousChecksum;
+		tSavedPreviousChecksum = getLastPreviousChecksum ();
 		setPreviousChecksumValue (GUI.EMPTY_STRING);
 		tActionsXMLElement = addElements (tActionManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
 		setPreviousChecksumValue (tSavedPreviousChecksum);
@@ -2306,8 +2330,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 //		if (isNetworkGame ()) {
 			if (aAddChecksum) {
 				addChecksum (tXMLDocument);
-				tActionsXMLElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, previousChecksum);
-				System.out.println ("Action Number " + getActionNumber () + " Previous Checksum: " + previousChecksum);
+				tActionsXMLElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tSavedPreviousChecksum);
+				System.out.println ("Action Number " + getActionNumber () + 
+						" Previous Checksum: " + tSavedPreviousChecksum);
 			}
 //		}
 		
@@ -2474,9 +2499,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void removeLastChecksum () {
 		checksums.removeLast ();
 		checksumAuditFrame.refreshAuditTable ();
+		removeLastPreviousChecksum ();
 	}
 	
-	/* Update to use the method in the File Utils */
+	/* TODO: Update to use the method in the File Utils */
 	public void outputToFile (String aReport, File aFile) {
 		FileWriter tFWout;
 		
