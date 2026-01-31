@@ -315,7 +315,10 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 	}
 	
 	public void updateChecksumValue (int aChecksumIndex, int aPlayerIndex, String aChecksumValue) {
-		checksumAuditTable.setValueAt (aChecksumValue, aChecksumIndex, STARTING_COLUMN_COUNT + aPlayerIndex);
+		if (aChecksumIndex >= 0) {
+			checksumAuditTable.setValueAt (aChecksumValue, aChecksumIndex, 
+					STARTING_COLUMN_COUNT + aPlayerIndex);
+		}
 		repaint ();
 	}
 		
