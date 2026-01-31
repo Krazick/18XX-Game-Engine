@@ -1867,7 +1867,7 @@ public class PlayerManager implements XMLSaveGameI {
 		String tChecksumAfterUndo;
 		int tChecksumIndex;
 
-		tChecksumIndex = gameManager.getPreviousChecksumCount () - 1;
+		tChecksumIndex = gameManager.getLastPreviousChecksumIndex () - 1;
 		tPreviousChecksum = gameManager.getPreviousChecksum (tChecksumIndex);
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
