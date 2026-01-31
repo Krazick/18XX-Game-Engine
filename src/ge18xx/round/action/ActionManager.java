@@ -252,13 +252,13 @@ public class ActionManager implements XMLSaveGameI {
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tActionElements;
 		XMLElement tActionElement;
-		String tPreviousChecksum;
-		int tPreviousChecksumIndex;
+		String tLastPreviousChecksum;
+		int tLastPreviousChecksumIndex;
 		
 		tActionElements = aXMLDocument.createElement (aEN_Type);
-		tPreviousChecksumIndex = gameManager.getPreviousChecksumCount () - 1;
-		tPreviousChecksum = gameManager.getPreviousChecksum (tPreviousChecksumIndex);
-		tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tPreviousChecksum);
+		tLastPreviousChecksumIndex = gameManager.getLastPreviousChecksumIndex ();
+		tLastPreviousChecksum = gameManager.getPreviousChecksum (tLastPreviousChecksumIndex);
+		tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tLastPreviousChecksum);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
 			tActionElements.appendChild (tActionElement, ! XMLElement.ADD_CHECKSUM);
@@ -411,12 +411,12 @@ public class ActionManager implements XMLSaveGameI {
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
 		tActionIndex = actions.size () - 1;
-		if (gameManager.isNetworkGame ()) {
+//		if (gameManager.isNetworkGame ()) {
 			// Need to remove Last Checksum Action
 			if (! (tLastAction instanceof UndoLastAction)) {
 				gameManager.removeLastChecksum ();
 			}
-		}
+//		}
 		actions.remove (tActionIndex);
 		
 		resetLastActionNumber ();
