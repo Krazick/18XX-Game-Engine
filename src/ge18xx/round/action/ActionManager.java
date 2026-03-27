@@ -68,6 +68,14 @@ public class ActionManager implements XMLSaveGameI {
 		return actionNumber;
 	}
 	
+	public int getActionNumberAt (int aIndex) {
+		Action tAction;
+		
+		tAction = actions.get (aIndex);
+		
+		return tAction.getNumber ();
+	}
+	
 	public int getLastActionNumber () {
 		int tLastActionNumber;
 		Action tLastAction;
@@ -256,8 +264,10 @@ public class ActionManager implements XMLSaveGameI {
 		int tLastPreviousChecksumIndex;
 		
 		tActionElements = aXMLDocument.createElement (aEN_Type);
+		
 		tLastPreviousChecksumIndex = gameManager.getLastPreviousChecksumIndex ();
 		tLastPreviousChecksum = gameManager.getPreviousChecksum (tLastPreviousChecksumIndex);
+		
 		tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tLastPreviousChecksum);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
@@ -511,7 +521,7 @@ public class ActionManager implements XMLSaveGameI {
 			removeLastAction ();
 			if (! actions.isEmpty ()) {
 				if (tLastAction.getChainToPrevious ()) {
-					tLastActionUndone = undoLastAction (aRoundManager, false);
+//					tLastActionUndone = undoLastAction (aRoundManager, false);
 				}
 			}
 		}

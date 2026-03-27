@@ -50,8 +50,10 @@ public class RoundTestFactory {
 	}
 
 	public RoundManager buildRoundManagerMock () {
-		RoundManager mRoundManager = Mockito.mock (RoundManager.class);
+		RoundManager mRoundManager;
 
+		mRoundManager = Mockito.mock (RoundManager.class);
+		
 		return mRoundManager;
 	}
 

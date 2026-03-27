@@ -105,6 +105,7 @@ public class Game_18XX extends XMLFrame {
 	protected Action showChecksumAuditFrameAction;
 	protected Action showFormationFrameAction;
 	protected Action resendLastActions;
+	protected Action undoLastAction;
 	
 	// More Generic Game Engine Fields
 	JMenuBar mainMenuBar;
@@ -603,6 +604,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
 		tMenuIndex = addGameMenu (tMenuIndex, resendLastActions);
+		tMenuIndex = addGameMenu (tMenuIndex, undoLastAction);
 
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
@@ -651,6 +653,7 @@ public class Game_18XX extends XMLFrame {
 		showActionReportFrameAction = new showActionReportFrameActionClass (
 				resourceBundle.getString ("showActionReportFrameItem"), null);
 		resendLastActions = new resendLastActionsClass (resourceBundle.getString ("resendLastActions"), null);
+		undoLastAction = new undoLastActionClass (resourceBundle.getString ("undoLastAction"), null);
 	}
 
 	private void setupGenericActions (int aShortcutKeyMask) {
@@ -1100,6 +1103,20 @@ public class Game_18XX extends XMLFrame {
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.resendLastActions ();
+		}
+	}
+
+	public class undoLastActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public undoLastActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+
+		@Override
+		public void actionPerformed (ActionEvent e) {
+			gameManager.undoLastAction ();
 		}
 	}
 

@@ -26,7 +26,7 @@ public class MyResources extends ListResourceBundle {
 			{ "undoItem", "Undo" }, { "cutItem", "Cut" }, { "copyItem", "Copy" }, { "pasteItem", "Paste" },
 			{ "clearItem", "Clear" }, { "selectAllItem", "Select All" }, { "gameMenu", "Game" },
 			// Game Specific Resources
-			{ "MenuItemCount", "13"},
+			{ "MenuItemCount", "14"},
 			{ "message", "18xx Game Engine" },
 			{ "showMapItem", "Show Map" },
 			{ "showMarketItem", "Show Market" },
@@ -42,6 +42,7 @@ public class MyResources extends ListResourceBundle {
 			{ "showActionReportFrameItem", "Show Action Report Frame" },
 			{ "showChatClientItem", "Show Chat Client" },
 			{ "resendLastActions", "Resend Last Action(s)" },
+			{ "undoLastAction", "Undo Last Action" },
 			{ "frameTitle", "18XX Game Engine" },
 			{ "configDir", "" },
 			{ "iconImage", "images/GE18XX.png" },

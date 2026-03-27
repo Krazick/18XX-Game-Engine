@@ -159,8 +159,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	FileUtils fileUtils;
 	FileGEFilter fileGEFilter;
 	Checksums checksums;
-//	String previousChecksum;
-	List<String> previousChecksums;
+	HashMap<String, String> previousChecksums;
 	HashMap<String, String> savedChecksums;
 
 	// 18XX Game Specific Objects
@@ -220,13 +219,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public GameManager () {
 		savedChecksums = new HashMap<String, String> ();
-		previousChecksums = new LinkedList<String> ();
+		previousChecksums = new HashMap<String, String> ();
 		fileUtils = new FileUtils ("18xx.");
 		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		setUserDir ();
 		setDefaults ();
 		setGameInfo (GameInfo.NO_GAME_INFO);
-		addPreviousChecksum (GUI.EMPTY_STRING);
+		addPreviousChecksum ("0", GUI.EMPTY_STRING);
 	}
 
 	public GameManager (String aClientUserName) {
@@ -247,8 +246,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	// Methods to store and manage Previous Full Save Game Checksums
 	
-	public void addPreviousChecksum (String aPreviousChecksum) {
-		previousChecksums.add (aPreviousChecksum);
+	public void addPreviousChecksum (int aActionNumber, String aPreviousChecksum) {
+		String tActionNumber;
+		
+		tActionNumber = aActionNumber + GUI.EMPTY_STRING;
+		addPreviousChecksum (tActionNumber, aPreviousChecksum);
+	}
+	
+	public void addPreviousChecksum (String aActionNumber, String aPreviousChecksum) {
+		previousChecksums.put (aActionNumber, aPreviousChecksum);
 	}
 	
 	public String getLastPreviousChecksum ( ) {
@@ -270,7 +276,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public String getPreviousChecksum (int aIndex) {
-		return previousChecksums.get (aIndex);
+		String tLastIndex;
+		
+		tLastIndex = roundManager.getActionNumberAt (aIndex) + GUI.EMPTY_STRING;
+		
+		return previousChecksums.get (tLastIndex);
 	}
 	
 	public int getPreviousChecksumCount () {
@@ -279,15 +289,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void setPreviousChecksumValue (String aPreviousChecksum) {
 		int tLastPreviousChecksumIndex;
+		String tLastIndex;
 		
 		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
-		previousChecksums.set (tLastPreviousChecksumIndex, aPreviousChecksum);
+		tLastIndex = roundManager.getActionNumberAt (tLastPreviousChecksumIndex) + GUI.EMPTY_STRING;
+		previousChecksums.put (tLastIndex, aPreviousChecksum);
 	}
 	
 	public void removeLastPreviousChecksum () {
-		int tLastPreviousChecksumIndex;
+		String tLastPreviousChecksumIndex;
 		
-		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex () + GUI.EMPTY_STRING;
 		previousChecksums.remove (tLastPreviousChecksumIndex);
 	}
 	
@@ -2267,6 +2279,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		XMLElement tSaveGameElement;
 		XMLElement tActionsXMLElement;
 		ActionManager tActionManager;
+		Action tLastAction;
 		String tFullActionReport;
 		String tSavedPreviousChecksum;
 
@@ -2331,7 +2344,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			if (aAddChecksum) {
 				addChecksum (tXMLDocument);
 				tActionsXMLElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tSavedPreviousChecksum);
+				tLastAction = roundManager.getLastAction ();
 				System.out.println ("Action Number " + getActionNumber () + 
+						" Last Action # " + tLastAction.getNumber () + " Name " + tLastAction.getName () +
 						" Previous Checksum: " + tSavedPreviousChecksum);
 			}
 //		}
@@ -2427,7 +2442,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex, tActionNumber);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-		addPreviousChecksum (tChecksumValue);
+//		addPreviousChecksum (tChecksumValue);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRow (tChecksum, false);
 		tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
@@ -3640,6 +3655,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void resendLastActions () {
 		roundManager.resendLastActions ();
+	}
+	
+	public void undoLastAction () {
+		playerManager.undoLastAction ();
 	}
 	
 	public void showUserPreferencesFrame () {

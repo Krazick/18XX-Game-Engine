@@ -1859,6 +1859,13 @@ public class PlayerManager implements XMLSaveGameI {
 		tPlayer.showPlayerFrame ();
 	}
 
+	public void undoLastAction () {
+		Player tCurrentPlayer;
+		
+		tCurrentPlayer = getCurrentPlayer ();
+		undoLastAction (tCurrentPlayer);
+	}
+	
 	public void undoLastAction (Player aPlayer) {
 		boolean tActionUndone;
 		Action tLastAction;
