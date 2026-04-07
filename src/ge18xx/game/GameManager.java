@@ -277,10 +277,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public String getPreviousChecksum (int aIndex) {
 		String tLastIndex;
+		String tPreviusChecksum;
+		int tActionNumber;
 		
-		tLastIndex = roundManager.getActionNumberAt (aIndex) + GUI.EMPTY_STRING;
+		tActionNumber = roundManager.getActionNumberAt (aIndex);
+		if (tActionNumber == Action.NO_NUMBER) {
+			tPreviusChecksum = GUI.EMPTY_STRING;
+		} else {
+			tLastIndex = tActionNumber + GUI.EMPTY_STRING;
+			tPreviusChecksum = previousChecksums.get (tLastIndex);
+		}
 		
-		return previousChecksums.get (tLastIndex);
+		return tPreviusChecksum;
 	}
 	
 	public int getPreviousChecksumCount () {
@@ -998,14 +1006,43 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public String getActiveGameName () {
 		String tName;
 
-		tName = "";
+		tName = GUI.EMPTY_STRING;
 		if (gameIsStarted ()) {
 			tName = activeGame.getName ();
 		}
 
 		return tName;
 	}
+	
+	public String getBankPoolName () {
+		String tBankPoolName;
+		
+		if (activeGame == GameInfo.NO_GAME_INFO) {
+			tBankPoolName = BankPool.NAME;
+		} else if (bankPool == BankPool.NO_BANK_POOL) {
+			tBankPoolName = BankPool.NAME;
+		} else {
+			tBankPoolName = bankPool.getName ();
+		}
+		
+		return tBankPoolName;
+	}
+	
+	public String getStartPacketName () {
+		String tStartPacketFrameName;
+		StartPacketFrame tStartPacketFrame;
+		
+		tStartPacketFrame = bank.getStartPacketFrame ();
 
+		if (tStartPacketFrame == StartPacketFrame.NO_START_PACKET) {
+			tStartPacketFrameName = StartPacketFrame.SP_NAME;
+		} else {
+			tStartPacketFrameName = tStartPacketFrame.getName ();
+		}
+		
+		return tStartPacketFrameName;
+	}
+	
 	public ActorI getActor (String aActorName) {
 		ActorI tFoundActor;
 		
@@ -1019,13 +1056,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tBankName;
 		String tBankPoolName;
 		String tStartPacketFrameName;
-		StartPacketFrame tStartPacketFrame;
 		
 		tActor = ActorI.NO_ACTOR;
 		tBankName = bank.getName ();
-		tBankPoolName = bankPool.getName ();
-		tStartPacketFrame = bank.getStartPacketFrame ();
-		tStartPacketFrameName = tStartPacketFrame.getName ();
+		tBankPoolName = getBankPoolName ();
+		tStartPacketFrameName = getStartPacketName ();
 		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
 		} else {
@@ -1740,6 +1775,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		bank = aBank;
 	}
 	
+	public void setupBankPool () {
+		BankPool tBankPool;
+
+		tBankPool = new BankPool (this);
+		setBankPool (tBankPool);
+	}
+	
 	public void setBankPool (BankPool aBankPool) {
 		bankPool = aBankPool;
 	}
@@ -1747,11 +1789,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	private void setupBank () {
 		int tBankTotal;
 
-		bankPool = new BankPool (this);
 		tBankTotal = getBankStartingCash ();
 		setBank (tBankTotal);
 		bank.setupFormat (activeGame);
 		bank.setup (activeGame);
+		setupBankPool ();
 	}
 
 	public int getBankStartingCash () {

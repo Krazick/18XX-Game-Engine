@@ -38,6 +38,7 @@ public class Action {
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
 	public final static String REPORT_PREFIX = "-";
+	public final static String ACTION_NAME_SUFFIX = " Action";
 	public final static Action NO_ACTION = null;
 	public final static int NO_NUMBER = 0;
 	ActorI.ActionStates roundState;
@@ -343,7 +344,11 @@ public class Action {
 	private String createFullName (String aName) {
 		String tFullName;
 		
-		tFullName =  aName + " Action";
+		if (aName.endsWith (ACTION_NAME_SUFFIX)) {
+			tFullName = aName;
+		} else {
+			tFullName =  aName + ACTION_NAME_SUFFIX;
+		}
 		
 		return tFullName;
 	}

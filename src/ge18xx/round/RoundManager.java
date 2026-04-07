@@ -744,7 +744,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 	
 	public int getActionNumberAt (int aIndex) {
-		return actionManager.getActionNumberAt (aIndex);
+		int tActionNumber;
+		
+		tActionNumber = actionManager.getActionNumberAt (aIndex);
+		
+		return tActionNumber;
 	}
 	
 	public Market getMarket () {

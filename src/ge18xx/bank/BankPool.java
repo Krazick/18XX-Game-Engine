@@ -51,7 +51,11 @@ public class BankPool extends GameBank {
 		String tBankPoolName;
 		
 		tGameInfo = gameManager.getActiveGame ();
-		tBankPoolName = tGameInfo.getBankPoolName ();
+		if (tGameInfo == GameInfo.NO_GAME_INFO) {
+			tBankPoolName = BankPool.NAME;
+		} else {
+			tBankPoolName = tGameInfo.getBankPoolName ();
+		}
 		setName (tBankPoolName);
 		tBank = aGameManager.getBank ();
 		trainPortfolio.setPortfolioHolder (tBank);

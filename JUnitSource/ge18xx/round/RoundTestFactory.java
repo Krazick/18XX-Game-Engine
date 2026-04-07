@@ -5,6 +5,8 @@ import static org.mockito.Mockito.doNothing;
 
 import org.mockito.Mockito;
 
+import ge18xx.bank.BankPool;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -15,13 +17,16 @@ import geUtilities.xml.XMLNode;
 
 public class RoundTestFactory {
 	GameTestFactory gameTestFactory;
+	BankTestFactory bankTestFactory;
 	PlayerTestFactory playerTestFactory;
 	UtilitiesTestFactory utilitiesTestFactory;
 	GameManager gameManager;
+	BankPool bankPool;
 	String clientName;
 
 	public RoundTestFactory () {
 		utilitiesTestFactory = new UtilitiesTestFactory ();
+		bankTestFactory = new BankTestFactory ();
 	}
 
 	public RoundManager buildRoundManager () {
@@ -33,6 +38,8 @@ public class RoundTestFactory {
 	public RoundManager buildRoundManager (String aClientName) {
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager (aClientName);
+		bankPool = bankTestFactory.buildBankPool (gameManager);
+		gameManager.setBankPool (bankPool);
 
 		return buildRoundManager (gameManager);
 	}
@@ -44,6 +51,8 @@ public class RoundTestFactory {
 	public RoundManager buildRoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		RoundManager roundManager;
 		
+//		bankPool = bankTestFactory.buildBankPool (aGameManager);
+//		aGameManager.setBankPool (bankPool);
 		roundManager = new RoundManager (aGameManager, aPlayerManager);
 		
 		return roundManager;
@@ -226,5 +235,9 @@ public class RoundTestFactory {
 		mRoundType = Mockito.mock (RoundType.class);
 
 		return mRoundType;
+	}
+	
+	public UtilitiesTestFactory getUtilitiesTestFactory () {
+		return utilitiesTestFactory;
 	}
 }
