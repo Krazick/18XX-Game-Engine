@@ -41,6 +41,23 @@ public class FrameTestFactory {
 	}
 	
 	/**
+	 * Build a Mock for the ShareCompanies Frame
+	 *
+	 * @param a Frame Title
+	 * @return a Share Companies Frame;
+	 *
+	 */
+
+	public PrivatesFrame buildPrivatesFrameMock (String aFrameTitle) {
+		PrivatesFrame mPrivatesFrame;
+		
+		mPrivatesFrame = Mockito.mock (PrivatesFrame.class);
+		Mockito.when (mPrivatesFrame.getName ()).thenReturn (aFrameTitle);
+
+		return mPrivatesFrame;
+	}
+
+	/**
 	 * Build a basic Minor Companies Frame, given the stored Round Manager
 	 *
 	 * @param a Frame Title
