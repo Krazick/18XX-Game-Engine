@@ -58,7 +58,5 @@ class EffectTester {
 		mShareCompanyGreen = companyTestFactory.buildShareCompanyMock ();
 		
 		mStockRound = roundTestFactory.buildStockRoundMock (mPlayerManager, mRoundManager);
-		
 	}
-
 }
