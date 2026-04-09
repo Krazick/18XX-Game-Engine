@@ -32,4 +32,12 @@ public class StartPacketTestFactory {
 
 		return mStartPacketFrame;
 	}
+	
+	public StartPacketItem buildStartPacketItemMock () {
+		StartPacketItem mStartPacketItem;
+
+		mStartPacketItem = Mockito.mock (StartPacketItem.class);
+
+		return mStartPacketItem;
+	}
 }
