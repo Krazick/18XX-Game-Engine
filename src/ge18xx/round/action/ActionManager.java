@@ -209,12 +209,16 @@ public class ActionManager implements XMLSaveGameI {
 	private void justAddAction (Action aAction) {
 		boolean tAppendAction;
 		
-		actions.add (aAction);
+		addTheAction (aAction);
 		appendActionReport (aAction);
 		tAppendAction = sendActionToNetwork (aAction);
 		if (tAppendAction) {
 			appendToJGameClient (aAction);
 		}
+	}
+	
+	protected void addTheAction (Action aAction) {
+		actions.add (aAction);
 	}
 	
 	public boolean sendActionToNetwork (Action aAction) {
