@@ -12,6 +12,10 @@ public class BankTestFactory {
 	public BankTestFactory () {
 		// Nothing really to construct here.
 	}
+	
+	public BankTestFactory (GameManager aGameManager) {
+		setGameManager (aGameManager);
+	}
 
 	public Bank buildBank () {
 		Bank tBank;
