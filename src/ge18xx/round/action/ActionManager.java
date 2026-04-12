@@ -72,7 +72,7 @@ public class ActionManager implements XMLSaveGameI {
 		Action tAction;
 		int tActionNumber;
 		
-		if ((aIndex <= 0) || (aIndex >= actions.size ())) {
+		if ((aIndex < 0) || (aIndex >= getActionCount ())) {
 			tActionNumber = Action.NO_NUMBER;
 		} else {
 			tAction = actions.get (aIndex);
@@ -87,8 +87,12 @@ public class ActionManager implements XMLSaveGameI {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		tLastActionNumber = tLastAction.getNumber ();
-
+		if (tLastAction == Action.NO_ACTION) {
+			tLastActionNumber = Action.NO_NUMBER;
+		} else {
+			tLastActionNumber = tLastAction.getNumber ();
+		}
+		
 		return tLastActionNumber;
 	}
 
@@ -243,7 +247,7 @@ public class ActionManager implements XMLSaveGameI {
 		setNewActionNumber (aAction, false);
 	}
 
-	private void setNewActionNumber (Action aAction, boolean aUndoAction) {
+	protected void setNewActionNumber (Action aAction, boolean aUndoAction) {
 		int tActionNumber;
 
 		tActionNumber = generateNewActionNumber (aUndoAction);

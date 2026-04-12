@@ -28,14 +28,14 @@ public class ActionEffectsFactory {
 			+ "	</Effects>\n"
 			+ "</Action>\n", 
 			
-			"<Action actor=\"David\" chainPrevious=\"true\" class=\"ge18xx.round.action.StartStockAction\" dateTime=\"1775510774763\" name=\"Start Stock Action\" number=\"1\" roundID=\"1\" roundType=\"Stock Round\">\n"
+			"<Action actor=\"David\" chainPrevious=\"true\" class=\"ge18xx.round.action.StartStockAction\" dateTime=\"1775510774763\" name=\"Start Stock Action\" roundID=\"1\" roundType=\"Stock Round\">\n"
 			+ "  <Effects>\n"
 			+ "  	<Effect class=\"ge18xx.round.action.effects.ShowFrameEffect\" fromActor=\"Stock Round\" fromName=\"Stock Round\" isAPrivate=\"false\" name=\"Show Frame\" order=\"0\" xmlFrameTitle=\"1830 Player Frame\"/>\n"
 			+ "  	<Effect actor=\"David\" class=\"ge18xx.round.action.effects.StartStockEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Start Stock\" order=\"1\"/>\n"
 			+ "  </Effects>\n"
 			+ "</Action>\n",
 			
-			"<Action actor=\"David\" chainPrevious=\"false\" class=\"ge18xx.round.action.BuyStockAction\" dateTime=\"1775510778676\" name=\"Buy Stock Action\" number=\"2\" roundID=\"1\" roundType=\"Stock Round\">\n"
+			"<Action actor=\"David\" chainPrevious=\"false\" class=\"ge18xx.round.action.BuyStockAction\" dateTime=\"1775510778676\" name=\"Buy Stock Action\" roundID=\"1\" roundType=\"Stock Round\">\n"
 			+ "  <Effects>\n"
 			+ "      <Effect cash=\"20\" class=\"ge18xx.round.action.effects.CashTransferEffect\" fromActor=\"David\" fromName=\"David\" isAPrivate=\"false\" name=\"Cash Transfer\" order=\"0\" toActor=\"Bank\" toNickName=\"\"/>\n"
 			+ "      <Effect class=\"ge18xx.round.action.effects.TransferOwnershipEffect\" companyAbbrev=\"SVN&amp;RR\" fromActor=\"Start Packet\" fromName=\"Start Packet\" isAPrivate=\"false\" name=\"Transfer Ownership\" order=\"1\" percentage=\"100\" president=\"true\" toActor=\"David\" toNickName=\"\"/>\n"
@@ -46,7 +46,7 @@ public class ActionEffectsFactory {
 			+ "  </Effects>\n"
 			+ "</Action>\n",
 			
-			"<Action actor=\"David\" chainPrevious=\"false\" class=\"ge18xx.round.action.DonePlayerAction\" dateTime=\"1775514410805\" name=\"Done Player Action\" number=\"3\" roundID=\"1\" roundType=\"Stock Round\">\n"
+			"<Action actor=\"David\" chainPrevious=\"false\" class=\"ge18xx.round.action.DonePlayerAction\" dateTime=\"1775514410805\" name=\"Done Player Action\" roundID=\"1\" roundType=\"Stock Round\">\n"
 			+ "  <Effects>\n"
 			+ "       <Effect actor=\"David\" class=\"ge18xx.round.action.effects.NewPriorityPlayerEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Change Priority Player\" newPlayer=\"1\" order=\"0\" previousPlayer=\"0\"/>\n"
 			+ "       <Effect actor=\"David\" class=\"ge18xx.round.action.effects.NewCurrentPlayerEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Change Current Player\" newPlayer=\"1\" order=\"1\" previousPlayer=\"0\"/>\n"
