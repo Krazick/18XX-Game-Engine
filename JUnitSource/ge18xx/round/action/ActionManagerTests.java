@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -66,21 +67,10 @@ class ActionManagerTests extends ActionTester {
 		tBank.setStartPacketFrame (mStartPacketFrame);
 		gameManager.setPrivatesFrame (mPrivatesFrame);
 	}
-	
-	@Test
-	@DisplayName ("Initial Build Tests")
-	void actionManagerTestInitialBuild () {
-		assertEquals (gameManager, actionManager.getGameManager ());
-		assertEquals (0, actionManager.getActionCount ());
-		assertEquals (0, actionManager.getActionNumber ());
-		assertFalse (gameManager.isNetworkGame ());
-		assertFalse (gameManager.getNotifyNetwork ());
-		
-		addGameStartingActions ();
-	}
 
 	protected void addGameStartingActions () {
 		Action tAction;
+		
 		tAction = actionEffectsFactory.getTestActionAt (2);
 		assertEquals ("Start Stock Action", tAction.getName ());
 		actionManager.sendActionToNetwork (tAction);
@@ -100,7 +90,31 @@ class ActionManagerTests extends ActionTester {
 		actionManager.addTheAction (tAction);
 		assertEquals (3, actionManager.getActionCount ());
 	}
+
+	protected void setActionNumbers (int aStartNumber) {
+		Action tAction;
+		int tActionCount;
+		int tIndex;
+		
+		tActionCount = actionManager.getActionCount ();
+		for (tIndex = 0; tIndex < tActionCount; tIndex++) {
+			tAction = actionManager.getActionAt (tIndex);
+			tAction.setNumber (aStartNumber + tIndex);
+		}
+	}
 	
+	@Test
+	@DisplayName ("Initial Build Tests")
+	void actionManagerTestInitialBuild () {
+		assertEquals (gameManager, actionManager.getGameManager ());
+		assertEquals (0, actionManager.getActionCount ());
+		assertEquals (0, actionManager.getActionNumber ());
+		assertFalse (gameManager.isNetworkGame ());
+		assertFalse (gameManager.getNotifyNetwork ());
+		
+		addGameStartingActions ();
+	}
+
 	@DisplayName ("Action Number Tests")
 	@Nested class ActionNumberTest {
 		@Test
@@ -233,20 +247,14 @@ class ActionManagerTests extends ActionTester {
 		@Test
 		@DisplayName ("Getting Action Number by Index")
 		void gettingActionNumberAtTests () {
-			Action tAction;
 			int tIndex;
 			int tFoundActionNumber;
-			int tActionCount;
 			int tExpectedNumber;
 			int tStartNumber;
 			
 			addGameStartingActions ();
-			tActionCount = actionManager.getActionCount ();
 			tStartNumber = 200;
-			for (tIndex = 0; tIndex < tActionCount; tIndex++) {
-				tAction = actionManager.getActionAt (tIndex);
-				tAction.setNumber (tStartNumber + tIndex);
-			}
+			setActionNumbers (tStartNumber);
 			
 			tIndex = 1;
 			tExpectedNumber = tStartNumber + tIndex;
@@ -286,8 +294,11 @@ class ActionManagerTests extends ActionTester {
 			int tStartNumber;
 			
 			addGameStartingActions ();
-			tActionCount = actionManager.getActionCount ();
 			tStartNumber = 300;
+			setActionNumbers (tStartNumber);
+
+			tActionCount = actionManager.getActionCount ();
+
 			for (tIndex = 0; tIndex < tActionCount; tIndex++) {
 				tAction = actionManager.getActionAt (tIndex);
 				tAction.setNumber (tStartNumber + tIndex);
@@ -323,4 +334,61 @@ class ActionManagerTests extends ActionTester {
 		}
 	}
 	
+	@DisplayName ("Last Action Tests")
+	@Nested class LastActionNumberTest {
+		@Test
+		@DisplayName ("Getting Last Action with Offset")
+		void getLastActionWithOffsetTest () {
+			Action tLastAction;
+			int tLastActionOffset;
+			
+			addGameStartingActions ();
+			setActionNumbers (400);
+ 
+			tLastActionOffset = ActionManager.PREVIOUS_ACTION;
+			tLastAction = actionManager.getLastAction (tLastActionOffset);
+			assertEquals (402, tLastAction.getNumber ());
+			assertEquals ("Done Player Action", tLastAction.getName ());
+			
+			tLastAction = actionManager.getLastAction ();
+			assertEquals (402, tLastAction.getNumber ());
+			assertEquals ("Done Player Action", tLastAction.getName ());
+		}
+
+		@Test
+		@DisplayName ("Getting Last Action with No Actions Test")
+		void getLastActionWithNoActionsTest () {
+			Action tLastAction;
+			int tLastActionOffset;
+			
+			tLastActionOffset = ActionManager.PREVIOUS_ACTION;
+			tLastAction = actionManager.getLastAction (tLastActionOffset);
+			assertNull (tLastAction);
+			
+			tLastAction = actionManager.getLastAction ();
+			assertNull (tLastAction);
+		}
+		
+		@Test
+		@DisplayName ("Getting Last Action Number Test")
+		void getLastActionNumberTest () {
+			int tLastActionNumber;
+			
+			addGameStartingActions ();
+			setActionNumbers (500);
+ 			
+			tLastActionNumber = actionManager.getLastActionNumber ();
+			assertEquals (502, tLastActionNumber);
+		}
+		
+		@Test
+		@DisplayName ("Getting Last Action Number No Actions Test")
+		void getLastActionNumberNoActionsTest () {
+			int tLastActionNumber;
+			
+			tLastActionNumber = actionManager.getLastActionNumber ();
+			assertEquals (Action.NO_NUMBER, tLastActionNumber);
+		}
+
+	}
 }
