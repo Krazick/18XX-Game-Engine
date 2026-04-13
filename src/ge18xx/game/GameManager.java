@@ -2387,9 +2387,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				addChecksum (tXMLDocument);
 				tActionsXMLElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tSavedPreviousChecksum);
 				tLastAction = roundManager.getLastAction ();
-				System.out.println ("Action Number " + getActionNumber () + 
+				if (tLastAction != Action.NO_ACTION) {
+					System.out.println ("Action Number " + getActionNumber () + 
 						" Last Action # " + tLastAction.getNumber () + " Name " + tLastAction.getName () +
 						" Previous Checksum: " + tSavedPreviousChecksum);
+				} else {
+					System.out.println ("No More actions");
+				}
 			}
 //		}
 		
