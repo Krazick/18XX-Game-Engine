@@ -2322,7 +2322,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tXMLDocument.appendChild (tSaveGameElement);
 //		if (isNetworkGame ()) {
 			if (aAddChecksum) {
-				tGameChecksum = addChecksum (tXMLDocument);
+				tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
 				tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
 				tLastAction = roundManager.getLastAction ();
 				if (tLastAction != Action.NO_ACTION) {
@@ -2462,10 +2462,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public Checksums getChecksums () {
 		return checksums;
-	}
-
-	public String addChecksum (XMLDocument aXMLDocument) {
-		return addChecksum (EN_GAME, aXMLDocument);
 	}
 	
 	public String addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
