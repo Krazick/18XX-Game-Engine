@@ -536,7 +536,7 @@ public class ActionManager implements XMLSaveGameI {
 			removeLastAction ();
 			if (! actions.isEmpty ()) {
 				if (tLastAction.getChainToPrevious ()) {
-//					tLastActionUndone = undoLastAction (aRoundManager, false);
+					tLastActionUndone = undoLastAction (aRoundManager, false);
 				}
 			}
 		}
@@ -578,10 +578,10 @@ public class ActionManager implements XMLSaveGameI {
 		boolean tAddChecksum;
 		String tActionFailureMessage;
 
-		// When handling incomming Network Actions, we DO NOT want to notify other
+		// When handling incoming Network Actions, we DO NOT want to notify other
+		// clients that they should apply these Actions (one of them is sending 
+		// it to us) We end up getting into an Infinite Loop between two separate 
 		// clients
-		// that they should apply these Actions (one of them is sending it to us)
-		// We end up getting into an Infinite Loop between two separate clients
 		gameManager.setNotifyNetwork (false);
 		try {
 			tAction = getAction (gameManager, aActionNode);
