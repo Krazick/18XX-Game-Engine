@@ -567,10 +567,6 @@ public class ActionManager implements XMLSaveGameI {
 		return tWasLastActionStartAuction;
 	}
 
-	public boolean isSyncActionNumber (Action aAction) {
-		return (aAction instanceof SyncActionNumber);
-	}
-
 	public void handleNetworkAction (XMLNode aActionNode) {
 		Action tAction;
 		int tExpectedActionNumber;
@@ -589,46 +585,39 @@ public class ActionManager implements XMLSaveGameI {
 				tExpectedActionNumber = actionNumber + 1;
 				tThisActionNumber = tAction.getNumber ();
 
-				if (isSyncActionNumber (tAction)) {
-					setActionNumber (tThisActionNumber);
-					justAddAction (tAction);
-				} else {
-					if ((tThisActionNumber < STARTING_ACTION_NUMBER) || 
-						(tThisActionNumber > tExpectedActionNumber) || 
-						(tThisActionNumber == tExpectedActionNumber)) {
-						if (tThisActionNumber == tExpectedActionNumber) {
-							setActionNumber (tExpectedActionNumber);
-						}
-						if (tAction instanceof UndoLastAction) {
-							tAddChecksum = (! GameManager.ADD_CHECKSUM);
-						} else {
-							tAddChecksum = GameManager.ADD_CHECKSUM;
-						}
-						applyAction (tAction, tAddChecksum);
-						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
-						// Game Activity Frame
-						if (! (tAction instanceof UndoLastAction)) {
-							appendActionReport (tAction);
-						}
-						appendToJGameClient (tAction);
-					} else if (tThisActionNumber <= actionNumber) {
-						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
-								+ " Current Action Number " + actionNumber + " is before the Expected Action Number of "
-								+ tExpectedActionNumber + " IGNORING\n";
-						logger.error (tActionFailureMessage);
-						logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
-						appendReport (tActionFailureMessage);
-					} else {
-						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
-								+ " is not the Expected Action Number of " + tExpectedActionNumber
-								+ " This should have Matched\n";
-						logger.error (tActionFailureMessage);
-						logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
-						appendReport (tActionFailureMessage);
+				if ((tThisActionNumber < STARTING_ACTION_NUMBER) || 
+					(tThisActionNumber > tExpectedActionNumber) || 
+					(tThisActionNumber == tExpectedActionNumber)) {
+					if (tThisActionNumber == tExpectedActionNumber) {
+						setActionNumber (tExpectedActionNumber);
 					}
+					if (tAction instanceof UndoLastAction) {
+						tAddChecksum = (! GameManager.ADD_CHECKSUM);
+					} else {
+						tAddChecksum = GameManager.ADD_CHECKSUM;
+					}
+					applyAction (tAction, tAddChecksum);
+					// Add the Report of the Action Applied to the Action Frame, and the JGameClient
+					// Game Activity Frame
+					if (! (tAction instanceof UndoLastAction)) {
+						appendActionReport (tAction);
+					}
+					appendToJGameClient (tAction);
+				} else if (tThisActionNumber <= actionNumber) {
+					tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
+		 					+ " Current Action Number " + actionNumber + " is before the Expected Action Number of "
+							+ tExpectedActionNumber + " IGNORING\n";
+					logger.error (tActionFailureMessage);
+					logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
+					appendReport (tActionFailureMessage);
+				} else {
+					tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
+							+ " is not the Expected Action Number of " + tExpectedActionNumber
+							+ " This should have Matched\n";
+					logger.error (tActionFailureMessage);
+					logger.error ("\nRecieved: " + tAction.getActionReport (roundManager));
+					appendReport (tActionFailureMessage);
 				}
-			} else {
-				logger.error ("No Action Found to Process");
 			}
 		} catch (ClassNotFoundException eException) {
 			logger.warn ("Class not Found Exception Thrown when trying to get parse Network Action.");
