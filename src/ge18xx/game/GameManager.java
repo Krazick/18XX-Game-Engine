@@ -2293,25 +2293,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return game18XXFrame.getGEVersion ();
 	}
 
-	public Checksums getChecksums () {
-		return checksums;
-	}
-	
-	public XMLElement addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, 
-							XMLElement aSaveGameElement, ElementName aEN_TYPE) {
-		XMLElement tXMLElement;
-		
-		tXMLElement = XMLElement.NO_XML_ELEMENT;
-		if (aXMLSaveGame != XMLSaveGameI.NO_XML_SAVE_GAME) {
-			tXMLElement = aXMLSaveGame.addElements (aXMLDocument, aEN_TYPE);
-			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
-				aSaveGameElement.appendChild (tXMLElement);
-			}
-		}
-		
-		return tXMLElement;
-	}
-
 	public void saveGame () {
 		saveGame (ADD_CHECKSUM);
 	}
@@ -2319,21 +2300,53 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void saveGame (boolean aAddChecksum) {
 		XMLDocument tXMLDocument;
 		XMLElement tSaveGameElement;
-		XMLElement tActionsXMLElement;
-		ActionManager tActionManager;
 		Action tLastAction;
 		String tFullActionReport;
 		String tSavedPreviousChecksum;
+		String tGameChecksum;
 
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
-
-		if (isNetworkGame ()) {
-			addElements (networkJGameClient, tXMLDocument, tSaveGameElement, JGameClient.EN_NETWORK_GAME);
-		}
+		
 		if (checksums == Checksums.NO_CHECKSUMS) {
 			checksums = new Checksums ();
+		}
+		tSavedPreviousChecksum = getLastPreviousChecksum ();
+		setPreviousChecksumValue (GUI.EMPTY_STRING);
+
+		addAllElements (tXMLDocument, tSaveGameElement);
+		setPreviousChecksumValue (tSavedPreviousChecksum);
+
+// Append Save Game Element to Document just before outputing it.
+		tXMLDocument.appendChild (tSaveGameElement);
+//		if (isNetworkGame ()) {
+			if (aAddChecksum) {
+				tGameChecksum = addChecksum (tXMLDocument);
+				tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
+				tLastAction = roundManager.getLastAction ();
+				if (tLastAction != Action.NO_ACTION) {
+					System.out.println ("Action Number " + getActionNumber () + 
+						" Last Action # " + tLastAction.getNumber () + " Name " + tLastAction.getName () +
+						" Previous Checksum: " + tSavedPreviousChecksum);
+				} else {
+					System.out.println ("No More actions");
+				}
+			}
+//		}
+		
+		tXMLDocument.outputXML (saveFile);
+
+		tFullActionReport = roundManager.getFullActionReport ();
+		outputToFile (tFullActionReport, autoSaveActionReportFile);
+		addToSavedHashMap (tXMLDocument);
+	}
+
+	protected void addAllElements (XMLDocument tXMLDocument, XMLElement tSaveGameElement) {
+		ActionManager tActionManager;
+		
+		if (isNetworkGame ()) {
+			addElements (networkJGameClient, tXMLDocument, tSaveGameElement, JGameClient.EN_NETWORK_GAME);
 		}
 
 		/* Save the Basic Game Information */
@@ -2344,13 +2357,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		/* Save the Phase Index (Current Phase) */
 		addElements (phaseManager, tXMLDocument, tSaveGameElement, PhaseManager.EN_PHASE);
-
+		
 		/* Save the Actions performed */
 		tActionManager = roundManager.getActionManager ();
-		tSavedPreviousChecksum = getLastPreviousChecksum ();
-		setPreviousChecksumValue (GUI.EMPTY_STRING);
-		tActionsXMLElement = addElements (tActionManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
-		setPreviousChecksumValue (tSavedPreviousChecksum);
+		addElements (tActionManager, tXMLDocument, tSaveGameElement, Action.EN_ACTIONS);
 
 		/* Save the Round Information, Stock and Operating */
 		addElements (roundManager, tXMLDocument, tSaveGameElement, RoundManager.EN_ROUNDS);
@@ -2379,29 +2389,21 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (triggerFormationClass != TriggerClass.NO_TRIGGER_CLASS) {
 			addElements (triggerFormationClass, tXMLDocument, tSaveGameElement, FormCompany.EN_FORM_COMPANY);
 		}
+	}
+	
+	public XMLElement addElements (XMLSaveGameI aXMLSaveGame, XMLDocument aXMLDocument, 
+							XMLElement aSaveGameElement, ElementName aEN_TYPE) {
+		XMLElement tXMLElement;
 		
-		// Append Save Game Element to Document just before outputing it.
-		tXMLDocument.appendChild (tSaveGameElement);
-//		if (isNetworkGame ()) {
-			if (aAddChecksum) {
-				addChecksum (tXMLDocument);
-				tActionsXMLElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tSavedPreviousChecksum);
-				tLastAction = roundManager.getLastAction ();
-				if (tLastAction != Action.NO_ACTION) {
-					System.out.println ("Action Number " + getActionNumber () + 
-						" Last Action # " + tLastAction.getNumber () + " Name " + tLastAction.getName () +
-						" Previous Checksum: " + tSavedPreviousChecksum);
-				} else {
-					System.out.println ("No More actions");
-				}
+		tXMLElement = XMLElement.NO_XML_ELEMENT;
+		if (aXMLSaveGame != XMLSaveGameI.NO_XML_SAVE_GAME) {
+			tXMLElement = aXMLSaveGame.addElements (aXMLDocument, aEN_TYPE);
+			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
+				aSaveGameElement.appendChild (tXMLElement);
 			}
-//		}
+		}
 		
-		tXMLDocument.outputXML (saveFile);
-
-		tFullActionReport = roundManager.getFullActionReport ();
-		outputToFile (tFullActionReport, autoSaveActionReportFile);
-		addToSavedHashMap (tXMLDocument);
+		return tXMLElement;
 	}
 
 	private void addToSavedHashMap (XMLDocument aXMLDocument) {
@@ -2458,11 +2460,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
         }
     }
 
-	public void addChecksum (XMLDocument aXMLDocument) {
-		addChecksum (EN_GAME, aXMLDocument);
+	public Checksums getChecksums () {
+		return checksums;
+	}
+
+	public String addChecksum (XMLDocument aXMLDocument) {
+		return addChecksum (EN_GAME, aXMLDocument);
 	}
 	
-	public void addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
+	public String addChecksum (ElementName aEN_Name, XMLDocument aXMLDocument) {
 		Checksum tChecksum;
 		XMLElement tChecksumXMLElement;
 		ActionManager tActionManager;
@@ -2488,7 +2494,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tPlayerCount = playerManager.getPlayerCount ();
 		tChecksum = new Checksum (tGameID, tNodeName, tClientName, tPlayerCount, tActionIndex, tActionNumber);
 		tChecksum.addClientChecksum (tPlayerIndex, tChecksumValue);
-//		addPreviousChecksum (tChecksumValue);
 		checksums.add (tChecksum);
 		checksumAuditFrame.addRow (tChecksum, false);
 		tAuditChecksumIndex = checksumAuditFrame.findAuditIndexFor (tActionNumber);
@@ -2501,6 +2506,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (isNetworkGame ()) {
 			tActionManager.sendGameActivity (tXMLChecksum, true);
 		}
+		
+		return tChecksumValue;
 	}
 	
 	public void addAdditionalChecksum (XMLNode aChecksumNode) {
