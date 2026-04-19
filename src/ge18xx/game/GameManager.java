@@ -261,7 +261,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tLastPreviousChecksum;
 		int tLastPreviousChecksumIndex;
 		
-		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex () - 1;
 		tLastPreviousChecksum = getPreviousChecksum (tLastPreviousChecksumIndex);
 		
 		return tLastPreviousChecksum;
@@ -2304,6 +2304,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tFullActionReport;
 		String tSavedPreviousChecksum;
 		String tGameChecksum;
+		int tLastActionNumber;
 
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
@@ -2326,9 +2327,13 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
 				tLastAction = roundManager.getLastAction ();
 				if (tLastAction != Action.NO_ACTION) {
+					tLastActionNumber = tLastAction.getNumber ();
+					addPreviousChecksum  (tLastActionNumber, tGameChecksum);
 					System.out.println ("Action Number " + getActionNumber () + 
-						" Last Action # " + tLastAction.getNumber () + " Name " + tLastAction.getName () +
-						" Previous Checksum: " + tSavedPreviousChecksum);
+						" Last Action # " + tLastAction.getNumber () + 
+						" Name " + tLastAction.getName () +
+						" Previous Checksum: " + tSavedPreviousChecksum + 
+						" New Checksum "+ tGameChecksum);
 				} else {
 					System.out.println ("No More actions");
 				}
