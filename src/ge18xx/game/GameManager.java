@@ -257,11 +257,21 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		previousChecksums.put (aActionNumber, aPreviousChecksum);
 	}
 	
-	public String getLastPreviousChecksum ( ) {
+	public String getLastPrevious2Checksum ( ) {
 		String tLastPreviousChecksum;
 		int tLastPreviousChecksumIndex;
 		
 		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex () - 1;
+		tLastPreviousChecksum = getPreviousChecksum (tLastPreviousChecksumIndex);
+		
+		return tLastPreviousChecksum;
+	}
+	
+	public String getLastPreviousChecksum ( ) {
+		String tLastPreviousChecksum;
+		int tLastPreviousChecksumIndex;
+		
+		tLastPreviousChecksumIndex = getLastPreviousChecksumIndex ();
 		tLastPreviousChecksum = getPreviousChecksum (tLastPreviousChecksumIndex);
 		
 		return tLastPreviousChecksum;
@@ -2294,10 +2304,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void saveGame () {
-		saveGame (ADD_CHECKSUM);
+		saveGame (ADD_CHECKSUM, false);
 	}
 	
-	public void saveGame (boolean aAddChecksum) {
+	public void saveGame (boolean aAddChecksum, boolean aUndidLastActions) {
 		XMLDocument tXMLDocument;
 		XMLElement tSaveGameElement;
 		Action tLastAction;
@@ -2313,7 +2323,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (checksums == Checksums.NO_CHECKSUMS) {
 			checksums = new Checksums ();
 		}
-		tSavedPreviousChecksum = getLastPreviousChecksum ();
+		tSavedPreviousChecksum = getLastPrevious2Checksum ();
 		setPreviousChecksumValue (GUI.EMPTY_STRING);
 
 		addAllElements (tXMLDocument, tSaveGameElement);
@@ -2322,14 +2332,19 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 // Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
 //		if (isNetworkGame ()) {
+			tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
+			if (aUndidLastActions) {
+				System.out.println ("Undoing Last Action(s) " + 
+						" Previous Checksum: " + tSavedPreviousChecksum + 
+						" New Checksum "+ tGameChecksum);
+			}
 			if (aAddChecksum) {
-				tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
 				tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
 				tLastAction = roundManager.getLastAction ();
 				if (tLastAction != Action.NO_ACTION) {
 					tLastActionNumber = tLastAction.getNumber ();
 					addPreviousChecksum  (tLastActionNumber, tGameChecksum);
-					System.out.println ("Action Number " + getActionNumber () + 
+					System.out.println ("Action # " + getActionNumber () + 
 						" Last Action # " + tLastAction.getNumber () + 
 						" Name " + tLastAction.getName () +
 						" Previous Checksum: " + tSavedPreviousChecksum + 
@@ -2586,16 +2601,16 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
-		autoSaveGame (ADD_CHECKSUM);
+		autoSaveGame (ADD_CHECKSUM, false);
 	}
 	
-	public void autoSaveGame (boolean aAddChecksum) {
+	public void autoSaveGame (boolean aAddChecksum, boolean aUndidLastActions) {
 		File tPriorSave;
 
 		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
 		if (gameStarted) {
-			saveGame (aAddChecksum);
+			saveGame (aAddChecksum, aUndidLastActions);
 		}
 		saveFile = tPriorSave;
 	}
