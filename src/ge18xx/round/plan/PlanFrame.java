@@ -991,7 +991,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			tActionManager.addAction (tActionToApply);
 			
 			tActionManager.applyAction (tActionToApply);
-			tGameManager.autoSaveGame (true);
+			tGameManager.autoSaveGame (true, false);
 			mapPlan.setPlanStatus (PlanStatus.APPLIED);
 		}
 	}
