@@ -515,7 +515,7 @@ public class ActionManager implements XMLSaveGameI {
 		tLastActionUndone = undoLastAction (aRoundManager, true);
 		aRoundManager.updateAllFrames ();
 		removeUndoneActionsFromNetwork ();
-		gameManager.autoSaveGame (! GameManager.ADD_CHECKSUM);
+		gameManager.autoSaveGame (! GameManager.ADD_CHECKSUM, true);
 		
 		return tLastActionUndone;
 	}
@@ -630,11 +630,18 @@ public class ActionManager implements XMLSaveGameI {
 	}
 
 	public void applyAction (Action aAction, boolean aAddChecksum) {
+		boolean tUndidLastActions;
+		
 		actions.add (aAction);
 		logger.info ("Network Action # " + actionNumber + " Name " + aAction.getName () + " From "
 				+ aAction.getActor ().getName () + " Add Checksum " + aAddChecksum);
 		applyAction (aAction);
-		gameManager.autoSaveGame (aAddChecksum);
+		if (aAction instanceof UndoLastAction) {
+			tUndidLastActions = true;
+		} else {
+			tUndidLastActions = false;
+		}
+		gameManager.autoSaveGame (aAddChecksum, tUndidLastActions);
 	}
 
 	public void appendToJGameClient (Action aAction) {
