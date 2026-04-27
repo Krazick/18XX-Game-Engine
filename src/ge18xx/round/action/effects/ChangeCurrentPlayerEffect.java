@@ -7,15 +7,15 @@ import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
-public class NewCurrentPlayerEffect extends ChangePlayerEffect {
+public class ChangeCurrentPlayerEffect extends ChangePlayerEffect {
 	public final static String NAME = "Change Current Player";
 
-	public NewCurrentPlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
+	public ChangeCurrentPlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
 		super (aActor, aPreviousPlayer, aNewPlayer);
 		setName (NAME);
 	}
 
-	public NewCurrentPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public ChangeCurrentPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
 
