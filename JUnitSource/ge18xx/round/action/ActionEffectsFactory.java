@@ -49,7 +49,7 @@ public class ActionEffectsFactory {
 			"<Action actor=\"David\" chainPrevious=\"false\" class=\"ge18xx.round.action.DonePlayerAction\" dateTime=\"1775514410805\" name=\"Done Player Action\" roundID=\"1\" roundType=\"Stock Round\">\n"
 			+ "  <Effects>\n"
 			+ "       <Effect actor=\"David\" class=\"ge18xx.round.action.effects.NewPriorityPlayerEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Change Priority Player\" newPlayer=\"1\" order=\"0\" previousPlayer=\"0\"/>\n"
-			+ "       <Effect actor=\"David\" class=\"ge18xx.round.action.effects.NewCurrentPlayerEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Change Current Player\" newPlayer=\"1\" order=\"1\" previousPlayer=\"0\"/>\n"
+			+ "       <Effect actor=\"David\" class=\"ge18xx.round.action.effects.ChangeCurrentPlayerEffect\" fromName=\"David\" isAPrivate=\"false\" name=\"Change Current Player\" newPlayer=\"1\" order=\"1\" previousPlayer=\"0\"/>\n"
 			+ "       <Effect actor=\"Mark\" boughtShare=\"\" class=\"ge18xx.round.action.effects.BoughtShareEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"Bought Share\" order=\"2\" priorBoughtShare=\"\"/>\n"
 			+ "       <Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.BidShareEffect\" fromName=\"Mark\" hasBidShare=\"false\" isAPrivate=\"false\" name=\"Bid On a Share\" order=\"3\"/>\n"
 			+ "       <Effect actor=\"Mark\" class=\"ge18xx.round.action.effects.StateChangeEffect\" fromName=\"Mark\" isAPrivate=\"false\" name=\"State Change\" newState=\"No Action\" order=\"4\" previousState=\"No Action\"/>\n"
