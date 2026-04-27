@@ -274,16 +274,16 @@ public class ActionManager implements XMLSaveGameI {
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tActionElements;
 		XMLElement tActionElement;
-		String tLastPreviousChecksum;
-		int tLastPreviousChecksumIndex;
+//		String tLastPreviousChecksum;
+//		int tLastPreviousChecksumIndex;
 		
 		tActionElements = aXMLDocument.createElement (aEN_Type);
 		
-		tLastPreviousChecksumIndex = gameManager.getLastPreviousChecksumIndex ();
-		tLastPreviousChecksum = gameManager.getPreviousChecksum (tLastPreviousChecksumIndex);
-		if (! GUI.EMPTY_STRING.equals (tLastPreviousChecksum)) {
-			tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tLastPreviousChecksum);
-		}
+//		tLastPreviousChecksumIndex = gameManager.getLastPreviousChecksumIndex ();
+//		tLastPreviousChecksum = gameManager.getPreviousChecksum (tLastPreviousChecksumIndex);
+//		if (! GUI.EMPTY_STRING.equals (tLastPreviousChecksum)) {
+//			tActionElements.setAttribute (AN_PREVIOUS_CHECKSUM, tLastPreviousChecksum);
+//		}
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
 			tActionElements.appendChild (tActionElement, ! XMLElement.ADD_CHECKSUM);
@@ -436,14 +436,11 @@ public class ActionManager implements XMLSaveGameI {
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
 		tActionIndex = actions.size () - 1;
-//		if (gameManager.isNetworkGame ()) {
-			// Need to remove Last Checksum Action
-			if (! (tLastAction instanceof UndoLastAction)) {
-				gameManager.removeLastChecksum ();
-			}
-//		}
+		// Need to remove Last Checksum Action
+		if (! (tLastAction instanceof UndoLastAction)) {
+			gameManager.removeLastChecksum ();
+		}
 		actions.remove (tActionIndex);
-		
 		resetLastActionNumber ();
 	}
 
@@ -456,6 +453,7 @@ public class ActionManager implements XMLSaveGameI {
 			tLastActionNumber = DEFAULT_ACTION_NUMBER;
 		} else {
 			tLastActionNumber = tLastAction.getNumber ();
+			tLastAction.setPSGChecksum (GUI.EMPTY_STRING);
 		}
 		setActionNumber (tLastActionNumber);
 	}
