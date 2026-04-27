@@ -2343,6 +2343,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				tLastAction = roundManager.getLastAction ();
 				if (tLastAction != Action.NO_ACTION) {
 					tLastActionNumber = tLastAction.getNumber ();
+					tLastAction.setPSGChecksum (tSavedPreviousChecksum);
 					addPreviousChecksum  (tLastActionNumber, tGameChecksum);
 					System.out.println ("Action # " + getActionNumber () + 
 						" Last Action # " + tLastAction.getNumber () + 
