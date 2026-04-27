@@ -34,6 +34,7 @@ public class Action {
 	public final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	public final static AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
 	public final static AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
+	public final static AttributeName AN_PSG_CHECKSUM = new AttributeName ("psgChecksum");
 	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
@@ -50,6 +51,7 @@ public class Action {
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
 	int number;
 	long dateTime;
+	String psgChecksum;		// PSG (Previous Save Game) Checksum
 
 	public Action () {
 		this (NO_NAME);
@@ -89,6 +91,7 @@ public class Action {
 		String tRoundTypeString;
 		String tRoundID;
 		String tActorName;
+		String tPSGChecksum;
 		ActorI tActor;
 		ActorI.ActionStates tRoundType;
 		boolean tChainToPrevious;
@@ -101,6 +104,7 @@ public class Action {
 		tRoundTypeString = aActionNode.getThisAttribute (AN_ROUND_TYPE);
 		tRoundID = aActionNode.getThisAttribute (AN_ROUND_ID);
 		tActorName = aActionNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
+		tPSGChecksum = aActionNode.getThisAttribute (AN_PSG_CHECKSUM);
 		tChainToPrevious = aActionNode.getThisBooleanAttribute (AN_CHAIN_PREVIOUS);
 		tActor = aGameManager.getActor (tActorName);
 		tRoundType = aGameManager.getRoundType (tRoundTypeString);
@@ -109,7 +113,12 @@ public class Action {
 
 		setChainToPrevious (tChainToPrevious);
 		setDateTime (tDateTime);
+		setPSGChecksum (tPSGChecksum);
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
+	}
+	
+	public void setPSGChecksum (String aPSGChecksum) {
+		psgChecksum = aPSGChecksum;
 	}
 	
 	private void setDateTime (long aDateTime) {
@@ -295,6 +304,7 @@ public class Action {
 		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundState ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
 		tActionElement.setAttribute (ActorI.AN_ACTOR_NAME, tActorName);
+		tActionElement.setAttribute (AN_PSG_CHECKSUM, getPSGChecksum ());
 		tActionElement.setAttribute (AN_CHAIN_PREVIOUS, getChainToPrevious ());
 		tEffectsElement = aXMLDocument.createElement (Effect.EN_EFFECTS);
 		for (Effect tEffect : effects) {
@@ -313,6 +323,10 @@ public class Action {
 
 	public String getActorName () {
 		return getFromDisplayName ();
+	}
+	
+	public String getPSGChecksum () {
+		return psgChecksum;
 	}
 	
 	public String getFromDisplayName () {
