@@ -1291,7 +1291,7 @@ public class PlayerManager implements XMLSaveGameI {
 		
 		tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 		tCurrentPlayer = getCurrentPlayer ();
-		aChangeStateAction.addNewCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, aNextPlayerIndex);
+		aChangeStateAction.addChangeCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, aNextPlayerIndex);
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 		
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
@@ -1581,7 +1581,9 @@ public class PlayerManager implements XMLSaveGameI {
 		Player.ActionStates tNewState;
 		boolean tHaveAllPassed;
 		int tNextPlayerIndex;
-
+		int tCurrentPlayerIndex;
+		Player tCurrentPlayer;
+		
 		tPassAction = new PassAction (stockRound.getRoundState (), stockRound.getID (), aPlayer);
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
@@ -1596,7 +1598,11 @@ public class PlayerManager implements XMLSaveGameI {
 			stockRound.updateRFPlayerLabel (aPlayer);
 			
 			tHaveAllPassed = haveAllPassed ();
-			if (! tHaveAllPassed) {
+			if (tHaveAllPassed) {
+				tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
+				tCurrentPlayer = getCurrentPlayer ();
+				tPassAction.addChangeCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
+			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 			}
 			addAction (tPassAction);
