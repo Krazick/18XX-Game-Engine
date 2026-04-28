@@ -288,10 +288,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			setPrimaryActionState (ActionStates.Bid);
 		}
 	}
-
-	public boolean getBidShare () {
-		return bidShare;
-	}
 	
 	public void setExchangedPrezShare (String aExchangedShare) {
 		exchangedPrezShare = aExchangedShare;
