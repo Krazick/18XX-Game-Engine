@@ -13,11 +13,6 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Bid On a Share";
 	final static AttributeName AN_HAS_BID_SHARE = new AttributeName ("hasBidShare");
 
-	public BidShareEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public BidShareEffect (ActorI aActor, boolean aBidOnShare) {
 		super (NAME, aActor, aBidOnShare);
 	}
@@ -27,8 +22,8 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 		setName (NAME);
 	}
 
-	public boolean getBidShare () {
-		return true;
+	public boolean getBidOnShare () {
+		return booleanFlag;
 	}
 
 	@Override
@@ -51,11 +46,6 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 		}
 		
 		return tReport;
-	}
-
-	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
 	}
 
 	@Override
