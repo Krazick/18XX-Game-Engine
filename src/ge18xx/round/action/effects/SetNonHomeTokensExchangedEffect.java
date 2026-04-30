@@ -13,19 +13,6 @@ public class SetNonHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Non Home Tokens Exchanged";
 	final static AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 
-	public SetNonHomeTokensExchangedEffect () {
-		super ();
-		setName (NAME);
-	}
-
-	public SetNonHomeTokensExchangedEffect (String aName) {
-		super (aName);
-	}
-
-	public SetNonHomeTokensExchangedEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public SetNonHomeTokensExchangedEffect (ActorI aActor, boolean aHomeTokensExchanged) {
 		super (NAME, aActor, aHomeTokensExchanged);
 	}

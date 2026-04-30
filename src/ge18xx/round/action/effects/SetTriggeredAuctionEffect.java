@@ -9,18 +9,10 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
+// TODO Verify if this Effect needs to be saved or not
 public class SetTriggeredAuctionEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Triggered Auction";
 	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
-
-	public SetTriggeredAuctionEffect (String aName) {
-		super (aName);
-		setName (NAME);
-	}
-
-	public SetTriggeredAuctionEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
 
 	public SetTriggeredAuctionEffect (ActorI aActor, boolean aTriggeredAuction) {
 		super (NAME, aActor, aTriggeredAuction);
