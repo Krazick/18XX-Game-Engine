@@ -283,10 +283,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void setBidShare (boolean aBidShare) {
 		bidShare = aBidShare;
-		if (bidShare) {
-			setAuctionActionState (ActorI.ActionStates.AuctionRaised);
-			setPrimaryActionState (ActionStates.Bid);
-		}
 	}
 	
 	public void setExchangedPrezShare (String aExchangedShare) {
