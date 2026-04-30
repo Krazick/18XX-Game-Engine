@@ -705,6 +705,9 @@ public class PlayerManager implements XMLSaveGameI {
 				
 				aPlayer.setBidShare (tBidShare);
 				tBidStockAction.addBidShareEffect (aPlayer, tBidShare);
+				aPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaised);
+				aPlayer.setPrimaryActionState (ActionStates.Bid);
+
 				tEscrow = aPlayer.addEscrowInfo (tCertificateToBidOn, tCashValue);
 				tBidStockAction.addCashTransferEffect (aPlayer, tEscrow, tCashValue);
 				tBidStockAction.addBidToCertificateEffect (aPlayer, tCertificateToBidOn, tCashValue);
@@ -1294,11 +1297,15 @@ public class PlayerManager implements XMLSaveGameI {
 		aChangeStateAction.addChangeCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, aNextPlayerIndex);
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 		
-		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
-		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT, tNextPlayer.boughtShare ());
-		tBidShare = false;
-		tNextPlayer.setBidShare (tBidShare);
-		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
+		if (tNextPlayer.hasBoughtShare ()) {
+			tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
+			aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT, tNextPlayer.boughtShare ());
+		}
+		if (tNextPlayer.hasBid ()) {
+			tBidShare = false;
+			tNextPlayer.setBidShare (tBidShare);
+			aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
+		}
 		
 		tNextPlayer.updatePortfolioInfo ();
 		stockRound.setCurrentPlayer (aNextPlayerIndex, true, aChangeStateAction);
