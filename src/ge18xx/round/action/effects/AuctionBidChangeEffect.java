@@ -67,11 +67,11 @@ public class AuctionBidChangeEffect extends Effect {
 				+ certificate.getCompanyAbbrev () + " Old Bid " + Bank.formatCash (oldBid) + " New Bid "
 				+ Bank.formatCash (newBid) + ".");
 	}
-
-	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
-	}
+//
+//	@Override
+//	public void printEffectReport (RoundManager aRoundManager) {
+//		System.out.println (getEffectReport (aRoundManager));
+//	}
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
