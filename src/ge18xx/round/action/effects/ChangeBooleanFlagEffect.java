@@ -12,19 +12,6 @@ public class ChangeBooleanFlagEffect extends Effect {
 	public final static String NAME = "Change Boolean Flag";
 	boolean booleanFlag;
 
-	public ChangeBooleanFlagEffect () {
-		super ();
-		setName (NAME);
-	}
-
-	public ChangeBooleanFlagEffect (String aName) {
-		super (aName);
-	}
-
-	public ChangeBooleanFlagEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public ChangeBooleanFlagEffect (String aName, ActorI aActor, boolean aBooleanFlag) {
 		super (aName, aActor);
 		setBooleanFlag (aBooleanFlag);
@@ -60,10 +47,5 @@ public class ChangeBooleanFlagEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + actor.getName () + ".");
-	}
-
-	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
 	}
 }

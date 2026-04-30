@@ -9,16 +9,6 @@ import geUtilities.xml.XMLNode;
 public class StartStockEffect extends Effect {
 	public static final String NAME = "Start Stock";
 
-	public StartStockEffect () {
-		super ();
-		setName (NAME);
-	}
-
-	public StartStockEffect (String aName) {
-		super (aName);
-		setName (NAME);
-	}
-
 	public StartStockEffect (String aName, ActorI aActor) {
 		super (aName, aActor);
 		setName (NAME);
