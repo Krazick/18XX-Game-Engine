@@ -80,8 +80,12 @@ public class InterruptionRound extends Round {
 		super.setRoundAttributes (aXMLElement);
 		if (interruptedRound != InterruptionRound.NO_ROUND) {
 			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRound.getName ());
-			aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, interruptionStarted ());
-			aXMLElement.setAttribute (AN_AT_START_OF_ROUND, interruptedAtStartOfRound ());
+			if (interruptionStarted ()) {
+				aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, true);
+			}
+			if (interruptedAtStartOfRound ()) {
+				aXMLElement.setAttribute (AN_AT_START_OF_ROUND, true);
+			}
 		}
 	}
 	
