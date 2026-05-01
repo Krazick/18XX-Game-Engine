@@ -31,7 +31,7 @@ public class SetNotificationEffect extends Effect {
 		setNotificationText (tNotificationText);
 	}
 
-	public String getNotificadtionText () {
+	public String getNotificationText () {
 		return notificationText;
 	}
 
@@ -48,11 +48,6 @@ public class SetNotificationEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + "Set Notification Text to [" + notificationText +  "].");
-	}
-
-	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
 	}
 
 	public void setNotificationText (String aNotificationText) {
