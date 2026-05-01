@@ -122,7 +122,9 @@ public class AuctionRound extends InterruptionRound {
 		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
 		tStartAuctionAction.setChainToPrevious (true);
 		tStartAuctionAction.addSetInterruptionRoundStartedEffect (this, true);
-		
+
+		tStartAuctionAction.addSetInterruptedRoundEffect (interruptedRound, NAME, interruptedRound.getName ());
+
 		setRoundToThis (tStartAuctionAction, true);
 		clearAuctionStates (tStartAuctionAction);
 		updateLowestBidderState (tStartAuctionAction);
