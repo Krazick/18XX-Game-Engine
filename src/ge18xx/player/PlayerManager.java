@@ -1883,12 +1883,7 @@ public class PlayerManager implements XMLSaveGameI {
 		boolean tActionUndone;
 		Action tLastAction;
 		Player tCurrentPlayer;
-//		String tPreviousChecksum;
-//		String tChecksumAfterUndo;
-//		int tChecksumIndex;
-//
-//		tChecksumIndex = gameManager.getLastPreviousChecksumIndex () - 1;
-//		tPreviousChecksum = gameManager.getLastPrevious2Checksum ();
+		
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
@@ -1898,20 +1893,8 @@ public class PlayerManager implements XMLSaveGameI {
 			if (tLastAction == Action.NO_ACTION) {
 				tCurrentPlayer.hidePlayerFrame ();
 			} else if (! gameManager.isNetworkGame ()) {
-//				if (tActionToUndo instanceof StartStockAction) {
-//					tCurrentPlayer.showPlayerFrame ();
-//				}
 			}
 			gameManager.autoSaveGame (GameManager.ADD_CHECKSUM, true);
-//			tChecksumIndex = gameManager.getPreviousChecksumCount () - 1;
-//			tChecksumAfterUndo = gameManager.getPreviousChecksum (tChecksumIndex);
-//			tChecksumAfterUndo = gameManager.getLastPrevious2Checksum ();
-//			if (tPreviousChecksum.equals (tChecksumAfterUndo)) {
-//				System.out.println ("Checksums MATCH -- YEAH!");
-//			} else {
-//				System.out.println ("MIS-MATCHED Checksums Previous [" + tPreviousChecksum + 
-//						"] after [" + tChecksumAfterUndo + "]");
-//			}
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}
