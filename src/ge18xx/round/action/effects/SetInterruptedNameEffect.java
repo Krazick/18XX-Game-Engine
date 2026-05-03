@@ -87,10 +87,10 @@ public class SetInterruptedNameEffect extends Effect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		InterruptionRound tInterruptingRound;
-
-		tInterruptingRound = (InterruptionRound) aRoundManager.getRoundByTypeName (interruptingRoundName);
-		tInterruptingRound.setInterruptedRound (Round.NO_ROUND);
+//		InterruptionRound tInterruptingRound;
+//
+//		tInterruptingRound = (InterruptionRound) aRoundManager.getRoundByTypeName (interruptingRoundName);
+//		tInterruptingRound.setInterruptedRound (Round.NO_ROUND);
 		
 		tEffectUndone = true;
 

@@ -11,7 +11,7 @@ public class RoundType {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_INITIAL_ROUND = new AttributeName ("initialRound");
 	public static final AttributeName AN_INTERRUPTION_ROUND_NAME = new AttributeName ("interruptionRound");
-	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
+	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
 	public static final AttributeName AN_INTERRUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_INTERRUPTS_CONDITION = new AttributeName ("interruptsCondition");
@@ -25,6 +25,7 @@ public class RoundType {
 	String name;
 	String nextRoundName;
 	String interruptionRoundName;
+	String interruptedRoundName;
 	String interruptsAfterActions;
 	String interruptsCondition;
 	String endsAfterActions;
@@ -32,26 +33,12 @@ public class RoundType {
 	boolean optionalExtra;
 	boolean initialRound;
 	int maxRounds;
-	
-//	<RoundType name="Contract Bid Round" initialRound="true" nextRound="Stock Round"/>
-//	<RoundType name="Stock Round" initialRound="true" interruptionRound="Auction Round" nextRound="Operating Round"/>
-//	<RoundType name="Stock Round" interruptionRound="Auction Round" nextRound="Operating Round"/>
-//	<RoundType name="Stock Round" initialRound="true" nextRound="Operating Round"/>
-//	<RoundType name="Stock Round" nextRound="Operating Round"/>
-//	<RoundType name="Operating Round" nextRound="Stock Round" maxRounds="3" optionalExtra="true"/>
-//	<RoundType name="Operating Round" interruptionRound="Formation Round" nextRound="Stock Round" maxRounds="3" />
-//	<RoundType name="Operating Round" nextRound="Stock Round" maxRounds="3" />
-//	<RoundType name="Auction Round" afterActions="Done Player, Win Auction" />
-//	<RoundType name="Formation Round"
-//			endsAfterActions="Change Formation Round State Action, Final Formation Action" 
-//			interruptsAfterActions="Done Action, Pass Action, Sold Out Adjustment Action" 
-//			interruptsCondition="All Passed"
-//			phase="2.3" />
 
 	public RoundType (XMLNode aXMLRoundTypeNode) {
 		String tName;
 		String tNextRoundName;
 		String tInterruptionRoundName;
+		String tInterruptedRoundName;
 		String tInterruptsAfterActions;
 		String tInterruptsCondition;
 		String tEndsAfterActions;
@@ -63,6 +50,7 @@ public class RoundType {
 		tName = aXMLRoundTypeNode.getThisAttribute (AN_NAME);
 		tNextRoundName = aXMLRoundTypeNode.getThisAttribute (AN_NEXT_ROUND_NAME);
 		tInterruptionRoundName = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTION_ROUND_NAME);
+		tInterruptedRoundName = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTED_ROUND_NAME);
 		tInterruptsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTS_AFTER_ACTIONS);
 		tInterruptsCondition = aXMLRoundTypeNode.getThisAttribute (AN_INTERRUPTS_CONDITION);
 		tEndsAfterActions = aXMLRoundTypeNode.getThisAttribute (AN_ENDS_AFTER_ACTIONS);
@@ -74,6 +62,7 @@ public class RoundType {
 		setName (tName);
 		setNextRoundName (tNextRoundName);
 		setInterruptionRoundName (tInterruptionRoundName);
+		setInterruptedRoundName (tInterruptedRoundName);
 		setInterruptsAfterActions (tInterruptsAfterActions);
 		setInterruptsCondition (tInterruptsCondition);
 		setEndsAfterActions (tEndsAfterActions);
@@ -93,6 +82,10 @@ public class RoundType {
 	
 	public void setInterruptionRoundName (String aInterruptionRoundName) {
 		interruptionRoundName = aInterruptionRoundName;
+	}
+	
+	public void setInterruptedRoundName (String aInterruptedRoundName) {
+		interruptedRoundName = aInterruptedRoundName;
 	}
 	
 	public void setInterruptsAfterActions (String aInterruptsAfterActions) {
@@ -135,6 +128,10 @@ public class RoundType {
 		return interruptionRoundName;
 	}
 	
+	public String getInterruptedRoundName () {
+		return interruptedRoundName;
+	}
+
 	public String getInterruptsAfterActions () {
 		return interruptsAfterActions;
 	}

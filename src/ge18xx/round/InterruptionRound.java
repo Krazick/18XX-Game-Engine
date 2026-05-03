@@ -13,6 +13,7 @@ public class InterruptionRound extends Round {
 	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interruptionStarted");
 	public final static AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
 	Round interruptedRound;
+	String interruptedRoundName;
 	boolean interruptionStarted;
 	boolean atStartOfRound;
 	
@@ -36,6 +37,7 @@ public class InterruptionRound extends Round {
 		
 		tInterruptedRound = roundManager.getRoundByTypeName (tInterruptedRoundName);
 		setInterruptedRound (tInterruptedRound);
+		setInterruptedRoundName (tInterruptedRoundName);
 		setInterruptionStarted (tInterruptionStarted);
 		setAtStartOfRound (tAtStartOfRound);
 	}
@@ -52,6 +54,18 @@ public class InterruptionRound extends Round {
 		tGameName = roundManager.getGameName ();
 		tRoundFrame = roundManager.getRoundFrame ();
 		tRoundFrame.setFrameLabel (tGameName, aRoundID);
+	}
+
+	@Override
+	public void setRoundType () {
+		super.setRoundType ();
+		if (roundType != RoundType.NO_ROUND_TYPE) {
+			setInterruptedRoundName (roundType.getInterruptedRoundName ());
+		}
+	}
+	
+	public void setInterruptedRoundName (String aInterruptedRoundName) {
+		interruptedRoundName = aInterruptedRoundName;
 	}
 
 	public void setInterruptedRound (Round aInterruptedRound) {
@@ -86,6 +100,8 @@ public class InterruptionRound extends Round {
 			if (interruptedAtStartOfRound ()) {
 				aXMLElement.setAttribute (AN_AT_START_OF_ROUND, true);
 			}
+		} else {
+			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRoundName);
 		}
 	}
 	
