@@ -1290,6 +1290,7 @@ public class PlayerManager implements XMLSaveGameI {
 		Player tNextPlayer;
 		Player tCurrentPlayer;
 		boolean tBidShare;
+		String tPriorBoughtShareFlag;
 		int tCurrentPlayerIndex;
 		
 		tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
@@ -1298,8 +1299,9 @@ public class PlayerManager implements XMLSaveGameI {
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 		
 		if (tNextPlayer.hasBoughtShare ()) {
+			tPriorBoughtShareFlag = tNextPlayer.boughtShare ();
 			tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
-			aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT, tNextPlayer.boughtShare ());
+			aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT, tPriorBoughtShareFlag);
 		}
 		if (tNextPlayer.hasBid ()) {
 			tBidShare = false;
