@@ -17,11 +17,6 @@ public class BoughtShareEffect extends Effect {
 	String boughtShare;
 	String priorBoughtShare;
 
-	public BoughtShareEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public BoughtShareEffect (ActorI aActor, String aBoughtShare, String aPriorBoughtShare) {
 		super (NAME, aActor);
 		setBoughtShare (aBoughtShare);
@@ -84,18 +79,14 @@ public class BoughtShareEffect extends Effect {
 		String tReport;
 		
 		if (boughtShare == Player.NO_SHARE_BOUGHT) {
-			tReport = REPORT_PREFIX + actor.getName () + " is clearing the " + name + " flag.";
+			tReport = REPORT_PREFIX + actor.getName () + " is clearing the " + name + 
+						" flag. Prior Value (" + priorBoughtShare + ")" ;
 		} else {
 			tReport = REPORT_PREFIX + actor.getName () + " " + name + " a share of stock (" + 
 						boughtShare + ") this Stock Round. Prior Value (" + priorBoughtShare + ")";
 		}
 
 		return tReport;
-	}
-
-	@Override
-	public void printEffectReport (RoundManager aRoundManager) {
-		System.out.println (getEffectReport (aRoundManager));
 	}
 
 	@Override
