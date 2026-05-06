@@ -30,6 +30,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int ConfirmDontBuyTrainIndex = 3;
 	private static final int ConfirmBuyPresidentShareIndex = 4;
 	private static final int AlwaysShowEscrow = 5;
+	private static final int ShowPSGChecksum = 6;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -102,6 +103,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		
 		tUserPreference = new ShowEscrowPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new ShowPSGChecksum (aGameManager);
+		buildUserPreferences (tUserPreference);
 	}
 	
 	public void buildUserPreferences (UserPreference aUserPreference) {
@@ -145,6 +149,14 @@ public class UserPreferencesFrame extends XMLFrame {
 		return tFirstPlayerName;
 	}
 	
+	public boolean showPSGChecksum () {
+		ShowPSGChecksum tPSGChecksum;
+		
+		tPSGChecksum = (ShowPSGChecksum) userPreferences.get (ShowPSGChecksum);
+		
+		return tPSGChecksum.showPSGChecksum ();
+	}
+
 	public boolean showClientNameInFrameTitle () {
 		ClientNameInFramePreference tClientNameInFramePreference;
 		

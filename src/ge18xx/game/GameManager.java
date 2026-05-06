@@ -606,6 +606,19 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		return tFullTitle;
 	}
+	
+	public String createPSGChecksumReport (String aPSGChecksumValue) {
+		String tPSGChecksumReport;
+
+		tPSGChecksumReport = GUI.EMPTY_STRING;
+		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
+			if (userPreferencesFrame.showClientNameInFrameTitle ()) {
+				tPSGChecksumReport = "\nPSG Checksum [ " + aPSGChecksumValue + " ]";
+			}
+		}
+		
+		return tPSGChecksumReport;
+	}
 
 	public void createUserPreferencesFrame () {
 		UserPreferencesFrame tUserPreferencesFrame;
@@ -2314,6 +2327,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tFullActionReport;
 		String tSavedPreviousChecksum;
 		String tGameChecksum;
+		String tPSGChecksumReport;
 		int tLastActionNumber;
 
 		tXMLDocument = new XMLDocument ();
@@ -2331,30 +2345,32 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 // Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
-//		if (isNetworkGame ()) {
-			tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
-			if (aUndidLastActions) {
-				System.out.println ("Undoing Last Action(s) " + 
-						" Previous Checksum: " + tSavedPreviousChecksum + 
-						" New Checksum "+ tGameChecksum);
-			}
-			if (aAddChecksum) {
-				tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
-				tLastAction = roundManager.getLastAction ();
-				if (tLastAction != Action.NO_ACTION) {
-					tLastActionNumber = tLastAction.getNumber ();
-					tLastAction.setPSGChecksum (tSavedPreviousChecksum);
-					addPreviousChecksum  (tLastActionNumber, tGameChecksum);
-					System.out.println ("Action # " + getActionNumber () + 
-						" Last Action # " + tLastAction.getNumber () + 
-						" Name " + tLastAction.getName () +
-						" Previous Checksum: " + tSavedPreviousChecksum + 
-						" New Checksum "+ tGameChecksum);
-				} else {
-					System.out.println ("No More actions");
+		tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
+		if (aUndidLastActions) {
+			System.out.println ("Undoing Last Action(s) " + 
+					" Previous Checksum: " + tSavedPreviousChecksum + 
+					" New Checksum "+ tGameChecksum);
+		}
+		if (aAddChecksum) {
+			tSaveGameElement.setAttribute (ActionManager.AN_PREVIOUS_CHECKSUM, tGameChecksum);
+			tLastAction = roundManager.getLastAction ();
+			if (tLastAction != Action.NO_ACTION) {
+				tLastActionNumber = tLastAction.getNumber ();
+				tLastAction.setPSGChecksum (tSavedPreviousChecksum);
+				addPreviousChecksum  (tLastActionNumber, tGameChecksum);
+				tPSGChecksumReport = createPSGChecksumReport (tSavedPreviousChecksum);
+				if (tPSGChecksumReport != GUI.EMPTY_STRING) {
+					roundManager.appendReport (tPSGChecksumReport);
 				}
+				System.out.println ("Action # " + getActionNumber () + 
+					" Last Action # " + tLastAction.getNumber () + 
+					" Name " + tLastAction.getName () +
+					" Previous Checksum: " + tSavedPreviousChecksum + 
+					" New Checksum "+ tGameChecksum);
+			} else {
+				System.out.println ("No More actions");
 			}
-//		}
+		}
 		
 		tXMLDocument.outputXML (saveFile);
 

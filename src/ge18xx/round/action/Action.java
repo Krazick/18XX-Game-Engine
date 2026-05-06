@@ -393,7 +393,7 @@ public class Action {
 
 		return tActionReport;
 	}
-
+	
 	public String getSimpleActionReport () {
 		String tReport;
 
@@ -410,19 +410,38 @@ public class Action {
 	public Effect getEffect (int aEffectIndex) {
 		return effects.get (aEffectIndex);
 	}
-
+	
 	public String getBriefActionReport () {
 		String tReport;
 		String tActorAbbrev;
 		
 		tActorAbbrev = getActorAbbrev ();
-		
+
 		tReport =  number + ". " + roundState + " " + roundID + ": " + tActorAbbrev + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
 		
 		return tReport;
 	}
 
+//	public String buildPSGSuffix (RoundManager aRoundManager) {
+//		String tPSGSuffix;
+//		UserPreferencesFrame tUserPreferencesFrame;
+//		GameManager tGameManager;
+//		
+//		tPSGSuffix = GUI.EMPTY_STRING;
+//		tGameManager = aRoundManager.getGameManager ();
+//		if (tGameManager != GameManager.NO_GAME_MANAGER) {
+//			tUserPreferencesFrame = tGameManager.getUserPreferencesFrame ();
+//			if (tUserPreferencesFrame != XMLFrame.NO_XML_FRAME) {
+//				if (tUserPreferencesFrame.showPSGChecksum ()) {
+//					tPSGSuffix = " PSG Checksum [" + psgChecksum + "]";
+//				}
+//			}
+//		}
+//		
+//		return tPSGSuffix;
+//	}
+	
 	public String getActorAbbrev () {
 		String tActorAbbrev;
 		
@@ -439,7 +458,7 @@ public class Action {
 		return tActorAbbrev;
 	}
 	
-	public void printBriefActionReport () {
+	public void printBriefActionReport (RoundManager aRoundManager) {
 		System.out.println (getBriefActionReport ());
 	}
 
