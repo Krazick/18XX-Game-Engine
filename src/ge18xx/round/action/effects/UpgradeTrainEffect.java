@@ -12,11 +12,6 @@ import geUtilities.xml.XMLNode;
 public class UpgradeTrainEffect extends TransferTrainEffect {
 	public static final String NAME = "Upgrade Train";
 
-	public UpgradeTrainEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public UpgradeTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (aFromActor, aTrain, aToActor);
 		setName (NAME);

@@ -18,11 +18,6 @@ public class RustTrainEffect extends TransferTrainEffect {
 	public final static String NAME = "Rust Train";
 	int oldTrainStatus;
 
-	public RustTrainEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public RustTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor, int aTrainStatus) {
 		super (aFromActor, aTrain, aToActor);
 		setName (NAME);

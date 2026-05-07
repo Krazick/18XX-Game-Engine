@@ -15,11 +15,6 @@ public class BenefitUsedEffect extends Effect {
 	Benefit benefitInUse;
 	String benefitName;
 
-	public BenefitUsedEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public BenefitUsedEffect (String aName) {
 		super (aName);
 	}

@@ -23,13 +23,6 @@ public class TransferTrainEffect extends ToEffect {
 	Train train;
 	String trainName;	// Need to save in case the Train is not found where expected
 
-	public TransferTrainEffect () {
-		super ();
-		setName (NAME);
-		setTrain (Train.NO_TRAIN);
-		setToActor (ActorI.NO_ACTOR);
-	}
-
 	public TransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (NAME, aFromActor, aToActor);
 		setTrain (aTrain);

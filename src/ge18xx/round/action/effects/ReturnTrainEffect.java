@@ -10,11 +10,6 @@ import geUtilities.xml.XMLNode;
 public class ReturnTrainEffect extends BorrowTrainEffect {
 	public final static String NAME = "Return Train";
 
-	public ReturnTrainEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public ReturnTrainEffect (TrainCompany aTrainCompany, Train aTrain, Bank aBank) {
 		super (aBank, aTrain, aTrainCompany);
 		setName (NAME);
