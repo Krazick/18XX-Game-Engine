@@ -20,13 +20,6 @@ public class ApplyDiscountEffect extends Effect {
 	int oldDiscount;
 	int newDiscount;
 
-	public ApplyDiscountEffect () {
-		super ();
-		setCompanyAbbrev (Corporation.NO_NAME_STRING);
-		setOldDiscount (0);
-		setNewDiscount (0);
-	}
-
 	public ApplyDiscountEffect (ActorI aActor, String aCompanyName, int aOldDiscount, int aNewDiscount) {
 		super (NAME, aActor);
 		setCompanyAbbrev (aCompanyName);
