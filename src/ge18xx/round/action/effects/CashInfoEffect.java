@@ -8,14 +8,6 @@ import geUtilities.xml.XMLNode;
 public class CashInfoEffect extends CashTransferEffect {
 	public final static String NAME = "Cash Info";
 
-	public CashInfoEffect () {
-		this (NAME);
-	}
-
-	public CashInfoEffect (String aName) {
-		super (aName);
-	}
-
 	public CashInfoEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (aFromActor, aToActor, aCashAmount);
 		setName (NAME);

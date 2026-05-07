@@ -9,11 +9,6 @@ import geUtilities.xml.XMLNode;
 public class CloseCorporationEffect extends ChangeCorporationStatusEffect {
 	public final static String NAME = "Close Corporation";
 
-	public CloseCorporationEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public CloseCorporationEffect (ActorI aActor, ActionStates aPreviousState, ActionStates aNewState) {
 		super (aActor, aPreviousState, aNewState);
 		setName (NAME);

@@ -20,14 +20,6 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 	String itemType;
 	String itemName;
 
-	public PurchaseOfferEffect () {
-		this (NAME);
-	}
-
-	public PurchaseOfferEffect (String aName) {
-		super (aName);
-	}
-
 	public PurchaseOfferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String aItemType,
 			String aItemName) {
 		super (aFromActor, aToActor, aCashAmount);

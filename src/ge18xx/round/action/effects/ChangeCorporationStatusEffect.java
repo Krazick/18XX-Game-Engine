@@ -16,13 +16,6 @@ public class ChangeCorporationStatusEffect extends Effect {
 	ActorI.ActionStates previousState;
 	ActorI.ActionStates newState;
 
-	public ChangeCorporationStatusEffect () {
-		super ();
-		setName (NAME);
-		setPreviousState (ActorI.ActionStates.Unowned);
-		setNewState (ActorI.ActionStates.Unowned);
-	}
-
 	public ChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 			ActorI.ActionStates aNewState) {
 		super (NAME, aActor);

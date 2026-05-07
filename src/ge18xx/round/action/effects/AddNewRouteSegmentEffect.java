@@ -12,18 +12,6 @@ import geUtilities.xml.XMLNode;
 public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 	public static final String NAME = "New Route Segment";
 
-	public AddNewRouteSegmentEffect () {
-		super (NAME);
-	}
-
-	public AddNewRouteSegmentEffect (String aName) {
-		super (aName);
-	}
-
-	public AddNewRouteSegmentEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
-	}
-
 	public AddNewRouteSegmentEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);

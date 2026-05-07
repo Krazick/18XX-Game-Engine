@@ -8,11 +8,6 @@ import geUtilities.xml.XMLNode;
 public class EscrowCashTransferEffect extends CashTransferEffect {
 	public final static String NAME = "Escrow Cash Transfer";
 
-	public EscrowCashTransferEffect () {
-		super ();
-		setName (NAME);
-	}
-
 	public EscrowCashTransferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (aFromActor, aToActor, aCashAmount);
 		setName (NAME);
