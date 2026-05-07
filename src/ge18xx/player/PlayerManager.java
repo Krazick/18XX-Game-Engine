@@ -1637,6 +1637,7 @@ public class PlayerManager implements XMLSaveGameI {
 			tBank.applyDiscount ();
 			tNewDiscount = tCertificate.getDiscount ();
 			aChangeStateAction.addApplyDiscountEffect (aRound, tCompanyName, tOldDiscount, tNewDiscount);
+			aChangeStateAction.setChainToPrevious (true);
 		}
 	}
 
