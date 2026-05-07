@@ -84,8 +84,9 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 	
 	public Certificate getMustBuyCertificate () {
-		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tMustBuyCertificate;
 
+		tMustBuyCertificate = Certificate.NO_CERTIFICATE;
 		if (certificate.valueEqualsDiscount ()) {
 			tMustBuyCertificate = certificate;
 		}
@@ -94,8 +95,9 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 
 	public boolean enableMustBuyPrivateButton () {
-		boolean tPrivateEnabled = false;
+		boolean tPrivateEnabled;
 
+		tPrivateEnabled = false;
 		if (certificate.valueEqualsDiscount ()) {
 			certificate.setStateCheckedButton (true, "Must Buy this Private");
 			tPrivateEnabled = true;
@@ -143,8 +145,9 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tCertificate;
 
+		tCertificate = Certificate.NO_CERTIFICATE;
 		if (certificate.isMatchingCertificate (aAbbrev, aPercentage, aIsPresident)) {
 			tCertificate = certificate;
 		}
@@ -161,14 +164,16 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 
 	public boolean loadWithCertificates (Portfolio aBankPortfolio, Portfolio aStartPacketPortfolio) {
-		boolean tAllCertsLoaded = true;
-		Corporation tCorporation, tFreeCorporation;
+		boolean tAllCertsLoaded;
+		Corporation tCorporation;
+		Corporation tFreeCorporation;
 
 		// Find the Certificate for the Private/Minor Corp and transfer from the
 		// Bank to the Start Packet
 		// if there is a Free Certificate for a Share Corp, transfer that from the Bank
 		// to the Start Packet
 		tCorporation = aBankPortfolio.getCorporationForID (corporationId);
+		tAllCertsLoaded = true;
 		setCertificate (aBankPortfolio.getPresidentCertificate (tCorporation));
 		aStartPacketPortfolio.transferOneCertificateOwnership (aBankPortfolio, certificate);
 		if (freeCertificateCorporationId != Corporation.NO_ID) {
@@ -185,7 +190,6 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 
 	public void getEffectElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
-		
 		aXMLElement.setAttribute (AN_CORPORATION_ID, corporationId);
 		aXMLElement.setAttribute (AN_DISCOUNT_AMOUNT, discountAmount);
 		aXMLElement.setAttribute (AN_CAN_BE_BID_ON, canBeBidOn);
