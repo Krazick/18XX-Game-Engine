@@ -2,7 +2,6 @@ package ge18xx.round.action.effects;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
-import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
