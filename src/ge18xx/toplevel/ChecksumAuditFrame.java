@@ -244,9 +244,9 @@ public class ChecksumAuditFrame extends XMLFrame implements ItemListener, Action
 			tAuditChecksumIndex = findAuditIndexFor (tActionNumber);
 			if (tAuditChecksumIndex == INDEX_NOT_FOUND) {
 				checksumAuditModel.insertRow (0, tDataRow);
-			} else {
-				System.err.println ("Looking for Action Number " + tActionNumber + " Found at Index "
-						+ tAuditChecksumIndex + ". NOT Adding");
+//			} else {
+//				System.err.println ("Looking for Action Number " + tActionNumber + " Found at Index "
+//						+ tAuditChecksumIndex + ". NOT Adding");
 			}
 		}
 	}
