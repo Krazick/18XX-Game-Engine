@@ -10,8 +10,8 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class ConfirmDontBuyTrainPreference extends TrueFalseDecisionPreference implements ItemListener {
-	public final static String decisionType = "DontBuyTrain";
-	public final static String buttonText = "Provide \"Do Not Buy Train\" Reminder Confirmation Box.";
+	public static final String decisionType = "DontBuyTrain";
+	public static final String buttonText = "Provide \"Do Not Buy Train\" Reminder Confirmation Box.";
 	JCheckBox confirmDontBuyTrain;
 
 	public ConfirmDontBuyTrainPreference (GameManager aGameManager) {

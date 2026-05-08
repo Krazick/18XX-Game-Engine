@@ -612,7 +612,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 		tPSGChecksumReport = GUI.EMPTY_STRING;
 		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
-			if (userPreferencesFrame.showClientNameInFrameTitle ()) {
+			if (userPreferencesFrame.showPSGChecksum ()) {
 				tPSGChecksumReport = "\nPSG Checksum [ " + aPSGChecksumValue + " ]";
 			}
 		}

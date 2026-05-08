@@ -26,10 +26,10 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int PlayerOrderIndex = 0;
 	private static final int ClientNameIndex = 1;
-	private static final int ShowConfigIndex = 2;
-	private static final int ConfirmDontBuyTrainIndex = 3;
-	private static final int ConfirmBuyPresidentShareIndex = 4;
-	private static final int AlwaysShowEscrow = 5;
+	private static final int ConfirmDontBuyTrainIndex = 2;
+	private static final int ConfirmBuyPresidentShareIndex = 3;
+	private static final int AlwaysShowEscrow = 4;
+	private static final int ShowConfigIndex = 5;
 	private static final int ShowPSGChecksum = 6;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
@@ -91,9 +91,6 @@ public class UserPreferencesFrame extends XMLFrame {
 
 		tUserPreference = new ClientNameInFramePreference (aGameManager);
 		buildUserPreferences (tUserPreference);
-
-		tUserPreference = new ShowConfigInfoPreference (aGameManager);
-		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ConfirmDontBuyTrainPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
@@ -102,6 +99,10 @@ public class UserPreferencesFrame extends XMLFrame {
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ShowEscrowPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+
+		// Below here these are NOT critical for Play. Informational for debugging Game Play
+		tUserPreference = new ShowConfigInfoPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ShowPSGChecksum (aGameManager);
@@ -234,7 +235,7 @@ public class UserPreferencesFrame extends XMLFrame {
 					tClientNameInFramePreference = (ClientNameInFramePreference) userPreferences.get (ClientNameIndex);
 					tClientNameInFramePreference.parsePreference (tChildNode);
 				}
-				if (ShowConfigInfoPreference.EN_CONFIG_INFO.equals (tNodeName)) {
+				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
 					tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
 					tShowConfigInfoPreference.parsePreference (tChildNode);
 				}
@@ -248,6 +249,10 @@ public class UserPreferencesFrame extends XMLFrame {
 				}
 				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
 					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (AlwaysShowEscrow);
+					tConfirmDecisionPreference.parsePreference (tChildNode);
+				}
+				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ShowPSGChecksum);
 					tConfirmDecisionPreference.parsePreference (tChildNode);
 				}
 			}
