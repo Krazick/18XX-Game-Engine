@@ -958,20 +958,6 @@ public class PlayerManager implements XMLSaveGameI {
 		
 		return tPayCashTo;
 	}
-	
-//	private CashHolderI inverseGetPayCashTo (Bank aBank, ShareCompany aShareCompany) {
-//		CashHolderI tPayCashTo;
-//		int tCapitalizationLevel;
-//		
-//		tCapitalizationLevel = getCapitalizationLevel (aShareCompany);
-//		if (tCapitalizationLevel != Capitalization.INCREMENTAL_10_MAX) {
-//			tPayCashTo = aBank;
-//		} else {
-//			tPayCashTo = aShareCompany;
-//		}
-//		
-//		return tPayCashTo;
-//	}
 
 	private CashHolderI getPayCashTo (Bank aBank, ShareCompany aShareCompany) {
 		CashHolderI tPayCashTo;
@@ -1145,18 +1131,6 @@ public class PlayerManager implements XMLSaveGameI {
 
 		return tParPriceFrame;
 	}
-
-//	private SetParValueEffect buildSetParPriceEffect (Player aPlayer, Certificate aCertificate, 
-//			ShareCompany aShareCompany, int aParPrice) {
-//		SetParValueEffect tSetParValueEffect;
-//		
-//		gameManager.setParPrice (aShareCompany, aParPrice);
-//		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
-//		parPriceFrame.setParPriceFrameActive (false);
-//		tSetParValueEffect = parPriceFrame.buildSetParValueEffect (aParPrice, aShareCompany);
-//		
-//		return tSetParValueEffect;
-//	}
 
 	private void handleBuildParPriceFrame (Player aPlayer, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
