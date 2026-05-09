@@ -297,9 +297,11 @@ public class RoundFrame extends XMLFrame {
 		Player tCurrentPlayer;
 		Certificate tFastBuyCertificate;
 		String tPlayerName;
-		int tFastBuyIndex;
-		boolean tHasMoreFastBuys;
 		String tButtonLabel;
+		int tFastBuyIndex;
+		int tCurrentPlayerCash;
+		int tCertCost;
+		boolean tHasMoreFastBuys;
 		FastBuyButton tFastBuyButton;
 
 		tGameManager = roundManager.getGameManager ();
@@ -313,16 +315,21 @@ public class RoundFrame extends XMLFrame {
 				if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
 					tPlayerName = tCurrentPlayer.getName ();
 					if (tGameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
+						tCurrentPlayerCash = tCurrentPlayer.getCash ();
+						tCertCost = tFastBuyCertificate.getValue ();
 						tButtonLabel = tPlayerName + " Fast Buy " + 
 								tFastBuyCertificate.getPercentage () + "% of " +
 								tFastBuyCertificate.getCompanyAbbrev () + " for " +
-								Bank.formatCash (tFastBuyCertificate.getValue ());
+								Bank.formatCash (tCertCost);
 						tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
 						setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
 						addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
 						if (tCurrentPlayer.hasBoughtShare ()) {
 							tFastBuyButton.setEnabled (false);
 							tFastBuyButton.setToolTipText ("Already Bought a Share of Stock");
+						} else if (tCurrentPlayerCash < tCertCost) {
+							tFastBuyButton.setEnabled (false);
+							tFastBuyButton.setToolTipText ("Player does not have enough Cash to Buy the Cert");						
 						} else {
 							tFastBuyButton.setEnabled (true);
 							tFastBuyButton.setToolTipText ("Buy another Share of your Company Stock");

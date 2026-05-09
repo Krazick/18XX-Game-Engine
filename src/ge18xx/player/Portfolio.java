@@ -2387,8 +2387,8 @@ public class Portfolio implements CertificateHolderI {
 		String tPlayerName;
 		String tAbbrev;
 		String tPrevAbbrev;
-		int tPlayerCash;
-		int tCertParValue;
+//		int tPlayerCash;
+//		int tCertParValue;
 		int tCorpIndex;
 
 		tCertToBuy = Certificate.NO_CERTIFICATE;
@@ -2409,14 +2409,14 @@ public class Portfolio implements CertificateHolderI {
 									if (! tAbbrev.equals (tPrevAbbrev)) {
 										tPrevAbbrev = tAbbrev;
 										if (tCorpIndex == aFastBuyIndex) {
-											tPlayerCash = aPlayer.getCash ();
+//											tPlayerCash = aPlayer.getCash ();
 											if (tShareCompany.hasParPrice ()) {
-												tCertParValue = tShareCompany.getParPrice ();
-												if (tPlayerCash >= tCertParValue) {
+//												tCertParValue = tShareCompany.getParPrice ();
+//												if (tPlayerCash >= tCertParValue) {
 													tBank = tCorporation.getBank ();
 													tCertToBuy = tBank.getCertFromCorpBuyable (tCorporation, 
 																	! REMOVE_CERTIFICATE);
-												}
+//												}
 											}
 										}
 										tCorpIndex++;
