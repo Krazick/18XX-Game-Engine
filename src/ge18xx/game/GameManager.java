@@ -3646,8 +3646,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 	}
 	
-	//  End Configuration File Methods
-	
 	public boolean confirmDontBuyTrain () {
 		return userPreferencesFrame.confirmDontBuyTrain ();
 	}
@@ -3659,6 +3657,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean getAlwaysShowEscrow () {
 		return userPreferencesFrame.getAlwaysShowEscrowPreference ();
 	}
+	
+	//  End Configuration File Methods
 
 	@Override
 	public int getSelectedGameIndex () {
