@@ -10,8 +10,8 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class ShowEscrowPreference extends TrueFalseDecisionPreference implements ItemListener {
-	public final static String decisionType = "AlwaysShowEscrow";
-	public final static String buttonText = "Always Show the Escrow for Companies for games with a Destination.";
+	public static final String decisionType = "AlwaysShowEscrow";
+	public static final String buttonText = "Always Show the Escrow for Companies for games with a Destination.";
 	JCheckBox alwaysShowEscrow;
 
 	public ShowEscrowPreference (GameManager aGameManager) {

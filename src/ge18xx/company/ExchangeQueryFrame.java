@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.ToEffect;
 
 public class ExchangeQueryFrame extends QueryFrame {
 	private static final long serialVersionUID = 1L;
-	public final static String NAME = "QUERY EXCHANGE";
+	public static final String NAME = "QUERY EXCHANGE";
 
 	String actionText;
 

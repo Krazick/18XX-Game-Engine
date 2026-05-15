@@ -13,8 +13,8 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 
 public class AuctionRound extends InterruptionRound {
-	public final static String NAME = "Auction Round";
-	public final static AuctionRound NO_AUCTION_ROUND = null;
+	public static final String NAME = "Auction Round";
+	public static final AuctionRound NO_AUCTION_ROUND = null;
 	AuctionFrame auctionFrame;
 	GameManager gameManager;
 

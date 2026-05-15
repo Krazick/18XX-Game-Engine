@@ -9,9 +9,9 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class InterruptionRound extends Round {
-	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");
-	public final static AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interruptionStarted");
-	public final static AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
+	public static final AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");
+	public static final AttributeName AN_INTERRUPTION_STARTED = new AttributeName ("interruptionStarted");
+	public static final AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
 	Round interruptedRound;
 	String interruptedRoundName;
 	boolean interruptionStarted;

@@ -20,13 +20,13 @@ import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
 
 public class PhaseManager implements XMLSaveGameI {
+	public static final ElementName EN_PHASE = new ElementName ("Phase");
+	public static final AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final List<PhaseInfo> NO_PHASES = null;
 	public static final int NO_PHASE = -1;
 	public static final int FIRST_PHASE = 0;
 	public static final int MINIMUM_TRAIN_LIMIT = 1;
-	public static final ElementName EN_PHASE = new ElementName ("Phase");
-	public final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
 	int currentPhase;
 	GameManager gameManager;

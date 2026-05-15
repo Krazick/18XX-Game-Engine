@@ -6,8 +6,8 @@ import geUtilities.GUI;
 import swingTweaks.KButton;
 
 public class FrameButton {
-	public final static FrameButton NO_FRAME_BUTTON = null;
-	public final static String NO_GROUP_NAME = GUI.NULL_STRING;
+	public static final FrameButton NO_FRAME_BUTTON = null;
+	public static final String NO_GROUP_NAME = GUI.NULL_STRING;
 	KButton jButton;
 	JCheckBox jCheckBox;
 	String groupName;

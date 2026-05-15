@@ -10,8 +10,8 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class ConfirmBuyPresidentSharePreference extends TrueFalseDecisionPreference implements ItemListener {
-	public final static String decisionType = "BuyPresidentShare";
-	public final static String buttonText = "Provide Buy President Share confirmation Box";
+	public static final String decisionType = "BuyPresidentShare";
+	public static final String buttonText = "Provide Buy President Share confirmation Box";
 	JCheckBox confirmBuyPresidentShare;
 
 	public ConfirmBuyPresidentSharePreference (GameManager aGameManager) {

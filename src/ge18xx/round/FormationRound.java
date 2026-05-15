@@ -19,7 +19,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class FormationRound extends InterruptionRound {
-	public final static AttributeName AN_TRIGGERING_CLASS = new AttributeName ("triggeringClass");
+	public static final AttributeName AN_TRIGGERING_CLASS = new AttributeName ("triggeringClass");
 	public static final FormationRound NO_FORMATION_ROUND = null;
 	public static final String NAME = "Formation Round";
 	String triggeringClassName;

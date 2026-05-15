@@ -11,7 +11,7 @@ public class RoundType {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_INITIAL_ROUND = new AttributeName ("initialRound");
 	public static final AttributeName AN_INTERRUPTION_ROUND_NAME = new AttributeName ("interruptionRound");
-	public final static AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
+	public static final AttributeName AN_INTERRUPTED_ROUND_NAME = new AttributeName ("interruptedName");	public static final AttributeName AN_NEXT_ROUND_NAME = new AttributeName ("nextRound");
 	public static final AttributeName AN_OPTIONAL_EXTRA = new AttributeName ("optionalExtra");
 	public static final AttributeName AN_INTERRUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_INTERRUPTS_CONDITION = new AttributeName ("interruptsCondition");

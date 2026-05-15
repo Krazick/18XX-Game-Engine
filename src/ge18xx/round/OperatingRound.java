@@ -14,8 +14,8 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class OperatingRound extends Round {
-	public final static OperatingRound NO_OPERATING_ROUND = null;
-	public final static String NAME = "Operating Round";
+	public static final OperatingRound NO_OPERATING_ROUND = null;
+	public static final String NAME = "Operating Round";
 	CorporationList privateCompanies;
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
