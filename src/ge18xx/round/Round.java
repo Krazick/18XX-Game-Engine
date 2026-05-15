@@ -23,18 +23,18 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public abstract class Round implements ActorI {
-	public final static String NAME = "Round";
-	public final static ElementName EN_ROUND = new ElementName ("Round");
+	public static final String NAME = "Round";
+	public static final ElementName EN_ROUND = new ElementName ("Round");
 	public static final ElementName EN_STOCK_ROUND = new ElementName ("StockRound");
 	public static final ElementName EN_AUCTION_ROUND = new ElementName ("AuctionRound");
 	public static final ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");
 	public static final ElementName EN_FORMATION_ROUND = new ElementName ("FormationRound");
 	public static final ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
-	public final static AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
-	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
+	public static final AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
+	public static final AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
 	public static final int FIRST_PLAYER = 0;
-	public final static Round NO_ROUND = null;
-	public final static String NO_ID_STRING = "0.0";
+	public static final Round NO_ROUND = null;
+	public static final String NO_ID_STRING = "0.0";
 	public static final int START_ID1 = 0;
 	public static final int START_ID2 = 0;
 	public static final int NO_ID = 0;
