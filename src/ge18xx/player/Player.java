@@ -73,6 +73,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	public static final AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
 	public static final AttributeName AN_CERTIFICATE_LIMIT = new AttributeName ("certificateLimit");
+	public static final String NAME = "Player";
 	public static final String NO_PLAYER_NAME = GUI.EMPTY_STRING;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
 	public static final String SELL_LABEL = "Sell";
