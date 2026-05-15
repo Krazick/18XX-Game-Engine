@@ -21,9 +21,15 @@ public interface ActorI {
 		ShareCompany ("Share Company"),
 		MinorCompany ("Minor Company"), 
 		PrivateCompany ("Private Company"), 
-		Player ("Player"), 
-		Bank ("Bank"),
-		BankPool ("Bank Pool");
+		Player (ge18xx.player.Player.NAME), 
+		Bank (ge18xx.bank.BankPool.NAME),
+		BankPool (ge18xx.bank.BankPool.NAME),
+		Round (ge18xx.round.Round.NAME),
+		StockRound (ge18xx.round.StockRound.NAME),
+		OperatingRound (ge18xx.round.OperatingRound.NAME),
+		AuctionRound (ge18xx.round.AuctionRound.NAME),
+		FormationRound (ge18xx.round.FormationRound.NAME),
+		ContractBidRound (ge18xx.round.ContractBidRound.NAME);
 
 		private String enumString;
 
@@ -88,11 +94,11 @@ public interface ActorI {
 		
 		// Round States
 		NoRound ("No Round", "NR"),
-		StockRound ("Stock Round", "SR"),
-		OperatingRound ("Operating Round", "OR"), 
-		AuctionRound ("Auction Round", "AR"),
-		FormationRound ("Formation Round", "FR"),
-		ContractBidRound ("Contract Bid Round", "CBR"),
+		StockRound (ge18xx.round.StockRound.NAME, "SR"),
+		OperatingRound (ge18xx.round.OperatingRound.NAME, "OR"), 
+		AuctionRound (ge18xx.round.AuctionRound.NAME, "AR"),
+		FormationRound (ge18xx.round.FormationRound.NAME, "FR"),
+		ContractBidRound (ge18xx.round.ContractBidRound.NAME, "CBR"),
 
 		// Corporation States
 		Unowned ("Unowned"), 
