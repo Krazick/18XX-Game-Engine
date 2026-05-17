@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
 import geUtilities.xml.XMLNode;
 
 public class DeclareBankruptcyAction extends Action {
-	public final static String NAME = "Done";
+	public static final String NAME = "Done";
 
 	public DeclareBankruptcyAction () {
 		this (NAME);

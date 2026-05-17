@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PayNoDividendAction extends ChangeMarketCellAction {
-	public final static String NAME = "Pay No Dividend";
+	public static final String NAME = "Pay No Dividend";
 
 	public PayNoDividendAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

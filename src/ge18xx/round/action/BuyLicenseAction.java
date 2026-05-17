@@ -11,7 +11,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class BuyLicenseAction extends TransferOwnershipAction {
-	public final static String NAME = "Buy License";
+	public static final String NAME = "Buy License";
 
 	public BuyLicenseAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

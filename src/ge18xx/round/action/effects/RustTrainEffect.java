@@ -15,7 +15,7 @@ import geUtilities.xml.XMLNode;
 
 public class RustTrainEffect extends TransferTrainEffect {
 	final static AttributeName AN_TRAIN_STATUS = new AttributeName ("trainStatus");
-	public final static String NAME = "Rust Train";
+	public static final String NAME = "Rust Train";
 	int oldTrainStatus;
 
 	public RustTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor, int aTrainStatus) {

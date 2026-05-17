@@ -10,10 +10,10 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangeRoundIDEffect extends Effect {
-	public final static String NAME = "Change Round ID";
+	public static final String NAME = "Change Round ID";
 	final static AttributeName AN_OLD_ROUND_ID = new AttributeName ("oldRoundID");
 	final static AttributeName AN_NEW_ROUND_ID = new AttributeName ("newRoundID");
-	public final static String NO_ID = null;
+	public static final String NO_ID = null;
 	String oldRoundID;
 	String newRoundID;
 

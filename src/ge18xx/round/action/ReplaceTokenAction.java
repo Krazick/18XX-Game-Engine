@@ -12,7 +12,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class ReplaceTokenAction extends LayTokenAction {
-	public final static String NAME = "Replace Token";
+	public static final String NAME = "Replace Token";
 
 	public ReplaceTokenAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

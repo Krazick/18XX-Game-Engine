@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class AssetCollectionFinishedAction extends FormationRoundAction {
-	public final static String NAME = "Asset Collection Finished";
+	public static final String NAME = "Asset Collection Finished";
 
 	public AssetCollectionFinishedAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

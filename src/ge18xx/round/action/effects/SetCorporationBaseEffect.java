@@ -9,7 +9,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class SetCorporationBaseEffect extends ClearCorporationEffect {
-	public final static String NAME = "Set Corporation Base";
+	public static final String NAME = "Set Corporation Base";
 
 	public SetCorporationBaseEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
 		super (aActor, aMapCell, aTile, aRevenueCenterIndex);

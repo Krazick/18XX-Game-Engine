@@ -14,7 +14,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class EscrowToPlayerEffect extends Effect {
-	public final static String NAME = "Add Escrow to Player";
+	public static final String NAME = "Add Escrow to Player";
 	final static AttributeName AN_ESCROW_TO_PLAYER_COMPANY = new AttributeName ("escrowToPlayerCompany");
 	final static AttributeName AN_ESCROW_TO_PLAYER_CASH = new AttributeName ("escrowToPlayerCash");
 	final static AttributeName AN_ESCROW_HOLDER_NAME = new AttributeName ("escrowHolderName");

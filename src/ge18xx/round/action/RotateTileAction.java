@@ -8,7 +8,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class RotateTileAction extends LayTileAction {
-	public final static String NAME = "Rotate Tile";
+	public static final String NAME = "Rotate Tile";
 
 	public RotateTileAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

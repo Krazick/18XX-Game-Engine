@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class SkipBaseTokenAction extends ChangeStateAction {
-	public final static String NAME = "Skip Base Token";
+	public static final String NAME = "Skip Base Token";
 
 	public SkipBaseTokenAction () {
 		this (NAME);

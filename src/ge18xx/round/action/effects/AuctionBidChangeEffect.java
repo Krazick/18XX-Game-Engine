@@ -12,10 +12,10 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class AuctionBidChangeEffect extends Effect {
-	public final static String NAME = "Auction Bid Change";
-	public final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	public final static AttributeName AN_OLD_BID = new AttributeName ("oldBid");
-	public final static AttributeName AN_NEW_BID = new AttributeName ("newBid");
+	public static final String NAME = "Auction Bid Change";
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final AttributeName AN_OLD_BID = new AttributeName ("oldBid");
+	public static final AttributeName AN_NEW_BID = new AttributeName ("newBid");
 	public static AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	public static AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");
 	private int oldBid;

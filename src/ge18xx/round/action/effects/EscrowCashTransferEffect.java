@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class EscrowCashTransferEffect extends CashTransferEffect {
-	public final static String NAME = "Escrow Cash Transfer";
+	public static final String NAME = "Escrow Cash Transfer";
 
 	public EscrowCashTransferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (aFromActor, aToActor, aCashAmount);

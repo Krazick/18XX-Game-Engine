@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ClearRoundDividendEffect extends Effect {
-	public final static String NAME = "Clear Round Dividend";
+	public static final String NAME = "Clear Round Dividend";
 	final static AttributeName AN_PREVIOUS_AMOUNT = new AttributeName ("previousAmount");
 	final static AttributeName AN_OPERATING_ROUND_ID = new AttributeName ("operatingRoundID");
 	int previousAmount;

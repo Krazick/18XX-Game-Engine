@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ApplyDiscountEffect extends Effect {
-	public final static String NAME = "Apply Discount";
+	public static final String NAME = "Apply Discount";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_OLD_DISCOUNT = new AttributeName ("oldDiscount");
 	final static AttributeName AN_NEW_DISCOUNT = new AttributeName ("newDiscount");

@@ -15,7 +15,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RemoveHomeEffect extends Effect {
-	public final static String NAME = "Remove Home";
+	public static final String NAME = "Remove Home";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_HOME_CITY1 = new AttributeName ("homeCity1ID");
 	final static AttributeName AN_HOME_CITY2 = new AttributeName ("homeCity2ID");

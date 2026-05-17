@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class ChangeCurrentPlayerEffect extends ChangePlayerEffect {
-	public final static String NAME = "Change Current Player";
+	public static final String NAME = "Change Current Player";
 
 	public ChangeCurrentPlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
 		super (aActor, aPreviousPlayer, aNewPlayer);

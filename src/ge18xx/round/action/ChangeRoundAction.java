@@ -10,7 +10,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class ChangeRoundAction extends ChangeStateAction {
-	public final static String NAME = "Change Round";
+	public static final String NAME = "Change Round";
 
 	public ChangeRoundAction () {
 		super ();

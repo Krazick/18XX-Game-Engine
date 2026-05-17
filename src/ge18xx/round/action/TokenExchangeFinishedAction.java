@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class TokenExchangeFinishedAction extends FormationRoundAction {
-	public final static String NAME = "Token Exchange Finished";
+	public static final String NAME = "Token Exchange Finished";
 
 	public TokenExchangeFinishedAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

@@ -11,9 +11,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetPreviousRouteInformationEffect extends Effect {
-	public final static String NAME = "Set Previous Route Information";
-	public final static AttributeName AN_ROUTE_INFORMATION_ID = new AttributeName ("routeInformationID");
-	public final static AttributeName AN_TRAIN_ID = new AttributeName ("trainID");
+	public static final String NAME = "Set Previous Route Information";
+	public static final AttributeName AN_ROUTE_INFORMATION_ID = new AttributeName ("routeInformationID");
+	public static final AttributeName AN_TRAIN_ID = new AttributeName ("trainID");
 	String routeInformationID;
 	int trainID;
 	

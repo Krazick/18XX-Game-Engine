@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetHomeTokensExchangedEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set Home Tokens Exchanged";
+	public static final String NAME = "Set Home Tokens Exchanged";
 	final static AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
 
 	public SetHomeTokensExchangedEffect (ActorI aActor, boolean aHomeTokensExchanged) {

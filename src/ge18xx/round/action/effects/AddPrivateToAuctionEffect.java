@@ -12,7 +12,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class AddPrivateToAuctionEffect extends Effect {
-	public final static String NAME = "Add Private to Auction";
+	public static final String NAME = "Add Private to Auction";
 	final static AttributeName AN_AUCTION_CERTIFICATE = new AttributeName ("auctionCertificate");
 	String certificateAbbrev;
 	

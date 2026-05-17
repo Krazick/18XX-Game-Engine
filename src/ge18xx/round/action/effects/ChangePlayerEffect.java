@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangePlayerEffect extends Effect {
-	public final static String NAME = "Change Player";
+	public static final String NAME = "Change Player";
 	final static AttributeName AN_PREVIOUS_PLAYER = new AttributeName ("previousPlayer");
 	final static AttributeName AN_NEW_PLAYER = new AttributeName ("newPlayer");
 	int previousPlayerIndex;

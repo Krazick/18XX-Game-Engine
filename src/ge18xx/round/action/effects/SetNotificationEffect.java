@@ -13,7 +13,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetNotificationEffect extends Effect {
-	public final static String NAME = "Set Notification";
+	public static final String NAME = "Set Notification";
 	final static AttributeName AN_NOTIFICATION_TEXT = new AttributeName ("notificationText");
 	String notificationText;
 

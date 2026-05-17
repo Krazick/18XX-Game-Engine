@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class NewPriorityPlayerEffect extends ChangePlayerEffect {
-	public final static String NAME = "Change Priority Player";
+	public static final String NAME = "Change Priority Player";
 
 	public NewPriorityPlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
 		super (aActor, aPreviousPlayer, aNewPlayer);

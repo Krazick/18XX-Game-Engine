@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class ClearExchangePrezShareEffect extends ExchangePrezShareEffect {
-	public final static String NAME = "Clear Exchange President Share";
+	public static final String NAME = "Clear Exchange President Share";
 	final static String AN_CLEAR_EXCHANGE_PREZ = "ClearExchangedPrez";
 
 	public ClearExchangePrezShareEffect () {

@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class OperatedTrainsAction extends ChangeStateAction {
-	public final static String NAME = "Operated Train";
+	public static final String NAME = "Operated Train";
 
 	public OperatedTrainsAction () {
 		this (NAME);

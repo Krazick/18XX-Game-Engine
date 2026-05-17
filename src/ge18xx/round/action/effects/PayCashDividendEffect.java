@@ -11,8 +11,8 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class PayCashDividendEffect extends CashTransferEffect {
-	public final static String NAME = "Pay Cash Dividend";
-	public final static AttributeName AN_OPERATING_ROUND_ID = new AttributeName ("operatingRoundID");
+	public static final String NAME = "Pay Cash Dividend";
+	public static final AttributeName AN_OPERATING_ROUND_ID = new AttributeName ("operatingRoundID");
 	String operatingRoundID;
 	
 	public PayCashDividendEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String tOperatingRoundID) {

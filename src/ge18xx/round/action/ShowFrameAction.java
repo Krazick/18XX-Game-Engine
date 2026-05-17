@@ -7,7 +7,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class ShowFrameAction extends Action {
-	public final static String NAME = "Show Frame";
+	public static final String NAME = "Show Frame";
 
 	public ShowFrameAction () {
 		super ();

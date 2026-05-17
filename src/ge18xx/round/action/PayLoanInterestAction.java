@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.ReduceRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PayLoanInterestAction extends CashTransferAction {
-	public final static String NAME = "Pay Loan Interest";
+	public static final String NAME = "Pay Loan Interest";
 
 	public PayLoanInterestAction () {
 		super (NAME);

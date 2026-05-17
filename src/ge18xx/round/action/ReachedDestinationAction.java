@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.ReachedDestinationEffect;
 import geUtilities.xml.XMLNode;
 
 public class ReachedDestinationAction extends CashTransferAction {
-	public final static String NAME = "Reached Destionation";
+	public static final String NAME = "Reached Destionation";
 	
 	public ReachedDestinationAction () {
 		this (NAME);

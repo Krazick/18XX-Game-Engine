@@ -11,7 +11,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class AuctionRaiseAction extends AuctionStateChangeAction {
-	public final static String NAME = "Auction Raise";
+	public static final String NAME = "Auction Raise";
 
 	public AuctionRaiseAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

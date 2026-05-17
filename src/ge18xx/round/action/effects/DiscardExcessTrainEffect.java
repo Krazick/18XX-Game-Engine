@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class DiscardExcessTrainEffect extends TransferTrainEffect {
-	public final static String NAME = "Discard Excess Train";
+	public static final String NAME = "Discard Excess Train";
 
 	public DiscardExcessTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (aFromActor, aTrain, aToActor);

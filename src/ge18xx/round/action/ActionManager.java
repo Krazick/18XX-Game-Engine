@@ -26,12 +26,12 @@ import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
 
 public class ActionManager implements XMLSaveGameI {
-	public final static ActionManager NO_ACTION_MANAGER = null;
-	public final static AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previousChecksum");
-	public final static int STARTING_ACTION_NUMBER = 100;
-	public final static int DEFAULT_ACTION_NUMBER = 0;
-	public final static int PREVIOUS_ACTION = 1;
-	public final static ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
+	public static final ActionManager NO_ACTION_MANAGER = null;
+	public static final AttributeName AN_PREVIOUS_CHECKSUM = new AttributeName ("previousChecksum");
+	public static final int STARTING_ACTION_NUMBER = 100;
+	public static final int DEFAULT_ACTION_NUMBER = 0;
+	public static final int PREVIOUS_ACTION = 1;
+	public static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
 	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
 	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
 	List<Action> actions;

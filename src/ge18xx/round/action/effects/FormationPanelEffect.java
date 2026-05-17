@@ -10,7 +10,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class FormationPanelEffect extends Effect {
-	public final static String NAME = "Formation Panel";
+	public static final String NAME = "Formation Panel";
 	
 	public FormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);

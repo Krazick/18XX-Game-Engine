@@ -15,7 +15,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class BidStockAction extends CashTransferAction {
-	public final static String NAME = "Bid on Stock";
+	public static final String NAME = "Bid on Stock";
 
 	public BidStockAction () {
 		super ();

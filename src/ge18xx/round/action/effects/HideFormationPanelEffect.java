@@ -8,7 +8,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class HideFormationPanelEffect extends FormationPanelEffect {
-	public final static String NAME = "Hide Formation Panel";
+	public static final String NAME = "Hide Formation Panel";
 
 	public HideFormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);

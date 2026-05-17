@@ -11,9 +11,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ReduceRevenueEffect extends Effect {
-	public final static String NAME = "Reduced Revenue";
+	public static final String NAME = "Reduced Revenue";
 	final static AttributeName AN_REVENUE_REDUCED_BY = new AttributeName ("reduceRevenueBy");
-	public final static int NO_REVENUE_REDUCTION = 0;
+	public static final int NO_REVENUE_REDUCTION = 0;
 	int reduceRevenueBy;
 	
 	public ReduceRevenueEffect () {

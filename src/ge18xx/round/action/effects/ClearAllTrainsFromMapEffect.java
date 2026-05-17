@@ -10,8 +10,8 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 
 public class ClearAllTrainsFromMapEffect extends Effect {
-	public final static String NAME = "Clear All Trains From Map";
-	public final static AttributeName AN_CLEAR_TRAINS = new AttributeName ("clearTrains");
+	public static final String NAME = "Clear All Trains From Map";
+	public static final AttributeName AN_CLEAR_TRAINS = new AttributeName ("clearTrains");
 
 	public ClearAllTrainsFromMapEffect () {
 		super ();

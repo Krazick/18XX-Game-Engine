@@ -14,9 +14,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class QueryExchangeBenefitEffect extends ToEffect {
-	public final static String NAME = "Query Exchange Benefit";
-	public final static AttributeName AN_PRIVATE_ID = new AttributeName ("privateID");
-	public final static AttributeName AN_QEBENEFIT_NAME = new AttributeName ("qeBenefitName");
+	public static final String NAME = "Query Exchange Benefit";
+	public static final AttributeName AN_PRIVATE_ID = new AttributeName ("privateID");
+	public static final AttributeName AN_QEBENEFIT_NAME = new AttributeName ("qeBenefitName");
 	int privateID;
 	String qeBenefitName;
 	Corporation privateCompany;

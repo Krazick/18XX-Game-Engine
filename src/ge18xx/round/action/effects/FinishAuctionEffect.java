@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class FinishAuctionEffect extends Effect {
-	public final static String NAME = "Finish Auction";
+	public static final String NAME = "Finish Auction";
 
 	public FinishAuctionEffect () {
 		this (NAME);

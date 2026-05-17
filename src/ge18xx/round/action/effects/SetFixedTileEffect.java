@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set Fixed Tile";
+	public static final String NAME = "Set Fixed Tile";
 	final static AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");
 	final static AttributeName AN_TILE = new AttributeName ("fixedTile");
 	final static AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");

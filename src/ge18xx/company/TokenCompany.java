@@ -35,13 +35,13 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public abstract class TokenCompany extends TrainCompany {
-	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
-	public final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
-	public final static AttributeName AN_ALL_TOKENS_COST = new AttributeName ("allTokensCost");
-	public final static AttributeName AN_TOKENS = new AttributeName ("tokens");
-	public final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
-	public final static TokenCompany NO_TOKEN_COMPANY = null;
-	public final static int MIN_TOKEN_COUNT = 1;
+	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
+	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final AttributeName AN_ALL_TOKENS_COST = new AttributeName ("allTokensCost");
+	public static final AttributeName AN_TOKENS = new AttributeName ("tokens");
+	public static final AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
+	public static final TokenCompany NO_TOKEN_COMPANY = null;
+	public static final int MIN_TOKEN_COUNT = 1;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
 	public static String FONT_SNAME = "Serif";

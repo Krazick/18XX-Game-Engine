@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set Interruption Started";
+	public static final String NAME = "Set Interruption Started";
 	final static AttributeName AN_SET_INTERRUPTION_STARTED = new AttributeName ("setInterruptionStarted");
 
 	public SetInterruptionStartedEffect (ActorI aActor, boolean aSetInterruptionStarted) {

@@ -14,7 +14,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class PurchaseOfferEffect extends CashInfoEffect {
-	public final static String NAME = "Purchase Offer";
+	public static final String NAME = "Purchase Offer";
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
 	String itemType;

@@ -28,12 +28,12 @@ public class SavedGame {
 	private final static String GAME_WITH_GAME_ID = "<Game gameID=\"" + GAME_ID
 			+ "\" lastActionNumber=\"(\\d+)\" players=\"(.*)\" status=\\\"(.*)\\\"/?>";
 	private final static Pattern GAME_WITH_GAME_ID_PATTERN = Pattern.compile (GAME_WITH_GAME_ID);
-	public final static ArrayList<String> NO_PLAYERS = null;
-	public final static String NO_NAME = "NO_NAME";
-	public final static String NO_STATUS = "NO_STATUS";
-	public final static String TEST_FILE = "JunitTestFile";
-	public final static int BAD_ACTION_NUMBER = -1;
-	public final static SavedGame NO_SAVED_GAME = null;
+	public static final ArrayList<String> NO_PLAYERS = null;
+	public static final String NO_NAME = "NO_NAME";
+	public static final String NO_STATUS = "NO_STATUS";
+	public static final String TEST_FILE = "JunitTestFile";
+	public static final int BAD_ACTION_NUMBER = -1;
+	public static final SavedGame NO_SAVED_GAME = null;
 
 	public SavedGame (String aFileName) throws FileNotFoundException {
 		setupPlayers ();

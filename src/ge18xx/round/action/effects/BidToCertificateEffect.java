@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class BidToCertificateEffect extends Effect {
-	public final static String NAME = "Add Bid to Certificate";
+	public static final String NAME = "Add Bid to Certificate";
 	final static AttributeName AN_CERTIFICATE_NAME = new AttributeName ("certificateName");
 	final static AttributeName AN_BID_AMOUNT = new AttributeName ("bidAmount");
 	String certificateName;

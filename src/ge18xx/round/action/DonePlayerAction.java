@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.NewPriorityPlayerEffect;
 import geUtilities.xml.XMLNode;
 
 public class DonePlayerAction extends ChangeStateAction {
-	public final static String NAME = "Done Player";
+	public static final String NAME = "Done Player";
 
 	public DonePlayerAction () {
 		super ();

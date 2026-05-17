@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.AuctionPassEffect;
 import geUtilities.xml.XMLNode;
 
 public class AuctionPassAction extends AuctionStateChangeAction {
-	public final static String NAME = "Auction Pass";
+	public static final String NAME = "Auction Pass";
 
 	public AuctionPassAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

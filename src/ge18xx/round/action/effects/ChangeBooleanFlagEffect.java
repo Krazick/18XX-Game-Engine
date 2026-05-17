@@ -9,7 +9,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangeBooleanFlagEffect extends Effect {
-	public final static String NAME = "Change Boolean Flag";
+	public static final String NAME = "Change Boolean Flag";
 	boolean booleanFlag;
 
 	public ChangeBooleanFlagEffect (String aName, ActorI aActor, boolean aBooleanFlag) {

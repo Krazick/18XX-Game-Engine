@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
-	public final static String NAME = "Set Wait State";
+	public static final String NAME = "Set Wait State";
 	ActorI toActor;
 
 	public SetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActorI.ActionStates aOldState,

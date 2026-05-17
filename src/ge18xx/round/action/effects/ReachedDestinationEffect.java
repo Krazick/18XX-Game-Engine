@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ReachedDestinationEffect extends Effect {
-	public final static String NAME = "Reached Destination";
+	public static final String NAME = "Reached Destination";
 	final static AttributeName AN_REACHED_DESTINATION = new AttributeName ("reached");
 	final static AttributeName AN_OLD_CAPITALIZATION= new AttributeName ("oldCapitalization");
 	final static AttributeName AN_NEW_CAPITALIZATION = new AttributeName ("newCapitalization");

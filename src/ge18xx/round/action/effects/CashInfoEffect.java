@@ -6,7 +6,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class CashInfoEffect extends CashTransferEffect {
-	public final static String NAME = "Cash Info";
+	public static final String NAME = "Cash Info";
 
 	public CashInfoEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (aFromActor, aToActor, aCashAmount);

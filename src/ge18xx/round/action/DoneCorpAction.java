@@ -13,7 +13,7 @@ import ge18xx.round.action.effects.StartFormationEffect;
 import geUtilities.xml.XMLNode;
 
 public class DoneCorpAction extends Action {
-	public final static String NAME = "Done";
+	public static final String NAME = "Done";
 
 	public DoneCorpAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

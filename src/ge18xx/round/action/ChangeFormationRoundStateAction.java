@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class ChangeFormationRoundStateAction extends FormationRoundAction {
-	public final static String NAME = "Change Formation Round State";
+	public static final String NAME = "Change Formation Round State";
 
 	public ChangeFormationRoundStateAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

@@ -9,7 +9,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class EndCorpActionsEffect extends Effect {
-	public final static String NAME = "End Corporation Actions";
+	public static final String NAME = "End Corporation Actions";
 
 	public EndCorpActionsEffect (ActorI aActor) {
 		super (NAME, aActor);

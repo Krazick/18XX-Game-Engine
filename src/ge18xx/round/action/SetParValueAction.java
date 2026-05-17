@@ -10,7 +10,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class SetParValueAction extends SetWaitStateAction {
-	public final static String NAME = "Set Par Value";
+	public static final String NAME = "Set Par Value";
 
 	public SetParValueAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

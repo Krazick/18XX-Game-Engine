@@ -11,9 +11,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ClearATrainFromMapEffect extends Effect {
-	public final static String NAME = "Clear A Train From Map";
-	public final static AttributeName AN_CLEAR_A_TRAIN = new AttributeName ("clearATrain");
-	public final static AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");
+	public static final String NAME = "Clear A Train From Map";
+	public static final AttributeName AN_CLEAR_A_TRAIN = new AttributeName ("clearATrain");
+	public static final AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");
 	int trainIndex;
 
 	public ClearATrainFromMapEffect () {

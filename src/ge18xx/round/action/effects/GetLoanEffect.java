@@ -12,7 +12,7 @@ import geUtilities.xml.XMLNode;
 public class GetLoanEffect extends Effect {
 	final static AttributeName AN_OLD_LOAN_TAKEN = new AttributeName ("oldLoanTaken");
 	final static AttributeName AN_NEW_LOAN_TAKEN = new AttributeName ("newLoanTaken");
-	public final static String NAME = "Get Loan";
+	public static final String NAME = "Get Loan";
 	boolean oldLoanTaken;
 	boolean newLoanTaken;
 

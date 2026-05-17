@@ -11,7 +11,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class ClearCorporationEffect extends ChangeTileEffect {
-	public final static String NAME = "Clear Corporation";
+	public static final String NAME = "Clear Corporation";
 	int revenueCenterIndex;
 
 	public ClearCorporationEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {

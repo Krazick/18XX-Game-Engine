@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RemoveAllBidsEffect extends Effect {
-	public final static String NAME = "Remove All Bids";
+	public static final String NAME = "Remove All Bids";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	final static AttributeName AN_IS_PRESIDENT = new AttributeName ("isPresident");

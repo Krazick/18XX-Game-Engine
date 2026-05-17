@@ -15,7 +15,7 @@ import geUtilities.xml.XMLNode;
 public class LayBenefitTokenEffect extends ChangeMapEffect {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
 	public static final AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
-	public final static String NAME = "Lay Benefit Token";
+	public static final String NAME = "Lay Benefit Token";
 	String tokenType;
 	int tokenBonus;
 	

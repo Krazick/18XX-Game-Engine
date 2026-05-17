@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class NewCurrentBidderEffect extends ChangePlayerEffect {
-	public final static String NAME = "New Current Bidder";
+	public static final String NAME = "New Current Bidder";
 
 	public NewCurrentBidderEffect (ActorI aActor, int aPreviousBidder, int aNewBidder) {
 		super (aActor, aPreviousBidder, aNewBidder);

@@ -9,7 +9,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class ConstructTriggerClassEffect extends Effect {
-	public final static String NAME = "Construct Trigger Formation Class";
+	public static final String NAME = "Construct Trigger Formation Class";
 
 	public ConstructTriggerClassEffect (ActorI aActor) {
 		super (NAME, aActor);

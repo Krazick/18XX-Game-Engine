@@ -9,7 +9,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class SetFormationStateEffect extends StateChangeEffect {
-	public final static String NAME = "Set Formation State";
+	public static final String NAME = "Set Formation State";
 
 	public SetFormationStateEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 			ActorI.ActionStates aNewState) {

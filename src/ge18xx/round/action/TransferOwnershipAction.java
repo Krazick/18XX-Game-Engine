@@ -21,7 +21,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class TransferOwnershipAction extends CashTransferAction {
-	public final static String NAME = "Transfer Ownership";
+	public static final String NAME = "Transfer Ownership";
 
 	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

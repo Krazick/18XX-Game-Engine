@@ -14,7 +14,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RemoveDestinationEffect extends ChangeMapEffect {
-	public final static String NAME = "Remove Destination";
+	public static final String NAME = "Remove Destination";
 	Location location;
 
 	public RemoveDestinationEffect () {

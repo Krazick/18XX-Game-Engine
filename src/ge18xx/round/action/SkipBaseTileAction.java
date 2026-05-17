@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class SkipBaseTileAction extends ChangeStateAction {
-	public final static String NAME = "Skip Base Tile";
+	public static final String NAME = "Skip Base Tile";
 
 	public SkipBaseTileAction () {
 		this (NAME);

@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class BoughtShareEffect extends Effect {
-	public final static String NAME = "Bought Share";
+	public static final String NAME = "Bought Share";
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	final static AttributeName AN_PRIOR_BOUGHT_SHARE = new AttributeName ("priorBoughtShare");
 	String boughtShare;

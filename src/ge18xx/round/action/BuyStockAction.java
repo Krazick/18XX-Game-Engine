@@ -8,8 +8,8 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class BuyStockAction extends TransferOwnershipAction {
-	public final static String NAME = "Buy Stock";
-	public final static BuyStockAction NO_BUY_STOCK_ACTION = null;
+	public static final String NAME = "Buy Stock";
+	public static final BuyStockAction NO_BUY_STOCK_ACTION = null;
 
 	public BuyStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

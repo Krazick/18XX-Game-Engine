@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.StateChangeEffect;
 import geUtilities.xml.XMLNode;
 
 public class QueryExchangeBenefitAction extends Action {
-	public final static String NAME = "Query Exchange Benefit";
+	public static final String NAME = "Query Exchange Benefit";
 
 	public QueryExchangeBenefitAction () {
 		super ();

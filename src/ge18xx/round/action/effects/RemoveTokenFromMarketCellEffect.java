@@ -12,7 +12,7 @@ import ge18xx.round.action.ActorI;
 import geUtilities.xml.XMLNode;
 
 public class RemoveTokenFromMarketCellEffect extends ChangeMarketCellEffect {
-	public final static String NAME = "Remove Token from Market Cell";
+	public static final String NAME = "Remove Token from Market Cell";
 	
 	public RemoveTokenFromMarketCellEffect (ActorI aActor, MarketCell aMarketCell, int aLocation) {
 		super (aActor, aMarketCell, aLocation, MarketCell.NO_MARKET_CELL, TokenStack.NO_STACK_LOCATION);

@@ -9,8 +9,8 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 
 public class ClearSoldCompanyEffect extends Effect {
-	public final static String NAME = "Add Clear Sold Company";
-	public final static AttributeName AN_SOLD_COMPANIES = new AttributeName ("soldCompanies");
+	public static final String NAME = "Add Clear Sold Company";
+	public static final AttributeName AN_SOLD_COMPANIES = new AttributeName ("soldCompanies");
 	String soldCompanies;
 
 	public ClearSoldCompanyEffect () {

@@ -8,7 +8,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class ExchangeStockAction extends TransferOwnershipAction {
-	public final static String NAME = "Exchange Stock";
+	public static final String NAME = "Exchange Stock";
 
 	public ExchangeStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

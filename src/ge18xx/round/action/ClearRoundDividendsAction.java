@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.ClearRoundDividendEffect;
 import geUtilities.xml.XMLNode;
 
 public class ClearRoundDividendsAction extends Action {
-	public final static String NAME = "Clear Round Dividends";
+	public static final String NAME = "Clear Round Dividends";
 	
 	public ClearRoundDividendsAction (String aName) {
 		super (aName);

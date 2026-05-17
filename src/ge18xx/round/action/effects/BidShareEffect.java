@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class BidShareEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Bid On a Share";
+	public static final String NAME = "Bid On a Share";
 	final static AttributeName AN_HAS_BID_SHARE = new AttributeName ("hasBidShare");
 
 	public BidShareEffect (ActorI aActor, boolean aBidOnShare) {

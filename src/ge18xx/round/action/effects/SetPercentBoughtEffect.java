@@ -10,10 +10,10 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetPercentBoughtEffect extends Effect {
-	public final static String NAME = "Set Percent Bought";
-	public final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
-	public final static AttributeName AN_PREVIOUS_PERCENT_BOUGHT = new AttributeName ("previousPercentBought");
-	public final static AttributeName AN_NEW_PERCENT_BOUGHT = new AttributeName ("newPercentBought");
+	public static final String NAME = "Set Percent Bought";
+	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	public static final AttributeName AN_PREVIOUS_PERCENT_BOUGHT = new AttributeName ("previousPercentBought");
+	public static final AttributeName AN_NEW_PERCENT_BOUGHT = new AttributeName ("newPercentBought");
 	String companyAbbrev;
 	int previousPercent;
 	int newPercent;

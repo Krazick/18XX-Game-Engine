@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetInterruptedNameEffect extends Effect {
-	public final static String NAME = "Set Interrupted Name";
+	public static final String NAME = "Set Interrupted Name";
 	final static AttributeName AN_INTERRUPTED_NAME = new AttributeName ("interruptedName");
 	String interruptedName;
 	String interruptingRoundName;

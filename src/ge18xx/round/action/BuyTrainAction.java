@@ -22,7 +22,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class BuyTrainAction extends TransferTrainAction {
-	public final static String NAME = "Buy Train";
+	public static final String NAME = "Buy Train";
 
 	public BuyTrainAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

@@ -13,7 +13,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetFormingPresidentAssignedEffect extends Effect {
-	public final static String NAME = "Set Forming President Assigned";
+	public static final String NAME = "Set Forming President Assigned";
 	final static AttributeName AN_PRESIDENT_ASSIGNED = new AttributeName ("presidentAssigned");
 	boolean presidentAssigned;
 

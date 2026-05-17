@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetAllPlayersHandledEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set All Players Handled";
+	public static final String NAME = "Set All Players Handled";
 	final static AttributeName AN_ALL_PLAYERS_HANDLED = new AttributeName ("allPlayersHandled");
 
 	public SetAllPlayersHandledEffect (ActorI aActor, boolean aHasLaidTile) {

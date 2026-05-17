@@ -5,7 +5,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class QueryActorAction extends SetWaitStateAction {
-	public final static String NAME = "Query Actor";
+	public static final String NAME = "Query Actor";
 
 	public QueryActorAction () {
 		this (NAME);

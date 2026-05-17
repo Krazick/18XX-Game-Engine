@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.UpdateLoanCountEffect;
 import geUtilities.xml.XMLNode;
 
 public class GetLoanAction extends CashTransferAction {
-	public final static String NAME = "Get Loan";
+	public static final String NAME = "Get Loan";
 
 	public GetLoanAction () {
 		super (NAME);

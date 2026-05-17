@@ -9,10 +9,10 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangeMaxORCountEffect extends Effect {
-	public final static String NAME = "Change Max OR Count";
+	public static final String NAME = "Change Max OR Count";
 	final static AttributeName AN_OLD_MAX_OR_COUNT = new AttributeName ("oldMaxOR");
 	final static AttributeName AN_NEW_MAX_OR_COUNT = new AttributeName ("newMaxOR");
-	public final static int NO_MAX_OR_COUNT = -1;
+	public static final int NO_MAX_OR_COUNT = -1;
 	int oldMaxORCount;
 	int newMaxORCount;
 

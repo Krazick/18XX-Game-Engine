@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.ChangeCurrentPlayerEffect;
 import geUtilities.xml.XMLNode;
 
 public class ChangePlayerAction extends SetWaitStateAction {
-	public final static String NAME = "Change Player";
+	public static final String NAME = "Change Player";
 
 	public ChangePlayerAction () {
 		this (NAME);

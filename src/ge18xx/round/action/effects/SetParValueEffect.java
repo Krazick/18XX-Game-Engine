@@ -16,7 +16,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetParValueEffect extends Effect {
-	public final static String NAME = "Set Par Value";
+	public static final String NAME = "Set Par Value";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_FIXED_PAR_VALUE = new AttributeName ("fixedParValue");
 	final static AttributeName AN_PAR_VALUE = new AttributeName ("parValue");

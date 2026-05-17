@@ -13,7 +13,7 @@ import geUtilities.xml.XMLNode;
  *
  */
 public class ClearATrainFromMapAction extends Action {
-	public final static String NAME = "Clear A Train";
+	public static final String NAME = "Clear A Train";
 
 	/**
 	 * Basic No-Arg Constructor for the class

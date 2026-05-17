@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.SetWaitStateEffect;
 import geUtilities.xml.XMLNode;
 
 public class SetWaitStateAction extends Action {
-	public final static String NAME = "Set Wait State";
+	public static final String NAME = "Set Wait State";
 
 	public SetWaitStateAction () {
 		super ();

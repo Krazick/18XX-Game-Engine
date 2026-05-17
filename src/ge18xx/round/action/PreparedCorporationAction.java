@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PreparedCorporationAction extends ChangeStateAction {
-	public final static String NAME = "Prepared Corporation";
+	public static final String NAME = "Prepared Corporation";
 
 	public PreparedCorporationAction () {
 		this (NAME);

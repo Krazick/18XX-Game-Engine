@@ -9,7 +9,7 @@ import ge18xx.train.Train;
 import geUtilities.xml.XMLNode;
 
 public class BorrowTrainAction extends TransferTrainAction {
-	public final static String NAME = "Borrow Train";
+	public static final String NAME = "Borrow Train";
 
 	public BorrowTrainAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

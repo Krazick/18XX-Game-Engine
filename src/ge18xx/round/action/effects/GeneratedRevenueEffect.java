@@ -12,7 +12,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class GeneratedRevenueEffect extends Effect {
-	public final static String NAME = "Set Generated Revenue";
+	public static final String NAME = "Set Generated Revenue";
 	final static AttributeName AN_THIS_REVENUE = new AttributeName ("thisRevenue");
 	final static AttributeName AN_OLD_THIS_REVENUE = new AttributeName ("oldThisRevenue");
 	final static AttributeName AN_TRAIN_COUNT = new AttributeName ("trainCount");

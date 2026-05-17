@@ -8,7 +8,7 @@ import ge18xx.round.RoundManager;
 import geUtilities.xml.XMLNode;
 
 public class PassAction extends ChangeStateAction {
-	public final static String NAME = "Pass";
+	public static final String NAME = "Pass";
 
 	public PassAction () {
 		super ();

@@ -15,8 +15,8 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class LayTileAction extends ChangeMapAction {
-	public final static String NAME = "Lay Tile";
-	public final static LayTileAction NO_LAY_TILE_ACTION = (LayTileAction) NO_ACTION;
+	public static final String NAME = "Lay Tile";
+	public static final LayTileAction NO_LAY_TILE_ACTION = (LayTileAction) NO_ACTION;
 	
 	public LayTileAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

@@ -10,9 +10,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ExchangePrezShareEffect extends Effect {
-	public final static String NAME = "Exchanged President Share";
+	public static final String NAME = "Exchanged President Share";
 	final static AttributeName AN_EXCHANGE_PREZ = new AttributeName ("exchangedPrez");
-	public final static String NO_EXCHANGE_PREZ = null;
+	public static final String NO_EXCHANGE_PREZ = null;
 	String corporationAbbrev;
 
 	public ExchangePrezShareEffect () {

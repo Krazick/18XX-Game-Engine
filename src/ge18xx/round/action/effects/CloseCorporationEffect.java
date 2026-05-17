@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import geUtilities.xml.XMLNode;
 
 public class CloseCorporationEffect extends ChangeCorporationStatusEffect {
-	public final static String NAME = "Close Corporation";
+	public static final String NAME = "Close Corporation";
 
 	public CloseCorporationEffect (ActorI aActor, ActionStates aPreviousState, ActionStates aNewState) {
 		super (aActor, aPreviousState, aNewState);

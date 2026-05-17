@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class PhaseChangeEffect extends Effect {
-	public final static String NAME = "Phase Change";
+	public static final String NAME = "Phase Change";
 	final static AttributeName AN_PREVIOUS_PHASE = new AttributeName ("previousPhase");
 	final static AttributeName AN_NEW_PHASE = new AttributeName ("newPhase");
 	int previousPhaseIndex;

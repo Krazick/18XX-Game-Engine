@@ -12,9 +12,9 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class CashTransferEffect extends ToEffect {
-	public final static String NAME = "Cash Transfer";
+	public static final String NAME = "Cash Transfer";
 	final static AttributeName AN_CASH = new AttributeName ("cash");
-	public final static int NO_CASH = 0;
+	public static final int NO_CASH = 0;
 	int cash;
 
 	public CashTransferEffect () {

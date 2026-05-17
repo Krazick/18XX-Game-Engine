@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import geUtilities.xml.XMLNode;
 
 public class FormationPanelAction extends Action {
-	public final static String NAME = "Show Formation Panel";
+	public static final String NAME = "Show Formation Panel";
 
 	public FormationPanelAction () {
 		this (NAME);

@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import geUtilities.xml.XMLNode;
 
 public class RedeemLoanAction extends GetLoanAction {
-	public final static String NAME = "Redeem Loan";
+	public static final String NAME = "Redeem Loan";
 
 	public RedeemLoanAction () {
 		super (NAME);

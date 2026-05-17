@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetRepaymentHandledEffect extends FormationPanelEffect {
-	public final static String NAME = "Set Repayment Handled";
+	public static final String NAME = "Set Repayment Handled";
 	final static AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	boolean replaymentHandled;
 

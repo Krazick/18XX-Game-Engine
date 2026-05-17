@@ -8,7 +8,7 @@ import ge18xx.train.Train;
 import geUtilities.xml.XMLNode;
 
 public class ReturnTrainEffect extends BorrowTrainEffect {
-	public final static String NAME = "Return Train";
+	public static final String NAME = "Return Train";
 
 	public ReturnTrainEffect (TrainCompany aTrainCompany, Train aTrain, Bank aBank) {
 		super (aBank, aTrain, aTrainCompany);

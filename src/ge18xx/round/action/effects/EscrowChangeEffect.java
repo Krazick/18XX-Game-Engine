@@ -11,10 +11,10 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class EscrowChangeEffect extends Effect {
-	public final static String NAME = "Auction Escrow Change";
+	public static final String NAME = "Auction Escrow Change";
 	final static AttributeName AN_OLD_ESCROW = new AttributeName ("oldEscrow");
 	final static AttributeName AN_NEW_ESCROW = new AttributeName ("newEscrow");
-	public final static int NO_ESCROW = 0;
+	public static final int NO_ESCROW = 0;
 	int oldEscrow;
 	int newEscrow;
 

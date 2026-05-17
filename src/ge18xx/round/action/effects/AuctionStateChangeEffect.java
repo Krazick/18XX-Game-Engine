@@ -9,7 +9,7 @@ import geUtilities.xml.XMLNode;
 import ge18xx.round.action.GenericActor;
 
 public class AuctionStateChangeEffect extends StateChangeEffect {
-	public final static String NAME = "Auction State Change";
+	public static final String NAME = "Auction State Change";
 
 	public AuctionStateChangeEffect (ActorI aActor, ActionStates aPreviousState, ActionStates aNewState) {
 		super (aActor, aPreviousState, aNewState);

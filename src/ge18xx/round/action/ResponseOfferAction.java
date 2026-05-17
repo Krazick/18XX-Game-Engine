@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.ResponseOfferEffect;
 import geUtilities.xml.XMLNode;
 
 public class ResponseOfferAction extends QueryActorAction {
-	public final static String NAME = "Response To Offer";
+	public static final String NAME = "Response To Offer";
 
 	public ResponseOfferAction () {
 		this (NAME);

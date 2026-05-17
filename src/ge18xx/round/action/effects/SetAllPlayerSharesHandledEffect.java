@@ -11,7 +11,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetAllPlayerSharesHandledEffect extends FormationPanelEffect {
-	public final static String NAME = "Set All PlayerShares Handled";
+	public static final String NAME = "Set All PlayerShares Handled";
 	final static AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
 	boolean allPlayerSharesHandled;
 

@@ -17,7 +17,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ResponseOfferEffect extends ToEffect {
-	public final static String NAME = "Response To Offer";
+	public static final String NAME = "Response To Offer";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");

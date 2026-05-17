@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.RemoveDestinationEffect;
 import geUtilities.xml.XMLNode;
 
 public class RemoveDestinationsAction extends ChangeMapAction {
-	public final static String NAME = "Remove Destinations";
+	public static final String NAME = "Remove Destinations";
 
 	public RemoveDestinationsAction () {
 		super ();

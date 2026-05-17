@@ -10,7 +10,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class SetAtStartOfRoundEffect extends ChangeBooleanFlagEffect {
-	public final static String NAME = "Set at Start of Round";
+	public static final String NAME = "Set at Start of Round";
 	final static AttributeName AN_AT_START_OF_ROUND = new AttributeName ("atStartOfRound");
 
 	public SetAtStartOfRoundEffect (ActorI aActor, boolean aAtStartOfRound) {

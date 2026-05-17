@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import geUtilities.xml.XMLNode;
 
 public class SoldOutAdjustmentAction extends ChangeMarketCellAction {
-	public final static String NAME = "Sold Out Adjustment";
+	public static final String NAME = "Sold Out Adjustment";
 
 	public SoldOutAdjustmentAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

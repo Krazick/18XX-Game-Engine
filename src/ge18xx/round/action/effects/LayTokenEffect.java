@@ -22,7 +22,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class LayTokenEffect extends ChangeMapEffect {
-	public final static String NAME = "Lay Token";
+	public static final String NAME = "Lay Token";
 	int tileNumber;
 	int revenueCenterIndex;
 	int tokenIndex;

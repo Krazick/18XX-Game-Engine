@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.SetInterruptedNameEffect;
 import geUtilities.xml.XMLNode;
 
 public class StartAuctionAction extends ChangeRoundAction {
-	public final static String NAME = "Start Auction";
+	public static final String NAME = "Start Auction";
 
 	public StartAuctionAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

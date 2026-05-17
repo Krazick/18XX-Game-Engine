@@ -10,7 +10,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class RemoveTokenEffect extends LayTokenEffect {
-	public final static String NAME = "Remove Token";
+	public static final String NAME = "Remove Token";
 	int tileNumber;
 	int revenueCenterIndex;
 	int tokenIndex;

@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.PayCashRevenueEffect;
 import geUtilities.xml.XMLNode;
 
 public class PayRevenueAction extends CashTransferAction {
-	public final static String NAME = "Pay Revenue";
+	public static final String NAME = "Pay Revenue";
 
 	public PayRevenueAction () {
 		super ();

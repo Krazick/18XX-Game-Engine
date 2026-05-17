@@ -15,7 +15,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class LayTileEffect extends ChangeTileContentEffect {
-	public final static String NAME = "Lay Tile";
+	public static final String NAME = "Lay Tile";
 	final static AttributeName AN_NEW_TILE_TOKENS = new AttributeName ("newTileTokens");
 	String newTileTokens;
 

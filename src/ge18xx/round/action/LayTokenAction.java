@@ -14,7 +14,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class LayTokenAction extends ChangeMapAction {
-	public final static String NAME = "Lay Token";
+	public static final String NAME = "Lay Token";
 
 	public LayTokenAction () {
 		super ();

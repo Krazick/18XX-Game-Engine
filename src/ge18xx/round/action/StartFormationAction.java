@@ -11,8 +11,8 @@ import ge18xx.round.action.effects.StartFormationEffect;
 import geUtilities.xml.XMLNode;
 
 public class StartFormationAction extends ChangeRoundAction {
-	public final static String NAME = "Start Formation";
-	public final static StartFormationAction NO_START_FORMATION_ACTION = null;
+	public static final String NAME = "Start Formation";
+	public static final StartFormationAction NO_START_FORMATION_ACTION = null;
 
 	public StartFormationAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

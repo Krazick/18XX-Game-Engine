@@ -9,7 +9,7 @@ import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
 
 public class RemoveTileAction extends ChangeMapAction {
-	public final static String NAME = "Remove Tile";
+	public static final String NAME = "Remove Tile";
 
 	public RemoveTileAction () {
 		super ();

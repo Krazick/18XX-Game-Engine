@@ -9,7 +9,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class CashTransferAction extends ChangeStateAction {
-	public final static String NAME = "Cash Transfer";
+	public static final String NAME = "Cash Transfer";
 
 	public CashTransferAction () {
 		this (NAME);

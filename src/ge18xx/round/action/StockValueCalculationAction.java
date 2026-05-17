@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.SetParValueEffect;
 import geUtilities.xml.XMLNode;
 
 public class StockValueCalculationAction extends FormationRoundAction {
-	public final static String NAME = "Stock Value Calculation";
+	public static final String NAME = "Stock Value Calculation";
 
 	public StockValueCalculationAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

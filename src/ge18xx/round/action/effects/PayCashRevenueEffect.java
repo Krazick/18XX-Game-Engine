@@ -6,8 +6,8 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
 
 public class PayCashRevenueEffect extends PayCashDividendEffect {
-	public final static String NAME = "Pay Cash Revenue";
-	public final static AttributeName AN_OPERATING_ROUND_PART2 = new AttributeName ("operatingRoundPart2");
+	public static final String NAME = "Pay Cash Revenue";
+	public static final AttributeName AN_OPERATING_ROUND_PART2 = new AttributeName ("operatingRoundPart2");
 	int operatingRoundPart2;
 
 	public PayCashRevenueEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String aOperatingRoundPart2) {

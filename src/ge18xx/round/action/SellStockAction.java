@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.SoldCompanyEffect;
 import geUtilities.xml.XMLNode;
 
 public class SellStockAction extends ChangeMarketCellAction {
-	public final static String NAME = "Sell Stock";
+	public static final String NAME = "Sell Stock";
 
 	public SellStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

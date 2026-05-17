@@ -21,8 +21,8 @@ import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
 public class ChangeStateAction extends ChangePlayerAction {
-	public final static String NAME = "Change State";
-	public final static ChangeStateAction NO_CHANGE_STATE_ACTION = null;
+	public static final String NAME = "Change State";
+	public static final ChangeStateAction NO_CHANGE_STATE_ACTION = null;
 
 	public ChangeStateAction () {
 		this (NAME);

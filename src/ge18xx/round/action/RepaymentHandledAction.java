@@ -11,7 +11,7 @@ import ge18xx.round.action.effects.ShareFoldCountEffect;
 import geUtilities.xml.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
-	public final static String NAME = "Repayement Handled";
+	public static final String NAME = "Repayement Handled";
 
 	public RepaymentHandledAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

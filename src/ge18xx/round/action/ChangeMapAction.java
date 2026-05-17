@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.SetFixedTileEffect;
 import geUtilities.xml.XMLNode;
 
 public class ChangeMapAction extends CashTransferAction {
-	public final static String NAME = "Change Map";
+	public static final String NAME = "Change Map";
 
 	public ChangeMapAction () {
 		this (NAME);

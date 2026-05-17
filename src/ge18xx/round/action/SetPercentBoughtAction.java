@@ -6,7 +6,7 @@ import ge18xx.round.action.effects.SetPercentBoughtEffect;
 import geUtilities.xml.XMLNode;
 
 public class SetPercentBoughtAction extends Action {
-	public final static String NAME = "Set Percent Bought";
+	public static final String NAME = "Set Percent Bought";
 	
 	public SetPercentBoughtAction (String aName) {
 		super (aName);

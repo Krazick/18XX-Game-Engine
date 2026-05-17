@@ -11,7 +11,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class PurchaseOfferAction extends QueryActorAction {
-	public final static String NAME = "Purchase Offer";
+	public static final String NAME = "Purchase Offer";
 
 	public PurchaseOfferAction () {
 		this (NAME);

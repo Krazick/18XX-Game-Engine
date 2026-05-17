@@ -12,7 +12,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangeTrainStatusEffect extends Effect {
-	public final static String NAME = "Train Status Change";
+	public static final String NAME = "Train Status Change";
 	final static AttributeName AN_TRAIN_ORDER = new AttributeName ("trainOrder");
 	final static AttributeName AN_OLD_STATUS = new AttributeName ("oldStatus");
 	final static AttributeName AN_NEW_STATUS = new AttributeName ("newStatus");

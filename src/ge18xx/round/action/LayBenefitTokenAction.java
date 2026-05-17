@@ -8,7 +8,7 @@ import ge18xx.round.action.effects.LayBenefitTokenEffect;
 import geUtilities.xml.XMLNode;
 
 public class LayBenefitTokenAction extends ChangeMapAction {
-	public final static String NAME = "Lay Benefit Token";
+	public static final String NAME = "Lay Benefit Token";
 
 	public LayBenefitTokenAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);

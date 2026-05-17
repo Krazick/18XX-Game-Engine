@@ -13,7 +13,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class RemoveEscrowEffect extends Effect {
-	public final static String NAME = "Remove Escrow Record";
+	public static final String NAME = "Remove Escrow Record";
 	final static AttributeName AN_ESCROW = new AttributeName ("escrow");
 	final static AttributeName AN_ESCROW_TO_PLAYER_COMPANY = new AttributeName ("escrowToPlayerCompany");
 	final static AttributeName AN_ESCROW_TO_PLAYER_CASH = new AttributeName ("escrowToPlayerCash");

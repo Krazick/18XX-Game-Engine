@@ -13,7 +13,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ChangeMapEffect extends Effect {
-	public final static String NAME = "Change Map";
+	public static final String NAME = "Change Map";
 	String mapCellID;
 
 	public ChangeMapEffect () {
