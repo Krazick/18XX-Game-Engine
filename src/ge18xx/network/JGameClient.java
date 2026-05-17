@@ -112,6 +112,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	public static final String DISCONNECT = "DISCONNECT";
 	public static final String BASE_TITLE = "Chat Client";
 	public static final String READY_TO_PLAY = "READY";
+	public static final String PLAY_GAME = "PLAY SAVED GAME";
+	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
 	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private static final String START_NEW_GAME = "START NEW GAME";
 	private static final String SELECT_GAME = "SELECT GAME";
@@ -119,15 +121,12 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
-	public static final String PLAY_GAME = "PLAY SAVED GAME";
-	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
 	private final String NO_SELECTED_GAME = null;
 	// Static Labels
 	JLabel nameLabel = new JLabel ("Name:");
 	JLabel serverIPLabel = new JLabel ("Server IP:");
 	JLabel playersLabel = new JLabel ("Players");
 	JLabel messageLabel = new JLabel ("Message:");
-
 	public enum ScrollDirection { UP, DOWN }
 
 	// Java Swing Objects
@@ -157,7 +156,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private JPanel messagePanel;
 	private JPanel bottomPanel;
 	private JList<NetworkPlayer> playerList;
-
 	private HeartbeatThread heartbeatThread;
 	private Thread hbeatThread;
 	private Thread serverThread;

@@ -25,5 +25,4 @@ public class RemovePhaseVEffect extends PhaseInfoVEffect {
 	public void applyVariantEffect (GameManager aGameManager) {
 		System.out.println (NAME + " being Applied");
 	}
-
 }

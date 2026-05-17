@@ -23,31 +23,29 @@ public interface NetworkGameSupport {
 	public void removeNetworkPlayer (String aPlayerName);
 	public void removeAllNetworkPlayers ();
 	public void handleGameActivity (String aGameActivity);
-	public String getPlayersInOrder ();
 	public void randomizePlayerOrder ();
 	public void initiateNetworkGame (String aGameID);
-	public boolean gameStarted ();
-	public Point getOffsetGEFrame ();
-	public String getClientUserName ();
 	public void parseNetworkSavedGames (String aResponse);
 	public void loadAutoSavedGame (String aAutoSaveFileName);
 	public void updateDisconnectButton ();
-	public FileUtils getFileUtils ();
-	
-	public int getSelectedGameIndex ();
 	public void setSelectedGameIndex (int aGameIndex);
-
 	public void addNewFrame (XMLFrame aJGameClient);
+	public boolean gameStarted ();
+	public int getSelectedGameIndex ();
+	public FileUtils getFileUtils ();
+	public Point getOffsetGEFrame ();
 
 	// Needs Log4J Imports
 	public Logger getLogger ();
-	public String getXMLBaseDirectory ();
 	public XMLElement getGameVariantsXMLElement ();
 	
 	public void setGameID (String aGameID);
-	public String getGameID ();
 	public void resetGameID (String aGameID);
 
+	public String getPlayersInOrder ();
+	public String getClientUserName ();
+	public String getXMLBaseDirectory ();
+	public String getGameID ();
 	public String getJavaVersion ();
 	public String getGEVersion ();
 	public String getEnvironmentVersionInfo ();

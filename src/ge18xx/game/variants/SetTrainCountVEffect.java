@@ -15,7 +15,6 @@ import geUtilities.xml.XMLNode;
 public class SetTrainCountVEffect extends VariantEffect {
 	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
-
 	static final String NAME = "Set Train Count";
 	String trainName;
 	int quantity;

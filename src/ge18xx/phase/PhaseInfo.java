@@ -59,7 +59,6 @@ public class PhaseInfo {
 	int name;
 	int subName;
 	int rounds;
-	String tiles[];
 	int tileLaysAllowed;
 	int trainLimit;
 	int minorTrainLimit;
@@ -80,7 +79,8 @@ public class PhaseInfo {
 	boolean governmentMustForm;
 	String offBoard;
 	String triggerClass;
-	
+	String tiles[];
+
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName;
 		int tSubName;

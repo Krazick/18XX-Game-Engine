@@ -122,7 +122,6 @@ import geUtilities.xml.XMLSaveGameI;
 // methods into this sub-class
 
 public class GameManager extends GameEngineManager implements NetworkGameSupportTier2 {
-
 	// Static Constants
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_SAVEGAMEDIR = new ElementName ("SaveGameDir");

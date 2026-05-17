@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 public class HeartbeatThread implements Runnable {
 	private Logger logger;
 	final Level HEARTBEAT = Level.forName ("HEARTBEAT", 550);
-
 	Thread thread;
 	LocalTime startTime;
 	LocalTime responseTime;

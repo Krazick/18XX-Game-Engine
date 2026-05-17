@@ -27,7 +27,6 @@ public class SavedGame {
 	public static final String TEST_FILE = "JunitTestFile";
 	public static final int BAD_ACTION_NUMBER = -1;
 	public static final SavedGame NO_SAVED_GAME = null;
-	
 	String gameName;
 	String gameID;
 	String gameStatus;

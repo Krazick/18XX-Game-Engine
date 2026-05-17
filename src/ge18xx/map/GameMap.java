@@ -18,14 +18,11 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 
 public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
-
 	private static final long serialVersionUID = 1L;
-
 	public static final AttributeName AN_INDEX = new AttributeName ("index");
 	public static final AttributeName AN_START_COL = new AttributeName ("startCol");
-	
-	protected MapCell mapCells[][];
 	public Hex18XX hex;
+	protected MapCell mapCells[][];
 
 	public GameMap () {
 	}

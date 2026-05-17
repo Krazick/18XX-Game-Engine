@@ -4,15 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GameSupportHandler {
-	private boolean waitingForResponse;
-	private String response;
-	JGameClient jGameClient;
 	public static final String GS_RESPONSE_TAG = "GSResponse";
 	private static final String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private static final String GS_WITH_GAME_ID = "<GS gameID=\"" + GAME_ID + "\">(.*)</GS>";
 	private static final Pattern GS_WITH_GAME_ID_PATTERN = Pattern.compile (GS_WITH_GAME_ID);
 	private static final String GSR_WITH_GAME_ID = "<" + GS_RESPONSE_TAG + " gameID=\"" + GAME_ID + "\">";
 	private static final Pattern GSR_WITH_GAME_ID_PATTERN = Pattern.compile (GSR_WITH_GAME_ID);
+	private boolean waitingForResponse;
+	private String response;
+	JGameClient jGameClient;
 
 	public GameSupportHandler (JGameClient aJGameClient) {
 		setWaitingForResponse (false);

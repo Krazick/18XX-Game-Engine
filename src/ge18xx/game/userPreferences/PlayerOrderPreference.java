@@ -19,7 +19,6 @@ import geUtilities.xml.XMLNode;
 public class PlayerOrderPreference extends UserPreference {
 	public static final ElementName EN_PLAYER_ORDER = new ElementName ("PlayerOrder");
 	public static final AttributeName AN_ORDER_TYPE = new AttributeName ("orderType");
-
 	ButtonGroup buttonGroup;
 	JRadioButton playerOrderButtons [];
 

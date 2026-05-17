@@ -57,7 +57,6 @@ public class VariantEffect {
 	JComponent effectComponent;
 	public enum ComponentType { JLABEL, CHECKBOX, RADIO_BUTTON }
 
-
 	public VariantEffect () {
 		setID (Variant.NO_ID);
 		setName (NO_NAME);
