@@ -42,14 +42,11 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final String ASSET_COLLECTION = "AssetCollection";
 	public static final String STOCK_VALUE_CALCULATION = "StockValueCalculation";
 	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
-	
 	int shareFoldCount;
-
 	boolean currentPlayerDone;
 	boolean formingPresidentAssigned;
 	boolean homeTokensExchanged;
 	boolean nonHomeTokensExchanged;
-
 	JPanel bottomJPanel;
 	JPanel openMarketJPanel;
 	JPanel ipoJPanel;

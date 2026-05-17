@@ -14,7 +14,6 @@ public class PurchasePrivateOffer extends QueryOffer {
 	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");
 	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
-
 	Corporation privateCompany;
 	String privateCompanyAbbrev;
 	int amount;

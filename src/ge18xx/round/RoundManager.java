@@ -64,11 +64,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public static final AttributeName AN_ON_STOCK_ROUND = new AttributeName ("onStockRound");
 	public static final AttributeName AN_CURRENT_ROUND_TYPE = new AttributeName ("currentRoundType");
 	public static final RoundManager NO_ROUND_MANAGER = null;
-
 	GameManager gameManager;
 	PlayerManager playerManager;
 	ActionManager actionManager;
-
 	RoundFrame roundFrame;
 	Round currentRound;
 	StockRound stockRound;
@@ -76,7 +74,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	AuctionRound auctionRound;
 	FormationRound formationRound;
 	ContractBidRound contractBidRound;
-	
 	Logger logger;
 	int currentOR;
 	int operatingRoundCount;

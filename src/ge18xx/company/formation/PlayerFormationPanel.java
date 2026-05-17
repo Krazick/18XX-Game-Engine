@@ -52,7 +52,6 @@ public class PlayerFormationPanel extends JPanel implements ActionListener {
 	protected GameManager gameManager;
 	protected FormCompany formCompany;
 	protected List<String> shareCompaniesHandled;
-
 	JPanel buttonsPanel;
 	JLabel presidentNameLabel;
 	KButton continueButton;

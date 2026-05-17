@@ -16,10 +16,10 @@ import geUtilities.xml.XMLNode;
 
 public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	public static final String NAME = "Free License";
-	int corporationID;
-	int licenseCost;
 	String [] mapCellIDs;
 	License.LicenseTypes licenseType;
+	int corporationID;
+	int licenseCost;
 	int value;
 
 	public FreeLicenseBenefit (XMLNode aXMLNode) {

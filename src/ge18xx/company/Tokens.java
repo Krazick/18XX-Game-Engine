@@ -20,7 +20,6 @@ public class Tokens {
 	public static final int HOME1_INDEX = 1;
 	public static final int HOME2_INDEX = 2;
 	public static final int NO_TOKEN_INDEX = -1;
-	
 	ArrayList<TokenInfo> tokens;
 	int startIndex;
 	int nextIndex;

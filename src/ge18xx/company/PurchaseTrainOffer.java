@@ -16,7 +16,6 @@ public class PurchaseTrainOffer extends QueryOffer {
 	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");
 	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	public static final String TRAIN_TYPE = Train.TYPE_NAME;
-
 	int amount;
 	Train train;
 	String trainName;

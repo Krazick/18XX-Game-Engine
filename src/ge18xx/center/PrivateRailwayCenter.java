@@ -7,7 +7,6 @@ import ge18xx.tiles.Feature2;
 import geUtilities.xml.XMLNode;
 
 public class PrivateRailwayCenter extends RevenueCenter {
-
 	public PrivateRailwayCenter (XMLNode aNode) {
 		super (aNode);
 	}
@@ -24,9 +23,4 @@ public class PrivateRailwayCenter extends RevenueCenter {
 			cityInfo.drawPrivateRailway (aGraphics, aXc, aYc, aHex);
 		}
 	}
-
-//	@Override
-//	public boolean cityHasOpenStation () {
-//		return false;
-//	}
 }

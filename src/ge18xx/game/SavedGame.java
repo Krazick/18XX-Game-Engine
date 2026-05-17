@@ -12,13 +12,6 @@ import ge18xx.network.JGameClient;
 import geUtilities.GUI;
 
 public class SavedGame {
-	String gameName;
-	String gameID;
-	String gameStatus;
-	int lastActionNumber;
-	boolean localAutoSaveFound;
-	ArrayList<String> players;
-
 	private static final String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private static final String NSG_WITH_GAME_ID = "<NetworkSaveGame gameID=\"" + GAME_ID
 			+ "\" status=\"(.*)\" lastActionNumber=\"(\\d+)\"/?>";
@@ -34,6 +27,13 @@ public class SavedGame {
 	public static final String TEST_FILE = "JunitTestFile";
 	public static final int BAD_ACTION_NUMBER = -1;
 	public static final SavedGame NO_SAVED_GAME = null;
+	
+	String gameName;
+	String gameID;
+	String gameStatus;
+	int lastActionNumber;
+	boolean localAutoSaveFound;
+	ArrayList<String> players;
 
 	public SavedGame (String aFileName) throws FileNotFoundException {
 		setupPlayers ();

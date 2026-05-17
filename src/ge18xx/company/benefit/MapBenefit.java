@@ -28,9 +28,9 @@ public class MapBenefit extends Benefit {
 	public static final String NAME = "Map";
 	public static final MapBenefit NO_MAP_BENEFIT = (MapBenefit) NO_BENEFIT;
 	String mapCellID;
-	int cost;
-	boolean sameTurn;
 	String tokenType;
+	boolean sameTurn;
+	int cost;
 
 	public MapBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);

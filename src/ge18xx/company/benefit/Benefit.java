@@ -38,11 +38,10 @@ public abstract class Benefit implements ActionListener {
 	public static final AttributeName AN_OWNER_TYPE = new AttributeName ("ownerType");
 	public static final JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
 	public static final Benefit NO_BENEFIT = null;
+	public static final Benefit FAKE_BENEFIT = new FakeBenefit (); 
 	public static final String NO_BENEFIT_NAME = GUI.NULL_STRING;
 	public static final String NO_BUTTON_LABEL = GUI.NULL_STRING;
 	public static final String NAME = "ABSTRACT";
-	public static final Benefit FAKE_BENEFIT = new FakeBenefit (); 
-
 	ActorI.ActorTypes actorType;
 	ActorI.ActorTypes ownerType;
 	boolean closeOnUse;

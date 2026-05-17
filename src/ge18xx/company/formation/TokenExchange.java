@@ -46,7 +46,6 @@ public class TokenExchange extends PlayerFormationPanel implements ItemListener 
 	KButton nonHomeTokensExchange;
 	JLabel homeTokensLabel;
 	JLabel nonHomeTokensLabel;
-
 	List<JCheckBox> nonHomeMapCellIDCheckbox;
 	List<String> homeMapCellsInfo;
 	List<String> nonHomeMapCellsInfo;
