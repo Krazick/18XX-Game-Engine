@@ -32,8 +32,8 @@ public class ActionManager implements XMLSaveGameI {
 	public static final int DEFAULT_ACTION_NUMBER = 0;
 	public static final int PREVIOUS_ACTION = 1;
 	public static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
-	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
-	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
+	private static final String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
+	private static final Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
 	List<Action> actions;
 	List<Action> actionsToRemove;
 	ActionReportFrame actionReportFrame;

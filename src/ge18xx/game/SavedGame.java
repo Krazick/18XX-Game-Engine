@@ -19,15 +19,15 @@ public class SavedGame {
 	boolean localAutoSaveFound;
 	ArrayList<String> players;
 
-	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
-	private final static String NSG_WITH_GAME_ID = "<NetworkSaveGame gameID=\"" + GAME_ID
+	private static final String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
+	private static final String NSG_WITH_GAME_ID = "<NetworkSaveGame gameID=\"" + GAME_ID
 			+ "\" status=\"(.*)\" lastActionNumber=\"(\\d+)\"/?>";
-	private final static Pattern NSG_WITH_GAME_ID_PATTERN = Pattern.compile (NSG_WITH_GAME_ID);
-	private final static String PLAYER_WITH_NAME = "<Player name=\"(.*)\" status=\"(.*)\"/?>";
-	private final static Pattern PLAYER_WITH_NAME_PATTERN = Pattern.compile (PLAYER_WITH_NAME);
-	private final static String GAME_WITH_GAME_ID = "<Game gameID=\"" + GAME_ID
+	private static final Pattern NSG_WITH_GAME_ID_PATTERN = Pattern.compile (NSG_WITH_GAME_ID);
+	private static final String PLAYER_WITH_NAME = "<Player name=\"(.*)\" status=\"(.*)\"/?>";
+	private static final Pattern PLAYER_WITH_NAME_PATTERN = Pattern.compile (PLAYER_WITH_NAME);
+	private static final String GAME_WITH_GAME_ID = "<Game gameID=\"" + GAME_ID
 			+ "\" lastActionNumber=\"(\\d+)\" players=\"(.*)\" status=\\\"(.*)\\\"/?>";
-	private final static Pattern GAME_WITH_GAME_ID_PATTERN = Pattern.compile (GAME_WITH_GAME_ID);
+	private static final Pattern GAME_WITH_GAME_ID_PATTERN = Pattern.compile (GAME_WITH_GAME_ID);
 	public static final ArrayList<String> NO_PLAYERS = null;
 	public static final String NO_NAME = "NO_NAME";
 	public static final String NO_STATUS = "NO_STATUS";
