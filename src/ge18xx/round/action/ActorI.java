@@ -24,6 +24,7 @@ public interface ActorI {
 		Player (ge18xx.player.Player.NAME), 
 		Bank (ge18xx.bank.BankPool.NAME),
 		BankPool (ge18xx.bank.BankPool.NAME),
+		CorporateBank (ge18xx.bank.CorporateBank.NAME),
 		Round (ge18xx.round.Round.NAME),
 		StockRound (ge18xx.round.StockRound.NAME),
 		OperatingRound (ge18xx.round.OperatingRound.NAME),
