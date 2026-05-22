@@ -47,6 +47,8 @@ class GameBankTests extends BankTester {
 	private Portfolio mPortfolio;
 	private TrainPortfolio mTrainPortfolio;
 	private GameBank gameBank;
+	private Bank bank;
+	private CorporateBank corporateBank;
 
 	@Override
 	@BeforeAll
@@ -71,30 +73,47 @@ class GameBankTests extends BankTester {
 
 		gameBank.setPortfolio (mPortfolio);
 		gameBank.setTrainPortfolio (mTrainPortfolio);
+		
+		bank = bankTestFactory.buildBank ("Test Bank", mGameManager);
+		
+		corporateBank = bankTestFactory.buildCorporateBank (mGameManager);
 	}
 
 	@DisplayName ("Constructor Tests")
 	@Test
 	void gameBankConstructorTests () {
-		GameBank tGameBank;
 		Portfolio tPortfolio;
 		TrainPortfolio tTrainPortfolio;
 
-		tGameBank = bankTestFactory.buildGameBank (mGameManager);
-		assertEquals ("Test Game Bank", tGameBank.getName ());
-		tGameBank.setPortfolio (mPortfolio);
-		tGameBank.setTrainPortfolio (mTrainPortfolio);
+		assertEquals ("Test Game Bank", gameBank.getName ());
+		gameBank.setPortfolio (mPortfolio);
+		gameBank.setTrainPortfolio (mTrainPortfolio);
 
-		tPortfolio = tGameBank.getPortfolio ();
-		tTrainPortfolio = tGameBank.getTrainPortfolio ();
+		tPortfolio = gameBank.getPortfolio ();
+		tTrainPortfolio = gameBank.getTrainPortfolio ();
 
 		assertEquals ("Portfolio Mock Name", tPortfolio.getName ());
 		assertEquals ("Train Portfolio Mock Name", tTrainPortfolio.getName ());
-		assertEquals ("Fixed", tGameBank.getStateName ());
-		assertEquals ("GameBank", tGameBank.getAbbrev ());
+		assertEquals ("Fixed", gameBank.getStateName ());
+		assertEquals ("GameBank", gameBank.getAbbrev ());
 
-		assertEquals (0, tGameBank.getTrainLimit ());
-		assertTrue (tGameBank.isABank ());
+		assertEquals (0, gameBank.getTrainLimit ());
+		assertTrue (gameBank.isABank ());
+		
+		assertEquals ("Test Game Bank", gameBank.getName ());
+		assertEquals ("Test Bank", bank.getName ());
+		assertEquals ("Test Corporate Bank", corporateBank.getName ());
+	}
+
+	@DisplayName ("Set Treasury Test")
+	@Test
+	void setTreasuryTest () {
+		bank.setTreasury (30000);
+		assertEquals (30000, bank.getCash ());
+		
+		corporateBank.setTreasury (10000);
+		assertEquals (10000, corporateBank.getCash ());
+		assertEquals (30000, bank.getCash ());
 	}
 
 	@DisplayName ("Add Certificate Test")

@@ -26,6 +26,22 @@ public class BankTestFactory {
 		return tBank;
 	}
 	
+	public Bank buildBank (GameManager aGameManager) {
+		Bank tBank;
+		
+		tBank = buildBank (Bank.NAME, aGameManager);
+		
+		return tBank;	
+	}
+	
+	public Bank buildBank (String aBankName, GameManager aGameManager) {
+		Bank tBank;
+
+		tBank = new Bank (aBankName, aGameManager);
+
+		return tBank;
+	}
+
 	public void buildGameManager () {
 		GameManager tGameManager;
 		
@@ -42,15 +58,6 @@ public class BankTestFactory {
 	
 	public GameManager getGameManager () {
 		return gameManager;
-	}
-	
-	public Bank buildBank (GameManager aGameManager) {
-		Bank tBank;
-
-		setGameManager (aGameManager);
-		tBank = new Bank (0, gameManager);
-
-		return tBank;
 	}
 
 	public Bank buildBankMock () {
@@ -141,4 +148,31 @@ public class BankTestFactory {
 		
 		return mBankPool;
 	}
+	
+
+	public CorporateBank buildCorporateBank (GameManager aGameManager) {
+		return buildCorporateBank ("Test Corporate Bank", aGameManager);
+	}
+
+	public CorporateBank buildCorporateBank (String aCorporateBankName, GameManager aGameManager) {
+		CorporateBank tCorporateBank;
+
+		tCorporateBank = new CorporateBank (aCorporateBankName, aGameManager);
+
+		return tCorporateBank;
+	}
+
+	public CorporateBank buildCorporateBankMock (GameManager mGameManager) {
+		return buildCorporateBankMock ("Mock Game Bank", mGameManager);
+	}
+
+	public CorporateBank buildCorporateBankMock (String aCorporateBankNameMock, GameManager mGameManager) {
+		CorporateBank mCorporateBank;
+
+		mCorporateBank = Mockito.mock (CorporateBank.class);
+		Mockito.when (mCorporateBank.getAbbrev ()).thenReturn ("Corporate Bank Mock");
+
+		return mCorporateBank;
+	}
+
 }

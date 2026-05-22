@@ -19,6 +19,7 @@ import geUtilities.GUI;
 class BankTests extends BankTester {
 	private GameManager mGameManager;
 	private Bank bank;
+	private CorporateBank corporateBank;
 	
 	@Override
 	@BeforeAll
@@ -30,6 +31,8 @@ class BankTests extends BankTester {
 	void setUp () throws Exception {
 		mGameManager = companyTestFactory.getGameManagerMock ();
 		bank = bankTestFactory.buildBank (mGameManager);
+		corporateBank = bankTestFactory.buildCorporateBank (mGameManager);
+		corporateBank.setTreasury (500);
 	}
 
 	@Test
@@ -117,6 +120,56 @@ class BankTests extends BankTester {
 		tTransferAmount = 75;
 		tShareCompany.transferCashTo (bank, tTransferAmount);
 		assertEquals (875, bank.getCash ());
+		assertEquals (675, tShareCompany.getCash ());
+	}
+	
+	@Test
+	@DisplayName ("Add Cash to the CorporateBank")
+	void addCashToCorporateBankTest () {
+		int tCashAmount;
+		
+		tCashAmount = 12000;
+		assertEquals (500, corporateBank.getCash ());
+		corporateBank.addCash (tCashAmount);
+		assertEquals (0, bank.getCash ());
+
+		assertEquals (12500, corporateBank.getCash ());
+		corporateBank.addCash (0);
+		assertEquals (0, bank.getCash ());
+
+		assertEquals (12500, corporateBank.getCash ());
+		corporateBank.addCash (-1000);
+		assertEquals (0, bank.getCash ());
+
+		assertEquals (11500, corporateBank.getCash ());
+		corporateBank.addCash (-10900);
+		assertEquals (0, bank.getCash ());
+	}
+	
+	@Test
+	@DisplayName ("Transfer Cash between CashHolder and CorporateBank")
+	void transferCashToCorporateBankTest () {
+		ShareCompany tShareCompany;
+		int tCashAmount1;
+		int tCashAmount2;
+		int tTransferAmount;
+		
+		tShareCompany = companyTestFactory.buildAShareCompany (1);
+		tCashAmount1 = 1050;
+		corporateBank.addCash (tCashAmount1);
+		assertEquals (1550, corporateBank.getCash ());
+		tTransferAmount = 250;
+		tCashAmount2 = 500;
+		tShareCompany.addCash (tCashAmount2);
+		assertEquals (500, tShareCompany.getCash ());
+		
+		corporateBank.transferCashTo (tShareCompany, tTransferAmount);
+		assertEquals (1300, corporateBank.getCash ());
+		assertEquals (750, tShareCompany.getCash ());
+		
+		tTransferAmount = 75;
+		tShareCompany.transferCashTo (corporateBank, tTransferAmount);
+		assertEquals (1375, corporateBank.getCash ());
 		assertEquals (675, tShareCompany.getCash ());
 	}
 }
