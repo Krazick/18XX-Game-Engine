@@ -30,6 +30,7 @@ import ge18xx.toplevel.Checksums;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.bank.CorporateBank;
 import ge18xx.bank.StartPacketFrame;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
@@ -169,6 +170,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	PhaseManager phaseManager;
 	BankPool bankPool;
 	Bank bank;
+	CorporateBank corporateBank;
 	TriggerClass triggerClass;
 	TriggerClass triggerFormationClass;
 	ColorPalette biddersPalette;
@@ -1134,6 +1136,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return bankPool;
 	}
 
+	public CorporateBank getCorporateBank () {
+		return corporateBank;
+	}
+
+	public Bank getBankNamed (String aBankName) {
+		Bank tNamedBank;
+		
+		if (corporateBank != Bank.NO_BANK) {
+			if (aBankName.equals (bank.getName ())) {
+				tNamedBank = getBank ();
+			} else if (aBankName.equals (corporateBank.getName ())) {
+				tNamedBank = getCorporateBank ();
+			} else {
+				tNamedBank = getBank ();				
+			}
+		} else {
+			tNamedBank = getBank ();
+		}
+		
+		return tNamedBank;
+	}
+	
 	public Portfolio getBankPortfolio () {
 		return bank.getPortfolio ();
 	}
@@ -1790,11 +1814,25 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void setBank (int aInitialTreasury) {
-		bank = new Bank (aInitialTreasury, this);
+		Bank tBank;
+		
+		tBank = new Bank (aInitialTreasury, this);
+		setBank (tBank);
 	}
 
 	public void setBank (Bank aBank) {
 		bank = aBank;
+	}
+
+	public void setCorporateBank (int aInitialTreasury) {
+		CorporateBank tCorporateBank;
+		
+		tCorporateBank = new CorporateBank (aInitialTreasury, this);
+		setCorporateBank (tCorporateBank);
+	}
+
+	public void setCorporateBank (CorporateBank aCorporateBank) {
+		corporateBank = aCorporateBank;
 	}
 	
 	public void setupBankPool () {
