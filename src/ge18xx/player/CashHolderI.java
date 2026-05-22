@@ -17,7 +17,7 @@ public interface CashHolderI extends ActorI {
 	public static final String PLAYER_STATUS_CHANGED = "Player Status Changed";
 	public static final String BANK_CASH_CHANGED = "Bank Cash Changed";
 	public static final String CORPORATION_CASH_CHANGED = "Corporation Cash Changed";
-
+	
 	public abstract void addCash (int aAmount);
 
 	public abstract int getCash ();
