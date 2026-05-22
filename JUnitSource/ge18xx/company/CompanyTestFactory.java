@@ -174,7 +174,14 @@ public class CompanyTestFactory {
 				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
-	
+		String tTrainCompany3TestXML = "<Share id=\"1901\" name=\"Test East Indian Railway\" abbrev=\"TEIR\" \n" 
+				+ "		tileLaysAllowed=\"2\" actorBank=\"Corporate Bank\"\n"
+				+ "		homeCell1=\"Jab\" homeLocation1=\"7\" homeCell2=\"Hx\" homeLocation2=\"10\" homeType=\"both\"\n"
+				+ "		bgColor=\"Red\" fgColor=\"White\" tokens=\"5\" tokenType=\"FixedCost\" startPrice=\"0,14\">\n"
+				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\"\n"
+				+ "			allowedOwners=\"IPO,Player,BankPool\" />" + "</Share>";
+
 		CorporationList mCorporationList;
 		GameManager mGameManager;
 		PhaseInfo mPhaseInfo;
@@ -190,6 +197,8 @@ public class CompanyTestFactory {
 			tTrainCompany = buildTrainCompany (tTrainCompany1TestXML, tTrainCompany, mCorporationList);
 		} else if (aCompanyIndex == 2) {
 			tTrainCompany = buildTrainCompany (tTrainCompany2TestXML, tTrainCompany, mCorporationList);			
+		} else if (aCompanyIndex == 3) {
+			tTrainCompany = buildTrainCompany (tTrainCompany3TestXML, tTrainCompany, mCorporationList);			
 		}
 		
 		mCorporationFrame = buildCorporationFrameMock ();
