@@ -124,6 +124,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	SoldCompanies soldCompanies;
 	MessageBean bean;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
+	Bank actorsBank;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
@@ -140,6 +141,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel = GUI.NO_PANEL;
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
+	}
+	
+	public void setActorsBank (Bank aActorsBank) {
+		actorsBank = aActorsBank;
+	}
+	
+	public Bank getActorsBank () {
+		return actorsBank;
 	}
 
 	public void setGameHasCompanies (GameManager aGameManager) {
@@ -167,13 +176,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			GameManager aGameManager) {
 		Benefit tBenefitInUse;
 		Portfolio tPortfolio;
-
+		Bank tActorsBank;
+		
 		/* Save the Player Name -- ONCE */
 		name = aName;
 		logger = aGameManager.getLogger ();
 
 		/* Set Variables that change during the game, that must be saved/loaded */
 		treasury = 0;
+		tActorsBank = aGameManager.getBank ();
+		setActorsBank (tActorsBank);
 		tPortfolio = new Portfolio (this);
 		setPortfolio (tPortfolio);
 		clearAuctionActionState ();

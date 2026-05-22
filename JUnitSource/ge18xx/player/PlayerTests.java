@@ -54,6 +54,7 @@ class PlayerTests {
 		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank ();
 		bankPool = bankTestFactory.buildBankPool (mGameManager);
+		Mockito.when (mGameManager.getBank ()).thenReturn (bank);
 		certificateTestFactory = new CertificateTestFactory ();
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		
@@ -172,5 +173,14 @@ class PlayerTests {
 		assertEquals (4, player.getCertificateTotalCount ());
 		assertTrue (player.atCertLimit ());
 		assertEquals (1, player.exceedsCertificateLimitBy ());
+	}
+	
+	@Test
+	@DisplayName ("Player Actors Bank Tests")
+	void playerActorsBankTests () {
+		Bank tActorsBank;
+		
+		tActorsBank = player.getActorsBank ();
+		assertEquals ("Bank", tActorsBank.getName ());
 	}
 }
