@@ -82,6 +82,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
 	public static final AttributeName AN_CAN_BORROW_TRAIN = new AttributeName ("canBorrowTrain");
 	public static final AttributeName AN_ONLY_PERMANENT_TRAIN = new AttributeName ("onlyPermanentTrain");
+	public static final AttributeName AN_ACTOR_BANK = new AttributeName ("actorBank");
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
 	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
@@ -119,6 +120,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	Color bgColor;
 	Color fgColor;
 	Color homeColor;
+	Bank actorsBank;
 
 	public TrainCompany (int aID, String aName) {
 		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, MapCell.NO_MAP_CELL, Location.NO_LOC,
@@ -155,6 +157,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setCanBorrowTrain (false);
 		setOnlyPermanentTrain (false);
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
+	}
+	
+	public void setActorsBank (Bank aActorsBank) {
+		actorsBank = aActorsBank;
+	}
+	
+	public Bank getActorsBank () {
+		return actorsBank;
 	}
 
 	public void addLicense (License aLicense) {
@@ -219,6 +229,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		super (aChildNode, aCorporationList);
 
 		String tColorName;
+		String tActorsBankName;
+		Bank tActorsBank;
 		boolean tCanBorrowTrain;
 		boolean tMustBuyTrain;
 		boolean tMustPayFullPrice;
@@ -226,9 +238,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tOnlyPermanentTrain;
 		int tPreviousRevenue;
 		int tThisRevenue;
+		GameManager tGameManager;
 
 		trainPortfolio = new TrainPortfolio (this);
 		licenses = new ArrayList<License> ();
+		tActorsBankName = aChildNode.getThisAttribute (AN_ACTOR_BANK, Bank.NAME);
+		tGameManager = aCorporationList.getGameManager ();
+		tActorsBank = tGameManager.getBankNamed (tActorsBankName);
+		setActorsBank (tActorsBank);
+		
 		tColorName = aChildNode.getThisAttribute (AN_BG_COLOR);
 		bgColorName = tColorName;
 		bgColor = translateColor (bgColorName);

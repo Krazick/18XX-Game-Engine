@@ -127,12 +127,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	MapCell homeCity2;
 	Location homeLocation2;
 	MessageBean bean;
-	protected ActorI.ActionStates status;
-	ActorI.ActorTypes actorType = ActorI.ActorTypes.Corporation;
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
 	Benefit benefitInUse;
 	List<KButton> specialButtons;
+	protected ActorI.ActionStates status;
+ 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Corporation;
 	Portfolio portfolio; 	// All Certificates Owned by the Corporation (Privates, Minors, it's own,
 							// and others). Use this portfolio to find what this company can sell.
 	
