@@ -61,7 +61,39 @@ public class Bank extends GameBank implements CashHolderI {
 	Portfolio closedPortfolio;
 	TrainPortfolio rustedTrainsPortfolio;
 	StartPacketFrame startPacketFrame;
+	
+	public Bank (int aTreasury, GameManager aGameManager) {
+		super (NAME, aGameManager);
 
+		setupBank (aTreasury);
+	}
+
+	public Bank (String aBankName, GameManager aGameManager) {
+		super (aBankName, aGameManager);
+		setupBank (0);
+	}
+
+	protected void setupBank (int aTreasury) {
+		Portfolio tClosedPortfolio;
+		TrainPortfolio tRustedTrainsPortfolio;
+
+		setTreasury (aTreasury);
+		trainPortfolio.setPortfolioHolder (this);
+		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
+		setFormat (GUI.EMPTY_STRING);
+		setBankCashLabel (null);
+		tClosedPortfolio = new Portfolio (this);
+		setClosedPortfolio (tClosedPortfolio);
+		tRustedTrainsPortfolio = new TrainPortfolio (this);
+		setRustedTrainsPortfolio (tRustedTrainsPortfolio);
+		logger = LogManager.getLogger (Bank.class);
+		setBankIsBroken (false);
+	}
+
+	public void setTreasury (int aTreasury) {
+		treasury = aTreasury;
+	}
+	
 	public static String formatCash (String aPrefix, int aCashAmount) {
 		String tFormatted;
 		
@@ -117,25 +149,6 @@ public class Bank extends GameBank implements CashHolderI {
 			loadPortfolio (aChildNode);
 		}
 	};
-	
-	public Bank (int aTreasury, GameManager aGameManager) {
-		super (NAME, aGameManager);
-
-		Portfolio tClosedPortfolio;
-		TrainPortfolio tRustedTrainsPortfolio;
-
-		trainPortfolio.setPortfolioHolder (this);
-		treasury = aTreasury;
-		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
-		setFormat (GUI.EMPTY_STRING);
-		setBankCashLabel (null);
-		tClosedPortfolio = new Portfolio (this);
-		setClosedPortfolio (tClosedPortfolio);
-		tRustedTrainsPortfolio = new TrainPortfolio (this);
-		setRustedTrainsPortfolio (tRustedTrainsPortfolio);
-		logger = LogManager.getLogger (Bank.class);
-		setBankIsBroken (false);
-	}
 
 	@Override
 	public void addCash (int aAmount) {
