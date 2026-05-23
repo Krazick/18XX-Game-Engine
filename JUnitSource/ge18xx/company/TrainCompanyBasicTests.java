@@ -40,7 +40,13 @@ class TrainCompanyBasicTests extends CorporationTester {
 	void setUp () throws Exception {
 		mGameManager = companyTestFactory.getGameManagerMock ();
 		bank = bankTestFactory.buildBank (mGameManager);
+		Mockito.when (mGameManager.getBank ()).thenReturn (bank);
+		Mockito.when (mGameManager.getBankNamed ("Bank")).thenReturn (bank);
+
 		corporateBank = bankTestFactory.buildCorporateBank (mGameManager);
+		Mockito.when (mGameManager.getCorporateBank ()).thenReturn (corporateBank);
+		Mockito.when (mGameManager.getBankNamed ("Test Corporate Bank")).thenReturn (corporateBank);
+		
 		trainCompany1 = companyTestFactory.buildATrainCompany (1);
 		trainCompany3 = companyTestFactory.buildATrainCompany (3);
 		mTrainCompany = companyTestFactory.buildTrainCompanyMock ();
@@ -220,4 +226,22 @@ class TrainCompanyBasicTests extends CorporationTester {
 		trainCompany1.resetStatus (ActorI.ActionStates.Closed);
 		assertFalse (trainCompany1.hasBoughtTrain ());
 	}
+	
+	
+	@Test
+	@DisplayName ("TrainCompany Actors Bank Tests")
+	void TrainCompanyActorsBankTests () {
+		Bank tActorsBank;
+		Bank tActorsCorporateBank;
+		
+		tActorsBank = trainCompany1.getActorsBank ();
+		assertEquals ("Bank", tActorsBank.getName ());
+		assertEquals ("Test Train Pennsylvania", trainCompany1.getName ());
+		
+		tActorsCorporateBank = trainCompany3.getActorsBank ();
+		assertEquals ("Test Corporate Bank", tActorsCorporateBank.getName ());
+
+		assertEquals ("Test East Indian Railway", trainCompany3.getName ());
+	}
+
 }

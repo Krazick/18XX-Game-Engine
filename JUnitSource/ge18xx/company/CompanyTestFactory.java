@@ -175,7 +175,7 @@ public class CompanyTestFactory {
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 		String tTrainCompany3TestXML = "<Share id=\"1901\" name=\"Test East Indian Railway\" abbrev=\"TEIR\" \n" 
-				+ "		tileLaysAllowed=\"2\" actorBank=\"Corporate Bank\"\n"
+				+ "		tileLaysAllowed=\"2\" actorBank=\"Test Corporate Bank\"\n"
 				+ "		homeCell1=\"Jab\" homeLocation1=\"7\" homeCell2=\"Hx\" homeLocation2=\"10\" homeType=\"both\"\n"
 				+ "		bgColor=\"Red\" fgColor=\"White\" tokens=\"5\" tokenType=\"FixedCost\" startPrice=\"0,14\">\n"
 				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
@@ -183,13 +183,11 @@ public class CompanyTestFactory {
 				+ "			allowedOwners=\"IPO,Player,BankPool\" />" + "</Share>";
 
 		CorporationList mCorporationList;
-		GameManager mGameManager;
 		PhaseInfo mPhaseInfo;
 		CorporationFrame mCorporationFrame;
 		
 		tTrainCompany = NO_TRAIN_COMPANY;
 		
-		mGameManager = gameTestFactory.buildGameManagerMock ();
 		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
 		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
 
