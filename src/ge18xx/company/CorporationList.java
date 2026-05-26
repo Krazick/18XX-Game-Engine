@@ -175,7 +175,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCompanyJPanel;
 	}
 
-	
 	public void addMessageBeans () {
 		MessageBean tBean;
 		GameManager tGameManager;
@@ -553,6 +552,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCountOfOpen;
 	}
 	
+	public boolean isCorporateBank () {
+		boolean tIsCorporateBank;
+		Corporation tCorporation;
+		
+		tCorporation = corporations.get (0);
+		
+		tIsCorporateBank = tCorporation.isCorporateBank ();
+
+		return tIsCorporateBank;
+	}
+
 	public int getCountOfOperatingCompanies () {
 		int tCountOfCanOperate;
 
@@ -876,7 +886,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void payPrivateRevenues (Bank aBank, OperatingRound aOperatingRound) {
 		PrivateCompany tPrivate;
 		int tRevenue;
-//		int tOperatingRoundID2;
 		String tOperatingRoundID;
 		PortfolioHolderI tOwner;
 		CashHolderI tOwnerCashHolder;
@@ -890,7 +899,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					tRevenue = tPrivate.getThisRevenue ();
 					tOwner = tPrivate.getOwner ();
 					tOperatingRoundID = aOperatingRound.getID ();
-//					tOperatingRoundID2 = aOperatingRound.getIDPart2 ();
 					tOwnerCashHolder = (CashHolderI) tOwner;
 					if (tOwner.isAPlayer ()) {
 						tPlayer = (Player) tOwner;
@@ -925,7 +933,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		for (Corporation tCorporation : corporations) {
 			System.out.println ("ID: " + tCorporation.getID () + " Abbrev: " + tCorporation.getAbbrev ());
 		}
-
 	}
 	
 	public void printReport () {
@@ -1043,8 +1050,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tOtherCorpInfoJPanel;
 		JPanel tOperatingCorpJPanel;
 		JPanel tScrollableCorpJPanel;
-//		JScrollPane tScrollCorpPane;
-
 		Color tFgColor;
 		Color tBgColor;
 		Corporation tTrainCompany;
@@ -1081,12 +1086,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		}
 		tScrollableCorpJPanel = buildScrollablePanel (tOtherCorpsInfoJPanel);
-//		tScrollableCorpJPanel = new JPanel ();
-//		tScrollableCorpJPanel.setLayout (new BoxLayout (tScrollableCorpJPanel, BoxLayout.X_AXIS));
-//		tScrollCorpPane = new JScrollPane (tOtherCorpsInfoJPanel);
-//		tScrollCorpPane.setLayout (new ScrollPaneLayout ());
-//		tScrollCorpPane.setBorder (EMPTY_BORDER);
-//		tScrollableCorpJPanel.add (tScrollCorpPane);
 
 		return tScrollableCorpJPanel;
 	}
