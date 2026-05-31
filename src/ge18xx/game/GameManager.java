@@ -1818,6 +1818,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tBank = new Bank (aInitialTreasury, this);
 		setBank (tBank);
+		setCorporateBank (aInitialTreasury);
 	}
 
 	public void setBank (Bank aBank) {
@@ -2051,7 +2052,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				addPrivateToAuction ((StartAuctionAction) StartAuctionAction.NO_ACTION);
 				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
-			bank.updateBankCashLabel ();
+			updateBankCashLabels ();
 			game18XXFrame.setTitle ();
 			tGoodLoad = true;
 			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." 
@@ -2062,6 +2063,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tGoodLoad;
 	}
 
+	public void updateBankCashLabels () {
+		bank.updateBankCashLabel ();
+		if (shareCompaniesFrame.hasCorporateBank ()) {
+			System.out.println ("Time to update Corporate Bank Label if present");
+		} else {
+			System.out.println ("No Corporate Bank in Use");
+		}
+	}
+	
 	@Override
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
 		String tAutoSavesDir;
