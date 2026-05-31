@@ -21,10 +21,22 @@ import ge18xx.toplevel.ShareCompaniesFrame;
 @DisplayName ("Game Manager Constructor Tests")
 class GameManagerTestConstructors {
 	GameTestFactory gameTestFactory;
+	FrameTestFactory frameTestFactory;
+	RoundTestFactory roundTestFactory;
+	GameManager gameManager;
+	RoundManager roundManager;
 
 	@BeforeEach
 	void setUp () throws Exception {
+		String tClientName;
+		
+		tClientName = "TGIBuster";
+		
 		gameTestFactory = new GameTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		gameManager = gameTestFactory.buildGameManager (tClientName);
+		roundManager = roundTestFactory.buildRoundManager (gameManager);
+		frameTestFactory = new FrameTestFactory (gameManager, roundManager);
 	}
 
 	@AfterEach
@@ -64,60 +76,44 @@ class GameManagerTestConstructors {
 	@Test
 	@DisplayName ("Test getCorporationState via Share Companies Frame")
 	void testGetCorporationState () {
-		GameManager tGameManager;
-		String tClientName;
 		ShareCompaniesFrame mShareCompaniesFrame;
-		FrameTestFactory frameTestFactory;
-		RoundTestFactory roundTestFactory;
-		RoundManager tRoundManager;
-		
-		tClientName = "TGIBuster";
 
-		tGameManager = gameTestFactory.buildGameManager (tClientName);
-		roundTestFactory = new RoundTestFactory ();
-		tRoundManager = roundTestFactory.buildRoundManager (tGameManager);
-		frameTestFactory = new FrameTestFactory (tGameManager, tRoundManager);
 		mShareCompaniesFrame = frameTestFactory.buildShareCompaniesFrameMock ("Share Company Frame Mock");
-		tGameManager.setShareCompaniesFrame (mShareCompaniesFrame);
-		assertEquals ( ActorI.ActionStates.NoState, tGameManager.getCorporationState (tClientName));
+		gameManager.setShareCompaniesFrame (mShareCompaniesFrame);
+		assertEquals (ActorI.ActionStates.NoState, gameManager.getCorporationState ("TGIBuster"));
 	}
 	
 	@Test
 	@DisplayName ("Test Game Initiation")
 	void gameInitiationTest () {
-		GameManager tGameManager;
-		String tClientName;
 		GameInfo tGameInfo;
 		PlayerInputFrame mPlayerInputFrame;
 
-		tClientName = "TGIBuster";
-
-		tGameManager = gameTestFactory.buildGameManager (tClientName);
 		tGameInfo = gameTestFactory.buildGameInfo (1);
 
-		assertEquals ("<NONE>", tGameManager.getGameName ());
-		assertEquals ("", tGameManager.getActiveGameName ());
+		assertEquals ("<NONE>", gameManager.getGameName ());
+		assertEquals ("", gameManager.getActiveGameName ());
 		assertEquals ("1830TEST", tGameInfo.getName ());
-		assertEquals ("<NONE>", tGameManager.getFileName ("Market"));
-		assertFalse (tGameManager.gameIsStarted ());
+		assertEquals ("<NONE>", gameManager.getFileName ("Market"));
+		assertFalse (gameManager.gameIsStarted ());
 
 		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
-		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
-		tGameManager.initiateGame (tGameInfo);
+		gameManager.setPlayerInputFrame (mPlayerInputFrame);
+		gameManager.initiateGame (tGameInfo);
 
-		assertTrue (tGameManager.gameIsStarted ());
-		assertEquals ("1830TEST", tGameManager.getGameName ());
-		assertEquals ("1830TEST", tGameManager.getActiveGameName ());
-		assertEquals (0, tGameManager.getCountOfMinors ());
-		assertEquals (6, tGameManager.getCountOfPrivates ());
-		assertEquals (6, tGameManager.getCountOfOpenPrivates ());
-		assertEquals ("1830TEST XML Data/1830TEST Map.xml", tGameManager.getMapFileName ());
-		assertEquals ("1830TEST XML Data/1830TEST Map.xml", tGameManager.getFileName ("map"));
-		assertEquals ("1830TEST XML Data/1830TEST Market.xml", tGameManager.getMarketFileName ());
-		assertEquals ("1830TEST XML Data/1830TEST Cities.xml", tGameManager.getCitiesFileName ());
-		assertEquals ("1830TEST XML Data/1830TEST Companies.xml", tGameManager.getCompaniesFileName ());
-		assertEquals ("1830TEST XML Data/1830TEST TileSet.xml", tGameManager.getTileSetFileName ());
+		assertTrue (gameManager.gameIsStarted ());
+		assertEquals ("1830TEST", gameManager.getGameName ());
+		assertEquals ("1830TEST", gameManager.getActiveGameName ());
+		assertEquals (0, gameManager.getCountOfMinors ());
+		assertEquals (6, gameManager.getCountOfPrivates ());
+		assertEquals (6, gameManager.getCountOfOpenPrivates ());
+		assertEquals ("1830TEST XML Data/1830TEST Map.xml", gameManager.getMapFileName ());
+		assertEquals ("1830TEST XML Data/1830TEST Map.xml", gameManager.getFileName ("map"));
+		assertEquals ("1830TEST XML Data/1830TEST Market.xml", gameManager.getMarketFileName ());
+		assertEquals ("1830TEST XML Data/1830TEST Cities.xml", gameManager.getCitiesFileName ());
+		assertEquals ("1830TEST XML Data/1830TEST Companies.xml", gameManager.getCompaniesFileName ());
+		assertEquals ("1830TEST XML Data/1830TEST TileSet.xml", gameManager.getTileSetFileName ());
 
-		assertNull (tGameManager.getGameFrameConfig ());
+		assertNull (gameManager.getGameFrameConfig ());
 	}
 }
