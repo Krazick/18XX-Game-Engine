@@ -23,8 +23,8 @@ public class MapTester {
 	void factorySetup () {
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
-		mapTestFactory = new MapTestFactory ();
 		roundTestFactory = new RoundTestFactory ();
+		mapTestFactory = new MapTestFactory ();
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
