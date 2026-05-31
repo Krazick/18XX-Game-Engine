@@ -23,7 +23,6 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
-//import ge18xx.phase.PhaseManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
@@ -31,7 +30,6 @@ import ge18xx.player.ShareHolders;
 import ge18xx.round.FormationRound;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
-//import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BorrowTrainAction;
 import ge18xx.round.action.BuyTrainAction;
@@ -44,12 +42,10 @@ import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
-//import ge18xx.round.action.PreparedAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
-//import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
@@ -167,6 +163,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return actorsBank;
 	}
 
+	@Override
+	public boolean isCorporateBank () {
+		boolean tIsCorporateBank;
+		
+		tIsCorporateBank = actorsBank.isCorporateBank ();
+
+		return tIsCorporateBank;
+	}
+	
 	public void addLicense (License aLicense) {
 		licenses.add (aLicense);
 	}
