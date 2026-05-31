@@ -494,7 +494,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		}
 	}
 
-	// Corporation Types will Override
 	public void clearCertificateSelections () {
 		corporationCertificates.clearSelections ();
 	}
@@ -3334,5 +3333,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public ActionStates getNewStatusWithTile (Tile previousTile) {
 		return ActionStates.NoState;
+	}
+
+	public boolean isCorporateBank () {
+		return false;
 	};
 }

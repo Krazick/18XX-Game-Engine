@@ -98,7 +98,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		tAnyCanOperate = false;
 		for (Corporation tCorporation : corporations) {
-			tAnyCanOperate = tAnyCanOperate || tCorporation.canOperate () || tCorporation.hasOperated ();
+			tAnyCanOperate = tAnyCanOperate || 
+							tCorporation.canOperate () || 
+							tCorporation.hasOperated ();
 		}
 
 		return tAnyCanOperate;
@@ -552,15 +554,15 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCountOfOpen;
 	}
 	
-	public boolean isCorporateBank () {
-		boolean tIsCorporateBank;
+	public boolean hasCorporateBank () {
+		boolean tHasCorporateBank;
 		Corporation tCorporation;
 		
 		tCorporation = corporations.get (0);
 		
-		tIsCorporateBank = tCorporation.isCorporateBank ();
+		tHasCorporateBank = tCorporation.isCorporateBank ();
 
-		return tIsCorporateBank;
+		return tHasCorporateBank;
 	}
 
 	public int getCountOfOperatingCompanies () {
@@ -1001,25 +1003,29 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	ParsingRoutineI corporationListParsingRoutine = new ParsingRoutineIO () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
-			Corporation tPrivateInfo;
-			MinorCompany tMinorCompanyInfo;
-			ShareCompany tShareCompanyInfo;
+			PrivateCompany tPrivateCompany;
+			MinorCompany tMinorCompany;
+			ShareCompany tShareCompany;
 			CorporationList tCorporationList;
 
 			tCorporationList = (CorporationList) aMetaObject;
 			if (typeName.equals (TYPE_NAMES [0])) {
-				tPrivateInfo = new PrivateCompany (aChildNode, tCorporationList);
-				corporations.add (tPrivateInfo);
+				tPrivateCompany = new PrivateCompany (aChildNode, tCorporationList);
+				addCorporation (tPrivateCompany);
 			} else if (typeName.equals (TYPE_NAMES [1])) {
-				tMinorCompanyInfo = new MinorCompany (aChildNode, tCorporationList);
-				corporations.add (tMinorCompanyInfo);
+				tMinorCompany = new MinorCompany (aChildNode, tCorporationList);
+				addCorporation (tMinorCompany);
 			} else if (typeName.equals (TYPE_NAMES [2])) {
-				tShareCompanyInfo = new ShareCompany (aChildNode, tCorporationList);
-				corporations.add (tShareCompanyInfo);
+				tShareCompany = new ShareCompany (aChildNode, tCorporationList);
+				addCorporation (tShareCompany);
 			}
 		}
 	};
 
+	public void addCorporation (Corporation aCorporationInfo) {
+		corporations.add (aCorporationInfo);
+	}
+	
 	public JPanel buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
 			GameManager aGameManager, boolean aFullTrainPortfolio) {
 		JPanel tFullCorpsJPanel;
