@@ -62,15 +62,17 @@ public class Bank extends GameBank implements CashHolderI {
 	TrainPortfolio rustedTrainsPortfolio;
 	StartPacketFrame startPacketFrame;
 	
-	public Bank (int aTreasury, GameManager aGameManager) {
-		super (NAME, aGameManager);
-
+	public Bank (String aName, int aTreasury, GameManager aGameManager) {
+		super (aName, aGameManager);
 		setupBank (aTreasury);
 	}
+	
+	public Bank (int aTreasury, GameManager aGameManager) {
+		this (NAME, aTreasury, aGameManager);
+	}
 
-	public Bank (String aBankName, GameManager aGameManager) {
-		super (aBankName, aGameManager);
-		setupBank (0);
+	public Bank (String aName, GameManager aGameManager) {
+		this (aName, NO_BANK_CASH, aGameManager);
 	}
 
 	protected void setupBank (int aTreasury) {
@@ -153,7 +155,7 @@ public class Bank extends GameBank implements CashHolderI {
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
-		updateBankCashLabel ();
+		gameManager.updateBankCashLabels ();
 		if (aAmount < 0) {
 			if (treasury < 0) {
 				setBankIsBroken (true);
@@ -167,7 +169,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
 		addCash (-aAmount);
-		updateBankCashLabel ();
+		gameManager.updateBankCashLabels ();
 	}
 
 	public void addClosedCertificate (Certificate aCertificate) {
@@ -700,5 +702,9 @@ public class Bank extends GameBank implements CashHolderI {
 		System.out.println ("Bank Portfolio Count " + portfolio.getCertificateTotalCount ());
 		super.printInfo ();
 		rustedTrainsPortfolio.printNameAndQty (TrainPortfolio.RUSTED_TRAINS);
+	}
+
+	public boolean isCorporateBank () {
+		return false;
 	}
 }
