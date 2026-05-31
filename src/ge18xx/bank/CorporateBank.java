@@ -1,21 +1,24 @@
 package ge18xx.bank;
 
+import javax.swing.JLabel;
+
 import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
+import geUtilities.GUI;
 
 public class CorporateBank extends Bank {
-	int treasury;		// Corporate Treasury that overrides the Bank Treasury
 	public static final String NAME = "Corporate Bank";
+	public static final String BANK_LABEL_PREFIX = "Remaining Corpoate Bank Cash ";
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.CorporateBank;
+	int treasury;		// Corporate Treasury that overrides the Bank Treasury
 
 	public CorporateBank (int aTreasury, GameManager aGameManager) {
-		super (aTreasury, aGameManager);
-		
+		super (NAME, aTreasury, aGameManager);
 	}
 
 	public CorporateBank (String aCorporateBankName, GameManager aGameManager) {
-		super (aCorporateBankName, aGameManager);
+		super (aCorporateBankName, NO_BANK_CASH, aGameManager);
 	}
 
 	@Override
@@ -45,5 +48,22 @@ public class CorporateBank extends Bank {
 	@Override
 	public int getCash () {
 		return treasury;
+	}
+	
+	@Override
+	public boolean isCorporateBank () {
+		return true;
+	}
+	
+	@Override
+	public void updateBankCashLabel () {
+		String tBankLabel;
+
+		tBankLabel = BANK_LABEL_PREFIX + Bank.formatCash (getCash ());
+		if (bankCashLabel == GUI.NO_LABEL) {
+			bankCashLabel = new JLabel (tBankLabel);
+		} else {
+			bankCashLabel.setText (tBankLabel);
+		}
 	}
 }
