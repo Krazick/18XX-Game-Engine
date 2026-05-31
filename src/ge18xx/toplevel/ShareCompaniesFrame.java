@@ -49,10 +49,12 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 
 	public ShareCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [2], aRoundManager);
+		
 		JLabel tLabel;
-
+		JPanel tNorthComponents;
+		
 		// Test Components
-		JPanel tNorthComponents = new JPanel ();
+		tNorthComponents = new JPanel ();
 
 		companyCombo = new JComboBox<> ();
 		tNorthComponents.add (companyCombo);
@@ -453,6 +455,10 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		}
 	}
 
+	public boolean hasCorporateBank () {
+		return companies.hasCorporateBank ();
+	}
+	
 	public boolean hasDestinations () {
 		return companies.hasDestinations ();
 	}
