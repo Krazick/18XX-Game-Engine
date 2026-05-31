@@ -172,7 +172,7 @@ class TrainCompanyBasicTests extends CorporationTester {
 	@DisplayName ("Test getting Specific Licenses")
 	void getLicenseByTypeTests () {
 		License tPortLicense;
-		License tNewLicense;
+		License tNewBridgeLicense;
 		License tNewPortLicense;
 		License tFoundLicense;
 		int tPrice;
@@ -180,22 +180,39 @@ class TrainCompanyBasicTests extends CorporationTester {
 
 		tPortLicense = trainCompany1.getLicense (License.LicenseTypes.PORT);
 		assertNull (tPortLicense);
-		
+
+		assertEquals (0, trainCompany1.getLicenseCount ());
+		assertEquals (" ", trainCompany1.getLicenses ());
+
 		tPrice = 50;
 		tBenefitValue = 10;
-		tNewLicense = new License (License.LicenseTypes.BRIDGE, tPrice, tBenefitValue);
-		trainCompany1.addLicense (tNewLicense);
+		tNewBridgeLicense = new License (License.LicenseTypes.BRIDGE, tPrice, tBenefitValue);
+		
+		assertFalse (trainCompany1.hasLicense (tNewBridgeLicense));
+		trainCompany1.addLicense (tNewBridgeLicense);
+		
+		assertEquals (1, trainCompany1.getLicenseCount ());
+		assertEquals ("Bridge", trainCompany1.getLicenses ());
+
 		tNewPortLicense = new License (License.LicenseTypes.PORT, tPrice, tBenefitValue);
 		trainCompany1.addLicense (tNewPortLicense);
+		
+		assertEquals (2, trainCompany1.getLicenseCount ());
+		assertEquals ("Bridge, Port", trainCompany1.getLicenses ());
 
 		tFoundLicense = trainCompany1.getLicense (License.LicenseTypes.TUNNEL);
 		assertNull (tFoundLicense);
 		
 		tFoundLicense = trainCompany1.getLicense (License.LicenseTypes.BRIDGE);
-		assertEquals (tFoundLicense, tNewLicense);
+		assertEquals (tFoundLicense, tNewBridgeLicense);
 		
 		tFoundLicense = trainCompany1.getLicense (License.LicenseTypes.PORT);
 		assertEquals (tFoundLicense, tNewPortLicense);
+		
+		assertEquals (tNewPortLicense, trainCompany1.getLicenseAt (1));
+		assertEquals (tNewBridgeLicense, trainCompany1.getLicenseAt (0));
+		
+		assertTrue (trainCompany1.hasLicense (tNewPortLicense));
 	}
 
 	@Test
@@ -237,11 +254,16 @@ class TrainCompanyBasicTests extends CorporationTester {
 		tActorsBank = trainCompany1.getActorsBank ();
 		assertEquals ("Bank", tActorsBank.getName ());
 		assertEquals ("Test Train Pennsylvania", trainCompany1.getName ());
+		assertFalse (tActorsBank.isCorporateBank ());
 		
 		tActorsCorporateBank = trainCompany3.getActorsBank ();
 		assertEquals ("Test Corporate Bank", tActorsCorporateBank.getName ());
+		assertTrue (tActorsCorporateBank.isCorporateBank ());
 
 		assertEquals ("Test East Indian Railway", trainCompany3.getName ());
+		
+		assertFalse (trainCompany1.isCorporateBank ());
+		assertTrue (trainCompany3.isCorporateBank ());
 	}
 
 }
