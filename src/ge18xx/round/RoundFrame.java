@@ -185,9 +185,10 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	private void buildRoundInfoJPanel () {
-		String tGameState;
-		Bank tBank;
 		JLabel tBankCashLabel;
+		GameManager tGameManager;
+		Bank tBank;
+		String tGameState;
 		int tStrutSize;
 
 		roundInfoJPanel = new JPanel ();
@@ -197,8 +198,9 @@ public class RoundFrame extends XMLFrame {
 		frameLabel = new JLabel (BASE_TITLE);
 		addRoundInfoLabel (frameLabel, tStrutSize);
 
+		tGameManager = roundManager.getGameManager ();
 		tBank = roundManager.getBank ();
-		tBank.updateBankCashLabel ();
+		tGameManager.updateBankCashLabels ();
 		tBankCashLabel = tBank.getBankCashLabel ();
 		addRoundInfoLabel (tBankCashLabel, tStrutSize);
 
