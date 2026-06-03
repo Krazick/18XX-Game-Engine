@@ -637,7 +637,7 @@ public class Bank extends GameBank implements CashHolderI {
 		tMinorCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 
-	private void setBankCashLabel (JLabel aBankCashLabel) {
+	public void setBankCashLabel (JLabel aBankCashLabel) {
 		bankCashLabel = aBankCashLabel;
 	}
 

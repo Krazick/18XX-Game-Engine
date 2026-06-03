@@ -608,6 +608,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		return gameManager.getBank ();
 	}
 
+	public Bank getCorproateBank () {
+		return gameManager.getCorporateBank ();
+	}
+
 	public BankPool getBankPool () {
 		return gameManager.getBankPool ();
 	}

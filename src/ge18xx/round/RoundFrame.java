@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.CorporateBank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
@@ -186,8 +187,10 @@ public class RoundFrame extends XMLFrame {
 	
 	private void buildRoundInfoJPanel () {
 		JLabel tBankCashLabel;
+		JLabel tCorporateBankCashLabel;
 		GameManager tGameManager;
 		Bank tBank;
+		CorporateBank tCorporateBank;
 		String tGameState;
 		int tStrutSize;
 
@@ -199,11 +202,20 @@ public class RoundFrame extends XMLFrame {
 		addRoundInfoLabel (frameLabel, tStrutSize);
 
 		tGameManager = roundManager.getGameManager ();
-		tBank = roundManager.getBank ();
+		tBank = tGameManager.getBank ();
+		tCorporateBank = tGameManager.getCorporateBank ();
 		tGameManager.updateBankCashLabels ();
+		
 		tBankCashLabel = tBank.getBankCashLabel ();
 		addRoundInfoLabel (tBankCashLabel, tStrutSize);
-
+		
+		if (tCorporateBank != CorporateBank.NO_BANK) {
+			if (tCorporateBank != tBank) {
+				tCorporateBankCashLabel = tCorporateBank.getBankCashLabel ();
+				addRoundInfoLabel (tCorporateBankCashLabel, tStrutSize);
+			}
+		}
+		
 		updateTotalCashLabel ();
 		addRoundInfoLabel (totalCashLabel, tStrutSize);
 
