@@ -8,6 +8,8 @@ package ge18xx.toplevel;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
+// TODO: RETIRE and remove this class entirely -- NOT USED
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
