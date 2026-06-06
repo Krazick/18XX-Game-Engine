@@ -50,7 +50,6 @@ public class MarketFrame extends XMLFrame implements XMLSaveGameI {
 		return market;
 	}
 
-//	public XMLElement getMarketStateElements (XMLDocument aXMLDocument) {
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		return (market.getMarketStateElements (aXMLDocument));
