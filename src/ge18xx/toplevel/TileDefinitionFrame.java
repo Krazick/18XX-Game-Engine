@@ -25,6 +25,7 @@ public class TileDefinitionFrame extends XMLFrame {
 	public static final String TILE_SUFFIX_NAME = "-Tile-Definitions.xml";
 	public static final String TILE_DIRECTORY_NAME = "Tile XML Data/";
 	public static final String TILE_URL_BASE = "Tiles";
+	// TODO: Add the Tile Set Names to the Tile-Defintions.xml File to load into this array.
 	String allTileSetNames[] = { "Yellow", "Green", "Brown", "Grey", "Other" };
 	TileSet tileSet;
 
