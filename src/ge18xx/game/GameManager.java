@@ -2136,7 +2136,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 					initiateGame ();
 					tGameInitiated = true;
 				}
-				parseChildNode (tChildren, tIndex, tGameInitiated);
+				parseChildren (tChildren, tIndex, tGameInitiated);
 				if (gameID != null) {
 					if (gameID != EMPTY_GAME_ID) {
 						tGameIdentified = true;
@@ -2183,7 +2183,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tShareCompanies.clearClosedCorporations ();
 	}
 	
-	private void parseChildNode (NodeList aChildren, int aIndex, boolean aGameInitiated) {
+	private void parseChildren (NodeList aChildren, int aIndex, boolean aGameInitiated) {
 		XMLNode tChildNode;
 		String tChildName;
 
