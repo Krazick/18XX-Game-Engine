@@ -179,17 +179,23 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
 			setStockRound (new StockRound (this, playerManager));
 		}
-		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
-			setAuctionRound (new AuctionRound (this));
+		if (gameManager.gameHasRoundType (AuctionRound.NAME)) {
+			if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
+				setAuctionRound (new AuctionRound (this));
+			}
 		}
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
 			setOperatingRound (new OperatingRound (this, aPrivates, aMinors, aShares));
 		}
-		if (formationRound == FormationRound.NO_FORMATION_ROUND) {
-			setFormationRound (new FormationRound (this));
+		if (gameManager.gameHasRoundType (FormationRound.NAME)) {
+			if (formationRound == FormationRound.NO_FORMATION_ROUND) {
+				setFormationRound (new FormationRound (this));
+			}
 		}
-		if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) {
-			setContractBidRound (new ContractBidRound (this));
+		if (gameManager.gameHasRoundType (ContractBidRound.NAME)) {
+			if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) {
+				setContractBidRound (new ContractBidRound (this));
+			}
 		}
 	}
 	
@@ -533,10 +539,16 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		
 		getRoundState (aXMLDocument, tXMLElement, stockRound);
 		getRoundState (aXMLDocument, tXMLElement, operatingRound);
-		getRoundState (aXMLDocument, tXMLElement, auctionRound);
-		getRoundState (aXMLDocument, tXMLElement, contractBidRound);
-		getRoundState (aXMLDocument, tXMLElement, formationRound);
-				
+		if (auctionRound != AuctionRound.NO_AUCTION_ROUND) {
+			getRoundState (aXMLDocument, tXMLElement, auctionRound);
+		}
+		if (contractBidRound != ContractBidRound.NO_CONTRACT_BID_ROUND) {
+			getRoundState (aXMLDocument, tXMLElement, contractBidRound);
+		}
+		if (formationRound != FormationRound.NO_FORMATION_ROUND) {
+			getRoundState (aXMLDocument, tXMLElement, formationRound);
+		}
+		
 		return tXMLElement;
 	}
 
