@@ -27,20 +27,10 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 		super (aFrameName, CorporationList.TYPE_NAMES [1], aRoundManager);
 	}
 
-//	@Override	
-//	public XMLElement addElements (XMLDocument aXMLDocument) {
-//		XMLElement tXMLElement;
-//		
-//		tXMLElement = super.addElements (aXMLDocument, EN_MINORS);
-//		
-//		return tXMLElement;
-//	}
-
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		super.fixLoadedRoutes (aMapFrame, "Minor");
 	}
 	
-
 	public MinorCompany getMinorCompany (String aCompanyAbbrev) {
 		MinorCompany tMinorCompany;
 
