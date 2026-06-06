@@ -86,6 +86,7 @@ import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 
 import ge18xx.toplevel.CitiesFrame;
+import ge18xx.toplevel.ContractBidFrame;
 import ge18xx.toplevel.CorporationTableFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
@@ -198,6 +199,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	PlayerInputFrame playerInputFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	TileTrayFrame tileTrayFrame;
+	ContractBidFrame contractBidFrame;
 
 	// Other Frames include:
 		// RoundFrame 				-- held by RoundManager
