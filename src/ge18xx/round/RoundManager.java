@@ -539,15 +539,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		
 		getRoundState (aXMLDocument, tXMLElement, stockRound);
 		getRoundState (aXMLDocument, tXMLElement, operatingRound);
-		if (auctionRound != AuctionRound.NO_AUCTION_ROUND) {
-			getRoundState (aXMLDocument, tXMLElement, auctionRound);
-		}
-		if (contractBidRound != ContractBidRound.NO_CONTRACT_BID_ROUND) {
-			getRoundState (aXMLDocument, tXMLElement, contractBidRound);
-		}
-		if (formationRound != FormationRound.NO_FORMATION_ROUND) {
-			getRoundState (aXMLDocument, tXMLElement, formationRound);
-		}
+		getRoundState (aXMLDocument, tXMLElement, auctionRound);
+		getRoundState (aXMLDocument, tXMLElement, contractBidRound);
+		getRoundState (aXMLDocument, tXMLElement, formationRound);
 		
 		return tXMLElement;
 	}
@@ -555,9 +549,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	public void getRoundState (XMLDocument aXMLDocument, XMLElement aXMLElement, Round aRound) {
 		XMLElement tXMLElement;
 		
-		if (gameManager.gameHasRoundType (aRound.getName ())) {
-			tXMLElement = aRound.getRoundState (aXMLDocument);
-			aXMLElement.appendChild (tXMLElement);
+		if (aRound != Round.NO_ROUND) {
+			if (gameManager.gameHasRoundType (aRound.getName ())) {
+				tXMLElement = aRound.getRoundState (aXMLDocument);
+				aXMLElement.appendChild (tXMLElement);
+			}
 		}
 	}
 
