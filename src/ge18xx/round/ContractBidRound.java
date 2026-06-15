@@ -1,7 +1,8 @@
 package ge18xx.round;
 
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
-//import geUtilities.xml.ElementName;
+import ge18xx.toplevel.ContractBidFrame;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
@@ -9,13 +10,29 @@ import geUtilities.xml.XMLFrame;
 public class ContractBidRound extends Round {
 	public static final ContractBidRound NO_CONTRACT_BID_ROUND = null;
 	public static final String NAME = "Contract Bid Round";
+	GameManager gameManager;
+	ContractBidFrame contractBidFrame;
 
 	public ContractBidRound (RoundManager aRoundManager) {
-		super (aRoundManager);
+ 		super (aRoundManager);
+		
+ 		ContractBidFrame tContractBidFrame;
+ 		
 		setName (NAME);
 		setRoundType ();
+		gameManager = aRoundManager.getGameManager ();
+		tContractBidFrame = new ContractBidFrame (NAME, gameManager);
+		setContractBidFrame (tContractBidFrame);
 	}
 
+	public void setContractBidFrame (ContractBidFrame aContractBidFrame) {
+		contractBidFrame = aContractBidFrame;
+	}
+	
+	public ContractBidFrame getContractBidFrame () {
+		return contractBidFrame;
+	}
+	
 	@Override
 	public ActorI.ActionStates getRoundState () {
 		return ActorI.ActionStates.ContractBidRound;
@@ -47,8 +64,7 @@ public class ContractBidRound extends Round {
 		// TODO Auto-generated method stub
 		
 	}
-
-
+ 
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
