@@ -21,9 +21,12 @@ public class AuctionRound extends InterruptionRound {
 	public AuctionRound (RoundManager aRoundManager) {
 		super (aRoundManager);
 
+		AuctionFrame tAuctionFrame;
+		
 		gameManager = aRoundManager.getGameManager ();
-		setAuctionFrame (new AuctionFrame (gameManager.createFrameTitle (NAME), 
-							gameManager.getClientUserName (), gameManager.isNetworkGame (), gameManager));
+		tAuctionFrame = new AuctionFrame (gameManager.createFrameTitle (NAME), 
+							gameManager.getClientUserName (), gameManager.isNetworkGame (), gameManager);
+		setAuctionFrame (tAuctionFrame);
 		gameManager.setAuctionFrame (auctionFrame);
 		gameManager.addNewFrame (auctionFrame);
 		auctionFrame.setAuctionRound (this);
