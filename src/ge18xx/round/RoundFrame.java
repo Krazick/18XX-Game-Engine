@@ -36,6 +36,8 @@ public class RoundFrame extends XMLFrame {
 	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
 	private static final String PLAYER_DO_FORMATION = "Player do Formation Action";
 	private static final String COMPANY_DO_ACTION = "Company do Action";
+	private static final String DO_CONTRACT_BID_ACTION = " create Contract Bid Action";
+	private static final String CREATING_CONTRACT_BID_ACTION = " is creating Contract Bid Action";
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
@@ -43,6 +45,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String IS_WAITING = "You are in a Wait State";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
+	private static final String IS_CONTRACT_BID_ROUND = "It is an Contract Bid Round, can't Pass";
 	private static final String IS_FORMATION_ROUND = "It is an Formation Round, can't Pass";
 	public static final XMLFrame NO_ROUND_FRAME = null;
 	public static final String BASE_TITLE = "Round";
@@ -52,6 +55,7 @@ public class RoundFrame extends XMLFrame {
 	public static final String BUY_STOCK_ACTION = "buyStockAction";
 	public static final String PLAYER_ACTION = "DoPlayerAction";
 	public static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
+	public static final String PLAYER_CONTRACT_BID_ACTION = "DoPlayerContractBidAction";
 	public static final String PLAYER_FORMATION_ACTION = "DoPlayerFormationAction";
 	public static final String CORPORATION_ACTION = "DoCorporationAction";
 	JPanel roundJPanel;
@@ -369,14 +373,27 @@ public class RoundFrame extends XMLFrame {
 
 	public void setCurrentPlayerText (String aPlayerName) {
 		String tDoButtonAction;
+		Round tCurrentRound;
 		
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
-		if (playerDoingAction) {
-			tDoButtonAction = aPlayerName + DOING_STOCK_ACTION;
+		tCurrentRound = roundManager.getCurrentRound ();
+		if (tCurrentRound.isAStockRound ()) {
+			if (playerDoingAction) {
+				tDoButtonAction = aPlayerName + DOING_STOCK_ACTION;
+			} else {
+				tDoButtonAction = aPlayerName + DO_STOCK_ACTION;
+			}
+		} else if (tCurrentRound.isAContractBidRound ()) {
+			if (playerDoingAction) {
+				tDoButtonAction = aPlayerName + DO_CONTRACT_BID_ACTION;
+			} else {
+				tDoButtonAction = aPlayerName + CREATING_CONTRACT_BID_ACTION;
+				// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
+			}
 		} else {
-			tDoButtonAction = aPlayerName + DO_STOCK_ACTION;
+			tDoButtonAction = DO_STOCK_ACTION;
 		}
 		updateDoButtonText (tDoButtonAction);
 		setActionForCurrentPlayer ();
@@ -400,6 +417,12 @@ public class RoundFrame extends XMLFrame {
 	public void setAuctionRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, aRoundID);
 		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
+		updatePassButton ();
+	}
+
+	public void setContractBidRound (String aGameName, int aRoundID) {
+		setFrameLabel (aGameName, aRoundID);
+		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
 		updatePassButton ();
 	}
 
@@ -434,6 +457,13 @@ public class RoundFrame extends XMLFrame {
 		updatePassButton ();
 		fillFastBuyPanel ();
 	}
+	
+	public void setContractBidRoundInfo (String aGameName, String aRoundID) {
+		setFrameLabel (aGameName, " " + aRoundID);
+		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
+		playersInfoPanel.setCurrentPlayerText ();
+		updatePassButton ();
+	}
 
 	public void updatePassButton () {
 		String tClientUserName;
@@ -448,6 +478,8 @@ public class RoundFrame extends XMLFrame {
 				disablePassButton (IS_AUCTION_ROUND);
 			} else if (roundManager.isAFormationRound ()) {
 				disablePassButton (IS_FORMATION_ROUND);
+			} else if (roundManager.isAContractBidRound ()) {
+				disablePassButton (IS_CONTRACT_BID_ROUND);
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
@@ -496,24 +528,34 @@ public class RoundFrame extends XMLFrame {
 		String tCurrentPlayerName;
 		GameManager tGameManager;
 		Player tCurrentPlayer;
+		Round tCurrentRound;
 
 		tGameManager = roundManager.getGameManager ();
 		if (doButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {
+				tCurrentRound = roundManager.getCurrentRound ();
 				tCurrentPlayer = tGameManager.getCurrentPlayer ();
 				tCurrentPlayerName = tCurrentPlayer.getName ();
 				tClientUserName = tGameManager.getClientUserName ();
-				if (tCurrentPlayerName.equals (tClientUserName)) {
-					if (tCurrentPlayer.isWaiting ()) {
-						doButton.setEnabled (false);
-						doButton.setToolTipText (IS_WAITING);
+				if (tCurrentRound.isAStockRound ()) {
+					if (tCurrentPlayerName.equals (tClientUserName)) {
+						if (tCurrentPlayer.isWaiting ()) {
+							doButton.setEnabled (false);
+							doButton.setToolTipText (IS_WAITING);
+						} else {
+							doButton.setEnabled (true);
+							doButton.setToolTipText (GUI.EMPTY_STRING);
+						}
 					} else {
-						doButton.setEnabled (true);
-						doButton.setToolTipText ("");
+						doButton.setEnabled (false);
+						doButton.setToolTipText (NOT_YOUR_TURN);
 					}
+				} else if (tCurrentRound.isAContractBidRound ()) {
+					doButton.setEnabled (true);
+					doButton.setToolTipText (GUI.EMPTY_STRING);
 				} else {
-					doButton.setEnabled (false);
-					doButton.setToolTipText (NOT_YOUR_TURN);
+					doButton.setEnabled (true);
+					doButton.setToolTipText (GUI.EMPTY_STRING);
 				}
 			}
 		}

@@ -1058,6 +1058,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		int tORRoundID;
 		int tARRoundID;
 		int tFRRoundID;
+		int tCBRoundID;
 
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
@@ -1077,7 +1078,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			} else if (isAFormationRound ()) {
 				tFRRoundID = formationRound.getIDPart1 ();
 				roundFrame.setFormationRound (gameName, tFRRoundID);
-			}
+			} else if (isAContractBidRound ()) {
+				tCBRoundID = contractBidRound.getIDPart1 ();
+				roundFrame.setContractBidRound (gameName, tCBRoundID);
+			} 
 			roundFrame.updateAll ();
 		}
 	}

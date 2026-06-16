@@ -2,7 +2,9 @@ package ge18xx.round;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.toplevel.ContractBidFrame;
+import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
@@ -61,10 +63,45 @@ public class ContractBidRound extends Round {
 
 	@Override
 	public void start () {
-		// TODO Auto-generated method stub
+		String tGameName;
+		String tRoundID;
+		GameManager tGameManager;
+		RoundFrame tRoundFrame;
+		ChangeRoundAction tChangeRoundAction;
+		Round tCurrentRound;
+		String tOldRoundID;
+		String tNewRoundID;
+		int tIDPart1;
 		
+		tGameManager = roundManager.getGameManager ();
+		tChangeRoundAction = buildChangeRoundAction ();
+		if (! tGameManager.applyingAction ()) {
+			tOldRoundID = getID ();
+			tIDPart1 = getIDPart1 () + 1;
+			setIDPart1 (tIDPart1);
+			tNewRoundID = getID ();
+		} else {
+			tOldRoundID = getID ();
+			tNewRoundID = getID ();
+		}
+		tCurrentRound = roundManager.getCurrentRound ();
+		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.ContractBidRound, this, tOldRoundID,
+				tNewRoundID, tChangeRoundAction);
+
+		super.start ();
+		
+		tRoundFrame = roundManager.getRoundFrame ();
+		tRoundID = getID ();
+		tGameName = tGameManager.getActiveGameName ();
+		tRoundFrame.setContractBidRoundInfo (tGameName, tRoundID);
+		tRoundFrame.updateAll ();
 	}
- 
+	
+	@Override
+	public String getID () {
+		return getIDPart1 () + GUI.EMPTY_STRING;
+	}
+
 	@Override
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
