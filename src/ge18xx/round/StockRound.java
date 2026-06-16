@@ -8,8 +8,8 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.ChangeStateAction;
 import ge18xx.round.action.DonePlayerAction;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
-//import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
@@ -165,7 +165,7 @@ public class StockRound extends Round {
 
 	@Override
 	public String getID () {
-		return getIDPart1 () + "";
+		return getIDPart1 () + GUI.EMPTY_STRING;
 	}
 
 	public void updateStockRoundWindow () {
@@ -342,7 +342,6 @@ public class StockRound extends Round {
 		roundManager.changeRound (tCurrentRound, ActorI.ActionStates.StockRound, this, tOldRoundID,
 				tNewRoundID, tChangeRoundAction);
 
-		tGameManager = roundManager.getGameManager ();
 		tGameManager.bringMarketToFront ();
 				
 		// TODO -- for Complete Undo, this 'Clear' should be undoable, so that when a
