@@ -16,6 +16,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -76,13 +77,16 @@ public class EffectTestConstructor {
 	@DisplayName ("Test XML Generation")
 	void testXMLGeneration () {
 		XMLDocument tXMLDocument;
-		AttributeName tAN_TEST = new AttributeName ("anTest");
-		ElementName tEN_TEST = new ElementName ("EnTest");
+		AttributeName tAN_TEST;
+		ElementName tEN_TEST;
 		XMLElement tXMLElement;
 		XMLElement tFullElement;
 		String tXMLFormatted;
-		String tExpected = "";
+		String tExpected;
 
+		tAN_TEST = new AttributeName ("anTest");
+		tEN_TEST = new ElementName ("EnTest");
+		tExpected = GUI.EMPTY_STRING;
 		tXMLDocument = new XMLDocument ();
 		tFullElement = tXMLDocument.createElement (tEN_TEST);
 		tXMLElement = effectBeta.getEffectElement (tXMLDocument, tAN_TEST);
@@ -91,7 +95,8 @@ public class EffectTestConstructor {
 		tXMLFormatted = tXMLDocument.toXMLString ();
 		tExpected += "<EnTest>\n";
 		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" fromName=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" order=\"1\" toActor=\"TFBuster\" toNickName=\"\"/>\n";
-		tExpected += "<ChecksumXMLElement checksum=\"6a05ad5e01f4293ede296884c725aca5\" label=\"\" nodeName=\"Effect\"/>\n";
+//		tExpected += "<ChecksumXMLElement checksum=\"6a05ad5e01f4293ede296884c725aca5\" label=\"\" nodeName=\"Effect\"/>\n";
+		tExpected += "<ChecksumXMLElement checksum=\"4d02f49aed743997b77c2eaa750a921ae3ddc9127b055650b1e248752f0296c9\" label=\"\" nodeName=\"Effect\"/>\n";
 		tExpected += "</EnTest>\n";
 
 		assertEquals (tExpected, tXMLFormatted);
