@@ -814,12 +814,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	public int getParPrice () {
-		int tParPrice = 0;
+		int tParPrice;
 		String tParPriceString;
 
 		tParPriceString = (String) parValuesCombo.getSelectedItem ();
 		if (!Certificate.NO_PAR_PRICE.equals (tParPriceString)) {
 			tParPrice = Integer.parseInt (tParPriceString);
+		} else {
+			tParPrice = 0;
 		}
 
 		return tParPrice;
