@@ -1168,6 +1168,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		stockRound.showCurrentPlayerFrame ();
 	}
 
+	public void showContractBidFrame () {
+		contractBidRound.showContractBidFrame ();
+	}
+	
 	public void prepareCorporation () {
 		operatingRound.prepareCorporation ();
 	}
@@ -1217,6 +1221,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 		if (RoundFrame.SHOW_GE_FRAME_ACTION.equals (tEventAction)) {
 			showGEFrame ();
+		}
+		if (RoundFrame.PLAYER_CONTRACT_BID_ACTION.equals (tEventAction)) {
+			showContractBidFrame ();
 		}
 		if (RoundFrame.PASS_STOCK_ACTION.equals (tEventAction)) {
 			tPlayer = playerManager.getCurrentPlayer ();
