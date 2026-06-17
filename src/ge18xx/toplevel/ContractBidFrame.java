@@ -9,15 +9,22 @@ import geUtilities.xml.XMLSaveGameI;
 
 public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
+	public static final String NAME = "Contract Bid Frame";
 	public static final ContractBidFrame NO_CONTRACT_BID_FRAME = null;
 	
 	public ContractBidFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-		System.out.println ("Contract Bid Frame Constructed");
+		System.out.println (NAME + " Constructed");
 	}
 	
 	@Override
 	public void actionPerformed (ActionEvent e) {
-		System.out.println ("Contract Bid Frame Action to be done");
+		System.out.println (NAME + " Action to be done");
+	}
+	
+	@Override
+	public void showFrame () {
+		super.showFrame ();
+		System.out.println ("Show " + NAME);
 	}
 }
