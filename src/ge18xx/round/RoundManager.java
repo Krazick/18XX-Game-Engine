@@ -193,7 +193,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			}
 		}
 		if (gameManager.gameHasRoundType (ContractBidRound.NAME)) {
-			if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) {
+			if (contractBidRound == ContractBidRound.NO_CONTRACT_BID_ROUND) { 
 				setContractBidRound (new ContractBidRound (this));
 			}
 		}
