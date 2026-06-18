@@ -2069,10 +2069,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		bank.updateBankCashLabel ();
 		if (shareCompaniesFrame.hasCorporateBank ()) {
 			corporateBank.updateBankCashLabel ();
-			System.out.println ("Time to update Corporate Bank Label if present");
 		} else {
 			corporateBank = CorporateBank.NO_CORPORATE_BANK;
-			System.out.println ("No Corporate Bank in Use");
 		}
 	}
 	
