@@ -9,7 +9,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
-import ge18xx.round.ContractBidRound;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
@@ -25,7 +24,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	KButton doneButton;
 	KButton undoButton;
 	boolean isNetworkGame;
-	ContractBidRound contractBidRound;
 
 	public ContractBidFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
@@ -43,10 +41,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		add (fullPanel);
 
 		System.out.println (NAME + " Constructed");
-	}
-	
-	public void setContractBidRound (ContractBidRound aContractBidRound) {
-		contractBidRound = aContractBidRound;
 	}
 	
 	public void buildButtonJPanel () {
