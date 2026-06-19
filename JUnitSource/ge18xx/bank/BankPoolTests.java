@@ -51,7 +51,7 @@ class BankPoolTests extends BankTester {
 		bankPool1830 = bankTestFactory.buildBankPool (mGameManager1830);
 
 		mGameManager1856 = gameTestFactory.buildGameManagerMock ();
-		gameInfo1856 = gameTestFactory.buildGameInfo (2);
+		gameInfo1856 = gameTestFactory.buildGameInfo (4);
 		Mockito.when (mGameManager1856.getActiveGame ()).thenReturn (gameInfo1856);
 		bankPool1856 = bankTestFactory.buildBankPool (mGameManager1856);
 	}
