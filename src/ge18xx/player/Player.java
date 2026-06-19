@@ -30,6 +30,7 @@ import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
+import ge18xx.round.ContractBidRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
@@ -125,12 +126,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	MessageBean bean;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
 	Bank actorsBank;
+	ContractBid contractBid;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
 		MessageBean tBean;
 		String tActorType;
 		int tMaxRounds;
+		ContractBid tContractBid;
 		
 		tGameManager = aPlayerManager.getGameManager ();
 		tActorType = actorType.toString () + " " + aName;
@@ -141,10 +144,20 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel = GUI.NO_PANEL;
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
+		if (tGameManager.gameHasRoundType (ContractBidRound.NAME)) {
+			tContractBid = new ContractBid (this);
+		} else {
+			tContractBid = ContractBid.NO_CONTRACT_BID;
+		}
+		setContractBid (tContractBid);
 	}
 	
 	public void setActorsBank (Bank aActorsBank) {
 		actorsBank = aActorsBank;
+	}
+	
+	public void setContractBid (ContractBid aContractBid) {
+		contractBid = aContractBid;
 	}
 	
 	public Bank getActorsBank () {
@@ -942,6 +955,60 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean hasBid () {
 		return bidShare;
+	}
+
+	public boolean hasContractBid () {
+		boolean tHasContractBid;
+		
+		if (contractBid == ContractBid.NO_CONTRACT_BID) {
+			tHasContractBid = false;
+		} else {
+			tHasContractBid = true;
+		}
+		
+		return tHasContractBid;
+	}
+	
+	public void setHasCompletedContractBid (boolean aCompletedContractBid) {
+		if (hasContractBid ()) {
+			contractBid.setContractBidCompleted (aCompletedContractBid);
+		}
+	}
+	
+	public boolean hasCompletedContractBid () {
+		boolean tHasCompletedContractBid;
+		
+		if (hasContractBid ()) {
+			tHasCompletedContractBid = contractBid.isCompleted ();
+		} else {
+			tHasCompletedContractBid = true;
+		}
+		
+		return tHasCompletedContractBid;
+	}
+	
+	/*
+	 * You cannot fulfill a ContractBid if it has not been completed first
+	 */
+	
+	public void setHasFullfilledContractBid (boolean aFullfilledContractBid) {
+		if (hasContractBid ()) {
+			if (hasCompletedContractBid ()) {
+				contractBid.setFullfilled (aFullfilledContractBid);
+			}
+		}
+	}
+
+	public boolean hasFulfilledContractBid () {
+		boolean tHasFullfilledContractBid;
+		
+		if (hasContractBid ()) {
+			tHasFullfilledContractBid = contractBid.isFullfilled ();
+		} else {
+			tHasFullfilledContractBid = true;
+		}
+		
+		return tHasFullfilledContractBid;
 	}
 
 	public String hasExchangedShare () {

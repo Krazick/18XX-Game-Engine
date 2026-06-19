@@ -20,16 +20,15 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.round.action.ActorI;
 
 class PlayerTests {
-	GameManager mGameManager;
 	GameTestFactory gameTestFactory;
 	BankTestFactory bankTestFactory;
-	Bank bank;
-	BankPool bankPool;
 	CertificateTestFactory certificateTestFactory;
 	PlayerTestFactory playerTestFactory;
+	Bank bank;
+	BankPool bankPool;
+	GameManager mGameManager;
 	PlayerManager mPlayerManager;
 
-	GameInfo mGameInfo;
 	int playerCount;
 	int certificateLimit;
 	String playerName;
@@ -38,18 +37,9 @@ class PlayerTests {
 	
 	@BeforeEach
 	void setUp () throws Exception {
-		GameInfo tGameInfo;
-		
 		gameTestFactory = new GameTestFactory ();
 
-		tGameInfo = gameTestFactory.buildGameInfo (1);
-		mGameManager = gameTestFactory.buildGameManagerMock ();
-		Mockito.when (mGameManager.getMaxRounds ()).thenReturn (1);
-		Mockito.when (mGameManager.getActiveGame ()).thenReturn (tGameInfo);
-		
-		mGameInfo = gameTestFactory.buildGameInfoMock ();
-		Mockito.when (mGameInfo.hasAuctionRound ()).thenReturn (true);
-		Mockito.when (mGameManager.getActiveGame ()).thenReturn (mGameInfo);
+		mGameManager = setupGameInfoAndManager (1);
 
 		bankTestFactory = new BankTestFactory ();
 		bank = bankTestFactory.buildBank ();
@@ -67,6 +57,18 @@ class PlayerTests {
 		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit);
 		playerPortfolio = new Portfolio (player);
 		player.setPortfolio (playerPortfolio);
+	}
+
+	protected GameManager setupGameInfoAndManager (int aGameInfoIndex) {
+		GameInfo tGameInfo;
+		GameManager tmGameManager;
+		
+		tGameInfo = gameTestFactory.buildGameInfo (aGameInfoIndex);
+		tmGameManager = gameTestFactory.buildGameManagerMock ();
+		Mockito.when (tmGameManager.getMaxRounds ()).thenReturn (1);
+		Mockito.when (tmGameManager.getActiveGame ()).thenReturn (tGameInfo);
+				
+		return tmGameManager;
 	}
 
 	@Test
@@ -182,5 +184,24 @@ class PlayerTests {
 		
 		tActorsBank = player.getActorsBank ();
 		assertEquals ("Bank", tActorsBank.getName ());
+	}
+	
+	@Test
+	@DisplayName ("Player Contract Bid Tests")
+	void playerContractBidTests () {
+		assertFalse (player.hasContractBid ());
+		assertTrue (player.hasCompletedContractBid ());
+		assertTrue (player.hasFulfilledContractBid ());
+		
+		player.setHasCompletedContractBid (true);
+		assertTrue (player.hasCompletedContractBid ());
+		player.setHasCompletedContractBid (false);
+		
+		assertTrue (player.hasCompletedContractBid ());
+		
+		player.setHasFullfilledContractBid (true);
+		assertTrue (player.hasFulfilledContractBid ());
+		player.setHasFullfilledContractBid (false);
+		assertTrue (player.hasFulfilledContractBid ());
 	}
 }
