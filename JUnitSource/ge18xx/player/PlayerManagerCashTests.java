@@ -52,7 +52,7 @@ class PlayerManagerCashTests {
 		bankName = "PM Mock Bank";
 		gameTestFactory = new GameTestFactory ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		gameInfo = gameTestFactory.buildGameInfo (2);
+		gameInfo = gameTestFactory.buildGameInfo (4);
 		mGameManager.setGameInfo (gameInfo);
 		
 		playerTestFactory = new PlayerTestFactory (mGameManager);
