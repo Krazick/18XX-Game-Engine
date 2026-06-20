@@ -969,22 +969,22 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasContractBid;
 	}
 	
-	public void setHasCompletedContractBid (boolean aCompletedContractBid) {
+	public void setHasSignedContractBid (boolean aSignedContractBid) {
 		if (hasContractBid ()) {
-			contractBid.setCompleted (aCompletedContractBid);
+			contractBid.setSigned (aSignedContractBid);
 		}
 	}
 	
-	public boolean hasCompletedContractBid () {
-		boolean tHasCompletedContractBid;
+	public boolean hasSignedContractBid () {
+		boolean tHasSignedContractBid;
 		
 		if (hasContractBid ()) {
-			tHasCompletedContractBid = contractBid.isCompleted ();
+			tHasSignedContractBid = contractBid.isSigned ();
 		} else {
-			tHasCompletedContractBid = true;
+			tHasSignedContractBid = true;
 		}
 		
-		return tHasCompletedContractBid;
+		return tHasSignedContractBid;
 	}
 	
 	/*
@@ -993,7 +993,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	public void setHasFullfilledContractBid (boolean aFullfilledContractBid) {
 		if (hasContractBid ()) {
-			if (hasCompletedContractBid ()) {
+			if (hasSignedContractBid ()) {
 				contractBid.setFullfilled (aFullfilledContractBid);
 			}
 		}
@@ -1013,7 +1013,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void setExtraBidForContractBid (int aExtraForBid) {
 		if (hasContractBid ()) {
-			if (contractBid.isCompleted ()) {
+			if (contractBid.isSigned ()) {
 			} else {
 				contractBid.setExtraForBid (aExtraForBid);
 			}

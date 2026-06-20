@@ -4,27 +4,27 @@ public class ContractBid {
 	public static final ContractBid NO_CONTRACT_BID = null;
 	public static final int NO_EXTRA_BID = 0;
 	Player player;
-	boolean completed;
+	boolean signed;
 	boolean fullfilled;
 	int extraForBid;
 	
 	public ContractBid (Player aPlayer) {
 		setPlayer (aPlayer);
-		setCompleted (false);
+		setSigned (false);
 		setFullfilled (false);
 		setExtraForBid (NO_EXTRA_BID);
 	}
 
-	public void setCompleted (boolean aCompleted) {
-		completed = aCompleted;
+	public void setSigned (boolean aSigned) {
+		signed = aSigned;
 	}
 
 	public void setPlayer (Player aPlayer) {
 		player = aPlayer;
 	}
 	
-	public boolean isCompleted () {
-		return completed;
+	public boolean isSigned () {
+		return signed;
 	}
 	
 	public void setFullfilled (boolean aFullfilled) {

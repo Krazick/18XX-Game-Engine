@@ -190,17 +190,17 @@ class Player1853Tests {
 	@DisplayName ("Player Contract Bid Tests")
 	void playerContractBidTests () {
 		assertTrue (player.hasContractBid ());
-		assertFalse (player.hasCompletedContractBid ());
+		assertFalse (player.hasSignedContractBid ());
 		assertFalse (player.hasFulfilledContractBid ());
 			
-		player.setHasCompletedContractBid (true);
-		assertTrue (player.hasCompletedContractBid ());
-		player.setHasCompletedContractBid (false);
-		assertFalse (player.hasCompletedContractBid ());
+		player.setHasSignedContractBid (true);
+		assertTrue (player.hasSignedContractBid ());
+		player.setHasSignedContractBid (false);
+		assertFalse (player.hasSignedContractBid ());
 		
 		player.setHasFullfilledContractBid (true);
 		assertFalse (player.hasFulfilledContractBid ());
-		player.setHasCompletedContractBid (true);
+		player.setHasSignedContractBid (true);
 
 		player.setHasFullfilledContractBid (true);
 		assertTrue (player.hasFulfilledContractBid ());
