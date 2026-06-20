@@ -63,7 +63,6 @@ public class RoundFrame extends XMLFrame {
 	JPanel buttonsJPanel;
 	JPanel headerJPanel;
 	JPanel roundInfoJPanel;
-	JPanel playersJPanel;
 	JPanel fastBuyJPanel;
 	KButton passButton;
 	KButton doButton;
