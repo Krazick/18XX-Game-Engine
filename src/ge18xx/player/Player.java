@@ -971,7 +971,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	public void setHasCompletedContractBid (boolean aCompletedContractBid) {
 		if (hasContractBid ()) {
-			contractBid.setContractBidCompleted (aCompletedContractBid);
+			contractBid.setCompleted (aCompletedContractBid);
 		}
 	}
 	
@@ -1011,6 +1011,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasFullfilledContractBid;
 	}
 
+	public void setExtraBidForContractBid (int aExtraForBid) {
+		if (hasContractBid ()) {
+			if (contractBid.isCompleted ()) {
+			} else {
+				contractBid.setExtraForBid (aExtraForBid);
+			}
+		}
+	}
+	
 	public String hasExchangedShare () {
 		return exchangedPrezShare;
 	}
