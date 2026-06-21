@@ -148,6 +148,14 @@ public class City extends RevenueCenter implements Cloneable {
 		return tHasOpenStation;
 	}
 
+	public boolean hasBond () {
+		boolean tHasBond;
+		
+		tHasBond = cityInfo.hasBond ();
+			
+		return tHasBond;
+	}
+	
 	public boolean hasNoMapTokenAtStation (int aIndex) {
 		return (corpStations [aIndex] == MapToken.NO_MAP_TOKEN);
 	}
@@ -155,7 +163,7 @@ public class City extends RevenueCenter implements Cloneable {
 	public boolean hasMapTokenAtStation (int aIndex) {
 		return (corpStations [aIndex] != MapToken.NO_MAP_TOKEN);
 	}
-
+	
 	public MapToken getMapTokenAtStation (int aIndex) {
 		return corpStations [aIndex];
 	}
