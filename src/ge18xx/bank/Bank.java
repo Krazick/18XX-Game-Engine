@@ -131,7 +131,7 @@ public class Bank extends GameBank implements CashHolderI {
 		decimalFormat = new DecimalFormat (aFormat);
 	}
 
-	void setFormat (String aFormat) {
+	public void setFormat (String aFormat) {
 		setStaticFormat (aFormat);
 	}
 
