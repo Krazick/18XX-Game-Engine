@@ -160,6 +160,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		contractBid = aContractBid;
 	}
 	
+	public ContractBid getContractBid () {
+		return contractBid;
+	}
+	
 	public Bank getActorsBank () {
 		return actorsBank;
 	}
@@ -1015,7 +1019,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (hasContractBid ()) {
 			if (contractBid.isSigned ()) {
 			} else {
-				contractBid.setExtraForBid (aExtraForBid);
+				contractBid.setExtraForBond (aExtraForBid);
 			}
 		}
 	}
@@ -1916,6 +1920,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	private void updateAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		JPanel tOwnershipPanel;
 		JLabel tCertCountLabel;
+		JLabel tContractBidLabel;
 		JLabel tTotalValueLabel;
 		JLabel tDividendsLabel;
 		JLabel tSoldCompanies;
@@ -1931,6 +1936,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerJPanel.add (escrows.getEscrowLabel ());
 		}
 
+		if (contractBid != ContractBid.NO_CONTRACT_BID) {
+			tContractBidLabel = contractBid.buildLabel ();
+			playerJPanel.add (tContractBidLabel);
+		}
+		
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getTotalValue ()));
 		playerJPanel.add (tTotalValueLabel);
 
