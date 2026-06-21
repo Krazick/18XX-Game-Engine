@@ -29,17 +29,20 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class CityInfo implements Cloneable {
+	public static final ElementName EN_CITY_INFO = new ElementName ("CityInfo");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_ID = new AttributeName ("id");
+	public static final AttributeName AN_BOND = new AttributeName ("bond");
 	public static final AttributeName AN_CORP_BASE = new AttributeName ("corpBase");
-	public static final ElementName EN_CITY_INFO = new ElementName ("CityInfo");
 	public static final CityInfo NO_CITY_INFO = null;
 	public static final String NO_NAME = "";
+	public static final int NO_BOND = 0;
 	int id;
 	int type;
 	int mapX;
 	int mapY;
+	int bond;
 	String name;
 	Location nameLocation;
 	RevenueCenter center;
@@ -58,6 +61,7 @@ public class CityInfo implements Cloneable {
 		name = aName;
 		nameLocation = aNameLocation;
 		type = aType;
+		bond = NO_BOND;
 		clearCorporation ();
 		clearMapCell ();
 		clearRevenueCenter ();
@@ -73,6 +77,7 @@ public class CityInfo implements Cloneable {
 		id = aChildNode.getThisIntAttribute (AN_ID);
 		name = aChildNode.getThisAttribute (AN_NAME);
 		type = aChildNode.getThisIntAttribute (AN_TYPE);
+		bond = aChildNode.getThisIntAttribute (AN_BOND, NO_BOND);
 		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
 
 		setCorporation (tCorporationAbbrev);
@@ -88,6 +93,7 @@ public class CityInfo implements Cloneable {
 		corporation = aCityInfo.getCorporation ();
 		mapCell = aCityInfo.getMapCell ();
 		center = aCityInfo.getRevenueCenter ();
+		bond = aCityInfo.getBond ();
 	}
 	
 	public void clearCorporation () {
@@ -136,6 +142,7 @@ public class CityInfo implements Cloneable {
 			tCityInfo.type = type;
 			tCityInfo.center = center;
 			tCityInfo.mapCell = mapCell;
+			tCityInfo.bond = bond;
 			tCityInfo.corporation = corporation;
 		} catch (CloneNotSupportedException e) {
 			System.err.println ("City Info Clone, Clone Not Supported");
@@ -152,7 +159,10 @@ public class CityInfo implements Cloneable {
 		tXMLElement.setAttribute (AN_ID, id);
 		tXMLElement.setAttribute (AN_TYPE, type);
 		tXMLElement.setAttribute (AN_CORP_BASE, getCorporationAbbrev ());
-
+		if (bond > 0) {
+			tXMLElement.setAttribute (AN_BOND, bond);
+		}
+		
 		return tXMLElement;
 	}
 
@@ -288,6 +298,22 @@ public class CityInfo implements Cloneable {
 		return tBaseCompany;
 	}
 
+	public boolean hasBond () {
+		boolean tHasBond;
+		
+		if (bond > NO_BOND) {
+			tHasBond = true;
+		} else {
+			tHasBond = false;
+		}
+		
+		return tHasBond;
+	}
+	
+	public int getBond () {
+		return bond;
+	}
+	
 	public Corporation getCorporation () {
 		return corporation;
 	}
@@ -395,7 +421,11 @@ public class CityInfo implements Cloneable {
 		String tFullCityInfo;
 		
 		tFullCityInfo = "City ID " + id + ", Type " + type + ", Name [" + 
-				name + "] on Map Cell " + getMapCellID () + "\n";
+				name + "] on Map Cell " + getMapCellID ();
+		if (bond != NO_BOND) {
+			tFullCityInfo += " Bond " + bond;
+		}
+		tFullCityInfo += "\n";
 		if (corporation == Corporation.NO_CORPORATION) {
 			tFullCityInfo += "No Corporation Base\n";		// PRINTLOG method
 		} else {
