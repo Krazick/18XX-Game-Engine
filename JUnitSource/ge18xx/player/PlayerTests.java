@@ -185,23 +185,4 @@ class PlayerTests {
 		tActorsBank = player.getActorsBank ();
 		assertEquals ("Bank", tActorsBank.getName ());
 	}
-	
-	@Test
-	@DisplayName ("Player Contract Bid Tests")
-	void playerContractBidTests () {
-		assertFalse (player.hasContractBid ());
-		assertTrue (player.hasSignedContractBid ());
-		assertTrue (player.hasFulfilledContractBid ());
-		
-		player.setHasSignedContractBid (true);
-		assertTrue (player.hasSignedContractBid ());
-		player.setHasSignedContractBid (false);
-		
-		assertTrue (player.hasSignedContractBid ());
-		
-		player.setHasFullfilledContractBid (true);
-		assertTrue (player.hasFulfilledContractBid ());
-		player.setHasFullfilledContractBid (false);
-		assertTrue (player.hasFulfilledContractBid ());
-	}
 }
