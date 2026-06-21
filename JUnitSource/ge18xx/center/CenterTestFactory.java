@@ -53,6 +53,7 @@ public class CenterTestFactory {
 	public CityInfo buildCityInfo (int tIndex) {
 		String tCityInfoXMLText1 = "<CityInfo id=\"7\" location=\"14\" name=\"Baltimore\" type=\"3\" />";
 		String tCityInfoXMLText2 = "<CityInfo id=\"3\" location=\"14\" name=\"Chicago\" type=\"3\" />";
+		String tCityInfoXMLText3 = "<CityInfo id=\"22\" name=\"Calcutta\" type=\"3\" bond=\"50\" />";
 		CityInfo tCityInfo;
 		XMLNode tCityInfoNode;
 		
@@ -60,6 +61,8 @@ public class CenterTestFactory {
 			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText1);
 		} else if (tIndex == 2) {
 			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText2);
+		} else if (tIndex == 3) {
+			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText3);
 		} else {
 			tCityInfoNode = XMLNode.NO_NODE;
 		}
