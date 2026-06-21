@@ -1,6 +1,6 @@
 package ge18xx.center;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +33,7 @@ class CityInfoTests {
 	void cityInfoConstructionTests () {
 		CityInfo tCityInfo1;
 		CityInfo tCityInfo2;
+		CityInfo tCityInfo3;
 		MapCell mMapCell;
 		Corporation mCorporation;
 		
@@ -50,6 +51,12 @@ class CityInfoTests {
 		tCityInfo2.setMapCell (mMapCell);
 		assertEquals ("City ID 3, Type 3, Name [Chicago] on Map Cell B12\n"
 				+ "Base for MSC Corporation", tCityInfo2.getFullCityInfo ());
+
+		tCityInfo3 = centerTestFactory.buildCityInfo (3);
+		tCityInfo3.setCorporation (mCorporation);
+		tCityInfo3.setMapCell (mMapCell);
+		assertEquals ("City ID 22, Type 3, Name [Calcutta] on Map Cell B12 Bond 50\n"
+				+ "Base for MSC Corporation", tCityInfo3.getFullCityInfo ());
 	}
 
 }
