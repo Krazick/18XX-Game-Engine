@@ -1,26 +1,29 @@
 package ge18xx.player;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.Certificate;
 
 public class ContractBid {
 	public static final ContractBid NO_CONTRACT_BID = null;
 	public static final int NO_EXTRA_BOND = 0;
 	Player player;
+	List<ContractLine> contractLines;
 	boolean signed;
 	boolean fullfilled;
 	int extraForBond;
-	int count;
-	int totalValue;
 	
 	public ContractBid (Player aPlayer) {
 		setPlayer (aPlayer);
 		setSigned (false);
 		setFullfilled (false);
 		setExtraForBond (NO_EXTRA_BOND);
-		setCount (0);
-		setTotalValue (0);
+		contractLines = new LinkedList<> ();
 	}
 
 	public void setSigned (boolean aSigned) {
@@ -51,28 +54,18 @@ public class ContractBid {
 		return extraForBond;
 	}
 	
-	public void setCount (int aCount) {
-		count = aCount;
-	}
-	
-	public void incrementCount () {
-		count++;
-	}
-	
-	public void decrementCount () {
-		count--;
-	}
-	
 	public int getCount () {
-		return count;
-	}
-	
-	public void setTotalValue (int aTotalValue) {
-		totalValue = aTotalValue;
+		return contractLines.size ();
 	}
 	
 	public int getTotalValue () {
-		return totalValue;
+		int tTotalValue;
+		
+		tTotalValue = extraForBond;
+		for (ContractLine tContractLine : contractLines) {
+			tTotalValue += tContractLine.getBond ();
+		}
+		return tTotalValue;
 	}
 	
 	public JLabel buildLabel () {
@@ -83,7 +76,7 @@ public class ContractBid {
 		if (isFullfilled ()) {
 			tText += "Fulfilled";
 		} else if (isSigned ()) {
-			tText += "Signed " + count + "/" + Bank.formatCash (totalValue);
+			tText += "Signed " + getCount () + "/" + Bank.formatCash (getTotalValue ());
 		} else {
 			tText += "Unsigned";
 		}
@@ -92,4 +85,11 @@ public class ContractBid {
 
 		return tJLabel;
 	}
+	
+	public void addContractLine (ContractLine aContractLine) {
+//		aContractLine.setOwner (this);
+//		holder.updateListeners (CERTIFICATE_ADDED + " to " + holder.getName ());
+		contractLines.add (aContractLine);
+//		Collections.sort (contractLines);
+	} 
 }
