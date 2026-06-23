@@ -1,13 +1,11 @@
 package ge18xx.player;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
-import ge18xx.company.Certificate;
 
 public class ContractBid {
 	public static final ContractBid NO_CONTRACT_BID = null;

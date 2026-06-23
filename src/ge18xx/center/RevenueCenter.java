@@ -656,12 +656,16 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public void setValues (RevenueCenterType aType, int aID, int aLocation, String aName, Revenues aRevenues) {
 		revenues = new Revenues (aRevenues);
 		type = aType;
-		name = aName;
+		setName (aName);
 		setLocation (aLocation);
 		id = aID;
 		cityInfo = new CityInfo ();
 		cityInfo.setRevenueCenter (this);
 		clearAllSelected ();
+	}
+
+	protected void setName (String aName) {
+		name = aName;
 	}
 
 	public void toggleSelected (int aIndex) {
