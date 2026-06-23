@@ -1,6 +1,6 @@
 package ge18xx.game;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -75,7 +75,5 @@ class PreviousChecksumsTests {
 		assertEquals (4, gameManager.getPreviousChecksumCount ());
 		assertEquals (3, gameManager.getLastPreviousChecksumIndex ());
 		assertEquals ("BETA 2nd Checksum", gameManager.getLastPreviousChecksum ());
-
 	}
-
 }

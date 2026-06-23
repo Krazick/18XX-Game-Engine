@@ -1,6 +1,6 @@
 package ge18xx.company;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.swing.JLabel;
 
@@ -117,5 +117,4 @@ class CorporationNameTests extends CorporationTester {
 		tLimaName2 = limaShareCompany.buildCorpNameText ();
 		assertEquals ("BBG*", tLimaName2);
 	}
-
 }

@@ -1,6 +1,10 @@
 package ge18xx.round;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -250,5 +254,4 @@ class InterruptionRoundTests {
 		tRoundNull = null;
 		assertFalse (roundManager.isRoundActor (tRoundNull, "Stock Round"));
 	}
-
 }

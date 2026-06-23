@@ -1,6 +1,8 @@
 package ge18xx.company;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,5 +76,4 @@ class CorporationListTests extends CorporationTester {
 		
 		assertTrue (corporationList3.hasCorporateBank ());
 	}
-
 }
