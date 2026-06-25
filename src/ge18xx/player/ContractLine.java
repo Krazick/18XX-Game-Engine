@@ -96,4 +96,11 @@ public class ContractLine {
 	public boolean isConnected () {
 		return connected;
 	}
+	
+	// New Methods to add
+	// SaveContractBid -- Will generate XML to add to Save Game File
+	// ParseContractBid -- Will parse the XML from the Save Game File
+	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
+	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid
+
 }
