@@ -141,6 +141,7 @@ public class ContractBid {
 	//		* ContractLines has less than or equal to the maximum number of cities
 	//		* ContractLines has 0-2 Cities in the Delta (Calcutta is in the Delta), 
 	//		* Player has sufficient cash to be added to the ContractBid Escrow
+	//		* ContractLines are all Valid
 	// SaveContractBid -- Will generate XML to add to Save Game File
 	// ParseContractBid -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
