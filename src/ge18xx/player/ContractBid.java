@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
+import ge18xx.center.City;
 
 public class ContractBid {
 	public static final ContractBid NO_CONTRACT_BID = null;
@@ -84,10 +85,53 @@ public class ContractBid {
 		return tJLabel;
 	}
 	
+	public boolean cityAlreadyInContractLines (String aCityName) {
+		boolean tCityAlreadyInContractLines;
+		String tContractCityName;
+		
+		tCityAlreadyInContractLines = false;
+		if (getCount () > 0) {
+			for (ContractLine tContractLine : contractLines) {
+				tContractCityName = tContractLine.getCityName ();
+				if (tContractCityName.equals (aCityName)) {
+					tCityAlreadyInContractLines = true;
+				}
+			}
+		}
+		
+		return tCityAlreadyInContractLines;
+	}
+	
 	public void addContractLine (ContractLine aContractLine) {
-//		aContractLine.setOwner (this);
-//		holder.updateListeners (CERTIFICATE_ADDED + " to " + holder.getName ());
-		contractLines.add (aContractLine);
-//		Collections.sort (contractLines);
+		String tNewCityName;
+		
+		tNewCityName = aContractLine.getCityName ();
+		if (! cityAlreadyInContractLines (tNewCityName)) {
+			contractLines.add (aContractLine);
+			System.out.println ("Adding City named " + tNewCityName);
+		}
 	} 
+	
+	public void deleteContractLine (City aCity) {
+		String tCityNameToDelete;
+		String tContractCityName;
+		ContractLine tContractLineToDelete;
+		
+		if (aCity != City.NO_CITY) {
+			tCityNameToDelete = aCity.getCityName ();
+			System.out.println ("Want to Remove City named " + tCityNameToDelete);
+		
+			if (cityAlreadyInContractLines (tCityNameToDelete)) {
+				tContractLineToDelete = ContractLine.NO_CONTRACT_LINE;
+				for (ContractLine tContractLine : contractLines) {
+					tContractCityName = tContractLine.getCityName ();
+					if (tContractCityName.equals (tCityNameToDelete)) {
+						tContractLineToDelete = tContractLine;
+					}
+				}
+				contractLines.remove (tContractLineToDelete);
+				System.out.println ("Removing City named " + tCityNameToDelete);
+			}	
+		}
+	}
 }

@@ -2,7 +2,9 @@ package ge18xx.player;
 
 import org.mockito.Mockito;
 
+import ge18xx.center.City;
 import ge18xx.company.Certificate;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 
 public class PlayerTestFactory {
@@ -100,5 +102,21 @@ public class PlayerTestFactory {
 		Mockito.when (mEscrow.getCash ()).thenReturn (aEscrowValue);
 
 		return mEscrow;
+	}
+	
+	public ContractBid buildContractBid (Player aPlayer) {
+		ContractBid tContractBid;
+		
+		tContractBid = new ContractBid (aPlayer);
+		
+		return tContractBid;
+	}
+
+	public ContractLine buildContractLine (City aCity, ShareCompany aShareCompany, int aBond) {
+		ContractLine tContractLine;
+		
+		tContractLine = new ContractLine (aCity, aShareCompany, aBond);
+		
+		return tContractLine;
 	}
 }
