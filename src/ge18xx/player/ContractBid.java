@@ -134,4 +134,15 @@ public class ContractBid {
 			}	
 		}
 	}
+	
+	// New Methods to add:
+	// isValid -- To verify if the entire contractBid is correct and can be signed:
+	//		* ContractLines have at least the minimum required cities
+	//		* ContractLines has less than or equal to the maximum number of cities
+	//		* ContractLines has 0-2 Cities in the Delta (Calcutta is in the Delta), 
+	//		* Player has sufficient cash to be added to the ContractBid Escrow
+	// SaveContractBid -- Will generate XML to add to Save Game File
+	// ParseContractBid -- Will parse the XML from the Save Game File
+	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
+	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid
 }
