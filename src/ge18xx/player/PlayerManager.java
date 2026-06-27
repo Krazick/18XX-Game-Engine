@@ -70,6 +70,7 @@ public class PlayerManager implements XMLSaveGameI {
 	public static final int BID_INCREMENT = 5;
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final int CERTIFICATE_LIMIT_ZERO = 0;
+	public static final int BID_CITIES_ZERO = 0;
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound, FormationRound, ContractBidRound
@@ -87,10 +88,10 @@ public class PlayerManager implements XMLSaveGameI {
 		setStockRound (StockRound.NO_STOCK_ROUND);
 	}
 
-	private void addPlayer (String aName, int aCertificateLimit) {
+	private void addPlayer (String aName, int aCertificateLimit, int aMinBidCities, int aMaxBidCities) {
 		Player tPlayer;
 
-		tPlayer = new Player (aName, this, aCertificateLimit);
+		tPlayer = new Player (aName, this, aCertificateLimit, aMinBidCities, aMaxBidCities);
 		addPlayer (tPlayer);
 	}
 
@@ -1529,7 +1530,7 @@ public class PlayerManager implements XMLSaveGameI {
 			String tPlayerName;
 
 			tPlayerName = aPlayerNode.getThisAttribute (Player.AN_NAME);
-			addPlayer (tPlayerName, CERTIFICATE_LIMIT_ZERO);
+			addPlayer (tPlayerName, CERTIFICATE_LIMIT_ZERO, BID_CITIES_ZERO, BID_CITIES_ZERO);
 		}
 	};
 

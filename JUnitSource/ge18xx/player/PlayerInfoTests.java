@@ -22,6 +22,10 @@ class PlayerInfoTests {
 		String tPlayerInfo1XML="<Player numPlayers=\"4\" startingCash=\"375\" certificateLimit=\"16\" />";
 		String tPlayerInfo2XML="<Player numPlayers=\"4\" startingCash=\"375\" phases=\"5.1,6.1\"\n"
 				+ "				companies=\"11\" certificateLimit=\"22\" />";
+		String tPlayerInfo3XML="<Player numPlayers=\"3\" startingCash=\"730\" certificateLimit=\"21\" \n"
+				+ "					minBidCities=\"4\" maxBidCities=\"6\" />";
+		String tPlayerInfo4XML="<Player numPlayers=\"4\" startingCash=\"570\" certificateLimit=\"16\" \n"
+				+ "					minBidCities=\"3\" maxBidCities=\"6\" />";
 		XMLNode tPlayerInfoNode;
 
 		tPlayerInfoNode = PlayerInfo.NO_PLAYER_INFO_NODE;
@@ -29,6 +33,10 @@ class PlayerInfoTests {
 			tPlayerInfoNode = utilitiesTestFactory.buildXMLNode (tPlayerInfo1XML);
 		} if (tPlayerInfoIndex == 2) {
 			tPlayerInfoNode = utilitiesTestFactory.buildXMLNode (tPlayerInfo2XML);
+		} if (tPlayerInfoIndex == 3) {
+			tPlayerInfoNode = utilitiesTestFactory.buildXMLNode (tPlayerInfo3XML);
+		} if (tPlayerInfoIndex == 4) {
+			tPlayerInfoNode = utilitiesTestFactory.buildXMLNode (tPlayerInfo4XML);
 		}
 		
 		return tPlayerInfoNode;

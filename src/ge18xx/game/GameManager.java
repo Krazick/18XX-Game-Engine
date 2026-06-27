@@ -2859,6 +2859,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		int tPlayerStartingCash;
 		int tPlayerCount;
 		int tCertificateLimit;
+		int tMinBidCities;
+		int tMaxBidCities;
 
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayerManager = new PlayerManager (this);
@@ -2872,9 +2874,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		} else {
 			tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
 			tCertificateLimit = activeGame.getCertificateLimit (tPlayerCount);
+			tMinBidCities = activeGame.getMinBidCities (tPlayerCount);
+			tMaxBidCities = activeGame.getMaxBidCities (tPlayerCount);
 			for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
 				tPlayerName = playerInputFrame.getPlayerName (tIndex);
-				tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit);
+				tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit, 
+									tMinBidCities, tMaxBidCities);
 				bank.transferCashTo (tPlayer, tPlayerStartingCash);
 				playerManager.addPlayer (tPlayer);
 			}

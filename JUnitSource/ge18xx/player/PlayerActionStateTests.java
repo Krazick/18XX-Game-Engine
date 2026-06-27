@@ -27,6 +27,8 @@ class PlayerActionStateTests {
 	void setUp () throws Exception {
 		String tName;
 		int tCash;
+		int tMinBidCities;
+		int tMaxBidCities;
 		GameInfo tGameInfo;
 		Config tConfigData;
 		
@@ -42,7 +44,9 @@ class PlayerActionStateTests {
 		playerManager = playerTestFactory.buildPlayerManager ();
 		tName = "AlphaTester";
 		tCash = 1000;
-		player = playerTestFactory.buildPlayer (tName, playerManager, tCash);
+		tMinBidCities = 3;
+		tMaxBidCities = 6;
+		player = playerTestFactory.buildPlayer (tName, playerManager, tCash, tMinBidCities, tMaxBidCities);
 	}
 
 	@Test

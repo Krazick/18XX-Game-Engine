@@ -35,6 +35,8 @@ class ContractBidTests {
 
 	int playerCount;
 	int certificateLimit;
+	int minBidCities;
+	int maxBidCities;
 	String playerName;
 
 	@BeforeEach
@@ -56,9 +58,12 @@ class ContractBidTests {
 
 		playerCount = 4;
 		certificateLimit = 16;
+		minBidCities = 3;
+		maxBidCities = 6;
 		playerName = "BusterPlayer";
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
-		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit);
+		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
+				minBidCities, maxBidCities);
 	}
 	
 	protected GameManager setupGameInfoAndManager (int aGameInfoIndex) {

@@ -707,6 +707,46 @@ public class GameInfo implements XMLSaveGameI {
 		return tCertificateLimit;
 	}
 
+	public int getMinBidCities (int aNumPlayers) {
+		int tMinBidCities;
+		int tIndex;
+		int tPlayerInfoCount;
+		PlayerInfo tPlayerInfo;
+
+		tMinBidCities = 0;
+		if (canPlayWithXPlayers (aNumPlayers)) {
+			tPlayerInfoCount = players.length;
+			for (tIndex = 0; tIndex < tPlayerInfoCount; tIndex++) {
+				tPlayerInfo = players [tIndex];
+				if (aNumPlayers == tPlayerInfo.getNumPlayers ()) {
+					tMinBidCities = tPlayerInfo.getMinBidCities ();
+				}
+			}
+		}
+
+		return tMinBidCities;
+	}
+
+	public int getMaxBidCities (int aNumPlayers) {
+		int tMaxBidCities;
+		int tIndex;
+		int tPlayerInfoCount;
+		PlayerInfo tPlayerInfo;
+
+		tMaxBidCities = 0;
+		if (canPlayWithXPlayers (aNumPlayers)) {
+			tPlayerInfoCount = players.length;
+			for (tIndex = 0; tIndex < tPlayerInfoCount; tIndex++) {
+				tPlayerInfo = players [tIndex];
+				if (aNumPlayers == tPlayerInfo.getNumPlayers ()) {
+					tMaxBidCities = tPlayerInfo.getMaxBidCities ();
+				}
+			}
+		}
+
+		return tMaxBidCities;
+	}
+
 	public int getCertificateLimitCompanies (PlayerInfo aPlayerInfo, int aCurrentCertificateLimit) {
 		PhaseInfo tCurrentPhaseInfo;
 		String tCurrentPhaseName;

@@ -135,6 +135,14 @@ public class ContractBid {
 		}
 	}
 	
+	public boolean isValid () {
+		boolean tIsValid;
+		
+		tIsValid = true;
+		
+		return tIsValid;
+	}
+	
 	// New Methods to add:
 	// isValid -- To verify if the entire contractBid is correct and can be signed:
 	//		* ContractLines have at least the minimum required cities

@@ -31,6 +31,8 @@ class Player1853Tests {
 
 	int playerCount;
 	int certificateLimit;
+	int minBidCities;
+	int maxBidCities;
 	String playerName;
 	Player player;
 	Player player1853;
@@ -51,11 +53,14 @@ class Player1853Tests {
 		
 		playerCount = 4;
 		certificateLimit = 16;
+		minBidCities = 3;
+		maxBidCities = 6;
 		playerName = "BusterPlayer";
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
 		Mockito.when (mPlayerManager.getBank ()).thenReturn (bank);
 		Mockito.when (mPlayerManager.getBankPool ()).thenReturn (bankPool);
-		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit);
+		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
+				minBidCities, maxBidCities);
 		playerPortfolio = new Portfolio (player);
 		player.setPortfolio (playerPortfolio);
 	}
@@ -208,5 +213,8 @@ class Player1853Tests {
 		assertTrue (player.hasFulfilledContractBid ());
 		player.setHasFullfilledContractBid (false);
 		assertFalse (player.hasFulfilledContractBid ());
+		
+		assertEquals (3, player.getMinBidCities ());
+		assertEquals (6, player.getMaxBidCities ());
 	}
 }

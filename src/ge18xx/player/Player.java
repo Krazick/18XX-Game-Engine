@@ -74,6 +74,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	public static final AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
 	public static final AttributeName AN_CERTIFICATE_LIMIT = new AttributeName ("certificateLimit");
+	public static final AttributeName AN_MIN_BID_CITIES = new AttributeName ("minBidCities");
+	public static final AttributeName AN_MAX_BID_CITIES = new AttributeName ("maxBidCities");
 	public static final String NAME = "Player";
 	public static final String NO_PLAYER_NAME = GUI.EMPTY_STRING;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
@@ -103,11 +105,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	String boughtShare;
 	PlayerFrame playerFrame;
 	
-	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
 	JPanel playerJPanel;
 	Logger logger;
+
+	int minBidCities;
+	int maxBidCities;
+	int certificateLimit;
 
 	/* These attributes below change during the game, need to save/load them */
 	String exchangedPrezShare;
@@ -128,7 +133,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	Bank actorsBank;
 	ContractBid contractBid;
 
-	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
+	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
+					int aMinBidCities, int aMaxBidCities) {
 		GameManager tGameManager;
 		MessageBean tBean;
 		String tActorType;
@@ -142,7 +148,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
-		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
+		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
+					tGameManager);
 		setGameHasCompanies (tGameManager);
 		if (tGameManager.gameHasRoundType (ContractBidRound.NAME)) {
 			tContractBid = new ContractBid (this);
@@ -190,7 +197,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
-			GameManager aGameManager) {
+			int aMinBidCities, int aMaxBidCities, GameManager aGameManager) {
 		Benefit tBenefitInUse;
 		Portfolio tPortfolio;
 		Bank tActorsBank;
@@ -212,6 +219,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		setRFPlayerLabel (aName);
 		setCertificateLimit (aCertificateLimit);
+		setMinBidCities (aMinBidCities);
+		setMaxBidCities (aMaxBidCities);
 		allPercentBought = new AllPercentBought ();
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
@@ -639,6 +648,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return certificateLimit;
 	}
 
+	public int getMinBidCities () {
+		return minBidCities;
+	}
+	
+	public int getMaxBidCities () {
+		return maxBidCities;
+	}
+	
 	public int getCertificateTotalCount () {
 		int tCertificateCount;
 
@@ -790,6 +807,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
+		
+		if (minBidCities > 0) {
+			tXMLElement.setAttribute (AN_MIN_BID_CITIES, minBidCities);
+			tXMLElement.setAttribute (AN_MAX_BID_CITIES, maxBidCities);
+		}
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
@@ -1376,6 +1398,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GenericActor tGenericActor;
 		GameManager tGameManager;
 		int tCertificateLimit;
+		int tMinBidCities;
+		int tMaxBidCities;
 		ActorI.ActionStates tAuctionActionState;
 		// Need to remove any Cash the Player has before setting it.
 
@@ -1403,6 +1427,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
 		tCertificateLimit = aPlayerNode.getThisIntAttribute (AN_CERTIFICATE_LIMIT);
 		setCertificateLimit (tCertificateLimit);
+		tMinBidCities = aPlayerNode.getThisIntAttribute (AN_MIN_BID_CITIES);
+		setMinBidCities (tMinBidCities);
+		tMaxBidCities = aPlayerNode.getThisIntAttribute (AN_MAX_BID_CITIES);
+		setMaxBidCities(tMaxBidCities);
+
 		tXMLAllPercentBoughtNodeList = new XMLNodeList (AllPercentBoughtParsingRoutine);
 		tXMLAllPercentBoughtNodeList.parseXMLNodeList (aPlayerNode, AllPercentBought.EN_ALL_PERCENT_BOUGHT);
 	
@@ -1689,6 +1718,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void setCertificateLimit (int aCertificateLimit) {
 		certificateLimit = aCertificateLimit;
+	}
+
+	public void setMinBidCities (int aMinBidCities) {
+		minBidCities = aMinBidCities;
+	}
+
+	public void setMaxBidCities (int aMaxBidCities) {
+		maxBidCities = aMaxBidCities;
 	}
 
 	public void setGameHasMinors (boolean aMinors) {

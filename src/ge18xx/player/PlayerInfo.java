@@ -18,6 +18,8 @@ public class PlayerInfo {
 	public static final AttributeName AN_NUM_PLAYERS = new AttributeName ("numPlayers");
 	public static final AttributeName AN_STARTING_CASH = new AttributeName ("startingCash");
 	public static final AttributeName AN_CERTIFICATE_LIMIT = new AttributeName ("certificateLimit");
+	public static final AttributeName AN_MIN_BID_CITIES = new AttributeName ("minBidCities");
+	public static final AttributeName AN_MAX_BID_CITIES = new AttributeName ("maxBidCities");
 	public static final String NO_PHASE = GUI.EMPTY_STRING;
 	public static final String ALL_PHASES = "0";
 	public static final String EN_PLAYER_INFO = "PlayerInfo";
@@ -30,6 +32,8 @@ public class PlayerInfo {
 	int numberPlayers;
 	int startingCash;
 	int certificateLimit;
+	int minBidCities;
+	int maxBidCities;
 	String phases;
 	int companyCount;
 
@@ -37,19 +41,32 @@ public class PlayerInfo {
 		int tNumPlayers;
 		int tStartingCash;
 		int tCertificateLimit;
+		int tMinBidCities;
+		int tMaxBidCities;
 		int tCompanyCount;
 		String tPhases;
 
 		tNumPlayers = aCellNode.getThisIntAttribute (AN_NUM_PLAYERS);
 		tStartingCash = aCellNode.getThisIntAttribute (AN_STARTING_CASH);
 		tCertificateLimit = aCellNode.getThisIntAttribute (AN_CERTIFICATE_LIMIT);
+		tMinBidCities = aCellNode.getThisIntAttribute (AN_MIN_BID_CITIES);
+		tMaxBidCities = aCellNode.getThisIntAttribute (AN_MAX_BID_CITIES);
 		tCompanyCount = aCellNode.getThisIntAttribute (AN_COMPANIES, NO_COMPANIES);
 		tPhases = aCellNode.getThisAttribute (PhaseInfo.AN_PHASES, ALL_PHASES);
-		setValues (tNumPlayers, tStartingCash, tCertificateLimit, tPhases, tCompanyCount);
+		setValues (tNumPlayers, tStartingCash, tCertificateLimit, tMinBidCities, tMaxBidCities, 
+					tPhases, tCompanyCount);
 	}
 
 	public int getCertificateLimit () {
 		return certificateLimit;
+	}
+
+	public int getMinBidCities () {
+		return minBidCities;
+	}
+
+	public int getMaxBidCities () {
+		return maxBidCities;
 	}
 
 	public int getNumPlayers () {
@@ -96,11 +113,13 @@ public class PlayerInfo {
 		return tPhase;
 	}
 	
-	public void setValues (int aNumPlayers, int aStartingCash, int aCertificateLimit, String aPhases,
-			int aCompanyCount) {
+	public void setValues (int aNumPlayers, int aStartingCash, int aCertificateLimit, int aMinBidCities,
+			int aMaxBidCities, String aPhases, int aCompanyCount) {
 		numberPlayers = aNumPlayers;
 		startingCash = aStartingCash;
 		certificateLimit = aCertificateLimit;
+		minBidCities = aMinBidCities;
+		maxBidCities = aMaxBidCities;
 		phases = aPhases;
 		companyCount = aCompanyCount;
 	}

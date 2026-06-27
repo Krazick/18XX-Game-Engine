@@ -77,10 +77,11 @@ public class PlayerTestFactory {
 	 * @return the constructed Player
 	 *
 	 */
-	public Player buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
+	public Player buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
+			int aMinBidCities, int aMaxBidCities) {
 		Player tPlayer;
 		
-		tPlayer = new Player (aName, aPlayerManager, aCertificateLimit);
+		tPlayer = new Player (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities);
 		aPlayerManager.addPlayer (tPlayer);
 		
 		return tPlayer;

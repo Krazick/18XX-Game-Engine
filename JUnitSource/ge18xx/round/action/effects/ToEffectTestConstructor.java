@@ -56,9 +56,12 @@ public class ToEffectTestConstructor {
 		bank = bankTestFactory.buildBank ();
 		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new ToEffect ();
-		actorDelta = new Player (tClientName, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);
-		actorBeta = new Player (tPlayer2Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);
-		actorGamma = new Player (tPlayer3Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO);
+		actorDelta = new Player (tClientName, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO,
+				PlayerManager.BID_CITIES_ZERO, PlayerManager.BID_CITIES_ZERO);
+		actorBeta = new Player (tPlayer2Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO,
+				PlayerManager.BID_CITIES_ZERO, PlayerManager.BID_CITIES_ZERO);
+		actorGamma = new Player (tPlayer3Name, playerManager, PlayerManager.CERTIFICATE_LIMIT_ZERO,
+				PlayerManager.BID_CITIES_ZERO, PlayerManager.BID_CITIES_ZERO);
 		effectBeta = new ToEffect (GENERIC_TO_EFFECT, actorBeta, actorGamma);
 	}
 

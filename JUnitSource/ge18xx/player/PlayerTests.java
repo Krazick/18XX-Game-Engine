@@ -31,6 +31,8 @@ class PlayerTests {
 
 	int playerCount;
 	int certificateLimit;
+	int minBidCities;
+	int maxBidCities;
 	String playerName;
 	Player player;
 	Portfolio playerPortfolio;
@@ -50,11 +52,14 @@ class PlayerTests {
 		
 		playerCount = 4;
 		certificateLimit = 16;
+		minBidCities = 3;
+		maxBidCities = 6;
 		playerName = "BusterPlayer";
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
 		Mockito.when (mPlayerManager.getBank ()).thenReturn (bank);
 		Mockito.when (mPlayerManager.getBankPool ()).thenReturn (bankPool);
-		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit);
+		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit,
+						minBidCities, maxBidCities);
 		playerPortfolio = new Portfolio (player);
 		player.setPortfolio (playerPortfolio);
 	}
