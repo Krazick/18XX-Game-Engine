@@ -141,28 +141,28 @@ class ContractBidTests {
 		tContractLine1 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine1);
 		tContractBid.setExtraForBond (20);
-		assertEquals (1, tContractBid.getCount ());
+		assertEquals (1, tContractBid.getCityCount ());
 		assertEquals (70, tContractBid.getTotalValue ());
 		
 		tCity2 = (City) centerTestFactory.buildCity (8);
 		tBond = tCity2.getCityInfoBond ();
 		tContractLine2 = playerTestFactory.buildContractLine (tCity2, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine2);
-		assertEquals (2, tContractBid.getCount ());
+		assertEquals (2, tContractBid.getCityCount ());
 		assertEquals (100, tContractBid.getTotalValue ());
 		
 		tCity4 = (City) centerTestFactory.buildCity (4);
 		tBond = tCity4.getCityInfoBond ();
 		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine4);
-		assertEquals (3, tContractBid.getCount ());
+		assertEquals (3, tContractBid.getCityCount ());
 		assertEquals (140, tContractBid.getTotalValue ());
 		
 		tCity2 = (City) centerTestFactory.buildCity (4);
 		tBond = tCity2.getCityInfoBond ();
 		tContractLine2 = playerTestFactory.buildContractLine (tCity2, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine2);
-		assertEquals (3, tContractBid.getCount ());
+		assertEquals (3, tContractBid.getCityCount ());
 		assertEquals (140, tContractBid.getTotalValue ());
 		
 		assertEquals (20, tContractBid.getExtraForBond ());
@@ -171,14 +171,89 @@ class ContractBidTests {
 		
 		tCity5 = City.NO_CITY;
 		tContractBid.deleteContractLine (tCity5);
-		assertEquals (3, tContractBid.getCount ());
+		assertEquals (3, tContractBid.getCityCount ());
 
 		tCity6 = (City) centerTestFactory.buildCity (6);
 		tContractBid.deleteContractLine (tCity6);
-		assertEquals (3, tContractBid.getCount ());
+		assertEquals (3, tContractBid.getCityCount ());
 		
 		tContractBid.deleteContractLine (tCity3);
-		assertEquals (2, tContractBid.getCount ());
+		assertEquals (2, tContractBid.getCityCount ());
 		assertEquals (90, tContractBid.getTotalValue ());
+	}
+	
+	@Test
+	@DisplayName ("Player Contract Bid Validation Tests")
+	void playerContractBidValidationTests () {
+		City tCity2;
+		City tCity3;
+		City tCity4;
+		City tCity5;
+		City tCity6;
+		City tCity7;
+		City tCity9;
+		ContractLine tContractLine1;
+		ContractLine tContractLine2;
+		ContractLine tContractLine4;
+		ContractLine tContractLine5;
+		ContractLine tContractLine6;
+		ContractLine tContractLine7;
+		ContractLine tContractLine9;
+		ContractBid tContractBid;
+		int tBond;
+		
+		tContractBid = player.getContractBid ();
+		player.addCash (500);
+		
+		assertFalse (tContractBid.isValid ());
+		
+		tCity3 = (City) centerTestFactory.buildCity (3);
+		tBond = tCity3.getCityInfoBond ();
+		tContractLine1 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine1);
+		
+		assertFalse (tContractBid.isValid ());
+		
+		tCity2 = (City) centerTestFactory.buildCity (8);
+		tBond = tCity2.getCityInfoBond ();
+		tContractLine2 = playerTestFactory.buildContractLine (tCity2, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine2);
+
+		assertFalse (tContractBid.isValid ());
+
+		tCity4 = (City) centerTestFactory.buildCity (4);
+		tBond = tCity4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine4);
+		
+		assertTrue (tContractBid.isValid ());
+
+		tCity5 = (City) centerTestFactory.buildCity (5);
+		tBond = tCity5.getCityInfoBond ();
+		tContractLine5 = playerTestFactory.buildContractLine (tCity5, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine5);
+		
+		assertTrue (tContractBid.isValid ());
+
+		tCity6 = (City) centerTestFactory.buildCity (6);
+		tBond = tCity6.getCityInfoBond ();
+		tContractLine6 = playerTestFactory.buildContractLine (tCity6, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine6);
+		
+		assertTrue (tContractBid.isValid ());
+		
+		tCity7 = (City) centerTestFactory.buildCity (7);
+		tBond = tCity7.getCityInfoBond ();
+		tContractLine7 = playerTestFactory.buildContractLine (tCity7, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine7);
+		
+		assertTrue (tContractBid.isValid ());
+		
+		tCity9 = (City) centerTestFactory.buildCity (9);
+		tBond = tCity9.getCityInfoBond ();
+		tContractLine9 = playerTestFactory.buildContractLine (tCity9, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine9);
+		
+		assertFalse (tContractBid.isValid ());
 	}
 }

@@ -51,38 +51,29 @@ public class CenterTestFactory {
 	}
 
 	public City buildCity (int tIndex) {
-		String tCityXMLText1 = "<RevenueCenter id=\"7\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText2 = "<RevenueCenter id=\"3\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText3 = "<RevenueCenter id=\"50\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText4 = "<RevenueCenter id=\"50\" location=\"50\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText5 = "<RevenueCenter id=\"50\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText6 = "<RevenueCenter id=\"18\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText7 = "<RevenueCenter id=\"19\" location=\"50\" name=\"\" number=\"2\" type=\"Single City\" />";
-		String tCityXMLText8 = "<RevenueCenter id=\"20\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />";
+		String tCityXMLTexts [] = {
+				"<RevenueCenter id=\"7\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"3\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"50\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"50\" location=\"50\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"50\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"18\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"19\" location=\"50\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"20\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"20\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />",
+				"<RevenueCenter id=\"20\" location=\"9\" name=\"\" number=\"2\" type=\"Single City\" />"
+		};
 		City tCity;
 		CityInfo tCityInfo;
 		XMLNode tCityNode;
 		
 		tCityInfo = CityInfo.NO_CITY_INFO;
-		if (tIndex == 1) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText1);
-		} else if (tIndex == 2) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText2);
-		} else if (tIndex == 3) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText3);
-		} else if (tIndex == 4) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText4);
-		} else if (tIndex == 5) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText5);
-		} else if (tIndex == 6) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText6);
-		} else if (tIndex == 7) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText7);
-		} else if (tIndex == 8) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLText8);
+		if ((tIndex > 0) && (tIndex < 11)) {
+			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLTexts [tIndex - 1]);
 		} else {
 			tCityNode = XMLNode.NO_NODE;
 		}
+
 		tCityInfo = buildCityInfo (tIndex);
 		tCity = (City) City.NO_CITY;
 		if (tCityNode != XMLNode.NO_NODE) {
@@ -94,33 +85,23 @@ public class CenterTestFactory {
 	}
 	
 	public CityInfo buildCityInfo (int tIndex) {
-		String tCityInfoXMLText1 = "<CityInfo id=\"7\" location=\"14\" name=\"Baltimore\" type=\"3\" />";
-		String tCityInfoXMLText2 = "<CityInfo id=\"3\" location=\"14\" name=\"Chicago\" type=\"3\" />";
-		String tCityInfoXMLText3 = "<CityInfo id=\"22\" name=\"Calcutta\" type=\"3\" bond=\"50\" />";
-		String tCityInfoXMLText4 = "<CityInfo id=\"8\" name=\"Delhi\" type=\"3\" bond=\"40\" />";
-		String tCityInfoXMLText5 = "<CityInfo id=\"5\" location=\"14\" name=\"Peshawar\" type=\"3\" bond=\"20\" />";
-		String tCityInfoXMLText6 = "<CityInfo id=\"18\" name=\"Mysore\" type=\"3\" bond=\"20\" />";
-		String tCityInfoXMLText7 = "<CityInfo id=\"19\" location=\"17\" name=\"Bangalore\" type=\"3\" bond=\"20\" />";
-		String tCityInfoXMLText8 = "<CityInfo id=\"20\" name=\"Madras\" type=\"3\" bond=\"30\" />";
+		String tCityInfoXMLTexts [] = {
+				"<CityInfo id=\"7\" location=\"14\" name=\"Baltimore\" type=\"3\" />",
+				"<CityInfo id=\"3\" location=\"14\" name=\"Chicago\" type=\"3\" />",
+				"<CityInfo id=\"22\" name=\"Calcutta\" type=\"3\" bond=\"50\" />",
+				"<CityInfo id=\"8\" name=\"Delhi\" type=\"3\" bond=\"40\" />",
+				"<CityInfo id=\"5\" location=\"14\" name=\"Peshawar\" type=\"3\" bond=\"20\" />",
+				"<CityInfo id=\"18\" name=\"Mysore\" type=\"3\" bond=\"20\" />",
+				"<CityInfo id=\"19\" location=\"17\" name=\"Bangalore\" type=\"3\" bond=\"20\" />",
+				"<CityInfo id=\"20\" name=\"Madras\" type=\"3\" bond=\"30\" />",
+				"<CityInfo id=\"11\" name=\"Cawnpore\" type=\"3\" bond=\"20\" />",
+				"<CityInfo id=\"12\" name=\"Lucknow\" type=\"3\" bond=\"20\" />"
+		};
 		CityInfo tCityInfo;
 		XMLNode tCityInfoNode;
 		
-		if (tIndex == 1) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText1);
-		} else if (tIndex == 2) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText2);
-		} else if (tIndex == 3) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText3);
-		} else if (tIndex == 4) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText4);
-		} else if (tIndex == 5) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText5);
-		} else if (tIndex == 6) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText6);
-		} else if (tIndex == 7) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText7);
-		} else if (tIndex == 8) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLText8);
+		if ((tIndex > 0) && (tIndex < 11)) {
+			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLTexts [tIndex - 1]);
 		} else {
 			tCityInfoNode = XMLNode.NO_NODE;
 		}
