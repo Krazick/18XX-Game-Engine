@@ -11,6 +11,7 @@ import ge18xx.center.City;
 public class ContractBid {
 	public static final ContractBid NO_CONTRACT_BID = null;
 	public static final int NO_EXTRA_BOND = 0;
+	public static final int DELTA_CITY_MAX_COUNT = 2;
 	Player player;
 	List<ContractLine> contractLines;
 	boolean signed;
@@ -53,8 +54,16 @@ public class ContractBid {
 		return extraForBond;
 	}
 	
-	public int getCount () {
+	public int getCityCount () {
 		return contractLines.size ();
+	}
+	
+	public int getDeltaCityCount () {
+		int tDeltaCityCount;
+		
+		tDeltaCityCount = 0;
+		
+		return tDeltaCityCount;
 	}
 	
 	public int getTotalValue () {
@@ -75,7 +84,7 @@ public class ContractBid {
 		if (isFullfilled ()) {
 			tText += "Fulfilled";
 		} else if (isSigned ()) {
-			tText += "Signed " + getCount () + "/" + Bank.formatCash (getTotalValue ());
+			tText += "Signed " + getCityCount () + "/" + Bank.formatCash (getTotalValue ());
 		} else {
 			tText += "Unsigned";
 		}
@@ -90,7 +99,7 @@ public class ContractBid {
 		String tContractCityName;
 		
 		tCityAlreadyInContractLines = false;
-		if (getCount () > 0) {
+		if (getCityCount () > 0) {
 			for (ContractLine tContractLine : contractLines) {
 				tContractCityName = tContractLine.getCityName ();
 				if (tContractCityName.equals (aCityName)) {
@@ -134,11 +143,36 @@ public class ContractBid {
 			}	
 		}
 	}
-	
+
+	private boolean allContractLinesAreValid () {
+		boolean tAllContractLinesAreValid;
+		
+		tAllContractLinesAreValid = true;
+		for (ContractLine tContractLine : contractLines) {
+			if (! tContractLine.isValidContractLine ()) {
+				tAllContractLinesAreValid = false;
+			}
+		}
+
+		return tAllContractLinesAreValid;
+	}
+
 	public boolean isValid () {
 		boolean tIsValid;
 		
 		tIsValid = true;
+		
+		if (getCityCount () < player.getMinBidCities ()) {
+			tIsValid = false;
+		} else if (getCityCount () > player.getMaxBidCities ()) {
+			tIsValid = false;
+		} else if (getDeltaCityCount () > DELTA_CITY_MAX_COUNT) {
+			tIsValid = false;
+		} else if (player.getCash () < getTotalValue ()) {
+			tIsValid = false;
+		} else if (! allContractLinesAreValid ()) {
+			tIsValid = false;
+		}
 		
 		return tIsValid;
 	}
