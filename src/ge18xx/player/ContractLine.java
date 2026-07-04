@@ -41,13 +41,13 @@ public class ContractLine {
 		
 		tReasonInvalidContractLine = GUI.EMPTY_STRING;
 		if (city == City.NO_CITY) {
-			tReasonInvalidContractLine = "No City is specified";
+			tReasonInvalidContractLine += "No City is specified\n";
 		}
 		if (shareCompany == ShareCompany.NO_SHARE_COMPANY) {
-			tReasonInvalidContractLine = "No Share Company is specified";
+			tReasonInvalidContractLine += "No Share Company is specified\n";
 		}
 		if (bond <= 0) {
-			tReasonInvalidContractLine = "Bond Value is <= zero (0)";
+			tReasonInvalidContractLine += "Bond Value is <= zero (0)\n";
 		}
 		
 		return tReasonInvalidContractLine;
