@@ -7,8 +7,17 @@ import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.City;
+import geUtilities.GUI;
+import geUtilities.xml.AttributeName;
+import geUtilities.xml.ElementName;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 public class ContractBid {
+	public static final ElementName EN_CONTRACT_BID = new ElementName ("ContractBid");
+	public static final AttributeName AN_EXTRA_FOR_BOND = new AttributeName ("extraForBond");
+	public static final AttributeName AN_SIGNED = new AttributeName ("signed");
+	public static final AttributeName AN_FULLFILLED = new AttributeName ("fullfilled");
 	public static final ContractBid NO_CONTRACT_BID = null;
 	public static final int NO_EXTRA_BOND = 0;
 	public static final int DELTA_CITY_MAX_COUNT = 2;
@@ -25,7 +34,23 @@ public class ContractBid {
 		setExtraForBond (NO_EXTRA_BOND);
 		contractLines = new LinkedList<> ();
 	}
+	
+	public XMLElement getElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLContractBidElement;
+		XMLElement tXMLContractLineElement;
 
+		tXMLContractBidElement = aXMLDocument.createElement (EN_CONTRACT_BID);
+		for (ContractLine tContractLine : contractLines) {
+			tXMLContractLineElement = tContractLine.getElements (aXMLDocument);
+			tXMLContractBidElement.appendChild (tXMLContractLineElement);
+		}
+		tXMLContractBidElement.setAttribute (AN_EXTRA_FOR_BOND, extraForBond);
+		tXMLContractBidElement.setAttribute (AN_SIGNED, signed);
+		tXMLContractBidElement.setAttribute (AN_FULLFILLED, fullfilled);
+
+		return tXMLContractBidElement;
+	}
+	
 	public void setSigned (boolean aSigned) {
 		signed = aSigned;
 	}
@@ -132,24 +157,54 @@ public class ContractBid {
 		String tContractCityName;
 		ContractLine tContractLineToDelete;
 		
-		if (aCity != City.NO_CITY) {
+		if (aCity == City.NO_CITY) {
+			tCityNameToDelete = GUI.EMPTY_STRING;
+		} else {
 			tCityNameToDelete = aCity.getCityName ();
-			System.out.println ("Want to Remove City named " + tCityNameToDelete);
-		
-			if (cityAlreadyInContractLines (tCityNameToDelete)) {
-				tContractLineToDelete = ContractLine.NO_CONTRACT_LINE;
-				for (ContractLine tContractLine : contractLines) {
-					tContractCityName = tContractLine.getCityName ();
-					if (tContractCityName.equals (tCityNameToDelete)) {
-						tContractLineToDelete = tContractLine;
-					}
+		}
+		System.out.println ("Want to Remove City named [" + tCityNameToDelete + "]");
+	
+		if (cityAlreadyInContractLines (tCityNameToDelete)) {
+			tContractLineToDelete = ContractLine.NO_CONTRACT_LINE;
+			for (ContractLine tContractLine : contractLines) {
+				tContractCityName = tContractLine.getCityName ();
+				if (tContractCityName.equals (tCityNameToDelete)) {
+					tContractLineToDelete = tContractLine;
 				}
-				contractLines.remove (tContractLineToDelete);
-				System.out.println ("Removing City named " + tCityNameToDelete);
-			}	
+			}
+			contractLines.remove (tContractLineToDelete);
+			System.out.println ("Removing City named " + tCityNameToDelete);
 		}
 	}
 
+	public String getAllReasonsInvalid () {
+		String tAllReasonsInvalid;
+		
+		tAllReasonsInvalid = GUI.EMPTY_STRING;
+		for (ContractLine tContractLine : contractLines) {
+			if (! tContractLine.isValidContractLine ()) {
+				tAllReasonsInvalid += tContractLine.getAllReasonsContractLineInvalid ();
+			}
+		}
+		if (getCityCount () < player.getMinBidCities ()) {
+			tAllReasonsInvalid += "Not enough Cities (minimum is " + 
+							player.getMinBidCities () + ") are in the Contract Bid\n";
+		}
+		if (getCityCount () > player.getMaxBidCities ()) {
+			tAllReasonsInvalid += "Too many Cities (maximum is " +
+					player.getMaxBidCities () + ") are in the Contract Bid\n";			
+		}
+		if (getDeltaCityCount () > DELTA_CITY_MAX_COUNT) {
+			tAllReasonsInvalid += "Too many Cities in the Delta (maximum of " +
+							DELTA_CITY_MAX_COUNT + ") are in the Contract Bid\n";	
+		}
+		if (player.getCash () < getTotalValue ()) {
+			tAllReasonsInvalid += "Player does not have enough cash to post bond.";
+		}
+		
+		return tAllReasonsInvalid;
+	}
+	
 	private boolean allContractLinesAreValid () {
 		boolean tAllContractLinesAreValid;
 		
@@ -170,13 +225,17 @@ public class ContractBid {
 		
 		if (getCityCount () < player.getMinBidCities ()) {
 			tIsValid = false;
-		} else if (getCityCount () > player.getMaxBidCities ()) {
+		}
+		if (getCityCount () > player.getMaxBidCities ()) {
 			tIsValid = false;
-		} else if (getDeltaCityCount () > DELTA_CITY_MAX_COUNT) {
+		}
+		if (getDeltaCityCount () > DELTA_CITY_MAX_COUNT) {
 			tIsValid = false;
-		} else if (player.getCash () < getTotalValue ()) {
+		}
+		if (player.getCash () < getTotalValue ()) {
 			tIsValid = false;
-		} else if (! allContractLinesAreValid ()) {
+		}
+		if (! allContractLinesAreValid ()) {
 			tIsValid = false;
 		}
 		
@@ -184,14 +243,7 @@ public class ContractBid {
 	}
 	
 	// New Methods to add:
-	// isValid -- To verify if the entire contractBid is correct and can be signed:
-	//		* ContractLines have at least the minimum required cities
-	//		* ContractLines has less than or equal to the maximum number of cities
-	//		* ContractLines has 0-2 Cities in the Delta (Calcutta is in the Delta), 
-	//		* Player has sufficient cash to be added to the ContractBid Escrow
-	//		* ContractLines are all Valid
-	// ReasonWhyContractBidInvalid -- Will get all reasons while the Contract Bid is Invalid
-	// SaveContractBid -- Will generate XML to add to Save Game File
+	// getElements -- Will generate XML to add to Save Game File
 	// ParseContractBid -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
 	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid

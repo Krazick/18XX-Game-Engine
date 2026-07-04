@@ -21,6 +21,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import geUtilities.GUI;
 
 class ContractBidTests {
 	GameTestFactory gameTestFactory;
@@ -183,6 +184,67 @@ class ContractBidTests {
 	}
 	
 	@Test
+	@DisplayName ("Player Contract Line Validation Tests")
+	void playerContractLineValidationTests () {
+		City tCity1;
+		City tCity3;
+		City tCity4;
+		City tCity5;
+		ShareCompany tShareCompany1;
+		int tBond1;
+		int tBond3;
+		int tBond4;
+		int tBond5;
+		ContractBid tContractBid1;
+		ContractLine tContractLine1;
+		ContractLine tContractLine3;
+		ContractLine tContractLine4;
+		ContractLine tContractLine5;
+		
+		tContractBid1 = player.getContractBid ();
+		
+		player.addCash (500);
+		
+		tCity1 = City.NO_CITY;
+		tBond1 = 0;
+		tShareCompany1 = ShareCompany.NO_SHARE_COMPANY;
+		tContractLine1 = playerTestFactory.buildContractLine (tCity1, tShareCompany1, tBond1);
+		tContractBid1.addContractLine (tContractLine1);
+		
+		assertFalse (tContractBid1.isValid ());
+		assertEquals ("No City is specified\n"
+				+ "No Share Company is specified\n"
+				+ "Bond Value is <= zero (0)\n"
+				+ "Not enough Cities (minimum is 3) are in the Contract Bid\n", tContractBid1.getAllReasonsInvalid ());
+		tContractBid1.deleteContractLine (tCity1);
+		assertEquals (0, tContractBid1.getCityCount ());
+
+		tCity3 = (City) centerTestFactory.buildCity (3);
+		tBond3 = tCity3.getCityInfoBond ();
+		tContractLine3 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond3);
+		tContractBid1.addContractLine (tContractLine3);
+		
+		tCity4 = (City) centerTestFactory.buildCity (4);
+		tBond4 = tCity4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond4);
+		tContractBid1.addContractLine (tContractLine4);
+		
+		assertEquals ("Not enough Cities (minimum is 3) are in the Contract Bid\n", tContractBid1.getAllReasonsInvalid ());
+		
+		assertFalse (tContractBid1.isValid ());
+
+		tCity5 = (City) centerTestFactory.buildCity (5);
+		tBond5 = tCity5.getCityInfoBond ();
+		tContractLine5 = playerTestFactory.buildContractLine (tCity5, shareCompany, tBond5);
+		tContractBid1.addContractLine (tContractLine5);
+
+		assertEquals (3, tContractBid1.getCityCount ());
+		assertEquals (GUI.EMPTY_STRING, tContractBid1.getAllReasonsInvalid ());
+		assertTrue (tContractBid1.isValid ());
+
+	}
+	
+	@Test
 	@DisplayName ("Player Contract Bid Validation Tests")
 	void playerContractBidValidationTests () {
 		City tCity2;
@@ -201,6 +263,7 @@ class ContractBidTests {
 		ContractLine tContractLine7;
 		ContractLine tContractLine8;
 		ContractLine tContractLine9;
+		ContractLine tContractLine0;
 		ContractBid tContractBid;
 		int tBond;
 		boolean tIsDeltaTerrain;
@@ -265,7 +328,9 @@ class ContractBidTests {
 		tContractBid.addContractLine (tContractLine9);
 		
 		assertFalse (tContractBid.isValid ());
-		
+		assertEquals ("Too many Cities (maximum is 6) are in the Contract Bid\n", 
+						tContractBid.getAllReasonsInvalid ());
+
 		tContractBid.deleteContractLine (tCity7);
 		assertTrue (tContractBid.isValid ());
 		assertEquals (180, tContractBid.getTotalValue ());
@@ -285,6 +350,20 @@ class ContractBidTests {
 		assertEquals (6, tContractBid.getCityCount ());
 		assertEquals (3, tContractBid.getDeltaCityCount ());
 		assertFalse (tContractBid.isValid ());
+		assertEquals ("Too many Cities in the Delta (maximum of 2) are in the Contract Bid\n"
+				+ "Player does not have enough cash to post bond.", 
+				tContractBid.getAllReasonsInvalid ());
+		
+		player.addCash (330);
+
+		tContractBid.deleteContractLine (tCity5);
+		assertEquals (5, tContractBid.getCityCount ());
+		tContractLine0 = playerTestFactory.buildContractLine (tCity5, ShareCompany.NO_SHARE_COMPANY, 20);
+		tContractBid.addContractLine (tContractLine0);
+		assertFalse (tContractBid.isValid ());
+		assertEquals ("No Share Company is specified\n"
+				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid\n", 
+				tContractBid.getAllReasonsInvalid ());
 
 	}
 }
