@@ -136,7 +136,7 @@ class ContractBidTests {
 		int tBond;
 		
 		tContractBid = player.getContractBid ();
-		tCity3 = (City) centerTestFactory.buildCity (3);
+		tCity3 = (City) centerTestFactory.buildCity (3);		
 		tBond = tCity3.getCityInfoBond ();
 		tContractLine1 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine1);
@@ -191,6 +191,7 @@ class ContractBidTests {
 		City tCity5;
 		City tCity6;
 		City tCity7;
+		City tCity8;
 		City tCity9;
 		ContractLine tContractLine1;
 		ContractLine tContractLine2;
@@ -198,9 +199,11 @@ class ContractBidTests {
 		ContractLine tContractLine5;
 		ContractLine tContractLine6;
 		ContractLine tContractLine7;
+		ContractLine tContractLine8;
 		ContractLine tContractLine9;
 		ContractBid tContractBid;
 		int tBond;
+		boolean tIsDeltaTerrain;
 		
 		tContractBid = player.getContractBid ();
 		player.addCash (500);
@@ -208,23 +211,30 @@ class ContractBidTests {
 		assertFalse (tContractBid.isValid ());
 		
 		tCity3 = (City) centerTestFactory.buildCity (3);
+		assertFalse (tCity3.isDeltaTerrain ());
 		tBond = tCity3.getCityInfoBond ();
 		tContractLine1 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine1);
 		
 		assertFalse (tContractBid.isValid ());
 		
-		tCity2 = (City) centerTestFactory.buildCity (8);
+		tIsDeltaTerrain = true;
+		tCity2 = (City) centerTestFactory.buildCity (8, tIsDeltaTerrain);
+		assertTrue (tCity2.isDeltaTerrain ());
+		assertEquals (0, tContractBid.getDeltaCityCount ());
+		
 		tBond = tCity2.getCityInfoBond ();
 		tContractLine2 = playerTestFactory.buildContractLine (tCity2, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine2);
+		assertEquals (1, tContractBid.getDeltaCityCount ());
 
 		assertFalse (tContractBid.isValid ());
 
-		tCity4 = (City) centerTestFactory.buildCity (4);
+		tCity4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);
 		tBond = tCity4.getCityInfoBond ();
 		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine4);
+		assertEquals (2, tContractBid.getDeltaCityCount ());
 		
 		assertTrue (tContractBid.isValid ());
 
@@ -255,5 +265,26 @@ class ContractBidTests {
 		tContractBid.addContractLine (tContractLine9);
 		
 		assertFalse (tContractBid.isValid ());
+		
+		tContractBid.deleteContractLine (tCity7);
+		assertTrue (tContractBid.isValid ());
+		assertEquals (180, tContractBid.getTotalValue ());
+		player.addCash (-330);
+		assertEquals (170, player.getCash ());
+		assertFalse (tContractBid.isValid ());
+
+		tContractBid.deleteContractLine (tCity6);
+		assertEquals (5, tContractBid.getCityCount ());
+		assertEquals (2, tContractBid.getDeltaCityCount ());
+		
+		tCity8 = (City) centerTestFactory.buildCity (10, tIsDeltaTerrain);
+		tBond = tCity8.getCityInfoBond ();
+		tContractLine8 = playerTestFactory.buildContractLine (tCity8, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine8);
+		
+		assertEquals (6, tContractBid.getCityCount ());
+		assertEquals (3, tContractBid.getDeltaCityCount ());
+		assertFalse (tContractBid.isValid ());
+
 	}
 }

@@ -96,6 +96,14 @@ public class ContractLine {
 	public boolean isConnected () {
 		return connected;
 	}
+
+	public boolean isDeltaTerrain () {
+		boolean tIsDeltaTerrain;
+		
+		tIsDeltaTerrain = city.isDeltaTerrain ();
+		
+		return tIsDeltaTerrain;
+	}
 	
 	// New Methods to add
 	// SaveContractBid -- Will generate XML to add to Save Game File

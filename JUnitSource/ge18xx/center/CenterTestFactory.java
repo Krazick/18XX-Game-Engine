@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.game.GameTestFactory;
+import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLNode;
@@ -50,7 +51,17 @@ public class CenterTestFactory {
 		return tPrivateRailwayCenter;
 	}
 
-	public City buildCity (int tIndex) {
+	public City buildCity (int aIndex) {
+		City tCity;
+		boolean tIsDeltaTerrain;
+		
+		tIsDeltaTerrain = false;
+		tCity = buildCity (aIndex, tIsDeltaTerrain);
+		
+		return tCity;
+	}
+	
+	public City buildCity (int aIndex, boolean aIsDeltaTerrain) {
 		String tCityXMLTexts [] = {
 				"<RevenueCenter id=\"7\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
 				"<RevenueCenter id=\"3\" location=\"7\" name=\"\" number=\"2\" type=\"Single City\" />",
@@ -68,13 +79,13 @@ public class CenterTestFactory {
 		XMLNode tCityNode;
 		
 		tCityInfo = CityInfo.NO_CITY_INFO;
-		if ((tIndex > 0) && (tIndex < 11)) {
-			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLTexts [tIndex - 1]);
+		if ((aIndex > 0) && (aIndex < 11)) {
+			tCityNode = utilitiesTestFactory.buildXMLNode (tCityXMLTexts [aIndex - 1]);
 		} else {
 			tCityNode = XMLNode.NO_NODE;
 		}
 
-		tCityInfo = buildCityInfo (tIndex);
+		tCityInfo = buildCityInfo (aIndex, aIsDeltaTerrain);
 		tCity = (City) City.NO_CITY;
 		if (tCityNode != XMLNode.NO_NODE) {
 			tCity = new City (tCityNode);
@@ -84,7 +95,17 @@ public class CenterTestFactory {
 		return tCity;
 	}
 	
-	public CityInfo buildCityInfo (int tIndex) {
+	public CityInfo buildCityInfo (int aIndex) {
+		boolean aIsDeltaTerrain;
+		CityInfo tCityInfo;
+		
+		aIsDeltaTerrain = false;
+		tCityInfo = buildCityInfo (aIndex, aIsDeltaTerrain);
+		
+		return tCityInfo;
+	}
+
+	public CityInfo buildCityInfo (int aIndex, boolean aIsDeltaTerrain) {
 		String tCityInfoXMLTexts [] = {
 				"<CityInfo id=\"7\" location=\"14\" name=\"Baltimore\" type=\"3\" />",
 				"<CityInfo id=\"3\" location=\"14\" name=\"Chicago\" type=\"3\" />",
@@ -99,15 +120,20 @@ public class CenterTestFactory {
 		};
 		CityInfo tCityInfo;
 		XMLNode tCityInfoNode;
+		MapCell mMapCell;
 		
-		if ((tIndex > 0) && (tIndex < 11)) {
-			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLTexts [tIndex - 1]);
+		if ((aIndex > 0) && (aIndex < 11)) {
+			tCityInfoNode = utilitiesTestFactory.buildXMLNode (tCityInfoXMLTexts [aIndex - 1]);
 		} else {
 			tCityInfoNode = XMLNode.NO_NODE;
 		}
 		tCityInfo = (CityInfo) CityInfo.NO_CITY_INFO;
 		if (tCityInfoNode != XMLNode.NO_NODE) {
 			tCityInfo = new CityInfo (tCityInfoNode);
+			
+			mMapCell = mapTestFactory.buildMapCellMock ("D1");
+			Mockito.when (mMapCell.isDeltaTerrain ()).thenReturn (aIsDeltaTerrain);
+			tCityInfo.setMapCell (mMapCell);
 		}
 		
 		return tCityInfo;

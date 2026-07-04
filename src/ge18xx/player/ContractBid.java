@@ -62,7 +62,12 @@ public class ContractBid {
 		int tDeltaCityCount;
 		
 		tDeltaCityCount = 0;
-		
+		for (ContractLine tContractLine : contractLines) {
+			if (tContractLine.isDeltaTerrain ()) {
+				tDeltaCityCount++;
+			}
+		}
+
 		return tDeltaCityCount;
 	}
 	
@@ -73,6 +78,7 @@ public class ContractBid {
 		for (ContractLine tContractLine : contractLines) {
 			tTotalValue += tContractLine.getBond ();
 		}
+		
 		return tTotalValue;
 	}
 	

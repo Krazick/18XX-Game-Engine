@@ -473,4 +473,12 @@ public class CityInfo implements Cloneable {
 
 		return tWithBaseForCorp;
 	}
+
+	public boolean isDeltaTerrain () {
+		boolean tIsDeltaTerrain;
+		
+		tIsDeltaTerrain = mapCell.isDeltaTerrain ();
+		
+		return tIsDeltaTerrain;
+	}
 }

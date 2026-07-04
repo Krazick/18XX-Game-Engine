@@ -41,7 +41,7 @@ class CityInfoTests {
 		
 		tCityInfo1 = centerTestFactory.buildCityInfo (1);
 		
-		assertEquals ("City ID 7, Type 3, Name [Baltimore] on Map Cell NOT YET\n"
+		assertEquals ("City ID 7, Type 3, Name [Baltimore] on Map Cell D1\n"
 				+ "No Corporation Base\n", tCityInfo1.getFullCityInfo ());
 		
 		mCorporation = companyTestFactory.buildShareCompanyMock ();

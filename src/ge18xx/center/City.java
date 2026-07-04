@@ -1355,4 +1355,12 @@ public class City extends RevenueCenter implements Cloneable {
 	public boolean isOpen () {
 		return (getFreeStationCount () > 0);
 	}
+
+	public boolean isDeltaTerrain () {
+		boolean tIsDeltaTerrain;
+		
+		tIsDeltaTerrain = cityInfo.isDeltaTerrain ();
+				
+		return tIsDeltaTerrain;
+	}
 }

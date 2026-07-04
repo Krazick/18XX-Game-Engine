@@ -2958,4 +2958,15 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		tCorpID = aShareCompany.getID ();
 		setDestinationCorpID (tCorpID);
 	}
+
+	public boolean isDeltaTerrain () {
+		boolean tIsDeltaTerrain;
+		
+		tIsDeltaTerrain = false;
+		if (baseTerrain.getTerrain () == Terrain.DELTA) {
+			tIsDeltaTerrain = true;
+		}
+		
+		return tIsDeltaTerrain;
+	}
 }
