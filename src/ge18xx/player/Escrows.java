@@ -30,7 +30,7 @@ public class Escrows {
 		escrowHolderName = escrowHolder.getName ();
 	}
 
-	public XMLElement getEscrowXML (XMLDocument aXMLDocument) {
+	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLEscrows;
 		XMLElement tXMLEscrowElement;
 
