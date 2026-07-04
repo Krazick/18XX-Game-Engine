@@ -695,7 +695,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tPlayerWhoIsPresident;
 	}
 	
-
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
@@ -793,6 +792,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLElement tXMLEscrows;
 		XMLElement tXMLQueryOfferElements;
 		XMLElement tXMLAllPercentBoughtElements;
+		XMLElement tXMLContractBidElements;
 		String tCompaniesSold;
 		int tOperatingRoundCount;
 
@@ -819,11 +819,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.appendChild (tXMLAllPercentBoughtElements, name);
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLPortofolioElements, name);
-		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
+		tXMLEscrows = escrows.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLEscrows, name);
 		if (queryOffer != QueryOffer.NO_QUERY_OFFER) {
 			tXMLQueryOfferElements = queryOffer.getElements (aXMLDocument);
 			tXMLElement.appendChild (tXMLQueryOfferElements, name);
+		}
+		if (contractBid != ContractBid.NO_CONTRACT_BID) {
+			tXMLContractBidElements = contractBid.getElements (aXMLDocument);
+			tXMLElement.appendChild (tXMLContractBidElements, name);
 		}
 
 		return tXMLElement;
