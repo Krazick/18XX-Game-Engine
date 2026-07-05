@@ -11,6 +11,7 @@ import geUtilities.xml.XMLElement;
 public class ContractLine {
 	public static final ContractLine NO_CONTRACT_LINE = null;
 	public static final ElementName EN_CONTRACT_LINE = new ElementName ("ContractLine");
+	public static final ElementName EN_CONTRACT_LINES = new ElementName ("ContractLines");
 	public static final AttributeName AN_CITY_NAME = new AttributeName ("cityName");
 	public static final AttributeName AN_SHARE_COMPANY_ID = new AttributeName ("shareCompanyID");
 	public static final AttributeName AN_CONNECTED = new AttributeName ("connected");
@@ -32,8 +33,16 @@ public class ContractLine {
 		XMLElement tXMLContractLineElement;
 		
 		tXMLContractLineElement = aXMLDocument.createElement (EN_CONTRACT_LINE);
-		tXMLContractLineElement.setAttribute (AN_CITY_NAME, city.getID ());
-		tXMLContractLineElement.setAttribute (AN_SHARE_COMPANY_ID, shareCompany.getID ());
+		if (city == City.NO_CITY) {
+			tXMLContractLineElement.setAttribute (AN_CITY_NAME, GUI.EMPTY_STRING);			
+		} else {
+			tXMLContractLineElement.setAttribute (AN_CITY_NAME, city.getCityName ());
+		}
+		if (shareCompany == ShareCompany.NO_SHARE_COMPANY) {
+			tXMLContractLineElement.setAttribute (AN_SHARE_COMPANY_ID, GUI.EMPTY_STRING);
+		} else {
+			tXMLContractLineElement.setAttribute (AN_SHARE_COMPANY_ID, shareCompany.getID ());
+		}
 		tXMLContractLineElement.setAttribute (AN_CONNECTED, connected);
 		tXMLContractLineElement.setAttribute (AN_BOND, bond);
 
@@ -131,9 +140,7 @@ public class ContractLine {
 	}
 	
 	// New Methods to add
-	// getElements -- Will generate XML to add to Save Game File
-	// ParseContractBid -- Will parse the XML from the Save Game File
+	// ParseContractLine -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
 	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid
-
 }

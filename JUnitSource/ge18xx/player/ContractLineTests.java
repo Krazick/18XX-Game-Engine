@@ -14,6 +14,8 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import geUtilities.GUI;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 @DisplayName ("Contract Line Tests")
 
@@ -88,5 +90,35 @@ class ContractLineTests {
 		tContractLine = new ContractLine (City.NO_CITY, ShareCompany.NO_SHARE_COMPANY, 0);
 		assertFalse (tContractLine.isValidContractLine ());
 		assertEquals ("No City is specified\nNo Share Company is specified\nBond Value is <= zero (0)\n", tContractLine.getAllReasonsContractLineInvalid ());
+	}
+	
+	@Test
+	@DisplayName ("Verify ContractLine XML Tests")
+	void verifyContractLineXMLTests () {
+		XMLDocument tXMLDocument;
+		XMLElement tContractLineXML;
+		String tContractLineXMLText;
+		ContractLine tContractLine;
+		
+		tXMLDocument = new XMLDocument ();
+		
+		tContractLine = new ContractLine (city, shareCompany, 20);
+		tContractLineXML = tContractLine.getElements (tXMLDocument);
+		tContractLineXMLText = tContractLineXML.toXMLString ();
+		assertEquals ("<ContractLine bond=\"20\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n", 
+					tContractLineXMLText);
+		
+		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 30);
+		tContractLineXML = tContractLine.getElements (tXMLDocument);
+		tContractLineXMLText = tContractLineXML.toXMLString ();
+		assertEquals ("<ContractLine bond=\"30\" cityName=\"\" connected=\"false\" shareCompanyID=\"1501\"/>\n", 
+					tContractLineXMLText);
+		
+		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 30);
+		tContractLineXML = tContractLine.getElements (tXMLDocument);
+		tContractLineXMLText = tContractLineXML.toXMLString ();
+		assertEquals ("<ContractLine bond=\"30\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"\"/>\n", 
+					tContractLineXMLText);
+
 	}
 }
