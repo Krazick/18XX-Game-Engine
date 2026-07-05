@@ -38,11 +38,16 @@ public class ContractBid {
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLContractBidElement;
 		XMLElement tXMLContractLineElement;
-
+		XMLElement tXMLContractLinesElement;
+		
 		tXMLContractBidElement = aXMLDocument.createElement (EN_CONTRACT_BID);
-		for (ContractLine tContractLine : contractLines) {
-			tXMLContractLineElement = tContractLine.getElements (aXMLDocument);
-			tXMLContractBidElement.appendChild (tXMLContractLineElement);
+		if (contractLines.size () > 0) {
+			tXMLContractLinesElement = aXMLDocument.createElement (ContractLine.EN_CONTRACT_LINES);
+			for (ContractLine tContractLine : contractLines) {
+				tXMLContractLineElement = tContractLine.getElements (aXMLDocument);
+				tXMLContractLinesElement.appendChild (tXMLContractLineElement);
+			}
+			tXMLContractBidElement.appendChild (tXMLContractLinesElement);
 		}
 		tXMLContractBidElement.setAttribute (AN_EXTRA_FOR_BOND, extraForBond);
 		tXMLContractBidElement.setAttribute (AN_SIGNED, signed);
@@ -148,7 +153,6 @@ public class ContractBid {
 		tNewCityName = aContractLine.getCityName ();
 		if (! cityAlreadyInContractLines (tNewCityName)) {
 			contractLines.add (aContractLine);
-			System.out.println ("Adding City named " + tNewCityName);
 		}
 	} 
 	
@@ -162,7 +166,6 @@ public class ContractBid {
 		} else {
 			tCityNameToDelete = aCity.getCityName ();
 		}
-		System.out.println ("Want to Remove City named [" + tCityNameToDelete + "]");
 	
 		if (cityAlreadyInContractLines (tCityNameToDelete)) {
 			tContractLineToDelete = ContractLine.NO_CONTRACT_LINE;
@@ -173,7 +176,6 @@ public class ContractBid {
 				}
 			}
 			contractLines.remove (tContractLineToDelete);
-			System.out.println ("Removing City named " + tCityNameToDelete);
 		}
 	}
 
@@ -243,7 +245,6 @@ public class ContractBid {
 	}
 	
 	// New Methods to add:
-	// getElements -- Will generate XML to add to Save Game File
 	// ParseContractBid -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
 	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid

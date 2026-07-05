@@ -22,6 +22,8 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import geUtilities.GUI;
+import geUtilities.xml.XMLDocument;
+import geUtilities.xml.XMLElement;
 
 class ContractBidTests {
 	GameTestFactory gameTestFactory;
@@ -241,7 +243,6 @@ class ContractBidTests {
 		assertEquals (3, tContractBid1.getCityCount ());
 		assertEquals (GUI.EMPTY_STRING, tContractBid1.getAllReasonsInvalid ());
 		assertTrue (tContractBid1.isValid ());
-
 	}
 	
 	@Test
@@ -364,6 +365,85 @@ class ContractBidTests {
 		assertEquals ("No Share Company is specified\n"
 				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid\n", 
 				tContractBid.getAllReasonsInvalid ());
+	}
+	
+	@Test
+	@DisplayName ("Verify ContractBid XML Tests")
+	void verifyContractBidXMLTests () {
+		XMLDocument tXMLDocument;
+		XMLElement tContractBidXML;
+		String tContractBidXMLText;
+		City tCity3;
+		City tCity4;
+		City tCity5;
+		ContractLine tContractLine1;
+		ContractLine tContractLine4;
+		ContractLine tContractLine5;
+		ContractBid tContractBid;
+		int tBond;
+		boolean tIsDeltaTerrain;
+
+		tXMLDocument = new XMLDocument ();
+
+		tContractBid = player.getContractBid ();
+		tContractBidXML = tContractBid.getElements (tXMLDocument);
+		tContractBidXMLText = tContractBidXML.toXMLString ();
+		assertEquals ("<ContractBid extraForBond=\"0\" fullfilled=\"false\" signed=\"false\"/>\n", tContractBidXMLText);
+		
+		tCity3 = (City) centerTestFactory.buildCity (3);		
+		tBond = tCity3.getCityInfoBond ();
+		tContractLine1 = playerTestFactory.buildContractLine (tCity3, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine1);
+		tContractBid.setExtraForBond (20);
+		tContractBidXML = tContractBid.getElements (tXMLDocument);
+		tContractBidXMLText = tContractBidXML.toXMLString ();
+		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
+				+ "<ContractLines>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "</ContractLines>\n"
+				+ "<ChecksumXMLElement checksum=\"040a2d46060e464d2426515b9db3588ce6c83a8d35fedf2cce2b02b742ab7244\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "</ContractBid>\n", tContractBidXMLText);
+
+		tIsDeltaTerrain = true;
+		tCity4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);
+		tBond = tCity4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine4);
+		assertEquals (1, tContractBid.getDeltaCityCount ());
+		
+		tContractBidXML = tContractBid.getElements (tXMLDocument);
+		tContractBidXMLText = tContractBidXML.toXMLString ();
+
+		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
+				+ "<ContractLines>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"6d39f629c4436441458dd9f171dee843908e432efc95a0beebe73f7acf37bd95\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "</ContractLines>\n"
+				+ "<ChecksumXMLElement checksum=\"1e644bc80ebaefe7da086945803451a48cf90008992fbe16c8d8f97e240cef72\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "</ContractBid>\n", tContractBidXMLText);
+
+		tCity5 = (City) centerTestFactory.buildCity (5);
+		tBond = tCity5.getCityInfoBond ();
+		tContractLine5 = playerTestFactory.buildContractLine (tCity5, shareCompany, tBond);
+		tContractBid.addContractLine (tContractLine5);
+		
+		tContractBidXML = tContractBid.getElements (tXMLDocument);
+		tContractBidXMLText = tContractBidXML.toXMLString ();
+
+		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
+				+ "<ContractLines>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"6d39f629c4436441458dd9f171dee843908e432efc95a0beebe73f7acf37bd95\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"20\" cityName=\"Peshawar\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"f2176658c4cd58f058ebb0c388f74494c29f660c6f276545367d551ea458f509\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "</ContractLines>\n"
+				+ "<ChecksumXMLElement checksum=\"e7c5697eec3fe13934dbb018fce9b66b64d4eb4b92d5bdffa67930b3e63df7ef\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "</ContractBid>\n", tContractBidXMLText);
 
 	}
 }
