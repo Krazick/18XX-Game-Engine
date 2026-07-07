@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.center.City;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
@@ -1399,6 +1400,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLNodeList tXMLAllPercentBoughtNodeList;
 		XMLNodeList tXMLPortfolioNodeList;
 		XMLNodeList tXMLQueryOfferNodeList;
+		XMLNodeList tXMLContractBidNodeList;
 		GenericActor tGenericActor;
 		GameManager tGameManager;
 		int tCertificateLimit;
@@ -1447,6 +1449,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tGameManager = getGameManager ();
 		tXMLQueryOfferNodeList = new XMLNodeList (queryParsingRoutine, tGameManager);
 		tXMLQueryOfferNodeList.parseXMLNodeList (aPlayerNode, QueryOffer.EN_QUERY_OFFER);
+		
+		tXMLContractBidNodeList = new XMLNodeList (contractBidParsingRoutine);
+		tXMLContractBidNodeList.parseXMLNodeList (aPlayerNode, ContractBid.EN_CONTRACT_BID);
+
 		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
 		// to load the QueryOffer Object here, and in the Train Company LoadStatus method
 		// Probably store 'class' in the EN_QUERY_OFFER Element as attribute
@@ -1494,6 +1500,33 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			allPercentBought.loadAllPercentBought (aChildNode);
 		}
 	};
+
+	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			contractBid.loadXMLNode (aChildNode);
+		}
+	};
+
+	public City getCityWithName (String aCityName) {
+		City tCity;
+		GameManager tGameManager;
+		
+		tGameManager = getGameManager ();
+		tCity = tGameManager.getCityWithName (aCityName);
+		
+		return tCity;
+	}
+
+	public ShareCompany getShareCompanyByID (int aShareCompanyID) {
+		ShareCompany tShareCompany;
+		GameManager tGameManager;
+		
+		tGameManager = getGameManager ();
+		tShareCompany = tGameManager.getShareCompanyByID (aShareCompanyID);
+		
+		return tShareCompany;
+	}
 
 	public void bidAction () {
 		playerManager.bidAction (this);
