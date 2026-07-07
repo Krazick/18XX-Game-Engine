@@ -32,6 +32,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.CorporateBank;
 import ge18xx.bank.StartPacketFrame;
+import ge18xx.center.City;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
@@ -2879,7 +2880,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
 				tPlayerName = playerInputFrame.getPlayerName (tIndex);
 				tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit, 
-									tMinBidCities, tMaxBidCities);
+								tMinBidCities, tMaxBidCities);
 				bank.transferCashTo (tPlayer, tPlayerStartingCash);
 				playerManager.addPlayer (tPlayer);
 			}
@@ -4059,6 +4060,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return game18XXFrame.getIconImage ();
 	}
 
+	public City getCityWithName (String aCityName) {
+		City tCity;
+		
+		tCity = citiesFrame.getCityWithName (aCityName);
+		
+		return tCity;
+	}
+	
 	public Benefit findBenefit (String aBenefitName) {
 		Benefit tBenefit;
 
