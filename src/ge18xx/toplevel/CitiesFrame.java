@@ -2,6 +2,8 @@ package ge18xx.toplevel;
 
 import javax.swing.JTable;
 
+import ge18xx.center.City;
+
 //
 //  CitiesFrame.java
 //  Game_18XX
@@ -35,5 +37,13 @@ public class CitiesFrame extends XMLFrame {
 
 	public CityList getCities () {
 		return cities;
+	}
+	
+	public City getCityWithName (String aCityName) {
+		City tCity;
+		
+		tCity = cities.getCityWithName (aCityName);
+		
+		return tCity;
 	}
 }
