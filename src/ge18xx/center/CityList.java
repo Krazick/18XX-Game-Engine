@@ -85,6 +85,21 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		return tName;
 	}
 
+	public City getCityWithName (String aCityName) {
+		City tCity;
+		String tFoundCityName;
+		
+		tCity = City.NO_CITY;
+		for (CityInfo tCityInfo : cities) {
+			tFoundCityName = tCityInfo.getName ();
+			if (tFoundCityName.equals (aCityName)) {
+				tCity = tCityInfo.getCity ();
+			}
+		}
+		
+		return tCity;
+	}
+	
 	@Override
 	public int getColCount () {
 		CityInfo tCityInfo;
