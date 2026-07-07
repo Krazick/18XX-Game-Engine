@@ -8,10 +8,13 @@ import javax.swing.JLabel;
 import ge18xx.bank.Bank;
 import ge18xx.center.City;
 import geUtilities.GUI;
+import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLNode;
+import geUtilities.xml.XMLNodeList;
 
 public class ContractBid {
 	public static final ElementName EN_CONTRACT_BID = new ElementName ("ContractBid");
@@ -55,6 +58,45 @@ public class ContractBid {
 
 		return tXMLContractBidElement;
 	}
+
+	public void loadXMLNode (XMLNode aXMLNode) {
+		XMLNodeList tXMLNodeList;
+		int tExtraForBond;
+		boolean tSigned;
+		boolean tFullfilled;
+		
+		tXMLNodeList = new XMLNodeList (contractBidParsingRoutine);
+		tExtraForBond = aXMLNode.getThisIntAttribute (AN_EXTRA_FOR_BOND);
+		tSigned = aXMLNode.getThisBooleanAttribute (AN_SIGNED);
+		tFullfilled = aXMLNode.getThisBooleanAttribute (AN_FULLFILLED);
+		setExtraForBond (tExtraForBond);
+		setSigned (tSigned);
+		setFullfilled (tFullfilled);
+		
+		tXMLNodeList.parseXMLNodeList (aXMLNode, ContractLine.EN_CONTRACT_LINES);
+	}
+	
+	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			XMLNodeList tXMLNodeList;
+
+			System.out.println ("Ready to Parse a Contract Line");
+			tXMLNodeList = new XMLNodeList (contractLineParsingRoutine);
+			tXMLNodeList.parseXMLNodeList (aChildNode, ContractLine.EN_CONTRACT_LINE);
+		}
+		
+		ParsingRoutineI contractLineParsingRoutine = new ParsingRoutineI () {
+			@Override
+			public void foundItemMatchKey1 (XMLNode aChildNode) {
+				ContractLine tContractLine;
+
+				tContractLine = new ContractLine (aChildNode, player);
+				System.out.println ("Parsed ContractLine [" + aChildNode.toString ());
+				addContractLine (tContractLine);
+			}
+		};
+	};
 	
 	public void setSigned (boolean aSigned) {
 		signed = aSigned;
@@ -243,6 +285,21 @@ public class ContractBid {
 		
 		return tIsValid;
 	}
+	
+	public ContractLine getContractLineAt (int aIndex) {
+		ContractLine tContractLine;
+		
+		tContractLine = contractLines.get (aIndex);
+		
+		return tContractLine;
+	}
+//	public City getCityWithName (String aCityName) {
+//		City tCity;
+//		
+//		tCity = player.getCityWithName (aCityName);
+//		
+//		return tCity;
+//	}
 	
 	// New Methods to add:
 	// ParseContractBid -- Will parse the XML from the Save Game File

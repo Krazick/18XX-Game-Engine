@@ -7,6 +7,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import geUtilities.xml.XMLNode;
 
 public class ContractLine {
 	public static final ContractLine NO_CONTRACT_LINE = null;
@@ -27,6 +28,44 @@ public class ContractLine {
 		setShareCompany (aShareCompany);
 		setBond (aBond);
 		setConnected (false);
+	}
+
+	public ContractLine (XMLNode aXMLNode, Player aPlayer) {
+		City tCity;
+		String tCityName;
+		ShareCompany tShareCompany;
+		int tShareCompanyID;
+		int tBond;
+		boolean tConnected;
+		
+		tCityName = aXMLNode.getThisAttribute (AN_CITY_NAME);
+		tShareCompanyID = aXMLNode.getThisIntAttribute (AN_SHARE_COMPANY_ID);
+		tBond = aXMLNode.getThisIntAttribute (AN_BOND);
+		tConnected = aXMLNode.getThisBooleanAttribute (AN_CONNECTED);
+		
+		tCity = getCityWithName (tCityName, aPlayer);
+		setCity (tCity);
+		tShareCompany = getShareCompanyByID (tShareCompanyID, aPlayer);
+		setShareCompany (tShareCompany);
+		setBond (tBond);
+		setConnected (tConnected);
+
+	}
+	
+	public City getCityWithName (String aCityName, Player aPlayer) {
+		City tCity;
+		
+		tCity = aPlayer.getCityWithName (aCityName);
+		
+		return tCity;
+	}
+	
+	public ShareCompany getShareCompanyByID (int aShareCompanyID, Player aPlayer) {
+		ShareCompany tShareCompany;
+		
+		tShareCompany = aPlayer.getShareCompanyByID (aShareCompanyID);
+		
+		return tShareCompany;
 	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument) {
