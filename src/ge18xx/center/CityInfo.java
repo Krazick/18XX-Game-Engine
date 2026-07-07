@@ -314,6 +314,17 @@ public class CityInfo implements Cloneable {
 		return bond;
 	}
 	
+	public City getCity () {
+		City tCity;
+		
+		tCity = City.NO_CITY;
+		if (center instanceof City) {
+			tCity = (City) center;
+		}
+		
+		return tCity;
+	}
+	
 	public Corporation getCorporation () {
 		return corporation;
 	}
