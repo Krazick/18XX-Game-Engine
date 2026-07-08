@@ -333,6 +333,14 @@ public class CompanyTestFactory {
 				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"3\" allowedOwners=\"IPO,Player,BankPool\"\n"
 				+ "				 onlyExchangeable=\"true\" />\n"
 				+ "	</Share>\n";
+		String tShareCompany7TestXML = "	<Share id=\"1901\" name=\"East Indian Railway\" abbrev=\"EIR\" tileLaysAllowed=\"2\" actorBank=\"Corporate Bank\"\n"
+				+ "		homeCell1=\"Jab\" homeLocation1=\"7\" homeCell2=\"Hx\" homeLocation2=\"10\" homeType=\"both\"\n"
+				+ "		bgColor=\"Red\" fgColor=\"White\" tokens=\"5\" tokenType=\"FixedCost\" startPrice=\"0,14\">\n"
+				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\"\n"
+				+ "			allowedOwners=\"IPO,Player,BankPool\" />\n"
+				+ "	</Share>\n";
+		
 
 		ShareCompany tShareCompany;
 		PhaseInfo mPhaseInfo;
@@ -361,6 +369,8 @@ public class CompanyTestFactory {
 		} else if (aCompanyIndex == 6) {
 			// Prussian Share Company
 			tShareCompany = buildShareCompany (tShareCompany6TestXML, tShareCompany, mCorporationList);
+		} else if (aCompanyIndex == 7) {
+			tShareCompany = buildShareCompany (tShareCompany7TestXML, tShareCompany, mCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}

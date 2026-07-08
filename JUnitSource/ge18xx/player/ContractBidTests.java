@@ -65,7 +65,7 @@ class ContractBidTests {
 
 		centerTestFactory = new CenterTestFactory ();
 		companyTestFactory = centerTestFactory.getCompanyTestFactory ();
-		shareCompany = companyTestFactory.buildAShareCompany (3);
+		shareCompany = companyTestFactory.buildAShareCompany (7);
 
 		playerCount = 4;
 		certificateLimit = 16;
@@ -394,10 +394,10 @@ class ContractBidTests {
 		tContractBidXMLText = tContractBidXML.toXMLString ();
 		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
 				+ "<ContractLines>\n"
-				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"0230551e7eb39dc300f1dfac8e20eba6b4e519d52bc25e743eed75c1a18dbdf4\" label=\"\" nodeName=\"ContractLine\"/>\n"
 				+ "</ContractLines>\n"
-				+ "<ChecksumXMLElement checksum=\"040a2d46060e464d2426515b9db3588ce6c83a8d35fedf2cce2b02b742ab7244\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"691637302e7b78a4d87c1a1182e54e338437f0631e933933383926f3a7d028f7\" label=\"\" nodeName=\"ContractLines\"/>\n"
 				+ "</ContractBid>\n", tContractBidXMLText);
 
 		tIsDeltaTerrain = true;
@@ -412,12 +412,12 @@ class ContractBidTests {
 
 		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
 				+ "<ContractLines>\n"
-				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
-				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"6d39f629c4436441458dd9f171dee843908e432efc95a0beebe73f7acf37bd95\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"0230551e7eb39dc300f1dfac8e20eba6b4e519d52bc25e743eed75c1a18dbdf4\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"b1852dc96493d5eecfabe576b9fd0887642b4ce91a742a649479d79831b31d73\" label=\"\" nodeName=\"ContractLine\"/>\n"
 				+ "</ContractLines>\n"
-				+ "<ChecksumXMLElement checksum=\"1e644bc80ebaefe7da086945803451a48cf90008992fbe16c8d8f97e240cef72\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"0d1217d9f9ace43049f0542ef949cfe4923f5be71ee037265e78041ee358c652\" label=\"\" nodeName=\"ContractLines\"/>\n"
 				+ "</ContractBid>\n", tContractBidXMLText);
 
 		tBond = city5.getCityInfoBond ();
@@ -429,14 +429,14 @@ class ContractBidTests {
 
 		assertEquals ("<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
 				+ "<ContractLines>\n"
-				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
-				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"6d39f629c4436441458dd9f171dee843908e432efc95a0beebe73f7acf37bd95\" label=\"\" nodeName=\"ContractLine\"/>\n"
-				+ "<ContractLine bond=\"20\" cityName=\"Peshawar\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"f2176658c4cd58f058ebb0c388f74494c29f660c6f276545367d551ea458f509\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"0230551e7eb39dc300f1dfac8e20eba6b4e519d52bc25e743eed75c1a18dbdf4\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"b1852dc96493d5eecfabe576b9fd0887642b4ce91a742a649479d79831b31d73\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"20\" cityName=\"Peshawar\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"e2d731e2947eba5dc5658eb3141e0d5ebb1aadabd99160e351959e4e3a3e5e97\" label=\"\" nodeName=\"ContractLine\"/>\n"
 				+ "</ContractLines>\n"
-				+ "<ChecksumXMLElement checksum=\"e7c5697eec3fe13934dbb018fce9b66b64d4eb4b92d5bdffa67930b3e63df7ef\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"c6fd9243365f1f9f95054fffe94f91309a899359617e6acc940eda8b19058d7b\" label=\"\" nodeName=\"ContractLines\"/>\n"
 				+ "</ContractBid>\n", tContractBidXMLText);
 		
 		tContractLineCount = tContractBid.getCityCount ();
@@ -458,14 +458,14 @@ class ContractBidTests {
 	void parseContractBidXMLTests () {
 		String tContractBidText = "<ContractBid extraForBond=\"20\" fullfilled=\"false\" signed=\"false\">\n"
 				+ "<ContractLines>\n"
-				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"c8d4bde7c07bb1fca59000a26ef6caf14e175dbf31eef24294819d9ee7d948b8\" label=\"\" nodeName=\"ContractLine\"/>\n"
-				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"6d39f629c4436441458dd9f171dee843908e432efc95a0beebe73f7acf37bd95\" label=\"\" nodeName=\"ContractLine\"/>\n"
-				+ "<ContractLine bond=\"20\" cityName=\"Peshawar\" connected=\"false\" shareCompanyID=\"1501\"/>\n"
-				+ "<ChecksumXMLElement checksum=\"f2176658c4cd58f058ebb0c388f74494c29f660c6f276545367d551ea458f509\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"50\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"0230551e7eb39dc300f1dfac8e20eba6b4e519d52bc25e743eed75c1a18dbdf4\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"40\" cityName=\"Delhi\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"b1852dc96493d5eecfabe576b9fd0887642b4ce91a742a649479d79831b31d73\" label=\"\" nodeName=\"ContractLine\"/>\n"
+				+ "<ContractLine bond=\"20\" cityName=\"Peshawar\" connected=\"false\" shareCompanyID=\"1901\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"e2d731e2947eba5dc5658eb3141e0d5ebb1aadabd99160e351959e4e3a3e5e97\" label=\"\" nodeName=\"ContractLine\"/>\n"
 				+ "</ContractLines>\n"
-				+ "<ChecksumXMLElement checksum=\"e7c5697eec3fe13934dbb018fce9b66b64d4eb4b92d5bdffa67930b3e63df7ef\" label=\"\" nodeName=\"ContractLines\"/>\n"
+				+ "<ChecksumXMLElement checksum=\"c6fd9243365f1f9f95054fffe94f91309a899359617e6acc940eda8b19058d7b\" label=\"\" nodeName=\"ContractLines\"/>\n"
 				+ "</ContractBid>\n";
 		ContractBid tContractBid;
 		XMLNode tContractBidNode;

@@ -38,7 +38,7 @@ class ContractLineTests {
 			city = (City) center;
 		}
 		tBond = 50;
-		shareCompany = companyTestFactory.buildAShareCompany (3);
+		shareCompany = companyTestFactory.buildAShareCompany (7);
 		contractLine = new ContractLine (city, shareCompany, tBond);
 	}
 
@@ -55,7 +55,7 @@ class ContractLineTests {
 		assertEquals (city, tCity);
 		assertEquals (50, contractLine.getBond ());
 		tShareCompany = contractLine.getShareCompany ();
-		assertEquals ("Buffalo, Brantford & Goderich Railway", tShareCompany.getName ());
+		assertEquals ("East Indian Railway", tShareCompany.getName ());
 		assertFalse (contractLine.isConnected ());
 		assertEquals ("Calcutta", contractLine.getCityName ());
 	}
@@ -105,13 +105,13 @@ class ContractLineTests {
 		tContractLine = new ContractLine (city, shareCompany, 20);
 		tContractLineXML = tContractLine.getElements (tXMLDocument);
 		tContractLineXMLText = tContractLineXML.toXMLString ();
-		assertEquals ("<ContractLine bond=\"20\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1501\"/>\n", 
+		assertEquals ("<ContractLine bond=\"20\" cityName=\"Calcutta\" connected=\"false\" shareCompanyID=\"1901\"/>\n", 
 					tContractLineXMLText);
 		
 		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 30);
 		tContractLineXML = tContractLine.getElements (tXMLDocument);
 		tContractLineXMLText = tContractLineXML.toXMLString ();
-		assertEquals ("<ContractLine bond=\"30\" cityName=\"\" connected=\"false\" shareCompanyID=\"1501\"/>\n", 
+		assertEquals ("<ContractLine bond=\"30\" cityName=\"\" connected=\"false\" shareCompanyID=\"1901\"/>\n", 
 					tContractLineXMLText);
 		
 		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 30);
