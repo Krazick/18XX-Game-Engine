@@ -81,7 +81,6 @@ public class ContractBid {
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			XMLNodeList tXMLNodeList;
 
-			System.out.println ("Ready to Parse a Contract Line");
 			tXMLNodeList = new XMLNodeList (contractLineParsingRoutine);
 			tXMLNodeList.parseXMLNodeList (aChildNode, ContractLine.EN_CONTRACT_LINE);
 		}
@@ -92,7 +91,6 @@ public class ContractBid {
 				ContractLine tContractLine;
 
 				tContractLine = new ContractLine (aChildNode, player);
-				System.out.println ("Parsed ContractLine [" + aChildNode.toString ());
 				addContractLine (tContractLine);
 			}
 		};
@@ -293,16 +291,8 @@ public class ContractBid {
 		
 		return tContractLine;
 	}
-//	public City getCityWithName (String aCityName) {
-//		City tCity;
-//		
-//		tCity = player.getCityWithName (aCityName);
-//		
-//		return tCity;
-//	}
 	
 	// New Methods to add:
-	// ParseContractBid -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
 	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid
 }

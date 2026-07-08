@@ -50,6 +50,7 @@ class ContractBidTests {
 
 	@BeforeEach
 	void setUp () throws Exception {
+		boolean tIsDeltaTerrain;
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 		
@@ -74,8 +75,9 @@ class ContractBidTests {
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
 		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
 				minBidCities, maxBidCities);
+		tIsDeltaTerrain = true;
 		city3 = (City) centerTestFactory.buildCity (3);		
-		city4 = (City) centerTestFactory.buildCity (4);		
+		city4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);		
 		city5 = (City) centerTestFactory.buildCity (5);		
 
 	}
@@ -138,10 +140,8 @@ class ContractBidTests {
 	@Test
 	@DisplayName ("Adding ContractLine Tests")
 	void addContractLineTests () {
+		City tCity0;
 		City tCity2;
-//		City tCity3;
-		City tCity4;
-		City tCity5;
 		City tCity6;
 		ContractLine tContractLine1;
 		ContractLine tContractLine2;
@@ -150,7 +150,6 @@ class ContractBidTests {
 		int tBond;
 		
 		tContractBid = player.getContractBid ();
-//		tCity3 = (City) centerTestFactory.buildCity (3);		
 		tBond = city3.getCityInfoBond ();
 		tContractLine1 = playerTestFactory.buildContractLine (city3, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine1);
@@ -165,9 +164,8 @@ class ContractBidTests {
 		assertEquals (2, tContractBid.getCityCount ());
 		assertEquals (100, tContractBid.getTotalValue ());
 		
-		tCity4 = (City) centerTestFactory.buildCity (4);
-		tBond = tCity4.getCityInfoBond ();
-		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
+		tBond = city4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (city4, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine4);
 		assertEquals (3, tContractBid.getCityCount ());
 		assertEquals (140, tContractBid.getTotalValue ());
@@ -183,8 +181,8 @@ class ContractBidTests {
 		
 		// Test to delete a Contract Line based on CityName
 		
-		tCity5 = City.NO_CITY;
-		tContractBid.deleteContractLine (tCity5);
+		tCity0 = City.NO_CITY;
+		tContractBid.deleteContractLine (tCity0);
 		assertEquals (3, tContractBid.getCityCount ());
 
 		tCity6 = (City) centerTestFactory.buildCity (6);
@@ -200,9 +198,6 @@ class ContractBidTests {
 	@DisplayName ("Player Contract Line Validation Tests")
 	void playerContractLineValidationTests () {
 		City tCity1;
-//		City tCity3;
-		City tCity4;
-		City tCity5;
 		ShareCompany tShareCompany1;
 		int tBond1;
 		int tBond3;
@@ -232,23 +227,20 @@ class ContractBidTests {
 		tContractBid1.deleteContractLine (tCity1);
 		assertEquals (0, tContractBid1.getCityCount ());
 
-//		tCity3 = (City) centerTestFactory.buildCity (3);
 		tBond3 = city3.getCityInfoBond ();
 		tContractLine3 = playerTestFactory.buildContractLine (city3, shareCompany, tBond3);
 		tContractBid1.addContractLine (tContractLine3);
 		
-		tCity4 = (City) centerTestFactory.buildCity (4);
-		tBond4 = tCity4.getCityInfoBond ();
-		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond4);
+		tBond4 = city4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (city4, shareCompany, tBond4);
 		tContractBid1.addContractLine (tContractLine4);
 		
 		assertEquals ("Not enough Cities (minimum is 3) are in the Contract Bid\n", tContractBid1.getAllReasonsInvalid ());
 		
 		assertFalse (tContractBid1.isValid ());
 
-		tCity5 = (City) centerTestFactory.buildCity (5);
-		tBond5 = tCity5.getCityInfoBond ();
-		tContractLine5 = playerTestFactory.buildContractLine (tCity5, shareCompany, tBond5);
+		tBond5 = city5.getCityInfoBond ();
+		tContractLine5 = playerTestFactory.buildContractLine (city5, shareCompany, tBond5);
 		tContractBid1.addContractLine (tContractLine5);
 
 		assertEquals (3, tContractBid1.getCityCount ());
@@ -260,9 +252,6 @@ class ContractBidTests {
 	@DisplayName ("Player Contract Bid Validation Tests")
 	void playerContractBidValidationTests () {
 		City tCity2;
-//		City tCity3;
-		City tCity4;
-		City tCity5;
 		City tCity6;
 		City tCity7;
 		City tCity8;
@@ -285,7 +274,6 @@ class ContractBidTests {
 		
 		assertFalse (tContractBid.isValid ());
 		
-//		tCity3 = (City) centerTestFactory.buildCity (3);
 		assertFalse (city3.isDeltaTerrain ());
 		tBond = city3.getCityInfoBond ();
 		tContractLine1 = playerTestFactory.buildContractLine (city3, shareCompany, tBond);
@@ -305,17 +293,15 @@ class ContractBidTests {
 
 		assertFalse (tContractBid.isValid ());
 
-		tCity4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);
-		tBond = tCity4.getCityInfoBond ();
-		tContractLine4 = playerTestFactory.buildContractLine (tCity4, shareCompany, tBond);
+		tBond = city4.getCityInfoBond ();
+		tContractLine4 = playerTestFactory.buildContractLine (city4, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine4);
 		assertEquals (2, tContractBid.getDeltaCityCount ());
 		
 		assertTrue (tContractBid.isValid ());
 
-		tCity5 = (City) centerTestFactory.buildCity (5);
-		tBond = tCity5.getCityInfoBond ();
-		tContractLine5 = playerTestFactory.buildContractLine (tCity5, shareCompany, tBond);
+		tBond = city5.getCityInfoBond ();
+		tContractLine5 = playerTestFactory.buildContractLine (city5, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine5);
 		
 		assertTrue (tContractBid.isValid ());
@@ -368,9 +354,9 @@ class ContractBidTests {
 		
 		player.addCash (330);
 
-		tContractBid.deleteContractLine (tCity5);
+		tContractBid.deleteContractLine (city5);
 		assertEquals (5, tContractBid.getCityCount ());
-		tContractLine0 = playerTestFactory.buildContractLine (tCity5, ShareCompany.NO_SHARE_COMPANY, 20);
+		tContractLine0 = playerTestFactory.buildContractLine (city5, ShareCompany.NO_SHARE_COMPANY, 20);
 		tContractBid.addContractLine (tContractLine0);
 		assertFalse (tContractBid.isValid ());
 		assertEquals ("No Share Company is specified\n"
@@ -384,8 +370,6 @@ class ContractBidTests {
 		XMLDocument tXMLDocument;
 		XMLElement tContractBidXML;
 		String tContractBidXMLText;
-//		City tCity4;
-//		City tCity5;
 		ContractLine tContractLine1;
 		ContractLine tContractLine4;
 		ContractLine tContractLine5;
@@ -436,7 +420,6 @@ class ContractBidTests {
 				+ "<ChecksumXMLElement checksum=\"1e644bc80ebaefe7da086945803451a48cf90008992fbe16c8d8f97e240cef72\" label=\"\" nodeName=\"ContractLines\"/>\n"
 				+ "</ContractBid>\n", tContractBidXMLText);
 
-//		tCity5 = (City) centerTestFactory.buildCity (5);
 		tBond = city5.getCityInfoBond ();
 		tContractLine5 = playerTestFactory.buildContractLine (city5, shareCompany, tBond);
 		tContractBid.addContractLine (tContractLine5);
@@ -497,10 +480,12 @@ class ContractBidTests {
 		tContractBid.loadXMLNode (tContractBidNode);
 		assertEquals (3, tContractBid.getCityCount ());
 		tContractLine = tContractBid.getContractLineAt (0);
-		System.out.println ("Contract Line 0, Name is " + tContractLine.getCityName ());
+		assertEquals ("Calcutta", tContractLine.getCityName ());
+		
 		tContractLine = tContractBid.getContractLineAt (1);
-		System.out.println ("Contract Line 1, Name is " + tContractLine.getCityName ());
+		assertEquals ("Delhi", tContractLine.getCityName ());
+		
 		tContractLine = tContractBid.getContractLineAt (2);
-		System.out.println ("Contract Line 2, Name is " + tContractLine.getCityName ());
+		assertEquals ("Peshawar", tContractLine.getCityName ());
 	}
 }

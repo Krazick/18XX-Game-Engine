@@ -179,7 +179,6 @@ public class ContractLine {
 	}
 	
 	// New Methods to add
-	// ParseContractLine -- Will parse the XML from the Save Game File
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
 	// ParseActionEffects -- Will parse the Action with Effects XML of the ContractBid
 }
