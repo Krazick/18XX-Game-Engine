@@ -475,12 +475,15 @@ class ContractBidTests {
 		Mockito.when (mGameManager.getCityWithName ("Delhi")).thenReturn (city4);
 		Mockito.when (mGameManager.getCityWithName ("Peshawar")).thenReturn (city5);
 
+		Mockito.when (mGameManager.getShareCompanyByID (1901)).thenReturn (shareCompany);
+
 		tContractBidNode = utilitiesTestFactory.buildXMLNode (tContractBidText);
 		tContractBid = player.getContractBid ();
 		tContractBid.loadXMLNode (tContractBidNode);
 		assertEquals (3, tContractBid.getCityCount ());
 		tContractLine = tContractBid.getContractLineAt (0);
 		assertEquals ("Calcutta", tContractLine.getCityName ());
+		assertEquals (shareCompany, tContractLine.getShareCompany ());
 		
 		tContractLine = tContractBid.getContractLineAt (1);
 		assertEquals ("Delhi", tContractLine.getCityName ());
