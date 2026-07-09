@@ -41,8 +41,8 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		XMLElement tCityElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_CITIES);
-		for (CityInfo city : cities) {
-			tCityElement = city.createElement (aXMLDocument);
+		for (CityInfo tCity : cities) {
+			tCityElement = tCity.createElement (aXMLDocument);
 			tXMLElement.appendChild (tCityElement);
 		}
 		aXMLDocument.appendChild (tXMLElement);
