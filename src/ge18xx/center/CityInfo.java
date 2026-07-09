@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
+import java.util.Arrays;
 
 //
 //  CityInfo.java
@@ -35,8 +36,9 @@ public class CityInfo implements Cloneable {
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_BOND = new AttributeName ("bond");
 	public static final AttributeName AN_CORP_BASE = new AttributeName ("corpBase");
+	public static final AttributeName AN_SHARE_COMPANIES = new AttributeName ("shareCompanies");
 	public static final CityInfo NO_CITY_INFO = null;
-	public static final String NO_NAME = "";
+	public static final String NO_NAME = GUI.EMPTY_STRING;
 	public static final int NO_BOND = 0;
 	int id;
 	int type;
@@ -48,12 +50,13 @@ public class CityInfo implements Cloneable {
 	RevenueCenter center;
 	MapCell mapCell;
 	Corporation corporation; // Corporation Home Base
+	int [] shareCompanies = new int [5];
 
 	/**
 	 *
 	 */
 	public CityInfo () {
-		this (0, NO_NAME, null, RevenueCenterType.NO_REVENUE_CENTER);
+		this (0, NO_NAME, Location.NO_LOC, RevenueCenterType.NO_REVENUE_CENTER);
 	}
 
 	public CityInfo (int aID, String aName, Location aNameLocation, int aType) {
@@ -70,6 +73,7 @@ public class CityInfo implements Cloneable {
 	public CityInfo (XMLNode aChildNode) {
 		int tLocation;
 		String tCorporationAbbrev;
+		String tShareCompanies;
 
 		clearCorporation ();
 		clearMapCell ();
@@ -79,7 +83,14 @@ public class CityInfo implements Cloneable {
 		type = aChildNode.getThisIntAttribute (AN_TYPE);
 		bond = aChildNode.getThisIntAttribute (AN_BOND, NO_BOND);
 		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
-
+		tShareCompanies = aChildNode.getThisAttribute (AN_SHARE_COMPANIES);
+		if (tShareCompanies != GUI.NULL_STRING) {
+			shareCompanies = Arrays.stream(tShareCompanies.split(",\\s*"))
+	                .mapToInt(Integer::parseInt)
+	                .toArray();
+			System.out.println ("City Name: " + name + " Company IDs " + Arrays.toString (shareCompanies));
+		}
+		
 		setCorporation (tCorporationAbbrev);
 		tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
 		nameLocation = new Location (tLocation);

@@ -109,14 +109,14 @@ public class CenterTestFactory {
 		String tCityInfoXMLTexts [] = {
 				"<CityInfo id=\"7\" location=\"14\" name=\"Baltimore\" type=\"3\" />",
 				"<CityInfo id=\"3\" location=\"14\" name=\"Chicago\" type=\"3\" />",
-				"<CityInfo id=\"22\" name=\"Calcutta\" type=\"3\" bond=\"50\" />",
-				"<CityInfo id=\"8\" name=\"Delhi\" type=\"3\" bond=\"40\" />",
-				"<CityInfo id=\"5\" location=\"14\" name=\"Peshawar\" type=\"3\" bond=\"20\" />",
-				"<CityInfo id=\"18\" name=\"Mysore\" type=\"3\" bond=\"20\" />",
-				"<CityInfo id=\"19\" location=\"17\" name=\"Bangalore\" type=\"3\" bond=\"20\" />",
-				"<CityInfo id=\"20\" name=\"Madras\" type=\"3\" bond=\"30\" />",
-				"<CityInfo id=\"11\" name=\"Cawnpore\" type=\"3\" bond=\"20\" />",
-				"<CityInfo id=\"12\" name=\"Lucknow\" type=\"3\" bond=\"20\" />"
+				"<CityInfo id=\"22\" name=\"Calcutta\" type=\"3\" bond=\"50\" shareCompanies=\"1901,1904,1908\" />",
+				"<CityInfo id=\"8\" name=\"Delhi\" type=\"3\" bond=\"40\" shareCompanies=\"1903\" />",
+				"<CityInfo id=\"5\" location=\"14\" name=\"Peshawar\" type=\"3\" bond=\"20\" shareCompanies=\"1903\" />",
+				"<CityInfo id=\"18\" name=\"Mysore\" type=\"3\" bond=\"20\" shareCompanies=\"1907\" />",
+				"<CityInfo id=\"19\" location=\"17\" name=\"Bangalore\" type=\"3\" bond=\"20\" shareCompanies=\"1906\" />",
+				"<CityInfo id=\"20\" name=\"Madras\" type=\"3\" bond=\"30\" shareCompanies=\"1906,1907\" />",
+				"<CityInfo id=\"11\" name=\"Cawnpore\" type=\"3\" bond=\"20\" shareCompanies=\"1902\" />",
+				"<CityInfo id=\"12\" name=\"Lucknow\" type=\"3\" bond=\"20\" shareCompanies=\"1901\" />"
 		};
 		CityInfo tCityInfo;
 		XMLNode tCityInfoNode;
