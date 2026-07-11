@@ -482,6 +482,8 @@ public class Centers implements Cloneable {
 		String tCompanyDestinations;
 		String tPreviousAbbrev;
 		String tCorporationAbbrev;
+		String tDestinationCorpAbbrev;
+		String tContractCompanies;
 		String tCityName;
 		String tRCType;
 		RevenueCenter tCenter;
@@ -498,9 +500,9 @@ public class Centers implements Cloneable {
 		}
 		tCompanyHomes = GUI.EMPTY_STRING;
 		tCompanyDestinations = GUI.EMPTY_STRING;
-		tPreviousAbbrev = null;
+		tPreviousAbbrev = GUI.NULL_STRING;
 		tRCType = GUI.EMPTY_STRING;
-
+		tContractCompanies = GUI.EMPTY_STRING;
 		for (RevenueCenter tRC : centers) {
 			if (tSuperToolTip.length () == 0) {
 				tSuperToolTip = tRC.getToolTip ();
@@ -515,24 +517,28 @@ public class Centers implements Cloneable {
 			} else if (tRC.isCity ()) {
 				tRCType = "City";
 				tTokenAbbrev = tRC.getTokenToolTip ();
+				tContractCompanies = getContractCompanies (tRC);
 			}
-			if (!("".equals (tTokenAbbrev))) {
+			if (!(GUI.EMPTY_STRING.equals (tTokenAbbrev))) {
 				tToolTip += "Tokens: " + tTokenAbbrev + "<br>";
 			}
 			tCorporationAbbrev = tRC.getHomeCompanyAbbrev ();
-			if (tCorporationAbbrev != null) {
+			if (tCorporationAbbrev != GUI.NULL_STRING) {
 				if (!tCorporationAbbrev.equals (tPreviousAbbrev)) {
 					tCompanyHomes += "Home for: " + tCorporationAbbrev + "<br>";
 					tPreviousAbbrev = tCorporationAbbrev;
 				}
 			}
-			tCorporationAbbrev = tRC.getDestCompanyAbbrev ();
-			if (tCorporationAbbrev != null) {
-				tCompanyDestinations += "Destination for: " + tCorporationAbbrev + "<br>";
+			tDestinationCorpAbbrev = tRC.getDestCompanyAbbrev ();
+			if (tDestinationCorpAbbrev != GUI.NULL_STRING) {
+				tCompanyDestinations += "Destination for: " + tDestinationCorpAbbrev + "<br>";
 			}
 		}
 		if (tRCType.length () > 0) {
 			tToolTip += "RC Type: " + tRCType + "<br>";
+		}
+		if (tContractCompanies.length () > 0) {
+			tToolTip += "Contract Cos: " + tContractCompanies;
 		}
 		tToolTip += tCompanyHomes;
 		tToolTip += tSuperToolTip;
@@ -541,6 +547,16 @@ public class Centers implements Cloneable {
 		return tToolTip;
 	}
 
+	public String getContractCompanies (RevenueCenter aRevenueCenter) {
+		String tContractCompanies;
+		City tCity;
+		
+		tCity = (City) aRevenueCenter;
+		tContractCompanies = tCity.getContractCompanies ();
+
+		return tContractCompanies;
+	}
+	
 	public int getTypeCount () {
 		int tTypeCount;
 

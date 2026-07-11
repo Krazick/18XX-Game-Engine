@@ -1363,4 +1363,12 @@ public class City extends RevenueCenter implements Cloneable {
 				
 		return tIsDeltaTerrain;
 	}
+
+	public String getContractCompanies () {
+		String tContractCompanies;
+		
+		tContractCompanies = cityInfo.getContractCompanies ();
+		
+		return tContractCompanies;
+	}
 }

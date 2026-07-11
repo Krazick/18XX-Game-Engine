@@ -17,6 +17,7 @@ import java.util.Arrays;
 //
 
 import ge18xx.company.Corporation;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
@@ -40,6 +41,7 @@ public class CityInfo implements Cloneable {
 	public static final CityInfo NO_CITY_INFO = null;
 	public static final String NO_NAME = GUI.EMPTY_STRING;
 	public static final int NO_BOND = 0;
+
 	int id;
 	int type;
 	int mapX;
@@ -50,13 +52,13 @@ public class CityInfo implements Cloneable {
 	RevenueCenter center;
 	MapCell mapCell;
 	Corporation corporation; // Corporation Home Base
-	int [] shareCompanies = new int [5];
+	int [] shareCompanies = { Corporation.NO_ID, Corporation.NO_ID, Corporation.NO_ID, Corporation.NO_ID, Corporation.NO_ID };
 
 	/**
 	 *
 	 */
 	public CityInfo () {
-		this (0, NO_NAME, Location.NO_LOC, RevenueCenterType.NO_REVENUE_CENTER);
+		this (RevenueCenter.NO_ID, NO_NAME, Location.NO_LOC, RevenueCenterType.NO_REVENUE_CENTER);
 	}
 
 	public CityInfo (int aID, String aName, Location aNameLocation, int aType) {
@@ -85,10 +87,9 @@ public class CityInfo implements Cloneable {
 		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
 		tShareCompanies = aChildNode.getThisAttribute (AN_SHARE_COMPANIES);
 		if (tShareCompanies != GUI.NULL_STRING) {
-			shareCompanies = Arrays.stream(tShareCompanies.split(",\\s*"))
-	                .mapToInt(Integer::parseInt)
-	                .toArray();
-			System.out.println ("City Name: " + name + " Company IDs " + Arrays.toString (shareCompanies));
+			shareCompanies = Arrays.stream (tShareCompanies.split (",\\s*"))
+	                .mapToInt (Integer::parseInt)
+	                .toArray ();
 		}
 		
 		setCorporation (tCorporationAbbrev);
@@ -105,6 +106,7 @@ public class CityInfo implements Cloneable {
 		mapCell = aCityInfo.getMapCell ();
 		center = aCityInfo.getRevenueCenter ();
 		bond = aCityInfo.getBond ();
+		shareCompanies = aCityInfo.getShareCompanies ();
 	}
 	
 	public void clearCorporation () {
@@ -155,6 +157,9 @@ public class CityInfo implements Cloneable {
 			tCityInfo.mapCell = mapCell;
 			tCityInfo.bond = bond;
 			tCityInfo.corporation = corporation;
+			if (shareCompanies [0] != Corporation.NO_ID) {
+				tCityInfo.shareCompanies = shareCompanies;
+			}
 		} catch (CloneNotSupportedException e) {
 			System.err.println ("City Info Clone, Clone Not Supported");
 		}
@@ -164,12 +169,17 @@ public class CityInfo implements Cloneable {
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
+		String tShareCompanies;
 
 		tXMLElement = aXMLDocument.createElement (EN_CITY_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_ID, id);
 		tXMLElement.setAttribute (AN_TYPE, type);
 		tXMLElement.setAttribute (AN_CORP_BASE, getCorporationAbbrev ());
+		if (shareCompanies [0] > 0) {
+			tShareCompanies = Arrays.toString (shareCompanies);
+			tXMLElement.setAttribute (AN_SHARE_COMPANIES, tShareCompanies);
+		}
 		if (bond > 0) {
 			tXMLElement.setAttribute (AN_BOND, bond);
 		}
@@ -242,7 +252,7 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void drawPrivateRailway (Graphics g, int Xc, int Yc, Hex aHex) {
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d;
 		Point tPoint1;
 		Point tPoint2;
 		Location tLocation1;
@@ -258,6 +268,7 @@ public class CityInfo implements Cloneable {
 		Paint tTerrainFillPaint;
 		String tLabel;
 
+		g2d = (Graphics2D) g;
 		if (corporation != Corporation.NO_CORPORATION) {
 			tLocation1 = corporation.getHomeLocation1 ();
 			tLocation2 = corporation.getHomeLocation2 ();
@@ -359,7 +370,7 @@ public class CityInfo implements Cloneable {
 	public int getBonusRevenue () {
 		int tBonusRevenue;
 		
-		tBonusRevenue = 0;
+		tBonusRevenue = RevenueCenter.NO_VALUE;
 		if (mapCell != MapCell.NO_MAP_CELL) {
 			tBonusRevenue = mapCell.getBonusRevenue ();
 		}
@@ -380,11 +391,15 @@ public class CityInfo implements Cloneable {
 	}
 
 	public String getMapCellID () {
+		String tMapCellID;
+		
 		if (mapCell == MapCell.NO_MAP_CELL) {
-			return "NOT YET";
+			tMapCellID = "NOT YET";
 		} else {
-			return mapCell.getID ();
+			tMapCellID = mapCell.getID ();
 		}
+		
+		return tMapCellID;
 	}
 
 	public String getName () {
@@ -399,13 +414,28 @@ public class CityInfo implements Cloneable {
 		return center;
 	}
 
+	public int getShareCompanyID (int aCompanyIndex) {
+		int tShareCompanyID;
+		
+		tShareCompanyID = Corporation.NO_ID;
+		if ((aCompanyIndex >= 0) && (aCompanyIndex < 5)) {
+			tShareCompanyID = shareCompanies [aCompanyIndex];
+		}
+		
+		return tShareCompanyID;
+	}
+	
+	public int [] getShareCompanies () {
+		return shareCompanies;
+	}
+	
 	public int getType () {
 		return type;
 	}
-
-	public String getTypeToString () {
-		return (Integer.valueOf (type).toString ());
-	}
+//
+//	public String getTypeToString () {
+//		return (Integer.valueOf (type).toString ());
+//	}
 
 	public boolean isCorporationBase () {
 		boolean tIsCorporationBase;
@@ -425,11 +455,14 @@ public class CityInfo implements Cloneable {
 	}
 
 	public boolean mapCellHasStation (Token aToken) {
+		boolean tMapCellHasStation;
+		
+		tMapCellHasStation = false;
 		if (mapCell != MapCell.NO_MAP_CELL) {
-			return mapCell.hasStation (aToken);
-		} else {
-			return false;
+			tMapCellHasStation = mapCell.hasStation (aToken);
 		}
+		
+		return tMapCellHasStation;
 	}
 	
 	public void printCityInfo () {
@@ -502,5 +535,30 @@ public class CityInfo implements Cloneable {
 		tIsDeltaTerrain = mapCell.isDeltaTerrain ();
 		
 		return tIsDeltaTerrain;
+	}
+
+	public String getContractCompanies () {
+		String tContractCompanies;
+		ShareCompany tShareCompany;
+		Corporation tCorporation;
+		
+		tContractCompanies = GUI.EMPTY_STRING;
+		if (shareCompanies [0] > 0) {
+			for (int tShareCompanyID: shareCompanies) {
+				if (tShareCompanyID > 0) {
+					tCorporation = mapCell.getCorporationByID (tShareCompanyID);
+					if (tCorporation.isAShareCompany ()) {
+						if (!(tContractCompanies.equals (GUI.EMPTY_STRING))) {
+							tContractCompanies += ", ";
+						}
+						tShareCompany = (ShareCompany) tCorporation;
+						tContractCompanies += tShareCompany.getAbbrev ();
+					}
+				}
+			}
+			tContractCompanies += "<br>";
+		}
+		
+		return tContractCompanies;
 	}
 }
