@@ -6,6 +6,7 @@ import ge18xx.center.City;
 import ge18xx.company.Certificate;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.toplevel.ContractBidFrame;
 
 public class PlayerTestFactory {
 	GameManager gameManager;
@@ -95,6 +96,24 @@ public class PlayerTestFactory {
 		return tEscrow;
 	}
 	
+	public ContractBidFrame buildContractBidFrameMock (ContractBid aContractBid) {
+		ContractBidFrame mContractBidFrame;
+		
+		mContractBidFrame = Mockito.mock (ContractBidFrame.class);
+		Mockito.doNothing ().when (mContractBidFrame).setContractBid (aContractBid);
+		Mockito.doNothing ().when (mContractBidFrame).fillContractBidJPanel ();
+		
+		return mContractBidFrame;
+	}
+	
+	public ContractBid buildContractBidMock () {
+		ContractBid mContractBid;
+		
+		mContractBid = Mockito.mock (ContractBid.class);
+		
+		return mContractBid;
+	}
+
 	public Escrow buildEscrowMock (Certificate aCertificate, int aEscrowValue) {
 		Escrow mEscrow;
 		

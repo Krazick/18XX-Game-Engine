@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.ContractBid;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
@@ -17,13 +18,16 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Contract Bid Frame";
 	public static final ContractBidFrame NO_CONTRACT_BID_FRAME = null;
+	private final String SIGN = "Sign Contract Bid";
 	private final String DONE = "Done Contract Bid";
 	private final String UNDO = "Undo";
+	JPanel contractBidJPanel;
 	JPanel buttonJPanel;
 	JPanel fullPanel;
 	KButton doneButton;
 	KButton undoButton;
 	boolean isNetworkGame;
+	ContractBid contractBid;
 
 	public ContractBidFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
@@ -34,18 +38,32 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		isNetworkGame = tIsNetworkGame;
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
-
+				
 		buildButtonJPanel ();
-		
 		fullPanel.add (buttonJPanel);
 		add (fullPanel);
 
 		System.out.println (NAME + " Constructed");
 	}
 	
+	public void setContractBidJPanel (JPanel aContractBidJPanel) {
+		contractBidJPanel = aContractBidJPanel;
+	}
+	
+	public JPanel getContractBidJPanel () {
+		return contractBidJPanel;
+	}
+
+	public void fillContractBidJPanel () {
+		contractBidJPanel = contractBid.buildJPanel ();
+		fullPanel.add (contractBidJPanel, 0);
+	}
+	
 	public void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
-		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.Y_AXIS));
+		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
+		buttonJPanel.add (Box.createVerticalStrut (5));
+		doneButton = setupButton (SIGN, SIGN);
 		buttonJPanel.add (Box.createVerticalStrut (5));
 		doneButton = setupButton (DONE, DONE);
 		buttonJPanel.add (Box.createVerticalStrut (5));
@@ -75,6 +93,9 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		String tTheAction;
 
 		tTheAction = aEvent.getActionCommand ();
+		if (SIGN.equals (tTheAction)) {
+			signContract ();
+		}
 		if (DONE.equals (tTheAction)) {
 			completeContract ();
 		}
@@ -92,9 +113,17 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		System.out.println (NAME + " Action is 'DONE'");
 	}
 
+	private void signContract () {
+		System.out.println (NAME + " Action is 'SIGN'");
+	}
+
 	@Override
 	public void showFrame () {
 		super.showFrame ();
 		System.out.println ("Show " + NAME);
+	}
+
+	public void setContractBid (ContractBid tContractBid) {
+		contractBid = tContractBid;
 	}
 }

@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
+//import ge18xx.player.ContractBid;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.toplevel.ContractBidFrame;
@@ -19,18 +20,24 @@ public class ContractBidRound extends Round {
 	public ContractBidRound (RoundManager aRoundManager) {
  		super (aRoundManager);
 		
- 		ContractBidFrame tContractBidFrame;
- 		String tFrameName;
+		setName (NAME);
+		setRoundType ();
+// 		setupFrame (aRoundManager);
+	}
+
+	public void setupFrame (RoundManager aRoundManager) {
+		ContractBidFrame tContractBidFrame;
+		String tFrameName;
  		GameInfo tActiveGame;
  		
 		gameManager = aRoundManager.getGameManager ();
 		tActiveGame = gameManager.getActiveGame ();
- 		tFrameName = tActiveGame.getName () + " " + ContractBidFrame.NAME;
-		setName (NAME);
-		setRoundType ();
+		
+		tFrameName = tActiveGame.getName () + " " + ContractBidFrame.NAME;
 		tContractBidFrame = new ContractBidFrame (tFrameName, gameManager);
 		setContractBidFrame (tContractBidFrame);
 		gameManager.addNewFrame (contractBidFrame);
+		gameManager.setContractBidFrame (contractBidFrame);
 	}
 
 	public void setContractBidFrame (ContractBidFrame aContractBidFrame) {

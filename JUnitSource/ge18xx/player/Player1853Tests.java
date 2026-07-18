@@ -18,6 +18,7 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.ContractBidFrame;
 
 class Player1853Tests {
 	GameTestFactory gameTestFactory;
@@ -40,6 +41,9 @@ class Player1853Tests {
 	
 	@BeforeEach
 	void setUp () throws Exception {
+		ContractBidFrame mContractBidFrame;
+		ContractBid mContractBid;
+		
 		gameTestFactory = new GameTestFactory ();
 
 		mGameManager = setupGameInfoAndManager (4);
@@ -59,8 +63,14 @@ class Player1853Tests {
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
 		Mockito.when (mPlayerManager.getBank ()).thenReturn (bank);
 		Mockito.when (mPlayerManager.getBankPool ()).thenReturn (bankPool);
+		
+		mContractBid = playerTestFactory.buildContractBidMock ();
+		mContractBidFrame = playerTestFactory.buildContractBidFrameMock (mContractBid);
+		Mockito.when (mGameManager.getContractBidFrame ()).thenReturn (mContractBidFrame);
+
 		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
 				minBidCities, maxBidCities);
+
 		playerPortfolio = new Portfolio (player);
 		player.setPortfolio (playerPortfolio);
 	}

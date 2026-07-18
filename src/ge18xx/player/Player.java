@@ -40,6 +40,7 @@ import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
+import ge18xx.toplevel.ContractBidFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -140,7 +141,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		MessageBean tBean;
 		String tActorType;
 		int tMaxRounds;
-		ContractBid tContractBid;
 		
 		tGameManager = aPlayerManager.getGameManager ();
 		tActorType = actorType.toString () + " " + aName;
@@ -152,12 +152,25 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
 		setGameHasCompanies (tGameManager);
-		if (tGameManager.gameHasRoundType (ContractBidRound.NAME)) {
-			tContractBid = new ContractBid (this);
-		} else {
-			tContractBid = ContractBid.NO_CONTRACT_BID;
-		}
-		setContractBid (tContractBid);
+		setupContractBid (tGameManager);
+	}
+
+	protected void setupContractBid (GameManager aGameManager) {
+		ContractBid tContractBid;
+		ContractBidFrame tContractBidFrame;
+		
+//		if (aGameManager.isClientCurrentPlayer ()) {
+			if (aGameManager.gameHasRoundType (ContractBidRound.NAME)) {
+				tContractBid = new ContractBid (this);
+				setContractBid (tContractBid);
+				tContractBidFrame = aGameManager.getContractBidFrame ();
+				tContractBidFrame.setContractBid (tContractBid);
+				tContractBidFrame.fillContractBidJPanel ();
+			} else {
+				tContractBid = ContractBid.NO_CONTRACT_BID;
+				setContractBid (tContractBid);
+			}
+//		}
 	}
 	
 	public void setActorsBank (Bank aActorsBank) {

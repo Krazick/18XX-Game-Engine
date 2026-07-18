@@ -199,6 +199,12 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		}
 	}
 	
+	public void setupContractBidFrame () {
+		if (contractBidRound != ContractBidRound.NO_CONTRACT_BID_ROUND) { 
+			contractBidRound.setupFrame (this);
+		}
+	}
+	
 	// Set each of the various Round Types
 
 	public void setAuctionRound (AuctionRound aAuctionRound) {

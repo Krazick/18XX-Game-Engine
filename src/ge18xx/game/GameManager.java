@@ -1736,14 +1736,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tShares = getShareCompanies ();
 			roundManager.initiateRounds (tPrivates, tMinors, tShares);
 
+			roundManager.setupContractBidFrame ();
 			setupPlayers ();
-
+			
 			collectAllBeans ();
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
-			
 
 			roundManager.initiateGame ();
 			if (!isATestGame ()) {
@@ -3808,6 +3808,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public UserPreferencesFrame getUserPreferencesFrame () {
 		return userPreferencesFrame;
+	}
+	
+	public ContractBidFrame getContractBidFrame () {
+		return contractBidFrame;
+	}
+	
+	public void setContractBidFrame (ContractBidFrame aContractBidFrame) {
+		contractBidFrame = aContractBidFrame;
 	}
 	
 	public void showAuditFrame () {

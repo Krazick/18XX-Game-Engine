@@ -3,7 +3,9 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.City;
@@ -25,17 +27,26 @@ public class ContractBid {
 	public static final int NO_EXTRA_BOND = 0;
 	public static final int DELTA_CITY_MAX_COUNT = 2;
 	Player player;
+	JPanel contractBidJPanel;
 	List<ContractLine> contractLines;
 	boolean signed;
 	boolean fullfilled;
 	int extraForBond;
 	
+//	public ContractBid () {
+//		this (Player.NO_PLAYER);
+//	}
+	
 	public ContractBid (Player aPlayer) {
+		JPanel tContractBidJPanel;
+		
 		setPlayer (aPlayer);
 		setSigned (false);
 		setFullfilled (false);
 		setExtraForBond (NO_EXTRA_BOND);
 		contractLines = new LinkedList<> ();
+		tContractBidJPanel = buildJPanel ();
+		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	public XMLElement getElements (XMLDocument aXMLDocument) {
@@ -64,6 +75,7 @@ public class ContractBid {
 		int tExtraForBond;
 		boolean tSigned;
 		boolean tFullfilled;
+		JPanel tContractBidJPanel;
 		
 		tXMLNodeList = new XMLNodeList (contractBidParsingRoutine);
 		tExtraForBond = aXMLNode.getThisIntAttribute (AN_EXTRA_FOR_BOND);
@@ -74,6 +86,9 @@ public class ContractBid {
 		setFullfilled (tFullfilled);
 		
 		tXMLNodeList.parseXMLNodeList (aXMLNode, ContractLine.EN_CONTRACT_LINES);
+		
+		tContractBidJPanel = buildJPanel ();
+		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
@@ -95,6 +110,22 @@ public class ContractBid {
 			}
 		};
 	};
+	
+	public JPanel buildJPanel () {
+		JPanel tJPanel;
+		JLabel tTitleLine;
+		
+		tJPanel = new JPanel ();
+		tJPanel.setLayout (new BoxLayout (tJPanel, BoxLayout.Y_AXIS));
+		tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
+		tJPanel.add (tTitleLine);
+		
+		return tJPanel;
+	}
+	
+	public void setContractBidJPanel (JPanel aContractBidJPanel) {
+		contractBidJPanel = aContractBidJPanel;
+	}
 	
 	public void setSigned (boolean aSigned) {
 		signed = aSigned;
@@ -119,6 +150,10 @@ public class ContractBid {
 	public void setExtraForBond (int aExtraForBond) {
 		extraForBond = aExtraForBond;
 	}
+	
+//	public JPanel getContractBidJPanel () {
+//		return contractBidJPanel;
+//	}
 	
 	public int getExtraForBond () {
 		return extraForBond;
