@@ -21,6 +21,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.toplevel.ContractBidFrame;
 import geUtilities.GUI;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLDocument;
@@ -85,13 +86,16 @@ class ContractBidTests {
 	protected GameManager setupGameInfoAndManager (int aGameInfoIndex) {
 		GameInfo tGameInfo;
 		GameManager tmGameManager;
-		
+		ContractBidFrame mContractBidFrame;
+
+		mContractBidFrame = Mockito.mock (ContractBidFrame.class);
 		tGameInfo = gameTestFactory.buildGameInfo (aGameInfoIndex);
 		tmGameManager = gameTestFactory.buildGameManagerMock ();
 		Mockito.when (tmGameManager.getMaxRounds ()).thenReturn (1);
 		Mockito.when (tmGameManager.getActiveGame ()).thenReturn (tGameInfo);
 		Mockito.when (tmGameManager.gameHasRoundType ("Contract Bid Round")).thenReturn (true);
-		
+		Mockito.when (tmGameManager.getContractBidFrame ()).thenReturn (mContractBidFrame);
+
 		return tmGameManager;
 	}
 
