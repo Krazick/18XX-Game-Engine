@@ -1175,7 +1175,10 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void showContractBidFrame () {
-		contractBidRound.showContractBidFrame ();
+		Player tPlayer;
+		
+		tPlayer = playerManager.getCurrentPlayer ();
+		contractBidRound.showContractBidFrame (tPlayer);
 	}
 	
 	public void prepareCorporation () {
