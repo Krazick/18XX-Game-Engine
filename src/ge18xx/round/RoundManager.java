@@ -470,7 +470,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
-		// TODO: Need to create a Bankrupt "Round" to hold this state 
+// TODO: Need to create a Bankrupt "Round" to hold this state 
 //		setCurrentRoundState (ActorI.ActionStates.Bankrupt);
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
@@ -1045,7 +1045,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 					roundFrame.toTheFront ();
 				}
 			}
-		}
+		} else if (isAContractBidRound ()) {
+			
+		}	
 	}
 
 	public void revalidateRoundFrame () {
@@ -1176,8 +1178,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public void showContractBidFrame () {
 		Player tPlayer;
+		String tPlayerName;
 		
 		tPlayer = playerManager.getCurrentPlayer ();
+		tPlayerName = tPlayer.getName ();
+		roundFrame.setCurrentPlayerText (tPlayerName);
 		contractBidRound.showContractBidFrame (tPlayer);
 	}
 	
@@ -1232,6 +1237,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 			showGEFrame ();
 		}
 		if (RoundFrame.PLAYER_CONTRACT_BID_ACTION.equals (tEventAction)) {
+			setPlayerDoingAction (true);
+			
 			showContractBidFrame ();
 		}
 		if (RoundFrame.PASS_STOCK_ACTION.equals (tEventAction)) {
