@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.ContractBid;
+import ge18xx.player.Player;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
@@ -39,8 +40,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
 				
-		buildButtonJPanel ();
-		fullPanel.add (buttonJPanel);
 		add (fullPanel);
 
 		System.out.println (NAME + " Constructed");
@@ -54,8 +53,18 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		return contractBidJPanel;
 	}
 
-	public void fillContractBidJPanel () {
-		contractBidJPanel = contractBid.buildJPanel ();
+	public void fillContractBidJPanel (Player aPlayer) {
+		JPanel tContractBidJPanel;
+		
+		if (contractBidJPanel == ContractBid.NO_CONTRACT_BID_PANEL) {
+			System.out.println ("Filling requires Building ContractBidJPanel for " + aPlayer.getName ());
+
+			contractBid.buildJPanel ();
+			tContractBidJPanel = contractBid.getContractBidJPanel ();
+			setContractBidJPanel (tContractBidJPanel);
+		}
+		buildButtonJPanel ();
+		contractBidJPanel.add (buttonJPanel);
 		fullPanel.add (contractBidJPanel, 0);
 	}
 	
@@ -105,22 +114,38 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	}
 	
 	private void undoLastAction () {
-		System.out.println (NAME + " Action is 'UNDO'");
+		String tPlayerName;
+		Player tPlayer;
+		
+		tPlayer = contractBid.getPlayer ();
+		tPlayerName = tPlayer.getName ();
+		System.out.println (NAME + " Action is 'UNDO' for " + tPlayerName);
 		
 	}
 
 	private void completeContract () {
-		System.out.println (NAME + " Action is 'DONE'");
+		String tPlayerName;
+		Player tPlayer;
+		
+		tPlayer = contractBid.getPlayer ();
+		tPlayerName = tPlayer.getName ();
+		System.out.println (NAME + " Action is 'DONE' for " + tPlayerName);
 	}
 
 	private void signContract () {
-		System.out.println (NAME + " Action is 'SIGN'");
+		String tPlayerName;
+		Player tPlayer;
+		
+		tPlayer = contractBid.getPlayer ();
+		tPlayerName = tPlayer.getName ();
+		System.out.println (NAME + " Action is 'SIGN' for " + tPlayerName);
 	}
 
 	@Override
 	public void showFrame () {
 		super.showFrame ();
-		System.out.println ("Show " + NAME);
+		System.out.println ("Show " + NAME + " for " + contractBid.getPlayer ().getName ());
+		contractBid.showContractBidJPanel ();
 	}
 
 	public void setContractBid (ContractBid tContractBid) {
