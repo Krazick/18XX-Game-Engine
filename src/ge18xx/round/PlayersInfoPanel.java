@@ -80,7 +80,7 @@ public class PlayersInfoPanel extends ListenerPanel {
 
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
-		tPriorityPlayer = tStockRound.getPriorityIndex ();
+		tPriorityPlayer = tStockRound.getPriorityPlayerIndex ();
 		removeAll ();
 		tPlayerOffset = getPlayerOffset (tPlayerCount, tStockRound);
 		add (Box.createHorizontalGlue ());

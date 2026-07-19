@@ -77,10 +77,8 @@ public class StockRound extends Round {
 		 Player tCurrentPlayer;
 		 
 		 tCurrentPlayer = getCurrentPlayer ();
-		 // TODO:  Update to make consistent when calling methods
-		 // Setup Temp Variables  and use them when calling 
 		 tChangeStateAction = new DonePlayerAction (getRoundState (), getID (), tCurrentPlayer);
-		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
+		 setCurrentPlayer (getPriorityPlayerIndex (), true, tChangeStateAction);
 	}
 	
 	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious, ChangeStateAction aChangeStateAction) {
@@ -127,7 +125,7 @@ public class StockRound extends Round {
 		return playerManager;
 	}
 
-	public int getPriorityIndex () {
+	public int getPriorityPlayerIndex () {
 		return priorityPlayerIndex;
 	}
 	
@@ -357,7 +355,7 @@ public class StockRound extends Round {
 		playerManager.clearAllSoldCompanies ();
 		playerManager.clearAllExchangedShares ();
 		
-		tPriorityIndex = getPriorityIndex ();
+		tPriorityIndex = getPriorityPlayerIndex ();
 		setCurrentPlayer (tPriorityIndex, true);
 		setStartRoundPriorityIndex (tPriorityIndex);
 		
