@@ -22,7 +22,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	private final String SIGN = "Sign Contract Bid";
 	private final String DONE = "Done Contract Bid";
 	private final String UNDO = "Undo";
-	JPanel contractBidJPanel;
 	JPanel buttonJPanel;
 	JPanel fullPanel;
 	KButton doneButton;
@@ -39,33 +38,22 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		isNetworkGame = tIsNetworkGame;
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
-				
-		add (fullPanel);
-
-		System.out.println (NAME + " Constructed");
-	}
-	
-	public void setContractBidJPanel (JPanel aContractBidJPanel) {
-		contractBidJPanel = aContractBidJPanel;
-	}
-	
-	public JPanel getContractBidJPanel () {
-		return contractBidJPanel;
 	}
 
 	public void fillContractBidJPanel (Player aPlayer) {
 		JPanel tContractBidJPanel;
+		ContractBid tContractBid;
 		
-		if (contractBidJPanel == ContractBid.NO_CONTRACT_BID_PANEL) {
-			System.out.println ("Filling requires Building ContractBidJPanel for " + aPlayer.getName ());
+		System.out.println ("Filling requires Fetching ContractBidJPanel for " + aPlayer.getName ());
 
-			contractBid.buildJPanel ();
-			tContractBidJPanel = contractBid.getContractBidJPanel ();
-			setContractBidJPanel (tContractBidJPanel);
-		}
+		tContractBid = aPlayer.getContractBid ();
+		setContractBid (tContractBid);
+		tContractBidJPanel = tContractBid.getContractBidJPanel ();
+		tContractBid.fillContractBidJPanel ();
 		buildButtonJPanel ();
-		contractBidJPanel.add (buttonJPanel);
-		fullPanel.add (contractBidJPanel, 0);
+		tContractBidJPanel.add (buttonJPanel);
+		fullPanel.add (tContractBidJPanel, 0);
+		add (fullPanel);
 	}
 	
 	public void buildButtonJPanel () {
@@ -78,6 +66,10 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		buttonJPanel.add (Box.createVerticalStrut (5));
 		undoButton = setupButton (UNDO, UNDO);
 		buttonJPanel.add (Box.createVerticalStrut (5));
+	}
+	
+	public void updateButtons () {
+		System.out.println ("Time to update the Action Buttons");
 	}
 	
 	public KButton setupButton (String aButtonText, String aButtonCommand) {

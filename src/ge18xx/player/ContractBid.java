@@ -35,19 +35,12 @@ public class ContractBid {
 	int extraForBond;
 	
 	public ContractBid (Player aPlayer) {
-//		JPanel tContractBidJPanel;
-		
 		setPlayer (aPlayer);
 		setSigned (false);
 		setFullfilled (false);
 		setExtraForBond (NO_EXTRA_BOND);
 		contractLines = new LinkedList<> ();
-		
-		System.out.println ("Creating Contract Build requires Building ContractBidJPanel for " + player.getName ());
-
 		buildJPanel ();
-//		tContractBidJPanel = buildJPanel ();
-//		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	public XMLElement getElements (XMLDocument aXMLDocument) {
@@ -76,7 +69,6 @@ public class ContractBid {
 		int tExtraForBond;
 		boolean tSigned;
 		boolean tFullfilled;
-//		JPanel tContractBidJPanel;
 		
 		tXMLNodeList = new XMLNodeList (contractBidParsingRoutine);
 		tExtraForBond = aXMLNode.getThisIntAttribute (AN_EXTRA_FOR_BOND);
@@ -88,11 +80,7 @@ public class ContractBid {
 		
 		tXMLNodeList.parseXMLNodeList (aXMLNode, ContractLine.EN_CONTRACT_LINES);
 
-		System.out.println ("Loading requires Building ContractBidJPanel for " + player.getName ());
-
 		buildJPanel ();
-//		tContractBidJPanel = buildJPanel ();
-//		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
@@ -117,19 +105,22 @@ public class ContractBid {
 	
 	public void buildJPanel () {
 		JPanel tJPanel;
-		JLabel tTitleLine;
-		
 		if (contractBidJPanel == NO_CONTRACT_BID_PANEL) {
-			System.out.println ("Building JPanel for " + player.getName ());
 			tJPanel = new JPanel ();
 			tJPanel.setLayout (new BoxLayout (tJPanel, BoxLayout.Y_AXIS));
-			tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
-			tJPanel.add (tTitleLine);
-			tJPanel.setVisible (false);
 			setContractBidJPanel (tJPanel);
+			
+			fillContractBidJPanel ();
+			tJPanel.setVisible (false);
 		}
-//		
-//		return tJPanel;
+	}
+
+	public void fillContractBidJPanel () {
+		JLabel tTitleLine;
+		
+		contractBidJPanel.removeAll ();
+		tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
+		contractBidJPanel.add (tTitleLine);
 	}
 	
 	public void setContractBidJPanel (JPanel aContractBidJPanel) {
@@ -334,8 +325,6 @@ public class ContractBid {
 	
 	public void showContractBidJPanel () {
 		contractBidJPanel.setVisible (true);
-		System.out.println ("Show ContractBidJPanel for " + player.getName ());
-		
 	}
 	
 	public void hideContractBidJPanel () {
