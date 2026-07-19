@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +38,8 @@ class ContractBidTests {
 	ShareCompany shareCompany;
 	GameManager mGameManager;
 	PlayerManager mPlayerManager;
+	ContractBid contractBid;
+	JPanel contractBidJPanel;
 	Bank bank;
 	Player player;
 
@@ -80,7 +83,6 @@ class ContractBidTests {
 		city3 = (City) centerTestFactory.buildCity (3);		
 		city4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);		
 		city5 = (City) centerTestFactory.buildCity (5);		
-
 	}
 	
 	protected GameManager setupGameInfoAndManager (int aGameInfoIndex) {
@@ -99,6 +101,21 @@ class ContractBidTests {
 		return tmGameManager;
 	}
 
+	@Test
+	@DisplayName ("Basic ContractBid Tests")
+	void contractBidTests () {
+		ContractBidFrame tContractBidFrame;
+
+		contractBid = player.getContractBid ();
+		assertNotNull (contractBid);
+		
+		contractBidJPanel = contractBid.getContractBidJPanel ();
+		assertNotNull (contractBidJPanel);
+		
+		tContractBidFrame = player.getContractBidFrame ();
+		assertNotNull (tContractBidFrame);
+	}
+	
 	@Test
 	@DisplayName ("Player Contract Bid Tests")
 	void playerContractBidTests () {
