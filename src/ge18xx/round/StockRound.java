@@ -77,6 +77,8 @@ public class StockRound extends Round {
 		 Player tCurrentPlayer;
 		 
 		 tCurrentPlayer = getCurrentPlayer ();
+		 // TODO:  Update to make consistent when calling methods
+		 // Setup Temp Variables  and use them when calling 
 		 tChangeStateAction = new DonePlayerAction (getRoundState (), getID (), tCurrentPlayer);
 		 setCurrentPlayer (getPriorityIndex (), true, tChangeStateAction);
 	}
