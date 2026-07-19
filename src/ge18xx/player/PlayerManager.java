@@ -1217,8 +1217,18 @@ public class PlayerManager implements XMLSaveGameI {
 		return tThisPlayerIndex;
 	}
 
+	public Player getPriorityPlayer () {
+		int tPriorityPlayerIndex;
+		Player tPriorityPlayer;
+		
+		tPriorityPlayerIndex = getPriorityPlayerIndex ();
+		tPriorityPlayer = this.getPlayer (tPriorityPlayerIndex);
+		
+		return tPriorityPlayer;
+	}
+	
 	public int getPriorityPlayerIndex () {
-		return stockRound.getPriorityIndex ();
+		return stockRound.getPriorityPlayerIndex ();
 	}
 	
 	public void doneAction (Player aPlayer) {

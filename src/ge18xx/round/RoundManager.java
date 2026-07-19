@@ -1180,7 +1180,8 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		Player tPlayer;
 		String tPlayerName;
 		
-		tPlayer = playerManager.getCurrentPlayer ();
+//		tPlayer = playerManager.getCurrentPlayer ();
+		tPlayer = playerManager.getPriorityPlayer ();
 		tPlayerName = tPlayer.getName ();
 		roundFrame.setCurrentPlayerText (tPlayerName);
 		contractBidRound.showContractBidFrame (tPlayer);
