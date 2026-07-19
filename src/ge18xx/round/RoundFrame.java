@@ -459,9 +459,9 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setContractBidRoundInfo (String aGameName, String aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
-		playersInfoPanel.setCurrentPlayerText ();
-		updatePassButton ();
+//		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
+//		playersInfoPanel.setCurrentPlayerText ();
+//		updatePassButton ();
 	}
 
 	public void updatePassButton () {

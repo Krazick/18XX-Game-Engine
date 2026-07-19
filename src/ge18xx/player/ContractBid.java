@@ -24,6 +24,7 @@ public class ContractBid {
 	public static final AttributeName AN_SIGNED = new AttributeName ("signed");
 	public static final AttributeName AN_FULLFILLED = new AttributeName ("fullfilled");
 	public static final ContractBid NO_CONTRACT_BID = null;
+	public static final JPanel NO_CONTRACT_BID_PANEL = null;
 	public static final int NO_EXTRA_BOND = 0;
 	public static final int DELTA_CITY_MAX_COUNT = 2;
 	Player player;
@@ -33,20 +34,20 @@ public class ContractBid {
 	boolean fullfilled;
 	int extraForBond;
 	
-//	public ContractBid () {
-//		this (Player.NO_PLAYER);
-//	}
-	
 	public ContractBid (Player aPlayer) {
-		JPanel tContractBidJPanel;
+//		JPanel tContractBidJPanel;
 		
 		setPlayer (aPlayer);
 		setSigned (false);
 		setFullfilled (false);
 		setExtraForBond (NO_EXTRA_BOND);
 		contractLines = new LinkedList<> ();
-		tContractBidJPanel = buildJPanel ();
-		setContractBidJPanel (tContractBidJPanel);
+		
+		System.out.println ("Creating Contract Build requires Building ContractBidJPanel for " + player.getName ());
+
+		buildJPanel ();
+//		tContractBidJPanel = buildJPanel ();
+//		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	public XMLElement getElements (XMLDocument aXMLDocument) {
@@ -75,7 +76,7 @@ public class ContractBid {
 		int tExtraForBond;
 		boolean tSigned;
 		boolean tFullfilled;
-		JPanel tContractBidJPanel;
+//		JPanel tContractBidJPanel;
 		
 		tXMLNodeList = new XMLNodeList (contractBidParsingRoutine);
 		tExtraForBond = aXMLNode.getThisIntAttribute (AN_EXTRA_FOR_BOND);
@@ -86,9 +87,12 @@ public class ContractBid {
 		setFullfilled (tFullfilled);
 		
 		tXMLNodeList.parseXMLNodeList (aXMLNode, ContractLine.EN_CONTRACT_LINES);
-		
-		tContractBidJPanel = buildJPanel ();
-		setContractBidJPanel (tContractBidJPanel);
+
+		System.out.println ("Loading requires Building ContractBidJPanel for " + player.getName ());
+
+		buildJPanel ();
+//		tContractBidJPanel = buildJPanel ();
+//		setContractBidJPanel (tContractBidJPanel);
 	}
 	
 	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
@@ -111,16 +115,21 @@ public class ContractBid {
 		};
 	};
 	
-	public JPanel buildJPanel () {
+	public void buildJPanel () {
 		JPanel tJPanel;
 		JLabel tTitleLine;
 		
-		tJPanel = new JPanel ();
-		tJPanel.setLayout (new BoxLayout (tJPanel, BoxLayout.Y_AXIS));
-		tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
-		tJPanel.add (tTitleLine);
-		
-		return tJPanel;
+		if (contractBidJPanel == NO_CONTRACT_BID_PANEL) {
+			System.out.println ("Building JPanel for " + player.getName ());
+			tJPanel = new JPanel ();
+			tJPanel.setLayout (new BoxLayout (tJPanel, BoxLayout.Y_AXIS));
+			tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
+			tJPanel.add (tTitleLine);
+			tJPanel.setVisible (false);
+			setContractBidJPanel (tJPanel);
+		}
+//		
+//		return tJPanel;
 	}
 	
 	public void setContractBidJPanel (JPanel aContractBidJPanel) {
@@ -133,6 +142,10 @@ public class ContractBid {
 
 	public void setPlayer (Player aPlayer) {
 		player = aPlayer;
+	}
+	
+	public Player getPlayer () {
+		return player;
 	}
 	
 	public boolean isSigned () {
@@ -151,9 +164,9 @@ public class ContractBid {
 		extraForBond = aExtraForBond;
 	}
 	
-//	public JPanel getContractBidJPanel () {
-//		return contractBidJPanel;
-//	}
+	public JPanel getContractBidJPanel () {
+		return contractBidJPanel;
+	}
 	
 	public int getExtraForBond () {
 		return extraForBond;
@@ -317,6 +330,16 @@ public class ContractBid {
 		}
 		
 		return tIsValid;
+	}
+	
+	public void showContractBidJPanel () {
+		contractBidJPanel.setVisible (true);
+		System.out.println ("Show ContractBidJPanel for " + player.getName ());
+		
+	}
+	
+	public void hideContractBidJPanel () {
+		contractBidJPanel.setVisible (false);
 	}
 	
 	public ContractLine getContractLineAt (int aIndex) {

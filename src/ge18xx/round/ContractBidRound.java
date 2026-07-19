@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 //import ge18xx.player.ContractBid;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
@@ -48,7 +49,8 @@ public class ContractBidRound extends Round {
 		return contractBidFrame;
 	}
 	
-	public void showContractBidFrame () {
+	public void showContractBidFrame (Player aPlayer) {
+		contractBidFrame.fillContractBidJPanel (aPlayer);
 		contractBidFrame.showFrame ();
 	}
 	
