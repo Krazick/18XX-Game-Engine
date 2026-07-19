@@ -98,10 +98,12 @@ public class PlayerTestFactory {
 	
 	public ContractBidFrame buildContractBidFrameMock (ContractBid aContractBid) {
 		ContractBidFrame mContractBidFrame;
+		Player tPlayer;
 		
+		tPlayer = aContractBid.getPlayer ();
 		mContractBidFrame = Mockito.mock (ContractBidFrame.class);
 		Mockito.doNothing ().when (mContractBidFrame).setContractBid (aContractBid);
-		Mockito.doNothing ().when (mContractBidFrame).fillContractBidJPanel ();
+		Mockito.doNothing ().when (mContractBidFrame).fillContractBidJPanel (tPlayer);
 		
 		return mContractBidFrame;
 	}
