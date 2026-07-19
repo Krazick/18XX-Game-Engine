@@ -165,7 +165,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				setContractBid (tContractBid);
 				tContractBidFrame = aGameManager.getContractBidFrame ();
 				tContractBidFrame.setContractBid (tContractBid);
-				tContractBidFrame.fillContractBidJPanel ();
+//				tContractBidFrame.fillContractBidJPanel ();
+				
 			} else {
 				tContractBid = ContractBid.NO_CONTRACT_BID;
 				setContractBid (tContractBid);
@@ -180,9 +181,19 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setContractBid (ContractBid aContractBid) {
 		contractBid = aContractBid;
 	}
-	
+
 	public ContractBid getContractBid () {
 		return contractBid;
+	}
+	
+	public ContractBidFrame getContractBidFrame () {
+		GameManager tGameManager;
+		ContractBidFrame tContractBidFrame;
+		
+		tGameManager = playerManager.getGameManager ();
+		tContractBidFrame = tGameManager.getContractBidFrame ();
+		
+		return tContractBidFrame;
 	}
 	
 	public Bank getActorsBank () {
