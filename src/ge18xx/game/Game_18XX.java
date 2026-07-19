@@ -53,6 +53,8 @@ import javax.swing.KeyStroke;
 
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
+import ge18xx.round.FormationRound;
+import ge18xx.round.RoundManager;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.GameEngineManager;
@@ -775,12 +777,13 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public void enableGameMenuItems () {
-		int tMenuItemIndex, tMenuItemCount;
+		int tMenuItemIndex;
+		int tMenuItemCount;
 		String tMinorMenuText = resourceBundle.getString ("showMinorsItem");
 		String tPrivateMenuText = resourceBundle.getString ("showPrivatesItem");
 		String tChatClientText = resourceBundle.getString ("showChatClientItem");
 		String tResendLastActionsText = resourceBundle.getString ("resendLastActions");
-		String tShowFormationText = resourceBundle.getString ("showFormationFrameItem");
+		String tShowFormationFrameText = resourceBundle.getString ("showFormationFrameItem");
 		String tShowChecksumAuditFrameText = resourceBundle.getString ("showChecksumAuditFrameItem");
 		String tMenuText;
 		boolean tEnableMenuItem;
@@ -818,11 +821,14 @@ public class Game_18XX extends XMLFrame {
 				} else {
 					tEnableMenuItem = false;
 				}
-			} else if (tMenuText.equals (tShowFormationText)) {
+			} else if (tMenuText.equals (tShowFormationFrameText)) {
 				if (gameManager.hasTriggerClass ()) {
 					tEnableMenuItem = true;
 				} else {
 					tEnableMenuItem = true;
+				}
+				if (! gameManager.gameHasRoundType (FormationRound.NAME)) {
+					tEnableMenuItem = false;
 				}
 			} else {
 				tEnableMenuItem = true;
