@@ -31,6 +31,7 @@ import geUtilities.GUI;
 
 public class RoundFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
+	private static final String DO_NO_PLAYER_ACTION = "No Player Action";
 	private static final String DO_STOCK_ACTION = " do Stock Action";
 	private static final String DOING_STOCK_ACTION = " is doing Stock Action";
 	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
@@ -105,7 +106,11 @@ public class RoundFrame extends XMLFrame {
 		tGameName = aGameManager.getActiveGameName ();
 		tCurrentRound = roundManager.getCurrentRound ();
 		tRoundID = tCurrentRound.getID ();
-		setStockRoundInfo (tGameName, tRoundID);
+		if (tCurrentRound.isAStockRound ()) {
+			setStockRoundInfo (tGameName, tRoundID);
+		} else if (tCurrentRound.isAContractBidRound ()) {
+			setContractBidRoundInfo (tGameName, tRoundID);
+		}
 		setListenerPanels (false);
 	}
 
@@ -300,13 +305,13 @@ public class RoundFrame extends XMLFrame {
 		fastBuyJPanel = new JPanel ();
 		fastBuyJPanel.setLayout (new BoxLayout (fastBuyJPanel, BoxLayout.X_AXIS));
 
-		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
+		doButton = setupButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
-		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
+		updateDoButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION);
 	}
 
 	private void fillFastBuyPanel () {
@@ -386,13 +391,13 @@ public class RoundFrame extends XMLFrame {
 			}
 		} else if (tCurrentRound.isAContractBidRound ()) {
 			if (playerDoingAction) {
-				tDoButtonAction = aPlayerName + DO_CONTRACT_BID_ACTION;
-			} else {
 				tDoButtonAction = aPlayerName + CREATING_CONTRACT_BID_ACTION;
+			} else {
+				tDoButtonAction = aPlayerName + DO_CONTRACT_BID_ACTION;
 				// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
 			}
 		} else {
-			tDoButtonAction = DO_STOCK_ACTION;
+			tDoButtonAction = DO_NO_PLAYER_ACTION;
 		}
 		updateDoButtonText (tDoButtonAction);
 		setActionForCurrentPlayer ();
@@ -459,9 +464,9 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setContractBidRoundInfo (String aGameName, String aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-//		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
-//		playersInfoPanel.setCurrentPlayerText ();
-//		updatePassButton ();
+		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
+		playersInfoPanel.setCurrentPlayerText ();
+		updatePassButton ();
 	}
 
 	public void updatePassButton () {
