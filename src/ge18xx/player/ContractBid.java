@@ -116,11 +116,28 @@ public class ContractBid {
 	}
 
 	public void fillContractBidJPanel () {
+		JLabel tExtraBidValueLabel;
+		JLabel tTotalBidValueLabel;
 		JLabel tTitleLine;
+		JLabel tCityCount;
+		int tMinCityCount;
+		int tMaxCityCount;
+		
 		
 		contractBidJPanel.removeAll ();
 		tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
 		contractBidJPanel.add (tTitleLine);
+		
+		tMinCityCount = player.getMinBidCities ();
+		tMaxCityCount = player.getMaxBidCities ();
+		tCityCount = new JLabel ("City Count must be between " + tMinCityCount + " and " + tMaxCityCount);
+		contractBidJPanel.add (tCityCount);
+		
+		tExtraBidValueLabel = new JLabel ("Extra Bid: ");
+		contractBidJPanel.add (tExtraBidValueLabel);
+
+		tTotalBidValueLabel = new JLabel ("Total Bid: ");
+		contractBidJPanel.add (tTotalBidValueLabel);
 	}
 	
 	public void setContractBidJPanel (JPanel aContractBidJPanel) {
@@ -321,6 +338,10 @@ public class ContractBid {
 		}
 		
 		return tIsValid;
+	}
+	
+	public boolean hasActionsToUndo () {
+		return player.hasActionsToUndo ();
 	}
 	
 	public void showContractBidJPanel () {

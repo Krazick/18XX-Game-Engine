@@ -24,6 +24,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	private final String UNDO = "Undo";
 	JPanel buttonJPanel;
 	JPanel fullPanel;
+	KButton signButton;
 	KButton doneButton;
 	KButton undoButton;
 	boolean isNetworkGame;
@@ -44,14 +45,13 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		JPanel tContractBidJPanel;
 		ContractBid tContractBid;
 		
-		System.out.println ("Filling requires Fetching ContractBidJPanel for " + aPlayer.getName ());
-
 		tContractBid = aPlayer.getContractBid ();
 		setContractBid (tContractBid);
 		tContractBidJPanel = tContractBid.getContractBidJPanel ();
 		tContractBid.fillContractBidJPanel ();
 		buildButtonJPanel ();
 		tContractBidJPanel.add (buttonJPanel);
+		updateButtons ();
 		fullPanel.add (tContractBidJPanel, 0);
 		add (fullPanel);
 	}
@@ -60,7 +60,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
 		buttonJPanel.add (Box.createVerticalStrut (5));
-		doneButton = setupButton (SIGN, SIGN);
+		signButton = setupButton (SIGN, SIGN);
 		buttonJPanel.add (Box.createVerticalStrut (5));
 		doneButton = setupButton (DONE, DONE);
 		buttonJPanel.add (Box.createVerticalStrut (5));
@@ -69,7 +69,36 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	}
 	
 	public void updateButtons () {
+		boolean tActionsToUndo;
+		
 		System.out.println ("Time to update the Action Buttons");
+		if (contractBid.isSigned ()) {
+			signButton.setEnabled (false);
+			signButton.setToolTipText ("Contract is already Signed");
+		} else if (contractBid.isValid ()) {
+			signButton.setEnabled (true);
+			signButton.setToolTipText ("Contract is Valid, can be signed");
+		} else {
+//			signButton.setEnabled (false);
+			signButton.setToolTipText ("Contract is Invalid, see reasons below");
+		}
+		
+		if (contractBid.isSigned ()) {
+			doneButton.setEnabled (true);
+			doneButton.setToolTipText ("Contract is signed, can complete Contract Bid");
+		} else {
+			doneButton.setEnabled (false);
+			doneButton.setToolTipText ("Contract is unsigned");
+		}
+		
+		tActionsToUndo = contractBid.hasActionsToUndo ();
+		if (tActionsToUndo) {
+			undoButton.setEnabled (tActionsToUndo);
+			undoButton.setToolTipText ("Actions to Undo");
+		} else {
+			undoButton.setEnabled (tActionsToUndo);
+			undoButton.setToolTipText ("There are no Actions to Undo");
+		}
 	}
 	
 	public KButton setupButton (String aButtonText, String aButtonCommand) {
@@ -103,6 +132,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		if (UNDO.equals (tTheAction)) {
 			undoLastAction ();
 		}
+		updateButtons ();
 	}
 	
 	private void undoLastAction () {
@@ -112,7 +142,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		tPlayer = contractBid.getPlayer ();
 		tPlayerName = tPlayer.getName ();
 		System.out.println (NAME + " Action is 'UNDO' for " + tPlayerName);
-		
 	}
 
 	private void completeContract () {
@@ -131,6 +160,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		tPlayer = contractBid.getPlayer ();
 		tPlayerName = tPlayer.getName ();
 		System.out.println (NAME + " Action is 'SIGN' for " + tPlayerName);
+		contractBid.setSigned (true);
 	}
 
 	@Override
