@@ -192,11 +192,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public String getPlayersInOrder () {
-		String tPlayersInOrder = "";
+		String tPlayersInOrder;
 		List<String> tPlayerNames;
 
+		tPlayersInOrder = GUI.EMPTY_STRING;
 		tPlayerNames = getPlayerNames ();
-		tPlayersInOrder = tPlayerNames.stream ().collect (Collectors.joining (","));
+		tPlayersInOrder = tPlayerNames.stream ().collect (Collectors.joining (GUI.COMMA));
 
 		return tPlayersInOrder;
 	}
@@ -222,7 +223,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		JGameClient tJGameClient;
 		String [] tPlayerNames;
 
-		tPlayerNames = aPlayerOrder.split (",");
+		tPlayerNames = aPlayerOrder.split (GUI.COMMA);
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			if (tIndex < tPlayerNames.length) {
 				playerNames [tIndex].setText (tPlayerNames [tIndex]);
@@ -264,8 +265,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	@Override
 	public void focusLost (FocusEvent aEvent) {
-		Object tEventObject = aEvent.getSource ();
+		Object tEventObject;
 
+		tEventObject = aEvent.getSource ();
 		if (tEventObject instanceof JTextField) {
 			setPlayerCount ();
 			if (playerCount > 1) {
@@ -274,7 +276,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 					randomizeButton.setToolTipText ("Bad Player List Entered");
 				} else {
 					randomizeButton.setEnabled (true);
-					randomizeButton.setToolTipText ("");
+					randomizeButton.setToolTipText (GUI.NO_TOOL_TIP);
 				}
 			} else {
 				randomizeButton.setEnabled (false);
@@ -285,13 +287,14 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public String getFirstPlayerName () {
 		int tIndex;
-		String tFirstPlayerName = "";
+		String tFirstPlayerName;
 		String tName;
 
+		tFirstPlayerName = GUI.EMPTY_STRING;
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			tName = playerNames [tIndex].getText ();
 			if (tFirstPlayerName.equals (NO_NAME)) {
-				if (tName != null) {
+				if (tName != GUI.NULL_STRING) {
 					if (!(tName.equals (NO_NAME))) {
 						tFirstPlayerName = tName;
 					}
@@ -383,9 +386,11 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public int getIndexOfPlayer (String aPlayerName) {
-		int tIndex, tPlayerIndex = NO_PLAYER_INDEX;
+		int tIndex;
+		int tPlayerIndex;
 
-		if ((aPlayerName != null) && (aPlayerName != "")) {
+		tPlayerIndex = NO_PLAYER_INDEX;
+		if ((aPlayerName != GUI.NULL_STRING) && (aPlayerName != GUI.EMPTY_STRING)) {
 			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 				if (aPlayerName.equals (playerNames [tIndex].getText ())) {
 					tPlayerIndex = tIndex;
@@ -425,9 +430,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	
 	public boolean isAlreadyPresent (String aPlayerName) {
 		int tIndex;
-		boolean tIsAlreadyPresent = false;
+		boolean tIsAlreadyPresent;
 
-		if ((aPlayerName != null) && (!aPlayerName.equals (NO_NAME))) {
+		tIsAlreadyPresent = false;
+		if ((aPlayerName != GUI.NULL_STRING) && (!aPlayerName.equals (NO_NAME))) {
 			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 				if (aPlayerName.equals (playerNames [tIndex].getText ())) {
 					tIsAlreadyPresent = true;
@@ -473,7 +479,8 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void removeNetworkPlayer (String aPlayerName) {
-		int tPlayerIndex, tIndex;
+		int tPlayerIndex;
+		int tIndex;
 
 		tPlayerIndex = getIndexOfPlayer (aPlayerName);
 
@@ -489,8 +496,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public String [] getPlayers () {
 		String [] tPlayers;
-		int tIndex, tPlayersIndex;
 		String tPlayerName;
+		int tIndex;
+		int tPlayersIndex;
 
 		tPlayers = new String [playerCount];
 		tPlayersIndex = 0;
