@@ -36,8 +36,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-//import javax.swing.SwingUtilities;
-//import javax.swing.UIManager;
 
 //
 //Game_18XX.java
@@ -54,7 +52,6 @@ import javax.swing.KeyStroke;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.round.FormationRound;
-import ge18xx.round.RoundManager;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import geUtilities.xml.GameEngineManager;
