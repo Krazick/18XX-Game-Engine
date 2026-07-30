@@ -244,7 +244,8 @@ class ContractBidTests {
 		assertEquals ("No City is specified\n"
 				+ "No Share Company is specified\n"
 				+ "Bond Value is <= zero (0)\n"
-				+ "Not enough Cities (minimum is 3) are in the Contract Bid\n", tContractBid1.getAllReasonsInvalid ());
+				+ "Not enough Cities (minimum is 3) are in the Contract Bid\n", 
+				tContractBid1.getAllReasonsInvalid ());
 		tContractBid1.deleteContractLine (tCity1);
 		assertEquals (0, tContractBid1.getCityCount ());
 
