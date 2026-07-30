@@ -66,7 +66,7 @@ public class CityInfo implements Cloneable {
 		name = aName;
 		nameLocation = aNameLocation;
 		type = aType;
-		bond = NO_BOND;
+		setBond (NO_BOND);
 		clearCorporation ();
 		clearMapCell ();
 		clearRevenueCenter ();
@@ -74,6 +74,7 @@ public class CityInfo implements Cloneable {
 
 	public CityInfo (XMLNode aChildNode) {
 		int tLocation;
+		int tBond;
 		String tCorporationAbbrev;
 		String tShareCompanies;
 
@@ -83,7 +84,8 @@ public class CityInfo implements Cloneable {
 		id = aChildNode.getThisIntAttribute (AN_ID);
 		name = aChildNode.getThisAttribute (AN_NAME);
 		type = aChildNode.getThisIntAttribute (AN_TYPE);
-		bond = aChildNode.getThisIntAttribute (AN_BOND, NO_BOND);
+		tBond = aChildNode.getThisIntAttribute (AN_BOND, NO_BOND);
+		setBond (tBond);
 		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
 		tShareCompanies = aChildNode.getThisAttribute (AN_SHARE_COMPANIES);
 		if (tShareCompanies != GUI.NULL_STRING) {
@@ -105,7 +107,7 @@ public class CityInfo implements Cloneable {
 		corporation = aCityInfo.getCorporation ();
 		mapCell = aCityInfo.getMapCell ();
 		center = aCityInfo.getRevenueCenter ();
-		bond = aCityInfo.getBond ();
+		setBond (aCityInfo.getBond ());
 		shareCompanies = aCityInfo.getShareCompanies ();
 	}
 	
@@ -332,6 +334,10 @@ public class CityInfo implements Cloneable {
 		return tHasBond;
 	}
 	
+	public void setBond (int aBond) {
+		bond = aBond;
+	}
+	
 	public int getBond () {
 		return bond;
 	}
@@ -532,7 +538,11 @@ public class CityInfo implements Cloneable {
 	public boolean isDeltaTerrain () {
 		boolean tIsDeltaTerrain;
 		
-		tIsDeltaTerrain = mapCell.isDeltaTerrain ();
+		if (mapCell == MapCell.NO_MAP_CELL) {
+			tIsDeltaTerrain = false;
+		} else {
+			tIsDeltaTerrain = mapCell.isDeltaTerrain ();
+		}
 		
 		return tIsDeltaTerrain;
 	}

@@ -159,19 +159,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		ContractBid tContractBid;
 		ContractBidFrame tContractBidFrame;
 		
-//		if (aGameManager.isClientCurrentPlayer ()) {
-			if (aGameManager.gameHasRoundType (ContractBidRound.NAME)) {
-				tContractBid = new ContractBid (this);
-				setContractBid (tContractBid);
-				tContractBidFrame = aGameManager.getContractBidFrame ();
-				tContractBidFrame.setContractBid (tContractBid);
-//				tContractBidFrame.fillContractBidJPanel ();
-				
-			} else {
-				tContractBid = ContractBid.NO_CONTRACT_BID;
-				setContractBid (tContractBid);
-			}
-//		}
+		if (aGameManager.gameHasRoundType (ContractBidRound.NAME)) {
+			tContractBid = new ContractBid (this);
+			setContractBid (tContractBid);
+			tContractBidFrame = aGameManager.getContractBidFrame ();
+			tContractBidFrame.setContractBid (tContractBid);
+		} else {
+			tContractBid = ContractBid.NO_CONTRACT_BID;
+			setContractBid (tContractBid);
+		}
 	}
 	
 	public void setActorsBank (Bank aActorsBank) {

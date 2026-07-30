@@ -49,8 +49,12 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		setContractBid (tContractBid);
 		tContractBidJPanel = tContractBid.getContractBidJPanel ();
 		tContractBid.fillContractBidJPanel ();
+		
+		tContractBidJPanel.add (Box.createVerticalStrut (10));
 		buildButtonJPanel ();
 		tContractBidJPanel.add (buttonJPanel);
+		tContractBidJPanel.add (Box.createVerticalStrut (10));
+
 		updateButtons ();
 		fullPanel.add (tContractBidJPanel, 0);
 		add (fullPanel);
@@ -59,13 +63,13 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	public void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
-		buttonJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createHorizontalStrut (10));
 		signButton = setupButton (SIGN, SIGN);
-		buttonJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createHorizontalStrut (10));
 		doneButton = setupButton (DONE, DONE);
-		buttonJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createHorizontalStrut (10));
 		undoButton = setupButton (UNDO, UNDO);
-		buttonJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createHorizontalStrut (10));
 	}
 	
 	public void updateButtons () {

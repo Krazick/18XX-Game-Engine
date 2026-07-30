@@ -1,5 +1,9 @@
 package ge18xx.player;
 
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import ge18xx.center.City;
 import ge18xx.company.ShareCompany;
 import geUtilities.GUI;
@@ -22,6 +26,12 @@ public class ContractLine {
 	City city;
 	boolean connected;
 	int bond;
+//	DefaultTableModel contractLinesModel = new DefaultTableModel (0, 5);
+//	JTable contractLinesJTable;
+
+	public ContractLine () {
+		this (City.NO_CITY, ShareCompany.NO_SHARE_COMPANY, 0);
+	}
 	
 	public ContractLine (City aCity, ShareCompany aShareCompany, int aBond) {
 		setCity (aCity);
@@ -176,6 +186,134 @@ public class ContractLine {
 		}
 		
 		return tIsDeltaTerrain;
+	}
+	
+//	public JPanel buildContractLinesJPanel () {
+//		String [] tColumnNames = { "City", "Company", "Bond", "Connected", "Delete" };
+//		int tColWidths [] = { 150, 150, 100, 100, 100, };
+//		int tTotalWidth;
+//		JPanel tContractLinesJPanel;
+//		
+//		tTotalWidth = 0;
+//		tContractLinesJPanel = configureContractLinesTable (tColumnNames, tColWidths, tTotalWidth);
+//		
+//		return tContractLinesJPanel;
+//	}
+//	
+//	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
+//		DefaultTableCellRenderer tRightRenderer;
+//		TableColumnModel tColumnModel;
+//		JPanel tContractLinesJPanel;
+//		
+//		tRightRenderer = new DefaultTableCellRenderer ();
+//		tRightRenderer.setHorizontalAlignment (SwingConstants.RIGHT);
+//		contractLinesJTable = new JTable ();
+//
+//		contractLinesModel.setColumnIdentifiers (aColumnNames);
+//		contractLinesJTable.setModel (contractLinesModel);
+//		contractLinesJTable.setGridColor (Color.BLACK);
+//		contractLinesJTable.setShowGrid (true);
+//		contractLinesJTable.setShowVerticalLines (true);
+//		contractLinesJTable.setShowHorizontalLines (true);
+//
+//		tColumnModel = contractLinesJTable.getColumnModel ();
+//
+//		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
+//			tColumnModel.getColumn (tIndex).setMaxWidth (aColWidths [tIndex]);
+//
+//			aTotalWidth += aColWidths [tIndex] + 1;
+//		}
+//		setColumnAlign (2, SwingConstants.RIGHT);
+////		setLocation (100, 100);
+////		setSize (aTotalWidth, 400);
+//		tContractLinesJPanel = buildScrollPane (contractLinesJTable);
+//		tContractLinesJPanel.setBackground (Color.blue);
+//		
+//		return tContractLinesJPanel;
+//	}
+//	
+//	public void addRow () {
+//		String tShareCompanyName;
+//		String tCityName;
+//		KButton tDeleteButton;
+//		
+//		if (shareCompany == ShareCompany.NO_SHARE_COMPANY) {
+//			tShareCompanyName = "UNKNOWN";
+//		} else {
+//			tShareCompanyName = shareCompany.getName ();
+//		}
+//		tCityName = city.getCityName ();
+//		tDeleteButton = new KButton ("X");
+//		contractLinesModel.addRow (
+//				new Object [] { tCityName, tShareCompanyName, bond, connected, tDeleteButton });
+//	}
+//	
+//	public JPanel buildScrollPane (JComponent aImage) {
+//		JPanel tJPanel;
+//		
+//		tJPanel = buildScrollPane (aImage, GUI.NULL_STRING);
+//		
+//		return tJPanel; 
+//	}
+//
+//	public JPanel buildScrollPane (JComponent aImage, String aBorderLayout) {
+//		JScrollPane tScrollPane;
+//		JPanel tJPanel;
+//		
+//		tJPanel = new JPanel ();
+//		tScrollPane = new JScrollPane ();
+//		tScrollPane.setViewportView (aImage);
+//		if (aBorderLayout != GUI.NULL_STRING) {
+//			tJPanel.add (tScrollPane, aBorderLayout);
+//		} else {
+//			tJPanel.add (tScrollPane);
+//		}
+//		
+//		return tJPanel;
+//	}
+//
+//	private void setColumnAlign (int aColumnIndex, int tAlignment) {
+//		DefaultTableCellRenderer tCellRenderer = new DefaultTableCellRenderer ();
+//
+//		tCellRenderer.setHorizontalAlignment (tAlignment);
+//		contractLinesJTable.getColumnModel ().getColumn (aColumnIndex).setHeaderRenderer (tCellRenderer);
+//		contractLinesJTable.getColumnModel ().getColumn (aColumnIndex).setCellRenderer (tCellRenderer);
+//	}
+
+	public JPanel buildHeaderContractLineJPanel () {
+		JPanel tHeaderContractLineJPanel;
+		JLabel tCityLabel;
+		JLabel tCompanyLabel;
+		JLabel tBondLabel;
+		JLabel tConnectedLabel;
+		
+		tHeaderContractLineJPanel = new JPanel ();
+		tCityLabel = new JLabel ("City");
+		tCompanyLabel = new JLabel ("Company");
+		tBondLabel = new JLabel ("Bond");
+		tConnectedLabel = new JLabel ("Connected");
+		
+		tHeaderContractLineJPanel.add (Box.createHorizontalStrut (10));
+		tHeaderContractLineJPanel.add (Box.createHorizontalGlue ());
+		tHeaderContractLineJPanel.add (tCityLabel);
+		tHeaderContractLineJPanel.add (Box.createHorizontalGlue ());
+		tHeaderContractLineJPanel.add (tCompanyLabel);
+		tHeaderContractLineJPanel.add (Box.createHorizontalGlue ());
+		tHeaderContractLineJPanel.add (tBondLabel);
+		tHeaderContractLineJPanel.add (Box.createHorizontalGlue ());
+		tHeaderContractLineJPanel.add (tConnectedLabel);
+		tHeaderContractLineJPanel.add (Box.createHorizontalGlue ());
+		tHeaderContractLineJPanel.add (Box.createHorizontalStrut (10));
+
+		return tHeaderContractLineJPanel;
+	}
+
+	public JPanel buildContractLineJPanel () {
+		JPanel tContractLineJPanel;
+		
+		tContractLineJPanel = new JPanel ();
+		
+		return tContractLineJPanel;
 	}
 	
 	// New Methods to add

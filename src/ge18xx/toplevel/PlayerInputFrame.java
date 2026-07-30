@@ -325,7 +325,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		setBadPlayerList (false);
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			tName = playerNames [tIndex].getText ();
-			if (tName != null) {
+			if (tName != GUI.NULL_STRING) {
 				if (!(tName.equals (NO_NAME))) {
 					if (NetworkPlayer.validPlayerName (tName)) {
 						tPlayerCount++;

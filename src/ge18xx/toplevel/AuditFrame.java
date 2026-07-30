@@ -126,8 +126,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	private void setColumnAlign (int aColumnIndex, int tAlignment) {
-		DefaultTableCellRenderer tCellRenderer = new DefaultTableCellRenderer ();
+		DefaultTableCellRenderer tCellRenderer;
 
+		tCellRenderer = new DefaultTableCellRenderer ();
 		tCellRenderer.setHorizontalAlignment (tAlignment);
 		auditTable.getColumnModel ().getColumn (aColumnIndex).setHeaderRenderer (tCellRenderer);
 		auditTable.getColumnModel ().getColumn (aColumnIndex).setCellRenderer (tCellRenderer);
