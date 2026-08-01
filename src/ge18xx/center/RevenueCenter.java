@@ -19,6 +19,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.round.RoundManager;
 import ge18xx.tiles.Feature;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
@@ -314,7 +315,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		if (validCityInfo ()) {
 			tCityName = cityInfo.getName ();
 		} else {
-			tCityName = null;
+			tCityName = GUI.NULL_STRING;
 		}
 
 		return tCityName;
@@ -328,12 +329,44 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return (cityInfo != CityInfo.NO_CITY_INFO);
 	}
 
+	public int [] getCityInfoShareCompanies () {
+		int [] tShareCompanies;
+		
+		if (validCityInfo ()) {
+			tShareCompanies = cityInfo.getShareCompanies ();
+		} else {
+			tShareCompanies = null;
+		}
+		
+		return tShareCompanies;
+	}
+	
+	public String [] getShareCompanyAbbrevs (RoundManager aRoundManager) {
+		String [] tShareCompanyAbbrevs;
+		String tShareCompanyAbbrev;
+		Corporation tCorporation;
+		int [] tShareCompanyIDs;
+		int tShareCompanyID;
+		
+		tShareCompanyIDs = getCityInfoShareCompanies ();
+		tShareCompanyAbbrevs = new String [tShareCompanyIDs.length];
+		for (int index = 0; index < tShareCompanyIDs.length; index++) {
+			tShareCompanyID = tShareCompanyIDs [index];
+			tCorporation = aRoundManager.getCompanyByID (tShareCompanyID);
+			tShareCompanyAbbrev = tCorporation.getAbbrev ();
+			tShareCompanyAbbrevs [index] = tShareCompanyAbbrev;
+		}
+		
+		return tShareCompanyAbbrevs;
+	}
+	
 	public int getCityInfoBond () {
 		int tCityInfoBond;
 		
-		tCityInfoBond = CityInfo.NO_BOND;
-		if (cityInfo != CityInfo.NO_CITY_INFO) {
+		if (validCityInfo ()) {
 			tCityInfoBond = cityInfo.getBond ();
+		} else {
+			tCityInfoBond = CityInfo.NO_BOND;
 		}
 		
 		return tCityInfoBond;
