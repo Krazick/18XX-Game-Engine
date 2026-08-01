@@ -956,6 +956,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		Point tPoint;
 		MapCell tSelectedMapCell;
 		MapCell tPreviousSelectedMapCell;
+		GameManager tGameManager;
 		boolean tShiftDown;
 		
 		tPoint = aMouseEvent.getPoint ();
@@ -963,8 +964,12 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tShiftDown = aMouseEvent.isShiftDown ();
 		tSelectedMapCell = getMapCellContainingPoint (tPoint);
 		tPreviousSelectedMapCell = getSelectedMapCell ();
-		if (singleMapCellSelect) {
-			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell, aMouseEvent);
+		tGameManager = (GameManager) mapFrame.getGameManager ();
+		if (tGameManager.isContractBidRound ()) {
+			toggleSelectedMapCells (tSelectedMapCell, tPreviousSelectedMapCell);
+			tGameManager.handleContractBidSelect (tSelectedMapCell);
+		} else if (singleMapCellSelect) {
+				handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell, aMouseEvent);
 		} else {
 			if (tShiftDown && mapFrame.isSelectRouteMode ()) {
 				mapFrame.handleRemoveRouteSegment (tSelectedMapCell);
@@ -972,17 +977,21 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 				if (selectRevenueCenter) {
 					handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
 				} else {
-					if (tPreviousSelectedMapCell == tSelectedMapCell) {
-						toggleSelectedMapCell (tSelectedMapCell);
-					} else {
-						toggleSelectedMapCell (tPreviousSelectedMapCell);
-						toggleSelectedMapCell (tSelectedMapCell);
-					}
+					toggleSelectedMapCells (tSelectedMapCell, tPreviousSelectedMapCell);
 				}
 			}
 		}
 
 		redrawMap ();
+	}
+
+	protected void toggleSelectedMapCells (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
+		if (aPreviousSelectedMapCell == aSelectedMapCell) {
+			toggleSelectedMapCell (aSelectedMapCell);
+		} else {
+			toggleSelectedMapCell (aPreviousSelectedMapCell);
+			toggleSelectedMapCell (aSelectedMapCell);
+		}
 	}
 
 	public void putTile (int aRow, int aCol, Tile aTile) {
