@@ -51,6 +51,7 @@ import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
+import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
 import ge18xx.network.JGameClient;
@@ -3238,6 +3239,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return tIsStockRound;
 	}
 
+	public boolean isContractBidRound () {
+		boolean tIsContractBidRound;
+
+		if (roundManagerIsValid ()) {
+			tIsContractBidRound = roundManager.isAContractBidRound ();
+		} else {
+			tIsContractBidRound = false;
+		}
+
+		return tIsContractBidRound;
+	}
+
 	public ShareCompany getOperatingShareCompany () {
 		ShareCompany tOperatingShareCompany;
 		
@@ -3323,6 +3336,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		playerInputFrame.randomizePlayerOrder ();
 	}
 
+	public void handleContractBidSelect (MapCell aSelectedMapCell) {
+		contractBidFrame.handleContractBidSelect (aSelectedMapCell);
+	}
+	
 	public void handleNetworkAction (String aNetworkAction) {
 		XMLDocument tXMLNetworkAction;
 		XMLNode tActionNode;
