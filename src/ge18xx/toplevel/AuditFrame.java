@@ -247,14 +247,14 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	}
 
 	private boolean setSelectedPlayer (String aPlayerName) {
-		boolean tPlayer;
+		boolean tIsPlayer;
 
-		tPlayer = true;
+		tIsPlayer = true;
 		setActorName (aPlayerName);
 		setActorAbbrev (aPlayerName);
 		setActorType (ActorI.ActorTypes.Player);
 
-		return tPlayer;
+		return tIsPlayer;
 	}
 
 	private void setSelectedBank () {
@@ -445,25 +445,25 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	private void refreshAuditTable (ItemEvent aItemEvent) {
 		JComboBox<String> tThisComboBox;
-		boolean tPlayer;
+		boolean tIsPlayer;
 
-		tPlayer = false;
+		tIsPlayer = false;
 		@SuppressWarnings ("unchecked")
 		JComboBox<String> source = (JComboBox<String>) aItemEvent.getSource ();
 		tThisComboBox = source;
 		if (tThisComboBox.equals (actorsCombo)) {
-			tPlayer = setSelectedActor ();
+			tIsPlayer = setSelectedActor ();
 		}
 
-		refreshAuditTable (tPlayer);
+		refreshAuditTable (tIsPlayer);
 	}
 
-	public void refreshAuditTable (boolean aPlayer) {
+	public void refreshAuditTable (boolean aIsPlayer) {
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		removeAllRows ();
-		if (aPlayer) {
+		if (aIsPlayer) {
 			setPlayerStartingCash ();
 		}
 		if (actorType == ActorI.ActorTypes.Bank) {
