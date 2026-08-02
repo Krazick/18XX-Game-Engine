@@ -8,9 +8,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ge18xx.center.City;
+import ge18xx.center.RevenueCenter;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.MapCell;
 import ge18xx.player.ContractBid;
+import ge18xx.player.ContractLine;
 import ge18xx.player.Player;
+import ge18xx.round.RoundManager;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
 import swingTweaks.KButton;
@@ -83,7 +89,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 			signButton.setEnabled (true);
 			signButton.setToolTipText ("Contract is Valid, can be signed");
 		} else {
-//			signButton.setEnabled (false);
+			signButton.setEnabled (false);
 			signButton.setToolTipText ("Contract is Invalid, see reasons below");
 		}
 		
@@ -176,5 +182,56 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 
 	public void setContractBid (ContractBid tContractBid) {
 		contractBid = tContractBid;
+	}
+	
+	public void handleContractBidSelect (MapCell aSelectedMapCell) {
+		int tRCCount;
+		int tRCIndex;
+		RevenueCenter tRevenueCenter;
+		City tCity;
+		
+		System.out.println ("Selected Map Cell " + aSelectedMapCell.getID ());
+		
+		tRCCount = aSelectedMapCell.getRevenueCenterCount ();
+		if (tRCCount > 0) {
+			tCity = City.NO_CITY;
+			for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
+				if (tCity == City.NO_CITY) {
+					tRevenueCenter = aSelectedMapCell.getRevenueCenter (tRCIndex);
+					if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+						tCity = (City) tRevenueCenter;
+					}
+				}
+			}
+			if (tCity != City.NO_CITY) {
+				handleCitySelected (aSelectedMapCell, tCity);
+			}
+		}
+	}
+
+	private void handleCitySelected (MapCell aSelectedMapCell, City aCity) {
+		String tCityName;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		ContractLine tContractLine;
+		String [] tShareCompanies;
+		String tShareCompanyAbbrev;
+		ShareCompany tShareCompany;
+		int tBond;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tRoundManager = tGameManager.getRoundManager ();
+		tCityName = aCity.getCityName ();
+		tShareCompanies = aCity.getShareCompanyAbbrevs (tRoundManager);
+		tBond = aCity.getCityInfoBond ();
+		
+		System.out.println ("City " + tCityName + " Bond " + tBond +
+							" ShareCompanies " + String.join (", ", tShareCompanies));
+		tShareCompanyAbbrev = tShareCompanies [0];
+		tShareCompany = tRoundManager.getShareCompany (tShareCompanyAbbrev);
+		tContractLine = new ContractLine (aCity, tShareCompany, tBond);
+		contractBid.addContractLine (tContractLine);
+		
+		System.out.println ("Contract Line Count " + contractBid.getCityCount ());
 	}
 }
