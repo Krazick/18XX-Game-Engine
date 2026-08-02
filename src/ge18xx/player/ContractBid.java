@@ -2,6 +2,7 @@ package ge18xx.player;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,10 +24,7 @@ import javax.swing.table.TableColumnModel;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.City;
-import ge18xx.center.CityInfo;
 import ge18xx.company.ShareCompany;
-import ge18xx.map.Location;
-import ge18xx.tiles.TileType;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
@@ -57,6 +55,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	JTextField totalBondJTextField;
 	DefaultTableModel contractLinesModel; // = new DefaultTableModel (0, 5);
 	JTable contractLinesJTable;
+	JLabel contractStatus;
 
 	public ContractBid (Player aPlayer) {
 		setPlayer (aPlayer);
@@ -145,6 +144,7 @@ public class ContractBid implements ActionListener, FocusListener {
 		JPanel tExtraBidJPanel;
 		JPanel tTotalBondJPanel;
 		JPanel tContractLinesJPanel;
+		JPanel tContractStatusJPanel;
 		JLabel tCityCount;
 		int tMinCityCount;
 		int tMaxCityCount;
@@ -152,20 +152,25 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractBidJPanel.removeAll ();
 		contractBidJPanel.add (Box.createVerticalStrut (10));
 		tTitleLine = new JLabel ("Contract Bid for " + player.getName ());
-		tTitleLine.setAlignmentX (Component.LEFT_ALIGNMENT);
+		tTitleLine.setAlignmentX (Component.CENTER_ALIGNMENT);
 		contractBidJPanel.add (tTitleLine);
 		contractBidJPanel.add (Box.createVerticalStrut (10));
 		
 		tMinCityCount = player.getMinBidCities ();
 		tMaxCityCount = player.getMaxBidCities ();
 		tCityCount = new JLabel ("City Count must be between " + tMinCityCount + " and " + tMaxCityCount);
-		tTitleLine.setAlignmentX (Component.LEFT_ALIGNMENT);
+		tCityCount.setAlignmentX (Component.CENTER_ALIGNMENT);
 		contractBidJPanel.add (tCityCount);
 		contractBidJPanel.add (Box.createVerticalStrut (10));
 		
-		tContractLinesJPanel = fillContractLinesJPanel ();
+		tContractLinesJPanel = buildContractLinesJPanel ();
 		contractBidJPanel.add (tContractLinesJPanel);
 		
+		contractStatus = new JLabel ("NEW Contract Status");
+		tContractStatusJPanel = buildOneLabelPanel (contractStatus);
+		contractBidJPanel.add (tContractStatusJPanel);
+		contractBidJPanel.add (Box.createVerticalStrut (10));
+
 		extraBidJTextField = new JTextField (5);
 		extraBidJTextField.addActionListener (this);
 		extraBidJTextField.addFocusListener (this);
@@ -185,41 +190,44 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractBidJPanel.add (tTotalBondJPanel);
 		contractBidJPanel.add (Box.createVerticalStrut (10));
 	}
-	
-	private JPanel fillContractLinesJPanel () {
-		JPanel tContractLinesJPanel;
-		JPanel tContractLineJPanel;
+
+	protected void updateContractStatus () {
+		String tContractStatusText;
+		String tInvalidReasonsText;
 		
-		tContractLinesJPanel = new JPanel ();
-		tContractLinesJPanel.setBackground (Color.CYAN);
-		
-//		System.out.println ("Contract Line Count " + contractLines.size ());
-		tContractLineJPanel = buildContractLinesJPanel ();
-		
-		tContractLinesJPanel.add (tContractLineJPanel);
-		
-		return tContractLinesJPanel;
+		if (!isValid ()) {
+			tInvalidReasonsText = getAllReasonsInvalid ();
+			tContractStatusText = "Contract is NOT Valid<br>" + tInvalidReasonsText;
+		} else if (isFullfilled ()) {
+			tContractStatusText = "Contract is Fullfilled";
+		} else {
+			tContractStatusText = "Contract is NOT Fullfilled";
+		}
+		setContractStatus (tContractStatusText);
 	}
 
-	private void addTestContractLine () {
-		ContractLine tTestContractLine;
-		City tTestCity;
-		CityInfo tCityInfo;
-		Location tLocation;
-		ShareCompany tTestShareCompany;
-		int tTestBond;
+	protected void setContractStatus (String aContractStatusText) {
+		String tFullStatusText;
 		
-		tLocation = new Location (50);
-		tCityInfo = new CityInfo (22, "Calcutta", tLocation, 3);
-		
-		tTestCity = new City (3, 6, 22, 7, "", 30, TileType.NO_TILE_TYPE);
-		tTestCity.setCityInfo (tCityInfo);
-		tTestShareCompany = ShareCompany.NO_SHARE_COMPANY;
-		tTestBond = 50;
-		tTestContractLine = new ContractLine (tTestCity, tTestShareCompany, tTestBond);
-		addContractLine (tTestContractLine);
+		tFullStatusText = "<html>" + aContractStatusText + "</html>";
+		contractStatus.setText (tFullStatusText);
+		contractStatus.setAlignmentX (Component.CENTER_ALIGNMENT);
 	}
 	
+	private JPanel buildOneLabelPanel (JLabel aJLabel) {
+		JPanel tLabelPanel;
+
+		tLabelPanel = new JPanel ();
+		tLabelPanel.setLayout (new BoxLayout (tLabelPanel, BoxLayout.X_AXIS));
+		tLabelPanel.add (Box.createHorizontalStrut (10));
+		tLabelPanel.add (Box.createHorizontalGlue ());
+		tLabelPanel.add (aJLabel);
+		tLabelPanel.add (Box.createHorizontalGlue ());
+		tLabelPanel.add (Box.createHorizontalStrut (10));
+		
+		return tLabelPanel;
+	}
+
 	private JPanel buildOneFieldPanel (JTextField aJTextField, String aLabelText) {
 		JPanel tFieldJPanel;
 		JLabel tLabel;
@@ -349,7 +357,8 @@ public class ContractBid implements ActionListener, FocusListener {
 		if (! cityAlreadyInContractLines (tNewCityName)) {
 			addRow (aContractLine);
 			contractLines.add (aContractLine);
-			
+			updateTotalBidValue ();
+			updateContractStatus ();
 		}
 	} 
 	
@@ -373,6 +382,8 @@ public class ContractBid implements ActionListener, FocusListener {
 				}
 			}
 			contractLines.remove (tContractLineToDelete);
+			updateTotalBidValue ();
+			updateContractStatus ();
 		}
 	}
 
@@ -387,15 +398,15 @@ public class ContractBid implements ActionListener, FocusListener {
 		}
 		if (getCityCount () < player.getMinBidCities ()) {
 			tAllReasonsInvalid += "Not enough Cities (minimum is " + 
-							player.getMinBidCities () + ") are in the Contract Bid\n";
+							player.getMinBidCities () + ") are in the Contract Bid<br>";
 		}
 		if (getCityCount () > player.getMaxBidCities ()) {
 			tAllReasonsInvalid += "Too many Cities (maximum is " +
-					player.getMaxBidCities () + ") are in the Contract Bid\n";			
+					player.getMaxBidCities () + ") are in the Contract Bid<br>";			
 		}
 		if (getDeltaCityCount () > DELTA_CITY_MAX_COUNT) {
 			tAllReasonsInvalid += "Too many Cities in the Delta (maximum of " +
-							DELTA_CITY_MAX_COUNT + ") are in the Contract Bid\n";	
+							DELTA_CITY_MAX_COUNT + ") are in the Contract Bid<br>";	
 		}
 		if (player.getCash () < getTotalValue ()) {
 			tAllReasonsInvalid += "Player does not have enough cash to post bond.";
@@ -490,7 +501,6 @@ public class ContractBid implements ActionListener, FocusListener {
 	public void focusLost (FocusEvent aEvent) {
 		Object tEventObject;
 		int tExtraBidValue;
-		int tTotalBidValue;
 		String tExtraBidText;
 		
 		tEventObject = aEvent.getSource ();
@@ -506,14 +516,21 @@ public class ContractBid implements ActionListener, FocusListener {
 			}
 			
 			setExtraBidJTextField (tExtraBidValue);
-			tTotalBidValue = getTotalValue ();
-			setTotalBidJTextField (tTotalBidValue);
+			updateTotalBidValue ();
+			updateContractStatus ();
 		}
+	}
+
+	protected void updateTotalBidValue () {
+		int tTotalBidValue;
+		
+		tTotalBidValue = getTotalValue ();
+		setTotalBidJTextField (tTotalBidValue);
 	}
 	
 	public JPanel buildContractLinesJPanel () {
-		String [] tColumnNames = { "City", "Company", "Bond", "Connected", "Delete" };
-		int tColWidths [] = { 150, 150, 100, 100, 100 };
+		String [] tColumnNames = { "City", "Company", "Bond", "Is Delta", "Connected", "Delete" };
+		int tColWidths [] = { 150, 150, 100, 100, 100, 500 };
 		int tTotalWidth;
 		JPanel tContractLinesJPanel;
 		
@@ -523,40 +540,37 @@ public class ContractBid implements ActionListener, FocusListener {
 		return tContractLinesJPanel;
 	}
 	
-	private <T> JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
+	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		TableColumnModel tColumnModel;
 		JPanel tContractLinesJPanel;
 		
 		contractLinesModel = new DefaultTableModel (new Object [] 
 				{aColumnNames [0], aColumnNames [1], aColumnNames [2], aColumnNames [3], 
-				aColumnNames [4]}, 6) {
-//			@SuppressWarnings ({ "unchecked" })
-//			@Override
-//			public Class<T> getColumnClass (int aColumnIndex) {
-//				@SuppressWarnings ("rawtypes")
-//				Class<T> tColumnClass;
-//				
-//				if (aColumnIndex == 3) {
-//					tColumnClass = (Class<T>) Boolean.class;
-//				} else {
-//					tColumnClass = (Class<T>) super.getColumnClass (aColumnIndex);
-//				}
-//				
-//				return tColumnClass;
-//			}
+				aColumnNames [4], aColumnNames [5]}, 0) {
+			
+			@Override
+			public Class<?> getColumnClass (int aColumnIndex) {
+				Class<?> tColumnClass;
+				
+				if (aColumnIndex == 3) {
+					tColumnClass = (Class<?>) Boolean.class;
+				} else if (aColumnIndex == 4) {
+					tColumnClass = (Class<?>) Boolean.class;
+				} else if (aColumnIndex == 5) {
+					tColumnClass = (Class<?>) JButton.class;
+				} else {
+					tColumnClass = (Class<?>) super.getColumnClass (aColumnIndex);
+				}
+				
+				return tColumnClass;
+			}
 		};
 		
 		contractLinesJTable = new JTable (contractLinesModel);
-//		addTestContractLine ();
-
-//		contractLinesModel.setColumnIdentifiers (aColumnNames);
-//		contractLinesJTable.setModel (contractLinesModel);
 		contractLinesJTable.setGridColor (Color.BLACK);
 		contractLinesJTable.setShowGrid (true);
 		contractLinesJTable.setShowVerticalLines (true);
 		contractLinesJTable.setShowHorizontalLines (true);
-		contractLinesJTable.setFillsViewportHeight(true);
-//		contractLinesJTable.setFillsViewportWidth(true);
 
 		tColumnModel = contractLinesJTable.getColumnModel ();
 
@@ -565,8 +579,6 @@ public class ContractBid implements ActionListener, FocusListener {
 
 			aTotalWidth += aColWidths [tIndex] + 1;
 		}
-//		setColumnAlign (2, SwingConstants.RIGHT);
-//		setColumnAlign (3, SwingConstants.CENTER);
 		tContractLinesJPanel = buildScrollPane (contractLinesJTable);
 		tContractLinesJPanel.setBackground (Color.blue);
 		
@@ -574,22 +586,24 @@ public class ContractBid implements ActionListener, FocusListener {
 	}
 	
 	public void addRow (ContractLine aContractLine) {
-		String tShareCompanyName;
+		String tShareCompanyAbbrev;
 		String tCityName;
 		ShareCompany tShareCompany;
 		City tCity;
 		int tBond;
 		boolean tConnected;
+		boolean tIsDeltaTerrain;
 		KButton tDeleteButton;
 		
 		tShareCompany = aContractLine.getShareCompany ();
 		tCity = aContractLine.getCity ();
 		tBond = aContractLine.getBond ();
+		tIsDeltaTerrain = aContractLine.isDeltaTerrain ();
 		tConnected = aContractLine.isConnected ();
 		if (tShareCompany == ShareCompany.NO_SHARE_COMPANY) {
-			tShareCompanyName = "UNKNOWN";
+			tShareCompanyAbbrev = "UNKNOWN";
 		} else {
-			tShareCompanyName = tShareCompany.getName ();
+			tShareCompanyAbbrev = tShareCompany.getAbbrev ();
 		}
 		if (tCity == City.NO_CITY) {
 			tCityName = "UNKOWN";
@@ -598,24 +612,37 @@ public class ContractBid implements ActionListener, FocusListener {
 		}
 		tDeleteButton = new KButton ("X");
 		contractLinesModel.addRow (
-				new Object [] { tCityName, tShareCompanyName, tBond, tConnected, tDeleteButton }
-			);
+				new Object [] { tCityName, tShareCompanyAbbrev, tBond, tIsDeltaTerrain, 
+								tConnected, tDeleteButton } );
 	}
 	
-	public JPanel buildScrollPane (JComponent aImage) {
+	public JPanel buildScrollPane (JTable aJTable) {
 		JPanel tJPanel;
 		
-		tJPanel = buildScrollPane (aImage, GUI.NULL_STRING);
+		tJPanel = buildScrollPane (aJTable, GUI.NULL_STRING);
 		
 		return tJPanel; 
 	}
 
-	public JPanel buildScrollPane (JComponent aImage, String aBorderLayout) {
+	public JPanel buildScrollPane (JTable aJTable, String aBorderLayout) {
 		JScrollPane tScrollPane;
 		JPanel tJPanel;
+		int tMaxRows;
+		Dimension tDimension;
+		Dimension tNewDimension;
+		int tRowHeight;
+		int tTableHeight;
 		
 		tJPanel = new JPanel ();
-		tScrollPane = new JScrollPane (aImage);
+		tScrollPane = new JScrollPane (aJTable);
+		
+		tMaxRows = player.getMaxBidCities ();
+		tRowHeight = aJTable.getRowHeight ();
+		tTableHeight = tRowHeight * (tMaxRows + 1);
+		tDimension = aJTable.getPreferredSize ();
+		tNewDimension = new Dimension (tDimension.width, tTableHeight);
+		tScrollPane.setPreferredSize (tNewDimension);
+		
 		if (aBorderLayout != GUI.NULL_STRING) {
 			tJPanel.add (tScrollPane, aBorderLayout);
 		} else {
@@ -624,14 +651,6 @@ public class ContractBid implements ActionListener, FocusListener {
 		
 		return tJPanel;
 	}
-
-//	private void setColumnAlign (int aColumnIndex, int tAlignment) {
-//		DefaultTableCellRenderer tCellRenderer = new DefaultTableCellRenderer ();
-//
-//		tCellRenderer.setHorizontalAlignment (tAlignment);
-//		contractLinesJTable.getColumnModel ().getColumn (aColumnIndex).setHeaderRenderer (tCellRenderer);
-//		contractLinesJTable.getColumnModel ().getColumn (aColumnIndex).setCellRenderer (tCellRenderer);
-//	}
 
 	// New Methods to add:
 	// GenerateActionEffects -- Will generate the Action with Effects XML of the ContractBid
