@@ -166,7 +166,7 @@ public class ContractBid implements ActionListener, FocusListener {
 		tContractLinesJPanel = buildContractLinesJPanel ();
 		contractBidJPanel.add (tContractLinesJPanel);
 		
-		contractStatus = new JLabel ("NEW Contract Status");
+		contractStatus = new JLabel ("NEW Contract", SwingConstants.CENTER);
 		tContractStatusJPanel = buildOneLabelPanel (contractStatus);
 		contractBidJPanel.add (tContractStatusJPanel);
 		contractBidJPanel.add (Box.createVerticalStrut (10));
@@ -209,7 +209,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	protected void setContractStatus (String aContractStatusText) {
 		String tFullStatusText;
 		
-		tFullStatusText = "<html>" + aContractStatusText + "</html>";
+		tFullStatusText = "<html><center>" + aContractStatusText + "</center></html>";
 		contractStatus.setText (tFullStatusText);
 		contractStatus.setAlignmentX (Component.CENTER_ALIGNMENT);
 	}
