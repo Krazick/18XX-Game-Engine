@@ -190,8 +190,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		
-		System.out.println ("Selected Map Cell " + aSelectedMapCell.getID ());
-		
 		tRCCount = aSelectedMapCell.getRevenueCenterCount ();
 		if (tRCCount > 0) {
 			tCity = City.NO_CITY;
@@ -199,7 +197,9 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 				if (tCity == City.NO_CITY) {
 					tRevenueCenter = aSelectedMapCell.getRevenueCenter (tRCIndex);
 					if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-						tCity = (City) tRevenueCenter;
+						if (tRevenueCenter instanceof City) {
+							tCity = (City) tRevenueCenter;
+						}
 					}
 				}
 			}
@@ -210,7 +210,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	}
 
 	private void handleCitySelected (MapCell aSelectedMapCell, City aCity) {
-		String tCityName;
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		ContractLine tContractLine;
@@ -221,17 +220,12 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tRoundManager = tGameManager.getRoundManager ();
-		tCityName = aCity.getCityName ();
 		tShareCompanies = aCity.getShareCompanyAbbrevs (tRoundManager);
 		tBond = aCity.getCityInfoBond ();
 		
-		System.out.println ("City " + tCityName + " Bond " + tBond +
-							" ShareCompanies " + String.join (", ", tShareCompanies));
 		tShareCompanyAbbrev = tShareCompanies [0];
 		tShareCompany = tRoundManager.getShareCompany (tShareCompanyAbbrev);
 		tContractLine = new ContractLine (aCity, tShareCompany, tBond);
 		contractBid.addContractLine (tContractLine);
-		
-		System.out.println ("Contract Line Count " + contractBid.getCityCount ());
 	}
 }
