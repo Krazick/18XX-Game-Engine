@@ -244,7 +244,7 @@ class ContractBidTests {
 		assertEquals ("No City is specified\n"
 				+ "No Share Company is specified\n"
 				+ "Bond Value is <= zero (0)\n"
-				+ "Not enough Cities (minimum is 3) are in the Contract Bid\n", 
+				+ "Not enough Cities (minimum is 3) are in the Contract Bid<br>", 
 				tContractBid1.getAllReasonsInvalid ());
 		tContractBid1.deleteContractLine (tCity1);
 		assertEquals (0, tContractBid1.getCityCount ());
@@ -257,7 +257,7 @@ class ContractBidTests {
 		tContractLine4 = playerTestFactory.buildContractLine (city4, shareCompany, tBond4);
 		tContractBid1.addContractLine (tContractLine4);
 		
-		assertEquals ("Not enough Cities (minimum is 3) are in the Contract Bid\n", tContractBid1.getAllReasonsInvalid ());
+		assertEquals ("Not enough Cities (minimum is 3) are in the Contract Bid<br>", tContractBid1.getAllReasonsInvalid ());
 		
 		assertFalse (tContractBid1.isValid ());
 
@@ -348,7 +348,7 @@ class ContractBidTests {
 		tContractBid.addContractLine (tContractLine9);
 		
 		assertFalse (tContractBid.isValid ());
-		assertEquals ("Too many Cities (maximum is 6) are in the Contract Bid\n", 
+		assertEquals ("Too many Cities (maximum is 6) are in the Contract Bid<br>", 
 						tContractBid.getAllReasonsInvalid ());
 
 		tContractBid.deleteContractLine (tCity7);
@@ -370,7 +370,7 @@ class ContractBidTests {
 		assertEquals (6, tContractBid.getCityCount ());
 		assertEquals (3, tContractBid.getDeltaCityCount ());
 		assertFalse (tContractBid.isValid ());
-		assertEquals ("Too many Cities in the Delta (maximum of 2) are in the Contract Bid\n"
+		assertEquals ("Too many Cities in the Delta (maximum of 2) are in the Contract Bid<br>"
 				+ "Player does not have enough cash to post bond.", 
 				tContractBid.getAllReasonsInvalid ());
 		
@@ -382,7 +382,7 @@ class ContractBidTests {
 		tContractBid.addContractLine (tContractLine0);
 		assertFalse (tContractBid.isValid ());
 		assertEquals ("No Share Company is specified\n"
-				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid\n", 
+				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid<br>", 
 				tContractBid.getAllReasonsInvalid ());
 	}
 	
