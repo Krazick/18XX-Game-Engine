@@ -10,9 +10,9 @@ import java.awt.event.FocusListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +25,11 @@ import javax.swing.table.TableColumnModel;
 import ge18xx.bank.Bank;
 import ge18xx.center.City;
 import ge18xx.company.ShareCompany;
+import ge18xx.player.ButtonInTable.ButtonCellRenderer;
+import ge18xx.player.ButtonInTable.DeleteRowAction;
+import ge18xx.player.ButtonInTable.TableAction;
+import ge18xx.player.ButtonInTable.ButtonCellEditor;
+
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
 import geUtilities.xml.AttributeName;
@@ -33,7 +38,6 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
-import swingTweaks.KButton;
 
 public class ContractBid implements ActionListener, FocusListener {
 	public static final ElementName EN_CONTRACT_BID = new ElementName ("ContractBid");
@@ -543,23 +547,37 @@ public class ContractBid implements ActionListener, FocusListener {
 	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		TableColumnModel tColumnModel;
 		JPanel tContractLinesJPanel;
+		ButtonCellRenderer tButtonCellRenderer;
 		
 		contractLinesModel = new DefaultTableModel (new Object [] 
 				{aColumnNames [0], aColumnNames [1], aColumnNames [2], aColumnNames [3], 
 				aColumnNames [4], aColumnNames [5]}, 0) {
 			
 			@Override
+			public boolean isCellEditable (int aRow, int aColumn) { 
+				boolean tIsEditable;
+				
+				if (aColumn == 5) {
+					tIsEditable = true;
+				} else {
+					tIsEditable = false;
+				}
+				
+				return tIsEditable;
+			}
+			
+			@Override
 			public Class<?> getColumnClass (int aColumnIndex) {
 				Class<?> tColumnClass;
 				
 				if (aColumnIndex == 3) {
-					tColumnClass = (Class<?>) Boolean.class;
+					tColumnClass = Boolean.class;
 				} else if (aColumnIndex == 4) {
-					tColumnClass = (Class<?>) Boolean.class;
+					tColumnClass = Boolean.class;
 				} else if (aColumnIndex == 5) {
-					tColumnClass = (Class<?>) JButton.class;
+					tColumnClass = DeleteRowAction.class;
 				} else {
-					tColumnClass = (Class<?>) super.getColumnClass (aColumnIndex);
+					tColumnClass = super.getColumnClass (aColumnIndex);
 				}
 				
 				return tColumnClass;
@@ -571,7 +589,12 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractLinesJTable.setShowGrid (true);
 		contractLinesJTable.setShowVerticalLines (true);
 		contractLinesJTable.setShowHorizontalLines (true);
-
+		tButtonCellRenderer = new ButtonCellRenderer ("\u2715");
+		
+		contractLinesJTable.setDefaultRenderer (DeleteRowAction.class, tButtonCellRenderer);
+		contractLinesJTable.setDefaultEditor (AbstractAction.class, new ButtonCellEditor ());
+		contractLinesJTable.getColumnModel ().getColumn (5).setMaxWidth(40);
+		
 		tColumnModel = contractLinesJTable.getColumnModel ();
 
 		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
@@ -593,8 +616,10 @@ public class ContractBid implements ActionListener, FocusListener {
 		int tBond;
 		boolean tConnected;
 		boolean tIsDeltaTerrain;
-		KButton tDeleteButton;
-		
+//		KButton tDeleteButton;
+		TableAction deleteAction;
+
+		deleteAction = new DeleteRowAction ();
 		tShareCompany = aContractLine.getShareCompany ();
 		tCity = aContractLine.getCity ();
 		tBond = aContractLine.getBond ();
@@ -610,10 +635,10 @@ public class ContractBid implements ActionListener, FocusListener {
 		} else {
 			tCityName = tCity.getCityName ();
 		}
-		tDeleteButton = new KButton ("X");
+//		tDeleteButton = new KButton ("X");
 		contractLinesModel.addRow (
 				new Object [] { tCityName, tShareCompanyAbbrev, tBond, tIsDeltaTerrain, 
-								tConnected, tDeleteButton } );
+								tConnected, deleteAction } );
 	}
 	
 	public JPanel buildScrollPane (JTable aJTable) {
