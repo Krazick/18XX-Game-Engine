@@ -35,6 +35,7 @@ public class ButtonCellRenderer implements TableCellRenderer
         button = new KButton (aLabel);
         button.setBorder (null); // else label is just "..."
         button.setEnabled (true);
+        button.setOpaque (true);
     }
     
 	@Override
