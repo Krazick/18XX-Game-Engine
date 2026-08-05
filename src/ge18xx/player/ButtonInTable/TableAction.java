@@ -28,8 +28,7 @@ import javax.swing.table.DefaultTableModel;
 // 5) ButtonCellRenderer Implements TableCellRenderer
 //
 
-public abstract class TableAction extends AbstractAction
-{
+public abstract class TableAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
 
 	public static final String ROW_COLUMN_SEPARATOR = "/";
@@ -57,7 +56,7 @@ public abstract class TableAction extends AbstractAction
         
         tableModel = (DefaultTableModel) table.getModel ();
         rowData = (Vector<Object>) tableModel.getDataVector ().get (row);
-        
+
         actionPerformed ();
     }
 }

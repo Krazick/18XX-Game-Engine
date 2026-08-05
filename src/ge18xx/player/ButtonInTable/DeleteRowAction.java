@@ -21,14 +21,13 @@ package ge18xx.player.ButtonInTable;
 // 5) ButtonCellRenderer Implements TableCellRenderer
 //
 
-public class DeleteRowAction extends TableAction
-{
-    private static final long serialVersionUID = 1L;
+public class DeleteRowAction extends TableAction {
+	private static final long serialVersionUID = 1L;
 
 	@Override
-    protected void actionPerformed () {
-        tableModel.getDataVector ().remove (row);
-        table.revalidate ();
-        table.repaint ();
-    }
+	protected void actionPerformed () {
+		tableModel.removeRow (row);
+		table.revalidate ();
+		table.repaint ();
+	}
 }
