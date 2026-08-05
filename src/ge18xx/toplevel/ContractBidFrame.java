@@ -176,7 +176,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	@Override
 	public void showFrame () {
 		super.showFrame ();
-		System.out.println ("Show " + NAME + " for " + contractBid.getPlayer ().getName ());
 		contractBid.showContractBidJPanel ();
 	}
 
