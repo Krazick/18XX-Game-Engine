@@ -1,9 +1,12 @@
 package ge18xx.player;
 
+import java.util.List;
+
 import javax.swing.JPanel;
 
 import ge18xx.center.City;
 import ge18xx.company.ShareCompany;
+import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrev;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -24,6 +27,7 @@ public class ContractLine {
 	City city;
 	boolean connected;
 	int bond;
+	List<ShareCompanyAbbrev> listShareCompanyAbbrev;
 
 	public ContractLine () {
 		this (City.NO_CITY, ShareCompany.NO_SHARE_COMPANY, 0);
