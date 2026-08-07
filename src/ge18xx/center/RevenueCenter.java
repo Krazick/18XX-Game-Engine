@@ -423,10 +423,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public int getHomeCompanyID () {
-		int tCompanyID = 0;
+		int tCompanyID;
 
 		if (isCorporationBase ()) {
 			tCompanyID = cityInfo.getCorporationID ();
+		} else {
+			tCompanyID = Corporation.NO_ID;
 		}
 
 		return tCompanyID;
@@ -463,7 +465,6 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public int getBonusRevenue () {
 		int tBonusRevenue;
 		
-		tBonusRevenue = 0;
 		tBonusRevenue = cityInfo.getBonusRevenue ();
 		
 		return tBonusRevenue;
@@ -486,7 +487,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		
 		tRevenue = revenues.getValue ();
 		
-		return (Integer.valueOf(tRevenue).toString ());
+		return (Integer.valueOf (tRevenue).toString ());
 	}
 
 	public int getRevenueCount () {
