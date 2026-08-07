@@ -13,12 +13,12 @@ import javax.swing.table.TableCellEditor;
 public class ShareCompanyAbbrevCellEditor extends DefaultCellEditor implements TableCellEditor, ActionListener {
 
 	private static final long serialVersionUID = 1L;	
-	private ShareCompanyAbbrev shareCompanyAbbrev;
-	private List<ShareCompanyAbbrev> listShareCompanyAbbrev;
+	private String shareCompanyAbbrev;
+	private List<String> listShareCompanyAbbrevs;
 
-	public ShareCompanyAbbrevCellEditor (JComboBox<ShareCompanyAbbrev> comboBox, List<ShareCompanyAbbrev> aListShareCompanyAbbrev) {
+	public ShareCompanyAbbrevCellEditor (JComboBox<String> comboBox, List<String> aListShareCompanyAbbrevs) {
 		super (comboBox);
-		listShareCompanyAbbrev = aListShareCompanyAbbrev;
+		listShareCompanyAbbrevs = aListShareCompanyAbbrevs;
 	}
  
 	@Override
@@ -26,42 +26,38 @@ public class ShareCompanyAbbrevCellEditor extends DefaultCellEditor implements T
 		return shareCompanyAbbrev;
 	}
 
+	@SuppressWarnings ({ "rawtypes", "unchecked" })
 	@Override
 	public Component getTableCellEditorComponent (JTable table, Object value, boolean isSelected, int row, int column) {
-		if (value instanceof ShareCompanyAbbrev) {
-			shareCompanyAbbrev = (ShareCompanyAbbrev) value;
+		JComboBox<String> tComboShareCompanyAbbrev;
+		
+		if (value instanceof String) {
+			shareCompanyAbbrev = (String) value;
 		}
      
-		JComboBox<ShareCompanyAbbrev> comboShareCompanyAbbrev = new JComboBox<ShareCompanyAbbrev> ();
+		tComboShareCompanyAbbrev = (JComboBox) editorComponent;
      
-		for (ShareCompanyAbbrev tShareCompanyAbbrev : listShareCompanyAbbrev) {
-			comboShareCompanyAbbrev.addItem (tShareCompanyAbbrev);
+		tComboShareCompanyAbbrev.removeAllItems ();
+		for (String tShareCompanyAbbrev : listShareCompanyAbbrevs) {
+			tComboShareCompanyAbbrev.addItem (tShareCompanyAbbrev);
 		}
      
-		comboShareCompanyAbbrev.setSelectedItem (shareCompanyAbbrev);
-		comboShareCompanyAbbrev.addActionListener (this);
-     
-		if (isSelected) {
-			comboShareCompanyAbbrev.setBackground( table.getSelectionBackground ());
-//			comboShareCompanyAbbrev.setBackground (Color.BLUE);
-		} else {
-			comboShareCompanyAbbrev.setBackground (table.getSelectionForeground ());
-//			comboShareCompanyAbbrev.setBackground (Color.RED);
-		}
-     
-		return comboShareCompanyAbbrev;
+		tComboShareCompanyAbbrev.setSelectedItem (shareCompanyAbbrev);
+		tComboShareCompanyAbbrev.addActionListener (this);
+          
+		return tComboShareCompanyAbbrev;
 	}
 
 	@SuppressWarnings ("unchecked")
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		JComboBox<ShareCompanyAbbrev> tComboShareCompanyAbbrev;
+		JComboBox<String> tComboShareCompanyAbbrev;
 		Object tSource;
 		
 		tSource = aEvent.getSource ();
 		if (tSource instanceof JComboBox<?>) {
-			tComboShareCompanyAbbrev = (JComboBox<ShareCompanyAbbrev>) tSource;
-			shareCompanyAbbrev = (ShareCompanyAbbrev) tComboShareCompanyAbbrev.getSelectedItem ();
+			tComboShareCompanyAbbrev = (JComboBox<String>) tSource;
+			shareCompanyAbbrev = (String) tComboShareCompanyAbbrev.getSelectedItem ();
 		}
 	}
 
