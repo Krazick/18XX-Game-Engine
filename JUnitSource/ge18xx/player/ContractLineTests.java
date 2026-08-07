@@ -67,29 +67,29 @@ class ContractLineTests {
 		
 		tContractLine = new ContractLine (city, shareCompany, 0);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("Bond Value is <= zero (0)\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
 
 		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 20);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No Share Company is specified\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("No Share Company is specified<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 30);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No City is specified\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("No City is specified<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		assertEquals (GUI.EMPTY_STRING, tContractLine.getCityName ());
 		
 		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 0);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No Share Company is specified\nBond Value is <= zero (0)\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("No Share Company is specified<br>Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 0);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No City is specified\nBond Value is <= zero (0)\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("No City is specified<br>Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		tContractLine = new ContractLine (City.NO_CITY, ShareCompany.NO_SHARE_COMPANY, 0);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No City is specified\nNo Share Company is specified\nBond Value is <= zero (0)\n", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("No City is specified<br>No Share Company is specified<br>Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
 	}
 	
 	@Test
