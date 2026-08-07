@@ -35,7 +35,6 @@ import ge18xx.company.ShareCompany;
 import ge18xx.player.ButtonInTable.ButtonCellRenderer;
 import ge18xx.player.ButtonInTable.DeleteRowAction;
 import ge18xx.player.ButtonInTable.TableAction;
-import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrev;
 import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrevCellEditor;
 import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrevCellRenderer;
 import ge18xx.player.ButtonInTable.ButtonCellEditor;
@@ -544,7 +543,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	
 	public JPanel buildContractLinesJPanel () {
 		String [] tColumnNames = { "City", "Company", "Bond", "Is Delta", "Connected", "Delete" };
-		int tColWidths [] = { 150, 200, 100, 100, 100, 500 };
+		int tColWidths [] = { 100, 100, 50, 50, 75, 75 };
 		int tTotalWidth;
 		JPanel tContractLinesJPanel;
 		
@@ -556,14 +555,18 @@ public class ContractBid implements ActionListener, FocusListener {
 	
 	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		ButtonCellRenderer tButtonCellRenderer;
+		ShareCompanyAbbrevCellEditor tShareCompanyAbbrevCellEditor;
 		TableColumnModel tColumnModel;
 		JPanel tContractLinesJPanel;
 		Border tCellBorder;
-		List<ShareCompanyAbbrev> listShareCompanyAbbrev;
-		JComboBox<ShareCompanyAbbrev> tShareCompanyAbbrevs;
+		List<String> listShareCompanyAbbrevs;
+		JComboBox<String> tShareCompanyAbbrevs;
+		int tMin;
+		int tMax;
 		
 		tCellBorder = BorderFactory.createMatteBorder (0, 0, 2, 1, Color.GRAY);
-		
+		tShareCompanyAbbrevs = new JComboBox<String> ();
+
 		contractLinesModel = new DefaultTableModel (new Object [] 
 				{aColumnNames [0], aColumnNames [1], aColumnNames [2], aColumnNames [3], 
 				aColumnNames [4], aColumnNames [5]}, 0) {
@@ -586,7 +589,7 @@ public class ContractBid implements ActionListener, FocusListener {
 				Class<?> tColumnClass;
 				
 				if (aColumnIndex == 1) {
-					tColumnClass = ShareCompanyAbbrev.class;
+					tColumnClass = String.class;
 				} else  if (aColumnIndex == 3) {
 					tColumnClass = Boolean.class;
 				} else if (aColumnIndex == 4) {
@@ -626,6 +629,8 @@ public class ContractBid implements ActionListener, FocusListener {
 		    	int tRowIndex;
 		    	int tFirstRow;
 		    	int tLastRow;
+		    	ContractLine tContractLine;
+		    	String tNewAbbrev;
 		    	
 		        // Check if the event type is a row deletion
 		    	if (aEvent.getType () == TableModelEvent.DELETE) {
@@ -635,7 +640,13 @@ public class ContractBid implements ActionListener, FocusListener {
 		            for (tRowIndex = tFirstRow; tRowIndex <= tLastRow; tRowIndex++) {
 			            contractLines.remove (tRowIndex);
 		            }
+		        } else if (aEvent.getType () == TableModelEvent.UPDATE) {
+		        	tFirstRow = aEvent.getFirstRow ();
+		        	tContractLine = contractLines.get (tFirstRow);
+		        	tNewAbbrev = (String) tShareCompanyAbbrevs.getSelectedItem ();
+		        	tContractLine.setShareCompany (tNewAbbrev, player);
 		        }
+				updateContractStatus ();
 		    }
 
 		});
@@ -644,27 +655,27 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractLinesJTable.setDefaultRenderer (DeleteRowAction.class, tButtonCellRenderer);
 		contractLinesJTable.setDefaultEditor (AbstractAction.class, new ButtonCellEditor ());
 
-		tShareCompanyAbbrevs = new JComboBox<ShareCompanyAbbrev> ();
-		
-		listShareCompanyAbbrev = new ArrayList<> ();
-		listShareCompanyAbbrev.add (new ShareCompanyAbbrev ("EIR"));
-		listShareCompanyAbbrev.add (new ShareCompanyAbbrev ("NWR"));
-		listShareCompanyAbbrev.add (new ShareCompanyAbbrev ("GIP"));
-		for (ShareCompanyAbbrev tShareCompanyAbbrev : listShareCompanyAbbrev) {
-			tShareCompanyAbbrevs.addItem (tShareCompanyAbbrev);
-		}
-		contractLinesJTable.setDefaultEditor (ShareCompanyAbbrev.class, 
-				new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrev));
-		contractLinesJTable.setDefaultRenderer (ShareCompanyAbbrev.class, new ShareCompanyAbbrevCellRenderer ());
+		listShareCompanyAbbrevs = new ArrayList<> ();
+		listShareCompanyAbbrevs.add ("EIR");
+		listShareCompanyAbbrevs.add ("NWR");
+		listShareCompanyAbbrevs.add ("GIP");
+//		for (String tShareCompanyAbbrev : listShareCompanyAbbrevs) {
+//			tShareCompanyAbbrevs.addItem (tShareCompanyAbbrev);
+//		}
+		tShareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrevs);
+		contractLinesJTable.setDefaultEditor (String.class, tShareCompanyAbbrevCellEditor);
+		contractLinesJTable.setDefaultRenderer (String.class, new ShareCompanyAbbrevCellRenderer ());
 		tColumnModel = contractLinesJTable.getColumnModel ();
 
 		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
-			tColumnModel.getColumn (tIndex).setMaxWidth (aColWidths [tIndex]);
-
+			tMin = aColWidths [tIndex];
+			tMax = tMin + 10;
+			tColumnModel.getColumn (tIndex).setMinWidth (tMin);
+			tColumnModel.getColumn (tIndex).setMaxWidth (tMax);
+			
 			aTotalWidth += aColWidths [tIndex] + 1;
 		}
 		tContractLinesJPanel = buildScrollPane (contractLinesJTable);
-		tContractLinesJPanel.setBackground (Color.blue);
 		
 		return tContractLinesJPanel;
 	}
