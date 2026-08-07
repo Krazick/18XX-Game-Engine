@@ -1548,6 +1548,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tShareCompany;
 	}
 
+	public ShareCompany getShareCompany (String aShareCompanyAbbrev) {
+		ShareCompany tShareCompany;
+		GameManager tGameManager;
+		
+		tGameManager = getGameManager ();
+		tShareCompany = tGameManager.getShareCompany (aShareCompanyAbbrev);
+		
+		return tShareCompany;
+	}
+
 	public void bidAction () {
 		playerManager.bidAction (this);
 		updateListeners (PLAYER_BID_CHANGED );
