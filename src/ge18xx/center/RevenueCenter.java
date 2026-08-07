@@ -359,7 +359,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		
 		return tShareCompanyAbbrevs;
 	}
-	
+
 	public int getCityInfoBond () {
 		int tCityInfoBond;
 		
