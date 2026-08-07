@@ -465,7 +465,7 @@ class RevenueCenterTypeTests {
 	private void testRCBooleanIsCityFromName (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
 			assertTrue (RevenueCenterType.isCity (aRevenueCenterType.getName ()),
-					"Is is City from Name Result for [" + aRevenueCenterType.getName () + "]");
+					"Is City from Name Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
 			assertFalse (RevenueCenterType.isCity (aRevenueCenterType.getName ()),
 					"Is not City from Name  Result for [" + aRevenueCenterType.getName () + "]");
