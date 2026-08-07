@@ -1,12 +1,12 @@
 package ge18xx.player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import ge18xx.center.City;
 import ge18xx.company.ShareCompany;
-import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrev;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -27,10 +27,23 @@ public class ContractLine {
 	City city;
 	boolean connected;
 	int bond;
-	List<ShareCompanyAbbrev> listShareCompanyAbbrev;
+	List<String> listShareCompanyAbbrevs;
 
 	public ContractLine () {
 		this (City.NO_CITY, ShareCompany.NO_SHARE_COMPANY, 0);
+	}
+	
+	public ContractLine (City aCity, String [] tShareCompanAbbrevs, int aBond) {
+		
+		listShareCompanyAbbrevs = new ArrayList<String> ();
+		
+		for (String aShareCompanyAbbrev : tShareCompanAbbrevs) {
+			listShareCompanyAbbrevs.add (aShareCompanyAbbrev);
+		}
+		setCity (aCity);
+		setShareCompanies (listShareCompanyAbbrevs);
+		setBond (aBond);
+		setConnected (false);
 	}
 	
 	public ContractLine (City aCity, ShareCompany aShareCompany, int aBond) {
@@ -55,11 +68,18 @@ public class ContractLine {
 		
 		tCity = getCityWithName (tCityName, aPlayer);
 		setCity (tCity);
+		// When loading a ContractLine from an XMLNode, it is when loading from a SaveGame
+		// And we don't need to worry about the full list available for the City, so only 
+		// save and load the Selected Share Company
 		tShareCompany = getShareCompanyByID (tShareCompanyID, aPlayer);
 		setShareCompany (tShareCompany);
 		setBond (tBond);
 		setConnected (tConnected);
 
+	}
+	
+	public void setShareCompanies (List<String> aListShareCompanyAbbrevs) {
+		listShareCompanyAbbrevs = aListShareCompanyAbbrevs;
 	}
 	
 	public City getCityWithName (String aCityName, Player aPlayer) {
@@ -120,13 +140,13 @@ public class ContractLine {
 		
 		tAllReasonsContractLineInvalid = GUI.EMPTY_STRING;
 		if (city == City.NO_CITY) {
-			tAllReasonsContractLineInvalid += "No City is specified\n";
+			tAllReasonsContractLineInvalid += "No City is specified<br>";
 		}
 		if (shareCompany == ShareCompany.NO_SHARE_COMPANY) {
-			tAllReasonsContractLineInvalid += "No Share Company is specified\n";
+			tAllReasonsContractLineInvalid += "No Share Company is specified<br>";
 		}
 		if (bond <= 0) {
-			tAllReasonsContractLineInvalid += "Bond Value is <= zero (0)\n";
+			tAllReasonsContractLineInvalid += "Bond Value is <= zero (0)<br>";
 		}
 		
 		return tAllReasonsContractLineInvalid;
@@ -144,6 +164,14 @@ public class ContractLine {
 		shareCompany = aShareCompany;
 	}
 
+	public void setShareCompany (String aShareCompanyAbbrev, Player aPlayer) {
+		ShareCompany tShareCompany;
+		
+		tShareCompany = aPlayer.getShareCompany(aShareCompanyAbbrev);
+		
+		setShareCompany (tShareCompany);
+	}
+	
 	private void setCity (City aCity) {
 		city = aCity;
 	}
