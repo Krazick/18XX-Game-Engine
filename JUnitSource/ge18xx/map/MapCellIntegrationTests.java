@@ -383,7 +383,7 @@ class MapCellIntegrationTests extends MapTester {
 		
 		return tTerrainType;
 	}
-
+	
 	@Test
 	@Disabled
 	@DisplayName ("Test getCostToLayTile")
