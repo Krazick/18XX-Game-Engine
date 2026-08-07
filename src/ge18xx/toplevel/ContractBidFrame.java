@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import ge18xx.center.City;
 import ge18xx.center.RevenueCenter;
-import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.player.ContractBid;
@@ -213,8 +212,6 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		RoundManager tRoundManager;
 		ContractLine tContractLine;
 		String [] tShareCompanies;
-		String tShareCompanyAbbrev;
-		ShareCompany tShareCompany;
 		int tBond;
 		
 		tGameManager = (GameManager) gameEngineManager;
@@ -222,9 +219,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		tShareCompanies = aCity.getShareCompanyAbbrevs (tRoundManager);
 		tBond = aCity.getCityInfoBond ();
 		
-		tShareCompanyAbbrev = tShareCompanies [0];
-		tShareCompany = tRoundManager.getShareCompany (tShareCompanyAbbrev);
-		tContractLine = new ContractLine (aCity, tShareCompany, tBond);
+		tContractLine = new ContractLine (aCity, tShareCompanies, tBond);
 		contractBid.addContractLine (tContractLine);
 	}
 }
