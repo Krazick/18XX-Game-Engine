@@ -241,9 +241,9 @@ class ContractBidTests {
 		tContractBid1.addContractLine (tContractLine1);
 		
 		assertFalse (tContractBid1.isValid ());
-		assertEquals ("No City is specified\n"
-				+ "No Share Company is specified\n"
-				+ "Bond Value is <= zero (0)\n"
+		assertEquals ("No City is specified<br>"
+				+ "No Share Company is specified<br>"
+				+ "Bond Value is <= zero (0)<br>"
 				+ "Not enough Cities (minimum is 3) are in the Contract Bid<br>", 
 				tContractBid1.getAllReasonsInvalid ());
 		tContractBid1.deleteContractLine (tCity1);
@@ -381,7 +381,7 @@ class ContractBidTests {
 		tContractLine0 = playerTestFactory.buildContractLine (city5, ShareCompany.NO_SHARE_COMPANY, 20);
 		tContractBid.addContractLine (tContractLine0);
 		assertFalse (tContractBid.isValid ());
-		assertEquals ("No Share Company is specified\n"
+		assertEquals ("No Share Company is specified<br>"
 				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid<br>", 
 				tContractBid.getAllReasonsInvalid ());
 	}
