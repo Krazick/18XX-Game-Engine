@@ -68,6 +68,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
+import ge18xx.round.ContractBidRound;
 import ge18xx.round.FormationRound;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
@@ -1737,7 +1738,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tShares = getShareCompanies ();
 			roundManager.initiateRounds (tPrivates, tMinors, tShares);
 
-			roundManager.setupContractBidFrame ();
 			setupPlayers ();
 			
 			collectAllBeans ();
@@ -1747,6 +1747,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
 
 			roundManager.initiateGame ();
+			if (gameHasRoundType (ContractBidRound.NAME)) {
+				roundManager.setupContractBidFrame ();
+				playerManager.setupContractBids ();
+			}
 			if (!isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
