@@ -74,6 +74,8 @@ public class PlayerTestFactory {
 	 * @param aName Name to return when 'getName' method is called by mocked object
 	 * @param aPlayerManager the Player Manager to add this player to
 	 * @param aCertificateLimit the certificateLimit for the player
+	 * @param aMinBidCities is the Minimum number of Cities for a Contract Bid
+	 * @param aMaxBidCities is the Minimum number of Cities for a Contract Bid
 	 *
 	 * @return the constructed Player
 	 *
