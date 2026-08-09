@@ -32,6 +32,7 @@ public abstract class Round implements ActorI {
 	public static final ElementName EN_CONTRACT_BID_ROUND = new ElementName ("ContractBidRound");
 	public static final AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
 	public static final AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
+	public static final AttributeName AN_CONCURRENT = new AttributeName ("concurrent");
 	public static final int FIRST_PLAYER = 0;
 	public static final Round NO_ROUND = null;
 	public static final String NO_ID_STRING = "0.0";
@@ -44,6 +45,7 @@ public abstract class Round implements ActorI {
 	RoundType roundType;
 	String name;
 	boolean repeatRound;
+	boolean concurrent;
 
 	public Round (RoundManager aRoundManager) {
 		setRoundManager (aRoundManager);
@@ -89,13 +91,25 @@ public abstract class Round implements ActorI {
 	public void setRoundType () {
 		RoundType tRoundType;
 		GameInfo tGameInfo;
-		
+		boolean tRoundTypeIsConcurrent;
+				
 		if (name == GUI.NULL_STRING) {
 			System.err.println ("Round Name is not set, cannot set Round Type");
 		} else {
 			tGameInfo = roundManager.getGameInfo ();
 			tRoundType = tGameInfo.getRoundType (name);
 			setRoundType (tRoundType);
+			
+			if (tRoundType == RoundType.NO_ROUND_TYPE) {
+				tRoundTypeIsConcurrent = false;
+			} else {
+				// When creating a new Round, always start with the Concurrent Flag set to 
+				// What ever the RoundType Concurrent flag is set to.
+				// When loading from a Save Game, use that state.
+				tRoundTypeIsConcurrent = roundType.getConcurrent ();
+			}
+			setConcurrent (tRoundTypeIsConcurrent);
+
 		}
 	}
 	
@@ -119,11 +133,14 @@ public abstract class Round implements ActorI {
 	public void loadRound (XMLNode aRoundNode) {
 		int tIDPart1;
 		int tIDPart2;
+		boolean tConcurrent;
 		
 		tIDPart1 = aRoundNode.getThisIntAttribute (AN_ROUND_PART1);
 		tIDPart2 = aRoundNode.getThisIntAttribute (AN_ROUND_PART2);
+		tConcurrent = aRoundNode.getThisBooleanAttribute (AN_CONCURRENT);
 		
 		setID (tIDPart1, tIDPart2);
+		setConcurrent (tConcurrent);
 	}
 
 	public void setID (String aID) {
@@ -141,6 +158,10 @@ public abstract class Round implements ActorI {
 		setID (tID1, tID2);
 	}
 
+	public void setConcurrent (boolean aConcurrent) {
+		concurrent = aConcurrent;
+	}
+	
 	public void setRoundAttributes (XMLElement aXMLElement) {
 		aXMLElement.setAttribute (AN_ROUND_PART1, idPart1);
 		aXMLElement.setAttribute (AN_ROUND_PART2, idPart2);
@@ -160,6 +181,10 @@ public abstract class Round implements ActorI {
 
 	public RoundType getRoundType () {
 		return roundType;
+	}
+	
+	public boolean isConcurrent () {
+		return concurrent;
 	}
 	
 	public XMLFrame getXMLFrameNamed (String aXMLFrameTitle) {
