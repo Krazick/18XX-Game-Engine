@@ -376,7 +376,8 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setCurrentPlayerText (String aPlayerName) {
-		String tDoButtonAction;
+		String tDoButtonText;
+		String tClientName;
 		Round tCurrentRound;
 		
 		if (passButton != GUI.NO_BUTTON) {
@@ -385,21 +386,40 @@ public class RoundFrame extends XMLFrame {
 		tCurrentRound = roundManager.getCurrentRound ();
 		if (tCurrentRound.isAStockRound ()) {
 			if (playerDoingAction) {
-				tDoButtonAction = aPlayerName + DOING_STOCK_ACTION;
+				tDoButtonText = aPlayerName + DOING_STOCK_ACTION;
 			} else {
-				tDoButtonAction = aPlayerName + DO_STOCK_ACTION;
+				tDoButtonText = aPlayerName + DO_STOCK_ACTION;
 			}
 		} else if (tCurrentRound.isAContractBidRound ()) {
-			if (playerDoingAction) {
-				tDoButtonAction = aPlayerName + CREATING_CONTRACT_BID_ACTION;
+			if (tCurrentRound.isConcurrent ()) {
+				if (roundManager.isNetworkGame ()) {
+					tClientName = roundManager.getClientUserName ();
+					if (playerDoingAction) {
+						tDoButtonText = tClientName + CREATING_CONTRACT_BID_ACTION;
+					} else {
+						tDoButtonText = tClientName + DO_CONTRACT_BID_ACTION;
+						// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
+					}
+				} else {
+					if (playerDoingAction) {
+						tDoButtonText = aPlayerName + CREATING_CONTRACT_BID_ACTION;
+					} else {
+						tDoButtonText = aPlayerName + DO_CONTRACT_BID_ACTION;
+						// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
+					}
+				}
 			} else {
-				tDoButtonAction = aPlayerName + DO_CONTRACT_BID_ACTION;
-				// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
+				if (playerDoingAction) {
+					tDoButtonText = aPlayerName + CREATING_CONTRACT_BID_ACTION;
+				} else {
+					tDoButtonText = aPlayerName + DO_CONTRACT_BID_ACTION;
+					// call setPlayerDoingAction TRUE when the Contract Bid Action is triggered
+				}
 			}
 		} else {
-			tDoButtonAction = DO_NO_PLAYER_ACTION;
+			tDoButtonText = DO_NO_PLAYER_ACTION;
 		}
-		updateDoButtonText (tDoButtonAction);
+		updateDoButtonText (tDoButtonText);
 		setActionForCurrentPlayer ();
 		updatePassButton ();
 	}
@@ -464,6 +484,8 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setContractBidRoundInfo (String aGameName, String aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
+		
+//		if ()
 		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
 		playersInfoPanel.setCurrentPlayerText ();
 		updatePassButton ();
