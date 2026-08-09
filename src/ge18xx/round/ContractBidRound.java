@@ -2,10 +2,8 @@ package ge18xx.round;
 
 import java.awt.Point;
 
-import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
-//import ge18xx.player.ContractBid;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.toplevel.ContractBidFrame;
@@ -81,7 +79,6 @@ public class ContractBidRound extends Round {
 
 	@Override
 	public void resume () {
-		// TODO Auto-generated method stub
 		
 	}
 
