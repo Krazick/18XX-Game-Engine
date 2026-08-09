@@ -26,13 +26,17 @@ public class ShareCompanyAbbrevCellEditor extends DefaultCellEditor implements T
 		return shareCompanyAbbrev;
 	}
 
-	@SuppressWarnings ({ "rawtypes", "unchecked" })
 	@Override
-	public Component getTableCellEditorComponent (JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent (JTable aTable, Object aValue, boolean aIsSelected, int aRow, int aColumn) {
+		return updateComboBox (aValue);
+	}
+
+	@SuppressWarnings ({ "rawtypes", "unchecked" })
+	public Component updateComboBox (Object aValue) {
 		JComboBox<String> tComboShareCompanyAbbrev;
 		
-		if (value instanceof String) {
-			shareCompanyAbbrev = (String) value;
+		if (aValue instanceof String) {
+			shareCompanyAbbrev = (String) aValue;
 		}
      
 		tComboShareCompanyAbbrev = (JComboBox) editorComponent;
