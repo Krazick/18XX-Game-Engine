@@ -1180,7 +1180,11 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		Player tPlayer;
 		String tPlayerName;
 		
-		tPlayer = playerManager.getPriorityPlayer ();
+		if (isNetworkGame () && contractBidRound.isConcurrent ()) {
+			tPlayer = gameManager.getClient ();
+		} else {
+			tPlayer = playerManager.getPriorityPlayer ();
+		}
 		tPlayerName = tPlayer.getName ();
 		roundFrame.setCurrentPlayerText (tPlayerName);
 		contractBidRound.showContractBidFrame (tPlayer);
