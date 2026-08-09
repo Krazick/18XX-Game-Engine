@@ -3504,6 +3504,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		return clientUserName;
 	}
 
+	public Player getClient () {
+		Player tClient;
+		
+		tClient = playerManager.getPlayer (clientUserName);
+		
+		return tClient;
+	}
+	
 	// TODO: This method per the logic is backwards....
 	// This should be 'isNetworkAndIsThisClient', and
 	// Return TRUE if it is a Network Game, AND the Client Name is what is provided
