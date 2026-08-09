@@ -485,7 +485,6 @@ public class RoundFrame extends XMLFrame {
 	public void setContractBidRoundInfo (String aGameName, String aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		
-//		if ()
 		updateDoButton (DO_CONTRACT_BID_ACTION, PLAYER_CONTRACT_BID_ACTION);
 		playersInfoPanel.setCurrentPlayerText ();
 		updatePassButton ();
