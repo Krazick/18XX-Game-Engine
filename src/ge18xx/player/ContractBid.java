@@ -37,6 +37,7 @@ import ge18xx.player.ButtonInTable.DeleteRowAction;
 import ge18xx.player.ButtonInTable.TableAction;
 import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrevCellEditor;
 import ge18xx.player.ComboBoxInTable.ShareCompanyAbbrevCellRenderer;
+import ge18xx.toplevel.ContractBidFrame;
 import ge18xx.player.ButtonInTable.ButtonCellEditor;
 
 import geUtilities.GUI;
@@ -58,6 +59,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	public static final int NO_EXTRA_BOND = 0;
 	public static final int DELTA_CITY_MAX_COUNT = 2;
 	Player player;
+	ContractBidFrame contractBidFrame;
 	List<ContractLine> contractLines;
 	boolean signed;
 	boolean fullfilled;
@@ -69,6 +71,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	JPanel contractBidJPanel;
 	JTable contractLinesJTable;
 	JLabel contractStatus;
+	private ShareCompanyAbbrevCellEditor shareCompanyAbbrevCellEditor;
 
 	public ContractBid (Player aPlayer) {
 		setPlayer (aPlayer);
@@ -117,6 +120,10 @@ public class ContractBid implements ActionListener, FocusListener {
 		tXMLNodeList.parseXMLNodeList (aXMLNode, ContractLine.EN_CONTRACT_LINES);
 
 		buildJPanel ();
+	}
+	
+	public void setContractBidFrame (ContractBidFrame aContractBidFrame) {
+		contractBidFrame = aContractBidFrame;
 	}
 	
 	ParsingRoutineI contractBidParsingRoutine = new ParsingRoutineI () {
@@ -204,7 +211,7 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractBidJPanel.add (Box.createVerticalStrut (10));
 	}
 
-	protected void updateContractStatus () {
+	public void updateContractStatus () {
 		String tContractStatusText;
 		String tInvalidReasonsText;
 		
@@ -213,10 +220,13 @@ public class ContractBid implements ActionListener, FocusListener {
 			tContractStatusText = "Contract is NOT Valid<br>" + tInvalidReasonsText;
 		} else if (isFullfilled ()) {
 			tContractStatusText = "Contract is Fullfilled";
+		} else if (isSigned ()) {
+			tContractStatusText = "Contract is Signed, but NOT Fullfilled";
 		} else {
-			tContractStatusText = "Contract is NOT Fullfilled";
+			tContractStatusText = "Contract is NOT Signed";
 		}
 		setContractStatus (tContractStatusText);
+		contractBidFrame.updateButtons ();
 	}
 
 	protected void setContractStatus (String aContractStatusText) {
@@ -507,7 +517,6 @@ public class ContractBid implements ActionListener, FocusListener {
 
 	@Override
 	public void focusGained (FocusEvent aEvent) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -555,7 +564,6 @@ public class ContractBid implements ActionListener, FocusListener {
 	
 	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		ButtonCellRenderer tButtonCellRenderer;
-		ShareCompanyAbbrevCellEditor tShareCompanyAbbrevCellEditor;
 		TableColumnModel tColumnModel;
 		JPanel tContractLinesJPanel;
 		Border tCellBorder;
@@ -662,8 +670,8 @@ public class ContractBid implements ActionListener, FocusListener {
 //		for (String tShareCompanyAbbrev : listShareCompanyAbbrevs) {
 //			tShareCompanyAbbrevs.addItem (tShareCompanyAbbrev);
 //		}
-		tShareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrevs);
-		contractLinesJTable.setDefaultEditor (String.class, tShareCompanyAbbrevCellEditor);
+		shareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrevs);
+		contractLinesJTable.setDefaultEditor (String.class, shareCompanyAbbrevCellEditor);
 		contractLinesJTable.setDefaultRenderer (String.class, new ShareCompanyAbbrevCellRenderer ());
 		tColumnModel = contractLinesJTable.getColumnModel ();
 

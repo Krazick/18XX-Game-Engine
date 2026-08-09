@@ -105,6 +105,12 @@ public class PlayerManager implements XMLSaveGameI {
 		return players;
 	}
 	
+	public void setupContractBids () {
+		for (Player tPlayer : players) {
+			tPlayer.setupContractBid (gameManager);
+		}
+	}
+	
 	public void addMessageBeans () {
 		MessageBean tBean;
 		

@@ -152,10 +152,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
 		setGameHasCompanies (tGameManager);
-		setupContractBid (tGameManager);
 	}
 
-	protected void setupContractBid (GameManager aGameManager) {
+	public void setupContractBid (GameManager aGameManager) {
 		ContractBid tContractBid;
 		ContractBidFrame tContractBidFrame;
 		
@@ -164,6 +163,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			setContractBid (tContractBid);
 			tContractBidFrame = aGameManager.getContractBidFrame ();
 			tContractBidFrame.setContractBid (tContractBid);
+			tContractBid.setContractBidFrame (tContractBidFrame);
 		} else {
 			tContractBid = ContractBid.NO_CONTRACT_BID;
 			setContractBid (tContractBid);
