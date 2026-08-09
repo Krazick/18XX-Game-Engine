@@ -1,5 +1,7 @@
 package ge18xx.round;
 
+import java.awt.Point;
+
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -15,6 +17,7 @@ import geUtilities.xml.XMLFrame;
 public class ContractBidRound extends Round {
 	public static final ContractBidRound NO_CONTRACT_BID_ROUND = null;
 	public static final String NAME = "Contract Bid Round";
+	public static final String BASE_TITLE = "Contract Bid";
 	GameManager gameManager;
 	ContractBidFrame contractBidFrame;
 
@@ -23,19 +26,21 @@ public class ContractBidRound extends Round {
 		
 		setName (NAME);
 		setRoundType ();
-// 		setupFrame (aRoundManager);
 	}
 
 	public void setupFrame (RoundManager aRoundManager) {
 		ContractBidFrame tContractBidFrame;
 		String tFrameName;
- 		GameInfo tActiveGame;
+ 		Point tNewPoint;
  		
 		gameManager = aRoundManager.getGameManager ();
-		tActiveGame = gameManager.getActiveGame ();
+		tFrameName = gameManager.createFrameTitle (BASE_TITLE);
 		
-		tFrameName = tActiveGame.getName () + " " + ContractBidFrame.NAME;
 		tContractBidFrame = new ContractBidFrame (tFrameName, gameManager);
+		tContractBidFrame.setSize (500, 380);
+		tNewPoint = gameManager.getOffsetRoundFrame ();
+		tContractBidFrame.setLocation (tNewPoint);
+
 		setContractBidFrame (tContractBidFrame);
 		gameManager.addNewFrame (contractBidFrame);
 		gameManager.setContractBidFrame (contractBidFrame);
