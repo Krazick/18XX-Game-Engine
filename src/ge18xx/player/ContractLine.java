@@ -143,7 +143,11 @@ public class ContractLine {
 			tAllReasonsContractLineInvalid += "No City is specified<br>";
 		}
 		if (shareCompany == ShareCompany.NO_SHARE_COMPANY) {
-			tAllReasonsContractLineInvalid += "No Share Company is specified<br>";
+			if (city == City.NO_CITY) {
+				tAllReasonsContractLineInvalid += "No Share Company is specified<br>";
+			} else {
+				tAllReasonsContractLineInvalid += city.getCityName () + " has no Share Company specified<br>";
+			}
 		}
 		if (bond <= 0) {
 			tAllReasonsContractLineInvalid += "Bond Value is <= zero (0)<br>";

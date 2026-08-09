@@ -71,7 +71,7 @@ class ContractLineTests {
 
 		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 20);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No Share Company is specified<br>", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("Calcutta has no Share Company specified<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 30);
 		assertFalse (tContractLine.isValidContractLine ());
@@ -81,7 +81,7 @@ class ContractLineTests {
 		
 		tContractLine = new ContractLine (city, ShareCompany.NO_SHARE_COMPANY, 0);
 		assertFalse (tContractLine.isValidContractLine ());
-		assertEquals ("No Share Company is specified<br>Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
+		assertEquals ("Calcutta has no Share Company specified<br>Bond Value is <= zero (0)<br>", tContractLine.getAllReasonsContractLineInvalid ());
 		
 		tContractLine = new ContractLine (City.NO_CITY, shareCompany, 0);
 		assertFalse (tContractLine.isValidContractLine ());

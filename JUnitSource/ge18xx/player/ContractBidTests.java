@@ -79,6 +79,7 @@ class ContractBidTests {
 		mPlayerManager = playerTestFactory.buildPlayerManagerMock (playerCount);
 		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
 				minBidCities, maxBidCities);
+		player.setupContractBid (mGameManager);
 		tIsDeltaTerrain = true;
 		city3 = (City) centerTestFactory.buildCity (3);		
 		city4 = (City) centerTestFactory.buildCity (4, tIsDeltaTerrain);		
@@ -381,7 +382,7 @@ class ContractBidTests {
 		tContractLine0 = playerTestFactory.buildContractLine (city5, ShareCompany.NO_SHARE_COMPANY, 20);
 		tContractBid.addContractLine (tContractLine0);
 		assertFalse (tContractBid.isValid ());
-		assertEquals ("No Share Company is specified<br>"
+		assertEquals ("Peshawar has no Share Company specified<br>"
 				+ "Too many Cities in the Delta (maximum of 2) are in the Contract Bid<br>", 
 				tContractBid.getAllReasonsInvalid ());
 	}

@@ -70,7 +70,7 @@ class Player1853Tests {
 
 		player = playerTestFactory.buildPlayer (playerName, mPlayerManager, certificateLimit, 
 				minBidCities, maxBidCities);
-
+		player.setupContractBid (mGameManager);
 		playerPortfolio = new Portfolio (player);
 		player.setPortfolio (playerPortfolio);
 	}
