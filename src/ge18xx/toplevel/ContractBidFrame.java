@@ -80,33 +80,34 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 	public void updateButtons () {
 		boolean tActionsToUndo;
 		
-		System.out.println ("Time to update the Action Buttons");
-		if (contractBid.isSigned ()) {
-			signButton.setEnabled (false);
-			signButton.setToolTipText ("Contract is already Signed");
-		} else if (contractBid.isValid ()) {
-			signButton.setEnabled (true);
-			signButton.setToolTipText ("Contract is Valid, can be signed");
-		} else {
-			signButton.setEnabled (false);
-			signButton.setToolTipText ("Contract is Invalid, see reasons below");
-		}
-		
-		if (contractBid.isSigned ()) {
-			doneButton.setEnabled (true);
-			doneButton.setToolTipText ("Contract is signed, can complete Contract Bid");
-		} else {
-			doneButton.setEnabled (false);
-			doneButton.setToolTipText ("Contract is unsigned");
-		}
-		
-		tActionsToUndo = contractBid.hasActionsToUndo ();
-		if (tActionsToUndo) {
-			undoButton.setEnabled (tActionsToUndo);
-			undoButton.setToolTipText ("Actions to Undo");
-		} else {
-			undoButton.setEnabled (tActionsToUndo);
-			undoButton.setToolTipText ("There are no Actions to Undo");
+		if (signButton != KButton.NO_KBUTTON) {
+			if (contractBid.isSigned ()) {
+				signButton.setEnabled (false);
+				signButton.setToolTipText ("Contract is already Signed");
+			} else if (contractBid.isValid ()) {
+				signButton.setEnabled (true);
+				signButton.setToolTipText ("Contract is Valid, can be signed");
+			} else {
+				signButton.setEnabled (false);
+				signButton.setToolTipText ("Contract is Invalid, see reasons above");
+			}
+			
+			if (contractBid.isSigned ()) {
+				doneButton.setEnabled (true);
+				doneButton.setToolTipText ("Contract is signed, can complete Contract Bid");
+			} else {
+				doneButton.setEnabled (false);
+				doneButton.setToolTipText ("Contract is unsigned");
+			}
+			
+			tActionsToUndo = contractBid.hasActionsToUndo ();
+			if (tActionsToUndo) {
+				undoButton.setEnabled (tActionsToUndo);
+				undoButton.setToolTipText ("Actions to Undo");
+			} else {
+				undoButton.setEnabled (tActionsToUndo);
+				undoButton.setToolTipText ("There are no Actions to Undo");
+			}
 		}
 	}
 	
@@ -141,6 +142,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		if (UNDO.equals (tTheAction)) {
 			undoLastAction ();
 		}
+		contractBid.updateContractStatus ();
 		updateButtons ();
 	}
 	
