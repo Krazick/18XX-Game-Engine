@@ -44,6 +44,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		isNetworkGame = tIsNetworkGame;
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
+		setSize (500, 500);
 	}
 
 	public void fillContractBidJPanel (Player aPlayer) {
@@ -93,6 +94,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 			}
 			
 			if (contractBid.isSigned ()) {
+				contractBid.updateButtons ();
 				doneButton.setEnabled (true);
 				doneButton.setToolTipText ("Contract is signed, can complete Contract Bid");
 			} else {

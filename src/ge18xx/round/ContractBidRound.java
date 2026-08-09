@@ -35,7 +35,6 @@ public class ContractBidRound extends Round {
 		tFrameName = gameManager.createFrameTitle (BASE_TITLE);
 		
 		tContractBidFrame = new ContractBidFrame (tFrameName, gameManager);
-		tContractBidFrame.setSize (500, 380);
 		tNewPoint = gameManager.getOffsetRoundFrame ();
 		tContractBidFrame.setLocation (tNewPoint);
 

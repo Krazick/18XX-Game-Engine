@@ -67,7 +67,7 @@ public class ContractBid implements ActionListener, FocusListener {
 	
 	JTextField extraBidJTextField;
 	JTextField totalBondJTextField;
-	DefaultTableModel contractLinesModel; // = new DefaultTableModel (0, 5);
+	DefaultTableModel contractLinesModel;
 	JPanel contractBidJPanel;
 	JTable contractLinesJTable;
 	JLabel contractStatus;
@@ -228,7 +228,7 @@ public class ContractBid implements ActionListener, FocusListener {
 		setContractStatus (tContractStatusText);
 		contractBidFrame.updateButtons ();
 	}
-
+	
 	protected void setContractStatus (String aContractStatusText) {
 		String tFullStatusText;
 		
@@ -667,9 +667,6 @@ public class ContractBid implements ActionListener, FocusListener {
 		listShareCompanyAbbrevs.add ("EIR");
 		listShareCompanyAbbrevs.add ("NWR");
 		listShareCompanyAbbrevs.add ("GIP");
-//		for (String tShareCompanyAbbrev : listShareCompanyAbbrevs) {
-//			tShareCompanyAbbrevs.addItem (tShareCompanyAbbrev);
-//		}
 		shareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrevs);
 		contractLinesJTable.setDefaultEditor (String.class, shareCompanyAbbrevCellEditor);
 		contractLinesJTable.setDefaultRenderer (String.class, new ShareCompanyAbbrevCellRenderer ());
@@ -688,6 +685,17 @@ public class ContractBid implements ActionListener, FocusListener {
 		return tContractLinesJPanel;
 	}
 	
+
+	public void updateButtons () {
+		if (isSigned ()) {
+			contractLinesJTable.setEnabled (false);
+			contractLinesJTable.setToolTipText ("Contract has been signed");
+		} else {
+			contractLinesJTable.setEnabled (true);
+			contractLinesJTable.setToolTipText (GUI.EMPTY_STRING);
+		}
+	}
+
 	public void addRow (ContractLine aContractLine) {
 		String tShareCompanyAbbrev;
 		String tCityName;
