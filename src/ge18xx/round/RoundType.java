@@ -32,6 +32,7 @@ public class RoundType {
 	String phases;
 	boolean optionalExtra;
 	boolean initialRound;
+	boolean concurrent;
 	int maxRounds;
 
 	public RoundType (XMLNode aXMLRoundTypeNode) {
@@ -45,6 +46,7 @@ public class RoundType {
 		String tPhases;
 		boolean tOptionalExtra;
 		boolean tInitialRound;
+		boolean tConcurrent;
 		int tMaxRounds;
 		
 		tName = aXMLRoundTypeNode.getThisAttribute (AN_NAME);
@@ -58,7 +60,8 @@ public class RoundType {
 		tInitialRound = aXMLRoundTypeNode.getThisBooleanAttribute (AN_INITIAL_ROUND);
 		tMaxRounds = aXMLRoundTypeNode.getThisIntAttribute (AN_MAX_ROUNDS, 1);
 		tPhases = aXMLRoundTypeNode.getThisAttribute (AN_PHASES, GUI.EMPTY_STRING);
-		
+		tConcurrent = aXMLRoundTypeNode.getThisBooleanAttribute (Round.AN_CONCURRENT);
+
 		setName (tName);
 		setNextRoundName (tNextRoundName);
 		setInterruptionRoundName (tInterruptionRoundName);
@@ -70,6 +73,7 @@ public class RoundType {
 		setInitialRound (tInitialRound);
 		setMaxRounds (tMaxRounds);
 		setPhases (tPhases);
+		setConcurrent (tConcurrent);
 	}
 	
 	public void setName (String aName) {
@@ -102,6 +106,10 @@ public class RoundType {
 	
 	public void setPhases (String aPhases) {
 		phases = aPhases;
+	}
+	
+	public void setConcurrent (Boolean aConcurrent) {
+		concurrent = aConcurrent;
 	}
 	
 	public void setOptionalExtra (boolean aOptionalExtra) {
@@ -154,6 +162,10 @@ public class RoundType {
 	
 	public boolean getInitialRound () {
 		return initialRound;
+	}
+	
+	public boolean getConcurrent () {
+		return concurrent;
 	}
 	
 	public int getMaxRounds () {
