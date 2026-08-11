@@ -192,21 +192,23 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		
-		tRCCount = aSelectedMapCell.getRevenueCenterCount ();
-		if (tRCCount > 0) {
-			tCity = City.NO_CITY;
-			for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
-				if (tCity == City.NO_CITY) {
-					tRevenueCenter = aSelectedMapCell.getRevenueCenter (tRCIndex);
-					if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-						if (tRevenueCenter instanceof City) {
-							tCity = (City) tRevenueCenter;
+		if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+			tRCCount = aSelectedMapCell.getRevenueCenterCount ();
+			if (tRCCount > 0) {
+				tCity = City.NO_CITY;
+				for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
+					if (tCity == City.NO_CITY) {
+						tRevenueCenter = aSelectedMapCell.getRevenueCenter (tRCIndex);
+						if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+							if (tRevenueCenter instanceof City) {
+								tCity = (City) tRevenueCenter;
+							}
 						}
 					}
 				}
-			}
-			if (tCity != City.NO_CITY) {
-				handleCitySelected (aSelectedMapCell, tCity);
+				if (tCity != City.NO_CITY) {
+					handleCitySelected (aSelectedMapCell, tCity);
+				}
 			}
 		}
 	}
