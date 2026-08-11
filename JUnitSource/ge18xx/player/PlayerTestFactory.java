@@ -1,5 +1,8 @@
 package ge18xx.player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mockito.Mockito;
 
 import ge18xx.center.City;
@@ -138,8 +141,18 @@ public class PlayerTestFactory {
 
 	public ContractLine buildContractLine (City aCity, ShareCompany aShareCompany, int aBond) {
 		ContractLine tContractLine;
+		List<String> listShareCompanyAbbrevs;
+		String [] tShareCompanAbbrevs = { "EIR", "NWR", "BBCI" };
 		
 		tContractLine = new ContractLine (aCity, aShareCompany, aBond);
+		
+		listShareCompanyAbbrevs = new ArrayList<String> ();
+		
+		for (String aShareCompanyAbbrev : tShareCompanAbbrevs) {
+			listShareCompanyAbbrevs.add (aShareCompanyAbbrev);
+		}
+		
+		tContractLine.setShareCompanies (listShareCompanyAbbrevs);
 		
 		return tContractLine;
 	}
