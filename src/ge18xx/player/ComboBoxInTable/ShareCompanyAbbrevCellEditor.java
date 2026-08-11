@@ -16,11 +16,19 @@ public class ShareCompanyAbbrevCellEditor extends DefaultCellEditor implements T
 	private String shareCompanyAbbrev;
 	private List<String> listShareCompanyAbbrevs;
 
+	public ShareCompanyAbbrevCellEditor (JComboBox<String> comboBox) {
+		super (comboBox);
+	}
+
 	public ShareCompanyAbbrevCellEditor (JComboBox<String> comboBox, List<String> aListShareCompanyAbbrevs) {
 		super (comboBox);
-		listShareCompanyAbbrevs = aListShareCompanyAbbrevs;
+		setListShareCompanyAbbrevs (aListShareCompanyAbbrevs);
 	}
  
+	public void setListShareCompanyAbbrevs (List<String> aListShareCompanyAbbrevs) {
+		listShareCompanyAbbrevs = aListShareCompanyAbbrevs;
+	}
+	
 	@Override
 	public Object getCellEditorValue () {
 		return shareCompanyAbbrev;
