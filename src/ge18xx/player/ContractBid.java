@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -562,12 +563,25 @@ public class ContractBid implements ActionListener, FocusListener {
 		return tContractLinesJPanel;
 	}
 	
+	public ContractLine getSelectedContractLine () {
+		ContractLine tContractLine;
+		int tSelectedRow;
+		
+		tSelectedRow = contractLinesJTable.getSelectedRow ();
+		if (tSelectedRow >= 0) {
+			tContractLine = contractLines.get (tSelectedRow);
+		} else {
+			tContractLine = ContractLine.NO_CONTRACT_LINE;
+		}
+		
+		return tContractLine;
+	}
+	
 	private JPanel configureContractLinesTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		ButtonCellRenderer tButtonCellRenderer;
 		TableColumnModel tColumnModel;
 		JPanel tContractLinesJPanel;
 		Border tCellBorder;
-		List<String> listShareCompanyAbbrevs;
 		JComboBox<String> tShareCompanyAbbrevs;
 		int tMin;
 		int tMax;
@@ -631,6 +645,33 @@ public class ContractBid implements ActionListener, FocusListener {
 		    }
 		});
 		
+		contractLinesJTable.getSelectionModel ().addListSelectionListener (new ListSelectionListener () {
+		    @Override
+		    public void valueChanged (ListSelectionEvent event) {
+		    	ContractLine tContractLine;
+		    	
+		        // 2. Prevent the event from firing twice (ignore temporary/adjusting states)
+		        if (!event.getValueIsAdjusting()) {
+		            
+		            // 3. Get the selected row index
+		            int selectedViewRow = contractLinesJTable.getSelectedRow();
+		            
+		            // 4. Check if a row is actually selected (-1 means no selection)
+		            if (selectedViewRow != -1) {
+		                
+		                // 5. Convert view index to model index (critical if table is sortable/filterable)
+		                int selectedModelRow = contractLinesJTable.convertRowIndexToModel (selectedViewRow);
+		                
+		                // 6. Retrieve data from the model (e.g., column 0)
+		                Object value = contractLinesJTable.getModel ().getValueAt (selectedModelRow, 0);
+		                System.out.println("Selected Row Data: " + value);
+		                tContractLine = contractLines.get (selectedViewRow);
+		                updateCompanyComboBox (tContractLine);
+		            }
+		        }
+		    }
+		});
+		
 		contractLinesModel.addTableModelListener (new TableModelListener () {
 		    @Override
 		    public void tableChanged (TableModelEvent aEvent) {
@@ -641,15 +682,14 @@ public class ContractBid implements ActionListener, FocusListener {
 		    	String tNewAbbrev;
 		    	
 		        // Check if the event type is a row deletion
+	        	tFirstRow = aEvent.getFirstRow ();
 		    	if (aEvent.getType () == TableModelEvent.DELETE) {
-		        	tFirstRow = aEvent.getFirstRow ();
 		        	tLastRow = aEvent.getLastRow ();
 		            
 		            for (tRowIndex = tFirstRow; tRowIndex <= tLastRow; tRowIndex++) {
 			            contractLines.remove (tRowIndex);
 		            }
 		        } else if (aEvent.getType () == TableModelEvent.UPDATE) {
-		        	tFirstRow = aEvent.getFirstRow ();
 		        	tContractLine = contractLines.get (tFirstRow);
 		        	tNewAbbrev = (String) tShareCompanyAbbrevs.getSelectedItem ();
 		        	tContractLine.setShareCompany (tNewAbbrev, player);
@@ -663,11 +703,8 @@ public class ContractBid implements ActionListener, FocusListener {
 		contractLinesJTable.setDefaultRenderer (DeleteRowAction.class, tButtonCellRenderer);
 		contractLinesJTable.setDefaultEditor (AbstractAction.class, new ButtonCellEditor ());
 
-		listShareCompanyAbbrevs = new ArrayList<> ();
-		listShareCompanyAbbrevs.add ("EIR");
-		listShareCompanyAbbrevs.add ("NWR");
-		listShareCompanyAbbrevs.add ("GIP");
-		shareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs, listShareCompanyAbbrevs);
+		shareCompanyAbbrevCellEditor = new ShareCompanyAbbrevCellEditor (tShareCompanyAbbrevs);
+		
 		contractLinesJTable.setDefaultEditor (String.class, shareCompanyAbbrevCellEditor);
 		contractLinesJTable.setDefaultRenderer (String.class, new ShareCompanyAbbrevCellRenderer ());
 		tColumnModel = contractLinesJTable.getColumnModel ();
@@ -718,13 +755,26 @@ public class ContractBid implements ActionListener, FocusListener {
 			tShareCompanyAbbrev = tShareCompany.getAbbrev ();
 		}
 		if (tCity == City.NO_CITY) {
-			tCityName = "UNKOWN";
+			tCityName = "UNKNOWN";
 		} else {
 			tCityName = tCity.getCityName ();
 		}
 		contractLinesModel.addRow (
 				new Object [] { tCityName, tShareCompanyAbbrev, tBond, tIsDeltaTerrain, 
 								tConnected, deleteAction } );
+		
+		updateCompanyComboBox (aContractLine);
+	}
+
+	protected void updateCompanyComboBox (ContractLine aContractLine) {
+		List<String> tListShareCompanyAbbrevs;
+		
+		if (aContractLine != ContractLine.NO_CONTRACT_LINE) {
+			tListShareCompanyAbbrevs = aContractLine.getShareCompanies ();
+			System.out.println ("Share Companies " + tListShareCompanyAbbrevs);
+			shareCompanyAbbrevCellEditor.setListShareCompanyAbbrevs (tListShareCompanyAbbrevs);
+			shareCompanyAbbrevCellEditor.updateComboBox (tListShareCompanyAbbrevs);
+		}
 	}
 	
 	public JPanel buildScrollPane (JTable aJTable) {
