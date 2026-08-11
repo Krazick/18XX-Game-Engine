@@ -1,6 +1,7 @@
 package ge18xx.player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ public class ContractLine {
 	public static final ElementName EN_CONTRACT_LINES = new ElementName ("ContractLines");
 	public static final AttributeName AN_CITY_NAME = new AttributeName ("cityName");
 	public static final AttributeName AN_SHARE_COMPANY_ID = new AttributeName ("shareCompanyID");
+	public static final AttributeName AN_SHARE_COMPANY_ABBREVS = new AttributeName ("shareCompanyAbbrevs");
 	public static final AttributeName AN_CONNECTED = new AttributeName ("connected");
 	public static final AttributeName AN_BOND = new AttributeName ("bond");
 
@@ -57,6 +59,8 @@ public class ContractLine {
 		City tCity;
 		String tCityName;
 		ShareCompany tShareCompany;
+		String tShareCompanyAbbrevs;
+		ArrayList<String> tListShareCompanyAbbrevs;
 		int tShareCompanyID;
 		int tBond;
 		boolean tConnected;
@@ -65,7 +69,10 @@ public class ContractLine {
 		tShareCompanyID = aXMLNode.getThisIntAttribute (AN_SHARE_COMPANY_ID);
 		tBond = aXMLNode.getThisIntAttribute (AN_BOND);
 		tConnected = aXMLNode.getThisBooleanAttribute (AN_CONNECTED);
+		tShareCompanyAbbrevs = aXMLNode.getThisAttribute (AN_SHARE_COMPANY_ABBREVS);
 		
+		tListShareCompanyAbbrevs =  new ArrayList<> (Arrays.asList (tShareCompanyAbbrevs.split (",")));
+
 		tCity = getCityWithName (tCityName, aPlayer);
 		setCity (tCity);
 		// When loading a ContractLine from an XMLNode, it is when loading from a SaveGame
@@ -75,7 +82,15 @@ public class ContractLine {
 		setShareCompany (tShareCompany);
 		setBond (tBond);
 		setConnected (tConnected);
-
+		setShareCompanies (tListShareCompanyAbbrevs);
+	}
+	
+	public int getShareCompanyCount () {
+		return listShareCompanyAbbrevs.size ();
+	}
+	
+	public List<String> getShareCompanies () {
+		return listShareCompanyAbbrevs;
 	}
 	
 	public void setShareCompanies (List<String> aListShareCompanyAbbrevs) {
