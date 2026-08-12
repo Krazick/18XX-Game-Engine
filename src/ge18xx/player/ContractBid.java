@@ -771,7 +771,7 @@ public class ContractBid implements ActionListener, FocusListener {
 		
 		if (aContractLine != ContractLine.NO_CONTRACT_LINE) {
 			tListShareCompanyAbbrevs = aContractLine.getShareCompanies ();
-			System.out.println ("Share Companies " + tListShareCompanyAbbrevs);
+//			System.out.println ("Share Companies " + tListShareCompanyAbbrevs);
 			shareCompanyAbbrevCellEditor.setListShareCompanyAbbrevs (tListShareCompanyAbbrevs);
 			shareCompanyAbbrevCellEditor.updateComboBox (tListShareCompanyAbbrevs);
 		}

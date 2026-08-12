@@ -3334,8 +3334,4 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public ActionStates getNewStatusWithTile (Tile previousTile) {
 		return ActionStates.NoState;
 	}
-
-	public boolean isCorporateBank () {
-		return false;
-	};
 }

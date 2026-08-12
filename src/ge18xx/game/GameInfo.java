@@ -78,6 +78,7 @@ public class GameInfo implements XMLSaveGameI {
 	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
 	final AttributeName AN_BANK_POOL_NAME = new AttributeName ("bankPoolName");
 	final AttributeName AN_INITIAL_ROUND_NAME = new AttributeName ("initialRoundName");
+	final AttributeName AN_HAS_CORPORATE_BANK = new AttributeName ("hasCorporateBank");
 
 	public static final GameInfo NO_GAME_INFO = null;
 	public static final GameInfo [] NO_GAMES = null;
@@ -132,6 +133,7 @@ public class GameInfo implements XMLSaveGameI {
 	boolean loans;
 	boolean randomizeStartOrder;
 	boolean optionalOR;
+	boolean hasCorporateBank;
 	boolean testGraphs;		// For DEBUGing Development testing of new Graphs
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
@@ -197,6 +199,7 @@ public class GameInfo implements XMLSaveGameI {
 		boolean tNoTouchPass;
 		boolean tOptionalOR;
 		boolean tIsATestGame;
+		boolean tHasCorporateBank;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -215,6 +218,7 @@ public class GameInfo implements XMLSaveGameI {
 		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
 		tBankPoolName = aCellNode.getThisAttribute (AN_BANK_POOL_NAME, BANK_POOL_NAME);
 		tInitialRoundType = aCellNode.getThisAttribute (AN_INITIAL_ROUND_NAME);
+		tHasCorporateBank = aCellNode.getThisBooleanAttribute (AN_HAS_CORPORATE_BANK);
 		tIsATestGame = aCellNode.getThisBooleanAttribute (AN_IS_A_TEST_GAME);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
@@ -256,6 +260,7 @@ public class GameInfo implements XMLSaveGameI {
 		setTestGraphs (tTestGraphs);
 		setNoTouchPass (tNoTouchPass);
 		setOptionalOR (tOptionalOR);
+		setHasCorporateBank (tHasCorporateBank);
 
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
@@ -673,6 +678,10 @@ public class GameInfo implements XMLSaveGameI {
 		return tCanSellPresidentShare;
 	}
 
+	public boolean hasCorporateBank () {
+		return hasCorporateBank;
+	}
+	
 	public int getBankPoolShareLimit () {
 		return bankPoolShareLimit;
 	}
@@ -1052,6 +1061,10 @@ public class GameInfo implements XMLSaveGameI {
 
 	public void setOptionalOR (boolean aOptionalOR) {
 		optionalOR = aOptionalOR;
+	}
+	
+	public void setHasCorporateBank (boolean aHasCorporateBank) {
+		hasCorporateBank = aHasCorporateBank;
 	}
 	
 	public void setStatus (String aStatus) {

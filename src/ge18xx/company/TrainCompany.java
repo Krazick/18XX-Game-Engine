@@ -163,7 +163,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return actorsBank;
 	}
 
-	@Override
 	public boolean isCorporateBank () {
 		boolean tIsCorporateBank;
 		

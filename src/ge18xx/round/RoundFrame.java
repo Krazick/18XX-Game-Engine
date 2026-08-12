@@ -211,16 +211,18 @@ public class RoundFrame extends XMLFrame {
 
 		tGameManager = roundManager.getGameManager ();
 		tBank = tGameManager.getBank ();
-		tCorporateBank = tGameManager.getCorporateBank ();
 		tGameManager.updateBankCashLabels ();
 		
 		tBankCashLabel = tBank.getBankCashLabel ();
 		addRoundInfoLabel (tBankCashLabel, tStrutSize);
 		
-		if (tCorporateBank != CorporateBank.NO_BANK) {
-			if (tCorporateBank != tBank) {
-				tCorporateBankCashLabel = tCorporateBank.getBankCashLabel ();
-				addRoundInfoLabel (tCorporateBankCashLabel, tStrutSize);
+		if (tGameManager.hasCorporateBank ()) {
+			tCorporateBank = tGameManager.getCorporateBank ();
+			if (tCorporateBank != CorporateBank.NO_BANK) {
+				if (tCorporateBank != tBank) {
+					tCorporateBankCashLabel = tCorporateBank.getBankCashLabel ();
+					addRoundInfoLabel (tCorporateBankCashLabel, tStrutSize);
+				}
 			}
 		}
 		

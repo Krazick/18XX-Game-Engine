@@ -553,17 +553,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		return tCountOfOpen;
 	}
-	
-	public boolean hasCorporateBank () {
-		boolean tHasCorporateBank;
-		Corporation tCorporation;
-		
-		tCorporation = corporations.get (0);
-		
-		tHasCorporateBank = tCorporation.isCorporateBank ();
-
-		return tHasCorporateBank;
-	}
 
 	public int getCountOfOperatingCompanies () {
 		int tCountOfCanOperate;

@@ -454,10 +454,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			}
 		}
 	}
-
-	public boolean hasCorporateBank () {
-		return companies.hasCorporateBank ();
-	}
 	
 	public boolean hasDestinations () {
 		return companies.hasDestinations ();

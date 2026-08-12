@@ -9,7 +9,7 @@ import geUtilities.GUI;
 
 public class CorporateBank extends Bank {
 	public static final String NAME = "Corporate Bank";
-	public static final String BANK_LABEL_PREFIX = "Remaining Corpoate Bank Cash ";
+	public static final String BANK_LABEL_PREFIX = "Remaining Corporate Bank Cash ";
 	public static final CorporateBank NO_CORPORATE_BANK = null;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.CorporateBank;
 	int treasury;		// Corporate Treasury that overrides the Bank Treasury
@@ -63,13 +63,15 @@ public class CorporateBank extends Bank {
 
 	@Override
 	public void updateBankCashLabel () {
-		String tBankLabel;
+		String tBankText;
+		JLabel tBankCashLabel;
 
-		tBankLabel = BANK_LABEL_PREFIX + Bank.formatCash (getCash ());
+		tBankText = BANK_LABEL_PREFIX + Bank.formatCash (getCash ());
 		if (bankCashLabel == GUI.NO_LABEL) {
-			bankCashLabel = new JLabel (tBankLabel);
+			tBankCashLabel = new JLabel (tBankText);
+			setBankCashLabel (tBankCashLabel);
 		} else {
-			bankCashLabel.setText (tBankLabel);
+			bankCashLabel.setText (tBankText);
 		}
 	}
 }

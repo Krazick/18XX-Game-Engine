@@ -83,7 +83,7 @@ public class Bank extends GameBank implements CashHolderI {
 		trainPortfolio.setPortfolioHolder (this);
 		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
 		setFormat (GUI.EMPTY_STRING);
-		setBankCashLabel (null);
+		setBankCashLabel (GUI.NO_LABEL);
 		tClosedPortfolio = new Portfolio (this);
 		setClosedPortfolio (tClosedPortfolio);
 		tRustedTrainsPortfolio = new TrainPortfolio (this);

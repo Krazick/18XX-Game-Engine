@@ -1724,6 +1724,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			setupGamePieces ();
 			setGameChanged (true);
 			setupBank ();
+			setupCorporateBank ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
 			setPhaseManager (tPhaseManager);
@@ -1817,7 +1818,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				tBean.sendMessages ();
 			}
 		} else {
-			System.err.println ("Sneding All Beans object is not set... why????");
+			System.err.println ("Sending All Beans object is not set... why????");
 		}
 	}
 
@@ -1826,9 +1827,30 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tBank = new Bank (aInitialTreasury, this);
 		setBank (tBank);
-		setCorporateBank (aInitialTreasury);
+//		setInitialCorporateBank (aInitialTreasury);
 	}
 
+	protected void setupCorporateBank () {
+		int tBankStartingCash;
+		
+		if (activeGame != GameInfo.NO_GAME_INFO) {
+			if (hasCorporateBank ()) {
+				tBankStartingCash = activeGame.getBankTotal ();
+				setCorporateBank (tBankStartingCash);
+			} else {
+				setCorporateBank (CorporateBank.NO_CORPORATE_BANK);
+			}
+		}
+	}
+
+	public boolean hasCorporateBank () {
+		boolean tHasCorporateBank;
+		
+		tHasCorporateBank = activeGame.hasCorporateBank ();
+		
+		return tHasCorporateBank;
+	}
+	
 	public void setBank (Bank aBank) {
 		bank = aBank;
 	}
@@ -2073,10 +2095,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void updateBankCashLabels () {
 		bank.updateBankCashLabel ();
-		if (shareCompaniesFrame.hasCorporateBank ()) {
+		if (hasCorporateBank ()) {
 			corporateBank.updateBankCashLabel ();
-		} else {
-			corporateBank = CorporateBank.NO_CORPORATE_BANK;
 		}
 	}
 	
@@ -2417,11 +2437,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				if (tPSGChecksumReport != GUI.EMPTY_STRING) {
 					roundManager.appendReport (tPSGChecksumReport);
 				}
-				System.out.println ("Action # " + getActionNumber () + 
-					" Last Action # " + tLastAction.getNumber () + 
-					" Name " + tLastAction.getName () +
-					" Previous Checksum: " + tSavedPreviousChecksum + 
-					" New Checksum "+ tGameChecksum);
 			} else {
 				System.out.println ("No More actions");
 			}
