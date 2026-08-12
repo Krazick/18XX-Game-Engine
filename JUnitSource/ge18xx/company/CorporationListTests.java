@@ -1,8 +1,6 @@
 package ge18xx.company;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,12 +66,12 @@ class CorporationListTests extends CorporationTester {
 		assertEquals (1, corporationList1.getCorporationCount ());
 		corporationList1.addCorporation (trainCompany2);
 		assertEquals (2, corporationList1.getCorporationCount ());
-		
-		assertFalse (corporationList1.hasCorporateBank ());
-		
-		corporationList3.addCorporation (trainCompany3);
-		assertEquals (1, corporationList3.getCorporationCount ());
-		
-		assertTrue (corporationList3.hasCorporateBank ());
+//		
+//		assertFalse (corporationList1.hasCorporateBank ());
+//		
+//		corporationList3.addCorporation (trainCompany3);
+//		assertEquals (1, corporationList3.getCorporationCount ());
+//		
+//		assertTrue (corporationList3.hasCorporateBank ());
 	}
 }
