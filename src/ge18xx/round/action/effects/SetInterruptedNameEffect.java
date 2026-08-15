@@ -13,6 +13,7 @@ import geUtilities.xml.XMLNode;
 public class SetInterruptedNameEffect extends Effect {
 	public static final String NAME = "Set Interrupted Name";
 	final static AttributeName AN_INTERRUPTED_NAME = new AttributeName ("interruptedName");
+	final static AttributeName AN_INTERRUPTING_ROUND_NAME = new AttributeName ("interruptingRoundName");
 	String interruptedName;
 	String interruptingRoundName;
 
@@ -30,9 +31,12 @@ public class SetInterruptedNameEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		
 		String tInterruptedName;
-
+		String tInterruptingRoundName;
+		
 		tInterruptedName = aEffectNode.getThisAttribute (AN_INTERRUPTED_NAME);
+		tInterruptingRoundName = aEffectNode.getThisAttribute (AN_INTERRUPTING_ROUND_NAME);
 		setInterruptedName (tInterruptedName);
+		setInterruptingRoundName (tInterruptingRoundName);
 	}
 
 	public void setInterruptingRoundName (String aInterruptingRoundName) {	
@@ -57,6 +61,7 @@ public class SetInterruptedNameEffect extends Effect {
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_INTERRUPTED_NAME, interruptedName);
+		tEffectElement.setAttribute (AN_INTERRUPTING_ROUND_NAME, interruptingRoundName);
 
 		return tEffectElement;
 	}
