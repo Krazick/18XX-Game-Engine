@@ -521,10 +521,12 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 			tGameTile = tTileSet.getSelectedTile ();
 			tTile = tGameTile.popTile ();
 			tGameTile.pushTile (tTile);
-			tOrientation = MapCell.NO_ORIENTATION;
+			hexMap.putTileDown ();
+			tOrientation = tMapCell.getTileOrient ();
+//			tOrientation = MapCell.NO_ORIENTATION;
 			tLayTileAction = tCorporation.placeTileOnMapCell (tMapCell, tTile, tOrientation, tPreviousTile, 
 					tPreviousOrientation, tPreviousTokens, tPreviousBases);
-			hexMap.putTileDown ();
+//			hexMap.putTileDown ();
 			tMapCell.applyBases (tPreviousBases, gameManager);
 			updatePickupTileButton (true, GUI.NO_TOOL_TIP);
 			gameManager.addAction (tLayTileAction);
