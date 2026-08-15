@@ -44,7 +44,8 @@ public class ShowFrameEffect extends Effect {
 		tXMLFrameTitle = aEffectNode.getThisAttribute (AN_XMLFRAME_TITLE);
 		setXMLFrameTitle (aGameManager, tXMLFrameTitle);	// Always set the Title of the Frame
 		tXMLFrame = aGameManager.getXMLFrameNamed (tXMLFrameTitle);
-		setXMLFrame (tXMLFrame);				// Set the XML Frame, and if not found it will be NO_FRAME anyway
+		setXMLFrame (tXMLFrame);				
+		// Set the XML Frame, and if not found it will be NO_FRAME anyway
 	}
 
 	private void setXMLFrame (XMLFrame aXMLFrame) {
@@ -102,7 +103,7 @@ public class ShowFrameEffect extends Effect {
 		if (isPlayerFrame ()) {
 			tEffectApplied = true;
 		} else if (xmlFrame != XMLFrame.NO_XML_FRAME) {
-			xmlFrame.setVisible (true);
+			xmlFrame.toTheFront ();
 			tEffectApplied = true;
 		} else if (isCorporationFrame ()) {
 			tEffectApplied = true;
