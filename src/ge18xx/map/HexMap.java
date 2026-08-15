@@ -1390,11 +1390,11 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		tPlanName = tPlanFrame.getNextPlanName () + " Plan";
 		tPlaceMapTilePlan = new PlaceMapTilePlan (tPlayerName, tGameName, tPlanName, 
 							aTrainCompany, tSelectedMapCell);
-		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
-				tPlaceMapTilePlan.getName ());
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
-			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
-		}
+//		System.out.print (tPlaceMapTilePlan.getGameName () + " ready to build " + 
+//				tPlaceMapTilePlan.getName ());
+//		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+//			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
+//		}
 		setPlanFrame (tPlanFrame);
 		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
 	}
