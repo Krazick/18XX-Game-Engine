@@ -34,7 +34,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String DO_NO_PLAYER_ACTION = "No Player Action";
 	private static final String DO_STOCK_ACTION = " do Stock Action";
 	private static final String DOING_STOCK_ACTION = " is doing Stock Action";
-	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
+	private static final String PLAYER_DO_AUCTION = " do Auction Action";
 	private static final String PLAYER_DO_FORMATION = "Player do Formation Action";
 	private static final String COMPANY_DO_ACTION = "Company do Action";
 	private static final String DO_CONTRACT_BID_ACTION = " create Contract Bid Action";
@@ -441,8 +441,13 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setAuctionRound (String aGameName, int aRoundID) {
+		String tDoAuctionAction;
+		GameManager tGameManager;
+		
 		setFrameLabel (aGameName, aRoundID);
-		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
+		tGameManager = roundManager.getGameManager ();
+		tDoAuctionAction = tGameManager.getClientUserName () + PLAYER_DO_AUCTION;
+		updateDoButton (tDoAuctionAction, PLAYER_AUCTION_ACTION);
 		updatePassButton ();
 	}
 
