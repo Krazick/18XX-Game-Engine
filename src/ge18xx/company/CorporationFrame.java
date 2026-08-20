@@ -1900,6 +1900,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateButton (KButton aButton, boolean aEnable, String aToolTip, String aButtonLabel) {
+		if (aEnable) {
+			aButton.setVisible (aEnable);
+		}
 		aButton.setEnabled (aEnable);
 		aButton.setToolTipText (aToolTip);
 		aButton.setText (aButtonLabel);
