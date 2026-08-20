@@ -604,7 +604,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tFullTitle = getActiveGameName () + " " + aBaseName + " Frame";
 		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
 			if (userPreferencesFrame.showClientNameInFrameTitle ()) {
-				if (isNetworkGame ()) {
+				// If the base Name is Chat Client, then it will be a Network Game, add Client Name
+				if (JGameClient.BASE_TITLE.equals (aBaseName)) { 
+					tFullTitle += " (" + clientUserName + ")";
+				} else if (isNetworkGame ()) {
 					tFullTitle += " (" + clientUserName + ")";
 				}
 			}
@@ -2668,9 +2671,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 	
 	public void removeLastChecksum () {
-		checksums.removeLast ();
-		checksumAuditFrame.refreshAuditTable ();
-		removeLastPreviousChecksum ();
+		if (checksums != null) {
+			checksums.removeLast ();
+			checksumAuditFrame.refreshAuditTable ();
+			removeLastPreviousChecksum ();
+		}
 	}
 	
 	/* TODO: Update to use the method in the File Utils */
