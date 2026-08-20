@@ -647,25 +647,28 @@ public class ContractBid implements ActionListener, FocusListener {
 		
 		contractLinesJTable.getSelectionModel ().addListSelectionListener (new ListSelectionListener () {
 		    @Override
-		    public void valueChanged (ListSelectionEvent event) {
+		    public void valueChanged (ListSelectionEvent aEvent) {
 		    	ContractLine tContractLine;
+		    	int tSelectedViewRow;
+		    	int tSelectedModelRow;
+		    	Object tValue;
 		    	
 		        // 2. Prevent the event from firing twice (ignore temporary/adjusting states)
-		        if (!event.getValueIsAdjusting()) {
+		        if (! aEvent.getValueIsAdjusting ()) {
 		            
 		            // 3. Get the selected row index
-		            int selectedViewRow = contractLinesJTable.getSelectedRow();
+		            tSelectedViewRow = contractLinesJTable.getSelectedRow();
 		            
 		            // 4. Check if a row is actually selected (-1 means no selection)
-		            if (selectedViewRow != -1) {
+		            if (tSelectedViewRow != -1) {
 		                
 		                // 5. Convert view index to model index (critical if table is sortable/filterable)
-		                int selectedModelRow = contractLinesJTable.convertRowIndexToModel (selectedViewRow);
+		                tSelectedModelRow = contractLinesJTable.convertRowIndexToModel (tSelectedViewRow);
 		                
 		                // 6. Retrieve data from the model (e.g., column 0)
-		                Object value = contractLinesJTable.getModel ().getValueAt (selectedModelRow, 0);
-		                System.out.println("Selected Row Data: " + value);
-		                tContractLine = contractLines.get (selectedViewRow);
+		                tValue = contractLinesJTable.getModel ().getValueAt (tSelectedModelRow, 0);
+		                System.out.println("Selected Row Data: " + tValue);
+		                tContractLine = contractLines.get (tSelectedViewRow);
 		                updateCompanyComboBox (tContractLine);
 		            }
 		        }
