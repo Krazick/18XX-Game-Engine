@@ -160,10 +160,12 @@ public class UserPreferencesFrame extends XMLFrame {
 
 	public boolean showClientNameInFrameTitle () {
 		ClientNameInFramePreference tClientNameInFramePreference;
+		boolean tShowClientName;
 		
 		tClientNameInFramePreference = (ClientNameInFramePreference) userPreferences.get (ClientNameIndex);
+		tShowClientName = tClientNameInFramePreference.showClientNameInFrameTitle ();
 		
-		return tClientNameInFramePreference.showClientNameInFrameTitle ();
+		return tShowClientName;
 	}
 	
 	public boolean showConfigInfoFileInfo () {
