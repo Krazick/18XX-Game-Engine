@@ -431,7 +431,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		bankPool.clearSelections ();
 	}
 
-	public void clearCorpSelections () {
+	public void clearCorpationSelections () {
 		privatesFrame.clearSelections ();
 		minorCompaniesFrame.clearSelections ();
 		shareCompaniesFrame.clearSelections ();

@@ -282,6 +282,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void clearSelections () {
 		for (Corporation tCorporation : corporations) {
 			tCorporation.clearCertificateSelections ();
+			tCorporation.clearTrainSelections ();
 		}
 	}
 
@@ -1427,6 +1428,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.clearBankSelections ();
 	}
 
+	public void clearCorporationSelections () {
+		roundManager.clearCorporationSelections ();
+	}
+	
+	public void clearPlayerSelections () {
+		roundManager.clearAllPlayerSelections ();
+	}
+	
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		roundManager.declareBankuptcyAction (aCorporation);
 	}

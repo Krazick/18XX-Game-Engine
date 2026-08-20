@@ -929,6 +929,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		}
 		setLocation (aFrameOffset);
 		setVisible (true);
+		toTheFront ();
 	}
 
 	private boolean allRoutesValid () {

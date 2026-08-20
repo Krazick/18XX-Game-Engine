@@ -1896,6 +1896,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setIsOperatingTrains (true);
 	}
 
+	@Override
+	public void clearTrainSelections () {
+		trainPortfolio.clearAllTrainSelections ();
+	}
+
 	/**
 	 * Update all of the Train Indexes within the Company's portfolio
 	 *

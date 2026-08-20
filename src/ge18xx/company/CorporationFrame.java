@@ -461,85 +461,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tSourceTitle;
 		KButton tSourceButton;
 		MapFrame tMapFrame;
-		MapCell tMapCell;
 		RoundManager tRoundManager;
 		boolean tInterrupted;
 		boolean tConfirmedDoneAction;
 		boolean tStatusUpdated;
-		GameMap tMap;
+		boolean tHandledMapAction;
+		boolean tHandledCorporationAction;
 		
 		tCommand = aEvent.getActionCommand ();
-		corporation.showMap ();
 		tSourceButton = (KButton) aEvent.getSource ();
 		tSourceTitle = tSourceButton.getText ();
-		tMap = getMap ();
-		tMapCell = tMap.getSelectedMapCell ();
-		if (SHOW_MAP.equals (tCommand)) {
-			corporation.showMap ();
+		tHandledCorporationAction = false;
+		tHandledMapAction = false;
+		
+		if (!tHandledCorporationAction) {
+			tHandledMapAction = handleMapActions (tCommand, tSourceTitle);
 		}
-		if (PLACE_BASE_TILE.equals (tCommand)) {
-			handlePlaceBaseTile (tSourceTitle, tMapCell);
+		if (! tHandledMapAction) {
+			tHandledCorporationAction = handleCorporationActions (tCommand);
 		}
-		if (PLACE_TILE.equals (tCommand)) {
-			handlePlaceTile (tMapCell);
-		}
-		if (PLACE_2ND_YELLOW_TILE.equals (tCommand)) {
-			handlePlaceTile (tMapCell);
-		}
-		if (PLACE_BASE_TOKEN.equals (tCommand)) {
-			handlePlaceBaseToken (tSourceTitle);
-		}
-		if (PLACE_TOKEN.equals (tCommand)) {
-			handlePlaceToken (tSourceTitle, tMapCell);
-		}
-		if (SKIP_BASE_TOKEN.equals (tCommand)) {
-			corporation.showMap ();
-			corporation.skipBaseToken ();
-		}
-		if (SKIP_BASE_TILE.equals (tCommand)) {
-			corporation.showMap ();
-			corporation.skipBaseTile ();
-		}
-		if (BORROW_TRAIN.equals (tCommand)) {
-			corporation.borrowTrain ();
-		}
-		if (RETURN_BORROWED_TRAIN.equals (tCommand)) {
-			corporation.returnBorrowedTrain ();
-		}
-		if (OPERATE_TRAIN.equals (tCommand)) {
-			corporation.showMap ();
-			corporation.operateTrains ();
-		}
-		if (PAY_NO_DIVIDEND.equals (tCommand)) {
-			corporation.payNoDividend ();
-		}
-		if (PAY_HALF_DIVIDEND.equals (tCommand)) {
-			corporation.payHalfDividend ();
-		}
-		if (PAY_FULL_DIVIDEND.equals (tCommand)) {
-			corporation.payFullDividend ();
-		}
-		if (BUY_TRAIN.equals (tCommand)) {
-			corporation.buyTrain ();
-		}
-		if (FORCE_BUY_TRAIN.equals (tCommand)) {
-			corporation.forceBuyTrain ();
-		}
-		if (BUY_PRIVATE.equals (tCommand)) {
-			corporation.buyPrivate (true);
-		}
-		if (GET_LOAN.equals (tCommand)) {
-			corporation.getLoan ();
-		}
-		if (PAY_LOAN_INTEREST.equals (tCommand)) {
-			corporation.payLoanInterest ();
-		}
-		if (REDEEM_LOAN.equals (tCommand)) {
-			corporation.redeemLoan ();
-		}
-		if (SHOW_PLANS.equals (tCommand)) {
-			corporation.showPlanFrame ();
-		}
+		
 		if (DONE.equals (tCommand)) {
 			tConfirmedDoneAction = confirmDoneAction ();
 			if (tConfirmedDoneAction) {	
@@ -553,6 +494,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		if (UNDO.equals (tCommand)) {
 			corporation.clearBankSelections ();
+			corporation.clearCorporationSelections ();
+			corporation.clearPlayerSelections ();
 			corporation.undoAction ();
 			tMapFrame = getMapFrame ();
 			tMapFrame.resetAllModes ();
@@ -568,6 +511,123 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (!tInterrupted) {
 			tRoundManager.checkAndHandleRoundEnds ();
 		}
+	}
+
+	protected boolean handleCorporationActions (String aCommand) {
+		boolean tHandledCorporationAction;
+		
+		tHandledCorporationAction = false;
+		if (BORROW_TRAIN.equals (aCommand)) {
+			corporation.borrowTrain ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (RETURN_BORROWED_TRAIN.equals (aCommand)) {
+			corporation.returnBorrowedTrain ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (PAY_NO_DIVIDEND.equals (aCommand)) {
+			corporation.payNoDividend ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (PAY_HALF_DIVIDEND.equals (aCommand)) {
+			corporation.payHalfDividend ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (PAY_FULL_DIVIDEND.equals (aCommand)) {
+			corporation.payFullDividend ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (BUY_TRAIN.equals (aCommand)) {
+			corporation.buyTrain ();
+			tHandledCorporationAction = true;
+		}
+		if (FORCE_BUY_TRAIN.equals (aCommand)) {
+			corporation.forceBuyTrain ();
+			tHandledCorporationAction = true;
+		}
+		if (BUY_PRIVATE.equals (aCommand)) {
+			corporation.buyPrivate (true);
+			tHandledCorporationAction = true;
+		}
+		if (GET_LOAN.equals (aCommand)) {
+			corporation.getLoan ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (PAY_LOAN_INTEREST.equals (aCommand)) {
+			corporation.payLoanInterest ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		if (REDEEM_LOAN.equals (aCommand)) {
+			corporation.redeemLoan ();
+			tHandledCorporationAction = true;
+			toTheFront ();
+		}
+		
+		if (SHOW_PLANS.equals (aCommand)) {
+			corporation.showPlanFrame ();
+			tHandledCorporationAction = true;
+		}
+
+		return tHandledCorporationAction;
+	}
+
+	protected boolean handleMapActions (String aCommand, String aSourceTitle) {
+		MapCell tMapCell;
+		GameMap tMap;
+		boolean tHandledMapAction;
+		
+		corporation.showMap ();
+		tMap = getMap ();
+		tMapCell = tMap.getSelectedMapCell ();
+		tHandledMapAction = false;
+		if (SHOW_MAP.equals (aCommand)) {
+			corporation.showMap ();
+			tHandledMapAction = true;
+		}
+		if (PLACE_BASE_TILE.equals (aCommand)) {
+			handlePlaceBaseTile (aSourceTitle, tMapCell);
+			tHandledMapAction = true;
+		}
+		if (PLACE_TILE.equals (aCommand)) {
+			handlePlaceTile (tMapCell);
+			tHandledMapAction = true;
+		}
+		if (PLACE_2ND_YELLOW_TILE.equals (aCommand)) {
+			handlePlaceTile (tMapCell);
+			tHandledMapAction = true;
+		}
+		if (PLACE_BASE_TOKEN.equals (aCommand)) {
+			handlePlaceBaseToken (aSourceTitle);
+			tHandledMapAction = true;
+		}
+		if (PLACE_TOKEN.equals (aCommand)) {
+			handlePlaceToken (aSourceTitle, tMapCell);
+			tHandledMapAction = true;
+		}
+		if (SKIP_BASE_TOKEN.equals (aCommand)) {
+//			corporation.showMap ();
+			corporation.skipBaseToken ();
+			tHandledMapAction = true;
+		}
+		if (SKIP_BASE_TILE.equals (aCommand)) {
+//			corporation.showMap ();
+			corporation.skipBaseTile ();
+			tHandledMapAction = true;
+		}
+		if (OPERATE_TRAIN.equals (aCommand)) {
+//			corporation.showMap ();
+			corporation.operateTrains ();
+			tHandledMapAction = true;
+		}
+		
+		return tHandledMapAction;
 	}
 
 	private boolean confirmDoneAction () {
@@ -1158,7 +1218,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tRevenue;
 		
 		if (!corporation.isWaitingForResponse ()) {
-			payNoDividendButton.setText ("Pay No Dividend");
+			payNoDividendButton.setText (PAY_NO_DIVIDEND);
 			if (mustPayInterest ()) {
 				tEnabled = false;
 				tToolTip = MUST_PAY_INTEREST;

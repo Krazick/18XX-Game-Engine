@@ -464,6 +464,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.clearBankSelections ();
 	}
 
+	public void clearAllPlayerSelections () {
+		gameManager.clearAllPlayerSelections ();
+	}
+	
+	public void clearCorporationSelections () {
+		gameManager.clearCorpationSelections ();
+	}
+	
 	public void clearAllAuctionStates () {
 		gameManager.clearAllAuctionStates ();
 	}
@@ -482,10 +490,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		gameManager.resetRoundFrameBackgrounds ();
 		updateRoundFrame ();
 		roundFrame.toTheFront ();
-	}
-
-	public void clearAllPlayerSelections () {
-		gameManager.clearAllPlayerSelections ();
 	}
 
 	public boolean isPlaceTileMode () {

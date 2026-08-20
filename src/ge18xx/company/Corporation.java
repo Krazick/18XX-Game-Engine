@@ -498,6 +498,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		corporationCertificates.clearSelections ();
 	}
 
+	public void clearTrainSelections () {
+		
+	}
+	
 	// Override in Train Company
 	public Color getFgColor () {
 		return Color.WHITE;
@@ -608,6 +612,18 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		}
 	}
 
+	public void clearCorporationSelections () {
+		if (corpListValid ()) {
+			corporationList.clearCorporationSelections ();
+		}
+	}
+	
+	public void clearPlayerSelections () {
+		if (corpListValid ()) {
+			corporationList.clearPlayerSelections ();
+		}
+	}
+	
 	public boolean gameHasPrivates () {
 		boolean tGameHasPrivates;
 
