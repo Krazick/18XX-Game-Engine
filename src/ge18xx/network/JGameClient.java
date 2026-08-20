@@ -655,6 +655,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		
 		setForUnconnected ();
 		setSize (1000, 520);
+		updateFrame ();
 	}
 
 	private void buildFrameComponents () {
