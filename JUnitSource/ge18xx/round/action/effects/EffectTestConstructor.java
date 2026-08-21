@@ -95,8 +95,8 @@ public class EffectTestConstructor {
 		tXMLFormatted = tXMLDocument.toXMLString ();
 		tExpected += "<EnTest>\n";
 		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" fromName=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" order=\"1\" toActor=\"TFBuster\" toNickName=\"\"/>\n";
-//		tExpected += "<ChecksumXMLElement checksum=\"6a05ad5e01f4293ede296884c725aca5\" label=\"\" nodeName=\"Effect\"/>\n";
-		tExpected += "<ChecksumXMLElement checksum=\"4d02f49aed743997b77c2eaa750a921ae3ddc9127b055650b1e248752f0296c9\" label=\"\" nodeName=\"Effect\"/>\n";
+		tExpected += "<ChecksumXMLElement checksum=\"6a05ad5e01f4293ede296884c725aca5\" label=\"\" nodeName=\"Effect\"/>\n";
+//		tExpected += "<ChecksumXMLElement checksum=\"4d02f49aed743997b77c2eaa750a921ae3ddc9127b055650b1e248752f0296c9\" label=\"\" nodeName=\"Effect\"/>\n";
 		tExpected += "</EnTest>\n";
 
 		assertEquals (tExpected, tXMLFormatted);
