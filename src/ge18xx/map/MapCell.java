@@ -1543,7 +1543,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		tTokens = aTokens.split (";");
 		tTokensApplied = false;
 		if (!(Tile.NO_TOKENS.equals (aTokens))) {
-			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex"
+			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex,TokenIndex"
 			for (String tAToken : tTokens) {
 				tTokenInfo = tAToken.split (",");
 				tAbbrev = tTokenInfo [0];
