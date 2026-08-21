@@ -32,7 +32,8 @@ public class LayTileAction extends ChangeMapAction {
 			String aTokens, String aBases, String aNewTileTokens) {
 		LayTileEffect tTileLayEffect;
 
-		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases, aNewTileTokens);
+		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, 
+				aBases, aNewTileTokens);
 		addEffect (tTileLayEffect);
 	}
 
@@ -40,7 +41,8 @@ public class LayTileAction extends ChangeMapAction {
 							int aRevenueCenterIndex) {
 		SetCorporationBaseEffect tSetCorporationBaseEffect;
 		
-		tSetCorporationBaseEffect = new SetCorporationBaseEffect (aActor, aMapCell, aTile, aRevenueCenterIndex);
+		tSetCorporationBaseEffect = new SetCorporationBaseEffect (aActor, aMapCell, 
+				aTile, aRevenueCenterIndex);
 		addEffect (tSetCorporationBaseEffect);
 	}
 	
