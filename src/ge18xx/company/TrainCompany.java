@@ -2436,6 +2436,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tNewTileTokens;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
+		Tile tNewTile;
 		int tCostToLayTile;
 		boolean tFixedTile;
 		Bank tBank;
@@ -2447,7 +2448,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			updateStatusWithTile (aPreviousTile);
 		}
 		tNewStatus = status;
-		tNewTileTokens = aTile.getPlacedTokens ();
+		// Need to capture the information for the Tokens on the New Tile that is on the MapCell
+		// To properly set on these Tokens on the Remote Clients
+		tNewTile = aMapCell.getTile ();
+		tNewTileTokens = tNewTile.getPlacedTokens ();
 		tOperatingRoundID = getOperatingRoundID ();
 		
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
