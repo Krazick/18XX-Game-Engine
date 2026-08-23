@@ -12,12 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ge18xx.player.Player;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.ToEffect;
+import geUtilities.GUI;
 import swingTweaks.KButton;
 
 public class QueryFrame extends JFrame implements ActionListener {
@@ -40,7 +42,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 		roundManager = aRoundManager;
 		setToEffect (aToEffect);
 		setOfferTopPanel ();
-		if (offerTopPanel != null) {
+		if (offerTopPanel != GUI.NO_PANEL) {
 			buildOfferButtonPanel ();
 
 			buildOfferPanel ();
@@ -147,6 +149,9 @@ public class QueryFrame extends JFrame implements ActionListener {
 		ActorI tToActor;
 		ActorI tFromActor;
 		Round tCurrentRound;
+		ActorI.ActionStates tOldPlayerState;
+		ActorI.ActionStates tNewPlayerState;
+		Player tPlayer;
 
 		tRoundType = roundManager.getCurrentRoundState ();
 		tCurrentRound = roundManager.getCurrentRound ();
@@ -163,6 +168,13 @@ public class QueryFrame extends JFrame implements ActionListener {
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
 		tResponseOfferAction.setChainToPrevious (true);
 		addResponseOfferEffect (tResponseOfferAction, tFromActor, tToActor, aResponse);
+		if (tToActor.isAPlayer ()) {
+			tPlayer = (Player) tToActor;
+			tOldPlayerState = tPlayer.getPrimaryActionState ();
+			tPlayer.setPrimaryActionState (ActorI.ActionStates.Pass);	// Should get the state from before
+			tNewPlayerState = tPlayer.getPrimaryActionState ();
+			tResponseOfferAction.addStateChangeEffect (tToActor, tOldPlayerState, tNewPlayerState);
+		}
 		roundManager.addAction (tResponseOfferAction);
 
 		setVisible (false);
