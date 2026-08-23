@@ -2027,9 +2027,24 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		loadSavedXMLFile ();
 		handleMissedActions ();
 		updateRoundFrame ();
+		hideNonactiveFrames ();
 		playerManager.hideAllPlayerFrames ();
 	}
 
+	private void hideNonactiveFrames () {
+		Round tCurrentRound;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		if (! tCurrentRound.isAAuctionRound ()) {
+			auctionFrame.setVisible (false); 
+		}
+		if (! tCurrentRound.isAContractBidRound ()) {
+			if (contractBidFrame != XMLFrame.NO_XML_FRAME) {
+				contractBidFrame.setVisible (false);
+			}
+		}
+	}
+	
 	private void handleMissedActions () {
 		int tLastLocalAction;
 		int tLastNetworkAction;
