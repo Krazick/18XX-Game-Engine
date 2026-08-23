@@ -1,11 +1,14 @@
 package ge18xx.round.action;
 
-import java.awt.FlowLayout;
+import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.Point;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -34,12 +37,20 @@ public class WaitForReponseFrame extends JFrame {
 	private void buildWaitFrame (String aPlayerName) {
 		Point tRoundPoint;
 		JLabel tWaitMessage;
+		JPanel tMessagePanel;
 
+		tMessagePanel = new JPanel ();
+		tMessagePanel.setLayout (new BoxLayout (tMessagePanel, BoxLayout.Y_AXIS));
+		tMessagePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		tMessagePanel.add (Box.createVerticalStrut (10));	
+		
 		tWaitMessage = new JLabel ("Waiting for Response from " + aPlayerName);
-		setLayout (new FlowLayout (FlowLayout.CENTER));
+		tWaitMessage.setAlignmentX (CENTER_ALIGNMENT);
+		tWaitMessage.setVisible (true);
+		tMessagePanel.add (tWaitMessage);
+		add (tMessagePanel);
 		setSize (400, 100);
-		add (tWaitMessage);
-
+		
 		tRoundPoint = playerManager.getOffsetRoundFramePoint ();
 		setLocation (tRoundPoint);
 		setAlwaysOnTop (true);
@@ -59,13 +70,13 @@ public class WaitForReponseFrame extends JFrame {
 	}
 
 	/**
-	 * When the Corporation has need to wait for a Response from a Network Player, State is 
-	 * ActorI.ActionStates.WaitingResponse
+	 * When the Corporation needs to wait for a Response from a Network Player, 
+	 * State is ActorI.ActionStates.WaitingResponse
 	 * Put this thread to sleep, in X second chunks
 	 *
 	 */
 	public void waitForResponse () {
-		waitForResponse (2000);
+		waitForResponse (20);
 	}
 
 	public void waitForResponse (int aWaitTime) {
@@ -83,6 +94,7 @@ public class WaitForReponseFrame extends JFrame {
 
 	public void showFrame () {
 		setVisible (true);
+		toFront ();
 	}
 
 	public void hideFrame () {
