@@ -1,6 +1,7 @@
 package ge18xx.company;
 
 import ge18xx.company.benefit.QueryExchangeBenefit;
+import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ResponseOfferAction;
@@ -10,14 +11,17 @@ import ge18xx.round.action.effects.ToEffect;
 public class ExchangeQueryFrame extends QueryFrame {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "QUERY EXCHANGE";
+	public static final String BASE_TITLE = "Query Exchange Frame";
 	String actionText;
 
 	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super (aRoundManager, aToEffect);
-		String tPlayerName;
+		String tFrameTitle;
+		GameManager tGameManager;
 
-		tPlayerName = aRoundManager.getClientUserName ();
-		setTitle ("Exchange Query for " + tPlayerName);
+		tGameManager = aRoundManager.getGameManager ();
+		tFrameTitle = tGameManager.createFrameTitle (BASE_TITLE);
+		setTitle (tFrameTitle);
 		setAcceptButtonLabel ("YES");
 		setRejectButtonLabel ("NO");
 	}
