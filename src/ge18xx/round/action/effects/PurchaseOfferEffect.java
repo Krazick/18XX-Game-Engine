@@ -8,6 +8,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.AuditFrame;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -92,8 +93,9 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 		boolean tEffectApplied;
 		QueryFrame tPurchaseOfferFrame;
 		String tClientUserName;
-		String tActorName = "";
+		String tActorName;
 
+		tActorName = GUI.EMPTY_STRING;
 		tEffectApplied = true;
 		tClientUserName = aRoundManager.getClientUserName ();
 		if (toActor.isACorporation ()) {
