@@ -1285,14 +1285,16 @@ public class City extends RevenueCenter implements Cloneable {
 	public boolean setStation (int aStationIndex, MapToken aStation) {
 		boolean tStationSet;
 		MapCell tMapCell;
+		Location tCityLocation;
 
 		tStationSet = false;
 		if (canPlaceStation ()) {
 			if (stationIndexInRange (aStationIndex)) {
 				if (!mapCellHasStation (aStation)) {
 					tMapCell = cityInfo.getMapCell ();
+					tCityLocation = getLocation ();
 					corpStations [aStationIndex] = aStation;
-					corpStations [aStationIndex].placeToken (tMapCell, getLocation ());
+					corpStations [aStationIndex].placeToken (tMapCell, tCityLocation);
 					cityInfo.clearCorporationOnMapCell ();
 					tStationSet = true;
 				} else {
@@ -1341,7 +1343,7 @@ public class City extends RevenueCenter implements Cloneable {
 			for (MapToken tMapToken : corpStations) {
 				if (tMapToken != MapToken.NO_MAP_TOKEN) {
 					if (!(GUI.EMPTY_STRING.equals (tTokenToolTip))) {
-						tTokenToolTip += ",";
+						tTokenToolTip += GUI.COMMA;
 					}
 					tTokenToolTip += tMapToken.getCorporationAbbrev ();
 				}
