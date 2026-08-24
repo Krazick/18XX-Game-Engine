@@ -40,6 +40,16 @@ public abstract class QueryOffer {
 		setStatus (PENDING);
 	}
 
+	public QueryOffer (String aItemName, String aFromActorName, ActorI.ActionStates aOldState) {
+
+		setItemName (aItemName);
+		setFromActorName (aFromActorName);
+		setToActorName (aFromActorName);
+
+		setOldStatus (aOldState);
+		setStatus (PENDING);
+	}
+
 	public QueryOffer (XMLNode aChildNode, GameManager aGameManager) {
 		String tItemName;
 		String tFromActorName;
