@@ -104,22 +104,22 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
 		ActorI.ActionStates tRoundType;
 		ActorI.ActionStates tOldPlayerState;
-		ActorI.ActionStates tNewPlayerState;
+//		ActorI.ActionStates tNewPlayerState;
 		String tRoundID;
-		Player tCurrentPlayer;
+//		Player tCurrentPlayer;
 
 		tRoundType = getRoundState (aGameManager);
 		tRoundID = getRoundID (aGameManager);
-		tCurrentPlayer = aGameManager.getCurrentPlayer ();
-		tOldPlayerState = tCurrentPlayer.getPrimaryActionState ();
-		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayer.getName (),
+//		tCurrentPlayer = aGameManager.getCurrentPlayer ();
+		tOldPlayerState = aPlayer.getPrimaryActionState ();
+		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", aPlayer.getName (),
 				aPlayer.getName (), tOldPlayerState, privateCompany, NAME);
-		tCurrentPlayer.setQueryOffer (exchangePrivateQuery);
-		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
-		tNewPlayerState = tCurrentPlayer.getPrimaryActionState ();
-		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, tCurrentPlayer);
-		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPlayer, privateCompany, this);
-		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tOldPlayerState, tNewPlayerState);
+		aPlayer.setQueryOffer (exchangePrivateQuery);
+//		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
+//		tNewPlayerState = tCurrentPlayer.getPrimaryActionState ();
+		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, aPlayer);
+		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (aPlayer, aPlayer, privateCompany, this);
+//		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tOldPlayerState, tNewPlayerState);
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
 	}
