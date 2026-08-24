@@ -11,7 +11,7 @@ import ge18xx.round.action.effects.ToEffect;
 public class ExchangeQueryFrame extends QueryFrame {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "QUERY EXCHANGE";
-	public static final String BASE_TITLE = "Query Exchange Frame";
+	public static final String BASE_TITLE = "Query Exchange";
 	String actionText;
 
 	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
