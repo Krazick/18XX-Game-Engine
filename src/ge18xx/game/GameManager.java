@@ -1768,6 +1768,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
 			game18XXFrame.initiateGame ();
+			hideNonactiveFrames ();
 		}
 	}
 
