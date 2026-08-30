@@ -9,6 +9,7 @@ import ge18xx.company.ExchangePrivateQuery;
 import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
@@ -52,7 +53,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		GameManager tGameManager;
 		Player tPlayer;
 		Player tCurrentPlayer;
-		String tPlayerName;
 		String tTitle;
 		boolean tShowQueryDialog;
 		boolean tExchangeApproved;
@@ -62,14 +62,15 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tShowQueryDialog = false;
 		tExchangeApproved = false;
 		tGameManager = privateCompany.getGameManager ();
+		tResetWaitStateAction = (SetWaitStateAction) Action.NO_ACTION;
+
 		if (tGameManager.isNetworkGame ()) {
-			tPlayer = (Player) privateCompany.getPresident ();
-			tPlayerName = tPlayer.getName ();
 			tCurrentPlayer = tGameManager.getCurrentPlayer ();
-			tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
-			if (tGameManager.notIsNetworkAndIsThisClient (tPlayerName)) {
+			tPlayer = (Player) privateCompany.getPresident ();
+			if (tCurrentPlayer == tPlayer) {
 				tShowQueryDialog = true;
 			} else {
+				tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
 				tellPlayerToQuery (tGameManager, tPlayer);
 				tTitle = tGameManager.createFrameTitle ("Waiting for a Response");
 				tWaitForReponseFrame = new WaitForReponseFrame (tTitle, tPlayer, tCurrentPlayer);
@@ -78,7 +79,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			}
 		} else {
 			tShowQueryDialog = true;
-			tResetWaitStateAction = (SetWaitStateAction) Action.NO_ACTION;
 		}
 		if (tShowQueryDialog) {
 			tExchangeApproved = showQueryDialog (aRoundFrame);
@@ -134,19 +134,12 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	 *
 	 */
 	private SetWaitStateAction tellOthersToWait (GameManager aGameManager, Player aPlayer) {
-		ActorI.ActionStates tRoundType;
-		String tRoundID;
 		SetWaitStateAction tResetWaitStateAction;
+		PlayerManager tPlayerManager;
 
-		tRoundType = getRoundState (aGameManager);
-		tRoundID = getRoundID (aGameManager);
-		setWaitStateAction = new SetWaitStateAction (tRoundType, tRoundID, aPlayer);
-		aPlayer.setAllWaitStateEffects (setWaitStateAction);
-		aGameManager.addAction (setWaitStateAction);
-		tResetWaitStateAction = new SetWaitStateAction (setWaitStateAction);
-		tResetWaitStateAction.resetPlayerStatesAfterWait (setWaitStateAction);
-		tResetWaitStateAction.setChainToPrevious (true);
-
+		tPlayerManager = aGameManager.getPlayerManager ();
+		tResetWaitStateAction = tPlayerManager.tellOthersToWait (aPlayer);
+		
 		return tResetWaitStateAction;
 	}
 
