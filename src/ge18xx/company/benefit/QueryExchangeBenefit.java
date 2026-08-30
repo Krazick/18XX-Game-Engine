@@ -51,7 +51,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 	private void handleShowQueryDialog (JFrame aRoundFrame) {
 		GameManager tGameManager;
-		Player tPlayer;
+		Player tPrivatePresident;
 		Player tCurrentPlayer;
 		String tTitle;
 		boolean tShowQueryDialog;
@@ -66,14 +66,14 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 		if (tGameManager.isNetworkGame ()) {
 			tCurrentPlayer = tGameManager.getCurrentPlayer ();
-			tPlayer = (Player) privateCompany.getPresident ();
-			if (tCurrentPlayer == tPlayer) {
+			tPrivatePresident = (Player) privateCompany.getPresident ();
+			if (tCurrentPlayer == tPrivatePresident) {
 				tShowQueryDialog = true;
 			} else {
-				tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
-				tellPlayerToQuery (tGameManager, tPlayer);
+				tResetWaitStateAction = tellOthersToWait (tGameManager, tPrivatePresident);
+				tellPlayerToQuery (tGameManager, tPrivatePresident);
 				tTitle = tGameManager.createFrameTitle ("Waiting for a Response");
-				tWaitForReponseFrame = new WaitForReponseFrame (tTitle, tPlayer, tCurrentPlayer);
+				tWaitForReponseFrame = new WaitForReponseFrame (tTitle, tPrivatePresident, tCurrentPlayer);
 				tWaitForReponseFrame.waitForResponse ();
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
@@ -96,30 +96,34 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	 * Test the Player who is President of the Private with a Query Exchange Benefit to ask the question
 	 * and if needed to perform the exchange.
 	 *
-	 * @param aGameManager The Game Manager, to retrieve info, and add the QueryExchangeBenefitAction to be done
-	 * @param aPlayer the Player who needs to answer the question of the Exchange.
+	 * @param aGameManager 			The Game Manager, to retrieve info, and add the 
+	 * 								QueryExchangeBenefitAction to be done
+	 * @param aPrivatePresident 	the Player who is the President of the Private,
+	 * 								This Player must answer the question of the Exchange.
 	 *
 	 */
-	private void tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
+	private void tellPlayerToQuery (GameManager aGameManager, Player aPrivatePresident) {
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
 		ActorI.ActionStates tRoundType;
-		ActorI.ActionStates tOldPlayerState;
-//		ActorI.ActionStates tNewPlayerState;
+		ActorI.ActionStates tPlayerOldState;
+		ActorI.ActionStates tPlayerNewState;
 		String tRoundID;
-//		Player tCurrentPlayer;
+		Player tCurrentPlayer;
+		String tPresidentName;
 
 		tRoundType = getRoundState (aGameManager);
 		tRoundID = getRoundID (aGameManager);
-//		tCurrentPlayer = aGameManager.getCurrentPlayer ();
-		tOldPlayerState = aPlayer.getPrimaryActionState ();
-		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", aPlayer.getName (),
-				aPlayer.getName (), tOldPlayerState, privateCompany, NAME);
-		aPlayer.setQueryOffer (exchangePrivateQuery);
-//		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
-//		tNewPlayerState = tCurrentPlayer.getPrimaryActionState ();
-		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, aPlayer);
-		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (aPlayer, aPlayer, privateCompany, this);
-//		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tOldPlayerState, tNewPlayerState);
+		tCurrentPlayer = aGameManager.getCurrentPlayer ();
+		tPlayerOldState = tCurrentPlayer.getPrimaryActionState ();
+		tPresidentName = aPrivatePresident.getName ();
+		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tPresidentName,
+				tPresidentName, tPlayerOldState, privateCompany, NAME);
+		aPrivatePresident.setQueryOffer (exchangePrivateQuery);
+		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
+		tPlayerNewState = tCurrentPlayer.getPrimaryActionState ();
+		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, aPrivatePresident);
+		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (aPrivatePresident, aPrivatePresident, privateCompany, this);
+		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tPlayerOldState, tPlayerNewState);
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
 	}
