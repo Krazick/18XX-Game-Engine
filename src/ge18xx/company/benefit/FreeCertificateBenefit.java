@@ -8,7 +8,7 @@ import ge18xx.company.PrivateCompany;
 import geUtilities.xml.XMLNode;
 
 public class FreeCertificateBenefit extends CertificateBenefit {
-	public static final String NAME = "FREE_CERTIFICATE";
+	public static final String NAME = "Free Certificate";
 
 	public FreeCertificateBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);

@@ -17,7 +17,7 @@ public abstract class CertificateBenefit extends Benefit {
 	public static final AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
 	public static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationID");
 	public static final AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
-	public static final String NAME = "CERTIFICATE";
+	public static final String NAME = "Certificate";
 	int corporationID;
 	int certificatePercentage;
 	boolean certificatePresident;

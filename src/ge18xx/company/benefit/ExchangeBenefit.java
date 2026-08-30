@@ -17,7 +17,7 @@ import swingTweaks.KButton;
 
 public class ExchangeBenefit extends CertificateBenefit {
 	public static final AttributeName AN_CONVERT_ON_CLOSE = new AttributeName ("convertOnClose");
-	public static final String NAME = "EXCHANGE";
+	public static final String NAME = "Exchange";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
 	public static final int NO_PERCENTAGE = 0;
 	boolean convertOnClose;
