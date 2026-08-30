@@ -26,6 +26,7 @@ public class MapBenefit extends Benefit {
 	public static final String BRIDGE_TOKEN = "Bridge";
 	public static final String TUNNEL_TOKEN = "Tunnel";
 	public static final String NAME = "Map";
+	public static final int NO_COST = 0;
 	public static final MapBenefit NO_MAP_BENEFIT = (MapBenefit) NO_BENEFIT;
 	String mapCellID;
 	String tokenType;
@@ -87,6 +88,18 @@ public class MapBenefit extends Benefit {
 		return cost;
 	}
 
+	public boolean noCost () {
+		boolean tNoCost;
+		
+		if (cost == NO_COST) {
+			tNoCost = true;
+		} else {
+			tNoCost = false;
+		}
+		
+		return tNoCost;
+	}
+	
 	public boolean getSameTurn () {
 		return sameTurn;
 	}

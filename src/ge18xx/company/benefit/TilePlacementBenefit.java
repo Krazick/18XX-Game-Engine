@@ -43,7 +43,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		if (extraTilePlacement) {
 			tName = "Extra " + tName;
 		}
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tName = "Free " + tName;
 		}
 
@@ -55,7 +55,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		String tNewButtonText;
 		String tPlaceTileText;
 
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tPlaceTileText = "Place Free Tile on ";
 		} else {
 			tPlaceTileText = "Place Tile on ";
@@ -91,7 +91,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		} else if (! isTileAvailable ()) {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
-		} else if (getCost () == 0) {
+		} else if (noCost ()) {
 			enableButton ();
 			setToolTip ("Free Tile Placement");
 		} else if (! operatingCompanyHasEnoughCash ()) {
@@ -218,7 +218,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		if (extraTilePlacement) {
 			tBenefitText = "Extra " + tBenefitText;
 		}
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tBenefitText = "Free " + tBenefitText;
 		}
 		

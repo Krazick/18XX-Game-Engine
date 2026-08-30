@@ -89,7 +89,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		if (extraTokenPlacement) {
 			tName = "Extra " + tName;
 		}
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tName = "Free " + tName;
 		}
 
@@ -101,7 +101,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		String tNewButtonText;
 		String tPlaceTokenText;
 
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tPlaceTokenText = "Place Free Token on ";
 		} else {
 			tPlaceTokenText = "Place Token on ";
@@ -236,7 +236,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		if (extraTokenPlacement) {
 			tBenefitText = "Extra " + tBenefitText;
 		}
-		if (getCost () == 0) {
+		if (noCost ()) {
 			tBenefitText = "Free " + tBenefitText;
 		}
 
