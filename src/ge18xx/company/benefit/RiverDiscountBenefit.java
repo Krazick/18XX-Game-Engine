@@ -6,25 +6,24 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
 public class RiverDiscountBenefit extends Benefit {
+	public static final String NAME = "River Discount";
+	
 	public RiverDiscountBenefit () {
-		// TODO Auto-generated constructor stub
+		setName (NAME);
 	}
 
 	public RiverDiscountBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public int getCost () {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String getNewButtonLabel () {
-		// TODO Auto-generated method stub
-		return null;
+		return GUI.EMPTY_STRING;
 	}
 	
 	@Override
