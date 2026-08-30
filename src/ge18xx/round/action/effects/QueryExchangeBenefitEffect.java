@@ -22,21 +22,19 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	Corporation privateCompany;
 	QueryExchangeBenefit queryExchangeBenefit;
 
-	public QueryExchangeBenefitEffect () {
-		super (NAME);
-	}
-
-	public QueryExchangeBenefitEffect (String aName) {
-		super (aName);
-	}
-
 	public QueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor, Corporation aPrivateCompany,
 			QueryExchangeBenefit aQueryExchangeBenefit) {
 		super (NAME, aFromActor, aToActor);
+		
+		int tPrivateID;
+		String tBenefitName;
+		
+		tPrivateID = aPrivateCompany.getID ();
+		tBenefitName = aQueryExchangeBenefit.getName ();
 		setPrivateCompany (aPrivateCompany);
 		setQueryExchangeBenefit (aQueryExchangeBenefit);
-		setPrivateCompanyID (aPrivateCompany.getID ());
-		setQEBenefitName (aQueryExchangeBenefit.getName ());
+		setPrivateCompanyID (tPrivateID);
+		setQEBenefitName (tBenefitName);
 	}
 
 	public QueryExchangeBenefitEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -70,8 +68,8 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (AN_PRIVATE_ID, getPrivateCompanyID ());
-		tEffectElement.setAttribute (AN_BENEFIT_NAME, getQEBenefitName ());
+		tEffectElement.setAttribute (AN_PRIVATE_ID, privateID);
+		tEffectElement.setAttribute (AN_BENEFIT_NAME, qeBenefitName);
 
 		return tEffectElement;
 	}
