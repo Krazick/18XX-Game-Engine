@@ -47,6 +47,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.SetPercentBoughtAction;
+import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
@@ -1347,7 +1348,7 @@ public class PlayerManager implements XMLSaveGameI {
 		}
 	}
 
-	private void handlePrivateExchange (Player aPlayer, Certificate aCertificate, Corporation aCorporation) {
+	public void handlePrivateExchange (Player aPlayer, Certificate aCertificate, Corporation aCorporation) {
 		Certificate tCertificate;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
@@ -2019,5 +2020,29 @@ public class PlayerManager implements XMLSaveGameI {
 			aFormationRoundAction.addUpdateCertificateLimitEffect (tPlayer, tOldCertificateLimit,
 							tNewCertificateLimit);
 		}
+	}
+
+	public SetWaitStateAction tellOthersToWait (Player aPlayer) {
+		SetWaitStateAction tResetWaitStateAction;
+		SetWaitStateAction tSetWaitStateAction;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+
+		tRoundType = ActorI.ActionStates.OperatingRound;
+		tRoundID = gameManager.getOperatingRoundID ();
+		for (Player tPlayer : players) {
+			if (tPlayer != aPlayer) {
+				System.out.println ("Tell player " + tPlayer.getName () + 
+						" Time to wait for " + aPlayer.getName ());
+			}
+		}
+		tSetWaitStateAction = new SetWaitStateAction (tRoundType, tRoundID, aPlayer);
+//		aPlayer.setAllWaitStateEffects (tSetWaitStateAction);
+//		gameManager.addAction (tSetWaitStateAction);
+		tResetWaitStateAction = new SetWaitStateAction (tSetWaitStateAction);
+//		tResetWaitStateAction.resetPlayerStatesAfterWait (tSetWaitStateAction);
+//		tResetWaitStateAction.setChainToPrevious (true);
+
+		return tResetWaitStateAction;
 	}
 }
