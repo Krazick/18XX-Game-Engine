@@ -8,13 +8,13 @@ import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
 import ge18xx.round.action.effects.ToEffect;
 
-public class ExchangeQueryFrame extends QueryFrame {
+public class QueryExchangeFrame extends QueryFrame {
 	private static final long serialVersionUID = 1L;
-	public static final String NAME = "QUERY EXCHANGE";
+	public static final String NAME = "Query Exchange";
 	public static final String BASE_TITLE = "Query Exchange";
 	String actionText;
 
-	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
+	public QueryExchangeFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super (aRoundManager, aToEffect);
 		String tFrameTitle;
 		GameManager tGameManager;
