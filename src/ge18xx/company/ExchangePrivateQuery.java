@@ -20,8 +20,12 @@ public class ExchangePrivateQuery extends QueryOffer {
 	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, ActionStates aOldState,
 			Corporation aPrivateCompany, String aBenefitName) {
 		super (aItemName, aFromActorName, aToActorName, aOldState);
+		
+		String tPrivateAbbrev;
+		
+		tPrivateAbbrev = aPrivateCompany.getAbbrev ();
 		setPrivateCompany (aPrivateCompany);
-		setPrivateAbbrev (aPrivateCompany.getAbbrev ());
+		setPrivateAbbrev (tPrivateAbbrev);
 		setBenefitName (aBenefitName);
 	}
 
@@ -35,6 +39,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 
 	public ExchangePrivateQuery (XMLNode aChildNode, GameManager aGameManager) {
 		super (aChildNode, aGameManager);
+		
 		String tPrivateAbbrev;
 		String tBenefitName;
 		Corporation tPrivateCompany;

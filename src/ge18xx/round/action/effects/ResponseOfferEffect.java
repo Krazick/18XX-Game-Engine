@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.ExchangeQueryFrame;
+import ge18xx.company.QueryExchangeFrame;
 import ge18xx.company.PurchasePrivateOffer;
 import ge18xx.company.PurchaseTrainOffer;
 import ge18xx.company.QueryOffer;
@@ -120,7 +120,7 @@ public class ResponseOfferEffect extends ToEffect {
 			tItem = " to buy " + itemName + " " + itemType;
 			tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
 					+ tTextResponse;
-		} else if (itemType.equals (ExchangeQueryFrame.NAME)) {
+		} else if (itemType.equals (QueryExchangeFrame.NAME)) {
 
 			tItem = tDoes_DoesNot +  itemName;
 			tFullReport = REPORT_PREFIX + tItem;
