@@ -48,10 +48,12 @@ public class ToEffect extends Effect {
 		ActorI tToActor;
 
 		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-		tToNickName = aEffectNode.getThisAttribute (AN_TO_NICK_NAME);
-		tToActor = aGameManager.getActor (tToActorName);
-		setToActor (tToActor);
-		setToNickName (tToNickName);
+		if (tToActorName != GUI.NULL_STRING) {
+			tToNickName = aEffectNode.getThisAttribute (AN_TO_NICK_NAME);
+			tToActor = aGameManager.getActor (tToActorName);
+			setToActor (tToActor);
+			setToNickName (tToNickName);
+		}
 	}
 
 	public String getToNickName () {
