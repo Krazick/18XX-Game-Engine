@@ -12,7 +12,7 @@ import geUtilities.xml.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
 	public static final String NAME = "Set Wait State";
-	ActorI toActor;
+//	ActorI toActor;
 
 	public SetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
@@ -24,28 +24,28 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		setName (NAME);
 	}
 
-	public void setToActor (ActorI aToActor) {
-		toActor = aToActor;
-	}
-
-	public ActorI getToActor () {
-		return toActor;
-	}
+//	public void setToActor (ActorI aToActor) {
+//		toActor = aToActor;
+//	}
+//
+//	public ActorI getToActor () {
+//		return toActor;
+//	}
 
 	public SetWaitStateEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 
-		String tActorName;
-		ActorI tActor;
+//		String tActorName;
+//		ActorI tActor;
 
 		setName (NAME);
-		tActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-		tActor = aGameManager.getActor (tActorName, false);
-		if (tActor == ActorI.NO_ACTOR) {
-			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
-		} else {
-			setToActor (tActor);
-		}
+//		tActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
+//		tActor = aGameManager.getActor (tActorName, false);
+//		if (tActor == ActorI.NO_ACTOR) {
+//			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
+//		} else {
+//			setToActor (tActor);
+//		}
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, toActor.getName ());
+//		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, toActor.getName ());
 
 		return tEffectElement;
 	}
@@ -66,7 +66,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 
 		if (actor != ActorI.NO_ACTOR) {
 			if (actor.isAPlayer ()) {
-				tEffectReport = buildBasicReport (tEffectReport);
+				tEffectReport += buildBasicReport (tEffectReport);
 			}
 		} else {
 			tEffectReport += " Actor within Action is not defined";
@@ -128,5 +128,4 @@ public class SetWaitStateEffect extends StateChangeEffect {
 
 		return tEffectUndone;
 	}
-
 }

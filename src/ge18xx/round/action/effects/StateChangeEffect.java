@@ -12,7 +12,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class StateChangeEffect extends Effect {
+public class StateChangeEffect extends ToEffect {
 	public static final AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");
 	public static final AttributeName AN_NEW_STATE = new AttributeName ("newState");
 	public static final String NAME = "State Change";
