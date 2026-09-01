@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.ExchangeQueryFrame;
+import ge18xx.company.QueryExchangeFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.QueryExchangeBenefit;
@@ -49,7 +49,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 
 		tPrivateID = aEffectNode.getThisIntAttribute (AN_PRIVATE_ID);
 		setPrivateCompanyID (tPrivateID);
-		tQEBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
+		tQEBenefitName = aEffectNode.getThisAttribute (AN_QEBENEFIT_NAME);
 		setQEBenefitName (tQEBenefitName);
 		tCorporation = aGameManager.getCorporationByID (tPrivateID);
 		if (tCorporation.isAPrivateCompany ()) {
@@ -69,7 +69,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_PRIVATE_ID, privateID);
-		tEffectElement.setAttribute (AN_BENEFIT_NAME, qeBenefitName);
+		tEffectElement.setAttribute (AN_QEBENEFIT_NAME, qeBenefitName);
 
 		return tEffectElement;
 	}
@@ -110,13 +110,13 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		String tToPlayerName;
-		ExchangeQueryFrame tExchangeQueryFrame;
+		QueryExchangeFrame tExchangeQueryFrame;
 
 		tEffectApplied = false;
 		tToPlayerName = toActor.getName ();
 		if (aRoundManager.isNetworkAndIsThisClient (tToPlayerName)) {
 			if (queryExchangeBenefit != Benefit.NO_BENEFIT) {
-				tExchangeQueryFrame = new ExchangeQueryFrame (aRoundManager, this);
+				tExchangeQueryFrame = new QueryExchangeFrame (aRoundManager, this);
 				tExchangeQueryFrame.setVisible (true);
 				tEffectApplied = true;
 			}
