@@ -118,13 +118,13 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tPlayerOldState = tCurrentPlayer.getPrimaryActionState ();
 		tPresidentName = aPrivatePresident.getName ();
 		tCurrentPlayerName = tCurrentPlayer.getName ();
-		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayerName,
+		exchangePrivateQuery = new ExchangePrivateQuery ("Exchange Private Benefit", tCurrentPlayerName,
 				tPresidentName, tPlayerOldState, privateCompany, NAME);
 		aPrivatePresident.setQueryOffer (exchangePrivateQuery);
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
 		tPlayerNewState = tCurrentPlayer.getPrimaryActionState ();
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, aPrivatePresident);
-		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (aPrivatePresident, aPrivatePresident, privateCompany, this);
+		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPrivatePresident, privateCompany, this);
 		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tPlayerOldState, tPlayerNewState);
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);

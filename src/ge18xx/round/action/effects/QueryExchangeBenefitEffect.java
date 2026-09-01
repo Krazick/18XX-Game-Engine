@@ -74,6 +74,27 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		return tEffectElement;
 	}
 
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		String tToActorName;
+		String tEffectReport;
+		String tBenefitLabel;
+		
+		tToActorName = getToActorName ();
+		
+		// Effect: Does David wish to exercise the Query Exchange Benefit to Exchange M&H for 10% of NYC
+		if (privateCompany.isAPrivateCompany ()) {
+			tBenefitLabel = queryExchangeBenefit.getNewButtonLabel ();
+			tEffectReport = REPORT_PREFIX + "Does " + tToActorName + " wish to exercise the "
+					+ NAME + " to " + tBenefitLabel;
+		} else {
+			tEffectReport = REPORT_PREFIX + " for " + tToActorName + " to Exchange " + 
+					privateCompany.getAbbrev () + " Private for a Share Company";
+		}
+		
+		return tEffectReport;
+	}
+	
 	public void setPrivateCompany (Corporation aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}

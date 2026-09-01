@@ -17,8 +17,8 @@ public class ExchangePrivateQuery extends QueryOffer {
 	String privateAbbrev;
 	String benefitName;
 
-	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, ActionStates aOldState,
-			Corporation aPrivateCompany, String aBenefitName) {
+	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, 
+			ActionStates aOldState, Corporation aPrivateCompany, String aBenefitName) {
 		super (aItemName, aFromActorName, aToActorName, aOldState);
 		
 		String tPrivateAbbrev;

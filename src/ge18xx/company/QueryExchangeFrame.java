@@ -4,7 +4,7 @@ import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ResponseOfferAction;
+import ge18xx.round.action.ResponseToOfferAction;
 import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
 import ge18xx.round.action.effects.ToEffect;
 
@@ -43,8 +43,8 @@ public class QueryExchangeFrame extends QueryFrame {
 	}
 
 	@Override
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
+	protected void addResponseToOfferEffect (ResponseToOfferAction aResponseToOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
-		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, NAME, actionText);
+		aResponseToOfferAction.addResponseToOfferEffect (aFromActor, aToActor, aResponse, NAME, actionText);
 	}
 }

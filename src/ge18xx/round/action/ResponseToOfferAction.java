@@ -2,19 +2,19 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.ResponseOfferEffect;
+import ge18xx.round.action.effects.ResponseToOfferEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import geUtilities.xml.XMLNode;
 
-public class ResponseOfferAction extends QueryActorAction {
+public class ResponseToOfferAction extends QueryActorAction {
 	public static final String NAME = "Response To Offer";
 
-	public ResponseOfferAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public ResponseToOfferAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public ResponseOfferAction (XMLNode aActionNode, GameManager aGameManager) {
+	public ResponseToOfferAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
@@ -28,12 +28,12 @@ public class ResponseOfferAction extends QueryActorAction {
 		return tSimpleActionReport;
 	}
 
-	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
+	public void addResponseToOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
-		ResponseOfferEffect tOfferResponseEffect;
+		ResponseToOfferEffect tResponseToOfferEffect;
 
-		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, aResponse, aItemType, aItemName);
-		addEffect (tOfferResponseEffect);
+		tResponseToOfferEffect = new ResponseToOfferEffect (aFromActor, aToActor, aResponse, aItemType, aItemName);
+		addEffect (tResponseToOfferEffect);
 	}
 	
 	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {

@@ -17,7 +17,7 @@ import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.ResponseOfferAction;
+import ge18xx.round.action.ResponseToOfferAction;
 import ge18xx.round.action.effects.ToEffect;
 import geUtilities.GUI;
 import swingTweaks.KButton;
@@ -135,15 +135,15 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand.equals (ACCEPT_OFFER)) {
-			sendOfferResponseAction (true);
+			sendResponseToOfferAction (true);
 		}
 		if (tActionCommand.equals (REJECT_OFFER)) {
-			sendOfferResponseAction (false);
+			sendResponseToOfferAction (false);
 		}
 	}
 
-	public void sendOfferResponseAction (boolean aResponse) {
-		ResponseOfferAction tResponseOfferAction;
+	public void sendResponseToOfferAction (boolean aResponse) {
+		ResponseToOfferAction tResponseToOfferAction;
 		ActionStates tRoundType;
 		String tRoundID;
 		ActorI tToActor;
@@ -165,22 +165,22 @@ public class QueryFrame extends JFrame implements ActionListener {
 		// it comes from
 
 		tFromActor = toEffect.getToActor ();
-		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
-		tResponseOfferAction.setChainToPrevious (true);
-		addResponseOfferEffect (tResponseOfferAction, tFromActor, tToActor, aResponse);
+		tResponseToOfferAction = new ResponseToOfferAction (tRoundType, tRoundID, tFromActor);
+		tResponseToOfferAction.setChainToPrevious (true);
+		addResponseToOfferEffect (tResponseToOfferAction, tFromActor, tToActor, aResponse);
 		if (tToActor.isAPlayer ()) {
 			tPlayer = (Player) tToActor;
 			tOldPlayerState = tPlayer.getPrimaryActionState ();
 			tPlayer.setPrimaryActionState (ActorI.ActionStates.Pass);	// Should get the state from before
 			tNewPlayerState = tPlayer.getPrimaryActionState ();
-			tResponseOfferAction.addStateChangeEffect (tToActor, tOldPlayerState, tNewPlayerState);
+			tResponseToOfferAction.addStateChangeEffect (tToActor, tOldPlayerState, tNewPlayerState);
 		}
-		roundManager.addAction (tResponseOfferAction);
+		roundManager.addAction (tResponseToOfferAction);
 
 		setVisible (false);
 	}
 
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
+	protected void addResponseToOfferEffect (ResponseToOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
 	}
 

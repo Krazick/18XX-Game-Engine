@@ -879,6 +879,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		PrivateCompany tPrivate;
 		int tRevenue;
 		String tOperatingRoundID;
+		String tPrivateAbbrev;
 		PortfolioHolderI tOwner;
 		CashHolderI tOwnerCashHolder;
 		PayRevenueAction tPayRevenueAction;
@@ -898,9 +899,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						tPlayer.addCashToDividends (tRevenue, tOperatingRoundID);
 					}
 					aBank.transferCashTo (tOwnerCashHolder, tRevenue);
-					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundState (), tOperatingRoundID,
-							tPrivate);
-					tPayRevenueAction.addPayCashRevenueEffect (aBank, tOwnerCashHolder, tRevenue, tOperatingRoundID);
+					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundState (), 
+							tOperatingRoundID, tPrivate);
+					tPrivateAbbrev = tPrivate.getAbbrev ();
+					tPayRevenueAction.addPayCashRevenueEffect (aBank, tOwnerCashHolder, tPrivateAbbrev,
+									tRevenue, tOperatingRoundID);
 					aOperatingRound.addAction (tPayRevenueAction);
 				}
 			}

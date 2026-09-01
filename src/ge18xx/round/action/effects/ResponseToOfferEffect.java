@@ -16,7 +16,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
-public class ResponseOfferEffect extends ToEffect {
+public class ResponseToOfferEffect extends ToEffect {
 	public static final String NAME = "Response To Offer";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
@@ -25,15 +25,15 @@ public class ResponseOfferEffect extends ToEffect {
 	String itemType;
 	String itemName;
 
-	public ResponseOfferEffect () {
+	public ResponseToOfferEffect () {
 		this (NAME);
 	}
 
-	public ResponseOfferEffect (String aName) {
+	public ResponseToOfferEffect (String aName) {
 		super (aName);
 	}
 
-	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
+	public ResponseToOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
 		super (NAME, aFromActor, aToActor);
 
@@ -42,7 +42,7 @@ public class ResponseOfferEffect extends ToEffect {
 		setItemName (aItemName);
 	}
 
-	public ResponseOfferEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public ResponseToOfferEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 
@@ -122,7 +122,7 @@ public class ResponseOfferEffect extends ToEffect {
 					+ tTextResponse;
 		} else if (itemType.equals (QueryExchangeFrame.NAME)) {
 
-			tItem = tDoes_DoesNot +  itemName;
+			tItem = tToActorName + tDoes_DoesNot +  itemName;
 			tFullReport = REPORT_PREFIX + tItem;
 		} else {
 			tFullReport = REPORT_PREFIX + " NOTHING TO REPORT.";
@@ -163,7 +163,7 @@ public class ResponseOfferEffect extends ToEffect {
 
 		tEffectApplied = false;
 
-		// TODO: Major refactoring of this class... here on down, it is very busy
+		// TODO: Major refactoring of this class needed ... here on down, it is very busy
 		tClientUserName = aRoundManager.getClientUserName ();
 		tToActor = getToActor ();
 		tFromActor = getActor ();
@@ -197,7 +197,8 @@ public class ResponseOfferEffect extends ToEffect {
 				tEffectApplied = true;
 			} else {
 				if (tToPlayer != Player.NO_PLAYER) {
-					tQueryOffer = tToPlayer.getQueryOffer ();
+					tFromPlayer = (Player) tFromActor;
+					tQueryOffer = tFromPlayer.getQueryOffer ();
 					tOldStatus = tQueryOffer.getOldStatus ();
 					tToPlayer.setPrimaryActionState (tOldStatus);
 					if (response) {

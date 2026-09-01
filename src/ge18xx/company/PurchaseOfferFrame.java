@@ -3,7 +3,7 @@ package ge18xx.company;
 import ge18xx.bank.Bank;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ResponseOfferAction;
+import ge18xx.round.action.ResponseToOfferAction;
 import ge18xx.round.action.effects.PurchaseOfferEffect;
 
 public class PurchaseOfferFrame extends QueryFrame {
@@ -61,8 +61,8 @@ public class PurchaseOfferFrame extends QueryFrame {
 	}
 
 	@Override
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
+	protected void addResponseToOfferEffect (ResponseToOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
-		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, itemType, itemName);
+		aResponseOfferAction.addResponseToOfferEffect (aFromActor, aToActor, aResponse, itemType, itemName);
 	}
 }

@@ -28,10 +28,10 @@ import ge18xx.round.action.ActorI;
 
 @DisplayName ("Response to Offer Effect Constructor Tests")
 public class ResponseOfferEffectTestConstructor {
-	ResponseOfferEffect effectAlpha;
-	ResponseOfferEffect effectBeta;
-	ResponseOfferEffect effectChi;
-	ResponseOfferEffect effectEpsilon;
+	ResponseToOfferEffect effectAlpha;
+	ResponseToOfferEffect effectBeta;
+	ResponseToOfferEffect effectChi;
+	ResponseToOfferEffect effectEpsilon;
 	ShareCompany companyBeta;
 	TrainCompany companyGamma;
 	Player mPlayerActorAlpha;
@@ -84,7 +84,7 @@ public class ResponseOfferEffectTestConstructor {
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
 
-		effectAlpha = new ResponseOfferEffect ();
+		effectAlpha = new ResponseToOfferEffect ();
 		
 		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
 		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
@@ -100,14 +100,14 @@ public class ResponseOfferEffectTestConstructor {
 		certificate = companyBeta.getCertificate (20, true);
 		tGammaPortfolio.addCertificate (certificate);
 
-		effectAlpha = new ResponseOfferEffect ();
+		effectAlpha = new ResponseToOfferEffect ();
 		tResponse = true;
 		tItemType = "Private";
 		tItemName = certificate.getCompanyName ();
-		effectBeta = new ResponseOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
+		effectBeta = new ResponseToOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
 		tResponse = false;
-		effectChi = new ResponseOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
-		effectEpsilon = new ResponseOfferEffect (companyBeta, mPlayerActorDelta, tResponse, tItemType, tItemName);
+		effectChi = new ResponseToOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
+		effectEpsilon = new ResponseToOfferEffect (companyBeta, mPlayerActorDelta, tResponse, tItemType, tItemName);
 	}
 
 	@Test
