@@ -30,7 +30,6 @@ public class ExchangeBenefit extends CertificateBenefit {
 		tConvertOnClose = aXMLNode.getThisBooleanAttribute (AN_CONVERT_ON_CLOSE);
 		setConvertOnClose (tConvertOnClose);
 		setName (NAME);
-
 	}
 
 	private void setConvertOnClose (boolean aConvertOnClose) {
@@ -44,6 +43,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
+		
 		KButton tExchangeButton;
 
 		if (shouldConfigure ()) {
