@@ -11,15 +11,6 @@ import geUtilities.xml.XMLNode;
 public class QueryExchangeBenefitAction extends Action {
 	public static final String NAME = "Query Exchange Benefit";
 
-	public QueryExchangeBenefitAction () {
-		super ();
-		setName (NAME);
-	}
-
-	public QueryExchangeBenefitAction (String aName) {
-		super (aName);
-	}
-
 	public QueryExchangeBenefitAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
