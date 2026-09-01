@@ -110,13 +110,15 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		String tRoundID;
 		Player tCurrentPlayer;
 		String tPresidentName;
+		String tCurrentPlayerName;
 
 		tRoundType = getRoundState (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
 		tPlayerOldState = tCurrentPlayer.getPrimaryActionState ();
 		tPresidentName = aPrivatePresident.getName ();
-		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tPresidentName,
+		tCurrentPlayerName = tCurrentPlayer.getName ();
+		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayerName,
 				tPresidentName, tPlayerOldState, privateCompany, NAME);
 		aPrivatePresident.setQueryOffer (exchangePrivateQuery);
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
