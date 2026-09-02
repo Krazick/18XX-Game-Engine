@@ -99,10 +99,10 @@ public class ResponseToOfferEffect extends ToEffect {
 
 		if (response) {
 			tTextResponse = "Accepted";
-			tDoes_DoesNot = " does ";
+			tDoes_DoesNot = " does want to ";
 		} else {
 			tTextResponse = "Rejected";
-			tDoes_DoesNot = " does not ";
+			tDoes_DoesNot = " does not want to ";
 		}
 		if (toActor != ActorI.NO_ACTOR) {
 			tToActorName = getToActorName ();
