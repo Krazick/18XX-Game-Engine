@@ -121,8 +121,8 @@ public class ResponseToOfferEffect extends ToEffect {
 			tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
 					+ tTextResponse;
 		} else if (itemType.equals (QueryExchangeFrame.NAME)) {
-
-			tItem = tToActorName + tDoes_DoesNot +  itemName;
+			tActorName = actor.getName ();
+			tItem = tActorName + tDoes_DoesNot +  itemName;
 			tFullReport = REPORT_PREFIX + tItem;
 		} else {
 			tFullReport = REPORT_PREFIX + " NOTHING TO REPORT.";
