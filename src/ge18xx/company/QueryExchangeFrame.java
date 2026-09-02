@@ -16,6 +16,7 @@ public class QueryExchangeFrame extends QueryFrame {
 
 	public QueryExchangeFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super (aRoundManager, aToEffect);
+		
 		String tFrameTitle;
 		GameManager tGameManager;
 
