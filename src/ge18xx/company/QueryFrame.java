@@ -12,12 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.player.Player;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseToOfferAction;
+import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
 import ge18xx.round.action.effects.ToEffect;
 import geUtilities.GUI;
 import swingTweaks.KButton;
@@ -144,6 +146,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 	public void sendResponseToOfferAction (boolean aResponse) {
 		ResponseToOfferAction tResponseToOfferAction;
+		QueryExchangeBenefit tQueryExchangeBenefit;
 		ActionStates tRoundType;
 		String tRoundID;
 		ActorI tToActor;
@@ -176,6 +179,14 @@ public class QueryFrame extends JFrame implements ActionListener {
 			tResponseToOfferAction.addStateChangeEffect (tToActor, tOldPlayerState, tNewPlayerState);
 		}
 		roundManager.addAction (tResponseToOfferAction);
+		
+		if (aResponse) {
+			if (toEffect instanceof QueryExchangeBenefitEffect) {
+				tQueryExchangeBenefit = ((QueryExchangeBenefitEffect) toEffect).getQueryExchangeBenefit ();
+				tQueryExchangeBenefit.handleExchangeCertificate ();
+			}
+		}
+
 		roundManager.updateAllFrames ();
 		setVisible (false);
 	}
