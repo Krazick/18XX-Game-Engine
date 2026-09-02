@@ -176,7 +176,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 			tResponseToOfferAction.addStateChangeEffect (tToActor, tOldPlayerState, tNewPlayerState);
 		}
 		roundManager.addAction (tResponseToOfferAction);
-
+		roundManager.updateAllFrames ();
 		setVisible (false);
 	}
 
