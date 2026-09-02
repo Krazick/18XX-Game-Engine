@@ -153,7 +153,6 @@ public class StateChangeEffect extends ToEffect {
 				tEffectApplied = true;
 			} else if (newState == ActorI.ActionStates.FormationRound) {
 				aRoundManager.startRound (newState);
-//				aRoundManager.setRoundToFormationRound ();
 				tEffectApplied = true;
 			} else {
 				setApplyFailureReason ("The Current State is a Operating Round, New state of " + newState.toString () +
