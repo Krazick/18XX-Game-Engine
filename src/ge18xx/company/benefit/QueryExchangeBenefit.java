@@ -52,10 +52,8 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		GameManager tGameManager;
 		Player tPrivatePresident;
 		Player tCurrentPlayer;
-		String tTitle;
 		boolean tShowQueryDialog;
 		boolean tExchangeApproved;
-		WaitForReponseFrame tWaitForReponseFrame;
 
 		tShowQueryDialog = false;
 		tExchangeApproved = false;
@@ -68,7 +66,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 				tShowQueryDialog = true;
 			} else {
 				tellPlayerToQuery (tGameManager, tPrivatePresident);
-				tTitle = tGameManager.createFrameTitle ("Waiting for a Response");
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
 			tGameManager.updateRoundFrame ();
