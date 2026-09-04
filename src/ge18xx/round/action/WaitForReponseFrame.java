@@ -85,10 +85,6 @@ public class WaitForReponseFrame extends JFrame {
 		while (isWaitingForResponse ()) {
 			try {
 				Thread.sleep (aWaitTime);
-				askingPlayer.setPrimaryActionState (ActorI.ActionStates.Pass);
-				// Added above to abort out of the loop. 
-				// Need to check if a Response for the Wait State Arrived. 
-				// Should Ask
 			} catch (InterruptedException eException) {
 				System.err.println ("Waiting for the Response to Clear - Exception");
 				eException.printStackTrace ();
