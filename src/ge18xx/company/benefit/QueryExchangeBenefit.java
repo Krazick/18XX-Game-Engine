@@ -69,10 +69,9 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			} else {
 				tellPlayerToQuery (tGameManager, tPrivatePresident);
 				tTitle = tGameManager.createFrameTitle ("Waiting for a Response");
-				tWaitForReponseFrame = new WaitForReponseFrame (tTitle, tPrivatePresident, tCurrentPlayer);
-				tWaitForReponseFrame.waitForResponse ();
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
+			tGameManager.updateRoundFrame ();
 		} else {
 			tShowQueryDialog = true;
 		}
@@ -110,11 +109,13 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tPlayerOldState = tCurrentPlayer.getPrimaryActionState ();
 		tPresidentName = aPrivatePresident.getName ();
 		tCurrentPlayerName = tCurrentPlayer.getName ();
+		
 		exchangePrivateQuery = new ExchangePrivateQuery ("Exchange Private Benefit", tCurrentPlayerName,
 				tPresidentName, tPlayerOldState, privateCompany, NAME);
 		aPrivatePresident.setQueryOffer (exchangePrivateQuery);
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
 		tPlayerNewState = tCurrentPlayer.getPrimaryActionState ();
+		
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, aPrivatePresident);
 		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPrivatePresident, privateCompany, this);
 		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tPlayerOldState, tPlayerNewState);
