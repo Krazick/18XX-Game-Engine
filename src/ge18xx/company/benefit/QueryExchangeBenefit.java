@@ -9,7 +9,6 @@ import ge18xx.company.ExchangePrivateQuery;
 import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
-import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
@@ -56,13 +55,11 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		String tTitle;
 		boolean tShowQueryDialog;
 		boolean tExchangeApproved;
-		SetWaitStateAction tResetWaitStateAction;
 		WaitForReponseFrame tWaitForReponseFrame;
 
 		tShowQueryDialog = false;
 		tExchangeApproved = false;
 		tGameManager = privateCompany.getGameManager ();
-		tResetWaitStateAction = (SetWaitStateAction) Action.NO_ACTION;
 
 		if (tGameManager.isNetworkGame ()) {
 			tCurrentPlayer = tGameManager.getCurrentPlayer ();
@@ -70,7 +67,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			if (tCurrentPlayer == tPrivatePresident) {
 				tShowQueryDialog = true;
 			} else {
-				tResetWaitStateAction = tellOthersToWait (tGameManager, tPrivatePresident);
 				tellPlayerToQuery (tGameManager, tPrivatePresident);
 				tTitle = tGameManager.createFrameTitle ("Waiting for a Response");
 				tWaitForReponseFrame = new WaitForReponseFrame (tTitle, tPrivatePresident, tCurrentPlayer);
@@ -85,10 +81,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		}
 		if (tExchangeApproved) {
 		  	handleExchangeCertificate ();
-		}
-		// After handling Query Dialog, then if we have told others to wait, run the reset Wait State Action
-		if (tResetWaitStateAction != (SetWaitStateAction) Action.NO_ACTION) {
-			tGameManager.addAction (tResetWaitStateAction);
 		}
 	}
 
@@ -128,25 +120,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tPlayerOldState, tPlayerNewState);
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
-	}
-
-	/**
-	 * This method will tell all Other Players to move into a Wait State, and return an action that will
-	 * reset these same players to the state they had before being told to Wait.
-	 *
-	 * @param aGameManager The Game Manager, to retrieve info, and add the setWaitAction to be done
-	 * @param aPlayer The Player with the Private that has the Query Exchange Benefit all others should wait
-	 * @return the ResetWaitStateAction to reset the players to the state before they were told to wait.
-	 *
-	 */
-	private SetWaitStateAction tellOthersToWait (GameManager aGameManager, Player aPlayer) {
-		SetWaitStateAction tResetWaitStateAction;
-		PlayerManager tPlayerManager;
-
-		tPlayerManager = aGameManager.getPlayerManager ();
-		tResetWaitStateAction = tPlayerManager.tellOthersToWait (aPlayer);
-		
-		return tResetWaitStateAction;
 	}
 
 	private ActorI.ActionStates getRoundState (GameManager aGameManager) {
