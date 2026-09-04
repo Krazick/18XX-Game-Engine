@@ -263,6 +263,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (! applyingAction ()) {
 			actionManager.addAction (aAction);
 		}
+//		System.out.println ("Action #" + aAction.getNumber () + 
+//				" sent by Client " + gameManager.getClientUserName ());
+
 		gameManager.autoSaveGame ();
 		gameManager.setGameChanged (true);
 	}
