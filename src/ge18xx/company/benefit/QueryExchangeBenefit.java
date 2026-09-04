@@ -14,7 +14,6 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.QueryExchangeBenefitAction;
 import ge18xx.round.action.SetWaitStateAction;
-import ge18xx.round.action.WaitForReponseFrame;
 import geUtilities.xml.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
