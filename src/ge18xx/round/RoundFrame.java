@@ -607,7 +607,7 @@ public class RoundFrame extends XMLFrame {
 		allCorporationsPanel.updateAllCorporationsJPanel ();
 	}
 
-	public void enableActionButton (boolean aEnableActionButton) {
+	public void enableDoButton (boolean aEnableActionButton) {
 		doButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
 			doButton.setToolTipText (GUI.EMPTY_STRING);
@@ -692,14 +692,14 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	private void disablePassButton (String aToolTip) {
+	protected void disablePassButton (String aToolTip) {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (aToolTip);
 		}
 	}
 
-	private void enablePassButton () {
+	protected void enablePassButton () {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setEnabled (true);
 			passButton.setToolTipText (GUI.EMPTY_STRING);
