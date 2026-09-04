@@ -190,6 +190,17 @@ public class RoundTestFactory {
 		
 		return tRoundFrame;
 	}
+	
+	public RoundFrame buildRoundFrameButtons (GameManager aGameManager, RoundManager aRoundManager) {
+		RoundFrame tRoundFrame;
+		String tTitle;
+		
+		tTitle = "RoundTestFactory Title";
+
+		tRoundFrame = new RoundFrame (aRoundManager);
+		
+		return tRoundFrame;
+	}
 
 	public RoundFrame buildRoundFrameMock () {
 		RoundFrame mRoundFrame;
