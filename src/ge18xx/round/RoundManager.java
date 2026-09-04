@@ -528,10 +528,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		roundFrame.setPlayerDoingAction (aPlayerDoingAction);
 	}
 
-	public void setButtonLabel (String aActionButtonLabel) {
-		roundFrame.updateDoButtonText (aActionButtonLabel);
-	}
-
 	@Override
 	public XMLElement addElements (XMLDocument aXMLDocument, ElementName aEN_Type) {
 		XMLElement tXMLElement;
@@ -1435,21 +1431,27 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void updateActionLabel (Corporation aCorporation) {
-		String tDoActionLabel;
+		String tDoActionText;
+		String tPresidentName;
 		
-		tDoActionLabel = "DO THIS COMPANY";
+		tDoActionText = "DO THIS COMPANY";
 		if (aCorporation.shouldOperate ()) {
-			tDoActionLabel = aCorporation.getDoLabel ();
+			tDoActionText = aCorporation.getDoText ();
 		}
 		if (aCorporation.isOperating ()) {
-			tDoActionLabel = aCorporation.getOperatingLabel ();
+			tDoActionText = aCorporation.getOperatingLabel ();
 		}
-		setButtonLabel (tDoActionLabel);
-		if (isNetworkAndIsThisClient (aCorporation.getPresidentName ())) {
+		updateDoButtonText (tDoActionText);
+		tPresidentName = aCorporation.getPresidentName ();
+		if (isNetworkAndIsThisClient (tPresidentName)) {
 			enableActionButton (true);
 		} else {
 			enableActionButton (false);
 		}
+	}
+
+	public void updateDoButtonText (String aDoButtonText) {
+		roundFrame.updateDoButtonText (aDoButtonText);
 	}
 
 	public boolean isNetworkAndIsThisClient (String aClientName) {

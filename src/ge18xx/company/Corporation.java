@@ -1151,7 +1151,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 * @return String with the full specification to set to the Action Button Label
 	 *
 	 */
-	public String getDoLabel () {
+	public String getDoText () {
 		String tLabel;
 		String tActionVerb;
 

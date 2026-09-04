@@ -345,7 +345,7 @@ class CorporationBasicTests {
 	@DisplayName ("Test base Get Methods")
 	void corporationGetMethodsTest () {
 		assertEquals (-1, corporation.getCurrentValue ());
-		assertEquals ("Bank will operate null", corporation.getDoLabel ());
+		assertEquals ("Bank will operate null", corporation.getDoText ());
 		assertEquals ("Bank is operating null", corporation.getOperatingLabel ());
 		assertEquals ("Corporation", corporation.getElementName ().toString ());
 	}
