@@ -1457,7 +1457,7 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void enableActionButton (boolean aEnableActionButton) {
-		roundFrame.enableActionButton (aEnableActionButton);
+		roundFrame.enableDoButton (aEnableActionButton);
 	}
 
 	public int getTotalCash () {
