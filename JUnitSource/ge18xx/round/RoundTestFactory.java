@@ -193,9 +193,9 @@ public class RoundTestFactory {
 	
 	public RoundFrame buildRoundFrameButtons (GameManager aGameManager, RoundManager aRoundManager) {
 		RoundFrame tRoundFrame;
-		String tTitle;
-		
-		tTitle = "RoundTestFactory Title";
+//		String tTitle;
+//		
+//		tTitle = "RoundTestFactory Title";
 
 		tRoundFrame = new RoundFrame (aRoundManager);
 		
