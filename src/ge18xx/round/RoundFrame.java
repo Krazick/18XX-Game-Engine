@@ -84,6 +84,10 @@ public class RoundFrame extends XMLFrame {
 	String currentRoundOf;
 	RoundManager roundManager;
 
+	public RoundFrame (RoundManager aRoundManager) {
+		setRoundManager (aRoundManager);
+	}
+	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
 
@@ -300,7 +304,7 @@ public class RoundFrame extends XMLFrame {
 		roundInfoJPanel.add (Box.createVerticalStrut (aStrutSize));
 	}
 
-	private void buildButtonsJPanel () {
+	protected void buildButtonsJPanel () {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
