@@ -156,4 +156,14 @@ public class PlayerTestFactory {
 		
 		return tContractLine;
 	}
+	
+	
+	public PlayerFrame buildPlayerFrameMock () {
+		PlayerFrame mPlayerFrame;
+		
+		mPlayerFrame = Mockito.mock (PlayerFrame.class);
+		
+		return mPlayerFrame;
+	}
+
 }
