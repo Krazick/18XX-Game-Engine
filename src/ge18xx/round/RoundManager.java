@@ -1431,23 +1431,27 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void updateActionLabel (Corporation aCorporation) {
-		String tDoActionText;
+		String tDoButtonText;
 		String tPresidentName;
 		
-		tDoActionText = "DO THIS COMPANY";
+		tDoButtonText = "DO THIS COMPANY";
 		if (aCorporation.shouldOperate ()) {
-			tDoActionText = aCorporation.getDoText ();
+			tDoButtonText = aCorporation.getDoText ();
 		}
 		if (aCorporation.isOperating ()) {
-			tDoActionText = aCorporation.getOperatingLabel ();
+			tDoButtonText = aCorporation.getOperatingLabel ();
 		}
-		updateDoButtonText (tDoActionText);
+		updateDoButtonText (tDoButtonText);
 		tPresidentName = aCorporation.getPresidentName ();
 		if (isNetworkAndIsThisClient (tPresidentName)) {
-			enableActionButton (true);
+			enableDoButton (true);
 		} else {
-			enableActionButton (false);
+			enableDoButton (false);
 		}
+	}
+
+	public void enableDoButton (boolean aEnableActionButton) {
+		roundFrame.enableDoButton (aEnableActionButton);
 	}
 
 	public void updateDoButtonText (String aDoButtonText) {
@@ -1456,10 +1460,6 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 
 	public boolean isNetworkAndIsThisClient (String aClientName) {
 		return gameManager.notIsNetworkAndIsThisClient (aClientName);
-	}
-
-	public void enableActionButton (boolean aEnableActionButton) {
-		roundFrame.enableDoButton (aEnableActionButton);
 	}
 
 	public int getTotalCash () {
