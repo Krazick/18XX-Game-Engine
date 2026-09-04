@@ -12,7 +12,6 @@ import geUtilities.xml.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
 	public static final String NAME = "Set Wait State";
-//	ActorI toActor;
 
 	public SetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
@@ -24,28 +23,10 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		setName (NAME);
 	}
 
-//	public void setToActor (ActorI aToActor) {
-//		toActor = aToActor;
-//	}
-//
-//	public ActorI getToActor () {
-//		return toActor;
-//	}
-
 	public SetWaitStateEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 
-//		String tActorName;
-//		ActorI tActor;
-
 		setName (NAME);
-//		tActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-//		tActor = aGameManager.getActor (tActorName, false);
-//		if (tActor == ActorI.NO_ACTOR) {
-//			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
-//		} else {
-//			setToActor (tActor);
-//		}
 	}
 
 	@Override
@@ -53,7 +34,6 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-//		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, toActor.getName ());
 
 		return tEffectElement;
 	}
