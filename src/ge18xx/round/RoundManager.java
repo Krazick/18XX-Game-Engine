@@ -1444,14 +1444,14 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		updateDoButtonText (tDoButtonText);
 		tPresidentName = aCorporation.getPresidentName ();
 		if (isNetworkAndIsThisClient (tPresidentName)) {
-			enableDoButton (true);
+			if (isCurrentPlayerWaiting ()) {
+				roundFrame.disableDoButton (RoundFrame.IS_WAITING);
+			} else {
+				roundFrame.enableDoButton ();
+			}
 		} else {
-			enableDoButton (false);
+			roundFrame.disableDoButton (RoundFrame.YOU_ARE_NOT_PRESIDENT);
 		}
-	}
-
-	public void enableDoButton (boolean aEnableActionButton) {
-		roundFrame.enableDoButton (aEnableActionButton);
 	}
 
 	public void updateDoButtonText (String aDoButtonText) {
@@ -1515,6 +1515,16 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		tCurrentPlayer.doneAction ();
 	}
 
+	public boolean isCurrentPlayerWaiting () {
+		boolean tIsCurrentPlayerWaiting;
+		Player tCurrentPlayer;
+		
+		tCurrentPlayer = gameManager.getCurrentPlayer ();
+		tIsCurrentPlayerWaiting = tCurrentPlayer.isWaitingForResponse ();
+		
+		return tIsCurrentPlayerWaiting;
+	}
+	
 	public int getLastActionIndex () {
 		return actionManager.getLastActionIndex ();
 	}
