@@ -41,14 +41,13 @@ public class RoundFrame extends XMLFrame {
 	private static final String CREATING_CONTRACT_BID_ACTION = " is creating Contract Bid Action";
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
-	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
-	private static final String IS_WAITING = "You are in a Wait State";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
 	private static final String IS_CONTRACT_BID_ROUND = "It is an Contract Bid Round, can't Pass";
 	private static final String IS_FORMATION_ROUND = "It is an Formation Round, can't Pass";
-	public static final XMLFrame NO_ROUND_FRAME = null;
+	public static final String IS_WAITING = "You are in a Wait State";
+	public static final String YOU_ARE_NOT_PRESIDENT = "You are not the President of the Company";
 	public static final String BASE_TITLE = "Round";
 	public static final String TOTAL_CASH = "Total Cash: ";
 	public static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
@@ -59,6 +58,7 @@ public class RoundFrame extends XMLFrame {
 	public static final String PLAYER_CONTRACT_BID_ACTION = "DoPlayerContractBidAction";
 	public static final String PLAYER_FORMATION_ACTION = "DoPlayerFormationAction";
 	public static final String CORPORATION_ACTION = "DoCorporationAction";
+	public static final XMLFrame NO_ROUND_FRAME = null;
 	JPanel roundJPanel;
 	JPanel allCorporationsJPanel;
 	JPanel buttonsJPanel;
@@ -371,16 +371,6 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	private void addButtonAndSpace (JPanel aButtonPanel, KButton aButton) {
-		aButtonPanel.add (aButton);
-		aButtonPanel.add (Box.createHorizontalStrut (20));
-	}
-
-	private void updateDoButton (String aButtonLabel, String aActionCommand) {
-		updateDoButtonText (aButtonLabel);
-		doButton.setActionCommand (aActionCommand);
-	}
-
 	public void setCurrentPlayerText (String aPlayerName) {
 		String tDoButtonText;
 		String tClientName;
@@ -395,6 +385,12 @@ public class RoundFrame extends XMLFrame {
 				tDoButtonText = aPlayerName + DOING_STOCK_ACTION;
 			} else {
 				tDoButtonText = aPlayerName + DO_STOCK_ACTION;
+			}
+		} else if (tCurrentRound.isAOperatingRound ()) {
+			if (roundManager.isCurrentPlayerWaiting ()) {
+				tDoButtonText = IS_WAITING;
+			} else {
+				tDoButtonText = DO_NO_PLAYER_ACTION;
 			}
 		} else if (tCurrentRound.isAContractBidRound ()) {
 			if (tCurrentRound.isConcurrent ()) {
@@ -426,7 +422,7 @@ public class RoundFrame extends XMLFrame {
 			tDoButtonText = DO_NO_PLAYER_ACTION;
 		}
 		updateDoButtonText (tDoButtonText);
-		setActionForCurrentPlayer ();
+		updateDoButton ();
 		updatePassButton ();
 	}
 
@@ -559,7 +555,17 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	public void setActionForCurrentPlayer () {
+	private void addButtonAndSpace (JPanel aButtonPanel, KButton aButton) {
+		aButtonPanel.add (aButton);
+		aButtonPanel.add (Box.createHorizontalStrut (20));
+	}
+
+	private void updateDoButton (String aButtonLabel, String aActionCommand) {
+		updateDoButtonText (aButtonLabel);
+		doButton.setActionCommand (aActionCommand);
+	}
+
+	public void updateDoButton () {
 		String tClientUserName;
 		String tCurrentPlayerName;
 		GameManager tGameManager;
@@ -576,22 +582,33 @@ public class RoundFrame extends XMLFrame {
 				if (tCurrentRound.isAStockRound ()) {
 					if (tCurrentPlayerName.equals (tClientUserName)) {
 						if (tCurrentPlayer.isWaiting ()) {
-							doButton.setEnabled (false);
-							doButton.setToolTipText (IS_WAITING);
+							disableDoButton (IS_WAITING);
+//							doButton.setEnabled (false);
+//							doButton.setToolTipText (IS_WAITING);
 						} else {
-							doButton.setEnabled (true);
-							doButton.setToolTipText (GUI.EMPTY_STRING);
+							enableDoButton ();
+//							doButton.setEnabled (true);
+//							doButton.setToolTipText (GUI.EMPTY_STRING);
 						}
 					} else {
-						doButton.setEnabled (false);
-						doButton.setToolTipText (NOT_YOUR_TURN);
+						disableDoButton (NOT_YOUR_TURN);
+//						doButton.setEnabled (false);
+//						doButton.setToolTipText (NOT_YOUR_TURN);
+					}
+				} else if (tCurrentRound.isAOperatingRound ()) {
+					if (tCurrentPlayer.isWaiting ()) {
+						disableDoButton (IS_WAITING);
+					} else {
+						enableDoButton ();
 					}
 				} else if (tCurrentRound.isAContractBidRound ()) {
-					doButton.setEnabled (true);
-					doButton.setToolTipText (GUI.EMPTY_STRING);
+					enableDoButton ();
+//					doButton.setEnabled (true);
+//					doButton.setToolTipText (GUI.EMPTY_STRING);
 				} else {
-					doButton.setEnabled (true);
-					doButton.setToolTipText (GUI.EMPTY_STRING);
+					enableDoButton ();
+//					doButton.setEnabled (true);
+//					doButton.setToolTipText (GUI.EMPTY_STRING);
 				}
 			}
 		}
@@ -607,14 +624,32 @@ public class RoundFrame extends XMLFrame {
 		allCorporationsPanel.updateAllCorporationsJPanel ();
 	}
 
-	public void enableDoButton (boolean aEnableActionButton) {
-		doButton.setEnabled (aEnableActionButton);
-		if (aEnableActionButton) {
-			doButton.setToolTipText (GUI.EMPTY_STRING);
-		} else {
-			doButton.setToolTipText (YOU_NOT_PRESIDENT);
+	protected void disablePassButton (String aToolTip) {
+		if (passButton != GUI.NO_BUTTON) {
+			passButton.setEnabled (false);
+			passButton.setToolTipText (aToolTip);
 		}
-		revalidate ();
+	}
+
+	protected void enablePassButton () {
+		if (passButton != GUI.NO_BUTTON) {
+			passButton.setEnabled (true);
+			passButton.setToolTipText (GUI.EMPTY_STRING);
+		}
+	}
+
+	protected void disableDoButton (String aToolTip) {
+		if (doButton != GUI.NO_BUTTON) {
+			doButton.setEnabled (false);
+			doButton.setToolTipText (aToolTip);
+		}
+	}
+
+	protected void enableDoButton () {
+		if (doButton != GUI.NO_BUTTON) {
+			doButton.setEnabled (true);
+			doButton.setToolTipText (GUI.EMPTY_STRING);
+		}
 	}
 	
 	public void updateAll () {
@@ -689,20 +724,6 @@ public class RoundFrame extends XMLFrame {
 	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {
 		if (aJPanel != GUI.NO_PANEL) {
 			aJPanel.setBackground (aBackgroundColor);
-		}
-	}
-
-	protected void disablePassButton (String aToolTip) {
-		if (passButton != GUI.NO_BUTTON) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (aToolTip);
-		}
-	}
-
-	protected void enablePassButton () {
-		if (passButton != GUI.NO_BUTTON) {
-			passButton.setEnabled (true);
-			passButton.setToolTipText (GUI.EMPTY_STRING);
 		}
 	}
 }
