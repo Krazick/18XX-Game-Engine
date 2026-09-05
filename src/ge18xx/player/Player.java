@@ -1399,6 +1399,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return (primaryActionState == ActorI.ActionStates.WaitState);
 	}
 
+	@Override
+	public boolean isWaitingForResponse () {
+		return (primaryActionState == ActorI.ActionStates.WaitingResponse);
+	}
+
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;
 		boolean tIsCurrentPlayer;
