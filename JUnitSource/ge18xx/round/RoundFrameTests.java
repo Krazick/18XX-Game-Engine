@@ -113,9 +113,7 @@ class RoundFrameTests {
 	@DisplayName ("Round Frame Initial Button Tests")
 	void roundFrameButtonTests () {
 		String tDoButtonText;
-//		String tPassButtonText;
 		String tPlayerName;
-		boolean tEnableButton;
 		
 		tDoButtonText = "Player will operate Baltimore & Ohio";
 		assertNull (roundFrame.doButton);
@@ -130,13 +128,11 @@ class RoundFrameTests {
 		roundFrame.updateDoButtonText (tDoButtonText);
 		assertEquals ("Player will operate Baltimore & Ohio", roundFrame.doButton.getText ());
 
-		tEnableButton = false;
-		roundFrame.enableDoButton (tEnableButton);
+		roundFrame.disableDoButton ("You are not the President of the Company");
 		assertFalse (roundFrame.doButton.isEnabled ());
 		assertEquals ("You are not the President of the Company", roundFrame.doButton.getToolTipText ());
 		
-		tEnableButton = true;
-		roundFrame.enableDoButton (tEnableButton);
+		roundFrame.enableDoButton ();
 		assertTrue (roundFrame.doButton.isEnabled ());
 		assertEquals ("", roundFrame.doButton.getToolTipText ());
 		
