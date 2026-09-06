@@ -19,21 +19,14 @@ import geUtilities.xml.XMLFrame;
 
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
-//	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
-//	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
 	public static final String BASE_TITLE = "Tile Tray";
 	public static final XMLFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
 
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-
+		
 		buildTileTrayScrollPanel ();
-
-		// Width - 92 pixels for each tile, Multiply by # TILES/ROW
-		// Height - 115 Pixels per Row
-		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows
-		// need to show
 	}
 
 	public void updateFrame () {
@@ -106,10 +99,12 @@ public class TileTrayFrame extends XMLFrame {
 
 	public boolean isPlaceTileMode () {
 		GameManager tGameManager;
+		boolean tIsPlaceTileMode;
 		
 		tGameManager = (GameManager) gameEngineManager;
+		tIsPlaceTileMode = tGameManager.isPlaceTileMode ();
 		
-		return tGameManager.isPlaceTileMode ();
+		return tIsPlaceTileMode;
 	}
 
 	public void bringMapToFront () {
