@@ -235,7 +235,14 @@ public class GameTile implements Cloneable {
 	}
 	
 	public boolean isFixedTile () {
-		return tile.isFixedTile ();
+		boolean tIsFixed;
+		
+		tIsFixed = false;
+		if (tile != Tile.NO_TILE) {
+			tIsFixed = tile.isFixedTile ();
+		}
+		
+		return tIsFixed;
 	}
 
 	public boolean isPlayable () {
