@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -37,7 +39,7 @@ import geUtilities.xml.XMLNodeList;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
 
-public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
+public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ComponentListener  {
 	private static final long serialVersionUID = 1L;
 	private static final String NO_CITY_NAME = "";
 	private static final String NO_TILE_SET_NAME = "";
@@ -64,13 +66,16 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	TileTrayFrame tileTrayFrame;
 	int maxWidth;
 	int maxHeight;
+	int tilesPerRow;
 
 	public TileSet (TileTrayFrame aTileTrayFrame) {
 		this (NO_TILE_SET_NAME);
+
 		tileTrayFrame = aTileTrayFrame;
+		tileTrayFrame.addComponentListener (this);
 		setShowAllTiles (false);
 	}
-
+	
 	public void setShowAllTiles (boolean aShowAllTiles) {
 		showAllTiles = aShowAllTiles;
 	}
@@ -931,12 +936,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 
-	public void setScale (int aHexScale) {
-		hex.setScale (aHexScale);
-		setTraySize ();
-		redrawTileTray ();
-	}
-
 	public void setSingleTileSelect (boolean aSelectState) {
 		singleTileSelect = aSelectState;
 		clearAllSelected ();
@@ -983,6 +982,36 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 
+	public void setScale (int aHexScale) {
+		hex.setScale (aHexScale);
+		setSizeAndRedraw ();
+	}
+
+	public void setSizeAndRedraw () {
+		setWidthHeight ();
+		setTraySize ();
+		setWidthHeight ();
+		redrawTileTray ();
+	}
+
+	public void setWidthHeight () {
+		int tWidth;
+		int tHeight;
+		
+		tWidth = tileTrayFrame.getWidth ();
+		tHeight = tileTrayFrame.getHeight ();
+		setMaxWidth (tWidth);
+		setMaxHeight (tHeight);
+	}
+	
+	public void setMaxWidth (int aMaxWidth) {
+		maxWidth = aMaxWidth;
+	}
+	
+	public void setMaxHeight (int aMaxHeight) {
+		maxHeight = aMaxHeight;
+	}
+
 	public int calcRowCount () {
 		int tRowCount;
 		double tTileCount;
@@ -995,22 +1024,44 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tRowCount;
 	}
 
+	public int calcTilesPerRow () {
+		int tTilesPerRow;
+		int tHexWidth;
+		
+		tHexWidth = Hex18XX.getWidth ();
+		tTilesPerRow = Double.valueOf ((maxWidth - 10)/(tHexWidth * 2.25)).intValue ();
+		setTilesPerRow (tTilesPerRow);
+		
+		return tTilesPerRow;
+	}
+	
+	public void setTilesPerRow (int aTilesPerRow) {
+		tilesPerRow = aTilesPerRow;
+	}
+	
 	public int getTilesPerRow () {
-		return TILES_PER_ROW;
+		return tilesPerRow;
 	}
 	
 	public void setTraySize () {
 		int tMaxX;
 		int tMaxY;
 		int tRowCount;
+		int tTilesPerRow;
+		int tHexWidth;
 		Dimension tNewDimension;
 
 		if (hex == Hex18XX.NO_HEX18XX) {
 			setHex (Hex18XX.getDirection ());
 		}
+		
+		tTilesPerRow = calcTilesPerRow ();
 		tRowCount = calcRowCount ();
-		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * getTilesPerRow () + 10).intValue ();
+
+		tHexWidth = Hex18XX.getWidth ();
+		tMaxX = Double.valueOf (tHexWidth * 2.25 * tTilesPerRow + 10).intValue ();
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
+		
 		tNewDimension = new Dimension (tMaxX, tMaxY);
 		if (tileTrayFrame != TileTrayFrame.NO_TILE_TRAY_FRAME) {
 			tileTrayFrame.setScrollPanePSize (tNewDimension);
@@ -1061,4 +1112,25 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public void sortGameTiles () {
 		Collections.sort (gameTiles, GameTile.GameTileComparator);
 	}
+	
+	@Override
+	public void componentResized (ComponentEvent e) {
+		setSizeAndRedraw ();
+	}
+
+	@Override
+	public void componentMoved (ComponentEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void componentShown (ComponentEvent e) {
+		setSizeAndRedraw ();
+	}
+
+	@Override
+	public void componentHidden (ComponentEvent e) {
+		// TODO Auto-generated method stub
+	}
+
 }
