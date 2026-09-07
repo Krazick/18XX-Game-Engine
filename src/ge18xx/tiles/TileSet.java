@@ -959,20 +959,20 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public int getTileCountToShow () {
-		int tileCount;
+		int tTileCount;
 
-		tileCount = 0;
+		tTileCount = 0;
 		if (showAllTiles) {
-			tileCount = gameTiles.size ();
+			tTileCount = gameTiles.size ();
 		} else {
 			for (GameTile tGameTile : gameTiles) {
 				if (!tGameTile.isFixedTile ()) {
-					tileCount++;
+					tTileCount++;
 				}
 			}
 		}
 
-		return tileCount;
+		return tTileCount;
 	}
 
 	public void setValues (String aSetName) {
@@ -1009,24 +1009,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		setTraySize ();
 		redrawTileTray ();
 	}
-
-//	public void setWidthHeight () {
-//		int tWidth;
-//		int tHeight;
-//		
-//		tWidth = tileTrayFrame.getWidth ();
-//		tHeight = tileTrayFrame.getHeight ();
-//		setMaxWidth (tWidth);
-//		setMaxHeight (tHeight);
-//	}
-	
-//	public void setMaxWidth (int aMaxWidth) {
-//		maxWidth = aMaxWidth;
-//	}
-//	
-//	public void setMaxHeight (int aMaxHeight) {
-//		maxHeight = aMaxHeight;
-//	}
 
 	public int calcRowCount () {
 		int tRowCount;
@@ -1150,5 +1132,4 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public void componentHidden (ComponentEvent e) {
 		// TODO Auto-generated method stub
 	}
-
 }
