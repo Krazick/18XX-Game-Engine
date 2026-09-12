@@ -7,7 +7,7 @@
  * 
  * @since 1.0
  * @author Mark J Smith
- * @version
+ * @version 1.0
  * 
  */
 package ge18xx.game.variants;
