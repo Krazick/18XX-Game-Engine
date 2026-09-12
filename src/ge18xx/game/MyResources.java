@@ -25,6 +25,7 @@ public class MyResources extends ListResourceBundle {
 			{ "saveConfigItem", "Save Config" }, { "exitItem", "Exit" },
 			{ "undoItem", "Undo" }, { "cutItem", "Cut" }, { "copyItem", "Copy" }, { "pasteItem", "Paste" },
 			{ "clearItem", "Clear" }, { "selectAllItem", "Select All" }, { "gameMenu", "Game" },
+			
 			// Game Specific Resources
 			{ "MenuItemCount", "14"},
 			{ "message", "18xx Game Engine" },
@@ -43,6 +44,7 @@ public class MyResources extends ListResourceBundle {
 			{ "showChatClientItem", "Show Chat Client" },
 			{ "resendLastActions", "Resend Last Action(s)" },
 			{ "undoLastAction", "Undo Last Action" },
+			
 			{ "frameTitle", "18XX Game Engine" },
 			{ "configDir", "" },
 			{ "iconImage", "images/GE18XX.png" },
