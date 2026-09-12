@@ -2037,7 +2037,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		
 		tCurrentRound = roundManager.getCurrentRound ();
 		if (! tCurrentRound.isAAuctionRound ()) {
-			auctionFrame.setVisible (false); 
+			if (auctionFrame != XMLFrame.NO_XML_FRAME) {
+				auctionFrame.setVisible (false); 
+			}
 		}
 		if (! tCurrentRound.isAContractBidRound ()) {
 			if (contractBidFrame != XMLFrame.NO_XML_FRAME) {
