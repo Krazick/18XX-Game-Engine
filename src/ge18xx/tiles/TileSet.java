@@ -56,7 +56,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	public static final TileSet NO_TILE_SET = null;
-//	public static final int TILES_PER_ROW = 9;
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
 	Hex18XX hex;
@@ -65,8 +64,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 								// should unselect ALL and leave only the single tile selected.
 	GameTile parsedGameTile;
 	TileTrayFrame tileTrayFrame;
-//	int maxWidth;
-//	int maxHeight;
 	int tilesPerRow;
 
 	public TileSet (TileTrayFrame aTileTrayFrame) {
@@ -404,7 +401,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	@Override
 	public void mouseClicked (MouseEvent e) {
-//		handleClick (e);
 	}
 
 	public void handleClick (MouseEvent aMouseEvent) {
@@ -517,6 +513,14 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tShowThisTile;
 	}
 
+	public int hexGetWidth () {
+		int tHexWidth;
+		
+		tHexWidth = Hex.getWidth ();
+		
+		return tHexWidth;
+	}
+	
 	@Override
 	public void paintComponent (Graphics aGraphics) {
 		int tX;
@@ -525,31 +529,31 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tYoffset;
 		int tIndex;
 		int tYNumOffset;
-		int tWidth;
-		int tHeight;
+		int tHexHeight;
+		int tHexWidth;
 		Tile tTile;
 
 		super.paintComponent (aGraphics);
-		tXoffset = Double.valueOf (Hex18XX.getWidth () * 2.25).intValue ();
+		tHexWidth = hexGetWidth ();
+		tXoffset = Double.valueOf (tHexWidth * 2.25).intValue ();
 		tYoffset = hex.getYd () * 2 + 25;
 		tYNumOffset = hex.getYd () + 17;
-		tWidth = Hex18XX.getWidth ();
-		tHeight = hex.getYd () + 5;
-		tX = tXoffset - tWidth;
-		tY = tYoffset - tHeight;
+		tHexHeight = hex.getYd () + 5;
+		tX = tXoffset - tHexWidth;
+		tY = tYoffset - tHexHeight;
 		tIndex = 0;
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.setXY (tX, tY);
 			tTile = tGameTile.getTile ();
 			if (tTile != Tile.NO_TILE) {
 				if (showThisTile (tTile)) {
-					setBackgroundForTile (aGraphics, tX, tY, tWidth, tHeight, tGameTile);
-					drawThisTile (aGraphics, tX, tY, tYNumOffset, tWidth, tHeight, tTile, tGameTile);
+					setBackgroundForTile (aGraphics, tX, tY, tHexWidth, tHexHeight, tGameTile);
+					drawThisTile (aGraphics, tX, tY, tYNumOffset, tHexWidth, tHexHeight, tTile, tGameTile);
 				}
 			}
 			tIndex++;
 			if (tIndex == getTilesPerRow ()) {
-				tX = tXoffset - tWidth;
+				tX = tXoffset - tHexWidth;
 				tY += tYoffset;
 				tIndex = 0;
 			} else {
@@ -877,7 +881,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (tPlayableCount > 0) {
 			redrawTileTray ();
 		}
-
 	}
 
 	public int getAvailableCount (int aTileType, int aMapCellTypeCount, String aTileName) {
@@ -960,12 +963,17 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public int getTileCountToShow () {
 		int tTileCount;
+		int tTotalCount;
+		int tTileIndex;
+		GameTile tGameTile;
 
 		tTileCount = 0;
+		tTotalCount = gameTiles.size ();
 		if (showAllTiles) {
-			tTileCount = gameTiles.size ();
+			tTileCount = tTotalCount;
 		} else {
-			for (GameTile tGameTile : gameTiles) {
+			for (tTileIndex = 0; tTileIndex < tTotalCount; tTileIndex++) {
+				tGameTile = gameTiles.get (tTileIndex);
 				if (!tGameTile.isFixedTile ()) {
 					tTileCount++;
 				}
@@ -1027,7 +1035,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tHexWidth;
 		int tFrameWidth;
 		
-		tHexWidth = Hex18XX.getWidth ();
+		tHexWidth = hexGetWidth ();
 		tFrameWidth = tileTrayFrame.getWidth ();
 		tTilesPerRow = Double.valueOf ((tFrameWidth - 10)/(tHexWidth * 2.25)).intValue ();
 		setTilesPerRow (tTilesPerRow);
@@ -1050,15 +1058,17 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tTilesPerRow;
 		int tHexWidth;
 		Dimension tNewDimension;
+		boolean tHexDirection;
 
 		if (hex == Hex18XX.NO_HEX18XX) {
-			setHex (Hex18XX.getDirection ());
+			tHexDirection = Hex18XX.getDirection ();
+			setHex (tHexDirection);
 		}
 		
 		tTilesPerRow = calcTilesPerRow ();
 		tRowCount = calcRowCount ();
 
-		tHexWidth = Hex18XX.getWidth ();
+		tHexWidth = hexGetWidth ();
 		tMaxX = Double.valueOf (tHexWidth * 2.25 * tTilesPerRow + 10).intValue ();
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		
@@ -1120,7 +1130,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	@Override
 	public void componentMoved (ComponentEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -1130,6 +1139,5 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	@Override
 	public void componentHidden (ComponentEvent e) {
-		// TODO Auto-generated method stub
 	}
 }
