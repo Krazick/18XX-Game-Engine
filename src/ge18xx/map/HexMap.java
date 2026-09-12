@@ -859,7 +859,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
 		tDefaultHexSize = mapFrame.getDefaultHexScale ();
 		if (tDefaultHexSize == 0) {
-			tDefaultHexSize = 8;
+			tDefaultHexSize = Hex.DEFAULT_SCALE;
 		}
 		setHexScale (tDefaultHexSize);
 
