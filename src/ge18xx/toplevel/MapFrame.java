@@ -169,16 +169,11 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	
 	private void buildNorthPanel () {
 		JPanel tNorthPanel;
-
+		JSlider tScaleSlider;
+		
 		tNorthPanel = new JPanel ();
-		hexScaleSlider = new JSlider (SwingConstants.HORIZONTAL, 4, 16, 8);
-		hexScaleSlider.addChangeListener (hexMap);
-
-		// Turn on labels at major tick marks.
-		hexScaleSlider.setMajorTickSpacing (4);
-		hexScaleSlider.setMinorTickSpacing (1);
-		hexScaleSlider.setPaintTicks (true);
-		hexScaleSlider.setPaintLabels (true);
+		tScaleSlider = buildScaleSlider (SwingConstants.HORIZONTAL, hexMap);
+		setHexScaleSlider (tScaleSlider);
 		tNorthPanel.add (hexScaleSlider);
 
 		buildAllButtonsJPanel ();
@@ -194,7 +189,47 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		}
 		add (tNorthPanel, BorderLayout.NORTH);
 	}
+
+	public void setHexScaleSlider (JSlider aJSlider) {
+		hexScaleSlider = aJSlider;
+	}
 	
+//	public JSlider buildScaleSlider (int aSliderOrientation, ChangeListener aSliderListener) {
+//		JSlider tScaleSlider;
+//		
+//		tScaleSlider = new JSlider (aSliderOrientation, 4, 16, 8);
+//		tScaleSlider.addChangeListener (aSliderListener);
+//
+//		// Turn on labels at major tick marks.
+//		tScaleSlider.setMajorTickSpacing (4);
+//		tScaleSlider.setMinorTickSpacing (1);
+//		tScaleSlider.setPaintTicks (true);
+//		tScaleSlider.setPaintLabels (true);
+//		
+//		return tScaleSlider;
+//	}
+	
+	@Override
+	public int getHexScale () {
+		return hexMap.getHexScale ();
+	}
+
+	public void setHexScaleSlider (int aScale) {
+		hexScaleSlider.setValue (aScale);
+	}
+
+	@Override
+	public void setHexScale (int aScale) {
+		hexMap.setHexScale (aScale);
+		setHexScaleSlider (aScale);
+	}
+
+	private void setModes (boolean aTileMode, boolean aTokenMode, boolean aRouteMode) {
+		setSelectRouteMode (aRouteMode);
+		setPlaceTokenMode (aTokenMode);
+		setPlaceTileMode (aTileMode);
+	}
+
 	private void buildOtherButtonsJPanel () {
 		otherButtonsJPanel = new JPanel ();
 		otherButtonsJPanel.setLayout (new BoxLayout (otherButtonsJPanel, BoxLayout.Y_AXIS));
@@ -270,27 +305,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		exitTokenButton = setupButton (CANCEL_MODE_LABEL, CANCEL_TOKEN_MODE, this, Component.CENTER_ALIGNMENT);
 		tokenButtonsJPanel.add (exitTokenButton);
 		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
-	}
-
-	@Override
-	public int getHexScale () {
-		return hexMap.getHexScale ();
-	}
-
-	public void setHexScaleSlider (int aScale) {
-		hexScaleSlider.setValue (aScale);
-	}
-
-	@Override
-	public void setHexScale (int aScale) {
-		hexMap.setHexScale (aScale);
-		setHexScaleSlider (aScale);
-	}
-
-	private void setModes (boolean aTileMode, boolean aTokenMode, boolean aRouteMode) {
-		setSelectRouteMode (aRouteMode);
-		setPlaceTokenMode (aTokenMode);
-		setPlaceTileMode (aTileMode);
 	}
 
 	/**
