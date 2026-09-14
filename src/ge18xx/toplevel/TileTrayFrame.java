@@ -2,6 +2,9 @@ package ge18xx.toplevel;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+
 //  Game_18XX
 //
 //  Created by Mark Smith on 9/3/07.
@@ -9,6 +12,7 @@ import java.awt.BorderLayout;
 //
 
 import ge18xx.game.GameManager;
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -22,14 +26,40 @@ public class TileTrayFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Tile Tray";
 	public static final XMLFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
+	JSlider scaleSlider;
 
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
 		
+		JSlider tScaleSlider;
+		boolean tHexScaleSynchronized;
+		UserPreferencesFrame tUserPreferencesFrame;
+		
 		buildTileTrayScrollPanel ();
+		tScaleSlider = buildScaleSlider (SwingConstants.VERTICAL, tileSet);
+		
+		add (tScaleSlider, BorderLayout.WEST);
+		setScaleSlider (tScaleSlider);
+		tUserPreferencesFrame = aGameManager.getUserPreferencesFrame ();
+		tHexScaleSynchronized = tUserPreferencesFrame.getHexScalesSynchronized ();
+		updateFrame (tHexScaleSynchronized);
 	}
 
-	public void updateFrame () {
+	public void setScaleSlider (JSlider aScaleSlider) {
+		scaleSlider = aScaleSlider;
+	}
+	
+	public boolean scaleSliderIsVisible  () {
+		boolean tScaleSliderIsVisible;
+		
+		tScaleSliderIsVisible = scaleSlider.isVisible ();
+		
+		return tScaleSliderIsVisible;
+	}
+	
+	public void updateFrame (boolean aHexScaleSynchronized) {
+		scaleSlider.setVisible (aHexScaleSynchronized);
+
 		updateFrameTitle (BASE_TITLE);
 	}
 

@@ -16,6 +16,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ge18xx.map.Hex;
 
@@ -40,7 +43,8 @@ import geUtilities.GUI;
 import geUtilities.ParsingRoutine2I;
 import geUtilities.ParsingRoutineI;
 
-public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ComponentListener  {
+public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, 
+						ComponentListener, ChangeListener  {
 	private static final long serialVersionUID = 1L;
 	private static final String NO_CITY_NAME = "";
 	private static final String NO_TILE_SET_NAME = "";
@@ -83,6 +87,27 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		showAllTiles = aShowAllTiles;
 	}
 
+	/** Listen to the slider. */
+	@Override
+	public void stateChanged (ChangeEvent aEvent) {
+		JSlider tSource;
+		int tHexScale;
+		
+		tSource = (JSlider) aEvent.getSource ();
+		if (!tSource.getValueIsAdjusting ()) {
+			tHexScale = tSource.getValue ();
+			setScale (tHexScale);
+		}
+	}
+
+	public boolean scaleSliderIsVisible  () {
+		boolean tScaleSliderIsVisible;
+		
+		tScaleSliderIsVisible = tileTrayFrame.scaleSliderIsVisible ();
+		
+		return tScaleSliderIsVisible;
+	}
+	
 	public boolean addGameTile (GameTile aGameTile) {
 		boolean tAddedGameTile;
 
@@ -516,7 +541,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public int hexGetWidth () {
 		int tHexWidth;
 		
-		tHexWidth = Hex.getWidth ();
+		tHexWidth = hex.getHexWidth ();
 		
 		return tHexWidth;
 	}
