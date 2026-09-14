@@ -69,6 +69,10 @@ public class Hex {
 		return direction;
 	}
 
+	public boolean getHexDirection () {
+		return direction;
+	}
+	
 	public int bottomEdgeDisplacement () {
 		return getMaxY ();
 	}
@@ -884,11 +888,19 @@ public class Hex {
 		return scale;
 	}
 
+	public int getHexScale () {
+		return scale;
+	}
+	
 	public int getTrackWidth () {
 		return trackWidth;
 	}
 
 	public static int getWidth () {
+		return (Double.valueOf (dwidth).intValue ());
+	}
+
+	public int getHexWidth () {
 		return (Double.valueOf (dwidth).intValue ());
 	}
 
