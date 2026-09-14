@@ -31,6 +31,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int AlwaysShowEscrow = 4;
 	private static final int ShowConfigIndex = 5;
 	private static final int ShowPSGChecksum = 6;
+	private static final int HexScalesSynchronized = 7;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -106,6 +107,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ShowPSGChecksum (aGameManager);
+		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new HexScalesSynchronizedPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 	}
 	
@@ -198,6 +202,14 @@ public class UserPreferencesFrame extends XMLFrame {
 		tShowEscrowPreference = (ShowEscrowPreference) userPreferences.get (AlwaysShowEscrow);
 		
 		return tShowEscrowPreference.getAlwaysShowEscrow ();
+	}
+
+	public boolean getHexScalesSynchronized () {
+		HexScalesSynchronizedPreference tHexScalesSynchronized;
+		
+		tHexScalesSynchronized = (HexScalesSynchronizedPreference) userPreferences.get (HexScalesSynchronized);
+		
+		return tHexScalesSynchronized.hexScalesSynchronized ();
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
