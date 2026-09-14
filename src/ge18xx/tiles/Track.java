@@ -153,7 +153,7 @@ public class Track implements Cloneable {
 		Hex tHex;
 
 		tPreviousClip = g.getClip ();
-		tHex = new Hex (X, Y, Hex.getDirection (), Hex.getScale ());
+		tHex = new Hex (X, Y, aHex.getHexDirection (), aHex.getHexScale ());
 		tHexPolygon = tHex.getHexPolygon ();
 		tNewClip = new Area (tPreviousClip);
 		tHexClip = new Area (tHexPolygon);
@@ -195,7 +195,7 @@ public class Track implements Cloneable {
 
 		x = new int [4];
 		y = new int [4];
-		if (Hex.getDirection ()) {
+		if (aHex.getHexDirection ()) {
 			enterSide += 6;
 		}
 		switch (enterSide) {
@@ -328,11 +328,11 @@ public class Track implements Cloneable {
 		int tExitValue = aExit.getLocation ();
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
-		boolean tDirection = Hex.getDirection ();
+		boolean tDirection = aHex.getHexDirection ();
 		boolean tDraw;
 		Paint tTrackColor;
 
-		tTrackRadius = Hex.getWidth () + Xd;
+		tTrackRadius = aHex.getHexWidth () + Xd;
 		tTrackDiameter = tTrackRadius + tTrackRadius;
 		tDraw = true;
 		tTopLeftX = 0;
@@ -425,7 +425,7 @@ public class Track implements Cloneable {
 		int tTrackDiameter;
 		int tTrackRadius;
 		int Yd = aHex.getYd ();
-		boolean direction = Hex.getDirection ();
+		boolean direction = aHex.getHexDirection ();
 		boolean tDraw;
 		Paint trackColor;
 
@@ -460,9 +460,9 @@ public class Track implements Cloneable {
 		case (1):
 			if (direction) {
 				topLeftX = X - tTrackRadius;
-				topLeftY = Y - Hex.getWidth () - tTrackRadius;
+				topLeftY = Y - aHex.getHexWidth () - tTrackRadius;
 			} else {
-				topLeftX = X + Hex.getWidth () - tTrackRadius;
+				topLeftX = X + aHex.getHexWidth () - tTrackRadius;
 				topLeftY = Y - tTrackRadius;
 			}
 			break;
@@ -490,9 +490,9 @@ public class Track implements Cloneable {
 		case (4):
 			if (direction) {
 				topLeftX = X - tTrackRadius;
-				topLeftY = Y + Hex.getWidth () - tTrackRadius;
+				topLeftY = Y + aHex.getHexWidth () - tTrackRadius;
 			} else {
-				topLeftX = X - Hex.getWidth () - tTrackRadius;
+				topLeftX = X - aHex.getHexWidth () - tTrackRadius;
 				topLeftY = Y - tTrackRadius;
 			}
 			break;

@@ -1066,7 +1066,9 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 			setMapSize ();
 			redrawMap ();
 		}
-		tileSet.setScale (aScale);
+		if (! tileSet.scaleSliderIsVisible ()) {
+			tileSet.setScale (aScale);
+		}
 	}
 
 	/** Listen to the slider. */

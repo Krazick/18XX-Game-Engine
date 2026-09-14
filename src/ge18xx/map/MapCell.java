@@ -2161,9 +2161,9 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		setBaseTerrain (new Terrain (aBaseTerrain));
 	}
 	
-	public void setScale (int hexScale, Hex aHex) {
-		aHex.setScale (hexScale);
-	}
+//	public void setScale (int hexScale, Hex aHex) {
+//		aHex.setScale (hexScale);
+//	}
 
 	public void setSelectedFeature2 (Location aLocation) {
 		if (selectedFeature2 != Feature2.NO_FEATURE2) {
