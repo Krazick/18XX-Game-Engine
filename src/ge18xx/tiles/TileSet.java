@@ -1055,14 +1055,28 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tRowCount;
 	}
 
+	public int getScaleSliderWidth () {
+		int tScaleSliderWidth;
+		
+		if (scaleSliderIsVisible ()) {
+			tScaleSliderWidth = 50;
+		} else {
+			tScaleSliderWidth = 0;
+		}
+		
+		return tScaleSliderWidth;
+	}
+	
 	public int calcTilesPerRow () {
 		int tTilesPerRow;
 		int tHexWidth;
 		int tFrameWidth;
+		int tScaleSliderWidth;
 		
 		tHexWidth = hexGetWidth ();
 		tFrameWidth = tileTrayFrame.getWidth ();
-		tTilesPerRow = Double.valueOf ((tFrameWidth - 10)/(tHexWidth * 2.25)).intValue ();
+		tScaleSliderWidth = getScaleSliderWidth ();
+		tTilesPerRow = Double.valueOf ((tFrameWidth - 10 - tScaleSliderWidth)/(tHexWidth * 2.25)).intValue ();
 		setTilesPerRow (tTilesPerRow);
 		
 		return tTilesPerRow;
@@ -1082,6 +1096,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tRowCount;
 		int tTilesPerRow;
 		int tHexWidth;
+		int tScaleSliderWidth;
 		Dimension tNewDimension;
 		boolean tHexDirection;
 
@@ -1094,7 +1109,9 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tRowCount = calcRowCount ();
 
 		tHexWidth = hexGetWidth ();
-		tMaxX = Double.valueOf (tHexWidth * 2.25 * tTilesPerRow + 10).intValue ();
+		tScaleSliderWidth = getScaleSliderWidth ();
+
+		tMaxX = Double.valueOf (tHexWidth * 2.25 * tTilesPerRow + 10 + tScaleSliderWidth).intValue () - tScaleSliderWidth;
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		
 		tNewDimension = new Dimension (tMaxX, tMaxY);

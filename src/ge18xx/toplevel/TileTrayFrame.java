@@ -59,7 +59,7 @@ public class TileTrayFrame extends XMLFrame {
 	
 	public void updateFrame (boolean aHexScaleSynchronized) {
 		scaleSlider.setVisible (! aHexScaleSynchronized);
-
+		tileSet.setSizeAndRedraw ();
 		updateFrameTitle (BASE_TITLE);
 	}
 
