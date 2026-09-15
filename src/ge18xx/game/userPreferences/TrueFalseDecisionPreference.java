@@ -20,7 +20,7 @@ import geUtilities.xml.XMLNode;
 
 public class TrueFalseDecisionPreference extends UserPreference {
 	public static final ElementName EN_CONFIRM_DECISION = new ElementName ("ConfirmDecision");
-	public static final AttributeName AN_TYPE= new AttributeName ("type");
+	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_CHOICE= new AttributeName ("choice");
 	public String decisionType;
 	boolean decisionChoice;
@@ -32,6 +32,7 @@ public class TrueFalseDecisionPreference extends UserPreference {
 
 	@Override
 	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
+		aUserPreferencesPanel.add (checkBox);
 		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
 	}
 

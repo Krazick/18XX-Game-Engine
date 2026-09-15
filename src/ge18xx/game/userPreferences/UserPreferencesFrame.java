@@ -106,7 +106,7 @@ public class UserPreferencesFrame extends XMLFrame {
 		tUserPreference = new ShowConfigInfoPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 		
-		tUserPreference = new ShowPSGChecksum (aGameManager);
+		tUserPreference = new ShowPSGChecksumPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new HexScalesSynchronizedPreference (aGameManager);
@@ -155,9 +155,9 @@ public class UserPreferencesFrame extends XMLFrame {
 	}
 	
 	public boolean showPSGChecksum () {
-		ShowPSGChecksum tPSGChecksum;
+		ShowPSGChecksumPreference tPSGChecksum;
 		
-		tPSGChecksum = (ShowPSGChecksum) userPreferences.get (ShowPSGChecksum);
+		tPSGChecksum = (ShowPSGChecksumPreference) userPreferences.get (ShowPSGChecksum);
 		
 		return tPSGChecksum.showPSGChecksum ();
 	}
@@ -177,7 +177,7 @@ public class UserPreferencesFrame extends XMLFrame {
 		
 		tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
 		
-		return tShowConfigInfoPreference.showConfigInfoFileInfo ();
+		return tShowConfigInfoPreference.showConfigInfo ();
 	}
 
 	public boolean confirmDontBuyTrain () {
@@ -233,7 +233,11 @@ public class UserPreferencesFrame extends XMLFrame {
 		PlayerOrderPreference tPlayerOrderPreference;
 		ClientNameInFramePreference tClientNameInFramePreference;
 		ShowConfigInfoPreference tShowConfigInfoPreference;
-		TrueFalseDecisionPreference tConfirmDecisionPreference;
+		ConfirmDontBuyTrainPreference tConfirmDontBuyTrainPreference;
+		ConfirmBuyPresidentSharePreference tConfirmBuyPresidentSharePreference;
+		ShowEscrowPreference tShowEscrowPreference;
+		ShowPSGChecksumPreference tShowPSGChecksumPreference;
+		HexScalesSynchronizedPreference tHexScalesSynchronizedPreference;
 		
 		tChildren = aPreferencesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
@@ -241,6 +245,11 @@ public class UserPreferencesFrame extends XMLFrame {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tNodeIndex));
 				tNodeName = tChildNode.getNodeName ();
+				// TODO: Need to add a Class to the Preference Root, to store it
+				// in the "class" attribute, and as with Actions, and Events,
+				// Use it to cast it and parse it. See also Variants, 
+				// and Variant Effects
+				// TODO: Add an Order Argument, to sort on for presentation.
 				if (PlayerOrderPreference.EN_PLAYER_ORDER.equals (tNodeName)) {
 					tPlayerOrderPreference = (PlayerOrderPreference) userPreferences.get (PlayerOrderIndex);
 					tPlayerOrderPreference.parsePreference (tChildNode);
@@ -249,25 +258,29 @@ public class UserPreferencesFrame extends XMLFrame {
 					tClientNameInFramePreference = (ClientNameInFramePreference) userPreferences.get (ClientNameIndex);
 					tClientNameInFramePreference.parsePreference (tChildNode);
 				}
-				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+				if (ShowConfigInfoPreference.EN_CONFIG_INFO.equals (tNodeName)) {
 					tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
 					tShowConfigInfoPreference.parsePreference (tChildNode);
 				}
-				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
-					tConfirmDecisionPreference.parsePreference (tChildNode);
+				if (ConfirmDontBuyTrainPreference.EN_CONFIRM_DONT.equals (tNodeName)) {
+					tConfirmDontBuyTrainPreference = (ConfirmDontBuyTrainPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
+					tConfirmDontBuyTrainPreference.parsePreference (tChildNode);
 				}
-				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
-					tConfirmDecisionPreference.parsePreference (tChildNode);
+				if (ConfirmBuyPresidentSharePreference.EN_CONFIRM_BUY.equals (tNodeName)) {
+					tConfirmBuyPresidentSharePreference = (ConfirmBuyPresidentSharePreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
+					tConfirmBuyPresidentSharePreference.parsePreference (tChildNode);
 				}
-				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (AlwaysShowEscrow);
-					tConfirmDecisionPreference.parsePreference (tChildNode);
+				if (ShowEscrowPreference.EN_SHOW_ESCROW.equals (tNodeName)) {
+					tShowEscrowPreference = (ShowEscrowPreference) userPreferences.get (AlwaysShowEscrow);
+					tShowEscrowPreference.parsePreference (tChildNode);
 				}
-				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ShowPSGChecksum);
-					tConfirmDecisionPreference.parsePreference (tChildNode);
+				if (ShowPSGChecksumPreference.EN_SHOW_PSG.equals (tNodeName)) {
+					tShowPSGChecksumPreference = (ShowPSGChecksumPreference) userPreferences.get (ShowPSGChecksum);
+					tShowPSGChecksumPreference.parsePreference (tChildNode);
+				}
+				if (HexScalesSynchronizedPreference.EN_HEX_SCALES.equals (tNodeName)) {
+					tHexScalesSynchronizedPreference = (HexScalesSynchronizedPreference) userPreferences.get (HexScalesSynchronized);
+					tHexScalesSynchronizedPreference.parsePreference (tChildNode);
 				}
 			}
 		} catch (Exception tException) {
