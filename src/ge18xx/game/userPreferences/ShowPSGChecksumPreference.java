@@ -15,7 +15,7 @@ import geUtilities.xml.XMLNode;
 
 public class ShowPSGChecksumPreference extends TrueFalseDecisionPreference implements ItemListener {
 	public static final String decisionType = "showPSGChecksum";
-	public static final ElementName EN_SHOW_PSG = new ElementName ("showPSG");
+	public static final ElementName EN_SHOW_PSG = new ElementName ("ShowPSG");
 	public static final AttributeName AN_SHOW_CHECKSUM = new AttributeName ("showChecksum");
 	public static final String buttonText = "Show PSG Checksum in Action Report Frame";
 
