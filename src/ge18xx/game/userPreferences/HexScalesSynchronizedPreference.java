@@ -14,48 +14,52 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class HexScalesSynchronizedPreference extends TrueFalseDecisionPreference implements ItemListener {
+	public static final String decisionType = "HexScales";
 	public static final ElementName EN_HEX_SCALES = new ElementName ("HexScales");
 	public static final AttributeName AN_SYNCHRONIZED = new AttributeName ("synchronized");
 	public static final String buttonText = "Hex Scales for Map and Tile Tray stay synchronized";
-	JCheckBox hexScalesSynchronized;
 
 	public HexScalesSynchronizedPreference (GameManager aGameManager) {
 		super (aGameManager);
-		hexScalesSynchronized = new JCheckBox ();
-		setupCheckbox (this, hexScalesSynchronized, buttonText);
-	}
-	@Override
-	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
-		aUserPreferencesPanel.add (hexScalesSynchronized);
-		super.buildUserPreferences (aUserPreferencesPanel);
+		
+		JCheckBox tHexScalesSynchronized;
+
+		setDecisionType (decisionType);
+		tHexScalesSynchronized = new JCheckBox ();
+		setupCheckbox (this, tHexScalesSynchronized, buttonText);
 	}
 	
-	public boolean hexScalesSynchronized () {
-		return hexScalesSynchronized.isSelected ();
+	@Override
+	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
+		super.buildUserPreferences (aUserPreferencesPanel);
 	}
 
 	@Override
 	public XMLElement createElement (XMLDocument aXMLDocument) {
-		XMLElement tHexScalesElement;
-		boolean tSynchronized;
+		XMLElement tHexScalesSynchronizedElement;
+		boolean tHexScalesSynchronized;
 		
-		tSynchronized = hexScalesSynchronized ();
-		tHexScalesElement = aXMLDocument.createElement (EN_HEX_SCALES);
-		tHexScalesElement.setAttribute (AN_SYNCHRONIZED, tSynchronized);
+		tHexScalesSynchronized = hexScalesSynchronized ();
+		tHexScalesSynchronizedElement = aXMLDocument.createElement (EN_HEX_SCALES);
+		tHexScalesSynchronizedElement.setAttribute (AN_SYNCHRONIZED, tHexScalesSynchronized);
 		
-		return tHexScalesElement;
+		return tHexScalesSynchronizedElement;
 	}
 
 	@Override
 	public void parsePreference (XMLNode aChildNode) {
-		boolean tSynchronized;
-		
-		tSynchronized = aChildNode.getThisBooleanAttribute (AN_SYNCHRONIZED);
-		hexScalesSynchronized.setSelected (tSynchronized);
+		boolean tChoice;
+
+		tChoice = parseBooleanPreference (aChildNode, AN_SYNCHRONIZED, checkBox);
+		setDecisionChoice (tChoice);
 	}
 
 	@Override
 	public void itemStateChanged (ItemEvent e) {
 		gameManager.updateAllFrames ();
+	}
+	
+	public boolean hexScalesSynchronized () {
+		return checkBox.isSelected ();
 	}
 }

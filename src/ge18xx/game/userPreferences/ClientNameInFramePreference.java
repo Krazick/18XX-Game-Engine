@@ -14,25 +14,24 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 
 public class ClientNameInFramePreference extends TrueFalseDecisionPreference implements ItemListener {
+	public static final String decisionType = "DontBuyTrain";
 	public static final ElementName EN_CLIENT_NAME = new ElementName ("ClientName");
 	public static final AttributeName AN_IN_FRAME = new AttributeName ("inFrame");
 	public static final String buttonText = "Show Client Name in Frame Titles (Network Games Only)";
-	JCheckBox clientNameInFrame;
 	
 	public ClientNameInFramePreference (GameManager aGameManager) {
 		super (aGameManager);
-		clientNameInFrame = new JCheckBox ();
-		setupCheckbox (this, clientNameInFrame, buttonText);
+		
+		JCheckBox tClientNameInFrame;
+
+		setDecisionType (decisionType);
+		tClientNameInFrame = new JCheckBox ();
+		setupCheckbox (this, tClientNameInFrame, buttonText);
 	}
 
 	@Override
 	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
-		aUserPreferencesPanel.add (clientNameInFrame);
 		super.buildUserPreferences (aUserPreferencesPanel);
-	}
-	
-	public boolean showClientNameInFrameTitle () {
-		return clientNameInFrame.isSelected ();
 	}
 
 	@Override
@@ -49,14 +48,18 @@ public class ClientNameInFramePreference extends TrueFalseDecisionPreference imp
 
 	@Override
 	public void parsePreference (XMLNode aChildNode) {
-		boolean tInFrame;
-		
-		tInFrame = aChildNode.getThisBooleanAttribute (AN_IN_FRAME);
-		clientNameInFrame.setSelected (tInFrame);
+		boolean tChoice;
+
+		tChoice = parseBooleanPreference (aChildNode, AN_IN_FRAME, checkBox);
+		setDecisionChoice (tChoice);
 	}
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		gameManager.updateAllFrames ();
+	}
+	
+	public boolean showClientNameInFrameTitle () {
+		return checkBox.isSelected ();
 	}
 }
