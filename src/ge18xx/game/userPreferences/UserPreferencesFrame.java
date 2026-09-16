@@ -294,7 +294,7 @@ public class UserPreferencesFrame extends XMLFrame {
 		super.processWindowEvent (aWindowEvent);
 	}
 	
-	 public void windowClosing(WindowEvent e) {
+	 public void windowClosing (WindowEvent e) {
 		 gameManager.updateAllFrames ();
 		 gameManager.saveConfig (true);
 	 }
