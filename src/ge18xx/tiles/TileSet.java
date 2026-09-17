@@ -20,8 +20,6 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ge18xx.map.Hex;
-
 //
 //  TileSet.java
 //  Java_18XX
@@ -62,7 +60,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public static final TileSet NO_TILE_SET = null;
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
-	Hex18XX hex;
+	protected Hex18XX hex;
 	boolean showAllTiles; 		// Set true to show all Tiles in Tile Tray
 	boolean singleTileSelect; 	// Set true if in mode to select a SINGLE Tile, selecting a different one
 								// should unselect ALL and leave only the single tile selected.
@@ -640,8 +638,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public Tile popTile (int aTileNumber) {
 		Iterator<GameTile> tIterator = gameTiles.iterator ();
 		GameTile tGameTile;
-		boolean tFoundTile = false;
-		Tile tTile = Tile.NO_TILE;
+		boolean tFoundTile;
+		Tile tTile;
+
+		tFoundTile = false;
+		tTile = Tile.NO_TILE;
 
 		if (aTileNumber != 0) {
 			while (tIterator.hasNext () && !tFoundTile) {
@@ -681,7 +682,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 	
 	public boolean getHexDirection () {
-		return Hex.getDirection ();
+		return hex.getHexDirection ();
 	}
 	
 	public void setPlayableUpgradeTiles (GameTile aGameTile, String aTileName, 
