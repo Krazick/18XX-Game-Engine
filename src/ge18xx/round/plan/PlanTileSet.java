@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import ge18xx.map.GameMap;
-import ge18xx.map.Hex;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.TileSet;
 
@@ -21,7 +20,7 @@ public class PlanTileSet extends TileSet {
 		boolean tHexDirection;
 		
 		setShowAllTiles (true);
-		tHexDirection = Hex.getDirection ();
+		tHexDirection = hex.getHexDirection ();
 		setHex (tHexDirection);
 		setPlanFrame (aPlanFrame);
 	}
