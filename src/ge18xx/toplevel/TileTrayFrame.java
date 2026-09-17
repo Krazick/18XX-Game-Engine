@@ -49,6 +49,21 @@ public class TileTrayFrame extends XMLFrame {
 		scaleSlider = aScaleSlider;
 	}
 	
+	@Override
+	public int getHexScale () {
+		return scaleSlider.getValue ();
+	}
+
+	@Override
+	public void setHexScale (int aScale) {
+		tileSet.setScale (aScale);
+		setHexScaleSlider (aScale);
+	}
+	
+	public void setHexScaleSlider (int aScale) {
+		scaleSlider.setValue (aScale);
+	}
+
 	public boolean scaleSliderIsVisible  () {
 		boolean tScaleSliderIsVisible;
 		
