@@ -80,12 +80,16 @@ public class Config {
 	}
 
 	public XMLElement getXMLFramesElement (XMLDocument aXMLDocument, int aGameIndex) {
-		int tGamesCount, tFrameCount, tFrameIndex;
-		XMLElement tXMLFramesElement = XMLElement.NO_XML_ELEMENT;
+		int tGamesCount;
+		int tFrameCount;
+		int tFrameIndex;
+		XMLElement tXMLFramesElement;
 		XMLElement tXMLFrameElement;
 		GameFrameConfig tGameFrameConfig;
-		String tGameName, tFrameName;
+		String tGameName;
+		String tFrameName;
 
+		tXMLFramesElement = XMLElement.NO_XML_ELEMENT;
 		tGamesCount = getGameFramesCount ();
 		if ((tGamesCount > 0) && (aGameIndex < tGamesCount)) {
 			tXMLFramesElement = aXMLDocument.createElement (EN_FRAMES);
