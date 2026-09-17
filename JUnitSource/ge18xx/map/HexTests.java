@@ -36,9 +36,9 @@ class HexTests {
 		Hex tHex;
 
 		tHex = new Hex ();
-		assertFalse (Hex.getDirection ());
-		assertEquals (8, Hex.getScale (), "Default Scale should be 8");
-		assertEquals (40, Hex.getWidth (), "Default Width should be 40:");
+		assertFalse (tHex.getHexDirection ());
+		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
 		assertEquals (20, tHex.getXd ());
 	}
 
@@ -48,9 +48,9 @@ class HexTests {
 		Hex tHex;
 
 		tHex = new Hex (false);
-		assertFalse (Hex.getDirection ());
-		assertEquals (8, Hex.getScale (), "Default Scale should be 8");
-		assertEquals (40, Hex.getWidth (), "Default Width should be 40:");
+		assertFalse (tHex.getHexDirection ());
+		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
 		assertEquals (20, tHex.getXd ());
 	}
 
@@ -60,36 +60,47 @@ class HexTests {
 		Hex tHex;
 
 		tHex = new Hex (true);
-		assertTrue (Hex.getDirection ());
-		assertEquals (8, Hex.getScale (), "Default Scale should be 8");
-		assertEquals (40, Hex.getWidth (), "Default Width should be 40:");
+		assertTrue (tHex.getHexDirection ());
+		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
 		assertEquals (20, tHex.getXd ());
 	}
 
 	@Test
 	@DisplayName ("Test Constructor with offset 10,10, and 'false'")
 	public void TestConstructorWithOffsetDirection () {
-		assertFalse (Hex.getDirection ());
-		assertEquals (10, Hex.getScale (), "Default Scale should be 10");
-		assertEquals (50, Hex.getWidth (), "Default Width should be 50:");
-		assertEquals (25, hex10t.getXd ());
+		Hex tHex;
+		
+		tHex = new Hex (10, 10, false, 10);
+
+		assertFalse (tHex.getHexDirection ());
+		assertEquals (10, tHex.getHexScale (), "Default Scale should be 10");
+		assertEquals (50, tHex.getHexWidth (), "Default Width should be 50:");
+		assertEquals (25, tHex.getXd ());
 	}
 
 	@Test
 	@DisplayName ("Test Constructor with offset 10,10, 'false', 12")
 	public void TestConstructorWithOffsetDirectionAndScale () {
-		assertFalse (Hex.getDirection ());
-		assertEquals (10, Hex.getScale (), "Scale should be 10");
-		assertEquals (50, Hex.getWidth (), "Width should be 50:");
-		assertEquals (25, hex10t.getXd ());
+		Hex tHex;
+		
+		tHex = new Hex (10, 10, true, 10);
+		assertTrue (tHex.getHexDirection ());
+		assertEquals (10, tHex.getHexScale (), "Scale should be 10");
+		assertEquals (50, tHex.getHexWidth (), "Width should be 50:");
+		assertEquals (25, tHex.getXd ());
 	}
 
 	@Test
 	@DisplayName ("Test Constructor with offset 10,10, 'false', 12")
 	public void TestConstructorChangingScale () {
-		assertEquals (10, Hex.getScale (), "Scale should be 10");
-		assertEquals (50, Hex.getWidth (), "Width should be 50:");
-		assertEquals (25, hex10t.getXd ());
+		Hex tHex;
+
+		tHex = new Hex (true);
+		tHex.setScale (10);
+		assertEquals (10, tHex.getHexScale (), "Scale should be 10");
+		assertEquals (50, tHex.getHexWidth (), "Width should be 50:");
+		assertEquals (25, tHex.getXd ());
 	}
 
 	@Test
@@ -232,7 +243,9 @@ class HexTests {
 	@CsvFileSource (resources = "HexTestMidpointXt.csv")
 	@DisplayName ("Test getMidpointX method with True Direction ")
 	public void testMidpointXt (int aPoint, int aExpectedMidpointX) {
-		Hex tHex10t = new Hex (10, 10, true, 10);
+		Hex tHex10t;
+
+		tHex10t = new Hex (10, 10, true, 10);
 		assertEquals (aExpectedMidpointX, tHex10t.midpointX (aPoint));
 	}
 
@@ -240,8 +253,9 @@ class HexTests {
 	@ParameterizedTest (name = "{index} ==> Point {0}, Expected Y {1}")
 	@CsvFileSource (resources = "HexTestMidpointYt.csv")
 	public void testMidpointYt (int aPoint, int aExpectedMidpointY) {
-		Hex tHex10t = new Hex (10, 10, true, 10);
+		Hex tHex10t;
+		
+		tHex10t = new Hex (10, 10, true, 10);
 		assertEquals (aExpectedMidpointY, tHex10t.midpointY (aPoint));
 	}
-
 }

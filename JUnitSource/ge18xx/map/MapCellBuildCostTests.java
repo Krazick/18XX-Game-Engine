@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 
@@ -20,7 +22,12 @@ class MapCellBuildCostTests extends MapTester {
 
 	@BeforeEach
 	void setUp () throws Exception {
+		UserPreferencesFrame mUserPreferencesFrame;
+		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		mUserPreferencesFrame = Mockito.mock (UserPreferencesFrame.class);
+		
+		Mockito.when (mGameManager.getUserPreferencesFrame ()).thenReturn (mUserPreferencesFrame);
 		tileSet = tilesTestFactory.buildTileSet (mGameManager);
 	}
 

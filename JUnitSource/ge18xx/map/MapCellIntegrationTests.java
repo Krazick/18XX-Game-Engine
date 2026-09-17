@@ -18,6 +18,7 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.GameTile;
@@ -53,7 +54,13 @@ class MapCellIntegrationTests extends MapTester {
 	}
 	
 	void setupTileSet (GameManager mGameManager) {
+		UserPreferencesFrame mUserPreferencesFrame;
+		
+		mUserPreferencesFrame = Mockito.mock (UserPreferencesFrame.class);
+		
+		Mockito.when (mGameManager.getUserPreferencesFrame ()).thenReturn (mUserPreferencesFrame);
 		Mockito.when (mGameManager.getActiveGameName ()).thenReturn ("Mock GameManager MapCellTests");
+
 		tileSet = tilesTestFactory.buildTileSet (mGameManager);
 		
 		tile9995 = addTileAndUpgrade (0);
