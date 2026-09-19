@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-//import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,13 +50,12 @@ import ge18xx.tiles.TileType;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
-import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.GUI;
 
-public class HexMap extends GameMap implements LoadableXMLI, MouseListener, 
+public class HexMap extends GameMap implements MouseListener, 
 						MouseMotionListener, ChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_MAP = new ElementName ("Map");
