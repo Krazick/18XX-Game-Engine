@@ -58,7 +58,8 @@ public class TownTick extends Town {
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
 		boolean tContainingPoint;
 		int X1, Y1, X2, Y2, Xd, Yd;
-		int width, height;
+		int width;
+		int height;
 		int tCityWidth;
 		Location tLocation;
 		Point tDisplace;
@@ -85,10 +86,12 @@ public class TownTick extends Town {
 	@Override
 	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
 			Feature2 aSelectedFeature) {
-		int X1, Y1, X2, Y2, Xd, Yd, X3, Y3, width, height;
-		int temp = aHex.getCityWidth ();
+		int X1, Y1, X2, Y2, Xd, Yd, X3, Y3;
+		int width;
+		int height;
+		int temp;
 		Point tDisplace;
-		int tTrackWidth = (int) (aHex.getTrackWidth () * 1.5);
+		int tTrackWidth;
 		int maxXDisplacement;
 		int minXDisplacement;
 		int maxYDisplacement;
@@ -96,9 +99,14 @@ public class TownTick extends Town {
 		int tickSlant;
 		Location tLocation;
 		Color aCityColor;
-		Graphics2D g2d = (Graphics2D) g;
+		Stroke tCurrentStroke;
+		BasicStroke tTrackStroke;
+		Graphics2D g2d;
 
-		if (Hex.getDirection ()) {
+		temp = aHex.getCityWidth ();
+		tTrackWidth = (int) (aHex.getTrackWidth () * 1.5);
+		g2d = (Graphics2D) g;
+		if (Hex.getStaticDirection ()) {
 			maxXDisplacement = (int) (-tTrackWidth * 0.866025);
 			minXDisplacement = (int) (-tTrackWidth * 0.5);
 			maxYDisplacement = (int) (tTrackWidth * 0.5);
@@ -134,10 +142,11 @@ public class TownTick extends Town {
 		} else if (location.isCityFarHexCornerLeft ()) {
 			tickSlant = (tLocation.getLocation () - 28) % 6 + 0;
 		}
+		
 		switch (tickSlant) {
 		case (0):
 		case (3):
-			if (Hex.getDirection ()) {
+			if (Hex.getStaticDirection ()) {
 				X1 = Xd;
 				X2 = Xd;
 				Y1 = Yd - tTrackWidth;
@@ -168,7 +177,7 @@ public class TownTick extends Town {
 
 		case (7):
 		case (10):
-			if (Hex.getDirection ()) {
+			if (Hex.getStaticDirection ()) {
 				X1 = Xd - tTrackWidth;
 				X2 = Xd + tTrackWidth;
 				Y1 = Yd;
@@ -197,8 +206,9 @@ public class TownTick extends Town {
 			Y2 = Yd + minYDisplacement;
 			break;
 		}
-		Stroke tCurrentStroke = g2d.getStroke ();
-		BasicStroke tTrackStroke = new BasicStroke (tTrackWidth);
+		
+		tCurrentStroke = g2d.getStroke ();
+		tTrackStroke = new BasicStroke (tTrackWidth);
 
 		g2d.setStroke (tTrackStroke);
 		g.setColor (aCityColor);
