@@ -128,7 +128,7 @@ public class Location implements Cloneable {
 		}
 		Xdisp = Double.valueOf (Xsign * (Xbase / Xfactor)).intValue ();
 		Ydisp = Double.valueOf (Ysign * (Ybase / Yfactor)).intValue ();
-		if (Hex.getDirection ()) {
+		if (Hex.getStaticDirection ()) {
 			tDisp = Xdisp;
 			Xdisp = Ydisp;
 			Ydisp = -tDisp;

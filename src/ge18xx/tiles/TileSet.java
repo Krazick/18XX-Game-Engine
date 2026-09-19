@@ -1102,7 +1102,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		boolean tHexDirection;
 
 		if (hex == Hex18XX.NO_HEX18XX) {
-			tHexDirection = Hex18XX.getDirection ();
+			tHexDirection = Hex18XX.getStaticDirection ();
 			setHex (tHexDirection);
 		}
 		

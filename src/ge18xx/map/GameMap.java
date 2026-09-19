@@ -129,7 +129,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int rowCount;
 		int colCount;
 	
-		if (Hex.getDirection ()) {
+		if (Hex.getStaticDirection ()) {
 			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
 			temp_DUP_dwidth = hex.getDisplaceUpDown () + hex.getHexWidth ();
 			rowCount = getRowCount ();
