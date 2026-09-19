@@ -863,7 +863,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 		}
 		setHexScale (tDefaultHexSize);
 
-		CalcGridCenters (this);
+		CalcGridCenters ();
 
 		tChildren = tXMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -1062,7 +1062,7 @@ public class HexMap extends GameMap implements LoadableXMLI, MouseListener,
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
 		if (mapCells != MapCell.NO_MAP_CELLS) {
-			CalcGridCenters (this);
+			CalcGridCenters ();
 			setMapSize ();
 			redrawMap ();
 		}

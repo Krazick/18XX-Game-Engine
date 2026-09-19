@@ -41,7 +41,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		mapCells = new MapCell [aRows] [aCols];
 	}
 
-	public void setMapCell (int aRow, int aCol, String aDirection, GameMap hexMap) {
+	public void setMapCell (int aRow, int aCol, String aDirection, GameMap aHexMap) {
 		MapCell tMapCell;
 		
 		tMapCell = new MapCell (this, aDirection);
@@ -118,7 +118,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		return (hex.getYd ());
 	}
 
-	public void CalcGridCenters (GameMap hexMap) {
+	public void CalcGridCenters () {
 		int rowIndex;
 		int colIndex;
 		int Xc;
@@ -129,7 +129,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int rowCount;
 		int colCount;
 	
-		if (Hex.getStaticDirection ()) {
+		if (hex.getHexDirection ()) {
 			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
 			temp_DUP_dwidth = hex.getDisplaceUpDown () + hex.getHexWidth ();
 			rowCount = getRowCount ();
