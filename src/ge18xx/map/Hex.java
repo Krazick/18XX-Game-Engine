@@ -28,11 +28,8 @@ public class Hex {
 	public static final String DIRECTION_EW = "EW";
 	public static final int NOT_VALID_SLICE = -9999;
 	public static final int NOT_VALID_POINT = -9998;
-	public static int DEFAULT_SCALE = 8;
-	public static int DEFAULT_WIDTH = 5;
-	public static int scale = DEFAULT_SCALE;
-	public static int width = DEFAULT_WIDTH;
-	protected static boolean direction = false;
+	public static final int DEFAULT_SCALE = 8;
+	public static final int DEFAULT_WIDTH = 5;
 	protected int x [];
 	protected int y [];
 	private int Xt;
@@ -44,7 +41,10 @@ public class Hex {
 	int Yc;
 	protected int cityWidth;
 	protected int trackWidth;
+	protected static boolean direction = false;
 	protected static double dwidth;
+	public static int scale = DEFAULT_SCALE;
+	public static int width = DEFAULT_WIDTH;
 	Polygon hexPolygon;
 	Rectangle rectBounds;
 
@@ -65,14 +65,26 @@ public class Hex {
 		setScaleAndSize (aScale, offsetX, offsetY);
 	}
 
-	public static boolean getDirection () {
+	public static boolean getStaticDirection () {
 		return direction;
 	}
+//
+//	public static boolean getDirection () {
+//		return direction;
+//	}
 
 	public boolean getHexDirection () {
 		return direction;
 	}
-	
+
+	public static void setStaticDirection (boolean aDirection) {
+		direction = aDirection;
+	}
+
+	public void setDirection (boolean aDirection) {
+		setStaticDirection (aDirection);
+	}
+
 	public int bottomEdgeDisplacement () {
 		return getMaxY ();
 	}
@@ -1146,14 +1158,6 @@ public class Hex {
 
 	public int rightEdgeDisplacement () {
 		return getMaxX ();
-	}
-
-	public static void setStaticDirection (boolean aDirection) {
-		direction = aDirection;
-	}
-
-	public void setDirection (boolean aDirection) {
-		setStaticDirection (aDirection);
 	}
 
 	public void setScale (int hexScale) {
