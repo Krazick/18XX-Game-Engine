@@ -596,8 +596,10 @@ public class City extends RevenueCenter implements Cloneable {
 		double tCS30;
 		double tempC30;
 		double tempS30;
-
 		Point tDisplace;
+		boolean tHexDirection;
+		
+		tHexDirection = Hex.getStaticDirection ();
 		tDisplace = aLocation.calcCenter (aHex);
 
 		temp = aHex.getCityWidth ();
@@ -653,7 +655,7 @@ public class City extends RevenueCenter implements Cloneable {
 					break;
 
 				case (1):
-					if (Hex.getDirection ()) {
+					if (tHexDirection) {
 						Xsign = 0;
 						Ysign = 2;
 					} else {
@@ -663,7 +665,7 @@ public class City extends RevenueCenter implements Cloneable {
 					break;
 
 				case (2):
-					if (Hex.getDirection ()) {
+					if (tHexDirection) {
 						Xsign = -1;
 						Ysign = 1;
 					} else {
@@ -678,7 +680,7 @@ public class City extends RevenueCenter implements Cloneable {
 					break;
 
 				case (4):
-					if (Hex.getDirection ()) {
+					if (tHexDirection) {
 						Xsign = 0;
 						Ysign = -2;
 					} else {
@@ -688,7 +690,7 @@ public class City extends RevenueCenter implements Cloneable {
 					break;
 
 				case (5):
-					if (Hex.getDirection ()) {
+					if (tHexDirection) {
 						Ysign = -1;
 						Xsign = 1;
 					} else {
@@ -701,7 +703,7 @@ public class City extends RevenueCenter implements Cloneable {
 				Y1 += tDisplace.y + temp;
 				XCenter1 = X1;
 				YCenter1 = Y1;
-				if (Hex.getDirection ()) {
+				if (tHexDirection) {
 					tCS30 = tempC30;
 					tempC30 = tempS30;
 					tempS30 = tCS30;
