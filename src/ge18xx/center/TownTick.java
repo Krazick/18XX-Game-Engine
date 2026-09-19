@@ -90,23 +90,25 @@ public class TownTick extends Town {
 		int width;
 		int height;
 		int temp;
-		Point tDisplace;
 		int tTrackWidth;
 		int maxXDisplacement;
 		int minXDisplacement;
 		int maxYDisplacement;
 		int minYDisplacement;
 		int tickSlant;
+		boolean tHexDirection;
 		Location tLocation;
 		Color aCityColor;
 		Stroke tCurrentStroke;
 		BasicStroke tTrackStroke;
 		Graphics2D g2d;
+		Point tDisplace;
 
 		temp = aHex.getCityWidth ();
 		tTrackWidth = (int) (aHex.getTrackWidth () * 1.5);
 		g2d = (Graphics2D) g;
-		if (Hex.getStaticDirection ()) {
+		tHexDirection = Hex.getStaticDirection ();
+		if (tHexDirection) {
 			maxXDisplacement = (int) (-tTrackWidth * 0.866025);
 			minXDisplacement = (int) (-tTrackWidth * 0.5);
 			maxYDisplacement = (int) (tTrackWidth * 0.5);
@@ -146,7 +148,7 @@ public class TownTick extends Town {
 		switch (tickSlant) {
 		case (0):
 		case (3):
-			if (Hex.getStaticDirection ()) {
+			if (tHexDirection) {
 				X1 = Xd;
 				X2 = Xd;
 				Y1 = Yd - tTrackWidth;
@@ -177,7 +179,7 @@ public class TownTick extends Town {
 
 		case (7):
 		case (10):
-			if (Hex.getStaticDirection ()) {
+			if (tHexDirection) {
 				X1 = Xd - tTrackWidth;
 				X2 = Xd + tTrackWidth;
 				Y1 = Yd;
