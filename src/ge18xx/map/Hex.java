@@ -29,7 +29,7 @@ public class Hex {
 	public static final int NOT_VALID_SLICE = -9999;
 	public static final int NOT_VALID_POINT = -9998;
 	public static final int DEFAULT_SCALE = 8;
-	public static final int DEFAULT_WIDTH = 5;
+	public static final int WIDTH = 5;
 	protected int x [];
 	protected int y [];
 	private int Xt;
@@ -44,14 +44,14 @@ public class Hex {
 	protected static boolean direction = false;
 	protected static double dwidth;
 	public static int scale = DEFAULT_SCALE;
-	public static int width = DEFAULT_WIDTH;
+//	public static int width = DEFAULT_WIDTH;
 	Polygon hexPolygon;
 	Rectangle rectBounds;
 
-	public Hex () {
-		this (direction);
-	}
-
+//	public Hex () {
+//		this (direction);
+//	}
+//
 	public Hex (boolean aHexDirection) {
 		this (0, 0, aHexDirection);
 	}
@@ -68,21 +68,13 @@ public class Hex {
 	public static boolean getStaticDirection () {
 		return direction;
 	}
-//
-//	public static boolean getDirection () {
-//		return direction;
-//	}
 
 	public boolean getHexDirection () {
 		return direction;
 	}
 
-	public static void setStaticDirection (boolean aDirection) {
-		direction = aDirection;
-	}
-
 	public void setDirection (boolean aDirection) {
-		setStaticDirection (aDirection);
+		direction = aDirection;
 	}
 
 	public int bottomEdgeDisplacement () {
@@ -1179,7 +1171,7 @@ public class Hex {
 		int rectWidth;
 		int rectHeight;
 
-		dwidth = width * scale;
+		dwidth = WIDTH * scale;
 
 		double ssp_d = sSixth_pi * dwidth;
 		double csp_d = cSixth_pi * dwidth;
