@@ -1055,7 +1055,11 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 
 	public int getHexScale () {
-		return Hex.getScale ();
+		int tScale;
+		
+		tScale = hex.getHexScale ();
+		
+		return tScale;
 	}
 
 	public void setHexScale (int aScale) {
