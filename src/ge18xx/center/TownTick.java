@@ -107,7 +107,7 @@ public class TownTick extends Town {
 		temp = aHex.getCityWidth ();
 		tTrackWidth = (int) (aHex.getTrackWidth () * 1.5);
 		g2d = (Graphics2D) g;
-		tHexDirection = Hex.getStaticDirection ();
+		tHexDirection = aHex.getHexDirection ();
 		if (tHexDirection) {
 			maxXDisplacement = (int) (-tTrackWidth * 0.866025);
 			minXDisplacement = (int) (-tTrackWidth * 0.5);
