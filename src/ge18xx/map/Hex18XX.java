@@ -15,12 +15,12 @@ import java.awt.Stroke;
 public class Hex18XX extends Hex {
 	public static final Hex18XX NO_HEX18XX = null;
 
-//	public Hex18XX () {
-//		this (direction);
-//	}
-//
 	public Hex18XX (boolean aHexDirection) {
 		this (0, 0, aHexDirection);
+	}
+	
+	public Hex18XX (boolean aHexDirection, int aScale) {
+		this (0, 0, aHexDirection, aScale);
 	}
 
 	public Hex18XX (int offsetX, int offsetY, boolean aHexDirection) {

@@ -854,14 +854,13 @@ public class HexMap extends GameMap implements MouseListener,
 		tCol = 0;
 		setMapCell (tRow, tCol, tDirection);
 		mapCells [0] [0].setTerrainFillColor (tFillColor);
-		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
 		tHexScale = mapFrame.getDefaultHexScale ();
-		if (tHexScale == 0) {
-			tHexScale = Hex.DEFAULT_SCALE;
-		} // TODO -- Need to get Hex Scales (Map and Tile Tray) and set them here.
+//		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
+		hex = new Hex18XX (mapCells [0] [0].getMapDirection (), tHexScale);
+		// TODO -- Need to get Hex Scales (Map and Tile Tray) and set them here.
 		// As well as redraw both.
 		
-//		setHexScale (tHexScale);
+		setHexScale (tHexScale);
 
 		CalcGridCenters ();
 
