@@ -377,15 +377,13 @@ public abstract class TokenCompany extends TrainCompany {
 		int tAbbrevWidth;
 		int tAbbrevHeight;
 		int tFontSize;
-		int tScale;
 
-		tScale = aHex.getHexScale ();
+		tFontSize = calculateFontSize (aHeight);
 		tCurrentFont = g.getFont ();
 		if (aHomeX) {
-			tFontSize = tScale + 1;
 			tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
 		} else {
-			tFontSize = tScale - 1;
+			tFontSize = tFontSize - 1;
 			tNewFont = new Font (FONT_SSNAME, Font.ITALIC, tFontSize);
 		}
 		g.setFont (tNewFont);
@@ -405,37 +403,45 @@ public abstract class TokenCompany extends TrainCompany {
 		g.setColor (tCurrentColor);
 	}
 
-	public void drawToken (Graphics g, int X1, int Y1, int width, int height) {
+	public void drawToken (Graphics g, int X1, int Y1, int aWidth, int aHeight) {
 		Font tCurrentFont;
 		Font tNewFont;
 		Color tCurrentColor;
 		int tX, tY;
 		int tAbbrevWidth;
 		int tAbbrevHeight;
-		int tFontSize;
-		int tScale;
+		int tCalculateFontSize;
 
-		tScale = Hex.getScale ();
-		tFontSize = tScale + 1;
+		tCalculateFontSize = calculateFontSize (aHeight);
 		tCurrentFont = g.getFont ();
-		tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
+		tNewFont = new Font (FONT_SSNAME, Font.BOLD, tCalculateFontSize);
 		g.setFont (tNewFont);
 		tCurrentColor = g.getColor ();
-		tX = X1 + width / 2;
-		tY = Y1 + height / 2;
+		tX = X1 + aWidth / 2;
+		tY = Y1 + aHeight / 2;
 		tAbbrevWidth = g.getFontMetrics ().stringWidth (abbrev);
 		tAbbrevHeight = g.getFontMetrics ().getHeight ();
 		tX = tX - tAbbrevWidth / 2;
 		tY = tY + tAbbrevHeight / 2;
 
 		g.setColor (bgColor);
-		g.fillOval (X1, Y1, width, height);
+		g.fillOval (X1, Y1, aWidth, aHeight);
 		g.setColor (fgColor);
 		g.drawString (abbrev, tX, tY);
 		g.setColor (Color.BLACK);
-		g.drawOval (X1, Y1, width, height);
+		g.drawOval (X1, Y1, aWidth, aHeight);
 		g.setFont (tCurrentFont);
 		g.setColor (tCurrentColor);
+	}
+
+	private int calculateFontSize (int aHeight) {
+		double tHeight;
+		int tFontSize;
+		
+		tHeight = aHeight;
+		tFontSize = (int) (tHeight/2.85 + 1);
+		
+		return tFontSize;
 	}
 
 	@Override
