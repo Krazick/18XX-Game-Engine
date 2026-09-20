@@ -128,7 +128,8 @@ public class Location implements Cloneable {
 		}
 		Xdisp = Double.valueOf (Xsign * (Xbase / Xfactor)).intValue ();
 		Ydisp = Double.valueOf (Ysign * (Ybase / Yfactor)).intValue ();
-		if (Hex.getStaticDirection ()) {
+//		if (Hex.getStaticDirection ()) {
+		if (aHex.getHexDirection ()) {
 			tDisp = Xdisp;
 			Xdisp = Ydisp;
 			Ydisp = -tDisp;
@@ -138,8 +139,10 @@ public class Location implements Cloneable {
 
 	@Override
 	public Location clone () {
+		Location tLocation;
+		
 		try {
-			Location tLocation = (Location) super.clone ();
+			tLocation = (Location) super.clone ();
 			tLocation.location = location;
 
 			return tLocation;
