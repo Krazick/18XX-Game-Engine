@@ -194,21 +194,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		hexScaleSlider = aJSlider;
 	}
 	
-//	public JSlider buildScaleSlider (int aSliderOrientation, ChangeListener aSliderListener) {
-//		JSlider tScaleSlider;
-//		
-//		tScaleSlider = new JSlider (aSliderOrientation, 4, 16, 8);
-//		tScaleSlider.addChangeListener (aSliderListener);
-//
-//		// Turn on labels at major tick marks.
-//		tScaleSlider.setMajorTickSpacing (4);
-//		tScaleSlider.setMinorTickSpacing (1);
-//		tScaleSlider.setPaintTicks (true);
-//		tScaleSlider.setPaintLabels (true);
-//		
-//		return tScaleSlider;
-//	}
-	
 	@Override
 	public int getHexScale () {
 		return hexMap.getHexScale ();
@@ -220,6 +205,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	@Override
 	public void setHexScale (int aScale) {
+		System.out.println ("In Map Frame Setting Hex Scale to " + aScale);
 		hexMap.setHexScale (aScale);
 		setHexScaleSlider (aScale);
 	}
