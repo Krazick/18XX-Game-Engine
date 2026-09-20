@@ -368,7 +368,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tReason;
 	}
 
-	public void drawBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHomeX) {
+	public void drawBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHomeX, Hex aHex) {
 		Font tCurrentFont;
 		Font tNewFont;
 		Color tCurrentColor;
@@ -379,7 +379,7 @@ public abstract class TokenCompany extends TrainCompany {
 		int tFontSize;
 		int tScale;
 
-		tScale = Hex.getScale ();
+		tScale = aHex.getHexScale ();
 		tCurrentFont = g.getFont ();
 		if (aHomeX) {
 			tFontSize = tScale + 1;

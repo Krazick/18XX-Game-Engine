@@ -273,12 +273,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		drawName (aGraphics, aXc, aYc, aHex);
 	}
 
-	public void drawDestination (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight) {
-		cityInfo.drawDestination (aGraphics, aX1, aY1, aWidth, aHeight, false);
+	public void drawDestination (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight, Hex aHex) {
+		cityInfo.drawDestination (aGraphics, aX1, aY1, aWidth, aHeight, false, aHex);
 	}
 	
-	public void drawCorporationBase (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight) {
-		cityInfo.drawCorporationBase (aGraphics, aX1, aY1, aWidth, aHeight, true);
+	public void drawCorporationBase (Graphics aGraphics, int aX1, int aY1, int aWidth, int aHeight, Hex aHex) {
+		cityInfo.drawCorporationBase (aGraphics, aX1, aY1, aWidth, aHeight, true, aHex);
 	}
 
 	public void drawName (Graphics aGraphics, int aXc, int aYc, Hex aHex) {

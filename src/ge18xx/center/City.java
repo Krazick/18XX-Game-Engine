@@ -958,8 +958,8 @@ public class City extends RevenueCenter implements Cloneable {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawTheCity (Graphics g, Color aCityColor, int X1, int Y1, int X2, int Y2, boolean drawValue, Hex aHex,
-			int Xc, int Yc, int aTileOrientation, int aTokenIndex) {
+	public void drawTheCity (Graphics g, Color aCityColor, int X1, int Y1, int X2, int Y2, 
+			boolean drawValue, Hex aHex, int Xc, int Yc, int aTileOrientation, int aTokenIndex) {
 		int width;
 		int height;
 		int tCorpID;
@@ -987,13 +987,13 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			tIsDestination = isDestination ();
 			if (tIsDestination) {
-				drawDestination (g, X1, Y1, width, height);
+				drawDestination (g, X1, Y1, width, height, aHex);
 			} else {
 				tIsCorporationBase = isCorporationBase ();
 				if (tIsCorporationBase) {
 					tCorpID = getHomeCompanyID ();
 					if (!cityHasStation (tCorpID)) {
-						drawCorporationBase (g, X1, Y1, width, height);
+						drawCorporationBase (g, X1, Y1, width, height, aHex);
 					}
 				}
 			}
