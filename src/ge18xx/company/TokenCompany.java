@@ -413,8 +413,9 @@ public abstract class TokenCompany extends TrainCompany {
 		int tAbbrevWidth;
 		int tAbbrevHeight;
 		int tFontSize;
-		int tScale = Hex.getScale ();
+		int tScale;
 
+		tScale = Hex.getScale ();
 		tFontSize = tScale + 1;
 		tCurrentFont = g.getFont ();
 		tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
