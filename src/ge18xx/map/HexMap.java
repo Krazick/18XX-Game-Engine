@@ -825,7 +825,7 @@ public class HexMap extends GameMap implements MouseListener,
 		boolean tLoadedRow;
 		int tTerrainType [];
 		int tTerrainCost [];
-		int tDefaultHexSize;
+		int tHexScale;
 		int tRow;
 		int tCol;
 
@@ -855,11 +855,13 @@ public class HexMap extends GameMap implements MouseListener,
 		setMapCell (tRow, tCol, tDirection);
 		mapCells [0] [0].setTerrainFillColor (tFillColor);
 		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
-		tDefaultHexSize = mapFrame.getDefaultHexScale ();
-		if (tDefaultHexSize == 0) {
-			tDefaultHexSize = Hex.DEFAULT_SCALE;
-		}
-		setHexScale (tDefaultHexSize);
+		tHexScale = mapFrame.getDefaultHexScale ();
+		if (tHexScale == 0) {
+			tHexScale = Hex.DEFAULT_SCALE;
+		} // TODO -- Need to get Hex Scales (Map and Tile Tray) and set them here.
+		// As well as redraw both.
+		
+//		setHexScale (tHexScale);
 
 		CalcGridCenters ();
 
