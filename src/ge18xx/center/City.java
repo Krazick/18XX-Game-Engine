@@ -599,7 +599,7 @@ public class City extends RevenueCenter implements Cloneable {
 		Point tDisplace;
 		boolean tHexDirection;
 		
-		tHexDirection = Hex.getStaticDirection ();
+		tHexDirection = aHex.getHexDirection ();
 		tDisplace = aLocation.calcCenter (aHex);
 
 		temp = aHex.getCityWidth ();
