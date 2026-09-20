@@ -56,6 +56,7 @@ public class TileTrayFrame extends XMLFrame {
 
 	@Override
 	public void setHexScale (int aScale) {
+		System.out.println ("In Tile Tray Frame Setting Hex Scale to " + aScale);
 		tileSet.setScale (aScale);
 		setHexScaleSlider (aScale);
 	}
