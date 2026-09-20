@@ -44,14 +44,9 @@ public class Hex {
 	protected static boolean direction = false;
 	protected static double dwidth;
 	public static int scale = DEFAULT_SCALE;
-//	public static int width = DEFAULT_WIDTH;
 	Polygon hexPolygon;
 	Rectangle rectBounds;
 
-//	public Hex () {
-//		this (direction);
-//	}
-//
 	public Hex (boolean aHexDirection) {
 		this (0, 0, aHexDirection);
 	}
