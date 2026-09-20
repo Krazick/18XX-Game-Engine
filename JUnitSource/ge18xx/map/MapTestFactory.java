@@ -159,7 +159,7 @@ public class MapTestFactory {
 	public Hex buildHex () {
 		Hex tHex;
 		
-		tHex = new Hex ();
+		tHex = new Hex (false);
 		
 		return tHex;
 	}

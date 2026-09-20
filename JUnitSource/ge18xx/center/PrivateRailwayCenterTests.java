@@ -54,7 +54,7 @@ class PrivateRailwayCenterTests {
 		tX = 10;
 		tY = 10;
 		tOrient = 0;
-		tHex = new Hex ();
+		tHex = new Hex (false);
 		tOnTile = false;
 		tFeature = new Feature2 ();
 		tNoCityInfo = CityInfo.NO_CITY_INFO;

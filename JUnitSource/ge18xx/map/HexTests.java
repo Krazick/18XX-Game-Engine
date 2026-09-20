@@ -30,17 +30,17 @@ class HexTests {
 	void tearDown () throws Exception {
 	}
 
-	@Test
-	@DisplayName ("Test default static values")
-	public void TestDefaultStaticValues () {
-		Hex tHex;
-
-		tHex = new Hex ();
-		assertFalse (tHex.getHexDirection ());
-		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
-		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
-		assertEquals (20, tHex.getXd ());
-	}
+//	@Test
+//	@DisplayName ("Test default static values")
+//	public void TestDefaultStaticValues () {
+//		Hex tHex;
+//
+//		tHex = new Hex (false);
+//		assertFalse (tHex.getHexDirection ());
+//		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+//		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
+//		assertEquals (20, tHex.getXd ());
+//	}
 
 	@Test
 	@DisplayName ("Test Constructor with 'false', same as no Args")
