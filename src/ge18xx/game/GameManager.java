@@ -3662,10 +3662,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tGameFrameConfig = getGameFrameConfig ();
 		if (tGameFrameConfig != GameFrameConfig.NO_GAME_FRAME) {
 			for (XMLFrame tXMLFrame : configFrames) {
-				System.out.println ("Ready to apply Config Settings for Frame [" + tXMLFrame.getName () + ")");
+//				System.out.println ("Ready to apply Config Settings for Frame [" + tXMLFrame.getName () + ")");
 				tXMLFrame.setFrameToConfigDefaults (tGameFrameConfig, getVisibileConfig ());
-				System.out.println ("Applied Config Settings for Frame [" + tXMLFrame.getName () + ")");
-				System.out.println ("Hex Scale " + tXMLFrame.getHexScale ());
+//				System.out.println ("Applied Config Settings for Frame [" + tXMLFrame.getName () + ")");
+//				System.out.println ("Hex Scale " + tXMLFrame.getHexScale ());
 			}
 		}
 	}
