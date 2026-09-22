@@ -41,7 +41,7 @@ public class Hex {
 	int Yc;
 	protected int cityWidth;
 	protected int trackWidth;
-	protected static boolean direction = false;
+	protected /*static */ boolean direction = false;
 	protected static double dwidth;
 	public static int scale = DEFAULT_SCALE;
 	Polygon hexPolygon;
@@ -60,9 +60,9 @@ public class Hex {
 		setScaleAndSize (aScale, offsetX, offsetY);
 	}
 
-	public static boolean getStaticDirection () {
-		return direction;
-	}
+//	public static boolean getStaticDirection () {
+//		return direction;
+//	}
 
 	public boolean getHexDirection () {
 		return direction;

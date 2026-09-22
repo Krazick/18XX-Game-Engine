@@ -20,6 +20,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ge18xx.map.Hex;
+
 //
 //  TileSet.java
 //  Java_18XX
@@ -61,6 +63,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
 	protected Hex18XX hex;
+	protected String direction;
 	boolean showAllTiles; 		// Set true to show all Tiles in Tile Tray
 	boolean singleTileSelect; 	// Set true if in mode to select a SINGLE Tile, selecting a different one
 								// should unselect ALL and leave only the single tile selected.
@@ -394,18 +397,25 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	};
 
+	public void setDirection (String aDirection) {
+		direction = aDirection;
+	}
+	
 	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode tXMLTileSetRoot;
 		String tRootName;
 		String tDirection;
+		int tHexScale;
 
 		tXMLTileSetRoot = aXMLDocument.getDocumentNode ();
 		tRootName = tXMLTileSetRoot.getNodeName ();
 		if (EN_TILE_MANIFEST.equals (tRootName)) {
 			tDirection = tXMLTileSetRoot.getThisAttribute (AN_DIRECTION);
-			setHex (tDirection);
+			setDirection (tDirection);
+			tHexScale = tileTrayFrame.getHexScale ();
+			setHex (direction, tHexScale);
 			tileTrayFrame.setDefaults (tXMLTileSetRoot);
 			tileTrayFrame.setDefaultFrameInfo ();
 		} else if (EN_TILE_DEFINITIONS.equals (tRootName)) {
@@ -657,11 +667,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tTile;
 	}
 
-	public void setHex (boolean aHexDirection) {
-		hex = new Hex18XX (aHexDirection);
-	}
-
-	public void setHex (String aHexDirection) {
+	public void setHex (String aHexDirection, int aScale) {
 		boolean tHexDirection;
 
 		if (aHexDirection == null) {
@@ -678,9 +684,13 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 
-		setHex (tHexDirection);
+		createAndSetHex (tHexDirection, aScale);
 	}
-	
+
+	public void createAndSetHex (boolean aHexDirection, int aScale) {
+		hex = new Hex18XX (aHexDirection, aScale);
+	}
+
 	public boolean getHexDirection () {
 		return hex.getHexDirection ();
 	}
@@ -1036,11 +1046,20 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public void setScale (int aHexScale) {
 		hex.setScale (aHexScale);
-		setSizeAndRedraw ();
+		setSizeAndRedraw (aHexScale);
+	}
+	
+	public void setSizeAndRedraw () {
+		int tScale;
+		
+		if (hex != Hex.NO_HEX) {
+			tScale = hex.getHexScale ();
+			setSizeAndRedraw (tScale);
+		}
 	}
 
-	public void setSizeAndRedraw () {
-		setTraySize ();
+	public void setSizeAndRedraw (int aScale) {
+		setTraySize (aScale);
 		redrawTileTray ();
 	}
 
@@ -1091,7 +1110,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tilesPerRow;
 	}
 	
-	public void setTraySize () {
+	public void setTraySize (int aScale) {
 		int tMaxX;
 		int tMaxY;
 		int tRowCount;
@@ -1099,11 +1118,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tHexWidth;
 		int tScaleSliderWidth;
 		Dimension tNewDimension;
-		boolean tHexDirection;
 
 		if (hex == Hex18XX.NO_HEX18XX) {
-			tHexDirection = Hex18XX.getStaticDirection ();
-			setHex (tHexDirection);
+			setHex (direction, aScale);
+		} else {
+			hex.setScale (aScale);
 		}
 		
 		tTilesPerRow = calcTilesPerRow ();
@@ -1182,5 +1201,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	@Override
 	public void componentHidden (ComponentEvent e) {
+		setSizeAndRedraw ();
 	}
 }
