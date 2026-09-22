@@ -18,10 +18,12 @@ public class PlanTileSet extends TileSet {
 		super (aSetName);
 		
 		boolean tHexDirection;
+		int tScale;
 		
 		setShowAllTiles (true);
 		tHexDirection = hex.getHexDirection ();
-		setHex (tHexDirection);
+		tScale = hex.getHexScale ();
+		createAndSetHex (tHexDirection, tScale);
 		setPlanFrame (aPlanFrame);
 	}
 
@@ -45,14 +47,14 @@ public class PlanTileSet extends TileSet {
     }
 	
 	@Override
-	public void setTraySize () {
+	public void setTraySize (int aScale) {
 		Dimension tNewDimension;
 		int tMaxX;
 		int tMaxY;
 //		int tRowCount;
 
 //		if (hex == Hex18XX.NO_HEX18XX) {
-//			setHex (Hex18XX.getDirection ());
+//			setHex (Hex18XX.getDirection (), aScale);
 //		}
 //		tRowCount = calcRowCount ();
 //		tMaxX = Double.valueOf (Hex18XX.getWidth () * 2.25 * getTilesPerRow () + 10).intValue ();
