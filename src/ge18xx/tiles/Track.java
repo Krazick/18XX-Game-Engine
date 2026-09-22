@@ -118,8 +118,10 @@ public class Track implements Cloneable {
 
 	@Override
 	public Track clone () {
+		Track tTrack;
+		
 		try {
-			Track tTrack = (Track) super.clone ();
+			tTrack = (Track) super.clone ();
 			tTrack.enter = enter.clone ();
 			tTrack.exit = exit.clone ();
 			tTrack.gauge = gauge.clone ();
@@ -151,9 +153,14 @@ public class Track implements Cloneable {
 		Shape tPreviousClip;
 		Polygon tHexPolygon;
 		Hex tHex;
+		boolean tHexDirection;
+		int tHexScale;
 
 		tPreviousClip = g.getClip ();
-		tHex = new Hex (X, Y, aHex.getHexDirection (), aHex.getHexScale ());
+		tHexDirection = aHex.getHexDirection ();
+		tHexScale = aHex.getHexScale ();
+		tHex = new Hex (X, Y, tHexDirection, tHexScale);
+//		tHex = new Hex (X, Y, aHex.getHexDirection (), aHex.getHexScale ());
 		tHexPolygon = tHex.getHexPolygon ();
 		tNewClip = new Area (tPreviousClip);
 		tHexClip = new Area (tHexPolygon);
