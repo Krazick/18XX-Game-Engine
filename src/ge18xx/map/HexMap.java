@@ -861,7 +861,6 @@ public class HexMap extends GameMap implements MouseListener,
 		// As well as redraw both.
 		
 		setHexScale (tHexScale);
-
 		CalcGridCenters ();
 
 		tChildren = tXMLMapRoot.getChildNodes ();
