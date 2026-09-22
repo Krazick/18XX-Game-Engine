@@ -41,13 +41,13 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		mapCells = new MapCell [aRows] [aCols];
 	}
 
-	public void setMapCell (int aRow, int aCol, String aDirection, GameMap aHexMap) {
-		MapCell tMapCell;
-		
-		tMapCell = new MapCell (this, aDirection);
-		tMapCell.setOffsetCoordinates (aCol, aRow);
-		setMapCell (aRow, aCol, tMapCell);
-	}
+//	public void setMapCell (int aRow, int aCol, String aDirection, GameMap aHexMap) {
+//		MapCell tMapCell;
+//		
+//		tMapCell = new MapCell (this, aDirection);
+//		tMapCell.setOffsetCoordinates (aCol, aRow);
+//		setMapCell (aRow, aCol, tMapCell);
+//	}
 	
 	public void setMapCell (int aRow, int aCol, String aDirection) {
 		MapCell tMapCell;
