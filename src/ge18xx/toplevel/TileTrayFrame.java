@@ -32,15 +32,22 @@ public class TileTrayFrame extends XMLFrame {
 		super (aFrameName, aGameManager);
 		
 		JSlider tScaleSlider;
-		boolean tHexScaleSynchronized;
-		UserPreferencesFrame tUserPreferencesFrame;
 		
 		buildTileTrayScrollPanel ();
 		tScaleSlider = buildScaleSlider (SwingConstants.VERTICAL, tileSet);
 		
 		add (tScaleSlider, BorderLayout.WEST);
 		setScaleSlider (tScaleSlider);
-		tUserPreferencesFrame = aGameManager.getUserPreferencesFrame ();
+		updateFrame ();
+	}
+
+	public void updateFrame () {
+		boolean tHexScaleSynchronized;
+		UserPreferencesFrame tUserPreferencesFrame;
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tUserPreferencesFrame = tGameManager.getUserPreferencesFrame ();
 		tHexScaleSynchronized = tUserPreferencesFrame.getHexScalesSynchronized ();
 		updateFrame (tHexScaleSynchronized);
 	}
@@ -74,8 +81,15 @@ public class TileTrayFrame extends XMLFrame {
 	}
 	
 	public void updateFrame (boolean aHexScaleSynchronized) {
+		int tScale;
+		
+		revalidate ();
+		repaint ();
+
 		scaleSlider.setVisible (! aHexScaleSynchronized);
-		tileSet.setSizeAndRedraw ();
+		tScale = scaleSlider.getValue ();
+		System.out.println ("Ready to revalidate and repaint Tile Tray Frame - Scale " + tScale);
+		tileSet.setSizeAndRedraw (tScale);
 		updateFrameTitle (BASE_TITLE);
 	}
 
