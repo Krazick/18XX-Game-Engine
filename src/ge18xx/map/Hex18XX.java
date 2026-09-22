@@ -140,7 +140,7 @@ public class Hex18XX extends Hex {
 	}
 
 	public void drawCattle (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
-		// Draw a Cattle
+		// Draw a Cattle Graphic
 	}
 
 	public void drawLicenseToken (Graphics aGraphics, int Xc, int Yc, Paint aPaint, int aBenefitValue) {
