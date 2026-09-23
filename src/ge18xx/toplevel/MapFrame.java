@@ -210,7 +210,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 
 	@Override
 	public void setHexScale (int aScale) {
-		System.out.println ("In Map Frame Setting Hex Scale to " + aScale);
 		hexMap.setHexScale (aScale);
 		setHexScaleSlider (aScale);
 	}
