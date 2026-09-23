@@ -30,19 +30,19 @@ public class Hex {
 	public static final int NOT_VALID_POINT = -9998;
 	public static final int DEFAULT_SCALE = 8;
 	public static final int WIDTH = 5;
-	protected int x [];
-	protected int y [];
-	private int Xt;
-	private int Yt;
 	private int displaceUpDown;
 	private int displaceLeftRight;
-	protected int intDWidth;
+	private int Xt;
+	private int Yt;
 	int Xc;
 	int Yc;
+	protected int x [];
+	protected int y [];
+	protected boolean direction = false;
 	protected int cityWidth;
 	protected int trackWidth;
-	protected boolean direction = false;
-	protected static double dwidth;
+	protected int intDWidth;
+	protected double dwidth;
 	public int scale = DEFAULT_SCALE;
 	Polygon hexPolygon;
 	Rectangle rectBounds;
@@ -86,10 +86,6 @@ public class Hex {
 
 	public int getDisplaceLeftRight () {
 		return displaceLeftRight;
-	}
-
-	public int getIntDWidth () {
-		return intDWidth;
 	}
 
 	public void clipToHex (Graphics aGraphics, int aXo, int aYo) {
@@ -887,6 +883,10 @@ public class Hex {
 		return trackWidth;
 	}
 
+	public int getIntDWidth () {
+		return intDWidth;
+	}
+
 	public int getHexWidth () {
 		return (Double.valueOf (dwidth).intValue ());
 	}
@@ -1155,6 +1155,7 @@ public class Hex {
 		int rectHeight;
 
 		dwidth = WIDTH * scale;
+		intDWidth = Double.valueOf (dwidth).intValue ();
 
 		double ssp_d = sSixth_pi * dwidth;
 		double csp_d = cSixth_pi * dwidth;
@@ -1166,7 +1167,6 @@ public class Hex {
 		Xt = Double.valueOf (stp_d).intValue () - 3;
 		Yt = Double.valueOf (ctp_d).intValue () - 3;
 		offsetHex (offsetX, offsetY);
-		intDWidth = Double.valueOf (dwidth).intValue ();
 
 		fillXandYPoints ();
 		

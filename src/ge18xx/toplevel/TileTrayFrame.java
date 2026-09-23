@@ -65,12 +65,13 @@ public class TileTrayFrame extends XMLFrame {
 	public void setHexScale (int aScale) {
 		System.out.println ("In Tile Tray Frame Setting Hex Scale to " + aScale);
 		tileSet.setScale (aScale);
-		setHexScaleSlider (aScale);
+		scaleSlider.setValue (aScale);
+//	 	setHexScaleSlider (aScale);
 	}
 	
-	public void setHexScaleSlider (int aScale) {
-		scaleSlider.setValue (aScale);
-	}
+//	public void setHexScaleSlider (int aScale) {
+//		scaleSlider.setValue (aScale);
+//	}
 
 	public boolean scaleSliderIsVisible  () {
 		boolean tScaleSliderIsVisible;
@@ -87,8 +88,7 @@ public class TileTrayFrame extends XMLFrame {
 		repaint ();
 
 		scaleSlider.setVisible (! aHexScaleSynchronized);
-		tScale = scaleSlider.getValue ();
-		System.out.println ("Ready to revalidate and repaint Tile Tray Frame - Scale " + tScale);
+		tScale = getHexScale ();
 		tileSet.setSizeAndRedraw (tScale);
 		updateFrameTitle (BASE_TITLE);
 	}

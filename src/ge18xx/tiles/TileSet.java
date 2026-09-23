@@ -153,14 +153,14 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.clearPlayable ();
 		}
-		redrawTileTray ();
+		setSizeAndRedraw ();
 	}
 	
 	public void clearAllSelected () {
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.clearSelected ();
 		}
-		redrawTileTray ();
+		setSizeAndRedraw ();
 	}
 
 	public void fillPlayableGameTiles (List<GameTile> aPlayableGameTiles) {
@@ -173,11 +173,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public boolean removeAllTiles () {
 		return gameTiles.removeAll (gameTiles);
-	}
-	
-	public void redrawTileTray () {
-		revalidate ();
-		repaint ();
 	}
 
 	public void tileTrayFrameToFront () {
@@ -466,7 +461,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 			tileTrayFrameToFront ();
 		}
-		redrawTileTray ();
+		setSizeAndRedraw ();
 	}
 
 	protected void switchSelectedTile (GameTile tGameTile) {
@@ -764,7 +759,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 		if (tPlayableCount > 0) {
-			redrawTileTray ();
+			setSizeAndRedraw ();
 		}
 	}
 
@@ -875,7 +870,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 		if (tAvailableCount > 0) {
-			redrawTileTray ();
+			setSizeAndRedraw ();
 		}
 
 		return tAvailableCount;
@@ -915,7 +910,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 
 		if (tPlayableCount > 0) {
-			redrawTileTray ();
+			setSizeAndRedraw ();
 		}
 	}
 
@@ -988,7 +983,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 		if (tPlayableCount > 0) {
-			redrawTileTray ();
+			setSizeAndRedraw ();
 		}
 	}
 
@@ -1055,12 +1050,13 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (hex != Hex.NO_HEX) {
 			tScale = hex.getScale ();
 			setSizeAndRedraw (tScale);
-		}
+		}	
 	}
 
 	public void setSizeAndRedraw (int aScale) {
 		setTraySize (aScale);
-		redrawTileTray ();
+		revalidate ();
+		repaint ();
 	}
 
 	public int calcRowCount () {

@@ -155,7 +155,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		int tScale;
 		
 		tScale = hexScaleSlider.getValue ();
-		System.out.println ("Ready to revalidate and repaint Map Frame - Scale " + tScale);
 		hexMap.setHexScale (tScale);
 
 		updateFrameTitle (BASE_TITLE);
