@@ -907,20 +907,22 @@ public class RouteInformation {
 				tPreviousEnd = tPreviousEndLocation.getLocation ();
 				if (!tPreviousEndLocation.isSide ()) {
 					tTrack = tPreviousMapCell.getTrackFromStartToEnd (tPreviousEnd, tPreviousSide);
-					if (!tTrack.isTrackUsed ()) {
-						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
-						tPreviousRevenueCenter = tPreviousSegment.getRevenueCenter ();
-						setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter, aPhase, aCorpID);
-
-						tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide, phase);
-
-						addRouteSegment (tNewPreviousSegment, aRouteAction);
-						tTrainNumber = getTrainIndex () + 1;
-						tNewPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
-						tAddNewPreviousSegment = true;
-					} else {
-						warningMessage = "Previous Map Cell's Track is in Use";
-						System.err.println (warningMessage);
+					if (tTrack != Track.NO_TRACK) {
+						if (!tTrack.isTrackUsed ()) {
+							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
+							tPreviousRevenueCenter = tPreviousSegment.getRevenueCenter ();
+							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter, aPhase, aCorpID);
+	
+							tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide, phase);
+	
+							addRouteSegment (tNewPreviousSegment, aRouteAction);
+							tTrainNumber = getTrainIndex () + 1;
+							tNewPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
+							tAddNewPreviousSegment = true;
+						} else {
+							warningMessage = "Previous Map Cell's Track is in Use";
+							System.err.println (warningMessage);
+						}
 					}
 				} else {
 					tCurrentCellNeighborSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
