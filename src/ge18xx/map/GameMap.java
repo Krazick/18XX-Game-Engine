@@ -107,7 +107,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	}
 
 	public int getHexWidth () {
-		return (Hex.getWidth ());
+		return (hex.getHexWidth ());
 	}
 
 	public int getHexHeight () {
