@@ -120,20 +120,20 @@ public class Hex {
 	}
 
 	private Polygon buildOffsetPolygon (int aXc, int aYc) {
-		int xp [];
-		int yp [];
+		int tXp [];
+		int tYp [];
 		int tPointCount;
 		int tIndex;
 		Polygon tOffsetHexPolygon;
 
 		tPointCount = x.length;
-		xp = new int [tPointCount];
-		yp = new int [tPointCount];
+		tXp = new int [tPointCount];
+		tYp = new int [tPointCount];
 		for (tIndex = 0; tIndex < tPointCount; tIndex++) {
-			xp [tIndex] = x [tIndex] + aXc;
-			yp [tIndex] = y [tIndex] + aYc;
+			tXp [tIndex] = x [tIndex] + aXc;
+			tYp [tIndex] = y [tIndex] + aYc;
 		}
-		tOffsetHexPolygon = new Polygon (xp, yp, tPointCount);
+		tOffsetHexPolygon = new Polygon (tXp, tYp, tPointCount);
 
 		return tOffsetHexPolygon;
 	}
@@ -148,8 +148,8 @@ public class Hex {
 
 	public void drawBorders (Graphics2D aGraphics2D, int aXo, int aYo, boolean aDrawBorder, 
 							boolean aBlockedSides []) {
-		int xp [];
-		int yp [];
+		int tXp [];
+		int tYp [];
 		int tPointCount;
 		int index;
 		Polygon tClipPolygon;
@@ -161,8 +161,8 @@ public class Hex {
 
 		tPointCount = x.length;
 		tClipPolygon = buildOffsetPolygon (aXo, aYo);
-		xp = tClipPolygon.xpoints;
-		yp = tClipPolygon.ypoints;
+		tXp = tClipPolygon.xpoints;
+		tYp = tClipPolygon.ypoints;
 		
 		tPreviousClip = aGraphics2D.getClip ();
 		tNewClip = new Area (tPreviousClip);
@@ -176,7 +176,7 @@ public class Hex {
 			aGraphics2D.setStroke (tBlockedStroke);
 			for (index = 0; index < tPointCount - 1; index++) {
 				if (aBlockedSides [index]) {
-					aGraphics2D.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
+					aGraphics2D.drawLine (tXp [index], tYp [index], tXp [index + 1], tYp [index + 1]);
 				}
 			}
 			aGraphics2D.setStroke (tCurrentStroke);
@@ -220,24 +220,24 @@ public class Hex {
 	}
 
 	protected int [] [] getPolygonArrays (int aXc, int aYc, int aRadius, int aSideCount) {
-		int [] x;
-		int [] y;
-		double thetaInc;
-		double theta;
+		int [] tXp;
+		int [] tYp;
+		double tThetaInc;
+		double tTheta;
 
-		x = new int [aSideCount];
-		y = new int [aSideCount];
-		thetaInc = 2 * Math.PI / aSideCount;
-		theta = (aSideCount % 2 == 0) ? thetaInc : -Math.PI / 2;
+		tXp = new int [aSideCount];
+		tYp = new int [aSideCount];
+		tThetaInc = 2 * Math.PI / aSideCount;
+		tTheta = (aSideCount % 2 == 0) ? tThetaInc : -Math.PI / 2;
 		
-		theta += Math.PI / 8;
+		tTheta += Math.PI / 8;
 		for (int j = 0; j < aSideCount; j++) {
-			x [j] = (int) (aXc + aRadius * Math.cos (theta));
-			y [j] = (int) (aYc + aRadius * Math.sin (theta));
-			theta += thetaInc;
+			tXp [j] = (int) (aXc + aRadius * Math.cos (tTheta));
+			tYp [j] = (int) (aYc + aRadius * Math.sin (tTheta));
+			tTheta += tThetaInc;
 		}
 
-		return new int [] [] { x, y };
+		return new int [] [] { tXp, tYp };
 	}
 
 	public Rectangle getBounds () {
@@ -769,12 +769,13 @@ public class Hex {
 				}
 			}
 		}
+		
 		return tReturnY;
 	}
 
 	public Polygon getHexSlicesPolygon (int aStartSlice, int aEndSlice) {
-		int sliceX[];
-		int sliceY[];
+		int sliceX [];
+		int sliceY [];
 		int pointCount;
 		int sliceCount;
 		int sliceIndex;
@@ -828,51 +829,51 @@ public class Hex {
 	}
 
 	public int getMaxX () {
-		int maxX;
+		int tMaxX;
 
 		if (direction) {
-			maxX = x [3];
+			tMaxX = x [3];
 		} else {
-			maxX = x [2];
+			tMaxX = x [2];
 		}
 
-		return maxX;
+		return tMaxX;
 	}
 
 	public int getMaxY () {
-		int maxY;
+		int tMaxY;
 
 		if (direction) {
-			maxY = y [5];
+			tMaxY = y [5];
 		} else {
-			maxY = y [3];
+			tMaxY = y [3];
 		}
 
-		return maxY;
+		return tMaxY;
 	}
 
 	public int getMinX () {
-		int minX;
+		int tMinX;
 
 		if (direction) {
-			minX = x [0];
+			tMinX = x [0];
 		} else {
-			minX = x [5];
+			tMinX = x [5];
 		}
 
-		return minX;
+		return tMinX;
 	}
 
 	public int getMinY () {
-		int minY;
+		int tMinY;
 
 		if (direction) {
-			minY = y [2];
+			tMinY = y [2];
 		} else {
-			minY = y [1];
+			tMinY = y [1];
 		}
 
-		return minY;
+		return tMinY;
 	}
 
 	public int getScale () {
@@ -904,159 +905,159 @@ public class Hex {
 	}
 
 	public int midpointX (int aSide) {
-		int midX = 0;
-		int midX1;
+		int tMidX = 0;
+		int tMidX1;
 
 		if (aSide > 11) {
-			midX1 = midpointX (aSide - 11);
-			midX = (Xc + midX1) / 2;
+			tMidX1 = midpointX (aSide - 11);
+			tMidX = (Xc + tMidX1) / 2;
 		} else {
 			if (direction) {
 				switch (aSide) {
 				case (0):
-					midX = x [0];
+					tMidX = x [0];
 					break;
 
 				case (1):
 				case (5):
 				case (6):
 				case (7):
-					midX = Xc - (Xc - x [1]) / 2;
+					tMidX = Xc - (Xc - x [1]) / 2;
 					break;
 
 				case (2):
 				case (4):
 				case (9):
 				case (10):
-					midX = Xc + (Xc - x [1]) / 2;
+					tMidX = Xc + (Xc - x [1]) / 2;
 					break;
 
 				case (3):
-					midX = x [3];
+					tMidX = x [3];
 					break;
 
 				case (8):
 				case (11):
-					midX = Xc;
+					tMidX = Xc;
 					break;
 				}
 			} else {
 				switch (aSide) {
 				case (0):
 				case (3):
-					midX = Xc;
+					tMidX = Xc;
 					break;
 
 				case (1):
 				case (2):
-					midX = Xc + (intDWidth - displaceUpDown) / 2 + displaceUpDown;
+					tMidX = Xc + (intDWidth - displaceUpDown) / 2 + displaceUpDown;
 					break;
 
 				case (4):
 				case (5):
-					midX = Xc - (intDWidth - displaceUpDown) / 2 - displaceUpDown;
+					tMidX = Xc - (intDWidth - displaceUpDown) / 2 - displaceUpDown;
 					break;
 
 				case (8):
-					midX = x [1];
+					tMidX = x [1];
 					break;
 
 				case (11):
-					midX = x [0];
+					tMidX = x [0];
 					break;
 
 				case (6):
 				case (10):
-					midX = x [0] + (Xc - x [0]) / 2;
+					tMidX = x [0] + (Xc - x [0]) / 2;
 					break;
 
 				case (7):
 				case (9):
-					midX = Xc + (Xc - x [0]) / 2;
+					tMidX = Xc + (Xc - x [0]) / 2;
 					break;
 				}
 			}
 		}
 
-		return midX;
+		return tMidX;
 	}
 
 	public int midpointY (int aSide) {
-		int midY = 0;
-		int midY1;
+		int tMidY = 0;
+		int tMidY1;
 
 		if (aSide > 11) {
-			midY1 = midpointY (aSide - 11);
-			midY = (Yc + midY1) / 2;
+			tMidY1 = midpointY (aSide - 11);
+			tMidY = (Yc + tMidY1) / 2;
 		} else {
 			if (direction) {
 				switch (aSide) {
 				case (0):
 				case (3):
-					midY = Yc;
+					tMidY = Yc;
 					break;
 
 				case (1):
 				case (2):
-					midY = (y [1] + y [2]) / 2;
+					tMidY = (y [1] + y [2]) / 2;
 					break;
 
 				case (4):
 				case (5):
-					midY = (y [4] + y [5]) / 2;
+					tMidY = (y [4] + y [5]) / 2;
 					break;
 
 				case (6):
 				case (10):
-					midY = (y [0] + Yc) / 2;
+					tMidY = (y [0] + Yc) / 2;
 					break;
 
 				case (7):
 				case (9):
-					midY = (y [1] + Yc) / 2;
+					tMidY = (y [1] + Yc) / 2;
 					break;
 
 				case (8):
-					midY = (y [2] + Yc) / 2;
+					tMidY = (y [2] + Yc) / 2;
 					break;
 
 				case (11):
-					midY = (y [5] + Yc) / 2;
+					tMidY = (y [5] + Yc) / 2;
 					break;
 				}
 			} else {
 				switch (aSide) {
 				case (0):
-					midY = y [1];
+					tMidY = y [1];
 					break;
 
 				case (3):
-					midY = y [3];
+					tMidY = y [3];
 					break;
 
 				case (1):
 				case (5):
 				case (6):
 				case (7):
-					midY = Yc - displaceLeftRight / 2;
+					tMidY = Yc - displaceLeftRight / 2;
 					break;
 
 				case (2):
 				case (4):
 				case (9):
 				case (10):
-					midY = Yc + displaceLeftRight / 2;
+					tMidY = Yc + displaceLeftRight / 2;
 					break;
 
 				case (8):
 				case (11):
-					midY = Yc;
+					tMidY = Yc;
 					break;
 				}
 			}
 		}
 
-		return midY;
+		return tMidY;
 	}
 
 	public void offsetHex (int offsetX, int offsetY) {
@@ -1064,20 +1065,20 @@ public class Hex {
 		Yc = offsetY;
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint) {
-		paintHex (g, Xo, Yo, aFillPaint, true, null);
+	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint) {
+		paintHex (aGraphics, aXo, aYo, aFillPaint, true, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, Paint aThickFrame) {
-		paintHex (g, Xo, Yo, aFillPaint, true, aThickFrame);
+	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, Paint aThickFrame) {
+		paintHex (aGraphics, aXo, aYo, aFillPaint, true, aThickFrame);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder) {
-		paintHex (g, Xo, Yo, aFillPaint, aDrawBorder, null);
+	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, boolean aDrawBorder) {
+		paintHex (aGraphics, aXo, aYo, aFillPaint, aDrawBorder, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder, Paint aThickFrame) {
-		paintHex (g, Xo, Yo, aFillPaint, aDrawBorder, null, null);
+	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, boolean aDrawBorder, Paint aThickFrame) {
+		paintHex (aGraphics, aXo, aYo, aFillPaint, aDrawBorder, null, null);
 	}
 
 	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, boolean aDrawBorder, 
