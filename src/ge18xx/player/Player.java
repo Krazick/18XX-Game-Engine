@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -103,9 +104,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	 * These attributes are set once, and never change, but are needed for game use
 	 */
 	PlayerManager playerManager;
+	PlayerFrame playerFrame;
 	String name;
 	String boughtShare;
-	PlayerFrame playerFrame;
+	String exchangedPrezShare;
 	
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
@@ -117,10 +119,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	int certificateLimit;
 
 	/* These attributes below change during the game, need to save/load them */
-	String exchangedPrezShare;
+	boolean addTimeBudget;
 	boolean bidShare;
 	boolean triggeredAuction;
 	int treasury;
+	Duration timeBudget;
 	AllPercentBought allPercentBought;
 	RoundDividends roundDividends;
 	Benefit benefitInUse;
@@ -149,6 +152,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
+		setAddTimeBudget (true);
+		
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
 		setGameHasCompanies (tGameManager);
@@ -190,6 +195,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tContractBidFrame = tGameManager.getContractBidFrame ();
 		
 		return tContractBidFrame;
+	}
+	
+	public void setAddTimeBudget (boolean aAddTimeBudget) {
+		addTimeBudget = aAddTimeBudget;
 	}
 	
 	public Bank getActorsBank () {
@@ -2034,6 +2043,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		JLabel tDividendsLabel;
 		JLabel tSoldCompanies;
 		GameManager tGameManager;
+		JLabel tTimeBudgetLabel;
 
 		tGameManager = playerManager.getGameManager ();
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
@@ -2056,6 +2066,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tDividendsLabel = new JLabel ("Dividends: " + getAllDividends ());
 		playerJPanel.add (tDividendsLabel);
 		
+		tTimeBudgetLabel = new JLabel ("Time: " + buildTimeBudget ());
+		if (addTimeBudget) {
+			playerJPanel.add (tTimeBudgetLabel);
+		}
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
 		
@@ -2063,6 +2077,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (tOwnershipPanel != GUI.NO_PANEL) {
 			playerJPanel.add (tOwnershipPanel);
 		}
+		
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
 		if (tSoldCompanies != SoldCompanies.NO_SOLD_COMPANIES) {
 			playerJPanel.add (tSoldCompanies);
@@ -2072,6 +2087,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.revalidate ();
 	}
 
+	public String buildTimeBudget () {
+		String tTimeBudget;
+		
+		tTimeBudget = "12:34";
+		
+		return tTimeBudget;
+	}
+	
 	public String buildCertCountInfo (String aPrefix) {
 		int tCertificateCount;
 		int tCertificateLimit;
