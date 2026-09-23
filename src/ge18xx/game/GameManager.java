@@ -3665,6 +3665,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				tXMLFrame.setFrameToConfigDefaults (tGameFrameConfig, getVisibileConfig ());
 			}
 		}
+		mapFrame.updateFrame ();
 		tileTrayFrame.updateFrame ();
 	}
 
