@@ -255,19 +255,23 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 	}
 
 	public void addAction (Action aAction) {
-	
+		int tEffectCount;
+		
 		// If applying a Network Action, we do -NOT- Need to add the Action again. This
 		// will double-up the Actions, and
 		// During a Reload and Saved Network Game, this messes up the lastAction Number
 		// locally.
-		if (! applyingAction ()) {
-			actionManager.addAction (aAction);
+		tEffectCount = aAction.getEffectCount ();
+		if (tEffectCount > 0) {
+			if (! applyingAction ()) {
+				actionManager.addAction (aAction);
+			}
+			gameManager.autoSaveGame ();
+			gameManager.setGameChanged (true);
+		} else {
+			System.out.println ("Action # " + aAction.getNumber () + " Name " + aAction.getName () +
+					" has NO Effects. Not Adding.");
 		}
-//		System.out.println ("Action #" + aAction.getNumber () + 
-//				" sent by Client " + gameManager.getClientUserName ());
-
-		gameManager.autoSaveGame ();
-		gameManager.setGameChanged (true);
 	}
 
 	public boolean checkAndHandleInterruption () {
