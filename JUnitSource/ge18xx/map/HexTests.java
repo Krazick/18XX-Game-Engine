@@ -49,7 +49,7 @@ class HexTests {
 
 		tHex = new Hex (false);
 		assertFalse (tHex.getHexDirection ());
-		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+		assertEquals (8, tHex.getScale (), "Default Scale should be 8");
 		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
 		assertEquals (20, tHex.getXd ());
 	}
@@ -61,7 +61,7 @@ class HexTests {
 
 		tHex = new Hex (true);
 		assertTrue (tHex.getHexDirection ());
-		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
+		assertEquals (8, tHex.getScale (), "Default Scale should be 8");
 		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
 		assertEquals (20, tHex.getXd ());
 	}
@@ -74,7 +74,7 @@ class HexTests {
 		tHex = new Hex (10, 10, false, 10);
 
 		assertFalse (tHex.getHexDirection ());
-		assertEquals (10, tHex.getHexScale (), "Default Scale should be 10");
+		assertEquals (10, tHex.getScale (), "Default Scale should be 10");
 		assertEquals (50, tHex.getHexWidth (), "Default Width should be 50:");
 		assertEquals (25, tHex.getXd ());
 	}
@@ -86,7 +86,7 @@ class HexTests {
 		
 		tHex = new Hex (10, 10, true, 10);
 		assertTrue (tHex.getHexDirection ());
-		assertEquals (10, tHex.getHexScale (), "Scale should be 10");
+		assertEquals (10, tHex.getScale (), "Scale should be 10");
 		assertEquals (50, tHex.getHexWidth (), "Width should be 50:");
 		assertEquals (25, tHex.getXd ());
 	}
@@ -98,7 +98,7 @@ class HexTests {
 
 		tHex = new Hex (true);
 		tHex.setScale (10);
-		assertEquals (10, tHex.getHexScale (), "Scale should be 10");
+		assertEquals (10, tHex.getScale (), "Scale should be 10");
 		assertEquals (50, tHex.getHexWidth (), "Width should be 50:");
 		assertEquals (25, tHex.getXd ());
 	}

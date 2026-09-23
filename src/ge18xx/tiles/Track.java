@@ -158,7 +158,7 @@ public class Track implements Cloneable {
 
 		tPreviousClip = g.getClip ();
 		tHexDirection = aHex.getHexDirection ();
-		tHexScale = aHex.getHexScale ();
+		tHexScale = aHex.getScale ();
 		tHex = new Hex (X, Y, tHexDirection, tHexScale);
 //		tHex = new Hex (X, Y, aHex.getHexDirection (), aHex.getHexScale ());
 		tHexPolygon = tHex.getHexPolygon ();

@@ -22,7 +22,7 @@ public class PlanTileSet extends TileSet {
 		
 		setShowAllTiles (true);
 		tHexDirection = hex.getHexDirection ();
-		tScale = hex.getHexScale ();
+		tScale = hex.getScale ();
 		createAndSetHex (tHexDirection, tScale);
 		setPlanFrame (aPlanFrame);
 	}

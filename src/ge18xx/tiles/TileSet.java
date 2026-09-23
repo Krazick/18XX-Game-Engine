@@ -1053,7 +1053,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tScale;
 		
 		if (hex != Hex.NO_HEX) {
-			tScale = hex.getHexScale ();
+			tScale = hex.getScale ();
 			setSizeAndRedraw (tScale);
 		}
 	}

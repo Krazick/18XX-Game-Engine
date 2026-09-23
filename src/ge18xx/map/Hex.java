@@ -879,16 +879,12 @@ public class Hex {
 		return minY;
 	}
 
-	public int getHexScale () {
+	public int getScale () {
 		return scale;
 	}
 	
 	public int getTrackWidth () {
 		return trackWidth;
-	}
-
-	public static int getWidth () {
-		return (Double.valueOf (dwidth).intValue ());
 	}
 
 	public int getHexWidth () {
@@ -1085,7 +1081,7 @@ public class Hex {
 	}
 
 	public void paintHex (Graphics aGraphics, int aXo, int aYo, Paint aFillPaint, boolean aDrawBorder, 
-							Paint aThickFrame, boolean aBlockedSides[]) {
+							Paint aThickFrame, boolean aBlockedSides []) {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
 		Shape tPreviousClip;
