@@ -152,6 +152,12 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	 * with the static BASE_TITLE provided
 	 */
 	public void updateFrame () {
+		int tScale;
+		
+		tScale = hexScaleSlider.getValue ();
+		System.out.println ("Ready to revalidate and repaint Map Frame - Scale " + tScale);
+		hexMap.setHexScale (tScale);
+
 		updateFrameTitle (BASE_TITLE);
 	}
 
@@ -1513,7 +1519,6 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		if (tRouteAction != RouteAction.NO_ROUTE_ACTION) {
 			routeInformation.setStartSegment (tRouteSegment, aSelectedRC, tPhase, tCorpID);
 			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
-
 			tRoundManager.addAction (tRouteAction);
 		}
 	}
