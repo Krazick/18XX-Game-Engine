@@ -16,6 +16,8 @@ public class RoundType {
 	public static final AttributeName AN_INTERRUPTS_AFTER_ACTIONS = new AttributeName ("interruptsAfterActions");
 	public static final AttributeName AN_INTERRUPTS_CONDITION = new AttributeName ("interruptsCondition");
 	public static final AttributeName AN_ENDS_AFTER_ACTIONS = new AttributeName ("endsAfterActions");
+	public static final AttributeName AN_CAPTURE_START_FOR_ACTIONS = new AttributeName ("captureStartForActions");
+	public static final AttributeName AN_CAPTURE_END_FOR_ACTIONS = new AttributeName ("captureEndForActions");
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final RoundType NO_ROUND_TYPE = null;
@@ -29,6 +31,8 @@ public class RoundType {
 	String interruptsAfterActions;
 	String interruptsCondition;
 	String endsAfterActions;
+	String captureStartForActions;
+	String captureEndForActions;
 	String phases;
 	boolean optionalExtra;
 	boolean initialRound;
@@ -43,6 +47,8 @@ public class RoundType {
 		String tInterruptsAfterActions;
 		String tInterruptsCondition;
 		String tEndsAfterActions;
+		String tCaptureStartForActions;
+		String tCaptureEndForActions;
 		String tPhases;
 		boolean tOptionalExtra;
 		boolean tInitialRound;
@@ -61,6 +67,8 @@ public class RoundType {
 		tMaxRounds = aXMLRoundTypeNode.getThisIntAttribute (AN_MAX_ROUNDS, 1);
 		tPhases = aXMLRoundTypeNode.getThisAttribute (AN_PHASES, GUI.EMPTY_STRING);
 		tConcurrent = aXMLRoundTypeNode.getThisBooleanAttribute (Round.AN_CONCURRENT);
+		tCaptureStartForActions = aXMLRoundTypeNode.getThisAttribute (AN_CAPTURE_START_FOR_ACTIONS);
+		tCaptureEndForActions = aXMLRoundTypeNode.getThisAttribute (AN_CAPTURE_END_FOR_ACTIONS);
 
 		setName (tName);
 		setNextRoundName (tNextRoundName);
@@ -74,8 +82,18 @@ public class RoundType {
 		setMaxRounds (tMaxRounds);
 		setPhases (tPhases);
 		setConcurrent (tConcurrent);
+		setCaptureStartForActions (tCaptureStartForActions);
+		setCaptureEndForActions (tCaptureEndForActions);
 	}
 	
+	public void setCaptureStartForActions (String aActions) {
+		captureStartForActions = aActions;
+	}
+
+	public void setCaptureEndForActions (String aActions) {
+		captureEndForActions = aActions;
+	}
+
 	public void setName (String aName) {
 		name = aName;
 	}
@@ -168,6 +186,14 @@ public class RoundType {
 		return concurrent;
 	}
 	
+	public String getCaptureStartForActions () {
+		return captureStartForActions;
+	}
+	
+	public String getCaptureEndForActions () {
+		return captureEndForActions;
+	}
+
 	public int getMaxRounds () {
 		return maxRounds;
 	}
