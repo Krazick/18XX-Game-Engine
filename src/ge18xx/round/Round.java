@@ -33,6 +33,8 @@ public abstract class Round implements ActorI {
 	public static final AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
 	public static final AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
 	public static final AttributeName AN_CONCURRENT = new AttributeName ("concurrent");
+//	public static final AttributeName AN_CAPTURE_START_FOR_ACTIONS = new AttributeName ("captureStartForActions");
+//	public static final AttributeName AN_CAPTURE_END_FOR_ACTIONS = new AttributeName ("captureEndForActions");
 	public static final int FIRST_PLAYER = 0;
 	public static final Round NO_ROUND = null;
 	public static final String NO_ID_STRING = "0.0";
@@ -44,6 +46,8 @@ public abstract class Round implements ActorI {
 	RoundManager roundManager;
 	RoundType roundType;
 	String name;
+//	String captureStartForActions;
+//	String captureEndForActions;
 	boolean repeatRound;
 	boolean concurrent;
 
@@ -134,13 +138,18 @@ public abstract class Round implements ActorI {
 		int tIDPart1;
 		int tIDPart2;
 		boolean tConcurrent;
+//		String tCaptureStartForActions;
+//		String tCaptureEndForActions;
 		
 		tIDPart1 = aRoundNode.getThisIntAttribute (AN_ROUND_PART1);
 		tIDPart2 = aRoundNode.getThisIntAttribute (AN_ROUND_PART2);
 		tConcurrent = aRoundNode.getThisBooleanAttribute (AN_CONCURRENT);
-		
+//		tCaptureStartForActions = aRoundNode.getThisAttribute (AN_CAPTURE_START_FOR_ACTIONS);
+//		tCaptureEndForActions = aRoundNode.getThisAttribute (AN_CAPTURE_END_FOR_ACTIONS);
 		setID (tIDPart1, tIDPart2);
 		setConcurrent (tConcurrent);
+//		setCaptureStartForActions (tCaptureStartForActions);
+//		setCaptureEndForActions (tCaptureEndForActions);
 	}
 
 	public void setID (String aID) {
@@ -158,10 +167,17 @@ public abstract class Round implements ActorI {
 		setID (tID1, tID2);
 	}
 
+//	public void setCaptureStartForActions (String aActions) {
+//		captureStartForActions = aActions;
+//	}
+//
+//	public void setcaptureEndForActions (String aActions) {
+//		captureEndForActions = aActions;
+//	}
 	public void setConcurrent (boolean aConcurrent) {
 		concurrent = aConcurrent;
 	}
-	
+
 	public void setRoundAttributes (XMLElement aXMLElement) {
 		aXMLElement.setAttribute (AN_ROUND_PART1, idPart1);
 		aXMLElement.setAttribute (AN_ROUND_PART2, idPart2);
