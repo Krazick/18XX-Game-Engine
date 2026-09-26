@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -94,6 +95,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final Player NO_PLAYER = null;
 	
+	private static final LocalDateTime CLEAR_ACTION_TIME = LocalDateTime.now ();
+
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
 	boolean gameHasPrivates;
@@ -119,11 +122,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	int certificateLimit;
 
 	/* These attributes below change during the game, need to save/load them */
-	boolean addTimeBudget;
 	boolean bidShare;
 	boolean triggeredAuction;
 	int treasury;
-	Duration timeBudget;
 	AllPercentBought allPercentBought;
 	RoundDividends roundDividends;
 	Benefit benefitInUse;
@@ -137,6 +138,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
 	Bank actorsBank;
 	ContractBid contractBid;
+	
+	// Time Budget Items
+	boolean addTimeBudget;
+	Duration timeBudget;
+	Duration totalTimeUsed;
+	LocalDateTime actionStartTime;
+	LocalDateTime actionEndTime;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
 					int aMinBidCities, int aMaxBidCities) {
@@ -153,6 +161,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
 		setAddTimeBudget (true);
+		this.clearActionTimes ();
 		
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
@@ -195,10 +204,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tContractBidFrame = tGameManager.getContractBidFrame ();
 		
 		return tContractBidFrame;
-	}
-	
-	public void setAddTimeBudget (boolean aAddTimeBudget) {
-		addTimeBudget = aAddTimeBudget;
 	}
 	
 	public Bank getActorsBank () {
@@ -2086,15 +2091,80 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.repaint ();
 		playerJPanel.revalidate ();
 	}
+	
+	public void clearActionTimes () {
+		setActionStartTime (CLEAR_ACTION_TIME);
+		setActionEndTime (CLEAR_ACTION_TIME);
+	}
+	
+	public void setAddTimeBudget (boolean aAddTimeBudget) {
+		addTimeBudget = aAddTimeBudget;
+	}
+	
+	public void setActionStartTime (LocalDateTime aActionStartTime) {
+		actionStartTime = aActionStartTime;
+	}
+	
+	public void setActionEndTime (LocalDateTime aActionEndTime) {
+		actionEndTime = aActionEndTime;
+	}
+	
+	public void setTimeUsed (Duration aTotalTimeUsed) {
+		totalTimeUsed = aTotalTimeUsed;
+	}
+
+	public void setTimeBudget (Duration aTimeBudget) {
+		timeBudget = aTimeBudget;
+	}
 
 	public String buildTimeBudget () {
 		String tTimeBudget;
+		Duration tDuration1;
+		Duration tDuration2;
+		LocalDateTime tStartTime;
+		LocalDateTime tStopTime;
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd HH:mm:ss");
 		
-		tTimeBudget = "12:34";
+		tStartTime = LocalDateTime.of (2026, 9, 24, 12, 34, 13);
+		totalTimeUsed = Duration.between (tStartTime, tStartTime);
+		
+		tStopTime = LocalDateTime.of (2026, 9, 24, 12, 54, 13);
+		tDuration1 = Duration.between (tStartTime, tStopTime);
+		
+//		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
+//				" Stop DateTime: " + tStopTime.format (formatter) +
+//				" Duration: " + formatDuration (tDuration1));
+
+		tStartTime = LocalDateTime.of (2026, 9, 24, 1, 3, 33);
+		tStopTime = LocalDateTime.of (2026, 9, 24, 1, 4, 53);
+		tDuration2 = Duration.between (tStartTime, tStopTime);
+
+//		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
+//							" Stop DateTime: " + tStopTime.format (formatter) +
+//							" Duration: " + formatDuration (tDuration2));
+				
+		totalTimeUsed = totalTimeUsed.plus (tDuration1);
+		totalTimeUsed = totalTimeUsed.plus (tDuration2);
+	
+		tTimeBudget = formatDuration (totalTimeUsed);
 		
 		return tTimeBudget;
 	}
 	
+    public static String formatDuration (Duration aDuration) {
+    	String tFormatted;
+    	
+    	long tSeconds = aDuration.getSeconds ();
+//        long tDays = tSeconds / 86400;
+        long tHours = (tSeconds % 86400) / 3600;
+        long tMinutes = (tSeconds % 3600) / 60;
+        long tSecs = tSeconds % 60;
+
+        tFormatted = String.format ("%2d:%02d:%02d", tHours, tMinutes, tSecs);
+        
+        return tFormatted;
+    }
+
 	public String buildCertCountInfo (String aPrefix) {
 		int tCertificateCount;
 		int tCertificateLimit;
