@@ -2,8 +2,10 @@ package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class Action {
 	public static final AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	public static final AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
 	public static final AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
+	public static final AttributeName AN_LOCAL_DATE_TIME = new AttributeName ("localDateTime");
 	public static final AttributeName AN_PSG_CHECKSUM = new AttributeName ("psgChecksum");
 	public static final ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public static final String NO_NAME = ">> NO ACTION NAME <<";
@@ -50,7 +53,7 @@ public class Action {
 	boolean chainToPrevious;	// Chain this Action to Previous Action --
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
 	int number;
-	long dateTime;
+	LocalDateTime dateTime;
 	String psgChecksum;		// PSG (Previous Save Game) Checksum
 
 	public Action () {
@@ -72,11 +75,12 @@ public class Action {
 
 	private void setValues (String aName, ActorI.ActionStates aRoundType, String aRoundID, 
 			ActorI aActor, int aNumber) {
-		Date tNow;
+		LocalDateTime tNow;
 		
-		tNow = new Date ();
-		setDateTime (tNow.getTime ());
-
+		tNow = LocalDateTime.now ();
+		setDateTime (tNow);
+		System.out.println ("Action created at " + tNow.toString ());
+		
 		setName (aName);
 		setNumber (aNumber);
 		setActor (aActor);
@@ -96,11 +100,15 @@ public class Action {
 		ActorI.ActionStates tRoundType;
 		boolean tChainToPrevious;
 		int tNumber;
-		long tDateTime;
+
+		String tStringDateTime;
+		LocalDateTime tDateTime;
+		long tLongDateTime;
 
 		tActionName = aActionNode.getThisAttribute (AN_NAME);
 		tNumber = aActionNode.getThisIntAttribute (AN_NUMBER);
-		tDateTime = aActionNode.getThisLongAttribute (AN_DATE_TIME);
+		tStringDateTime = aActionNode.getThisAttribute (AN_LOCAL_DATE_TIME);
+		tLongDateTime = aActionNode.getThisLongAttribute (AN_DATE_TIME, NO_NUMBER);
 		tRoundTypeString = aActionNode.getThisAttribute (AN_ROUND_TYPE);
 		tRoundID = aActionNode.getThisAttribute (AN_ROUND_ID);
 		tActorName = aActionNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
@@ -112,7 +120,14 @@ public class Action {
 		setValues (tActionName, tRoundType, tRoundID, tActor, tNumber);
 
 		setChainToPrevious (tChainToPrevious);
-		setDateTime (tDateTime);
+		if (tLongDateTime > NO_NUMBER) {
+			setDateTime (tLongDateTime);
+			System.out.println ("OLD Format Date Time " + dateTime);
+		} else {
+			tDateTime = LocalDateTime.parse (tStringDateTime);
+			System.out.println ("Local Date Time " + tDateTime);
+			setDateTime (tDateTime);
+		}
 		setPSGChecksum (tPSGChecksum);
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
 	}
@@ -122,6 +137,10 @@ public class Action {
 	}
 	
 	private void setDateTime (long aDateTime) {
+		dateTime = Instant.ofEpochMilli (aDateTime).atZone (ZoneId.systemDefault ()).toLocalDateTime ();
+	}
+
+	private void setDateTime (LocalDateTime aDateTime) {
 		dateTime = aDateTime;
 	}
 
@@ -300,7 +319,7 @@ public class Action {
 		tActionElement.setAttribute (AN_CLASS, this.getClass ().getName ());
 		tActionElement.setAttribute (AN_NAME, getName ());
 		tActionElement.setAttribute (AN_NUMBER, getNumber ());
-		tActionElement.setAttribute (AN_DATE_TIME, dateTime);
+		tActionElement.setAttribute (AN_LOCAL_DATE_TIME, dateTime.toString ());
 		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundState ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
 		tActionElement.setAttribute (ActorI.AN_ACTOR_NAME, tActorName);
