@@ -10,11 +10,15 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
 import ge18xx.network.ResendLastActionsFrame;
+import ge18xx.player.Player;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
+import ge18xx.round.RoundType;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
 import geUtilities.GUI;
@@ -197,6 +201,8 @@ public class ActionManager implements XMLSaveGameI {
 
 	public void addAction (Action aAction) {
 		boolean tAllNullEffects;
+		String tActionName;
+		String tActorName;
 		
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
@@ -204,12 +210,124 @@ public class ActionManager implements XMLSaveGameI {
 					+ " Last Action Number " + actionNumber);
 		} else {
 			setNewActionNumber (aAction);
-			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + " From "
-					+ aAction.getActorName ());
+			tActionName = aAction.getName ();
+			tActorName = aAction.getName ();
+			logger.info ("Local Action # " + actionNumber + " Name " + tActionName + " From "
+					+ tActorName );
+			handleCaptureTime (aAction);
 			justAddAction (aAction);
 		}
 	}
 
+	private void handleCaptureTime (Action aAction) {
+		String tActionName;
+		String tCaptureStartForActions;
+		String tCaptureEndForActions;
+		boolean tCaptureStartTimeForAction;
+		boolean tCaptureEndTimeForAction;
+		
+		Round tCurrentRound;
+		RoundType tCurrentRoundType;
+		
+		tCurrentRound = roundManager.getCurrentRound ();
+		tCurrentRoundType = tCurrentRound.getRoundType ();
+		if (aAction != Action.NO_ACTION) {
+			tActionName = aAction.getName ();
+			tCaptureStartForActions = tCurrentRoundType.getCaptureStartForActions ();
+			if (tCaptureStartForActions != GUI.NULL_STRING) {
+				tCaptureStartTimeForAction = tCaptureStartForActions.contains (tActionName);
+				if (tCaptureStartTimeForAction) {
+					System.out.println ("Need to Capture Start Time for " + tActionName);
+					captureStartTime (aAction);
+				}
+			}
+			tCaptureEndForActions = tCurrentRoundType.getCaptureEndForActions ();
+			if (tCaptureEndForActions != GUI.NULL_STRING) {
+				tCaptureEndTimeForAction = tCaptureEndForActions.contains (tActionName);
+				if (tCaptureEndTimeForAction) {
+					System.out.println ("Need to Capture End Time for " + tActionName);
+					captureEndTime (aAction);
+				}
+			}
+		}
+	}
+	
+	private void captureStartTime (Action aAction) {
+		Player tPlayer;
+		Corporation tCorporation;
+		Round tCurrentRound;
+		
+		tPlayer = Player.NO_PLAYER;
+		tCurrentRound = roundManager.getCurrentRound ();
+		if (tCurrentRound.isAStockRound ()) {
+			tPlayer = getPlayer (aAction);
+		} else if (tCurrentRound.isAOperatingRound ()) {
+			tCorporation = getCorporation (aAction);
+			tPlayer = (Player) tCorporation.getPresident ();
+		}
+		
+		if (tPlayer != Player.NO_PLAYER) {
+			System.out.println ("Player allocated the Start Time is " + tPlayer.getName ());
+		} else {
+			System.out.println ("No Player identified for owning the Time for this action");
+		}
+	}
+	
+	private void captureEndTime (Action aAction) {
+		Player tPlayer;
+		Corporation tCorporation;
+		Round tCurrentRound;
+		
+		tPlayer = Player.NO_PLAYER;
+		tCurrentRound = roundManager.getCurrentRound ();
+		if (tCurrentRound.isAStockRound ()) {
+			tPlayer = getPlayer (aAction);
+		} else if (tCurrentRound.isAOperatingRound ()) {
+			tCorporation = getCorporation (aAction);
+			tPlayer = (Player) tCorporation.getPresident ();
+		}
+		
+		if (tPlayer != Player.NO_PLAYER) {
+			System.out.println ("Player allocated the End Time is " + tPlayer.getName ());
+		} else {
+			System.out.println ("No Player identified for owning the Time for this action");
+		}
+	}
+	
+	private Player getPlayer (Action aAction) {
+		String tActorName;
+		ActorI tActor;
+		Player tPlayer;
+		
+		tActorName = aAction.getActorName ();
+		tActor = gameManager.getActor (tActorName);
+		tPlayer = Player.NO_PLAYER;
+		if (tActor != ActorI.NO_ACTOR) {
+			if (tActor.isAPlayer ()) {
+				tPlayer = (Player) tActor;
+			}
+		}
+		
+		return tPlayer;
+	}
+	
+	private Corporation getCorporation (Action aAction) {
+		String tActorName;
+		ActorI tActor;
+		Corporation tCorporation;
+		
+		tActorName = aAction.getActorName ();
+		tActor = gameManager.getActor (tActorName);
+		tCorporation = Corporation.NO_CORPORATION;
+		if (tActor != ActorI.NO_ACTOR) {
+			if (tActor.isACorporation ()) {
+				tCorporation = (Corporation) tActor;
+			}
+		}
+		
+		return tCorporation;
+	}
+	
 	private void justAddAction (Action aAction) {
 		boolean tAppendAction;
 		
