@@ -2150,41 +2150,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tDuration;
 	}
 	
-	
-	public String buildTimeBudget () {
-		String tTimeBudget;
-//		Duration tDuration1;
-//		Duration tDuration2;
-//		LocalDateTime tStartTime;
-//		LocalDateTime tStopTime;
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd HH:mm:ss");
-		
-//		tStartTime = LocalDateTime.of (2026, 9, 24, 12, 34, 13);
-//		totalTimeUsed = Duration.between (tStartTime, tStartTime);
-//		
-//		tStopTime = LocalDateTime.of (2026, 9, 24, 12, 54, 13);
-//		tDuration1 = Duration.between (tStartTime, tStopTime);
-		
-//		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
-//				" Stop DateTime: " + tStopTime.format (formatter) +
-//				" Duration: " + formatDuration (tDuration1));
-
-//		tStartTime = LocalDateTime.of (2026, 9, 24, 1, 3, 33);
-//		tStopTime = LocalDateTime.of (2026, 9, 24, 1, 4, 53);
-//		tDuration2 = Duration.between (tStartTime, tStopTime);
-
-//		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
-//							" Stop DateTime: " + tStopTime.format (formatter) +
-//							" Duration: " + formatDuration (tDuration2));
-				
-//		totalTimeUsed = totalTimeUsed.plus (tDuration1);
-//		totalTimeUsed = totalTimeUsed.plus (tDuration2);
-	
-		tTimeBudget = formatDuration (totalTimeUsed);
-		
-		return tTimeBudget;
-	}
-	
     public String formatDuration (Duration aDuration) {
     	String tFormatted;
     	
