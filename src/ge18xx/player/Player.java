@@ -141,6 +141,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	// Time Budget Items
 	boolean addTimeBudget;
+	boolean startTimedEvents;
 	Duration timeBudget;
 	Duration totalTimeUsed;
 	LocalDateTime actionStartTime;
@@ -161,7 +162,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
 		setAddTimeBudget (true);
-		this.clearActionTimes ();
+		clearActionTimes ();
+		setTotalTimeUsed (Duration.ZERO);
 		
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
@@ -2071,7 +2073,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tDividendsLabel = new JLabel ("Dividends: " + getAllDividends ());
 		playerJPanel.add (tDividendsLabel);
 		
-		tTimeBudgetLabel = new JLabel ("Time: " + buildTimeBudget ());
+		tTimeBudgetLabel = new JLabel ("Time: " + formatDuration (totalTimeUsed));
 		if (addTimeBudget) {
 			playerJPanel.add (tTimeBudgetLabel);
 		}
@@ -2101,12 +2103,24 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		addTimeBudget = aAddTimeBudget;
 	}
 	
+	public void setStartTimedEvents (boolean aStartTimedEvents) {
+		startTimedEvents = aStartTimedEvents;
+	}
+	
 	public void setActionStartTime (LocalDateTime aActionStartTime) {
 		actionStartTime = aActionStartTime;
 	}
 	
 	public void setActionEndTime (LocalDateTime aActionEndTime) {
 		actionEndTime = aActionEndTime;
+	}
+	
+	public LocalDateTime getActonStartTime () {
+		return actionStartTime;
+	}
+	
+	public LocalDateTime getActonEndTime () {
+		return actionEndTime;
 	}
 	
 	public void setTimeUsed (Duration aTotalTimeUsed) {
@@ -2117,45 +2131,64 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		timeBudget = aTimeBudget;
 	}
 
+	public boolean hasTimedEventsStarted () {
+		return startTimedEvents;
+	}
+	
+	public void setTotalTimeUsed (Duration aTotalTimeUsed) {
+		totalTimeUsed = aTotalTimeUsed;
+	}
+	
+	public Duration addNewDuration () {
+		Duration tDuration;
+		Duration tTotalDuration;
+		
+		tDuration = Duration.between (actionStartTime, actionEndTime);
+		tTotalDuration = totalTimeUsed.plus (tDuration);
+		setTotalTimeUsed (tTotalDuration);
+		
+		return tDuration;
+	}
+	
+	
 	public String buildTimeBudget () {
 		String tTimeBudget;
-		Duration tDuration1;
-		Duration tDuration2;
-		LocalDateTime tStartTime;
-		LocalDateTime tStopTime;
+//		Duration tDuration1;
+//		Duration tDuration2;
+//		LocalDateTime tStartTime;
+//		LocalDateTime tStopTime;
 //		DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd HH:mm:ss");
 		
-		tStartTime = LocalDateTime.of (2026, 9, 24, 12, 34, 13);
-		totalTimeUsed = Duration.between (tStartTime, tStartTime);
-		
-		tStopTime = LocalDateTime.of (2026, 9, 24, 12, 54, 13);
-		tDuration1 = Duration.between (tStartTime, tStopTime);
+//		tStartTime = LocalDateTime.of (2026, 9, 24, 12, 34, 13);
+//		totalTimeUsed = Duration.between (tStartTime, tStartTime);
+//		
+//		tStopTime = LocalDateTime.of (2026, 9, 24, 12, 54, 13);
+//		tDuration1 = Duration.between (tStartTime, tStopTime);
 		
 //		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
 //				" Stop DateTime: " + tStopTime.format (formatter) +
 //				" Duration: " + formatDuration (tDuration1));
 
-		tStartTime = LocalDateTime.of (2026, 9, 24, 1, 3, 33);
-		tStopTime = LocalDateTime.of (2026, 9, 24, 1, 4, 53);
-		tDuration2 = Duration.between (tStartTime, tStopTime);
+//		tStartTime = LocalDateTime.of (2026, 9, 24, 1, 3, 33);
+//		tStopTime = LocalDateTime.of (2026, 9, 24, 1, 4, 53);
+//		tDuration2 = Duration.between (tStartTime, tStopTime);
 
 //		System.out.println ("Start DateTime: " + tStartTime.format (formatter) + 
 //							" Stop DateTime: " + tStopTime.format (formatter) +
 //							" Duration: " + formatDuration (tDuration2));
 				
-		totalTimeUsed = totalTimeUsed.plus (tDuration1);
-		totalTimeUsed = totalTimeUsed.plus (tDuration2);
+//		totalTimeUsed = totalTimeUsed.plus (tDuration1);
+//		totalTimeUsed = totalTimeUsed.plus (tDuration2);
 	
 		tTimeBudget = formatDuration (totalTimeUsed);
 		
 		return tTimeBudget;
 	}
 	
-    public static String formatDuration (Duration aDuration) {
+    public String formatDuration (Duration aDuration) {
     	String tFormatted;
     	
     	long tSeconds = aDuration.getSeconds ();
-//        long tDays = tSeconds / 86400;
         long tHours = (tSeconds % 86400) / 3600;
         long tMinutes = (tSeconds % 3600) / 60;
         long tSecs = tSeconds % 60;

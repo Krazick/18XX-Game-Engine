@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -2065,15 +2064,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				handleNetworkAction (tNextAction);
 			}
 		}
-	}
-
-	public void printDateTime (String aLabel) {
-		Date tNow;
-		String tDateTime;
-		
-		tNow = new Date ();
-		tDateTime = GUI.formatDateTime (aLabel, tNow);
-		System.out.println (tDateTime);
 	}
 	
 	private boolean loadSavedXMLFile () {

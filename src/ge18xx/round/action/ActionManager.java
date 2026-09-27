@@ -2,6 +2,8 @@ package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -256,7 +258,8 @@ public class ActionManager implements XMLSaveGameI {
 		Player tPlayer;
 		Corporation tCorporation;
 		Round tCurrentRound;
-		
+		LocalDateTime tActionDateTime;
+
 		tPlayer = Player.NO_PLAYER;
 		tCurrentRound = roundManager.getCurrentRound ();
 		if (tCurrentRound.isAStockRound ()) {
@@ -267,7 +270,10 @@ public class ActionManager implements XMLSaveGameI {
 		}
 		
 		if (tPlayer != Player.NO_PLAYER) {
-			System.out.println ("Player allocated the Start Time is " + tPlayer.getName ());
+			tActionDateTime = aAction.getDateTime ();
+			tPlayer.setActionStartTime (tActionDateTime);
+			tPlayer.setStartTimedEvents (true);
+			System.out.println (tPlayer.getName () + " set Start Time as " + tPlayer.getActonStartTime ());
 		} else {
 			System.out.println ("No Player identified for owning the Time for this action");
 		}
@@ -277,6 +283,8 @@ public class ActionManager implements XMLSaveGameI {
 		Player tPlayer;
 		Corporation tCorporation;
 		Round tCurrentRound;
+		LocalDateTime tActionDateTime;
+		Duration tDuration;
 		
 		tPlayer = Player.NO_PLAYER;
 		tCurrentRound = roundManager.getCurrentRound ();
@@ -288,7 +296,15 @@ public class ActionManager implements XMLSaveGameI {
 		}
 		
 		if (tPlayer != Player.NO_PLAYER) {
-			System.out.println ("Player allocated the End Time is " + tPlayer.getName ());
+			if (tPlayer.hasTimedEventsStarted ()) {
+				tActionDateTime = aAction.getDateTime ();
+				tPlayer.setActionEndTime (tActionDateTime);
+				tPlayer.setStartTimedEvents (false);
+				tDuration = tPlayer.addNewDuration ();
+				roundManager.updateAllRFPlayers ();
+				System.out.println (tPlayer.getName () + " set End Time as " + tPlayer.getActonEndTime () +
+						" Duration added " + tPlayer.formatDuration (tDuration));
+			}
 		} else {
 			System.out.println ("No Player identified for owning the Time for this action");
 		}

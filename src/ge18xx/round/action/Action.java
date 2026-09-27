@@ -79,8 +79,6 @@ public class Action {
 		
 		tNow = LocalDateTime.now ();
 		setDateTime (tNow);
-		System.out.println ("Action created at " + tNow.toString ());
-		
 		setName (aName);
 		setNumber (aNumber);
 		setActor (aActor);
@@ -143,7 +141,11 @@ public class Action {
 	private void setDateTime (LocalDateTime aDateTime) {
 		dateTime = aDateTime;
 	}
-
+	
+	public LocalDateTime getDateTime () {
+		return dateTime;
+	}
+	
 	private void parseActionNode (XMLNode aActionNode, GameManager aGameManager, String aActionName, int aNumber) {
 		XMLNode tEffectsNode;
 		XMLNode tEffectNode;
