@@ -10,7 +10,7 @@ import geUtilities.xml.XMLNode;
 
 public class ChangeBooleanFlagEffect extends Effect {
 	public static final String NAME = "Change Boolean Flag";
-	boolean booleanFlag;
+	protected boolean booleanFlag;
 
 	public ChangeBooleanFlagEffect (String aName, ActorI aActor, boolean aBooleanFlag) {
 		super (aName, aActor);
@@ -19,6 +19,7 @@ public class ChangeBooleanFlagEffect extends Effect {
 
 	public ChangeBooleanFlagEffect (XMLNode aEffectNode, GameManager aGameManager, AttributeName aFlagName) {
 		super (aEffectNode, aGameManager);
+		
 		boolean tBooleanFlag;
 		
 		tBooleanFlag = aEffectNode.getThisBooleanAttribute (aFlagName);
