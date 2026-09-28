@@ -2,6 +2,7 @@ package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,6 +21,8 @@ import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.time.CaptureEndTimeEffect;
 import ge18xx.round.action.effects.time.CaptureStartTimeEffect;
+import ge18xx.round.action.effects.time.CaptureTimeUsedEffect;
+import ge18xx.round.action.effects.time.SetStartTimedEventsEffect;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -122,10 +125,8 @@ public class Action {
 		setChainToPrevious (tChainToPrevious);
 		if (tLongDateTime > NO_NUMBER) {
 			setDateTime (tLongDateTime);
-			System.out.println ("OLD Format Date Time " + dateTime);
 		} else {
 			tDateTime = LocalDateTime.parse (tStringDateTime);
-			System.out.println ("Local Date Time " + tDateTime);
 			setDateTime (tDateTime);
 		}
 		setPSGChecksum (tPSGChecksum);
@@ -582,6 +583,7 @@ public class Action {
 		}
 		tGameManager.activateAllBeans (true);
 		tGameManager.sendAllBeanMessages ();
+		tGameManager.updateRoundFrame ();
 		aRoundManager.updateAllCorporationsBox ();
 		if (! tActionApplied) {
 			System.err.println ("Applied All Effects " + tActionApplied);
@@ -728,6 +730,24 @@ public class Action {
 		if (aActor.isAPlayer ()) {
 			tCaptureEndTimeEffect = new CaptureEndTimeEffect (aActor, aPreviousDateTime, aNewDateTime);
 			addEffect (tCaptureEndTimeEffect);
+		}
+	}
+	
+	public void addCaptureTimeUsedEffect (ActorI aActor, Duration aPreviousDuration, Duration aNewDuration) {
+		CaptureTimeUsedEffect tCaptureTimeUsedEffect;
+		
+		if (aActor.isAPlayer ()) {
+			tCaptureTimeUsedEffect = new CaptureTimeUsedEffect (aActor, aPreviousDuration, aNewDuration);
+			addEffect (tCaptureTimeUsedEffect);
+		}
+	}
+
+	public void addSetStartTimedEventsEffect (ActorI aActor, boolean aStartTimedEvents) {
+		SetStartTimedEventsEffect tSetStartTimedEventsEffect;
+		
+		if (aActor.isAPlayer ()) {
+			tSetStartTimedEventsEffect = new SetStartTimedEventsEffect (aActor, aStartTimedEvents);
+			addEffect (tSetStartTimedEventsEffect);
 		}
 	}
 }
