@@ -243,7 +243,6 @@ public class ActionManager implements XMLSaveGameI {
 			if (tCaptureStartForActions != GUI.NULL_STRING) {
 				tCaptureStartTimeForAction = tCaptureStartForActions.contains (tActionName);
 				if (tCaptureStartTimeForAction) {
-					System.out.println ("Need to Capture Start Time for " + tActionName);
 					captureStartTime (aAction);
 				}
 			}
@@ -251,7 +250,6 @@ public class ActionManager implements XMLSaveGameI {
 			if (tCaptureEndForActions != GUI.NULL_STRING) {
 				tCaptureEndTimeForAction = tCaptureEndForActions.contains (tActionName);
 				if (tCaptureEndTimeForAction) {
-					System.out.println ("Need to Capture End Time for " + tActionName);
 					captureEndTime (aAction);
 				}
 			}
@@ -264,6 +262,7 @@ public class ActionManager implements XMLSaveGameI {
 		Round tCurrentRound;
 		LocalDateTime tActionDateTime;
 		LocalDateTime tPreviousDateTime;
+		boolean tStartedTimedEvents;
 
 		tPlayer = Player.NO_PLAYER;
 		tCurrentRound = roundManager.getCurrentRound ();
@@ -279,8 +278,9 @@ public class ActionManager implements XMLSaveGameI {
 			tPreviousDateTime = tPlayer.getActonStartTime ();
 			tPlayer.setActionStartTime (tActionDateTime);
 			aAction.addCaptureStartTimeEffect (tPlayer, tPreviousDateTime, tActionDateTime);
-			tPlayer.setStartTimedEvents (true);
-			System.out.println (tPlayer.getName () + " set Start Time as " + tPlayer.getActonStartTime ());
+			tStartedTimedEvents = true;
+			tPlayer.setStartTimedEvents (tStartedTimedEvents);
+			aAction.addSetStartTimedEventsEffect (tPlayer, tStartedTimedEvents);
 		} else {
 			System.out.println ("No Player identified for owning the Time for this action");
 		}
@@ -292,7 +292,9 @@ public class ActionManager implements XMLSaveGameI {
 		Round tCurrentRound;
 		LocalDateTime tActionDateTime;
 		LocalDateTime tPreviousDateTime;
-		Duration tDuration;
+		Duration tPreviousTotalTimeUsed;
+		Duration tNewTotalTimeUsed;
+		boolean tStartedTimedEvents;
 		
 		tPlayer = Player.NO_PLAYER;
 		tCurrentRound = roundManager.getCurrentRound ();
@@ -309,11 +311,14 @@ public class ActionManager implements XMLSaveGameI {
 				tPreviousDateTime = tPlayer.getActonStartTime ();
 				tPlayer.setActionEndTime (tActionDateTime);
 				aAction.addCaptureEndTimeEffect (tPlayer, tPreviousDateTime, tActionDateTime);
-				tPlayer.setStartTimedEvents (false);
-				tDuration = tPlayer.addNewDuration ();
+				tStartedTimedEvents = false;
+				tPlayer.setStartTimedEvents (tStartedTimedEvents);
+				aAction.addSetStartTimedEventsEffect (tPlayer, tStartedTimedEvents);
+				tPreviousTotalTimeUsed = tPlayer.getTotalTimeUsed ();
+				tPlayer.addNewDuration ();
+				tNewTotalTimeUsed = tPlayer.getTotalTimeUsed ();
+				aAction.addCaptureTimeUsedEffect (tPlayer, tPreviousTotalTimeUsed, tNewTotalTimeUsed);
 				roundManager.updateAllRFPlayers ();
-				System.out.println (tPlayer.getName () + " set End Time as " + tPlayer.getActonEndTime () +
-						" Duration added " + tPlayer.formatDuration (tDuration));
 			}
 		} else {
 			System.out.println ("No Player identified for owning the Time for this action");
