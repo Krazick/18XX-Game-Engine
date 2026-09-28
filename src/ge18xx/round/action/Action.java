@@ -18,6 +18,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
+import ge18xx.round.action.effects.time.CaptureEndTimeEffect;
 import ge18xx.round.action.effects.time.CaptureStartTimeEffect;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
@@ -710,14 +711,23 @@ public class Action {
 		}
 	}
 	
+	// Methods to add Game Time Effects
+	
 	public void addCaptureStartTimeEffect (ActorI aActor, LocalDateTime aPreviousDateTime, LocalDateTime aNewDateTime) {
 		CaptureStartTimeEffect tCaptureStartTimeEffect;
 		
-		if (aActor.isAPlayer () || 
-			aActor.isAnyRound ()) {
+		if (aActor.isAPlayer ()) {
 			tCaptureStartTimeEffect = new CaptureStartTimeEffect (aActor, aPreviousDateTime, aNewDateTime);
 			addEffect (tCaptureStartTimeEffect);
 		}
 	}
 
+	public void addCaptureEndTimeEffect (ActorI aActor, LocalDateTime aPreviousDateTime, LocalDateTime aNewDateTime) {
+		CaptureEndTimeEffect tCaptureEndTimeEffect;
+		
+		if (aActor.isAPlayer ()) {
+			tCaptureEndTimeEffect = new CaptureEndTimeEffect (aActor, aPreviousDateTime, aNewDateTime);
+			addEffect (tCaptureEndTimeEffect);
+		}
+	}
 }
