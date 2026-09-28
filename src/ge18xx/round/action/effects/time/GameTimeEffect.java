@@ -66,20 +66,4 @@ public class GameTimeEffect extends Effect {
 
 		return tEffectElement;
 	}
-
-//	@Override
-//	public boolean applyEffect (RoundManager aRoundManager) {
-//		boolean tEffectApplied;
-//		Player tPlayer;
-//		
-//		tEffectApplied = false;
-//		if (actor.isAPlayer ()) {
-//			tPlayer = (Player) actor;
-//			
-//			tEffectApplied = true;
-//		}
-//
-//		return tEffectApplied;
-//	}
-
 }
