@@ -161,6 +161,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
+		
+		// Set up Time Budget, and initial state for the Time Variables.
 		setAddTimeBudget (true);
 		clearActionTimes ();
 		setTotalTimeUsed (Duration.ZERO);
@@ -845,6 +847,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
 		
+		// TODO: Add the Time Fields to the XML Element
+		
 		if (minBidCities > 0) {
 			tXMLElement.setAttribute (AN_MIN_BID_CITIES, minBidCities);
 			tXMLElement.setAttribute (AN_MAX_BID_CITIES, maxBidCities);
@@ -1494,6 +1498,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLContractBidNodeList = new XMLNodeList (contractBidParsingRoutine);
 		tXMLContractBidNodeList.parseXMLNodeList (aPlayerNode, ContractBid.EN_CONTRACT_BID);
 
+		// TODO: Load Time Fields from the XML Node List
+		
+		
 		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
 		// to load the QueryOffer Object here, and in the Train Company LoadStatus method
 		// Probably store 'class' in the EN_QUERY_OFFER Element as attribute
@@ -2123,9 +2130,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return actionEndTime;
 	}
 	
-	public void setTimeUsed (Duration aTotalTimeUsed) {
-		totalTimeUsed = aTotalTimeUsed;
-	}
+//	public void setTimeUsed (Duration aTotalTimeUsed) {
+//		totalTimeUsed = aTotalTimeUsed;
+//	}
 
 	public void setTimeBudget (Duration aTimeBudget) {
 		timeBudget = aTimeBudget;
@@ -2137,6 +2144,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	public void setTotalTimeUsed (Duration aTotalTimeUsed) {
 		totalTimeUsed = aTotalTimeUsed;
+	}
+	
+	public Duration getTotalTimeUsed () {
+		return totalTimeUsed;
 	}
 	
 	public Duration addNewDuration () {
