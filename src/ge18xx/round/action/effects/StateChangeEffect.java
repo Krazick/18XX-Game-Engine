@@ -33,8 +33,10 @@ public class StateChangeEffect extends ToEffect {
 	public StateChangeEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 
-		String tPreviousStateName, tNewStateName;
-		ActorI.ActionStates tPreviousState, tNewState;
+		String tPreviousStateName;
+		String tNewStateName;
+		ActorI.ActionStates tPreviousState;
+		ActorI.ActionStates tNewState;
 		GenericActor tGenericActor;
 
 		tPreviousStateName = aEffectNode.getThisAttribute (AN_PREVIOUS_STATE);

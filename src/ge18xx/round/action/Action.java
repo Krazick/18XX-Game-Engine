@@ -18,6 +18,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
+import ge18xx.round.action.effects.time.CaptureStartTimeEffect;
 import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -708,4 +709,15 @@ public class Action {
 			return aEffectB.getOrder () - aEffectA.getOrder ();
 		}
 	}
+	
+	public void addCaptureStartTimeEffect (ActorI aActor, LocalDateTime aPreviousDateTime, LocalDateTime aNewDateTime) {
+		CaptureStartTimeEffect tCaptureStartTimeEffect;
+		
+		if (aActor.isAPlayer () || 
+			aActor.isAnyRound ()) {
+			tCaptureStartTimeEffect = new CaptureStartTimeEffect (aActor, aPreviousDateTime, aNewDateTime);
+			addEffect (tCaptureStartTimeEffect);
+		}
+	}
+
 }

@@ -28,7 +28,7 @@ public class StartStockEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
 	
-		tEffectReport = " " + REPORT_PREFIX + name + " activity for " + getActorName () + ".";
+		tEffectReport = REPORT_PREFIX + name + " activity for " + getActorName () + ".";
 		
 		return tEffectReport;
 	}

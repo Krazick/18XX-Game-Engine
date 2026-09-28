@@ -29,9 +29,9 @@ public abstract class Effect {
 	public static final String NO_NAME = ">>NO EFFECT NAME<<";
 	public static final String REPORT_PREFIX = "--" + EN_EFFECT + ": ";
 
-	ActorI actor;
+	protected ActorI actor;
+	protected String name;
 	int order;
-	String name;
 	String fromName;
 	String nickName;
 	String benefitName;
@@ -49,7 +49,7 @@ public abstract class Effect {
 		this (aName, NO_ACTOR);
 	}
 
-	Effect (String aName, ActorI aActor) {
+	protected Effect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
 		if (aActor != ActorI.NO_ACTOR) {
 			setNames (aActor.getName ());
@@ -82,7 +82,7 @@ public abstract class Effect {
 		setOrder (1);
 	}
 	
-	Effect (XMLNode aEffectNode, GameManager aGameManager) {
+	protected Effect (XMLNode aEffectNode, GameManager aGameManager) {
 		String tEffectName;
 		String tActorName;
 		ActorI tActor;

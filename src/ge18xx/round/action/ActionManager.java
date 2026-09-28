@@ -221,6 +221,10 @@ public class ActionManager implements XMLSaveGameI {
 		}
 	}
 
+	/*
+	 * Start of Time Capture Methods
+	 */
+	
 	private void handleCaptureTime (Action aAction) {
 		String tActionName;
 		String tCaptureStartForActions;
@@ -259,6 +263,7 @@ public class ActionManager implements XMLSaveGameI {
 		Corporation tCorporation;
 		Round tCurrentRound;
 		LocalDateTime tActionDateTime;
+		LocalDateTime tPreviousDateTime;
 
 		tPlayer = Player.NO_PLAYER;
 		tCurrentRound = roundManager.getCurrentRound ();
@@ -271,7 +276,9 @@ public class ActionManager implements XMLSaveGameI {
 		
 		if (tPlayer != Player.NO_PLAYER) {
 			tActionDateTime = aAction.getDateTime ();
+			tPreviousDateTime = tPlayer.getActonStartTime ();
 			tPlayer.setActionStartTime (tActionDateTime);
+			aAction.addCaptureStartTimeEffect (tCurrentRound, tPreviousDateTime, tActionDateTime);
 			tPlayer.setStartTimedEvents (true);
 			System.out.println (tPlayer.getName () + " set Start Time as " + tPlayer.getActonStartTime ());
 		} else {
