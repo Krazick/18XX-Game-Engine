@@ -278,7 +278,7 @@ public class ActionManager implements XMLSaveGameI {
 			tActionDateTime = aAction.getDateTime ();
 			tPreviousDateTime = tPlayer.getActonStartTime ();
 			tPlayer.setActionStartTime (tActionDateTime);
-			aAction.addCaptureStartTimeEffect (tCurrentRound, tPreviousDateTime, tActionDateTime);
+			aAction.addCaptureStartTimeEffect (tPlayer, tPreviousDateTime, tActionDateTime);
 			tPlayer.setStartTimedEvents (true);
 			System.out.println (tPlayer.getName () + " set Start Time as " + tPlayer.getActonStartTime ());
 		} else {
@@ -291,6 +291,7 @@ public class ActionManager implements XMLSaveGameI {
 		Corporation tCorporation;
 		Round tCurrentRound;
 		LocalDateTime tActionDateTime;
+		LocalDateTime tPreviousDateTime;
 		Duration tDuration;
 		
 		tPlayer = Player.NO_PLAYER;
@@ -305,7 +306,9 @@ public class ActionManager implements XMLSaveGameI {
 		if (tPlayer != Player.NO_PLAYER) {
 			if (tPlayer.hasTimedEventsStarted ()) {
 				tActionDateTime = aAction.getDateTime ();
+				tPreviousDateTime = tPlayer.getActonStartTime ();
 				tPlayer.setActionEndTime (tActionDateTime);
+				aAction.addCaptureEndTimeEffect (tPlayer, tPreviousDateTime, tActionDateTime);
 				tPlayer.setStartTimedEvents (false);
 				tDuration = tPlayer.addNewDuration ();
 				roundManager.updateAllRFPlayers ();
