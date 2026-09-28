@@ -30,7 +30,7 @@ public class BidShareEffect extends ChangeBooleanFlagEffect {
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
-		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME, AN_HAS_BID_SHARE);
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN, AN_HAS_BID_SHARE);
 
 		return tEffectElement;
 	}
