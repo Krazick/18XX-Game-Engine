@@ -1,10 +1,11 @@
-package ge18xx.round.action.effects;
+package ge18xx.round.action.effects.auction;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.StateChangeEffect;
 import geUtilities.xml.XMLNode;
 import ge18xx.round.action.GenericActor;
 

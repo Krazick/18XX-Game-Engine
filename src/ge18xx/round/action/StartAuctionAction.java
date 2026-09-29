@@ -4,9 +4,9 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.AddPrivateToAuctionEffect;
-import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.SetInterruptedNameEffect;
+import ge18xx.round.action.effects.auction.AddPrivateToAuctionEffect;
+import ge18xx.round.action.effects.auction.AuctionStateChangeEffect;
 import geUtilities.xml.XMLNode;
 
 public class StartAuctionAction extends ChangeRoundAction {

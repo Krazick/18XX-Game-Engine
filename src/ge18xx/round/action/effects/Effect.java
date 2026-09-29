@@ -45,7 +45,7 @@ public abstract class Effect {
 		this (NO_NAME);
 	}
 
-	Effect (String aName) {
+	protected Effect (String aName) {
 		this (aName, NO_ACTOR);
 	}
 

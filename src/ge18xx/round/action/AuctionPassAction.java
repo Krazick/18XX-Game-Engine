@@ -2,7 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.AuctionPassEffect;
+import ge18xx.round.action.effects.auction.AuctionPassEffect;
 import geUtilities.xml.XMLNode;
 
 public class AuctionPassAction extends AuctionStateChangeAction {

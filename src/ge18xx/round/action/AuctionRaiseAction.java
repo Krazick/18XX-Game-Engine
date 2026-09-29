@@ -4,9 +4,9 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
-import ge18xx.round.action.effects.AuctionBidChangeEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowChangeEffect;
+import ge18xx.round.action.effects.auction.AuctionBidChangeEffect;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 

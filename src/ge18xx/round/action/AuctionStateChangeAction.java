@@ -2,8 +2,8 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.AuctionStateChangeEffect;
-import ge18xx.round.action.effects.NewCurrentBidderEffect;
+import ge18xx.round.action.effects.auction.AuctionStateChangeEffect;
+import ge18xx.round.action.effects.auction.NewCurrentBidderEffect;
 import geUtilities.xml.XMLNode;
 
 public class AuctionStateChangeAction extends CashTransferAction {

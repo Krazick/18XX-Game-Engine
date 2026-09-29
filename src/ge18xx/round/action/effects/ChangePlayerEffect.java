@@ -14,15 +14,15 @@ public class ChangePlayerEffect extends Effect {
 	public static final String NAME = "Change Player";
 	final static AttributeName AN_PREVIOUS_PLAYER = new AttributeName ("previousPlayer");
 	final static AttributeName AN_NEW_PLAYER = new AttributeName ("newPlayer");
-	int previousPlayerIndex;
-	int newPlayerIndex;
+	protected int previousPlayerIndex;
+	protected int newPlayerIndex;
 
-	public ChangePlayerEffect () {
-		super ();
-		setName (NAME);
-		setPreviousPlayer (PlayerManager.NO_PLAYER_INDEX);
-		setNewPlayer (PlayerManager.NO_PLAYER_INDEX);
-	}
+//	public ChangePlayerEffect () {
+//		super ();
+//		setName (NAME);
+//		setPreviousPlayer (PlayerManager.NO_PLAYER_INDEX);
+//		setNewPlayer (PlayerManager.NO_PLAYER_INDEX);
+//	}
 
 	public ChangePlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
 		super (NAME, aActor);

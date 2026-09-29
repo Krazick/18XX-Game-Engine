@@ -6,11 +6,11 @@ import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Escrow;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.AuctionStateChangeEffect;
-import ge18xx.round.action.effects.BidToCertificateEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowCashTransferEffect;
 import ge18xx.round.action.effects.EscrowToPlayerEffect;
+import ge18xx.round.action.effects.auction.AuctionStateChangeEffect;
+import ge18xx.round.action.effects.auction.BidToCertificateEffect;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 

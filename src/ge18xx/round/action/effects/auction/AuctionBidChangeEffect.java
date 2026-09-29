@@ -1,4 +1,4 @@
-package ge18xx.round.action.effects;
+package ge18xx.round.action.effects.auction;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
@@ -6,6 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.effects.Effect;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
