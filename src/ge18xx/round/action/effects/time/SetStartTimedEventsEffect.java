@@ -37,9 +37,9 @@ public class SetStartTimedEventsEffect extends ChangeBooleanFlagEffect {
 		String tReport;
 		
 		if (booleanFlag) {
-			tReport = REPORT_PREFIX + " for " + actor.getName () + " Flag set to TRUE.";
+			tReport = REPORT_PREFIX + " " + NAME + " Flag for " + actor.getName () + " set to TRUE.";
 		} else {
-			tReport = REPORT_PREFIX + " for " + actor.getName () + " is clearing the " + name + " Flag.";
+			tReport = REPORT_PREFIX + " " + NAME + " Flag for " + actor.getName () + " set to FALSE.";;
 		}
 		
 		return tReport;
