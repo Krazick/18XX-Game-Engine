@@ -65,6 +65,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
 	JScrollPane variantsScrollPane;
+	JScrollPane descAndVariantsScrollPane;
 	KButton newGameButton;
 	KButton networkGameButton;
 	KButton loadGameButton;
@@ -117,14 +118,22 @@ public class GameSet implements LoadableXMLI, ActionListener {
 
 	public void handleGameSelection (int aGameIndex, boolean aNotify) {
 		JGameClient tJGameClient;
+		int tPlayerCount;
+		boolean tBadPlayerList;
+		String tGameName;
 
 		setSelectedGame (aGameIndex);
 		gameRadioButtons [aGameIndex].setSelected (true);
 		showDescriptionAndVariants (aGameIndex);
-		setGameRadioButtons (playerInputFrame.getPlayerCount (), playerInputFrame.getBadPlayerList ());
+		
+		tPlayerCount = playerInputFrame.getPlayerCount ();
+		tBadPlayerList = playerInputFrame.getBadPlayerList ();
+		setGameRadioButtons (tPlayerCount, tBadPlayerList);
+		
 		if ((playerInputFrame.isNetworkGame () && aNotify)) {
 			tJGameClient = playerInputFrame.getNetworkJGameClient ();
-			tJGameClient.setSelectedGame (aGameIndex, gameInfo [aGameIndex].getName ());
+			tGameName = gameInfo [aGameIndex].getName ();
+			tJGameClient.setSelectedGame (aGameIndex, tGameName);
 		}
 		playerInputFrame.pack ();
 	}
@@ -142,16 +151,27 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		playerInputFrame.clearOtherPlayers (tPlayerName);
 		tChatTitle = tGameManager.createFrameTitle (JGameClient.BASE_TITLE);
 		tVersionMismatch = versionCompare (tGameManager);
+		
 		tNetworkGameJClient = new JGameClient (tChatTitle, tGameManager, tVersionMismatch);
 		tNetworkGameJClient.setVisible (true);
+		
 		tGameManager.setNetworkJGameClient (tNetworkGameJClient);
 		tGameManager.setNotifyNetwork (true);
 		tNetworkGameJClient.addLocalPlayer (tPlayerName, false);
 		removeGamePanelButtons ();
+		
 		tNetworkGameJClient.addGamePanel (gameJPanel);
 		tNetworkGameJClient.clearGameSelection ();
 		tNetworkGameJClient.swapToGamePanel ();
 		playerInputFrame.setVisible (false);
+	}
+
+	public void setGEVersion (String aGEVersion) {
+		geVersion = aGEVersion;
+	}
+	
+	public String getGEVersion () {
+		return geVersion;
 	}
 
 	public String versionCompare (GameManager aGameManager) {
@@ -249,12 +269,13 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	}
 
 	public GameInfo getGameByName (String aName) {
-		int tIndex, tGameCount;
+		int tIndex;
+		int tGameCount;
 		GameInfo tFoundGame;
 
 		tGameCount = gameInfo.length;
 		tFoundGame = GameInfo.NO_GAME_INFO;
-		if ((tGameCount > 0) && (aName != null)) {
+		if ((tGameCount > 0) && (aName != GUI.NULL_STRING)) {
 			for (tIndex = 0; tIndex < tGameCount; tIndex++) {
 				if (aName.equals (gameInfo [tIndex].getName ())) {
 					tFoundGame = gameInfo [tIndex];
@@ -266,7 +287,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	}
 
 	public int getSelectedGameIndex () {
-		int tIndex, tGameCount, tFoundGame;
+		int tIndex;
+		int tGameCount;
+		int tFoundGame;
 
 		tGameCount = gameInfo.length;
 		tFoundGame = NO_GAME_SELECTED;
@@ -295,8 +318,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 
 	public String getSelectedGameName () {
 		int tIndex;
-		String tGameName = "";
+		String tGameName;
 
+		tGameName = GUI.EMPTY_STRING;
 		if (gameIsSelected ()) {
 			tIndex = getSelectedGameIndex ();
 			tGameName = gameInfo [tIndex].getName ();
@@ -320,14 +344,6 @@ public class GameSet implements LoadableXMLI, ActionListener {
 
 		tXMLGameSetRoot = aXMLDocument.getDocumentNode ();
 		ParseGameConfig (tXMLGameSetRoot);
-	}
-
-	public void setGEVersion (String aGEVersion) {
-		geVersion = aGEVersion;
-	}
-	
-	public String getGEVersion () {
-		return geVersion;
 	}
 	
 	public void ParseGameConfig (XMLNode aCellNode) {
@@ -458,13 +474,19 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	}
 
 	private void showDescriptionAndVariants (int aIndex) {
+		Dimension tVSPPreferredSize;
+		Dimension tGIPPreferredSize;
+		
 		if (descAndVariantsJPanel == GUI.NO_PANEL) {
 			descAndVariantsJPanel = new JPanel ();
 			descAndVariantsJPanel.setLayout (new BoxLayout (descAndVariantsJPanel, BoxLayout.Y_AXIS));
 		}
 		descAndVariantsJPanel.removeAll ();
 		variantsScrollPane = new JScrollPane (descAndVariantsJPanel);
-		variantsScrollPane.setPreferredSize (new Dimension (500, 350));
+		
+		tVSPPreferredSize = new Dimension (500, 350);
+		variantsScrollPane.setPreferredSize (tVSPPreferredSize);
+		variantsScrollPane.setMinimumSize (new Dimension (0, 100));
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == GUI.NO_LABEL) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
@@ -478,7 +500,10 @@ public class GameSet implements LoadableXMLI, ActionListener {
 
 		gameInfoJPanel.removeAll ();
 		gameInfoJPanel.add (variantsScrollPane);
-		gameInfoJPanel.setPreferredSize (gameInfoJPanel.getPreferredSize ());
+		
+		tGIPPreferredSize = new Dimension (510, 350);
+		gameInfoJPanel.setPreferredSize (tGIPPreferredSize);
+		gameInfoJPanel.setMinimumSize (new Dimension (0, 100));
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
 
