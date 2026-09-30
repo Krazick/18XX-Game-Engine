@@ -2877,9 +2877,9 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	private void setupGamePieces () {
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			createMarket ();
-			createShareCompanies ();
 			createPrivateCompanies ();
 			createMinorCompanies ();
+			createShareCompanies ();
 			createCities ();
 			createTileTray ();
 			createMap ();
