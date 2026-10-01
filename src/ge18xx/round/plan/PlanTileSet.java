@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import ge18xx.map.GameMap;
+import ge18xx.map.Hex18XX;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.TileSet;
 
@@ -19,12 +20,18 @@ public class PlanTileSet extends TileSet {
 		
 		boolean tHexDirection;
 		int tScale;
-		
-		setShowAllTiles (true);
-		tHexDirection = hex.getHexDirection ();
-		tScale = hex.getScale ();
-		createAndSetHex (tHexDirection, tScale);
+		Hex18XX tHex;
+
 		setPlanFrame (aPlanFrame);
+		setShowAllTiles (true);
+		tHex = planFrame.getHex ();
+		if (tHex != Hex18XX.NO_HEX18XX) {
+			tHexDirection = tHex.getHexDirection ();
+			tScale = tHex.getScale ();
+			createAndSetHex (tHexDirection, tScale);
+		} else {
+			System.err.println ("Hex Provided is NULL");
+		}
 	}
 
 	public void setPlanFrame (PlanFrame aPlanFrame) {

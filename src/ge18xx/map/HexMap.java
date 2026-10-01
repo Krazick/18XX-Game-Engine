@@ -1400,7 +1400,7 @@ public class HexMap extends GameMap implements MouseListener,
 //			System.out.println (" On MapCell " + tSelectedMapCell.getID ());
 //		}
 		setPlanFrame (tPlanFrame);
-		tPlanFrame.addMapPlan (tPlaceMapTilePlan);
+		tPlanFrame.addMapPlan (tPlaceMapTilePlan, hex);
 	}
 
 // Map Graph Functions

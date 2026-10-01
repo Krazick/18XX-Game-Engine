@@ -27,6 +27,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.map.GameMap;
+import ge18xx.map.Hex18XX;
 import ge18xx.map.MapCell;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
@@ -68,6 +69,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	TileSet fullTileSet;
 	List<Plan> allPlans = new LinkedList<Plan> ();
 	MapPlan mapPlan;
+	Hex18XX hex;
 	boolean tilePlaced;
 	
 	JPanel mapPanel;
@@ -122,9 +124,14 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	public void addMapPlan (MapPlan aMapPlan) {
+		addMapPlan (aMapPlan, (Hex18XX) Hex18XX.NO_HEX);
+	}
+	
+	public void addMapPlan (MapPlan aMapPlan, Hex18XX aHex) {
 		setMapPlan (aMapPlan);
+		setHex (aHex);
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
 			allPlans.add (aMapPlan);
 			try {
@@ -143,7 +150,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	}
 	
 	private JPanel buildOrEmptyPanel (JPanel aPanel) {
-		if (aPanel == null) {
+		if (aPanel == GUI.NO_PANEL) {
 			aPanel = new JPanel ();
 		} else {
 			aPanel.removeAll ();
@@ -490,6 +497,14 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
 			mapPlan.setPlanFrame (this);
 		}
+	}
+	
+	public void setHex (Hex18XX aHex) {
+		hex = aHex;
+	}
+	
+	public Hex18XX getHex () {
+		return hex;
 	}
 	
 	public MapPlan findMapPlan (String aMapPlanName) {
