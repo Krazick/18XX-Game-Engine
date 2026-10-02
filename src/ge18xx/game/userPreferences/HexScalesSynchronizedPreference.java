@@ -55,7 +55,7 @@ public class HexScalesSynchronizedPreference extends TrueFalseDecisionPreference
 	}
 
 	@Override
-	public void itemStateChanged (ItemEvent e) {
+	public void itemStateChanged (ItemEvent aEvent) {
 		gameManager.updateAllFrames ();
 	}
 	

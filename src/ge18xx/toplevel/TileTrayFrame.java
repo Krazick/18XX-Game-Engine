@@ -43,13 +43,31 @@ public class TileTrayFrame extends XMLFrame {
 
 	public void updateFrame () {
 		boolean tHexScaleSynchronized;
+		boolean tHideTileTraySlider;
 		UserPreferencesFrame tUserPreferencesFrame;
 		GameManager tGameManager;
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tUserPreferencesFrame = tGameManager.getUserPreferencesFrame ();
 		tHexScaleSynchronized = tUserPreferencesFrame.getHexScalesSynchronized ();
-		updateFrame (tHexScaleSynchronized);
+		tHideTileTraySlider = tUserPreferencesFrame.getHideTileTraySlider ();
+		if (tHexScaleSynchronized) {
+			tHideTileTraySlider = true;
+		}
+
+		updateFrame (tHideTileTraySlider);
+	}
+	
+	public void updateFrame (boolean aHideTileTraySlider) {
+		int tScale;
+		
+		revalidate ();
+		repaint ();
+
+		scaleSlider.setVisible (! aHideTileTraySlider);
+		tScale = getHexScale ();
+		tileSet.setSizeAndRedraw (tScale);
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	public void setScaleSlider (JSlider aScaleSlider) {
@@ -73,18 +91,6 @@ public class TileTrayFrame extends XMLFrame {
 		tScaleSliderIsVisible = scaleSlider.isVisible ();
 		
 		return tScaleSliderIsVisible;
-	}
-	
-	public void updateFrame (boolean aHexScaleSynchronized) {
-		int tScale;
-		
-		revalidate ();
-		repaint ();
-
-		scaleSlider.setVisible (! aHexScaleSynchronized);
-		tScale = getHexScale ();
-		tileSet.setSizeAndRedraw (tScale);
-		updateFrameTitle (BASE_TITLE);
 	}
 
 	private void buildTileTrayScrollPanel () {

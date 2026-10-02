@@ -3065,9 +3065,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		roundManager.sendToReportFrame (aReport);
 	}
 
-	public void updateAllFrames () {
-		boolean tHexScaleSynchronized;
-		
+	public void updateAllFrames () {		
 		updateRoundFrame ();
 		if (roundManagerIsValid () ) {
 			if (roundManager.getCurrentRoundState ().equals (ActorI.ActionStates.StockRound)) {
@@ -3086,8 +3084,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			planFrame.updateFrame ();
 		}
 		if (tileTrayFrame != TileTrayFrame.NO_XML_FRAME) {
-			tHexScaleSynchronized = userPreferencesFrame.getHexScalesSynchronized ();
-			tileTrayFrame.updateFrame (tHexScaleSynchronized);
+			tileTrayFrame.updateFrame ();
 		}
 		if (networkJGameClient != JGameClient.NO_XML_FRAME) {
 			networkJGameClient.updateFrame ();
@@ -3648,13 +3645,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	private void applyConfigSettings () {
 		GameFrameConfig tGameFrameConfig;
-
+		
 		tGameFrameConfig = getGameFrameConfig ();
 		if (tGameFrameConfig != GameFrameConfig.NO_GAME_FRAME) {
 			for (XMLFrame tXMLFrame : configFrames) {
 				tXMLFrame.setFrameToConfigDefaults (tGameFrameConfig, getVisibileConfig ());
 			}
 		}
+		
 		mapFrame.updateFrame ();
 		tileTrayFrame.updateFrame ();
 	}

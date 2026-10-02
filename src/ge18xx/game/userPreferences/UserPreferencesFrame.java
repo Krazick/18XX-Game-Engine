@@ -32,6 +32,8 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int ShowConfigIndex = 5;
 	private static final int ShowPSGChecksum = 6;
 	private static final int HexScalesSynchronized = 7;
+	private static final int HideMapScaleSlider = 8;
+	private static final int HideTileTraySlider = 9;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -110,6 +112,12 @@ public class UserPreferencesFrame extends XMLFrame {
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new HexScalesSynchronizedPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new HideMapScaleSliderPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new HideTileTrayScaleSliderPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 	}
 	
@@ -212,6 +220,26 @@ public class UserPreferencesFrame extends XMLFrame {
 		return tHexScalesSynchronized.hexScalesSynchronized ();
 	}
 
+	public boolean getHideMapSlider () {
+		HideMapScaleSliderPreference tHideMapSliderPreference;
+		boolean tHideMapSlider;
+		
+		tHideMapSliderPreference = (HideMapScaleSliderPreference) userPreferences.get (HideMapScaleSlider);
+		tHideMapSlider = ! tHideMapSliderPreference.hideMapScaleSlider ();
+		
+		return tHideMapSlider;
+	}
+
+	public boolean getHideTileTraySlider () {
+		HideTileTrayScaleSliderPreference tHideTileTraySliderPreference;
+		boolean tHideTileTraySlider;
+		
+		tHideTileTraySliderPreference = (HideTileTrayScaleSliderPreference) userPreferences.get (HideTileTraySlider);
+		tHideTileTraySlider = tHideTileTraySliderPreference.hideTileTrayScaleSlider ();
+		
+		return tHideTileTraySlider;
+	}
+	
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tPreferencesElement;
 		

@@ -40,6 +40,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.TokenPlacementBenefit;
 import ge18xx.game.GameManager;
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -153,10 +154,18 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	 */
 	public void updateFrame () {
 		int tScale;
+		boolean tHideMapSlider;
+		UserPreferencesFrame tUserPreferencesFrame;
+		GameManager tGameManager;
 		
 		tScale = hexScaleSlider.getValue ();
+		
+		tGameManager = (GameManager) gameEngineManager;
+		tUserPreferencesFrame = tGameManager.getUserPreferencesFrame ();
 		hexMap.setHexScale (tScale);
-
+		tHideMapSlider = tUserPreferencesFrame.getHideMapSlider ();
+		hexScaleSlider.setVisible (tHideMapSlider);
+		
 		updateFrameTitle (BASE_TITLE);
 	}
 
