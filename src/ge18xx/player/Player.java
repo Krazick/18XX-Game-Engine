@@ -40,6 +40,7 @@ import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetPercentBoughtAction;
 import ge18xx.round.action.SetWaitStateAction;
+import ge18xx.round.action.Timers;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.ContractBidFrame;
@@ -80,12 +81,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final AttributeName AN_CERTIFICATE_LIMIT = new AttributeName ("certificateLimit");
 	public static final AttributeName AN_MIN_BID_CITIES = new AttributeName ("minBidCities");
 	public static final AttributeName AN_MAX_BID_CITIES = new AttributeName ("maxBidCities");
-	public static final AttributeName AN_ADD_TIME_BUDGET = new AttributeName ("addTimeBudget");
-	public static final AttributeName AN_START_TIMED_EVENTS = new AttributeName ("startTimedEvents");
-	public static final AttributeName AN_TIME_BUDGET = new AttributeName ("timeBudget");
-	public static final AttributeName AN_TOTAL_TIME_USED = new AttributeName ("totalTimeUsed");
-	public static final AttributeName AD_ACTION_START_TIME = new AttributeName ("actionStartTime");
-	public static final AttributeName AN_ACTION_END_TIME = new AttributeName ("actionEndTime");
 	public static final String NAME = "Player";
 	public static final String NO_PLAYER_NAME = GUI.EMPTY_STRING;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
@@ -101,7 +96,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final Player NO_PLAYER = null;
 	
-	private static final LocalDateTime CLEAR_ACTION_TIME = LocalDateTime.now ();
+//	private static final LocalDateTime CLEAR_ACTION_TIME = LocalDateTime.now ();
 
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
@@ -144,14 +139,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
 	Bank actorsBank;
 	ContractBid contractBid;
-
-	// Time Budget Items
-	boolean addTimeBudget;
-	boolean startTimedEvents;
-	Duration timeBudget;
-	Duration totalTimeUsed;
-	LocalDateTime actionStartTime;
-	LocalDateTime actionEndTime;
+	Timers timers;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
 					int aMinBidCities, int aMaxBidCities) {
@@ -168,11 +156,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setMessageBean (tBean);
 		playerJPanel = GUI.NO_PANEL;
 		
-		// Set up Time Budget, and initial state for the Time Variables.
-		setAddTimeBudget (true);
-		clearActionTimes ();
-		setTimeBudget (Duration.ZERO);
-		setTotalTimeUsed (Duration.ZERO);
+		timers = new Timers ();
 		
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, aMinBidCities, aMaxBidCities, 
 					tGameManager);
@@ -854,7 +838,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
 		
-		addTimeFields (tXMLElement);
+//		addTimeFields (tXMLElement);
+		timers.addTimeFields (tXMLElement);
 		
 		if (minBidCities > 0) {
 			tXMLElement.setAttribute (AN_MIN_BID_CITIES, minBidCities);
@@ -879,40 +864,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 
 		return tXMLElement;
-	}
-	// Time Budget Items
-
-	protected void addTimeFields (XMLElement aXMLElement) {
-		// TODO Auto-generated method stub
-		aXMLElement.setAttribute (AN_ADD_TIME_BUDGET, addTimeBudget);
-		aXMLElement.setAttribute (AN_START_TIMED_EVENTS, startTimedEvents);
-		aXMLElement.setAttribute (AN_TIME_BUDGET, timeBudget.toString ());
-		aXMLElement.setAttribute (AN_TOTAL_TIME_USED, totalTimeUsed.toString ());
-		aXMLElement.setAttribute (AD_ACTION_START_TIME, actionStartTime.toString ());
-		aXMLElement.setAttribute (AN_ACTION_END_TIME, actionEndTime.toString ());
-	}
-
-	protected void loadTimeFields (XMLNode aPlayerNode) {
-		boolean tAddTimeBudget;
-		boolean tStartTimedEvents;
-		Duration tTimeBudget;
-		Duration tTotalTimeUsed;
-		LocalDateTime tActionStartTime;
-		LocalDateTime tActionEndTime;
-
-		tAddTimeBudget = aPlayerNode.getThisBooleanAttribute (AN_ADD_TIME_BUDGET);
-		tStartTimedEvents = aPlayerNode.getThisBooleanAttribute (AN_START_TIMED_EVENTS);
-		tTimeBudget = aPlayerNode.getThisDurationAttribute (AN_TIME_BUDGET);
-		tTotalTimeUsed = aPlayerNode.getThisDurationAttribute (AN_TOTAL_TIME_USED);
-		tActionStartTime = aPlayerNode.getThisLocalDateTimeAttribute (AD_ACTION_START_TIME);
-		tActionEndTime = aPlayerNode.getThisLocalDateTimeAttribute (AN_ACTION_END_TIME);
-
-		setAddTimeBudget (tAddTimeBudget);
-		setStartTimedEvents (tStartTimedEvents);
-		setTimeBudget (tTimeBudget);
-		setTotalTimeUsed (tTotalTimeUsed);
-		setActionStartTime (tActionStartTime);
-		setActionEndTime (tActionEndTime);
 	}
 	
 	@Override
@@ -1501,7 +1452,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		clearPrimaryActionState ();
 		clearPlayerFlags ();
 		roundDividends.parseDividendAtribute (aPlayerNode);
-		loadTimeFields (aPlayerNode);
+		timers.loadTimeFields (aPlayerNode);
 		
 		tGenericActor = new GenericActor ();
 		setPrimaryActionState (tGenericActor.getPlayerState (tState));
@@ -1540,10 +1491,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLQueryOfferNodeList.parseXMLNodeList (aPlayerNode, QueryOffer.EN_QUERY_OFFER);
 		
 		tXMLContractBidNodeList = new XMLNodeList (contractBidParsingRoutine);
-		tXMLContractBidNodeList.parseXMLNodeList (aPlayerNode, ContractBid.EN_CONTRACT_BID);
-
-		// TODO: Load Time Fields from the XML Node List
-		
+		tXMLContractBidNodeList.parseXMLNodeList (aPlayerNode, ContractBid.EN_CONTRACT_BID);		
 		
 		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
 		// to load the QueryOffer Object here, and in the Train Company LoadStatus method
@@ -2100,6 +2048,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		JLabel tSoldCompanies;
 		GameManager tGameManager;
 		JLabel tTimeBudgetLabel;
+		Duration tTotalTimeUsed;
 
 		tGameManager = playerManager.getGameManager ();
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
@@ -2122,10 +2071,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tDividendsLabel = new JLabel ("Dividends: " + getAllDividends ());
 		playerJPanel.add (tDividendsLabel);
 		
-		tTimeBudgetLabel = new JLabel ("Time: " + formatDuration (totalTimeUsed));
-		if (addTimeBudget) {
+		if (timers.getAddTimeBudget ()) {
+			tTotalTimeUsed = timers.getTotalTimeUsed ();
+			tTimeBudgetLabel = new JLabel ("Time: " + timers.formatDuration (tTotalTimeUsed));
 			playerJPanel.add (tTimeBudgetLabel);
 		}
+		
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
 		
@@ -2143,79 +2094,67 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.revalidate ();
 	}
 	
-	public void clearActionTimes () {
-		setActionStartTime (CLEAR_ACTION_TIME);
-		setActionEndTime (CLEAR_ACTION_TIME);
-	}
-	
+//	public void clearActionTimes () {
+//		setActionStartTime (CLEAR_ACTION_TIME);
+//		setActionEndTime (CLEAR_ACTION_TIME);
+//	}
+
+//	protected void addTimeFields (XMLElement aXMLElement) {
+//		timers.addTimeFields (aXMLElement);
+//	}
+
+//	protected void loadTimeFields (XMLNode aPlayerNode) {
+//		timers.loadTimeFields (aPlayerNode);
+//	}
+
 	public void setAddTimeBudget (boolean aAddTimeBudget) {
-		addTimeBudget = aAddTimeBudget;
+		timers.setAddTimeBudget (aAddTimeBudget);
 	}
-	
+
 	public void setStartTimedEvents (boolean aStartTimedEvents) {
-		startTimedEvents = aStartTimedEvents;
+		timers.setStartTimedEvents (aStartTimedEvents);
 	}
 	
 	public void setActionStartTime (LocalDateTime aActionStartTime) {
-		actionStartTime = aActionStartTime;
+		timers.setActionStartTime (aActionStartTime);
 	}
 	
 	public void setActionEndTime (LocalDateTime aActionEndTime) {
-		actionEndTime = aActionEndTime;
+		timers.setActionEndTime (aActionEndTime);
 	}
 	
 	public LocalDateTime getActonStartTime () {
-		return actionStartTime;
+		return timers.getActonStartTime ();
 	}
 	
 	public LocalDateTime getActonEndTime () {
-		return actionEndTime;
+		return timers.getActonEndTime ();
 	}
-	
-//	public void setTimeUsed (Duration aTotalTimeUsed) {
-//		totalTimeUsed = aTotalTimeUsed;
-//	}
 
 	public void setTimeBudget (Duration aTimeBudget) {
-		timeBudget = aTimeBudget;
+		timers.setTimeBudget (aTimeBudget);
 	}
 
 	public boolean hasTimedEventsStarted () {
-		return startTimedEvents;
+		return timers.hasTimedEventsStarted ();
 	}
 	
 	public void setTotalTimeUsed (Duration aTotalTimeUsed) {
-		totalTimeUsed = aTotalTimeUsed;
+		timers.setTotalTimeUsed (aTotalTimeUsed);
 	}
 	
 	public Duration getTotalTimeUsed () {
-		return totalTimeUsed;
+		return timers.getTotalTimeUsed ();
 	}
 	
 	public Duration addNewDuration () {
 		Duration tDuration;
-		Duration tTotalDuration;
 		
-		tDuration = Duration.between (actionStartTime, actionEndTime);
-		tTotalDuration = totalTimeUsed.plus (tDuration);
-		setTotalTimeUsed (tTotalDuration);
+		tDuration = timers.addNewDuration ();
 		
 		return tDuration;
 	}
 	
-    public String formatDuration (Duration aDuration) {
-    	String tFormatted;
-    	
-    	long tSeconds = aDuration.getSeconds ();
-        long tHours = (tSeconds % 86400) / 3600;
-        long tMinutes = (tSeconds % 3600) / 60;
-        long tSecs = tSeconds % 60;
-
-        tFormatted = String.format ("%2d:%02d:%02d", tHours, tMinutes, tSecs);
-        
-        return tFormatted;
-    }
-
 	public String buildCertCountInfo (String aPrefix) {
 		int tCertificateCount;
 		int tCertificateLimit;
