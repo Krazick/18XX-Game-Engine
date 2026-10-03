@@ -117,6 +117,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
+import swingTweaks.KButton;
 
 // TODO -- Create an abstract 'GameEngineManager' Super Class that holds non-specific Game information like:
 //   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific
@@ -2125,6 +2126,14 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
 
+	public KButton getAFKButton () {
+		KButton tAFKButton;
+		
+		tAFKButton = networkJGameClient.getAFKButton ();
+		
+		return tAFKButton;
+	}
+	
 	public boolean loadXMLFile (File aSaveGame) {
 		boolean tXMLFileWasLoaded;
 		XMLDocument tXMLDocument;
