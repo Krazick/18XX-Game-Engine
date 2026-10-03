@@ -136,7 +136,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private JTextField messageField;
 	private KButton connectButton;
 	private KButton sendMessageButton;
-	private KButton awayFromKeyboardAFKButton;
+	private KButton afkButton;
 	private KButton disconnectButton;
 	private KButton refreshPlayersButton;
 	private KButton startReadyButton;
@@ -272,6 +272,22 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		setupNewPlayer (aAction);
 	}
 
+	public KButton getAFKButton () {
+		return afkButton;
+	}
+
+	public void backFromAFK () {
+		if (isPlayerAFK ()) {
+			serverHandler.sendUserIsNotAFK ();
+		}
+		resetPlayerFromeAFK ();
+		afkButton.setEnabled (true);
+	}
+
+	public boolean isPlayerAFK () {
+		return networkPlayers.playerIsAFK (getName ());
+	}
+
 	private void setupActions () {
 		connectButton.addActionListener (new ActionListener () {
 			@Override
@@ -329,16 +345,18 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 			}
 		});
 
-		awayFromKeyboardAFKButton.addActionListener (new ActionListener () {
+		afkButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction;
+				String tPlayerName;
 
 				tAction = aActionEvent.getActionCommand ();
 				if (AFK.equals (tAction)) {
 					serverHandler.sendUserIsAFK ();
-					networkPlayers.setPlayerAFK (playerName.getText (), true);
-					awayFromKeyboardAFKButton.setEnabled (false);
+					tPlayerName = playerName.getText ();
+					networkPlayers.setPlayerAFK (tPlayerName, true);
+					afkButton.setEnabled (false);
 				}
 			}
 		});
@@ -432,8 +450,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		refreshPlayersButton.setEnabled (false);
 		refreshPlayersButton.setToolTipText (NOT_CONNECTED);
 
-		awayFromKeyboardAFKButton.setEnabled (false);
-		awayFromKeyboardAFKButton.setToolTipText (NOT_CONNECTED);
+		afkButton.setEnabled (false);
+		afkButton.setToolTipText (NOT_CONNECTED);
 		if (versionMismatch) {
 			updateConnectButton (false, "Game Engine Version Mis-Match");
 		} else {
@@ -465,8 +483,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateDisconnectButton (true, "For Debugging Purposes ONLY");
-		awayFromKeyboardAFKButton.setEnabled (true);
-		awayFromKeyboardAFKButton.setToolTipText (GUI.NO_TOOL_TIP);
+		afkButton.setEnabled (true);
+		afkButton.setToolTipText (GUI.NO_TOOL_TIP);
 		refreshPlayersButton.setEnabled (true);
 		refreshPlayersButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
@@ -579,7 +597,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		bottomPanel.add (Box.createHorizontalStrut (10));
 		bottomPanel.add (sendMessageButton);
 		bottomPanel.add (Box.createHorizontalGlue ());
-		bottomPanel.add (awayFromKeyboardAFKButton);
+		bottomPanel.add (afkButton);
 		bottomPanel.add (Box.createHorizontalGlue ());
 		bottomPanel.add (disconnectButton);
 		bottomPanel.add (Box.createHorizontalStrut (10));
@@ -671,7 +689,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		// Action Buttons
 		connectButton = new KButton (CONNECT_ACTION);
 		sendMessageButton = new KButton (SEND);
-		awayFromKeyboardAFKButton = new KButton (AFK);
+		afkButton = new KButton (AFK);
 		refreshPlayersButton = new KButton (REFRESH);
 		disconnectButton = new KButton (DISCONNECT);
 		startReadyButton = new KButton (SELECT_GAME);
@@ -1241,18 +1259,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 				gameManager.updatePlayerCountLabel ();
 			}
 		}
-	}
-
-	private void backFromAFK () {
-		if (isPlayerAFK ()) {
-			serverHandler.sendUserIsNotAFK ();
-		}
-		resetPlayerFromeAFK ();
-		awayFromKeyboardAFKButton.setEnabled (true);
-	}
-
-	public boolean isPlayerAFK () {
-		return networkPlayers.playerIsAFK (getName ());
 	}
 
 	@Override
