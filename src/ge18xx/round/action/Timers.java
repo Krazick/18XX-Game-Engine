@@ -64,6 +64,7 @@ public class Timers {
 		setActionStartTime (tActionStartTime);
 		setActionEndTime (tActionEndTime);
 	}
+	
 	public void clearActionTimes () {
 		setActionStartTime (CLEAR_ACTION_TIME);
 		setActionEndTime (CLEAR_ACTION_TIME);
