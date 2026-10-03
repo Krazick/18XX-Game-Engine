@@ -209,7 +209,7 @@ public class RoundFrame extends XMLFrame {
 		roundInfoJPanel = new JPanel ();
 		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
 		
-		tStrutSize = 10;
+		tStrutSize = 5;
 		frameLabel = new JLabel (BASE_TITLE);
 		addRoundInfoLabel (frameLabel, tStrutSize);
 
@@ -243,6 +243,12 @@ public class RoundFrame extends XMLFrame {
 		roundInfoJPanel.add (Box.createVerticalStrut (tStrutSize));
 	}
 
+	private void addRoundInfoLabel (JLabel aRoundInfoLabel, int aStrutSize) {
+		aRoundInfoLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundInfoJPanel.add (aRoundInfoLabel);
+		roundInfoJPanel.add (Box.createVerticalStrut (aStrutSize));
+	}
+  
 	private void updatePhaseLabel () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tCurrentPhaseInfo;
@@ -298,13 +304,10 @@ public class RoundFrame extends XMLFrame {
 		gameStateLabel.setText (tGameState);
 	}
 
-	private void addRoundInfoLabel (JLabel aRoundInfoLabel, int aStrutSize) {
-		aRoundInfoLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoJPanel.add (aRoundInfoLabel);
-		roundInfoJPanel.add (Box.createVerticalStrut (aStrutSize));
-	}
-
 	protected void buildButtonsJPanel () {
+		KButton tAFKButton;
+		GameManager tGameManager;
+		
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
@@ -316,6 +319,13 @@ public class RoundFrame extends XMLFrame {
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
+		
+		tGameManager = (GameManager) getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tAFKButton = tGameManager.getAFKButton ();
+			addButtonAndSpace (buttonsJPanel, tAFKButton);
+		}
+		
 		buttonsJPanel.add (fastBuyJPanel);
 		updateDoButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION);
 	}
