@@ -2126,10 +2126,15 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
 
+	@Override
 	public KButton getAFKButton () {
 		KButton tAFKButton;
 		
-		tAFKButton = networkJGameClient.getAFKButton ();
+		if (isNetworkGame ()) {
+			tAFKButton = networkJGameClient.getAFKButton ();
+		} else {
+			tAFKButton = GUI.NO_BUTTON;
+		}
 		
 		return tAFKButton;
 	}
