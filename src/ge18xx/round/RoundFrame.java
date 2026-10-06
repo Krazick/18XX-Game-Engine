@@ -67,6 +67,7 @@ public class RoundFrame extends XMLFrame {
 	JPanel fastBuyJPanel;
 	KButton passButton;
 	KButton doButton;
+	KButton afkButton;
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JLabel totalCashLabel;
@@ -102,6 +103,8 @@ public class RoundFrame extends XMLFrame {
 		padding2 = 5;
 		setPlayerDoingAction (false);
 		listenerPanels = new LinkedList<ListenerPanel> ();
+		afkButton = aGameManager.getAFKButton ();
+		
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
 		setJMenuBar (tJMenuBar);
@@ -115,6 +118,7 @@ public class RoundFrame extends XMLFrame {
 		} else if (tCurrentRound.isAContractBidRound ()) {
 			setContractBidRoundInfo (tGameName, tRoundID);
 		}
+
 		setListenerPanels (false);
 	}
 
@@ -305,7 +309,6 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	protected void buildButtonsJPanel () {
-		KButton tAFKButton;
 		GameManager tGameManager;
 		
 		buttonsJPanel = new JPanel ();
@@ -314,17 +317,18 @@ public class RoundFrame extends XMLFrame {
 		fastBuyJPanel = new JPanel ();
 		fastBuyJPanel.setLayout (new BoxLayout (fastBuyJPanel, BoxLayout.X_AXIS));
 
+		tGameManager = (GameManager) getGameManager ();
+		if (tGameManager != null) {
+			if (tGameManager.isNetworkGame ()) {
+				addButtonAndSpace (buttonsJPanel, afkButton);
+			}
+		}
+
 		doButton = setupButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
-		
-		tGameManager = (GameManager) getGameManager ();
-		if (tGameManager.isNetworkGame ()) {
-			tAFKButton = tGameManager.getAFKButton ();
-			addButtonAndSpace (buttonsJPanel, tAFKButton);
-		}
 		
 		buttonsJPanel.add (fastBuyJPanel);
 		updateDoButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION);
@@ -566,8 +570,12 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void addButtonAndSpace (JPanel aButtonPanel, KButton aButton) {
-		aButtonPanel.add (aButton);
-		aButtonPanel.add (Box.createHorizontalStrut (20));
+		if (aButton != GUI.NO_BUTTON) {
+			aButtonPanel.add (aButton);
+			aButtonPanel.add (Box.createHorizontalStrut (20));
+		} else {
+			System.err.println ("The Button Provided is set to NULL");
+		}
 	}
 
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
