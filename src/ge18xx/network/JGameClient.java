@@ -64,6 +64,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final String CONNECT_ACTION = "CONNECT";
 	private static final String ALREADY_CONNECTED = "You are already connected";
 	private static final String NOT_CONNECTED = "You are not connected yet";
+	private static final String PLAYER_IS_AFK = "You are connected but AFK";
 	private static final String WAITING_FOR_GAME = "Waiting for Game Selection";
 	private static final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
 	private static final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
@@ -114,14 +115,15 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	public static final String READY_TO_PLAY = "READY";
 	public static final String PLAY_GAME = "PLAY SAVED GAME";
 	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
+	public static final String AFK = "AFK";
+	public static final String BACK_FROM_AFK = "Back from AFK";
 	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private static final String START_NEW_GAME = "START NEW GAME";
 	private static final String SELECT_GAME = "SELECT GAME";
 	private static final String START_GAME = "START";
-	private final String REFRESH = "REFRESH";
-	private final String AFK = "AFK";
-	private final String SEND = "SEND";
-	private final String NO_SELECTED_GAME = null;
+	private static final String REFRESH = "REFRESH";
+	private static final String SEND = "SEND";
+	private static final String NO_SELECTED_GAME = null;
 	// Static Labels
 	JLabel nameLabel = new JLabel ("Name:");
 	JLabel serverIPLabel = new JLabel ("Server IP:");
@@ -137,6 +139,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private KButton connectButton;
 	private KButton sendMessageButton;
 	private KButton afkButton;
+	private KButton afkButton2;
 	private KButton disconnectButton;
 	private KButton refreshPlayersButton;
 	private KButton startReadyButton;
@@ -251,7 +254,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		String tPlayerName;
 
 		tValidNewPlayer = false;
-		tPlayerName = playerName.getText ();
+		tPlayerName = getName ();
 		tValidNewPlayer = NetworkPlayer.validPlayerName (tPlayerName);
 		if (tValidNewPlayer) {
 			try {
@@ -272,8 +275,21 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		setupNewPlayer (aAction);
 	}
 
+	public void updateAFKButton (boolean aEnable, String aToolTip, String aAction, String aLabel) {
+		afkButton.setEnabled (aEnable);
+		afkButton.setToolTipText (aToolTip);
+		afkButton.setActionCommand (aAction);
+		afkButton.setText (aLabel);
+		
+		afkButton2.setEnabled (aEnable);
+		afkButton2.setToolTipText (aToolTip);
+		afkButton2.setActionCommand (aAction);
+		afkButton2.setText (aLabel);
+
+	}
+
 	public KButton getAFKButton () {
-		return afkButton;
+		return afkButton2;
 	}
 
 	public void backFromAFK () {
@@ -281,14 +297,53 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 			serverHandler.sendUserIsNotAFK ();
 		}
 		resetPlayerFromeAFK ();
-		afkButton.setEnabled (true);
 	}
 
 	public boolean isPlayerAFK () {
-		return networkPlayers.playerIsAFK (getName ());
+		String tPlayerName;
+		boolean tIsPlayerAFK;
+		
+		tPlayerName = getName ();
+		tIsPlayerAFK = isPlayerAFK (tPlayerName);
+		
+		return tIsPlayerAFK;
+	}
+
+	public boolean isPlayerAFK (String aPlayerName) {
+		boolean tIsPlayerAFK;
+		
+		tIsPlayerAFK = networkPlayers.playerIsAFK (aPlayerName);
+		
+		return tIsPlayerAFK;
 	}
 
 	private void setupActions () {
+		ActionListener tAFKActionListener;
+		
+		tAFKActionListener = new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction;
+				String tPlayerName;
+
+				tAction = aActionEvent.getActionCommand ();
+				if (AFK.equals (tAction)) {
+					serverHandler.sendUserIsAFK ();
+					tPlayerName = getName ();
+					networkPlayers.setPlayerAFK (tPlayerName, true);
+					updateAFKButton (true, PLAYER_IS_AFK, BACK_FROM_AFK, BACK_FROM_AFK);
+				} else if (BACK_FROM_AFK.equals (tAction)) {
+					serverHandler.sendUserIsNotAFK ();
+					tPlayerName = getName ();
+					networkPlayers.setPlayerAFK (tPlayerName, false);
+					updateAFKButton (true, GUI.NO_TOOL_TIP, AFK, AFK);  
+				}
+			}
+		};
+		
+		afkButton.addActionListener (tAFKActionListener);
+		afkButton2.addActionListener (tAFKActionListener);
+	
 		connectButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
@@ -302,8 +357,10 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		connectButton.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent aActionEvent) {
+				String tAction;
+				
 				if (aActionEvent.getKeyCode () == KeyEvent.VK_ENTER) {
-					String tAction = connectButton.getActionCommand ();
+					tAction = connectButton.getActionCommand ();
 					setupServerAndPlayer (tAction);
 				}
 			}
@@ -342,22 +399,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				sendMessage (aActionEvent);
-			}
-		});
-
-		afkButton.addActionListener (new ActionListener () {
-			@Override
-			public void actionPerformed (ActionEvent aActionEvent) {
-				String tAction;
-				String tPlayerName;
-
-				tAction = aActionEvent.getActionCommand ();
-				if (AFK.equals (tAction)) {
-					serverHandler.sendUserIsAFK ();
-					tPlayerName = playerName.getText ();
-					networkPlayers.setPlayerAFK (tPlayerName, true);
-					afkButton.setEnabled (false);
-				}
 			}
 		});
 
@@ -450,8 +491,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		refreshPlayersButton.setEnabled (false);
 		refreshPlayersButton.setToolTipText (NOT_CONNECTED);
 
-		afkButton.setEnabled (false);
-		afkButton.setToolTipText (NOT_CONNECTED);
+		updateAFKButton (false, NOT_CONNECTED, AFK, AFK);
+		
 		if (versionMismatch) {
 			updateConnectButton (false, "Game Engine Version Mis-Match");
 		} else {
@@ -483,8 +524,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateDisconnectButton (true, "For Debugging Purposes ONLY");
-		afkButton.setEnabled (true);
-		afkButton.setToolTipText (GUI.NO_TOOL_TIP);
+		
+		updateAFKButton (true, GUI.NO_TOOL_TIP, AFK, AFK);
+		
 		refreshPlayersButton.setEnabled (true);
 		refreshPlayersButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
@@ -513,15 +555,17 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void requestSavedGames () {
+		String tPlayerName;
+		String tSavedGamesXML;
 		String tRequestSavedGames;
 		String tFullRequest;
 		String tResponse;
 		String tGSResponseRegEx = "<GSResponse>(.*)</GSResponse>";
 		Pattern tGSResponsePattern = Pattern.compile (tGSResponseRegEx);
 		Matcher tMatcher;
-		String tSavedGamesXML;
 
-		tRequestSavedGames = buildGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, playerName.getText ());
+		tPlayerName = getName ();
+		tRequestSavedGames = buildGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, tPlayerName);
 		tFullRequest = GAME_SUPPORT_PREFIX + " " + tRequestSavedGames;
 		tResponse = gameSupportHandler.requestGameSupport (tFullRequest);
 
@@ -690,6 +734,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		connectButton = new KButton (CONNECT_ACTION);
 		sendMessageButton = new KButton (SEND);
 		afkButton = new KButton (AFK);
+		afkButton2 = new KButton (AFK);
 		refreshPlayersButton = new KButton (REFRESH);
 		disconnectButton = new KButton (DISCONNECT);
 		startReadyButton = new KButton (SELECT_GAME);
@@ -854,7 +899,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		boolean tSuccess;
 
 		if (CONNECT_ACTION.equals (aAction)) {
-			tPlayerName = playerName.getText ();
+			tPlayerName = getName ();
 			tSuccess = connectToServer (tPlayerName);
 			if (tSuccess) {
 				if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
@@ -886,10 +931,13 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	// Message and Chat Management ---
 
 	public void refreshPlayers () {
+		String tPlayerName;
+		
 		backFromAFK ();
 		networkPlayers.removeAllPlayers ();
 		// Add myself to the list
-		networkPlayers.addPlayer (playerName.getText ());
+		tPlayerName = getName ();
+		networkPlayers.addPlayer (tPlayerName);
 		// Request from the ServerHandler to add all of the other Players
 		serverHandler.requestUserNameList ();
 	}
@@ -1227,8 +1275,11 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	// Client Player Management ---
 
 	public void playerReady () {
+		String tPlayerName;
+		
 		backFromAFK ();
-		playerReady (getName ());
+		tPlayerName = getName ();
+		playerReady (tPlayerName);
 	}
 
 	public void playerReady (String aPlayerName) {
@@ -1288,7 +1339,10 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	public void resetPlayerFromeAFK () {
-		resetPlayerFromAFK (playerName.getText ());
+		String tPlayerName;
+		
+		tPlayerName = getName ();
+		resetPlayerFromAFK (tPlayerName);
 	}
 
 	public void resetPlayerFromAFK (String aPlayerName) {

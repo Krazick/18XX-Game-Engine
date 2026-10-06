@@ -2126,14 +2126,25 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
 
+	public boolean isPlayerAFK (String aPlayerName) {
+		boolean tIsPlayerAFK;
+		if (isNetworkGame ()) {
+			tIsPlayerAFK = networkJGameClient.isPlayerAFK (aPlayerName);
+		} else {
+			tIsPlayerAFK = false;
+		}
+
+		return tIsPlayerAFK;
+	}
+	
 	@Override
 	public KButton getAFKButton () {
 		KButton tAFKButton;
-		
+
+		tAFKButton = GUI.NO_BUTTON;
+
 		if (isNetworkGame ()) {
 			tAFKButton = networkJGameClient.getAFKButton ();
-		} else {
-			tAFKButton = GUI.NO_BUTTON;
 		}
 		
 		return tAFKButton;
