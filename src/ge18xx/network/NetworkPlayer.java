@@ -15,6 +15,14 @@ public class NetworkPlayer {
 		setActive (false);
 	}
 
+	public void setAFK (boolean aAFK) {
+		afk = aAFK;
+	}
+
+	public boolean isAFK () {
+		return afk;
+	}
+
 	@Override
 	public String toString () {
 		String tFullDisplay;
@@ -58,14 +66,6 @@ public class NetworkPlayer {
 
 	public boolean isActive () {
 		return active;
-	}
-
-	public void setAFK (boolean aAFK) {
-		afk = aAFK;
-	}
-
-	public boolean isAFK () {
-		return afk;
 	}
 
 	public static boolean validPlayerName (String aPlayerName) {
