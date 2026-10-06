@@ -838,7 +838,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
 		
-//		addTimeFields (tXMLElement);
 		timers.addTimeFields (tXMLElement);
 		
 		if (minBidCities > 0) {
@@ -1407,6 +1406,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.hideFrame ();
 	}
 
+	public boolean isAFK () {
+		GameManager tGameManager;
+		boolean tIsAFK;
+		
+		tGameManager = playerManager.getGameManager ();
+		tIsAFK = tGameManager.isPlayerAFK (name);
+		
+		return tIsAFK;
+	}
+	
 	public boolean isWaiting () {
 		return (primaryActionState == ActorI.ActionStates.WaitState);
 	}
@@ -2093,19 +2102,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.repaint ();
 		playerJPanel.revalidate ();
 	}
-	
-//	public void clearActionTimes () {
-//		setActionStartTime (CLEAR_ACTION_TIME);
-//		setActionEndTime (CLEAR_ACTION_TIME);
-//	}
-
-//	protected void addTimeFields (XMLElement aXMLElement) {
-//		timers.addTimeFields (aXMLElement);
-//	}
-
-//	protected void loadTimeFields (XMLNode aPlayerNode) {
-//		timers.loadTimeFields (aPlayerNode);
-//	}
 
 	public void setAddTimeBudget (boolean aAddTimeBudget) {
 		timers.setAddTimeBudget (aAddTimeBudget);
@@ -2179,7 +2175,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public boolean isParPriceFrameActive () {
-		boolean tIsParPriceFrameActive = false;
+		boolean tIsParPriceFrameActive;
 
 		tIsParPriceFrameActive = playerManager.isParPriceFrameActive ();
 
