@@ -7,17 +7,17 @@ import java.util.List;
 import ge18xx.company.TokenCompany;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
+import geUtilities.GUI;
 
 public class Vertex {
 	public static final Vertex NO_VERTEX = null;
-	public static final String NO_VERTEX_ID = null;
+	public static final String NO_VERTEX_ID = GUI.NULL_STRING;
 	MapCell mapCell;
 	Location location;
 	List<Edge> edges;
 	String id;
 
 	public Vertex (MapCell aMapCell, Location aLocation) {
-
 		setMapCell (aMapCell);
 		setLocation (aLocation);
 		edges = new LinkedList<> ();

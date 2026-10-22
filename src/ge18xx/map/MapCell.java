@@ -81,7 +81,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static final String NO_NAME 			= GUI.EMPTY_STRING;
 	public static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
 	public static final String NO_BASES 		= GUI.EMPTY_STRING;
-	public static final String NO_DIRECTION 	= null;
+	public static final String NO_DIRECTION 	= GUI.NULL_STRING;
 	public static final int NO_ORIENTATION 		= 0;
 	public static final int NO_TILE_ORIENTATION = -1;
 	public static final int NO_ROTATION 		= -1;

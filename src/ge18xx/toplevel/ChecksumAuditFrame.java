@@ -35,8 +35,8 @@ import swingTweaks.KButton;
 public class ChecksumAuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final int STARTING_COLUMN_COUNT = 4;
-	private static final String REFRESH_LIST = "REFRESH LIST";
-	private static final String EMPTY_CHECKSUM = "EMPTY";
+	private static final String REFRESH_LIST = "Refresh List";
+	private static final String EMPTY_CHECKSUM = "Empty";
 	public static final String BASE_TITLE = "Checksum Audit";
 	public static final int INDEX_NOT_FOUND = -1;
 	DefaultTableModel checksumAuditModel;

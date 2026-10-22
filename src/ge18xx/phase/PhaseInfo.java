@@ -55,7 +55,7 @@ public class PhaseInfo {
 	public static final int NO_NAME = 0;
 	public static final int NO_ROUNDS = 0;
 	public static final String [] NO_TILES = null;
-	public static final String NO_OFF_BOARD = null;
+	public static final String NO_OFF_BOARD = GUI.NULL_STRING;
 	int name;
 	int subName;
 	int rounds;

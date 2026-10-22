@@ -68,11 +68,11 @@ public class Portfolio implements CertificateHolderI {
 	public static final AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public static final Portfolio NO_PORTFOLIO = null;
 	public static final XMLElement NO_BIDDERS = null;
-	public static final String CERTIFICATE_ADDED = "CERTIFICATE ADDED";
-	public static final String CERTIFICATE_REMOVED = "CERTIFICATE REMOVED";
+	public static final String CERTIFICATE_ADDED = "Certificate Added";
+	public static final String CERTIFICATE_REMOVED = "Certificate Removed";
 	public static final String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
 	public static final String NO_COMPANY_YET = ">> NONE YET <<";
-	public static final String NO_CERTIFICATES = "NO CERTIFICATES";
+	public static final String NO_CERTIFICATES = "No Certificates";
 	public static final String NO_NAME_STRING = "<NONE>";
 	public static final boolean REMOVE_CERTIFICATE = true;
 	public static final int NO_COMPONENT_INDEX = -1;

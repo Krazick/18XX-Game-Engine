@@ -20,7 +20,7 @@ import geUtilities.GUI;
 public abstract class ServerHandler implements Runnable {
 	public static final ServerHandler NO_SERVER_HANDLER = null;
 	private static final int DEFAULT_TIMOUT = 12000;
-	private static final int DEFAULT_SLEEP = 60000;
+	private static final int DEFAULT_SLEEP = 600;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;

@@ -34,7 +34,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public static final String BASE_TITLE = "Audit";
 	public static final int NO_CREDIT = 0;
 	public static final int NO_DEBIT = 0;
-	private String REFRESH_LIST = "REFRESH LIST";
+	private String REFRESH_LIST = "Refresh List";
 	private String BANK_PREFIX = "Bank";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";

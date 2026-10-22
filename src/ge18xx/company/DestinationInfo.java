@@ -16,7 +16,7 @@ public class DestinationInfo {
 	public static final AttributeName AN_REACHED = new AttributeName ("reached");
 	public static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	public static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
-	public static final String NO_DESTINATION_LABEL = "NO DESTINATION";
+	public static final String NO_DESTINATION_LABEL = "No Destination";
 	// TODO:
 	// Should take the location, and MapCell and make a sub-item "Destination" that is an array.
 	// This will allow for 1853 to support multiple Destinations (setup in the initial contract

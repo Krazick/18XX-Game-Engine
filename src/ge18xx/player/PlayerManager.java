@@ -63,7 +63,7 @@ import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
 
 public class PlayerManager implements XMLSaveGameI {
-	public static final String NO_PLAYER_NAME = null;
+	public static final String NO_PLAYER_NAME = GUI.NULL_STRING;
 	public static final List<Player> NO_PLAYERS = null;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final boolean AUCTION_BUY = false;

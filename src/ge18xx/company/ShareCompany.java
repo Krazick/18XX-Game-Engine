@@ -64,11 +64,11 @@ public class ShareCompany extends TokenCompany {
 	public static final String TILE_LAYS_ALLOWED1 = "1";
 	public static final String TILE_LAYS_ALLOWED2 = "2";
 	public static final String NO_START_CELL = null;
-	public static final String SET_PAR_PRICE = "SET PAR PRICE";
+	public static final String SET_PAR_PRICE = "Set Par Price";
 	public static final int NO_PAR_PRICE = -1;
 	public static final int NO_LOANS = 0;
 	public static final int NO_GROUP = 0;
-	public static final int UNSPECIFIED_CAPITALIZATION= -1;
+	public static final int UNSPECIFIED_CAPITALIZATION = -1;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;

@@ -25,7 +25,7 @@ import geUtilities.GUI;
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
-	public static final String GET_INFO = "GET INFO";
+	public static final String GET_INFO = "Get Info";
 	public static final String OK_STRING = "OK";
 	JPanel certificateInfoJPanel;
 	Certificate certificate;

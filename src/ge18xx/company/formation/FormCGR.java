@@ -35,7 +35,7 @@ public class FormCGR extends FormCompany implements ActionListener {
 	public static final AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans or Fold";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
-	public static final String NO_OPEN_MARKET_CERTS = "NO CERTIFICATES IN OPEN MARKET";
+	public static final String NO_OPEN_MARKET_CERTS = "No Certificates in the Open Market";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
 	public static final String TOKEN_EXCHANGE = "TokenExchange";

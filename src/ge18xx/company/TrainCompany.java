@@ -80,8 +80,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final AttributeName AN_ONLY_PERMANENT_TRAIN = new AttributeName ("onlyPermanentTrain");
 	public static final AttributeName AN_ACTOR_BANK = new AttributeName ("actorBank");
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
-	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
-	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
+	public static final String LAST_TRAIN_BOUGHT = "Last Train Bought";
+	public static final String DIVIDENDS_HANDLED = "Dividends have been handled";
 	public static final String BUY_LABEL = "Buy";
 	public static final String NO_MONEY = "No money in the Treasury.";
 	public static final String REVENUES_NOT_GENERATED = "Train Revenues have not been generated yet.";

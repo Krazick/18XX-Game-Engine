@@ -72,7 +72,7 @@ import geUtilities.ParsingRoutineI;
 
 public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
-	public static final String NO_COMPANY = "NO_COMPANY";
+	public static final String NO_COMPANY = "No Company";
 	public static final String BASE_TITLE = "Map";
 	private final String NO_TILE_PLACED = "No Tile placed yet";
 	private final String NO_TILE_SELECTED = "No Tile selected yet";

@@ -71,7 +71,7 @@ class ShareCompanyTests {
 		assertEquals (7, noDestinationShareCompany.getSharesOwnedByPlayerOrCorp ());
 		
 		assertFalse (noDestinationShareCompany.hasDestination ());
-		assertEquals ("NO DESTINATION", noDestinationShareCompany.getDestinationLabel ());
+		assertEquals ("No Destination", noDestinationShareCompany.getDestinationLabel ());
 	}
 	
 	@Test

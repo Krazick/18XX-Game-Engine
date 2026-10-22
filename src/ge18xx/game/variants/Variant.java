@@ -35,7 +35,7 @@ public class Variant {
 	public static final Variant NO_VARIANT = null;
 	public static final Variant [] NO_VARIANTS = null;
 	public static final JComponent NO_VARIANT_COMPONENT = null;
-	public static final String TYPE_ALL = "ALL";
+	public static final String TYPE_ALL = "All";
 	public static final String TYPE_CHOOSE_ANY = "Choose Any";
 	public static final String TYPE_CHOOSE_1 = "Choose 1";
 	public static final String NO_TITLE = "<NO TITLE>";

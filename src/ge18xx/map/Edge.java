@@ -4,7 +4,7 @@ import ge18xx.tiles.Track;
 
 public class Edge {
 	public static final Edge NO_EDGE = null;
-	public static final String NO_TRACK_LABEL = "EDGE";
+	public static final String NO_TRACK_LABEL = "Edge";
 	Track track;
 	Vertex startVertex;
 	Vertex endVertex;

@@ -90,8 +90,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final String BID_LABEL = "Bid";
 	public static final String BUY_BID_LABEL = "Buy-Bid";
 	public static final String EXCHANGE_LABEL = "Exchange";
-	public static final String NO_STOCK_TO_SELL = null;
-	public static final String NO_SHARE_BOUGHT = null;
+	public static final String NO_STOCK_TO_SELL = GUI.NULL_STRING;
+	public static final String NO_SHARE_BOUGHT = GUI.NULL_STRING;
 	public static final String DELIMITER = ",";
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final Player NO_PLAYER = null;

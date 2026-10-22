@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -9,7 +10,7 @@ import geUtilities.xml.XMLElement;
 public class MapToken extends Token {
 	public static final AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");
 	public static final MapToken NO_MAP_TOKEN = null;
-	public static final String NO_SIDES = null;
+	public static final String NO_SIDES = GUI.NULL_STRING;
 	public static final String DIVIDER = "|";
 	MapCell mapCell;
 	Location location;

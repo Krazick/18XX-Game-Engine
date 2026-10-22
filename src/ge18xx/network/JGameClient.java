@@ -61,7 +61,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
 	private static final String DEFAULT_REMOTE_SERVER_IP = "71.178.230.211";
-	private static final String CONNECT_ACTION = "CONNECT";
 	private static final String ALREADY_CONNECTED = "You are already connected";
 	private static final String NOT_CONNECTED = "You are not connected yet";
 	private static final String PLAYER_IS_AFK = "You are connected but AFK";
@@ -110,19 +109,19 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	public static final JGameClient NO_JGAME_CLIENT = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	public static final String REQUEST_LAST_ACTION = "<ActionNumber requestLast=\"TRUE\">";
-	public static final String DISCONNECT = "DISCONNECT";
+	public static final String CONNECT = "Connect";
+	public static final String DISCONNECT = "Disconnect";
 	public static final String BASE_TITLE = "Chat Client";
-	public static final String READY_TO_PLAY = "READY";
-	public static final String PLAY_GAME = "PLAY SAVED GAME";
-	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
+	public static final String READY_TO_PLAY = "Ready";
+	public static final String PLAY_GAME = "Play Saved Game";
 	public static final String AFK = "AFK";
 	public static final String BACK_FROM_AFK = "Back from AFK";
-	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
-	private static final String START_NEW_GAME = "START NEW GAME";
-	private static final String SELECT_GAME = "SELECT GAME";
-	private static final String START_GAME = "START";
-	private static final String REFRESH = "REFRESH";
-	private static final String SEND = "SEND";
+	private static final String SHOW_SAVED_GAMES = "Show Saved Games";
+	private static final String START_NEW_GAME = "Start New Game";
+	private static final String SELECT_GAME = "Select Game";
+	private static final String START_GAME = "Start";
+	private static final String REFRESH = "Refresh";
+	private static final String SEND = "Send";
 	private static final String NO_SELECTED_GAME = null;
 	// Static Labels
 	JLabel nameLabel = new JLabel ("Name:");
@@ -526,7 +525,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		updateDisconnectButton (true, "For Debugging Purposes ONLY");
 		
 		updateAFKButton (true, GUI.NO_TOOL_TIP, AFK, AFK);
-		
+
 		refreshPlayersButton.setEnabled (true);
 		refreshPlayersButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
@@ -731,7 +730,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		serverIPField.setHorizontalAlignment (SwingConstants.CENTER);
 
 		// Action Buttons
-		connectButton = new KButton (CONNECT_ACTION);
+		connectButton = new KButton (CONNECT);
 		sendMessageButton = new KButton (SEND);
 		afkButton = new KButton (AFK);
 		afkButton2 = new KButton (AFK);
@@ -898,7 +897,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		String tPlayerName;
 		boolean tSuccess;
 
-		if (CONNECT_ACTION.equals (aAction)) {
+		if (CONNECT.equals (aAction)) {
 			tPlayerName = getName ();
 			tSuccess = connectToServer (tPlayerName);
 			if (tSuccess) {
@@ -1306,7 +1305,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		if (NetworkPlayer.validPlayerName (aLocalPlayer)) {
 			playerName.setText (aLocalPlayer);
 			if (aAutoConnect) {
-				setupNewPlayer (CONNECT_ACTION);
+				setupNewPlayer (CONNECT);
 				gameManager.updatePlayerCountLabel ();
 			}
 		}

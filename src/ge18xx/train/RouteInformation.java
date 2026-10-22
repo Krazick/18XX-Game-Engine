@@ -20,6 +20,7 @@ import ge18xx.round.action.RouteAction;
 import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -39,7 +40,7 @@ public class RouteInformation {
 	final static AttributeName AN_SPECIAL_BONUS = new AttributeName ("specialBonus");
 	final static AttributeName AN_PHASE = new AttributeName ("phase");
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
-	private String NO_MESSAGE = "";
+	private String NO_MESSAGE = GUI.EMPTY_STRING;
 	
 	Train train; // Reference to actual Train
 	Color color; // Route Color

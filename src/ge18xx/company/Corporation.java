@@ -87,7 +87,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final Corporation NO_CORPORATION = null;
 	public static final String CORPORATION = EN_CORPORATION.getString ();
 	public static final String COMPANIES = "Companies";
-	public static final String CORPORATION_STATUS_CHANGE = "CORPORATION STATUS CHANGE";
+	public static final String CORPORATION_STATUS_CHANGE = "Corporation Status Change";
 	public static final String NO_REASON = ">>NO REASON<<";
 	public static final String NO_NOTE = GUI.EMPTY_STRING;
 	public static final String NO_PRESIDENT = GUI.EMPTY_STRING;

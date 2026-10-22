@@ -17,7 +17,7 @@ public class Capitalization {
 	public static final String INCREMENTAL_5 = "Incremental_5";
 	public static final String INCREMENTAL_10 = "Incremental_10";
 	public static final String ALWAYS_INCREMENTAL = "Always_Incremental";
-	public static final String FULL_GAME_CAPITALIZATION = "FULL";
+	public static final String FULL_GAME_CAPITALIZATION = "Full";
 	public static final int FULL_CAPITALIZATION = 10;
 	public static final int INCREMENTAL_10_MAX = 10;
 	public static final int INCREMENTAL_5_MAX = 5;

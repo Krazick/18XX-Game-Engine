@@ -46,8 +46,8 @@ import geUtilities.ParsingRoutineI;
 public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, 
 						ComponentListener, ChangeListener  {
 	private static final long serialVersionUID = 1L;
-	private static final String NO_CITY_NAME = "";
-	private static final String NO_TILE_SET_NAME = "";
+	private static final String NO_CITY_NAME = GUI.EMPTY_STRING;
+	private static final String NO_TILE_SET_NAME = GUI.EMPTY_STRING;
 	public static final ElementName EN_TILE_MANIFEST = new ElementName ("TileManifest");
 	public static final ElementName EN_TILE_DEFINITIONS = new ElementName ("TileDefinitions");
 	public static final ElementName EN_TILE_SET = new ElementName ("TileSet");

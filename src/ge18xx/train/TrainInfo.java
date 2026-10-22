@@ -1,6 +1,7 @@
 package ge18xx.train;
 
 import ge18xx.tiles.Gauge;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
@@ -34,14 +35,14 @@ public class TrainInfo {
 	public static final AttributeName AN_TILE_INFO = new AttributeName ("tileInfo");
 	public static final AttributeName AN_IS_PERMANENT= new AttributeName ("isPermanent");
 	public static final TrainInfo NO_TRAIN_INFO = null;
-	public static final String NO_RUST = "";
+	public static final String NO_RUST = GUI.EMPTY_STRING;
 	public static final String PERMANENT = "Permanent";
 	public static final String NORMAL_GAUGE = "Normal";
 	public static final String METER_GAUGE = "Meter";
 	public static final String START_PHASE = "1.1";
-	public static final String NO_CENTERS = "NO CENTERS";
+	public static final String NO_CENTERS = "No Centers";
 	public static final String UNLIMITED = "unlimited";
-	public static final String NO_TRADE_INS = "NO TRADE INS";
+	public static final String NO_TRADE_INS = "No Trade Ins";
 	public static final boolean NOT_PERMANENT = false;
 	public static final int UNLIMITED_TRAINS = 99;
 	public static final int NO_DISCOUNT = -1;

@@ -45,7 +45,7 @@ public class MarketCell {
 	public static final ElementName EN_SHARE_SELL = new ElementName ("ShareSale");
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final AttributeName AN_REGION = new AttributeName ("region");
-	public static final String NO_COORDINATES = null;
+	public static final String NO_COORDINATES = GUI.NULL_STRING;
 	public static final MarketCell NO_MARKET_CELL = null;
 	public static final MarketCell NO_SHARE_PRICE = null;
 	public static final int NO_STOCK_PRICE = 0;

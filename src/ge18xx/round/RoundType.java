@@ -21,7 +21,7 @@ public class RoundType {
 	public static final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final RoundType NO_ROUND_TYPE = null;
-	public static final String NO_INTERRUPTS_CONDITION = null;
+	public static final String NO_INTERRUPTS_CONDITION = GUI.NULL_STRING;
 	public static final String ALL_PLAYERS_PASSED = "All Passed";
 	
 	String name;

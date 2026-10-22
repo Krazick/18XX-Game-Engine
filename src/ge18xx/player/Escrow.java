@@ -3,6 +3,7 @@ package ge18xx.player;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import geUtilities.GUI;
 import geUtilities.ParsingRoutineIO;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
@@ -18,7 +19,7 @@ public class Escrow implements CashHolderI {
 	public static final AttributeName AN_ACTION_STATE = new AttributeName ("actionState");
 	public static final AttributeName AN_PRIVATE_NAME = new AttributeName ("privateName");
 	public static final Escrow NO_ESCROW = null;
-	public static final String NO_NAME = null;
+	public static final String NO_NAME = GUI.NULL_STRING;
 	int cash;
 	String name;
 	ActionStates actionState;

@@ -58,6 +58,7 @@ public class ChatServerHandler extends ServerHandler {
 				closeAll ();
 				setContinueRunning (false);
 				jClient.rejectedConnect ();
+				
 			} else if (tShortened.endsWith (" is AFK")) {
 				tName = extractName (tShortened);
 				jClient.setPlayerAsAFK (tName);
