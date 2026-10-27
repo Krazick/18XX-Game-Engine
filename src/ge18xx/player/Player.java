@@ -231,13 +231,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		Benefit tBenefitInUse;
 		Portfolio tPortfolio;
 		Bank tActorsBank;
+		int tTreasury;
 		
 		/* Save the Player Name -- ONCE */
 		name = aName;
 		logger = aGameManager.getLogger ();
 
 		/* Set Variables that change during the game, that must be saved/loaded */
-		treasury = 0;
+		tTreasury = 0;
 		tActorsBank = aGameManager.getBank ();
 		setActorsBank (tActorsBank);
 		tPortfolio = new Portfolio (this);
@@ -245,6 +246,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		clearAuctionActionState ();
 		clearPrimaryActionState ();
 		clearPlayerFlags ();
+		setTreasury (tTreasury);
 		setTriggeredAuction (false);
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		setRFPlayerLabel (aName);
@@ -263,6 +265,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void setPortfolio (Portfolio aPortfolio) {
 		portfolio = aPortfolio;
+	}
+	
+	public void setTreasury (int aTreasury) {
+		treasury = aTreasury;
 	}
 	
 	private void buildPlayerFrame (GameManager aGameManager) {
@@ -832,8 +838,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_PRIMARY_STATE, primaryActionState.toString ());
 		tXMLElement.setAttribute (AN_AUCTION_STATE, auctionActionState.toString ());
 		tXMLElement.setAttribute (AN_EXCHANGED_PREZ_SHARE, exchangedPrezShare);
-		tXMLElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
+		tXMLElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLElement.setAttribute (AN_CERTIFICATE_LIMIT, certificateLimit);
@@ -1443,6 +1449,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tState;
 		String tSoldCompanies;
 		String tExchangedPrezShare;
+		String tBoughtShare;
 		XMLNodeList tXMLAllPercentBoughtNodeList;
 		XMLNodeList tXMLPortfolioNodeList;
 		XMLNodeList tXMLQueryOfferNodeList;
@@ -1452,14 +1459,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		int tCertificateLimit;
 		int tMinBidCities;
 		int tMaxBidCities;
+		int tTreasury;
 		ActorI.ActionStates tAuctionActionState;
 		// Need to remove any Cash the Player has before setting it.
 
-		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
-		boughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE, NO_SHARE_BOUGHT);
-		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		clearPrimaryActionState ();
 		clearPlayerFlags ();
+		tTreasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
+		setTreasury (tTreasury);
+		tBoughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE, NO_SHARE_BOUGHT);
+		setBoughtShare (tBoughtShare);
+		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		roundDividends.parseDividendAtribute (aPlayerNode);
 		timers.loadTimeFields (aPlayerNode);
 		
