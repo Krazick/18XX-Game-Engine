@@ -41,7 +41,8 @@ public class JGameClientXMLTests {
 	public void JGameClientGameActivity2XMLTests () {
 		int tSelectedGameIndex = 0;
 		String tBroadcastMessage = "This is a Broadcast Message";
-		String tGameActivity2, tGameActivity3;
+		String tGameActivity2;
+		String tGameActivity3;
 		String tExpected1 = "<GA><GameSelection gameIndex=\"0\" z_broadcast=\"This is a Broadcast Message\"/></GA>";
 
 		tGameActivity2 = jGameClient.buildGameActivityXML (JGameClient.EN_GAME_SELECTION, JGameClient.AN_GAME_INDEX,

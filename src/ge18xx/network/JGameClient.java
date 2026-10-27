@@ -60,7 +60,7 @@ import geUtilities.GUI;
 public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
-	private static final String DEFAULT_REMOTE_SERVER_IP = "71.178.230.211";
+	private static final String DEFAULT_REMOTE_SERVER_IP = "96.231.46.49";
 	private static final String ALREADY_CONNECTED = "You are already connected";
 	private static final String NOT_CONNECTED = "You are not connected yet";
 	private static final String PLAYER_IS_AFK = "You are connected but AFK";
@@ -1183,28 +1183,26 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 	}
 
 	private void sendMessage (ActionEvent aActionEvent) {
-		String tAction = aActionEvent.getActionCommand ();
+		String tAction;
+		
+		tAction = aActionEvent.getActionCommand ();
 		sendMessage (tAction);
 	}
 
 	private void sendMessage (String aAction) {
+		String tMessage;
+		
 		if (SEND.equals (aAction)) {
-			String tMessage = messageField.getText ();
+			tMessage = messageField.getText ();
 
 			// De-activate AFK, if it has been set
 			backFromAFK ();
 
 			// Send the Message to the Server
 			if (tMessage.length () > 0) {
-				if (tMessage.startsWith (GA_XML_START) && tMessage.endsWith (GA_XML_END)) {
-					serverHandler.sendGameActivity (tMessage);
-				} else if (tMessage.startsWith (GA_XML_START) && tMessage.endsWith (GA_XML_END)) {
-					serverHandler.sendGameSupport (tMessage);
-				} else {
-					serverHandler.sendMessage (tMessage);
-					StyleConstants.setItalic (iSaid, true);
-					appendToChat ("I said: " + tMessage, iSaid);
-				}
+				serverHandler.sendMessage (tMessage);
+				StyleConstants.setItalic (iSaid, true);
+				appendToChat ("I said: " + tMessage, iSaid);
 			}
 			messageField.setText (GUI.EMPTY_STRING);
 		}
