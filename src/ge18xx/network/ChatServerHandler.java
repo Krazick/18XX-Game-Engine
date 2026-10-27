@@ -141,12 +141,18 @@ public class ChatServerHandler extends ServerHandler {
 
 	public void sendGameActivity (String aGameActivity) {
 		println (aGameActivity);
+		
+		logger.debug ("Full GA Message Sent [" + aGameActivity + "]");
 	}
 
 	@Override
 	public boolean sendGameSupport (String aGameSupport) {
 		println (aGameSupport);
-
+		
+		if (! aGameSupport.contains ("Heartbeat")) {
+			logger.debug ("Full GS Message Sent [" + aGameSupport + "]");
+		}
+		
 		return true;
 	}
 
