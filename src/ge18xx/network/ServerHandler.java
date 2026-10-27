@@ -85,9 +85,10 @@ public abstract class ServerHandler implements Runnable {
 	boolean establishSocketConnection () throws UnknownHostException, IOException, 
 							SocketException, ConnectException {
 		InetAddress tIPAddress;
+		Socket tSocket;
 		boolean tGoodConnection;
 
-		Socket tSocket = new Socket ();
+		tSocket = new Socket ();
 		tIPAddress = InetAddress.getByName (host);
 		logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
 		tSocket.connect (new InetSocketAddress (tIPAddress, port), DEFAULT_TIMOUT);
