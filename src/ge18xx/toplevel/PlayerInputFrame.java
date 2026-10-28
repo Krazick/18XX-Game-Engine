@@ -204,8 +204,8 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public List<String> getPlayerNames () {
 		List<String> tPlayerNames;
-		int tIndex;
 		String tName;
+		int tIndex;
 
 		tPlayerNames = new ArrayList<> ();
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
@@ -219,9 +219,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void handleResetPlayerOrder (String aPlayerOrder, String aBroadcast) {
-		int tIndex;
 		JGameClient tJGameClient;
 		String [] tPlayerNames;
+		int tIndex;
 
 		tPlayerNames = aPlayerOrder.split (GUI.COMMA);
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
@@ -513,7 +513,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void setPlayerCount () {
-		setPlayerCount (getTFPlayerCount ());
+		int tTFPlayerCount;
+		
+		tTFPlayerCount = getTFPlayerCount ();
+		setPlayerCount (tTFPlayerCount);
 	}
 
 	public void setPlayerCount (int aPlayerCount) {
@@ -551,8 +554,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void addGameInfoPanel (JPanel aGameInfoPanel) {
+		JGameClient tJGameClient;
+		
 		if (isNetworkGame ()) {
-			JGameClient tJGameClient = getNetworkJGameClient ();
+			tJGameClient = getNetworkJGameClient ();
 			tJGameClient.addGameInfoPanel (aGameInfoPanel, gameSet);
 		} else {
 			add (aGameInfoPanel, BorderLayout.EAST);
