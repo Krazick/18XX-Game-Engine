@@ -605,15 +605,27 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
 			if (userPreferencesFrame.showClientNameInFrameTitle ()) {
 				// If the base Name is Chat Client, then it will be a Network Game, add Client Name
-				if (JGameClient.BASE_TITLE.equals (aBaseName)) { 
-					tFullTitle += " (" + clientUserName + ")";
+				if (JGameClient.BASE_TITLE.equals (aBaseName)) {
+					tFullTitle = addClientUserName (tFullTitle);
+//					tFullTitle += " (" + clientUserName + ")";
 				} else if (isNetworkGame ()) {
-					tFullTitle += " (" + clientUserName + ")";
+					tFullTitle = addClientUserName (tFullTitle);
+//					tFullTitle += " (" + clientUserName + ")";
 				}
+			} else {
+				tFullTitle = addClientUserName (tFullTitle);
 			}
+		} else {
+			tFullTitle = addClientUserName (tFullTitle);
 		}
 		
 		return tFullTitle;
+	}
+	
+	public String addClientUserName (String aFrameTitle) {
+		aFrameTitle += " (" + clientUserName + ")";
+		
+		return aFrameTitle;
 	}
 	
 	public String createPSGChecksumReport (String aPSGChecksumValue) {

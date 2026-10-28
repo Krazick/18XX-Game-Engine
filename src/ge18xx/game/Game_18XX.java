@@ -680,9 +680,11 @@ public class Game_18XX extends XMLFrame {
 
 	public void createPlayerInputFrame () {
 		Point tNewPoint;
+		String tFrameTitle;
 
 		if (playerInputFrame == XMLFrame.NO_XML_FRAME) {
-			playerInputFrame = new PlayerInputFrame ("Enter Player Information", gameManager);
+			tFrameTitle = gameManager.createFrameTitle ("Player Information");
+			playerInputFrame = new PlayerInputFrame (tFrameTitle, gameManager);
 			tNewPoint = getOffsetGEFrame ();
 			playerInputFrame.setLocation (tNewPoint);
 			createGameSet ();
