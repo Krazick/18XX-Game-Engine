@@ -607,16 +607,10 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 				// If the base Name is Chat Client, then it will be a Network Game, add Client Name
 				if (JGameClient.BASE_TITLE.equals (aBaseName)) {
 					tFullTitle = addClientUserName (tFullTitle);
-//					tFullTitle += " (" + clientUserName + ")";
 				} else if (isNetworkGame ()) {
 					tFullTitle = addClientUserName (tFullTitle);
-//					tFullTitle += " (" + clientUserName + ")";
 				}
-			} else {
-				tFullTitle = addClientUserName (tFullTitle);
 			}
-		} else {
-			tFullTitle = addClientUserName (tFullTitle);
 		}
 		
 		return tFullTitle;
