@@ -987,7 +987,7 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 				tBroadcastMessage);
 		sendGameActivity (tGameActivity);
 
-		updateReadyButton ("WAITING", false, WAITING_FOR_ALL);
+		updateReadyButton ("Waiting", false, WAITING_FOR_ALL);
 		playerReady ();
 		appendToChat ("You have sent a new Player Order [" + tPlayerOrder + "]");
 	}
