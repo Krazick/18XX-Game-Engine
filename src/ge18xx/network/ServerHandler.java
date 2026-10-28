@@ -2,7 +2,9 @@ package ge18xx.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.InetAddress;
@@ -67,16 +69,17 @@ public abstract class ServerHandler implements Runnable {
 			setHost (aHost);
 			setPort (aPort);
 			tContinueRunning = establishSocketConnection ();
-		} catch (UnknownHostException tException) {
-			log ("Unkown Host Exception thrown when creating Socket to Server", tException);
-		} catch (ConnectException tException) {
-			log ("Connection Exception thrown when creating Socket to Server", tException);
-			throw tException;
-		} catch (SocketTimeoutException tException) {
-			log ("Socket Timeout Exception when establing Connection to Server", tException);
-			throw tException;
-		} catch (IOException tException) {
-			log ("IOException thrown when creating Socket to Server", tException);
+		} catch (UnknownHostException eException) {
+			log ("Unkown Host Exception thrown when trying to establish Socket Connection  to Server", eException);
+		} catch (ConnectException eException) {
+			log ("Connection Exception thrown when trying to establish Socket Connection to Server", eException);
+			System.out.println ("DONE HANDLING CONNECTION Exception -- Throwing it");
+			throw eException;
+		} catch (SocketTimeoutException eException) {
+			log ("Socket Timeout Exception when establing Connection to Server", eException);
+			throw eException;
+		} catch (IOException eException) {
+			log ("IOException thrown when creating Socket to Server", eException);
 		}
 
 		setContinueRunning (tContinueRunning);
@@ -91,11 +94,17 @@ public abstract class ServerHandler implements Runnable {
 		tSocket = new Socket ();
 		tIPAddress = InetAddress.getByName (host);
 		logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
-		tSocket.connect (new InetSocketAddress (tIPAddress, port), DEFAULT_TIMOUT);
-		logger.info ("Socket Connection Established");
-		tSocket.setKeepAlive (true);
-		setValues (tSocket);
-		tGoodConnection = true;
+		try {
+			tSocket.connect (new InetSocketAddress (tIPAddress, port), DEFAULT_TIMOUT);
+			logger.info ("Socket Connection Established");
+			tSocket.setKeepAlive (true);
+			setValues (tSocket);
+			tGoodConnection = true;
+		} catch (ConnectException eException) {
+			log ("Attempting Socket Connection to Host Failed", eException);
+			tGoodConnection = false;
+			throw eException;
+		}
 
 		return tGoodConnection;
 	}
@@ -128,14 +137,18 @@ public abstract class ServerHandler implements Runnable {
 
 	private void setupBufferedReader () {
 		BufferedReader tBufferedReader;
-
+		InputStreamReader tInputStreamReader;
+		InputStream tInputStream;
+		
 		try {
 			logger.info ("Attempting to setup Buffered Reader");
-			tBufferedReader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+			tInputStream = socket.getInputStream ();
+			tInputStreamReader = new InputStreamReader (tInputStream);
+			tBufferedReader = new BufferedReader (tInputStreamReader);
 			setInBufferedReader (tBufferedReader);
-			logger.info ("Successful Buffered Reader");
-		} catch (IOException tException) {
-			log ("IOException thrown when seting up Buffered Reader", tException);
+			logger.info ("Successful Buffered Reader setup.");
+		} catch (IOException eException) {
+			log ("IOException thrown when trying to setup Buffered Reader", eException);
 		}
 	}
 
@@ -145,14 +158,16 @@ public abstract class ServerHandler implements Runnable {
 
 	private void setupPrintWriter () {
 		PrintWriter tPrintWriter;
+		OutputStream tOutputStream;
 
 		try {
 			logger.info ("Attempting to setup Print Writer");
-			tPrintWriter = new PrintWriter (socket.getOutputStream (), true);
+			tOutputStream = socket.getOutputStream ();
+			tPrintWriter = new PrintWriter (tOutputStream, true);
 			setOutPrintWriter (tPrintWriter);
-			logger.info ("Successful Print Writer");
-		} catch (IOException tException) {
-			log ("IOException thrown when seting up PrintWriter", tException);
+			logger.info ("Successful Print Writer setup.");
+		} catch (IOException eException) {
+			log ("IOException thrown when trying to setup PrintWriter", eException);
 		}
 	}
 
@@ -171,7 +186,7 @@ public abstract class ServerHandler implements Runnable {
 				try {
 					while (continueRunning) {
 						tString = in.readLine ();
-						if (tString == null) {
+						if (tString == GUI.NULL_STRING) {
 							setContinueRunning (false);
 						} else if (tString.startsWith ("[") && tString.endsWith ("]")) {
 							handleServerCommands (tString);
@@ -272,7 +287,7 @@ public abstract class ServerHandler implements Runnable {
 			try {
 				in.close ();
 			} catch (IOException tException) {
-				log ("IOException thrown when Closing the Server InputStreamReader", tException);
+				log ("IOException thrown when trying to Close the Server InputStreamReader", tException);
 			}
 		}
 		if (out != null) {
@@ -280,7 +295,7 @@ public abstract class ServerHandler implements Runnable {
 			try {
 				socket.close ();
 			} catch (IOException tException) {
-				log ("IOException thrown when Closing Socket", tException);
+				log ("IOException thrown when trying to Close the Outbound Socket", tException);
 			}
 		}
 	}

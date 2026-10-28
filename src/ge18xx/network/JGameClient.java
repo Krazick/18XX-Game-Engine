@@ -882,12 +882,12 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 					}
 				}
 			}
-		} catch (ConnectException tException) {
+		} catch (ConnectException eException) {
 			appendToChat ("Server Connection Failed - confirm Server is up and operational");
-			throw tException;
-		} catch (Exception tException) {
+			throw eException;
+		} catch (Exception eException) {
 			appendToChat ("Server Connection Timed Out - confirm Server is up and operational");
-			throw tException;
+			throw eException;
 		}
 
 		return tSuccess;
