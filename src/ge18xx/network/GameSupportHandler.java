@@ -3,6 +3,8 @@ package ge18xx.network;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import geUtilities.GUI;
+
 public class GameSupportHandler {
 	public static final String GS_RESPONSE_TAG = "GSResponse";
 	private static final String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
@@ -16,7 +18,7 @@ public class GameSupportHandler {
 
 	public GameSupportHandler (JGameClient aJGameClient) {
 		setWaitingForResponse (false);
-		setResponse ("");
+		setResponse (GUI.EMPTY_STRING);
 		setJGameClient (aJGameClient);
 	}
 
