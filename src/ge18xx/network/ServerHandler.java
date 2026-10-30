@@ -23,13 +23,13 @@ public abstract class ServerHandler implements Runnable {
 	public static final ServerHandler NO_SERVER_HANDLER = null;
 	private static final int DEFAULT_TIMOUT = 12000;
 	private static final int DEFAULT_SLEEP = 600;
-	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
-	private boolean continueRunning;
+	private Socket socket;
+	protected String name;
 	private String host;
 	private int port;
-	protected String name;
+	private boolean continueRunning;
 	protected Logger logger;
 	private NetworkGameSupport gameManager;
 
@@ -210,7 +210,7 @@ public abstract class ServerHandler implements Runnable {
 				if (tryReConnect ()) {
 					tRetryCount = 3;
 					setContinueRunning (true);
-//					startHeartbeat ();
+					startHeartbeat ();
 				}
 			}
 		}
@@ -229,8 +229,7 @@ public abstract class ServerHandler implements Runnable {
 			System.gc ();
 			establishSocketConnection ();
 			logger.warn ("Success on creating a new Socket to the Server");
-			handleChatReconnect ();
-			tContinue = true;
+			tContinue = handleChatReconnect ();
 		} catch (Exception tException) {
 			String message = "ReConnect not successful " + tException.getMessage ();
 			log (message, tException);
@@ -303,10 +302,13 @@ public abstract class ServerHandler implements Runnable {
 	public void shutdown () {
 		// Report to Server this Client is stopping
 		println ("stop");
+		loggerInfo ("Player " + name + " Requested to be disconnected from the server.");
+		System.out.println ("Player " + name + " Requested to be disconnected from the server.");
+		
 		closeAll ();
 	}
 
-	protected abstract void handleChatReconnect ();
+	protected abstract boolean handleChatReconnect ();
 
 	protected abstract boolean sendGameSupport (String aRequest);
 

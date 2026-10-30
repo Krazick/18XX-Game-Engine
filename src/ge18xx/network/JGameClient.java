@@ -272,6 +272,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 
 	private void setupServerAndPlayer (String aAction) {
 		setupNewPlayer (aAction);
+		clearGameSelection ();
+		swapToGamePanel ();
 	}
 
 	public void updateAFKButton (boolean aEnable, String aToolTip, String aAction, String aLabel) {
@@ -284,7 +286,6 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		afkButton2.setToolTipText (aToolTip);
 		afkButton2.setActionCommand (aAction);
 		afkButton2.setText (aLabel);
-
 	}
 
 	public KButton getAFKButton () {
@@ -903,15 +904,21 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 			if (tSuccess) {
 				if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 					if (serverHandler.isConnected ()) {
-						serverHandler.sendGEVersion (gameManager.getGEVersion ());
-						serverHandler.sendJavaVersion (gameManager.getJavaVersion ());
-						serverHandler.sendEnvironmentVersionInfo (gameManager.getEnvironmentVersionInfo ());
+						sendClientInfo ();
 						setForConnected ();
 						serverHandler.requestUserNameList ();
+						serverIPField.setEnabled (false);
+						serverIPField.setToolTipText ("Cannot change Server while Connected");
 					}
 				}
 			}
 		}
+	}
+
+	public void sendClientInfo () {
+		serverHandler.sendGEVersion (gameManager.getGEVersion ());
+		serverHandler.sendJavaVersion (gameManager.getJavaVersion ());
+		serverHandler.sendEnvironmentVersionInfo (gameManager.getEnvironmentVersionInfo ());
 	}
 
 	public boolean isConnected () {
@@ -951,6 +958,9 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		}
 		selectedGameIndex = GameSet.NO_GAME_SELECTED;
 		selectedGameName = NO_SELECTED_GAME;
+		if (gameInfoPanel != GUI.NO_PANEL) {
+			fullGameInfoPanel.remove (gameInfoPanel);
+		}
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 	}
 
