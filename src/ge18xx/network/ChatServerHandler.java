@@ -236,16 +236,26 @@ public class ChatServerHandler extends ServerHandler {
 	}
 
 	@Override
-	protected void handleChatReconnect () {
+	protected boolean handleChatReconnect () {
+		boolean tReconnected;
 		String tGameSupportXML;
 		String tGameID;
 		String tUserName;
 
 		tGameID = jClient.getGameID ();
-		tUserName = jClient.getPlayerName ();
-		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
-		println (tGameSupportXML);
-		startHeartbeat ();
+		if (tGameID.equals (JGameClient.EMPTY_GAME_ID)) {
+			tReconnected = false;
+		} else {
+			tUserName = jClient.getPlayerName ();
+			tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
+			println (tGameSupportXML);
+			jClient.sendClientInfo ();
+			jClient.setForConnected ();
+			startHeartbeat ();
+			tReconnected = true;
+		}
+		
+		return tReconnected;
 	}
 
 	@Override
