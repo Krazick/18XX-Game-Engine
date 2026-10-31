@@ -246,13 +246,13 @@ public class ChatServerHandler extends ServerHandler {
 		if (tGameID.equals (JGameClient.EMPTY_GAME_ID)) {
 			tReconnected = false;
 		} else {
+			tReconnected = true;
 			tUserName = jClient.getPlayerName ();
 			tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
 			println (tGameSupportXML);
 			jClient.sendClientInfo ();
 			jClient.setForConnected ();
-			startHeartbeat ();
-			tReconnected = true;
+			requestUserNameList ();
 		}
 		
 		return tReconnected;
@@ -261,6 +261,7 @@ public class ChatServerHandler extends ServerHandler {
 	@Override
 	protected void startHeartbeat () {
 		jClient.startHeartbeat ();
+		System.out.println ("Restarting Heartbeat");
 	}
 	// -- End of Sending Commands to the Server
 }
