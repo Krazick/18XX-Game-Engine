@@ -77,7 +77,9 @@ public class NetworkPlayers {
 		tPlayerIsAFK = false;
 		if (NetworkPlayer.validPlayerName (aPlayerName)) {
 			tNetworkPlayer = getNetworkPlayer (aPlayerName);
-			tPlayerIsAFK = tNetworkPlayer.isAFK ();
+			if (tNetworkPlayer != NetworkPlayer.NO_NETWORK_PLAYER) {
+				tPlayerIsAFK = tNetworkPlayer.isAFK ();
+			}
 		}
 
 		return tPlayerIsAFK;
