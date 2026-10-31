@@ -62,9 +62,9 @@ public class GameSupportHandler {
 		ServerHandler tServerHandler;
 		boolean tWaitForResponse;
 
-		tWaitForResponse = true;
-		holdRequestTillReady ();
-		setWaitingForResponse (tWaitForResponse);
+//		tWaitForResponse = true;
+//		holdRequestTillReady ();
+//		setWaitingForResponse (tWaitForResponse);
 		tServerHandler = jGameClient.getServerHandler ();
 		tWaitForResponse = tServerHandler.sendGameSupport (aRequest);
 		setWaitingForResponse (tWaitForResponse);
