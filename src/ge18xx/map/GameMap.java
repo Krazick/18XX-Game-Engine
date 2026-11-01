@@ -151,7 +151,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 				colCount = getColCount (rowIndex);
 				for (colIndex = 0; colIndex < colCount; colIndex++) {
 					Xc += temp_2DLR;
-					if (mapCells [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
+					if (mapCells [rowIndex] [colIndex] == Cell.NO_MAP_CELL) {
 						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
 					} else {
 						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
@@ -172,7 +172,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 				colCount = getColCount (rowIndex);
 				for (colIndex = 0; colIndex < colCount; colIndex++) {
 					Yc += temp_2DLR;
-					if (mapCells [rowIndex] [colIndex] == MapCell.NO_MAP_CELL) {
+					if (mapCells [rowIndex] [colIndex] == Cell.NO_MAP_CELL) {
 						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
 					} else {
 						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
@@ -424,7 +424,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 			tMaxX = 0;
 		} else {
 			tMaxRow = getMaxRowCount ();
-			if (mapCells [tMaxRow - 1] [0] == MapCell.NO_MAP_CELL) {
+			if (mapCells [tMaxRow - 1] [0] == Cell.NO_MAP_CELL) {
 				tMaxX = 0;
 			} else {
 				if (mapCells [0] [0].getMapDirection ()) {
@@ -455,7 +455,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		} else {
 			tMaxRow = getMaxRowCount ();
 			tMaxCol = getMaxColCount ();
-			if (mapCells [1] [tMaxCol - 1] == MapCell.NO_MAP_CELL) {
+			if (mapCells [1] [tMaxCol - 1] == Cell.NO_MAP_CELL) {
 				tMaxY = 0;
 			} else {
 				if (mapCells [0] [0].getMapDirection ()) {
@@ -481,10 +481,10 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		MapCell foundMapCell;
 	
 		rowCount = getRowCount ();
-		foundMapCell = MapCell.NO_MAP_CELL;
-		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
+		foundMapCell = (MapCell) Cell.NO_MAP_CELL;
+		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == Cell.NO_MAP_CELL); rowIndex++) {
 			colCount = getColCount (rowIndex);
-			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == MapCell.NO_MAP_CELL); colIndex++) {
+			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == Cell.NO_MAP_CELL); colIndex++) {
 				if (mapCells [rowIndex] [colIndex].isSelected ()) {
 					foundMapCell = mapCells [rowIndex] [colIndex];
 				}

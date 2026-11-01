@@ -37,6 +37,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 //
@@ -73,13 +74,13 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	public PrivateCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, Revenue.NO_REVENUE_VALUE,
-				MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, Location.NO_LOC, Corporation.NO_ID,
+				(MapCell) Cell.NO_MAP_CELL, Location.NO_LOC, (MapCell) Cell.NO_MAP_CELL, Location.NO_LOC, Corporation.NO_ID,
 				Certificate.NO_PERCENTAGE, ActorI.ActionStates.Unowned, false);
 	}
 
 	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, MapCell aHomeCity1,
 			Location aHomeLocation1, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
-		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, MapCell.NO_MAP_CELL,
+		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, (MapCell) Cell.NO_MAP_CELL,
 				Location.NO_LOC, Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState,
 				aMustBeSoldBeforeOperatingRound);
 	}

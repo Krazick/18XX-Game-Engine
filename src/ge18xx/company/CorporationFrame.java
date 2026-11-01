@@ -42,6 +42,7 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.xml.XMLFrame;
+import genericMap.Cell;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
@@ -416,7 +417,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void addBaseMapCellToSMC (MapCell aMapCell, HexMap aMap) {
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			aMap.addMapCellSMC (aMapCell);
 			aMap.toggleSelectedMapCell (aMapCell);
 		}
@@ -503,7 +504,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (ButtonsInfoFrame.EXPLAIN.equals (tCommand)) {
 			handleExplainButtons ();
 		}
-		updateInfo (MapCell.NO_MAP_CELL);
+		updateInfo ((MapCell) Cell.NO_MAP_CELL);
 		tRoundManager = gameManager.getRoundManager ();
 		tInterrupted = tRoundManager.checkAndHandleInterruption ();
 		// Should check if the Interrupting Round is in a "Started" state, if so, 
@@ -1550,7 +1551,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTokenLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		if (tMapCellID == MapCell.NO_ID) {
+		if (tMapCellID == Cell.NO_ID) {
 			tBaseTokenLabel = GUI.EMPTY_STRING;
 		} else {
 			tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
@@ -1564,7 +1565,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTileLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		if (tMapCellID == MapCell.NO_ID) {
+		if (tMapCellID == Cell.NO_ID) {
 			tBaseTileLabel = GUI.EMPTY_STRING;
 		} else {
 			tBaseTileLabel = createBaseLabel (aBaseTitle, tMapCellID);

@@ -28,7 +28,7 @@ public class NoTileOnMapCell extends Condition {
 	public boolean meets () {
 		boolean tMeets;
 		
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			if (mapCell.isTileOnCell ()) {
 				tMeets = FAILS;
 			} else {

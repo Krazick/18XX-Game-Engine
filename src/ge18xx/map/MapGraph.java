@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ge18xx.company.TokenCompany;
+import genericMap.Cell;
 
 public class MapGraph {
 	public static final MapGraph NO_MAP_GRAPH = null;
@@ -65,7 +66,7 @@ public class MapGraph {
 
 		tContainsMapCell = false;
 		if (! vertexes.isEmpty ()) {
-			if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell != Cell.NO_MAP_CELL) {
 				for (Vertex tVertex: vertexes) {
 					tFoundMapCell = tVertex.getMapCell ();
 					if (tFoundMapCell.sameID (aMapCell)) {
@@ -85,7 +86,7 @@ public class MapGraph {
 
 		tFoundVertex = Vertex.NO_VERTEX;
 		if (! vertexes.isEmpty ()) {
-			if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell != Cell.NO_MAP_CELL) {
 				for (Vertex tVertex: vertexes) {
 					tFoundMapCell = tVertex.getMapCell ();
 					if (tFoundMapCell.sameID (aMapCell)) {

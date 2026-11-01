@@ -8,6 +8,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
 import geUtilities.GUI;
+import genericMap.Cell;
 
 public class Vertex {
 	public static final Vertex NO_VERTEX = null;
@@ -116,7 +117,7 @@ public class Vertex {
 	public static String buildID (MapCell aMapCell, Location aLocation) {
 		String tID;
 		
-		if ((aMapCell != MapCell.NO_MAP_CELL) && (aLocation != Location.NO_LOC)) {
+		if ((aMapCell != Cell.NO_MAP_CELL) && (aLocation != Location.NO_LOC)) {
 			tID = aMapCell.getCellID () + ":" + aLocation.getLocation ();
 		} else {
 			tID = Vertex.NO_VERTEX_ID;
@@ -202,7 +203,7 @@ public class Vertex {
 			tEndLocation = tEndVertex.getLocation ();
 			tNeighborMapCell = mapCell.getNeighbor (tEndLocation.getLocation ());
 			tNeighborLoc = Location.NO_LOCATION;
-			if (tNeighborMapCell != MapCell.NO_MAP_CELL) {
+			if (tNeighborMapCell != Cell.NO_MAP_CELL) {
 				tNeighborLoc = mapCell.getSideFromNeighbor (tNeighborMapCell);
 				tNeighborLocation = new Location (tNeighborLoc);
 				if (! tNeighborMapCell.isTileOnCell ()) {

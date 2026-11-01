@@ -29,6 +29,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class CityInfo implements Cloneable {
 	public static final ElementName EN_CITY_INFO = new ElementName ("CityInfo");
@@ -129,13 +130,13 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void clearCorporationOnMapCell () {
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			mapCell.clearCorporation ();
 		}
 	}
 
 	public void clearMapCell () {
-		mapCell = MapCell.NO_MAP_CELL;
+		mapCell = (MapCell) Cell.NO_MAP_CELL;
 	}
 
 	public void clearRevenueCenter () {
@@ -283,7 +284,7 @@ public class CityInfo implements Cloneable {
 				tY2 = Yc + tPoint2.y;
 				g2d.drawLine (tX1, tY1, tX2, tY2);
 				tWidthHeight = tPointTemp * 2;
-				if (mapCell != MapCell.NO_MAP_CELL) {
+				if (mapCell != Cell.NO_MAP_CELL) {
 					tTerrainFillPaint = mapCell.getBaseTerrainFillPaint ();
 					g2d.setPaint (tTerrainFillPaint);
 					g2d.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
@@ -377,7 +378,7 @@ public class CityInfo implements Cloneable {
 		int tBonusRevenue;
 		
 		tBonusRevenue = RevenueCenter.NO_VALUE;
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			tBonusRevenue = mapCell.getBonusRevenue ();
 		}
 		
@@ -399,7 +400,7 @@ public class CityInfo implements Cloneable {
 	public String getMapCellID () {
 		String tMapCellID;
 		
-		if (mapCell == MapCell.NO_MAP_CELL) {
+		if (mapCell == Cell.NO_MAP_CELL) {
 			tMapCellID = "NOT YET";
 		} else {
 			tMapCellID = mapCell.getID ();
@@ -464,7 +465,7 @@ public class CityInfo implements Cloneable {
 		boolean tMapCellHasStation;
 		
 		tMapCellHasStation = false;
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			tMapCellHasStation = mapCell.hasStation (aToken);
 		}
 		
@@ -538,7 +539,7 @@ public class CityInfo implements Cloneable {
 	public boolean isDeltaTerrain () {
 		boolean tIsDeltaTerrain;
 		
-		if (mapCell == MapCell.NO_MAP_CELL) {
+		if (mapCell == Cell.NO_MAP_CELL) {
 			tIsDeltaTerrain = false;
 		} else {
 			tIsDeltaTerrain = mapCell.isDeltaTerrain ();

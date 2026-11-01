@@ -53,6 +53,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 import geUtilities.GUI;
 
 public class HexMap extends GameMap implements MouseListener, 
@@ -371,7 +372,7 @@ public class HexMap extends GameMap implements MouseListener,
 	public MapCell getMapCell (int aRow, int aCol) {
 		MapCell tMapCell;
 
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tMapCell = mapCells [aRow] [aCol];
@@ -418,7 +419,7 @@ public class HexMap extends GameMap implements MouseListener,
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
 				tMapCell = mapCells [tRowIndex] [tColIndex];
-				if (tMapCell != MapCell.NO_MAP_CELL) {
+				if (tMapCell != Cell.NO_MAP_CELL) {
 					tXMLMapCellElement = tMapCell.getMapCellState (aXMLDocument);
 					if (tXMLMapCellElement != XMLElement.NO_XML_ELEMENT) {
 						tXMLMapCellElement.setAttribute (AN_ROW, tRowIndex);
@@ -440,11 +441,11 @@ public class HexMap extends GameMap implements MouseListener,
 		int tColCount;
 		MapCell tFoundMapCell;
 		
-		tFoundMapCell = MapCell.NO_MAP_CELL;
+		tFoundMapCell = (MapCell) Cell.NO_MAP_CELL;
 		tRowCount = getRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == Cell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
+			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == Cell.NO_MAP_CELL); tColIndex++) {
 				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
 					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
 				}
@@ -461,16 +462,16 @@ public class HexMap extends GameMap implements MouseListener,
 		int tColCount;
 		MapCell tFoundMapCell;
 		
-		tFoundMapCell = MapCell.NO_MAP_CELL;
+		tFoundMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (aID != null) {
 			if (!aID.equals (GUI.EMPTY_STRING)) {
 				tRowCount = getRowCount ();
 				for (tRowIndex = 0; (tRowIndex < tRowCount) 
-					&& (tFoundMapCell == MapCell.NO_MAP_CELL); 
+					&& (tFoundMapCell == Cell.NO_MAP_CELL); 
 						tRowIndex++) {
 					tColCount = getColCount (tRowIndex);
 					for (tColIndex = 0; (tColIndex < tColCount)
-							&& (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
+							&& (tFoundMapCell == Cell.NO_MAP_CELL); tColIndex++) {
 						if (mapCells [tRowIndex] [tColIndex].forID (aID)) {
 							tFoundMapCell = mapCells [tRowIndex] [tColIndex];
 						}
@@ -569,10 +570,10 @@ public class HexMap extends GameMap implements MouseListener,
 
 		tSelectedCity = City.NO_CITY;
 		tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
-		if (aPreviousSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (aPreviousSelectedMapCell != Cell.NO_MAP_CELL) {
 			aPreviousSelectedMapCell.clearSelected ();
 		}
-		if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (aSelectedMapCell != Cell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				aSelectedMapCell.handleSelectRevenueCenter (aPoint);
 				tSelectedRevenueCenter = aSelectedMapCell.getSelectedRevenueCenter ();
@@ -598,11 +599,11 @@ public class HexMap extends GameMap implements MouseListener,
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, 
 							MouseEvent aMouseEvent) {
 
-		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (aPreviousSelectedMapCell == Cell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
-				if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+				if (aSelectedMapCell == Cell.NO_MAP_CELL) {
 					System.err.println ("No Selected Map Cell provided");
 				} else {
 					System.err.println ("The Map Cell " + aSelectedMapCell.getID () 
@@ -610,7 +611,7 @@ public class HexMap extends GameMap implements MouseListener,
 				}
 			}
 		} else {
-			if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+			if (aSelectedMapCell == Cell.NO_MAP_CELL) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
 				if (aPreviousSelectedMapCell == aSelectedMapCell) {
@@ -917,7 +918,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 		Point tPoint = aMouseEvent.getPoint ();
 		tMapCell = getMapCellContainingPoint (tPoint);
-		if (tMapCell == MapCell.NO_MAP_CELL) {
+		if (tMapCell == Cell.NO_MAP_CELL) {
 			setToolTipText ("***");
 		} else {
 			setToolTipText (tMapCell.getToolTip ());
@@ -1089,7 +1090,7 @@ public class HexMap extends GameMap implements MouseListener,
 	@Override
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
 		if (!wasTilePlaced ()) { // If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
-			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+			if (aSelectedMapCell != Cell.NO_MAP_CELL) {
 				if (aSelectedMapCell.isSelectable ()) {
 					aSelectedMapCell.toggleSelected ();
 					if (placeTileMode) {
@@ -1278,7 +1279,7 @@ public class HexMap extends GameMap implements MouseListener,
 		MapCell tSelectedMapCell;
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell == Cell.NO_MAP_CELL) {
 			System.err.println("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			removeAllSMC ();
@@ -1304,7 +1305,7 @@ public class HexMap extends GameMap implements MouseListener,
 		MapCell tSelectedMapCell;
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell == Cell.NO_MAP_CELL) {
 			System.err.println ("ERROR-- Trying to Lock Tile Orientation, can't Find Selected MapCell.");
 		} else {
 			tSelectedMapCell.lockTileOrientation ();

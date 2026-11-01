@@ -12,6 +12,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.map.MapCell;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 public class CattlePlacementBenefit extends MapBenefit {
@@ -100,7 +101,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell != Cell.NO_MAP_CELL) {
 			tCanHoldCattleToken = tSelectedMapCell.canHoldCattleToken ();
 			if (tCanHoldCattleToken) {
 				setMapCellID (tSelectedMapCell);
@@ -130,7 +131,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell != Cell.NO_MAP_CELL) {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {

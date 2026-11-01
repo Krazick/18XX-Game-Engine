@@ -20,7 +20,7 @@ public class MapPlan extends CorporationPlan {
 	
 	public MapPlan (String aPlayerName, String aGameName, String aName, Corporation aCorporation) {
 		super (aPlayerName, aGameName, aName, aCorporation);
-		setMapCell (MapCell.NO_MAP_CELL);
+		setMapCell ((MapCell) Cell.NO_MAP_CELL);
 	}
 	
 	public MapPlan (String aPlayerName, String aGameName, String aName, Corporation aCorporation, MapCell aMapCell) {
@@ -68,7 +68,7 @@ public class MapPlan extends CorporationPlan {
 		String tMapCellCoords;
 		
 		tMapCellCoords = NO_MAP_CELL;
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			tMapCellCoords = "[" + getMapCellXc () + ", " + getMapCellYc () + "]";
 		}
 		
@@ -80,7 +80,7 @@ public class MapPlan extends CorporationPlan {
 		int tYc;
 		Rectangle tSelectedViewArea;
 		
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			tXc = mapCell.getXCenter ();
 			tYc = mapCell.getYCenter ();
 			tSelectedViewArea = new Rectangle (tXc - 150, tYc - 150, 300, 300);

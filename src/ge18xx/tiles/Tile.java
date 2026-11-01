@@ -45,6 +45,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public class Tile implements Comparable<Object>, Cloneable {
 	public static final ElementName EN_TILE = new ElementName ("Tile");
@@ -1191,7 +1192,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tLocation = aVertex.getLocation ();
 			if (! tMapCell.isBlockedSide (tLocation.getLocation ())) {
 				tNeighborMapCell = tMapCell.getNeighbor (tLocation.getLocation ());
-				if (tNeighborMapCell != MapCell.NO_MAP_CELL) {
+				if (tNeighborMapCell != Cell.NO_MAP_CELL) {
 					if (tNeighborMapCell.isSelectable ()) {
 						tNeighborLoc = tMapCell.getSideFromNeighbor (tNeighborMapCell);
 						tNeighborLocation = new Location (tNeighborLoc);

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ge18xx.tiles.Tile;
+import genericMap.Cell;
 
 class MapCellTests extends MapTester {
 	MapCell mapCell;
@@ -28,7 +29,7 @@ class MapCellTests extends MapTester {
 	void mapCellsHaveSameID () {
 		MapCell tSecondMapCell;
 		
-		tSecondMapCell = MapCell.NO_MAP_CELL;
+		tSecondMapCell = (MapCell) Cell.NO_MAP_CELL;
 		assertFalse (mapCell.sameID (tSecondMapCell));
 		
 		tSecondMapCell = mapTestFactory.buildMapCell ("A3");

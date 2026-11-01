@@ -120,7 +120,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	Bank actorsBank;
 
 	public TrainCompany (int aID, String aName) {
-		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, MapCell.NO_MAP_CELL, Location.NO_LOC,
+		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, (MapCell) Cell.NO_MAP_CELL, Location.NO_LOC,
 				NO_COST, ActorI.ActionStates.Unowned, false);
 	}
 
@@ -128,7 +128,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			MapCell aHomeCity1, Location aHomeLocation1, int aCost, ActorI.ActionStates aState, 
 			boolean aGovtRailway) {
 		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, 
-				MapCell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
+				(MapCell) Cell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
 	}
 
 	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, 
@@ -1303,9 +1303,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tAllBasesHaveTiles;
 		
 		tAllBasesHaveTiles = false;
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			if (hasTwoBases ()) {
-				if (homeCity2 != MapCell.NO_MAP_CELL) {
+				if (homeCity2 != Cell.NO_MAP_CELL) {
 					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
 						tAllBasesHaveTiles = true;
 					}
@@ -1323,9 +1323,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tBaseTileHasTracks;
 		
 		tBaseTileHasTracks = false;
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			if (hasTwoBases ()) {
-				if (homeCity2 != MapCell.NO_MAP_CELL) {
+				if (homeCity2 != Cell.NO_MAP_CELL) {
 					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
 						tBaseTileHasTracks = true;
 					}
@@ -2236,7 +2236,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tTrainCompany  = (TrainCompany) tPortfolioHolder;
 					tBank.transferCashTo (tTrainCompany, tDividendForShares);
 					tTrainCompany.addCashToDividends (tDividendForShares, tOperatingRoundID);
-					tSelectedMapCell = MapCell.NO_MAP_CELL;
+					tSelectedMapCell = (MapCell) Cell.NO_MAP_CELL;
 					tTrainCompany.updateCorporationFrame (tSelectedMapCell);
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
 										tDividendForShares, tOperatingRoundID);
@@ -2566,11 +2566,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tHomeLocation1 = getHomeLocation1 ();
 			tHomeLocation2 = getHomeLocation2 ();
 			if (aSelectedMapCell == tHomeMapCell1) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL,tHomeMapCell2, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), (MapCell) Cell.NO_MAP_CELL,tHomeMapCell2, 
 						Location.NO_LOC, tHomeLocation2);
 			}
 			if (aSelectedMapCell == tHomeMapCell2) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, MapCell.NO_MAP_CELL, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, (MapCell) Cell.NO_MAP_CELL, 
 						tHomeLocation1, Location.NO_LOC);
 			}
 		}

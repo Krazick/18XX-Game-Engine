@@ -21,7 +21,7 @@ public class MapToken extends Token {
 	public MapToken () {
 		super ();
 		setLocation (Location.NO_LOC);
-		setMapCell (MapCell.NO_MAP_CELL);
+		setMapCell ((MapCell) Cell.NO_MAP_CELL);
 		setCost (0);
 		setAllConnectedSides (false);
 	}
@@ -30,7 +30,7 @@ public class MapToken extends Token {
 		super (aMapToken, aType);
 
 		setLocation (Location.NO_LOC);
-		setMapCell (MapCell.NO_MAP_CELL);
+		setMapCell ((MapCell) Cell.NO_MAP_CELL);
 		setCost (aCost);
 		setAllConnectedSides (false);
 	}
@@ -57,9 +57,9 @@ public class MapToken extends Token {
 	}
 
 	public String getMapCellID () {
-		String tMapCellID = MapCell.NO_ID;
+		String tMapCellID = Cell.NO_ID;
 
-		if (MapCell.NO_MAP_CELL != mapCell) {
+		if (Cell.NO_MAP_CELL != mapCell) {
 			tMapCellID = mapCell.getCellID ();
 		}
 
@@ -175,7 +175,7 @@ public class MapToken extends Token {
 	@Override
 	public void printlog () {
 		super.printlog ();
-		if (mapCell == MapCell.NO_MAP_CELL) {
+		if (mapCell == Cell.NO_MAP_CELL) {
 			System.err.println ("No Map Cell Specified Yet");
 		} else {
 			mapCell.printlog ();
@@ -184,7 +184,7 @@ public class MapToken extends Token {
 	}
 
 	public boolean tokenPlaced () {
-		if (mapCell == MapCell.NO_MAP_CELL) {
+		if (mapCell == Cell.NO_MAP_CELL) {
 			return false;
 		} else if (location == Location.NO_LOC) {
 			return false;

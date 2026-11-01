@@ -152,7 +152,7 @@ public class MapTestFactory {
 	}
 
 	public void setMockAllowedRotation (MapCell mMapCell, int aIndex, boolean aAllowed) {
-		if (mMapCell != MapCell.NO_MAP_CELL) {
+		if (mMapCell != Cell.NO_MAP_CELL) {
 			Mockito.when (mMapCell.getAllowedRotation (aIndex)).thenReturn (aAllowed);
 		}
 	}
@@ -259,9 +259,9 @@ public class MapTestFactory {
 				+ "		<Terrain category=\"optional\" location=\"50\" type=\"River\" />\n"
 				+ "	</MapCell>\n"
 				+ "";
-		MapCell tMapCell;
+		Cell tMapCell;
 		
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = Cell.NO_MAP_CELL;
 
 		if (tMapCellXMLIndex == 1) {
 			tMapCell = buildMapCellFromXML (tMapCell1TestXML, aMapCellID);
@@ -277,7 +277,7 @@ public class MapTestFactory {
 			tMapCell = buildMapCellFromXML (tMapCell6TestXML, aMapCellID);
 		}
 		
-		return tMapCell;
+		return (MapCell) tMapCell;
 	}
 
 	private MapCell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
@@ -287,7 +287,7 @@ public class MapTestFactory {
 		MapCell tMapCell;
 		
 		tMapCellNode = utilitiesTestFactory.buildXMLNode (aMapCellTextXML);
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (tMapCellNode != XMLNode.NO_NODE) {
 			tMapCell = buildMapCell ();
 			tTerrainType = new int [Terrain.MAX_TERRAIN_TYPES];

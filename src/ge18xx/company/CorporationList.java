@@ -37,7 +37,6 @@ import ge18xx.bank.BankPool;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
-import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
@@ -1267,12 +1266,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			if (!tCorporation.isClosed ()) {
 				tHomeCity1 = tCorporation.getHomeCity1 ();
 				tHomeCity2 = tCorporation.getHomeCity2 ();
-				if (tHomeCity1 != MapCell.NO_MAP_CELL) {
+				if (tHomeCity1 != Cell.NO_MAP_CELL) {
 					if (tHomeCity1 == aMapCell) {
 						tPrivateCompany = (Corporation) tCorporation;
 					}
 				}
-				if ((tHomeCity2 != MapCell.NO_MAP_CELL) &&
+				if ((tHomeCity2 != Cell.NO_MAP_CELL) &&
 					(tPrivateCompany == PrivateCompany.NO_PRIVATE_COMPANY)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (Corporation) tCorporation;

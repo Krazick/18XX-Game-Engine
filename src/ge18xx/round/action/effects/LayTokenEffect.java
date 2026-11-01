@@ -20,6 +20,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayTokenEffect extends ChangeMapEffect {
 	public static final String NAME = "Lay Token";
@@ -241,12 +242,12 @@ public class LayTokenEffect extends ChangeMapEffect {
 				if (tTokenAtID == revenueCenterIndex) {
 					tCorpHomeCell1 = tTokenCompany.getHomeCity1 ();
 					tCorpHomeCell2 = tTokenCompany.getHomeCity2 ();
-					if (tCorpHomeCell1 != MapCell.NO_MAP_CELL) {
+					if (tCorpHomeCell1 != Cell.NO_MAP_CELL) {
 						if (tMapCell.getID ().equals (tCorpHomeCell1.getID ())) {
 							tMapCell.setCorporationHome (tTokenCompany, tTokenCompany.getHomeLocation1 ());
 						}
 					}
-					if (tCorpHomeCell2 != MapCell.NO_MAP_CELL) {
+					if (tCorpHomeCell2 != Cell.NO_MAP_CELL) {
 						if (tMapCell.getID ().equals (tCorpHomeCell2.getID ())) {
 							tMapCell.setCorporationHome (tTokenCompany, tTokenCompany.getHomeLocation2 ());
 						}

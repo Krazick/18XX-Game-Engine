@@ -13,6 +13,7 @@ import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.round.action.effects.SetCorporationBaseEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayTileAction extends ChangeMapAction {
 	public static final String NAME = "Lay Tile";
@@ -88,9 +89,9 @@ public class LayTileAction extends ChangeMapAction {
 	public String getMapCellID () {
 		String tMapCellID;
 
-		tMapCellID = MapCell.NO_ID;
+		tMapCellID = Cell.NO_ID;
 		for (Effect tEffect : effects) {
-			if (tMapCellID == MapCell.NO_ID) {
+			if (tMapCellID == Cell.NO_ID) {
 				if (tEffect instanceof LayTileEffect) {
 					tMapCellID = ((LayTileEffect) tEffect).getMapCellID ();
 				}

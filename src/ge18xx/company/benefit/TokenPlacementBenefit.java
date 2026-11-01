@@ -19,6 +19,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 public class TokenPlacementBenefit extends MapBenefit {
@@ -126,7 +127,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		tMap = getMap ();
 		tMap.clearAllSelected ();
 		tMapCell = tMap.getMapCellForID (mapCellID);
-		if (tMapCell == MapCell.NO_MAP_CELL) {
+		if (tMapCell == Cell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
 			if (tMapCell.isTileOnCell ()) {
