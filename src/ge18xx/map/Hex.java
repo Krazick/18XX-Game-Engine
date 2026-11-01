@@ -22,10 +22,12 @@ import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
+import genericMap.Cell;
+
 public class Hex {
 	public static final Hex NO_HEX = null;
-	public static final String DIRECTION_NS = "NS";
-	public static final String DIRECTION_EW = "EW";
+	public static final String DIRECTION_NS = Cell.DIRECTION_NS;
+	public static final String DIRECTION_EW = Cell.DIRECTION_EW;
 	public static final int NOT_VALID_SLICE = -9999;
 	public static final int NOT_VALID_POINT = -9998;
 	public static final int DEFAULT_SCALE = 8;
