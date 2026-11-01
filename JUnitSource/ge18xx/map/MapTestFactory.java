@@ -141,7 +141,7 @@ public class MapTestFactory {
 	}
 	
 	public Cell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
-		MapCell mMapCell;
+		Cell mMapCell;
 		
 		mMapCell = Mockito.mock (MapCell.class);
 		Mockito.when (mMapCell.getID ()).thenReturn (aID);
