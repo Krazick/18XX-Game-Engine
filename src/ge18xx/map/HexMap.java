@@ -1191,7 +1191,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 		tBaseCityName = aMapCell.getCityName ();
 		if (tBaseCityName == Centers.NO_CITY_NAME) {
-			tBaseCityName = "";
+			tBaseCityName = GUI.EMPTY_STRING;
 		}
 
 		return tBaseCityName;
