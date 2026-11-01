@@ -16,6 +16,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.LoadableXMLI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	private static final long serialVersionUID = 1L;
@@ -324,7 +325,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		for (index = 0; (index < tChildrenCount) && tGoodLoad; index++) {
 			tChildNode = new XMLNode (tChildren.item (index));
 			tChildName = tChildNode.getNodeName ();
-			if (MapCell.EN_MAP_CELL.equals (tChildName)) {
+			if (Cell.EN_MAP_CELL.equals (tChildName)) {
 				if (tColIndex < aCols) {
 					if (mapCells [tRowIndex] [tColIndex].getMapDirection ()) {
 						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];

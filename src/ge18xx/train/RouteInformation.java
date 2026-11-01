@@ -28,6 +28,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
@@ -480,9 +481,9 @@ public class RouteInformation {
 		train.setCurrentRouteInformation (this);
 	}
 
-	public boolean lastMapCellIs (MapCell aSelectedMapCell) {
+	public boolean lastMapCellIs (Cell aSelectedMapCell) {
 		boolean tLastMapCellMatches = false;
-		MapCell tLastMapCell;
+		Cell tLastMapCell;
 
 		if (getSegmentCount () > 0) {
 			tLastMapCell = getLastMapCell ();
@@ -502,8 +503,8 @@ public class RouteInformation {
 		return tLastRouteSegment;
 	}
 
-	private MapCell getLastMapCell () {
-		MapCell tLastMapCell;
+	private Cell getLastMapCell () {
+		Cell tLastMapCell;
 		RouteSegment tLastRouteSegment;
 
 		tLastRouteSegment = getLastRouteSegment ();
@@ -787,7 +788,7 @@ public class RouteInformation {
 		// Route Segment has Valid End Point
 		boolean tContinueWork = true;
 		int tInitialSegmentCount;
-		MapCell tNewMapCell;
+		Cell tNewMapCell;
 
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {

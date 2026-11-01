@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Shape;
-//import java.awt.geom.Point2D;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,11 +59,11 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
-public class MapCell implements Cloneable, Comparator<Object> {
+public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");
 	public static final AttributeName AN_ORIENTATION = new AttributeName ("orientation");
-	public static final AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
 	public static final AttributeName AN_FIXED = new AttributeName ("starting");
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
 	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
@@ -73,10 +72,9 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_TUNNEL_TOKEN = new AttributeName ("tunnel");
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
-	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
 	public static final MapCell NO_MAP_CELL 		= null;
-	public static final MapCell [] [] NO_MAP_CELLS 	= null;
-	public static final MapCell NO_DESTINATION 		= null;
+	public static final Cell [] [] NO_MAP_CELLS 	= null;
+	public static final Cell NO_DESTINATION 		= null;
 	public static final String NO_ID 			= GUI.EMPTY_STRING;
 	public static final String NO_NAME 			= GUI.EMPTY_STRING;
 	public static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
@@ -321,12 +319,12 @@ public class MapCell implements Cloneable, Comparator<Object> {
 		return (aTile.canAllTracksExit (this, aTileOrient));
 	}
 
-	public boolean isNeighbor (MapCell tPossibleNeighbor) {
+	public boolean isNeighbor (Cell tPossibleNeighbor) {
 		boolean tIsNeighbor;
 
 		tIsNeighbor = false;
 		if (tPossibleNeighbor != NO_MAP_CELL) {
-			for (MapCell tNeighbor : neighbors) {
+			for (Cell tNeighbor : neighbors) {
 				if (tNeighbor == tPossibleNeighbor) {
 					tIsNeighbor = true;
 				}
@@ -337,7 +335,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	}
 
 	// Get the Side of the this MapCell to this Neighbor
-	public int getSideToNeighbor (MapCell aNeighborMapCell) {
+	public int getSideToNeighbor (Cell aNeighborMapCell) {
 		int tSideToNeighbor;
 
 		tSideToNeighbor = Location.NO_LOCATION;
@@ -358,7 +356,7 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	 *
 	 * @return NO_LOCATION if the Neighbor is not Found for this MapCell
 	 */
-	public int getSideFromNeighbor (MapCell aNeighborMapCell) {
+	public int getSideFromNeighbor (Cell aNeighborMapCell) {
 		int tSideFromNeighbor;
 		int tSideIndex;
 		
@@ -841,8 +839,8 @@ public class MapCell implements Cloneable, Comparator<Object> {
 	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
 	 *
 	 */
-	public MapCell getNeighbor (Location aLocation) {
-		MapCell tNeighbor;
+	public Cell getNeighbor (Location aLocation) {
+		Cell tNeighbor;
 
 		tNeighbor = NO_MAP_CELL;
 		if (aLocation.isSide ()) {

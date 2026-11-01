@@ -6,6 +6,7 @@ import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
+import genericMap.Cell;
 
 public class MapToken extends Token {
 	public static final AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");
@@ -41,7 +42,7 @@ public class MapToken extends Token {
 		
 		tTokenElement = super.getTokenElement (aXMLDocument);
 		fillTokenElement (tTokenElement);
-		tTokenElement.setAttribute (MapCell.AN_MAP_CELL_ID, mapCell.getCellID ());
+		tTokenElement.setAttribute (Cell.AN_MAP_CELL_ID, mapCell.getCellID ());
 		tTokenElement.setAttribute (Location.AN_LOCATION, location.getLocation ());
 		tConnectedSides = getSides ();
 		if (tConnectedSides != MapToken.NO_SIDES) {

@@ -61,6 +61,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public abstract class TrainCompany extends Corporation implements CashHolderI, TrainHolderI {
 	public static final ElementName EN_TRAIN_COMPANY = new ElementName ("TrainCompany");
@@ -2553,7 +2554,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCost;
 	}
 	
-	public void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
+	public void addRemoveHomeEffect (LayTileAction aLayTileAction, Cell aSelectedMapCell) {
 		MapCell tHomeMapCell1;
 		MapCell tHomeMapCell2;
 		Location tHomeLocation1;
@@ -2818,7 +2819,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tRouteExtended;
 	}
 
-	public boolean removeRouteSegment (int aTrainIndex, MapCell aMapCell, int aSegmentIndex) {
+	public boolean removeRouteSegment (int aTrainIndex, Cell aMapCell, int aSegmentIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		boolean tRouteSegmentRemoved;

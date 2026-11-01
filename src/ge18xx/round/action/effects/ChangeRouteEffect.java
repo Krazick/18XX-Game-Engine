@@ -10,6 +10,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class ChangeRouteEffect extends Effect {
 	final static AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");
@@ -110,7 +111,7 @@ public class ChangeRouteEffect extends Effect {
 		return trainIndex;
 	}
 
-	public MapCell getMapCell () {
+	public Cell getMapCell () {
 		return mapCell;
 	}
 

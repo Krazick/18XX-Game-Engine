@@ -65,6 +65,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 import swingTweaks.KButton;
 import geUtilities.MessageBean;
 import geUtilities.ParsingRoutineI;
@@ -1256,10 +1257,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
-	public Corporation getPrivateCompanyAtMapCell (MapCell aMapCell) {
+	public Corporation getPrivateCompanyAtMapCell (Cell aMapCell) {
 		Corporation tPrivateCompany;
-		MapCell tHomeCity1;
-		MapCell tHomeCity2;
+		Cell tHomeCity1;
+		Cell tHomeCity2;
 
 		tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		for (Corporation tCorporation : corporations) {

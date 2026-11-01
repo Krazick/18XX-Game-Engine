@@ -33,6 +33,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public abstract class TokenCompany extends TrainCompany {
 	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
@@ -258,7 +259,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tCurrentColumn;
 	}
 
-	public void removeOtherHome (MapCell aMapCell, Location aHomeLocation) {
+	public void removeOtherHome (Cell aMapCell, Location aHomeLocation) {
 		if (aMapCell == homeCity1) {
 			if (homeCity2 != MapCell.NO_MAP_CELL) {
 				if (homeCity2.removeHome (this, homeLocation2)) {
@@ -817,7 +818,7 @@ public abstract class TokenCompany extends TrainCompany {
 		addAction (tLayTokenAction);
 	}
 
-	public void addRemoveHomeEffect (MapCell aMapCell, LayTokenAction aLayTokenAction) {
+	public void addRemoveHomeEffect (Cell aMapCell, LayTokenAction aLayTokenAction) {
 		if (isHomeTypeChoice ()) {
 			if (aMapCell == homeCity1) {
 				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL, getHomeCity2 (), 

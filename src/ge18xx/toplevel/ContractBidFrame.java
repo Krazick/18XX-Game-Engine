@@ -18,6 +18,7 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLSaveGameI;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
@@ -213,7 +214,7 @@ public class ContractBidFrame extends XMLFrame implements ActionListener, XMLSav
 		}
 	}
 
-	private void handleCitySelected (MapCell aSelectedMapCell, City aCity) {
+	private void handleCitySelected (Cell aSelectedMapCell, City aCity) {
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		ContractLine tContractLine;

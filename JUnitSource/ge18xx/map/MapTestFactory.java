@@ -8,6 +8,7 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
@@ -106,9 +107,9 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
-	public MapCell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
+	public Cell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 		
-		MapCell tMapCell;
+		Cell tMapCell;
 		GameMap mHexMap;
 		String tMapDirection;
 		
@@ -139,7 +140,7 @@ public class MapTestFactory {
 		return mMapCell;
 	}
 	
-	public MapCell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
+	public Cell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
 		MapCell mMapCell;
 		
 		mMapCell = Mockito.mock (MapCell.class);

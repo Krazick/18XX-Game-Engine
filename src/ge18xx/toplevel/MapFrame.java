@@ -66,6 +66,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import geUtilities.xml.XMLSaveGameI;
+import genericMap.Cell;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.ParsingRoutineI;
@@ -461,7 +462,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	private void removeHomeIfChoice () {
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 		MapCell tHomeMapCell1;
 		MapCell tHomeMapCell2;
 		Location tHomeLocation1;
@@ -638,7 +639,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (mapStateParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aMapNode, MapCell.EN_MAP_CELL);
+		tXMLNodeList.parseXMLNodeList (aMapNode, Cell.EN_MAP_CELL);
 	}
 
 	ParsingRoutineI mapStateParsingRoutine = new ParsingRoutineI () {
@@ -1364,7 +1365,7 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 	}
 
 	public void updateMapPlansButton () {
-		MapCell tMapCell;
+		Cell tMapCell;
 		
 		tMapCell = hexMap.getSelectedMapCell ();
 		if (tMapCell == MapCell.NO_MAP_CELL) {

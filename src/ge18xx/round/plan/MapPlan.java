@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import ge18xx.company.Corporation;
 import ge18xx.map.GameMap;
 import ge18xx.map.MapCell;
+import genericMap.Cell;
 
 public class MapPlan extends CorporationPlan {
 	public static final MapPlan NO_MAP_PLAN = null;
@@ -47,7 +48,7 @@ public class MapPlan extends CorporationPlan {
 		planningMapCell = aPlanningMapCell;
 	}
 
-	public MapCell getPlanningMapCell () {
+	public Cell getPlanningMapCell () {
 		return planningMapCell;
 	}
 	

@@ -1,6 +1,7 @@
 package ge18xx.round.plan.condition;
 
 import ge18xx.map.MapCell;
+import genericMap.Cell;
 
 public class NoTileOnMapCell extends Condition {
 	public static final String NAME = "No Tile on MapCell";
@@ -19,7 +20,7 @@ public class NoTileOnMapCell extends Condition {
 		mapCell = aMapCell;
 	}
 	
-	public MapCell getMapCell () {
+	public Cell getMapCell () {
 		return mapCell;
 	}
 	
