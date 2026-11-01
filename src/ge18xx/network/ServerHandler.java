@@ -221,19 +221,18 @@ public abstract class ServerHandler implements Runnable {
 
 	private boolean tryReConnect () {
 		boolean tContinue;
-		String tMessage;
-		
+
 		try {
 			Thread.sleep (10000);
 			logger.warn ("Attempting once to Reconnect to the Server");
 			socket = null;
 			System.gc ();
 			establishSocketConnection ();
-			logger.info ("Success on creating a new Socket to the Server");
+			logger.warn ("Success on creating a new Socket to the Server");
 			tContinue = handleChatReconnect ();
 		} catch (Exception tException) {
-			tMessage = "ReConnect not successful " + tException.getMessage ();
-			log (tMessage, tException);
+			String message = "ReConnect not successful " + tException.getMessage ();
+			log (message, tException);
 			tContinue = false;
 		}
 
