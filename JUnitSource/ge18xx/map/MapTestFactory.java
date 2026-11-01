@@ -280,7 +280,7 @@ public class MapTestFactory {
 		return (MapCell) tMapCell;
 	}
 
-	private MapCell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
+	private Cell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
 		XMLNode tMapCellNode;
 		int tTerrainCost [];
 		int tTerrainType [];

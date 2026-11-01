@@ -1064,7 +1064,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
-		if (mapCells != MapCell.NO_MAP_CELLS) {
+		if (mapCells != Cell.NO_CELLS) {
 			CalcGridCenters ();
 			setMapSize ();
 			redrawMap ();
@@ -1432,7 +1432,7 @@ public class HexMap extends GameMap implements MouseListener,
 		}
 	}
 
-	public boolean graphContainsMapCell (MapCell aMapCell) {
+	public boolean graphContainsMapCell (Cell aMapCell) {
 		boolean tGraphContainsMapCell;
 		
 		tGraphContainsMapCell = false;

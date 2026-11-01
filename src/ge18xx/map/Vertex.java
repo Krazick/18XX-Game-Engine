@@ -114,7 +114,7 @@ public class Vertex {
 		return tID;
 	}
 
-	public static String buildID (MapCell aMapCell, Location aLocation) {
+	public static String buildID (Cell aMapCell, Location aLocation) {
 		String tID;
 		
 		if ((aMapCell != Cell.NO_MAP_CELL) && (aLocation != Location.NO_LOC)) {

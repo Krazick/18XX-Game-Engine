@@ -410,7 +410,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addBaseMapCellToSMC (tMapCell1, tMap);
 		tMapCell2 = corporation.getHomeCity2 ();
 		addBaseMapCellToSMC (tMapCell2, tMap);
-		if ((tMapCell1 != MapCell.NO_DESTINATION) &&
+		if ((tMapCell1 != Cell.NO_DESTINATION) &&
 			(tMapCell2 == tMapCell1)) {
 			tMap.toggleSelectedMapCell (tMapCell1);
 		}

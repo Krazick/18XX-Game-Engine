@@ -34,7 +34,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		setName (NAME);
 	}
 
-	public LayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+	public LayTokenEffect (ActorI aActor, Cell aMapCell, Tile aTile, int aRevenueCenterIndex,
 			TokenType aTokenType, int aTokenIndex, Benefit aBenefitInUse) {
 		super (aActor, aMapCell, aBenefitInUse);
 		setName (NAME);
@@ -218,8 +218,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 	public boolean removeToken (RoundManager aRoundManager, String aActionVerb) {
 		Tile tTile;
 		MapCell tMapCell;
-		MapCell tCorpHomeCell1;
-		MapCell tCorpHomeCell2;
+		Cell tCorpHomeCell1;
+		Cell tCorpHomeCell2;
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		int tCorporationID;

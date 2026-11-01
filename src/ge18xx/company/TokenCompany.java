@@ -821,10 +821,10 @@ public abstract class TokenCompany extends TrainCompany {
 	public void addRemoveHomeEffect (Cell aMapCell, LayTokenAction aLayTokenAction) {
 		if (isHomeTypeChoice ()) {
 			if (aMapCell == homeCity1) {
-				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), (MapCell) Cell.NO_MAP_CELL, getHomeCity2 (), 
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), (Cell) Cell.NO_MAP_CELL, getHomeCity2 (), 
 													Location.NO_LOC, getHomeLocation2 ());
 			} else if (aMapCell == homeCity2) {
-				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), getHomeCity1 (), (MapCell) Cell.NO_MAP_CELL, 
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), getHomeCity1 (), (Cell) Cell.NO_MAP_CELL, 
 						 							getHomeLocation1 (), Location.NO_LOC);
 			}
 		}
@@ -882,7 +882,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenCost;
 	}
 
-	private int getHomeBaseCost (MapCell aHomeMapCell, String aMapCellID) {
+	private int getHomeBaseCost (Cell aHomeMapCell, String aMapCellID) {
 		int tHomeTokenCost;
 		
 		// TODO: non-1830 Games, need to determine if cost is based on Distance

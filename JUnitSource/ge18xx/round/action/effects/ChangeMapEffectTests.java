@@ -23,6 +23,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
+import genericMap.Cell;
 
 public class ChangeMapEffectTests {
 	ChangeMapEffect effectAlpha;
@@ -40,7 +41,7 @@ public class ChangeMapEffectTests {
 	BenefitTestFactory benefitTestFactory;
 	MapFrame mapFrame;
 	HexMap mHexMap;
-	MapCell mapCell1;
+	Cell mapCell1;
 	MapCell mapCell2;
 	MapBenefit mapBenefit;
 

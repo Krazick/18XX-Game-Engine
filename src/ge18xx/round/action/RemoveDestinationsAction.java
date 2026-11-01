@@ -2,9 +2,9 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
-import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.RemoveDestinationEffect;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class RemoveDestinationsAction extends ChangeMapAction {
 	public static final String NAME = "Remove Destinations";
@@ -24,7 +24,7 @@ public class RemoveDestinationsAction extends ChangeMapAction {
 		setName (NAME);
 	}
 	
-	public void addRemoveDestinationEffect (ActorI aActor, MapCell aMapCell, Location aLocation) {
+	public void addRemoveDestinationEffect (ActorI aActor, Cell aMapCell, Location aLocation) {
 		RemoveDestinationEffect tRemoveDestinationEffect;
 
 		tRemoveDestinationEffect = new RemoveDestinationEffect (aActor, aMapCell, aLocation);

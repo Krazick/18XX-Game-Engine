@@ -2555,8 +2555,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 	
 	public void addRemoveHomeEffect (LayTileAction aLayTileAction, Cell aSelectedMapCell) {
-		MapCell tHomeMapCell1;
-		MapCell tHomeMapCell2;
+		Cell tHomeMapCell1;
+		Cell tHomeMapCell2;
 		Location tHomeLocation1;
 		Location tHomeLocation2;
 		
@@ -2566,11 +2566,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tHomeLocation1 = getHomeLocation1 ();
 			tHomeLocation2 = getHomeLocation2 ();
 			if (aSelectedMapCell == tHomeMapCell1) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), (MapCell) Cell.NO_MAP_CELL,tHomeMapCell2, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), (Cell) Cell.NO_MAP_CELL,tHomeMapCell2, 
 						Location.NO_LOC, tHomeLocation2);
 			}
 			if (aSelectedMapCell == tHomeMapCell2) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, (MapCell) Cell.NO_MAP_CELL, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, (Cell) Cell.NO_MAP_CELL, 
 						tHomeLocation1, Location.NO_LOC);
 			}
 		}

@@ -13,8 +13,6 @@ import java.util.List;
 
 import org.w3c.dom.NodeList;
 
-import ge18xx.bank.Bank;
-
 //
 //  MapCell.java
 //  18XX_JAVA
@@ -23,6 +21,7 @@ import ge18xx.bank.Bank;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
+import ge18xx.bank.Bank;
 import ge18xx.center.Centers;
 import ge18xx.center.City;
 import ge18xx.center.CityInfo;
@@ -63,7 +62,7 @@ import genericMap.Cell;
 
 public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");
-	public static final AttributeName AN_ORIENTATION = new AttributeName ("orientation");	// Move to Cell
+	public static final AttributeName AN_ORIENTATION = new AttributeName ("orientation");
 	public static final AttributeName AN_FIXED = new AttributeName ("starting");
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
 	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
@@ -72,19 +71,14 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	public static final AttributeName AN_TUNNEL_TOKEN = new AttributeName ("tunnel");
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
-	public static final Cell [] [] NO_MAP_CELLS 	= null;			// Move to Cell
-	public static final Cell NO_DESTINATION 		= null;
 	public static final String NO_NAME 			= GUI.EMPTY_STRING;
 	public static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
 	public static final String NO_BASES 		= GUI.EMPTY_STRING;
-	public static final String NO_DIRECTION 	= GUI.NULL_STRING;	// Move to Cell
 	public static final int NO_ORIENTATION 		= 0;
 	public static final int NO_TILE_ORIENTATION = -1;
 	public static final int NO_ROTATION 		= -1;
 	public static final boolean NOT_ON_TILE 	= false;
-	public static boolean mapDirection;								// Move to Cell
 	boolean tileOrientLocked;
-	boolean selected;												// Move to Cell
 	boolean fixedTile; // If the board has a initial tile placed, need to have terrain features show through.
 	boolean hasPortToken;
 	boolean hasCattleToken;
@@ -93,8 +87,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	boolean allowedRotations [] = new boolean [6];
 	boolean blockedSides [] 	= new boolean [6];
 	int trainUsingSide [] 		= new int [6]; // Train Number using the side;
-	int XCenter;					// Move to Cell
-	int YCenter;					// Move to Cell
 	int tileNumber;
 	int tileOrient;
 	int benefitValue;
@@ -102,14 +94,14 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	int destinationCorpID;	// For 1870, Need to add at least one additional Destination Corp
 							// IE, 1870 has two Map Cells with two Companies
 							// TODO
-	Paint terrainFillPaint;			// Move to Cell
 	Tile tile;
 	TileName baseTileName;
 	Rebate rebate;
 	Centers centers;
-	MapCell neighbors [];			// Move to Cell -- Change to Cell Class ???
 	List<Terrain> endRoutes;
 	Feature2 selectedFeature2;
+	Paint terrainFillPaint;
+	MapCell neighbors [];			// Move to Cell -- Change to Cell Class ???
 	Terrain baseTerrain;			// Move to Cell
 	Terrain terrain1;
 	Terrain terrain2;
@@ -184,19 +176,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		}
 
 		return addOK;
-	}
-
-	public boolean sameID (MapCell aMapCell) {
-		boolean tSameID;
-
-		tSameID = false;
-		if (aMapCell != NO_MAP_CELL) {
-			if (id.equals (aMapCell.getID ())) {
-				tSameID = true;
-			}
-		}
-
-		return tSameID;
 	}
 
 	public void setTrainUsingSide (int aSide, int aTrainIndex) {
@@ -492,7 +471,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	}
 
 	public void clearSelected () {
-		selected = false;
+		setSelected (false);
 		clearSelectedFeature2 ();
 	}
 
@@ -549,10 +528,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 
 	public boolean containingPoint (Point point, Hex hex) {
 		return hex.contains (point, XCenter, YCenter);
-	}
-
-	public boolean forID (String aID) {
-		return (aID.equals (id));
 	}
 
 	public Terrain getBaseTerrain () {
@@ -721,20 +696,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 
 		return tRevenueCenter;
 	}
-
-//	@Override
-//	public String toString () {
-//		return id;
-//	}
 	
-	public String getCellID () {
-		return id;
-	}
-
-	public String getID () {
-		return id;
-	}
-
 	public String getCityName () {
 		return centers.getCityName ();
 	}
@@ -798,10 +760,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		setBenefitValue (tBenefitValue);
 	}
 	
-	public boolean getMapDirection () {
-		return mapDirection;
-	}
-
 	public String getName () {
 		return baseTileName.getName ();
 	}
@@ -1165,10 +1123,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		return tIsBlockedSide;
 	}
 
-	public boolean isSelected () {
-		return selected;
-	}
-
 	public boolean isSelectable () {
 		return baseTerrain.isSelectable ();
 	}
@@ -1258,10 +1212,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		loadBenefitStates (aMapCellNode);
 	}
 
-	public void setID (String aID) {
-		id = aID;
-	}
-
 	// TODO: Add Testing for these methods
 	public void loadXMLCell (XMLNode aCellNode, int aTerrainCost [], int aTerrainType [], String aID) {
 		NodeList tChildren;
@@ -1270,11 +1220,11 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		int tChildrenCount;
 		int tChildrenIndex;
 		
+		setID (aID);
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		setTile (Tile.NO_TILE);
 		setRebate (Rebate.NO_REBATE);
-		setID (aID);
 		for (tChildrenIndex = 0; tChildrenIndex < tChildrenCount; tChildrenIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
 			tChildName = tChildNode.getNodeName ();
@@ -2262,19 +2212,10 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		return tRevenueCenter;
 	}
 
-	public void setXY (int aXCenter, int aYCenter) {
-		XCenter = aXCenter;
-		YCenter = aYCenter;
-	}
-
 	public void swapTokens () {
 		if (isTileOnCell ()) {
 			tile.swapTokens (this);
 		}
-	}
-
-	public void toggleSelected () {
-		selected = !selected;
 	}
 
 	public boolean upgradeTile (TileSet aTileSet, Tile aNewTile) {

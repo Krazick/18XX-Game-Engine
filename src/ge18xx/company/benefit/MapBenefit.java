@@ -15,6 +15,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class MapBenefit extends Benefit {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
@@ -68,7 +69,7 @@ public class MapBenefit extends Benefit {
 		mapCellID = aMapCellID;
 	}
 
-	public void setMapCellID (MapCell aMapCell) {
+	public void setMapCellID (Cell aMapCell) {
 		String tMapCellID;
 		
 		tMapCellID = aMapCell.getCellID ();

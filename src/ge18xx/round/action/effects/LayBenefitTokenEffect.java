@@ -11,6 +11,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayBenefitTokenEffect extends ChangeMapEffect {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
@@ -27,14 +28,14 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 		super (aName);
 	}
 
-	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, int aTokenBonus) {
+	public LayBenefitTokenEffect (ActorI aActor, Cell aMapCell, String aTokenType, int aTokenBonus) {
 		super (aActor, aMapCell);
 		setTokenType (aTokenType);
 		setTokenBonus (aTokenBonus);
 		setName (NAME);
 	}
 
-	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, Benefit aBenefitInUse, int aTokenBonus) {
+	public LayBenefitTokenEffect (ActorI aActor, Cell aMapCell, String aTokenType, Benefit aBenefitInUse, int aTokenBonus) {
 		super (aActor, aMapCell, aBenefitInUse);
 		setTokenType (aTokenType);
 		setTokenBonus (aTokenBonus);

@@ -65,7 +65,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	public int getColCount (int thisRow) {
 		int tColCount;
 		
-		if (mapCells == MapCell.NO_MAP_CELLS) {
+		if (mapCells == Cell.NO_CELLS) {
 			tColCount = 0;
 		} else {
 			tColCount = mapCells [thisRow].length;
@@ -77,7 +77,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	public int getRowCount () {
 		int tRowCount;
 		
-		if (mapCells == MapCell.NO_MAP_CELLS) {
+		if (mapCells == Cell.NO_CELLS) {
 			tRowCount = 0;
 		} else {
 			tRowCount = mapCells.length;
@@ -199,7 +199,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].selected) {
+				if (mapCells [tRowIndex] [tColIndex].isSelected ()) {
 					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex].clone ();
 				} else {
 					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex];
@@ -420,7 +420,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int tMaxX1;
 		int tMaxX2;
 	
-		if (mapCells == MapCell.NO_MAP_CELLS) {
+		if (mapCells == Cell.NO_CELLS) {
 			tMaxX = 0;
 		} else {
 			tMaxRow = getMaxRowCount ();
@@ -450,7 +450,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int tMaxRow;
 		int tMaxCol;
 	
-		if (mapCells == MapCell.NO_MAP_CELLS) {
+		if (mapCells == Cell.NO_CELLS) {
 			tMaxY = 0;
 		} else {
 			tMaxRow = getMaxRowCount ();

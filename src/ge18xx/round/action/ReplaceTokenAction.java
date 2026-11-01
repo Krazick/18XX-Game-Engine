@@ -10,6 +10,7 @@ import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.round.action.effects.SetNonHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class ReplaceTokenAction extends LayTokenAction {
 	public static final String NAME = "Replace Token";
@@ -36,7 +37,7 @@ public class ReplaceTokenAction extends LayTokenAction {
 		return tSimpleActionReport;
 	}
 	
-	public void addRemoveTokenEffect (ActorI aFromActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+	public void addRemoveTokenEffect (ActorI aFromActor, Cell aMapCell, Tile aTile, int aRevenueCenterIndex,
 			TokenType aTokenType, int aTokenIndex) {
 		RemoveTokenEffect tRemoveTokenEffect;
 		

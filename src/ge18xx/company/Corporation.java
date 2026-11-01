@@ -1264,7 +1264,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tMapCellID;
 	}
 
-	private String getMapCellID (MapCell aMapCell) {
+	private String getMapCellID (Cell aMapCell) {
 		String tMapCellID;
 
 		if (aMapCell != Cell.NO_MAP_CELL) {
@@ -1299,7 +1299,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 	
 	public String getCorpHome1MapID () {
-		MapCell tMapCell;
+		Cell tMapCell;
 		String tMapCellID;
 
 		tMapCell = getHomeCity1 ();
@@ -1309,7 +1309,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public String getCorpHome2MapID () {
-		MapCell tMapCell;
+		Cell tMapCell;
 		String tMapCellID;
 
 		tMapCell = getHomeCity2 ();

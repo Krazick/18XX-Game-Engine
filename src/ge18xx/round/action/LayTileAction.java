@@ -47,8 +47,8 @@ public class LayTileAction extends ChangeMapAction {
 		addEffect (tSetCorporationBaseEffect);
 	}
 	
-	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, 
-			MapCell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
+	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, 
+			Cell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
 
 		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, 

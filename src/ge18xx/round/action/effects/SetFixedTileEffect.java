@@ -9,6 +9,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 	public static final String NAME = "Set Fixed Tile";
@@ -18,7 +19,7 @@ public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 	String mapCellID;
 	boolean previousState;
 	
-	public SetFixedTileEffect (ActorI aActor, MapCell aMapCell, boolean aFixedTile, 
+	public SetFixedTileEffect (ActorI aActor, Cell aMapCell, boolean aFixedTile, 
 			boolean aPreviousState) {
 		this (NAME, aActor, aFixedTile);
 		

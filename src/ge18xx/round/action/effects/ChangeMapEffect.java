@@ -25,11 +25,11 @@ public class ChangeMapEffect extends Effect {
 		super (aName);
 	}
 
-	public ChangeMapEffect (ActorI aActor, MapCell aMapCell) {
+	public ChangeMapEffect (ActorI aActor, Cell aMapCell) {
 		this (aActor, aMapCell, NO_BENEFIT_IN_USE);
 	}
 
-	public ChangeMapEffect (ActorI aActor, MapCell aMapCell, Benefit aBenefitInUse) {
+	public ChangeMapEffect (ActorI aActor, Cell aMapCell, Benefit aBenefitInUse) {
 		super (NAME, aActor, aBenefitInUse);
 		setMapCellID (aMapCell);
 	}
@@ -78,7 +78,7 @@ public class ChangeMapEffect extends Effect {
 		System.out.println (getEffectReport (aRoundManager));
 	}
 
-	public void setMapCellID (MapCell aMapCell) {
+	public void setMapCellID (Cell aMapCell) {
 		mapCellID = aMapCell.getCellID ();
 	}
 

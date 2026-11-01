@@ -27,9 +27,9 @@ class MapCellTests extends MapTester {
 	@Test
 	@DisplayName ("Test if IDs are the same")
 	void mapCellsHaveSameID () {
-		MapCell tSecondMapCell;
+		Cell tSecondMapCell;
 		
-		tSecondMapCell = (MapCell) Cell.NO_MAP_CELL;
+		tSecondMapCell = (Cell) Cell.NO_MAP_CELL;
 		assertFalse (mapCell.sameID (tSecondMapCell));
 		
 		tSecondMapCell = mapTestFactory.buildMapCell ("A3");
@@ -176,10 +176,10 @@ class MapCellTests extends MapTester {
 	@Test
 	@DisplayName ("Test Cloning of a MapCell") 
 	void mapCellCloningTest () {
-		MapCell tCloneOfMapCell;
+		Cell tCloneOfMapCell;
 		
 		try {
-			tCloneOfMapCell = (MapCell) mapCell.clone ();
+			tCloneOfMapCell = (Cell) mapCell.clone ();
 			assertEquals ("N11", tCloneOfMapCell.getID ());
 			
 		} catch (CloneNotSupportedException eException) {

@@ -60,9 +60,9 @@ public class MapGraph {
 		return containsVertex;
 	}
 
-	public boolean containsMapCell (MapCell aMapCell) {
+	public boolean containsMapCell (Cell aMapCell) {
 		boolean tContainsMapCell;
-		MapCell tFoundMapCell;
+		Cell tFoundMapCell;
 
 		tContainsMapCell = false;
 		if (! vertexes.isEmpty ()) {
@@ -80,8 +80,8 @@ public class MapGraph {
 		return tContainsMapCell;
 	}
 
-	public Vertex getVertexWith (MapCell aMapCell) {
-		MapCell tFoundMapCell;
+	public Vertex getVertexWith (Cell aMapCell) {
+		Cell tFoundMapCell;
 		Vertex tFoundVertex;
 
 		tFoundVertex = Vertex.NO_VERTEX;

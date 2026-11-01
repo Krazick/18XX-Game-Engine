@@ -1252,7 +1252,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
 	}
 	
-	public void removeDestination (Location aDestinationLocation, MapCell aMapCell, ShareCompany aShareCompany, 
+	public void removeDestination (Location aDestinationLocation, Cell aMapCell, ShareCompany aShareCompany, 
 						RemoveDestinationsAction aRemoveDestinationsAction) {
 		centers.removeDestination (aDestinationLocation, aMapCell, aShareCompany, aRemoveDestinationsAction);
 	}

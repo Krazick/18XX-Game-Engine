@@ -169,7 +169,7 @@ public class ShareCompany extends TokenCompany {
 		String tHomeVertexID;
 		Location tLocation;
 		MapCell tHomeMapCell;
-		MapCell tDestinationMapCell;
+		Cell tDestinationMapCell;
 		boolean tContainsHomeMapCell;
 		boolean tContainsDestinationMapCell;
 		boolean tFoundInBFS;

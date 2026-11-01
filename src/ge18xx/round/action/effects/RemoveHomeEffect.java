@@ -40,12 +40,12 @@ public class RemoveHomeEffect extends Effect {
 		super (aName, aActor);
 	}
 
-	public RemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2, 
+	public RemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, Cell aHomeCity2, 
 			Location aHomeLocation1, Location aHomeLocation2) {
 		this (NAME, aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, aHomeLocation1, aHomeLocation2);
 	}
 	
-	public RemoveHomeEffect (String aName, ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2, 
+	public RemoveHomeEffect (String aName, ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, Cell aHomeCity2, 
 							Location aHomeLocation1, Location aHomeLocation2) {
 		super (aName, aActor);
 		setCompanyAbbrev (aCorporationAbbrev);

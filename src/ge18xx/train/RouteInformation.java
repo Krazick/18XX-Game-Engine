@@ -1141,7 +1141,7 @@ public class RouteInformation {
 		int tLastRouteSegmentIndex;
 		boolean tRouteSegmentsRemoved;
 		String tOperatingRoundID;
-		MapCell tLastMapCell;
+		Cell tLastMapCell;
 		RemoveRouteSegmentsAction tRemoveRouteSegmentsAction;
 		GameManager tGameManager;
 		
