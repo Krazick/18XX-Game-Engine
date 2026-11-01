@@ -1018,14 +1018,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		return centers.getTypeCount ();
 	}
 
-	public int getXCenter () {
-		return XCenter;
-	}
-
-	public int getYCenter () {
-		return YCenter;
-	}
-
 	public void handleSelectRevenueCenter (Point aPoint) {
 		Location tSelectedLocation;
 		RevenueCenter tSelectedRevenueCenter;
@@ -1344,10 +1336,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		tile.printlog ();
 		System.out.print ("MapCell ");
 		centers.printlog ();
-	}
-
-	public void printlog () {
-		System.out.println ("Map Cell " + id);		// PRINTLOG
 	}
 
 	public void setRebate (Rebate aRebate) {
@@ -2030,26 +2018,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		setOtherValues (aBaseTerrain, Tile.NO_TILE, NO_TILE_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 
-	public static void setMapDirection (boolean aMapDirection) {
-		mapDirection = aMapDirection;
-	}
-
-	public void setMapDirection (String aMapDirection) {
-		if (aMapDirection == null) {
-			setMapDirection (false);
-		} else {
-			if (aMapDirection.equals (Hex.DIRECTION_NS)) {
-				setMapDirection (false);
-			} else {
-				if (aMapDirection.equals (Hex.DIRECTION_EW)) {
-					setMapDirection (true);
-				} else {
-					setMapDirection (false);
-				}
-			}
-		}
-	}
-
 	public void setNeighbor (int aSide, MapCell aNeighbor) {
 		if (neighbors [aSide] == NO_MAP_CELL) {
 			neighbors [aSide] = aNeighbor;
@@ -2494,8 +2462,8 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	@Override
 	public int compare (Object arg0, Object arg1) {
 		if (arg0 instanceof MapCell && arg1 instanceof MapCell) {
-			MapCell iMap0 = (MapCell) arg0;
-			MapCell iMap1 = (MapCell) arg1;
+			Cell iMap0 = (Cell) arg0;
+			Cell iMap1 = (Cell) arg1;
 			int iXC0, iYC0, iXC1, iYC1;
 
 			iXC0 = iMap0.getXCenter ();
