@@ -147,8 +147,8 @@ class MapCellTests extends MapTester {
 	@Test 
 	@DisplayName ("Test Distance Calculations between Map Cells")
 	void distanceCalculationsBetweenMapCells () {
-		MapCell mapCell1;
-		MapCell mapCell2;
+		Cell mapCell1;
+		Cell mapCell2;
 		
 		mapCell1 = mapTestFactory.buildMapCell ("O15");
 		mapCell1.setOffsetCoordinates (7, 1);

@@ -1013,10 +1013,10 @@ public class MapFrame extends XMLFrame implements ActionListener, XMLSaveGameI {
 		return tCanPlaceToken;
 	}
 
-	public int getRangeCost (Corporation aCorporation, MapCell aMapCell) {
+	public int getRangeCost (Corporation aCorporation, Cell aMapCell) {
 		int tTokenRangeCost;
 		int tDistance;
-		MapCell tHomeMapCell;
+		Cell tHomeMapCell;
 		
 		tTokenRangeCost = 0;
 		tHomeMapCell = aCorporation.getHomeCity1 ();

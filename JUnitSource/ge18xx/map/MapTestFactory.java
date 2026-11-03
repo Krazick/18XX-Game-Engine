@@ -152,7 +152,7 @@ public class MapTestFactory {
 	}
 
 	public void setMockAllowedRotation (MapCell mMapCell, int aIndex, boolean aAllowed) {
-		if (mMapCell != Cell.NO_MAP_CELL) {
+		if (mMapCell != Cell.NO_CELL) {
 			Mockito.when (mMapCell.getAllowedRotation (aIndex)).thenReturn (aAllowed);
 		}
 	}
@@ -261,7 +261,7 @@ public class MapTestFactory {
 				+ "";
 		Cell tMapCell;
 		
-		tMapCell = Cell.NO_MAP_CELL;
+		tMapCell = Cell.NO_CELL;
 
 		if (tMapCellXMLIndex == 1) {
 			tMapCell = buildMapCellFromXML (tMapCell1TestXML, aMapCellID);

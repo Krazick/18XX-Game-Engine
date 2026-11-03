@@ -1122,7 +1122,7 @@ public class HexMap extends GameMap implements MouseListener,
 	
 	public void updateCorporationFrame () {
 		Corporation tOperatingCompany;
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 		
 		tOperatingCompany = getOperatingCompany ();
 		tSelectedMapCell = getSelectedMapCell ();

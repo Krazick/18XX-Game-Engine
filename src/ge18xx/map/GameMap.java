@@ -302,7 +302,7 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int tOddRow;
 		boolean evenRow;
 		boolean tGoodLoad;
-		MapCell tMapCell;
+		Cell tMapCell;
 	
 		tGoodLoad = true;
 		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);

@@ -40,7 +40,6 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
-import ge18xx.map.hexGrids.OffsetCoord;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.RemoveDestinationsAction;
 import ge18xx.round.action.ReplaceTokenAction;
@@ -106,7 +105,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	Terrain terrain1;
 	Terrain terrain2;
 	LicenseToken licenseToken;
-	OffsetCoord offsetCoordinates;
 	GameMap gameMap;
 
 	@Override
@@ -139,24 +137,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		setupLicenseToken ();
 	}
 
-	public void setOffsetCoordinates (int aColIndex, int aRowIndex) {
-		offsetCoordinates = new OffsetCoord (aColIndex, aRowIndex);
-	}
-	
-	public OffsetCoord getOffsetCoordinates () {
-		return offsetCoordinates;
-	}
-	
-	public int getDistanceTo (MapCell aMapCell) {
-		int tDistance;
-		OffsetCoord tOffsetCoord;
-		
-		tOffsetCoord = aMapCell.getOffsetCoordinates ();
-		tDistance = offsetCoordinates.getDistanceTo (OffsetCoord.ODD, tOffsetCoord);
-
-		return tDistance;
-	}
-	
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
 									TileType aTileType) {
 		RevenueCenterType tRCType;

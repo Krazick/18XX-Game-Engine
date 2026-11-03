@@ -202,7 +202,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		int tDistance;
 		int tDistanceCost;
 		MapToken tMapToken;
@@ -342,18 +342,18 @@ public abstract class TokenCompany extends TrainCompany {
 
 	public int getTokenCost () {
 		MapToken tMapToken;
-		MapCell tMapCell;
+		Cell tMapCell;
 		int tTokenCost;
 		
 		tMapToken = getMapTokenOnly ();
-		tMapCell = (MapCell) Cell.NO_MAP_CELL;
+		tMapCell = (Cell) Cell.NO_MAP_CELL;
 		tTokenCost = getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
 		
 		return tTokenCost;
 	}
 	
 	@Override
-	public String reasonForNoTokenLay (MapCell aMapCell) {
+	public String reasonForNoTokenLay (Cell aMapCell) {
 		String tReason;
 
 		tReason = NO_REASON;
@@ -661,7 +661,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public boolean haveMoneyForToken (MapCell aMapCell) {
+	public boolean haveMoneyForToken (Cell aMapCell) {
 		boolean tHaveMoneyForToken;
 		MapToken tMapToken;
 		int tTokenCost;
@@ -751,7 +751,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
+	public void tokenWasPlaced (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
 								int aTokenIndex, boolean aAddLayTokenAction) {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus;
@@ -782,7 +782,7 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-	public void addLayTokenAction (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void addLayTokenAction (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 									MapToken aMapToken, int aTokenIndex, 
 									ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
 		LayTokenAction tLayTokenAction;
@@ -831,7 +831,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell aMapCell) {
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, Cell aMapCell) {
 		int tTokenCost;
 		String tMapCellID;
 
@@ -867,7 +867,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenCost;
 	}
 
-	public int getNonHomeTokenCost (MapToken aMapToken, MapCell aMapCell) {
+	public int getNonHomeTokenCost (MapToken aMapToken, Cell aMapCell) {
 		int tTokenCost;
 
 		tTokenCost = NO_COST;

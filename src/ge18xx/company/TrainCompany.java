@@ -2200,7 +2200,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Player tPlayer;
 		CertificateHolderI tCertificateHolder;
 		Bank tBank;
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 
 		tShareHolders = new ShareHolders ();
 		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
@@ -2236,7 +2236,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tTrainCompany  = (TrainCompany) tPortfolioHolder;
 					tBank.transferCashTo (tTrainCompany, tDividendForShares);
 					tTrainCompany.addCashToDividends (tDividendForShares, tOperatingRoundID);
-					tSelectedMapCell = (MapCell) Cell.NO_MAP_CELL;
+					tSelectedMapCell = (Cell) Cell.NO_MAP_CELL;
 					tTrainCompany.updateCorporationFrame (tSelectedMapCell);
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
 										tDividendForShares, tOperatingRoundID);
@@ -2978,7 +2978,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		return 0;
 	}
 }

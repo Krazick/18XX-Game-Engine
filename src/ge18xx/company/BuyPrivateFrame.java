@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ge18xx.bank.Bank;
-import ge18xx.map.MapCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
@@ -172,7 +171,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
 		trainCompany.addAction (tBuyStockAction);
 		tCorporationFrame = trainCompany.getCorporationFrame ();
-		tCorporationFrame.updateInfo ((MapCell) Cell.NO_MAP_CELL);
+		tCorporationFrame.updateInfo ((Cell) Cell.NO_MAP_CELL);
 	}
 
 	private void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,

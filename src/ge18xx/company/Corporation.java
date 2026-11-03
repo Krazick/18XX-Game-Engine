@@ -981,7 +981,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void tokenWasPlaced (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 								MapToken aMapToken, int aTokenIndex, boolean aAddLayTokenAction) {
 		System.err.println ("Trying to Verify Place Token as Corporation - WRONG");
 	}
@@ -1689,7 +1689,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will Override
-	public boolean haveMoneyForToken (MapCell aMapCell) {
+	public boolean haveMoneyForToken (Cell aMapCell) {
 		return false;
 	}
 
@@ -1857,7 +1857,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will override
-	public String reasonForNoTokenLay (MapCell aMapCell) {
+	public String reasonForNoTokenLay (Cell aMapCell) {
 		return "Corporation cannot lay Token - Only Token Companies";
 	}
 
@@ -1913,7 +1913,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	@Override
 	public void updateInfo () {
 		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
-			corporationFrame.updateInfo ((MapCell) Cell.NO_MAP_CELL);
+			corporationFrame.updateInfo ((Cell) Cell.NO_MAP_CELL);
 		}
 	}
 
@@ -3047,7 +3047,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return 0;
 	}
 	
-	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell tMapCell) {
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, Cell tMapCell) {
 		// Override in Token Company Class
 		return 0;
 	}
@@ -3065,7 +3065,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCashHolder;
 	}
 
-	public void handlePlaceTile (MapCell aMapCell) {
+	public void handlePlaceTile (Cell aMapCell) {
 		corporationFrame.handlePlaceTile (aMapCell);
 	}
 
@@ -3223,7 +3223,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 	
-	public void updateCorporationFrame (MapCell aMapCell) {
+	public void updateCorporationFrame (Cell aMapCell) {
 		corporationFrame.updateCFButtons (aMapCell);
 	}
 
@@ -3265,7 +3265,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		return 0;
 	}
 
