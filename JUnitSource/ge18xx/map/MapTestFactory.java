@@ -9,6 +9,7 @@ import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import genericMap.Cell;
+import genericMap.Map;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
@@ -62,8 +63,8 @@ public class MapTestFactory {
 		return tHexMap;
 	}
 
-	public GameMap buildHexMap (String aMapFrameName, GameManager aGameManager) {
-		GameMap tHexMap;
+	public Map buildHexMap (String aMapFrameName, GameManager aGameManager) {
+		Map tHexMap;
 		MapFrame tMapFrame;
 		
 		tMapFrame = buildMapFrame (aMapFrameName, aGameManager);

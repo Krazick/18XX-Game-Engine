@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
-import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
@@ -11,6 +10,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
+import genericMap.Map;
 
 public class RotateTileEffect extends LayTileEffect {
 	public static final String NAME = "Rotate Tile";
@@ -67,7 +67,7 @@ public class RotateTileEffect extends LayTileEffect {
 	}
 
 	public boolean changeOrientation (RoundManager aRoundManager, boolean aEffectApplied, MapCell aMapCell,
-			GameMap aGameMap) {
+			Map aGameMap) {
 		int tNewOrientation;
 		int tCurrentOrientation;
 		String tTokens;

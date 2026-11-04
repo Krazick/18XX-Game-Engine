@@ -51,6 +51,7 @@ import geUtilities.GUI;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
 import genericMap.Cell;
+import genericMap.Map;
 import swingTweaks.KButton;
 
 public class PlanFrame extends XMLFrame implements ActionListener {
@@ -824,7 +825,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	
 	@SuppressWarnings ("unchecked")
 	private void changeSelectedPlan (Object tEventSource) {
-		GameMap tPlanningMap;
+		Map tPlanningMap;
 		JComboBox<String> tPlanChoice;
 		String tSelectedPlanName;
 		MapPlan tSelectedMapPlan;

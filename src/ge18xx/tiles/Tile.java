@@ -1191,7 +1191,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tMapCell = aVertex.getMapCell ();
 			tLocation = aVertex.getLocation ();
 			if (! tMapCell.isBlockedSide (tLocation.getLocation ())) {
-				tNeighborMapCell = tMapCell.getNeighbor (tLocation.getLocation ());
+				tNeighborMapCell = (MapCell) tMapCell.getNeighbor (tLocation.getLocation ());
 				if (tNeighborMapCell != Cell.NO_MAP_CELL) {
 					if (tNeighborMapCell.isSelectable ()) {
 						tNeighborLoc = tMapCell.getSideFromNeighbor (tNeighborMapCell);

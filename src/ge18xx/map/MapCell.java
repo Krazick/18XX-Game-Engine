@@ -100,8 +100,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	List<Terrain> endRoutes;
 	Feature2 selectedFeature2;
 	Paint terrainFillPaint;
-	MapCell neighbors [];			// Move to Cell -- Change to Cell Class ???
-	Terrain baseTerrain;			// Move to Cell
+	Terrain baseTerrain;
 	Terrain terrain1;
 	Terrain terrain2;
 	LicenseToken licenseToken;
@@ -275,21 +274,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		return (aTile.canAllTracksExit (this, aTileOrient));
 	}
 
-	public boolean isNeighbor (Cell tPossibleNeighbor) {
-		boolean tIsNeighbor;
-
-		tIsNeighbor = false;
-		if (tPossibleNeighbor != NO_MAP_CELL) {
-			for (Cell tNeighbor : neighbors) {
-				if (tNeighbor == tPossibleNeighbor) {
-					tIsNeighbor = true;
-				}
-			}
-		}
-
-		return tIsNeighbor;
-	}
-
 	// Get the Side of the this MapCell to this Neighbor
 	public int getSideToNeighbor (Cell aNeighborMapCell) {
 		int tSideToNeighbor;
@@ -302,28 +286,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		}
 
 		return tSideToNeighbor;
-	}
-
-	/**
-	 * Find the side on the Neighbor MapCell that connects to this MapCell.
-	 *
-	 * @param aNeighborMapCell Find this Neighbor, if valid and return the
-	 * Location of the side. Otherwise return NO_LOCATION;
-	 *
-	 * @return NO_LOCATION if the Neighbor is not Found for this MapCell
-	 */
-	public int getSideFromNeighbor (Cell aNeighborMapCell) {
-		int tSideFromNeighbor;
-		int tSideIndex;
-		
-		tSideFromNeighbor = Location.NO_LOCATION;
-		for (tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
-			if (neighbors [tSideIndex] == aNeighborMapCell) {
-				tSideFromNeighbor = (tSideIndex + 3) % 6;
-			}
-		}
-
-		return tSideFromNeighbor;
 	}
 
 	// Does an Existing Tile on this MapCell have Track that is connected to the
@@ -385,7 +347,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		if (isBlockedSide (aSide)) {
 			tCanTrackToSide = false;
 		} else {
-			tNeighborMapCell = getNeighbor (aSide);
+			tNeighborMapCell = (MapCell) getNeighbor (aSide);
 			if (tNeighborMapCell != NO_MAP_CELL) {
 				if (tNeighborMapCell.isTileOnCell ()) {
 					tOtherSide = (aSide + 3) % 6;
@@ -745,27 +707,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	}
 
 	/**
-	 * Get the MapCell that is the Neighbor to for this MapCell on the specified side.
-	 *
-	 * @param aSide int value of the Location (must be between 0 and 5
-	 *
-	 * @return NO_MAP_CELL if not a valid side, otherwise the neighbor MapCell.
-	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
-	 *
-	 */
-	public MapCell getNeighbor (int aSide) {
-		MapCell tNeighbor;
-
-		if ((aSide < 0) || (aSide > 5)) {
-			tNeighbor = (MapCell) NO_MAP_CELL;
-		} else {
-			tNeighbor = neighbors [aSide];
-		}
-
-		return tNeighbor;
-	}
-
-	/**
 	 * Get the MapCell that is the Neighbor to for this MapCell on the specified Location
 	 *
 	 * @param aLocation the Location which must be a Side, fetch the Neighbor
@@ -776,10 +717,12 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	 */
 	public Cell getNeighbor (Location aLocation) {
 		Cell tNeighbor;
+		int tIntLocation;
 
 		tNeighbor = NO_MAP_CELL;
 		if (aLocation.isSide ()) {
-			tNeighbor = getNeighbor (aLocation.getLocation ());
+			tIntLocation = aLocation.getLocation ();
+			tNeighbor = getNeighbor (tIntLocation);
 		}
 
 		return tNeighbor;
@@ -1895,7 +1838,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		allowedRotations = new boolean [6];
 		for (tIndex = 0; tIndex < 6; tIndex++) {
 			allowedRotations [tIndex] = false;
-			neighbors [tIndex] = (MapCell) NO_MAP_CELL;
+			neighbors [tIndex] = (Cell) NO_MAP_CELL;
 		}
 		lockTileOrientation ();
 		selectedFeature2 = new Feature2 ();
@@ -1997,14 +1940,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 	public void setEmptyMapCell (int aBaseTerrain) {
 		setOtherValues (aBaseTerrain, Tile.NO_TILE, NO_TILE_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
-
-	public void setNeighbor (int aSide, MapCell aNeighbor) {
-		if (neighbors [aSide] == NO_MAP_CELL) {
-			neighbors [aSide] = aNeighbor;
-			aNeighbor.setNeighbor ((aSide + 3) % 6, this);
-		}
-	}
-
+	
 	public void setOtherValues (int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName, 
 								String aBlockedSides) {
 		String tSideNames [] = { "A", "B", "C", "D", "E", "F" };
@@ -2013,7 +1949,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 
 		centers = new Centers ();
 		endRoutes = new LinkedList<> ();
-		neighbors = new MapCell [6];
+		neighbors = new Cell [6];
 		baseTileName = new TileName (aBaseName);
 		if (aBlockedSides == GUI.NULL_STRING) {
 			for (tBlockedIndex = 0; tBlockedIndex < 6; tBlockedIndex++) {

@@ -4,8 +4,6 @@ import java.awt.Graphics;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JLabel;
-
 import org.w3c.dom.NodeList;
 
 import ge18xx.company.Corporation;
@@ -13,81 +11,31 @@ import ge18xx.company.TokenCompany;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.AttributeName;
-import geUtilities.xml.LoadableXMLI;
-import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLNode;
 import genericMap.Cell;
+import genericMap.Map;
 
-public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
+//public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
+public class GameMap extends Map {
 	private static final long serialVersionUID = 1L;
 	public static final AttributeName AN_INDEX = new AttributeName ("index");
 	public static final AttributeName AN_START_COL = new AttributeName ("startCol");
 	public Hex18XX hex;
-	protected MapCell mapCells[][];
 
 	public GameMap () {
 	}
 
-	@Override
-	public String getTypeName () {
-		return null;
-	}
-
-	@Override
-	public void loadXML (XMLDocument aXMLDocument) throws IOException {
-
-	}
-
-	public void buildMapArray (int aCols, int aRows) {
-		mapCells = new MapCell [aRows] [aCols];
-	}
-
-//	public void setMapCell (int aRow, int aCol, String aDirection, GameMap aHexMap) {
-//		MapCell tMapCell;
-//		
-//		tMapCell = new MapCell (this, aDirection);
-//		tMapCell.setOffsetCoordinates (aCol, aRow);
-//		setMapCell (aRow, aCol, tMapCell);
-//	}
-	
 	public void setMapCell (int aRow, int aCol, String aDirection) {
 		MapCell tMapCell;
 		
 		tMapCell = new MapCell (this, aDirection);
 		tMapCell.setOffsetCoordinates (aCol, aRow);
-		setMapCell (aRow, aCol, tMapCell);
-	}
-
-	public void setMapCell (int aRow, int aCol, MapCell aMapCell) {
-		mapCells [aRow] [aCol] = aMapCell;
-	}
-
-	public int getColCount (int thisRow) {
-		int tColCount;
-		
-		if (mapCells == Cell.NO_CELLS) {
-			tColCount = 0;
-		} else {
-			tColCount = mapCells [thisRow].length;
-		}
-		
-		return tColCount;
-	}
-
-	public int getRowCount () {
-		int tRowCount;
-		
-		if (mapCells == Cell.NO_CELLS) {
-			tRowCount = 0;
-		} else {
-			tRowCount = mapCells.length;
-		}
-	
-		return tRowCount;
+		setCell (aRow, aCol, tMapCell);
 	}
 
 	@Override
 	public void paintComponent (Graphics aGraphics) {
+		MapCell tMapCell;
 		int tRowIndex;
 		int tColIndex;
 		int tRowCount;
@@ -97,16 +45,12 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				mapCells [tRowIndex] [tColIndex].paintComponent (aGraphics, hex);
+				tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+				tMapCell.paintComponent (aGraphics, hex);
 			}
 		}
 	}
 	
-	public void redrawMap () {
-		revalidate ();
-		repaint ();
-	}
-
 	public int getHexWidth () {
 		return (hex.getHexWidth ());
 	}
@@ -120,8 +64,8 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	}
 
 	public void CalcGridCenters () {
-		int rowIndex;
-		int colIndex;
+		int tRowIndex;
+		int tColIndex;
 		int Xc;
 		int Yc;
 		int toggle;
@@ -141,20 +85,20 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 			} else {
 				toggle = 1;
 			}
-			for (rowIndex = rowCount - 1; rowIndex >= 0; rowIndex--) {
+			for (tRowIndex = rowCount - 1; tRowIndex >= 0; tRowIndex--) {
 				if (toggle == 1) {
 					Xc = hex.getDisplaceLeftRight () - temp_2DLR;
 				} else {
 					Xc = 0;
 				}
 				Yc += temp_DUP_dwidth;
-				colCount = getColCount (rowIndex);
-				for (colIndex = 0; colIndex < colCount; colIndex++) {
+				colCount = getColCount (tRowIndex);
+				for (tColIndex = 0; tColIndex < colCount; tColIndex++) {
 					Xc += temp_2DLR;
-					if (mapCells [rowIndex] [colIndex] == Cell.NO_MAP_CELL) {
-						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
+					if (cells [tRowIndex] [tColIndex] == Cell.NO_CELL) {
+						cells [tRowIndex] [tColIndex] = new MapCell (Xc, Yc, this);
 					} else {
-						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
+						cells [tRowIndex] [tColIndex].setXY (Xc, Yc);
 					}
 				}
 				toggle = 1 - toggle;
@@ -166,16 +110,16 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 			temp_DUP_dwidth = hex.getDisplaceUpDown () + hex.getHexWidth ();
 			rowCount = getRowCount ();
 	
-			for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+			for (tRowIndex = 0; tRowIndex < rowCount; tRowIndex++) {
 				Yc = 0 - hex.getDisplaceLeftRight () * toggle;
 				Xc += temp_DUP_dwidth;
-				colCount = getColCount (rowIndex);
-				for (colIndex = 0; colIndex < colCount; colIndex++) {
+				colCount = getColCount (tRowIndex);
+				for (tColIndex = 0; tColIndex < colCount; tColIndex++) {
 					Yc += temp_2DLR;
-					if (mapCells [rowIndex] [colIndex] == Cell.NO_MAP_CELL) {
-						mapCells [rowIndex] [colIndex] = new MapCell (Xc, Yc, this);
+					if (cells [tRowIndex] [tColIndex] == Cell.NO_CELL) {
+						cells [tRowIndex] [tColIndex] = new MapCell (Xc, Yc, this);
 					} else {
-						mapCells [rowIndex] [colIndex].setXY (Xc, Yc);
+						cells [tRowIndex] [tColIndex].setXY (Xc, Yc);
 					}
 				}
 				toggle = 1 - toggle;
@@ -191,18 +135,19 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int tRowIndex;
 		int tColIndex;
 		int tMaxColCount;
-		GameMap tGameMapClone = (GameMap) super.clone ();
+		GameMap tGameMapClone;
 		
+		tGameMapClone = (GameMap) super.clone ();
 		tRowCount = getRowCount ();
 		tMaxColCount = getMaxColCount ();
 		tGameMapClone.buildMapArray (tMaxColCount, tRowCount);
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].isSelected ()) {
-					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex].clone ();
+				if (cells [tRowIndex] [tColIndex].isSelected ()) {
+					tGameMapClone.cells [tRowIndex] [tColIndex] = cells [tRowIndex] [tColIndex].clone ();
 				} else {
-					tGameMapClone.mapCells [tRowIndex] [tColIndex] = mapCells [tRowIndex] [tColIndex];
+					tGameMapClone.cells [tRowIndex] [tColIndex] = cells [tRowIndex] [tColIndex];
 				}
 			}
 		}
@@ -216,20 +161,16 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 
 	}
 	
-	public TokenCompany getTokenCompany (String aAbbrev) {
-		return TokenCompany.NO_TOKEN_COMPANY;
-	}
-
 	public int getCurrentPhase () {
 		return 0;
 	}
 
+	public TokenCompany getTokenCompany (String aAbbrev) {
+		return TokenCompany.NO_TOKEN_COMPANY;
+	}
+
 	public Corporation getOperatingCompany () {
 		return Corporation.NO_CORPORATION;
-	}
-	
-	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
-		return false;
 	}
 	
 	public Corporation getCorporationByID (int aCorporationID) {
@@ -239,6 +180,10 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return Corporation.NO_CORPORATION;
 	}
+	
+	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
+		return false;
+	}
 
 	public boolean mapCellIsInSelectableSMC (MapCell mapCell) {
 		return false;
@@ -246,50 +191,21 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 
 	// Methods pulled up from HexMap
 	
-	public boolean inColRange (int aRow, int aCol) {
-		boolean tInColRange;
-		
-		tInColRange = false;
-		if (inRowRange (aRow)) {
-			tInColRange = ((aCol >= 0) && (aCol < getColCount (aRow)));
-		}
-		
-		return tInColRange;
-	}
-
-	public boolean inRowRange (int aRow) {
-		boolean tInRowRange;
-		
-		tInRowRange = ((aRow >= 0) && (aRow < getRowCount ()));
-		
-		return tInRowRange;
-	}
-
-	public boolean inRowColRanges (int aRow, int aCol) {
-		boolean tInRowColRanges;
-	
-		tInRowColRanges = false;
-		if (inRowRange (aRow)) {
-			if (inColRange (aRow, aCol)) {
-				tInRowColRanges = true;
-			}
-		}
-	
-		return tInRowColRanges;
-	}
-
 	public boolean isTileOnCell (int aRow, int aCol) {
-		boolean tileFound;
+		boolean tTileFound;
+		MapCell tMapCell;
 	
-		tileFound = false;
+		tTileFound = false;
 		if (inRowColRanges (aRow, aCol)) {
-			tileFound = mapCells [aRow] [aCol].isTileOnCell ();
+			tMapCell = (MapCell) cells [aRow] [aCol];
+			tTileFound = tMapCell.isTileOnCell ();
 		}
 	
-		return tileFound;
+		return tTileFound;
 	}
 
-	protected boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], int aCols, int aDefaultTerrainType, String [] theRowIDs,
+	protected boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], 
+								int aCols, int aDefaultTerrainType, String [] theRowIDs,
 								String [] theColIDs) throws IOException {
 		NodeList tChildren;
 		XMLNode tChildNode;
@@ -298,11 +214,12 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		int tChildrenCount;
 		int tRowIndex;
 		int tColIndex;
-		int index;
+		int tIndex;
 		int tOddRow;
-		boolean evenRow;
+		boolean tEvenRow;
 		boolean tGoodLoad;
-		Cell tMapCell;
+		MapCell tMapCell;
+		Cell tCell;
 	
 		tGoodLoad = true;
 		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX, 0);
@@ -310,30 +227,31 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		tChildrenCount = tChildren.getLength ();
 		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL, 0);
 		if (tColIndex != 0) {
-			for (index = 0; index < tColIndex; index++) {
-				mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
+			for (tIndex = 0; tIndex < tColIndex; tIndex++) {
+				tMapCell = (MapCell) cells [tRowIndex] [tIndex];
+				tMapCell.setEmptyMapCell (aDefaultTerrainType);
 			}
 		}
 		if ((tRowIndex / 2) * 2 == tRowIndex) {
-			evenRow = true;
+			tEvenRow = true;
 			tOddRow = 0;
 		} else {
-			evenRow = false;
+			tEvenRow = false;
 			tOddRow = 1;
 		}
 	
-		for (index = 0; (index < tChildrenCount) && tGoodLoad; index++) {
-			tChildNode = new XMLNode (tChildren.item (index));
+		for (tIndex = 0; (tIndex < tChildrenCount) && tGoodLoad; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (Cell.EN_MAP_CELL.equals (tChildName)) {
 				if (tColIndex < aCols) {
-					if (mapCells [tRowIndex] [tColIndex].getMapDirection ()) {
+					if (cells [tRowIndex] [tColIndex].getMapDirection ()) {
 						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
 					} else {
 						tID = theRowIDs [tRowIndex] + theColIDs [tColIndex * 2 + tOddRow];
 					}
-					mapCells [tRowIndex] [tColIndex].loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
-					tMapCell = mapCells [tRowIndex] [tColIndex];
+					tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+					tMapCell.loadXMLCell (tChildNode, aTerrainCost, aTerrainType, tID);
 					tMapCell.setOffsetCoordinates (tColIndex, tRowIndex);
 					tColIndex++;
 				} else {
@@ -342,25 +260,27 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 			}
 		}
 		if (aCols > tColIndex) {
-			for (index = tColIndex; index < aCols; index++) {
-				mapCells [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
+			for (tIndex = tColIndex; tIndex < aCols; tIndex++) {
+				tMapCell = (MapCell) cells [tRowIndex] [tIndex];
+				tMapCell.setEmptyMapCell (aDefaultTerrainType);
 			}
 		}
 	
-		for (index = 0; index < aCols; index++) {
-			if (index > 0) {
-				mapCells [tRowIndex] [index].setNeighbor (0, mapCells [tRowIndex] [index - 1]);
+		for (tIndex = 0; tIndex < aCols; tIndex++) {
+			tCell = cells [tRowIndex] [tIndex];
+			if (tIndex > 0) {
+				tCell.setNeighbor (0, cells [tRowIndex] [tIndex - 1], tCell);
 			}
 			if (tRowIndex > 0) {
-				if (evenRow) {
-					mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index]);
-					if (index > 0) {
-						mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index - 1]);
+				if (tEvenRow) {
+					tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex], tCell);
+					if (tIndex > 0) {
+						tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex - 1], tCell);
 					}
 				} else {
-					mapCells [tRowIndex] [index].setNeighbor (5, mapCells [tRowIndex - 1] [index]);
-					if ((index + 1) < aCols) {
-						mapCells [tRowIndex] [index].setNeighbor (4, mapCells [tRowIndex - 1] [index + 1]);
+					tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex], tCell);
+					if ((tIndex + 1) < aCols) {
+						tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex + 1], tCell);
 					}
 				}
 			}
@@ -373,30 +293,6 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 		return tGoodLoad;
 	}
 
-	public int getMaxColCount () {
-		int tIndex;
-		int tMaxColCount;
-		int tColCount;
-		int tRowCount;
-	
-		tMaxColCount = getColCount (0);
-		if (tMaxColCount > 0) {
-			tRowCount = getRowCount ();
-			for (tIndex = 1; tIndex < tRowCount; tIndex++) {
-				tColCount = getColCount (tIndex);
-				if (tColCount > tMaxColCount) {
-					tMaxColCount = tColCount;
-				}
-			}
-		}
-	
-		return tMaxColCount;
-	}
-
-	public int getMaxRowCount () {
-		return (getRowCount ());
-	}
-	
 	public void setPlayableTiles (MapCell mapCell) {
 		
 	}
@@ -414,84 +310,44 @@ public class GameMap extends JLabel implements Cloneable, LoadableXMLI {
 	}
 
 	public int getMaxX () {
-		int tMaxRow;
-		int tMaxCol;
+		int tHexRightEdgeDisplacement;
 		int tMaxX;
-		int tMaxX1;
-		int tMaxX2;
-	
-		if (mapCells == Cell.NO_CELLS) {
-			tMaxX = 0;
-		} else {
-			tMaxRow = getMaxRowCount ();
-			if (mapCells [tMaxRow - 1] [0] == Cell.NO_MAP_CELL) {
-				tMaxX = 0;
-			} else {
-				if (mapCells [0] [0].getMapDirection ()) {
-					tMaxCol = getMaxColCount ();
-					tMaxX1 = mapCells [0] [tMaxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
-					tMaxX2 = mapCells [0] [tMaxCol - 2].getXCenter () + hex.rightEdgeDisplacement ();
-					if (tMaxX1 > tMaxX2) {
-						tMaxX = tMaxX1;
-					} else {
-						tMaxX = tMaxX2;
-					}
-				} else {
-					tMaxX = mapCells [tMaxRow - 1] [0].getXCenter () + hex.rightEdgeDisplacement ();
-				}
-			}
-		}
-	
-		return (tMaxX + 3);
+		
+		tHexRightEdgeDisplacement = hex.rightEdgeDisplacement ();
+		tMaxX = getMaxX (tHexRightEdgeDisplacement);
+		
+		return tMaxX;
 	}
-
+	
 	public int getMaxY () {
+		int tHexBottomEdgeDisplacement;
 		int tMaxY;
-		int tMaxRow;
-		int tMaxCol;
-	
-		if (mapCells == Cell.NO_CELLS) {
-			tMaxY = 0;
-		} else {
-			tMaxRow = getMaxRowCount ();
-			tMaxCol = getMaxColCount ();
-			if (mapCells [1] [tMaxCol - 1] == Cell.NO_MAP_CELL) {
-				tMaxY = 0;
-			} else {
-				if (mapCells [0] [0].getMapDirection ()) {
-					tMaxY = mapCells [0] [0].getYCenter () + hex.bottomEdgeDisplacement ();
-				} else {
-					if (tMaxRow > 0) {
-						tMaxY = mapCells [1] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
-					} else {
-						tMaxY = mapCells [0] [tMaxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
-					}
-				}
-			}
-		}
-	
-		return (tMaxY + 3);
+		
+		tHexBottomEdgeDisplacement = hex.bottomEdgeDisplacement ();
+		tMaxY = getMaxY (tHexBottomEdgeDisplacement);
+		
+		return tMaxY;
 	}
-
+	
 	public MapCell getSelectedMapCell () {
 		int rowIndex;
 		int colIndex;
 		int rowCount;
 		int colCount;
-		MapCell foundMapCell;
+		MapCell tFoundMapCell;
 	
 		rowCount = getRowCount ();
-		foundMapCell = (MapCell) Cell.NO_MAP_CELL;
-		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == Cell.NO_MAP_CELL); rowIndex++) {
+		tFoundMapCell = (MapCell) Cell.NO_MAP_CELL;
+		for (rowIndex = 0; (rowIndex < rowCount) && (tFoundMapCell == Cell.NO_CELL); rowIndex++) {
 			colCount = getColCount (rowIndex);
-			for (colIndex = 0; (colIndex < colCount) && (foundMapCell == Cell.NO_MAP_CELL); colIndex++) {
-				if (mapCells [rowIndex] [colIndex].isSelected ()) {
-					foundMapCell = mapCells [rowIndex] [colIndex];
+			for (colIndex = 0; (colIndex < colCount) && (tFoundMapCell == Cell.NO_CELL); colIndex++) {
+				if (cells [rowIndex] [colIndex].isSelected ()) {
+					tFoundMapCell = (MapCell) cells [rowIndex] [colIndex];
 				}
 			}
 		}
 	
-		return foundMapCell;
+		return tFoundMapCell;
 	}
 
 	public void rotateTileInPlace (MapCell aThisMapCell, int aPossible, boolean aShiftDown, Tile aTile) {

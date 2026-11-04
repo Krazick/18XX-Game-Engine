@@ -10,7 +10,6 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.map.GameMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.CashHolderI;
@@ -29,6 +28,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
 import genericMap.Cell;
+import genericMap.Map;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
@@ -208,7 +208,7 @@ public class RouteInformation {
 		}
 	};
 
-	public void highlightRouteSegments (GameMap aMap) {
+	public void highlightRouteSegments (Map aMap) {
 		int tSegmentCount;
 		int tSegmentIndex;
 		RouteSegment tRouteSegment;

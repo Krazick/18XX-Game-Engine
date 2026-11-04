@@ -194,6 +194,7 @@ public class Vertex {
 		MapCell tNeighborMapCell;
 		Location tNeighborLocation;
 		Location tEndLocation;
+		int tEndIntLocation;
 		int tNeighborLoc;
 		Vertex tEndVertex;
 		Vertex tNeighborVertex;
@@ -201,7 +202,8 @@ public class Vertex {
 		for (Edge tEdge : edges) {
 			tEndVertex = tEdge.getEndVertex ();
 			tEndLocation = tEndVertex.getLocation ();
-			tNeighborMapCell = mapCell.getNeighbor (tEndLocation.getLocation ());
+			tEndIntLocation = tEndLocation.getLocation ();
+			tNeighborMapCell = (MapCell) mapCell.getNeighbor (tEndIntLocation);
 			tNeighborLoc = Location.NO_LOCATION;
 			if (tNeighborMapCell != Cell.NO_MAP_CELL) {
 				tNeighborLoc = mapCell.getSideFromNeighbor (tNeighborMapCell);
