@@ -269,18 +269,18 @@ public class GameMap extends Map {
 		for (tIndex = 0; tIndex < aCols; tIndex++) {
 			tCell = cells [tRowIndex] [tIndex];
 			if (tIndex > 0) {
-				tCell.setNeighbor (0, cells [tRowIndex] [tIndex - 1], tCell);
+				tCell.setNeighbor (0, cells [tRowIndex] [tIndex - 1]);
 			}
 			if (tRowIndex > 0) {
 				if (tEvenRow) {
-					tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex], tCell);
+					tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex]);
 					if (tIndex > 0) {
-						tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex - 1], tCell);
+						tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex - 1]);
 					}
 				} else {
-					tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex], tCell);
+					tCell.setNeighbor (5, cells [tRowIndex - 1] [tIndex]);
 					if ((tIndex + 1) < aCols) {
-						tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex + 1], tCell);
+						tCell.setNeighbor (4, cells [tRowIndex - 1] [tIndex + 1]);
 					}
 				}
 			}

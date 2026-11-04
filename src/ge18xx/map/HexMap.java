@@ -928,6 +928,8 @@ public class HexMap extends GameMap implements MouseListener,
 			}
 		}
 
+//		cells [2] [3].printNeighbors ();
+		
 		setSingleMapCellSelect (false);
 		setMapSize ();
 		mapFrame.setDefaultFrameInfo ();
