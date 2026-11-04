@@ -94,7 +94,7 @@ class MapCellIntegrationTests extends MapTester {
 			Mockito.when (mNeighborMapCell.isSelectable ()).thenReturn (false);
 		}
 		mNeighborMapCell.setBaseTerrain (aTerrain);
-		mapCell.setNeighbor (aSide, mNeighborMapCell, mapCell);
+		mapCell.setNeighbor (aSide, mNeighborMapCell);
 	}
 
 	@Test
