@@ -1536,7 +1536,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean gameHasRoundType (String aName) {
 		boolean tGameHasRoundType;
 		
-		tGameHasRoundType = activeGame.gameHasRoundType (aName);
+		if (activeGame != GameInfo.NO_GAME_INFO) {
+			tGameHasRoundType = activeGame.gameHasRoundType (aName);
+		} else {
+			tGameHasRoundType = false;
+		}
 		
 		return tGameHasRoundType;
 	}
