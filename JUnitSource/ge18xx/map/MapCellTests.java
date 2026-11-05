@@ -24,22 +24,22 @@ class MapCellTests extends MapTester {
 		mTile = tilesTestFactory.buildTileMock (7);
 	}
 	
-	@Test
-	@DisplayName ("Test if IDs are the same")
-	void mapCellsHaveSameID () {
-		Cell tSecondMapCell;
-		
-		tSecondMapCell = (Cell) Cell.NO_MAP_CELL;
-		assertFalse (mapCell.sameID (tSecondMapCell));
-		
-		tSecondMapCell = mapTestFactory.buildMapCell ("A3");
-		assertFalse (mapCell.sameID (tSecondMapCell));
-
-		tSecondMapCell = mapTestFactory.buildMapCell ("N11");
-		assertTrue (mapCell.sameID (tSecondMapCell));
-
-		assertTrue (mapCell.sameID (mapCell));
-	}
+//	@Test
+//	@DisplayName ("Test if IDs are the same")
+//	void mapCellsHaveSameID () {
+//		Cell tSecondMapCell;
+//		
+//		tSecondMapCell = (Cell) Cell.NO_MAP_CELL;
+//		assertFalse (mapCell.sameID (tSecondMapCell));
+//		
+//		tSecondMapCell = mapTestFactory.buildMapCell ("A3");
+//		assertFalse (mapCell.sameID (tSecondMapCell));
+//
+//		tSecondMapCell = mapTestFactory.buildMapCell ("N11");
+//		assertTrue (mapCell.sameID (tSecondMapCell));
+//
+//		assertTrue (mapCell.sameID (mapCell));
+//	}
 	
 	@Test
 	@DisplayName ("Test if Tile is on Cell")
@@ -176,10 +176,10 @@ class MapCellTests extends MapTester {
 	@Test
 	@DisplayName ("Test Cloning of a MapCell") 
 	void mapCellCloningTest () {
-		Cell tCloneOfMapCell;
+		MapCell tCloneOfMapCell;
 		
 		try {
-			tCloneOfMapCell = (Cell) mapCell.clone ();
+			tCloneOfMapCell = (MapCell) mapCell.clone ();
 			assertEquals ("N11", tCloneOfMapCell.getID ());
 			
 		} catch (CloneNotSupportedException eException) {

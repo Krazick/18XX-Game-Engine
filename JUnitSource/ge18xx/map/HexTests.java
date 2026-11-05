@@ -30,18 +30,6 @@ class HexTests {
 	void tearDown () throws Exception {
 	}
 
-//	@Test
-//	@DisplayName ("Test default static values")
-//	public void TestDefaultStaticValues () {
-//		Hex tHex;
-//
-//		tHex = new Hex (false);
-//		assertFalse (tHex.getHexDirection ());
-//		assertEquals (8, tHex.getHexScale (), "Default Scale should be 8");
-//		assertEquals (40, tHex.getHexWidth (), "Default Width should be 40:");
-//		assertEquals (20, tHex.getXd ());
-//	}
-
 	@Test
 	@DisplayName ("Test Constructor with 'false', same as no Args")
 	public void TestConstructorFalseArg () {
@@ -249,9 +237,9 @@ class HexTests {
 		assertEquals (aExpectedMidpointX, tHex10t.midpointX (aPoint));
 	}
 
-	@DisplayName ("Test getMidpointY method with True Direction ")
 	@ParameterizedTest (name = "{index} ==> Point {0}, Expected Y {1}")
 	@CsvFileSource (resources = "HexTestMidpointYt.csv")
+	@DisplayName ("Test getMidpointY method with True Direction ")
 	public void testMidpointYt (int aPoint, int aExpectedMidpointY) {
 		Hex tHex10t;
 		
