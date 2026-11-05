@@ -157,6 +157,14 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		return addOK;
 	}
 
+	public boolean isTrainUsingSide (int aSide) {
+		boolean tIsTrainUsingSide;
+
+		tIsTrainUsingSide = (trainUsingSide [aSide] > 0);
+
+		return tIsTrainUsingSide;
+	}
+
 	public void setTrainUsingSide (int aSide, int aTrainIndex) {
 		trainUsingSide [aSide] = aTrainIndex;
 	}
@@ -224,14 +232,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		}
 	}
 
-	public boolean isTrainUsingSide (int aSide) {
-		boolean tIsTrainUsingSide;
-
-		tIsTrainUsingSide = (trainUsingSide [aSide] > 0);
-
-		return tIsTrainUsingSide;
-	}
-
 	public boolean addRevenueCenter (int aIndex, RevenueCenter aRC) {
 		return centers.add (aIndex, aRC);
 	}
@@ -272,20 +272,6 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 
 	public boolean canAllTracksExit (Tile aTile, int aTileOrient) {
 		return (aTile.canAllTracksExit (this, aTileOrient));
-	}
-
-	// Get the Side of the this MapCell to this Neighbor
-	public int getSideToNeighbor (Cell aNeighborMapCell) {
-		int tSideToNeighbor;
-
-		tSideToNeighbor = Location.NO_LOCATION;
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
-			if (neighbors [tSideIndex] == aNeighborMapCell) {
-				tSideToNeighbor = tSideIndex;
-			}
-		}
-
-		return tSideToNeighbor;
 	}
 
 	// Does an Existing Tile on this MapCell have Track that is connected to the
@@ -351,6 +337,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 			if (tNeighborMapCell != NO_MAP_CELL) {
 				if (tNeighborMapCell.isTileOnCell ()) {
 					tOtherSide = (aSide + 3) % 6;
+//					tOtherSide = tNeighborMapCell.oppositeSide (aSide);
 					tCanTrackToSide = tNeighborMapCell.isTrackToSide (tOtherSide);
 				} else {
 					tCanTrackToSide = tNeighborMapCell.isSelectable ();
