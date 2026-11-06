@@ -61,6 +61,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public abstract class TrainCompany extends Corporation implements CashHolderI, TrainHolderI {
 	public static final ElementName EN_TRAIN_COMPANY = new ElementName ("TrainCompany");
@@ -119,7 +120,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	Bank actorsBank;
 
 	public TrainCompany (int aID, String aName) {
-		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, MapCell.NO_MAP_CELL, Location.NO_LOC,
+		this (aID, aName, Corporation.NO_ABBREV, Color.white, Color.black, (MapCell) Cell.NO_MAP_CELL, Location.NO_LOC,
 				NO_COST, ActorI.ActionStates.Unowned, false);
 	}
 
@@ -127,7 +128,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			MapCell aHomeCity1, Location aHomeLocation1, int aCost, ActorI.ActionStates aState, 
 			boolean aGovtRailway) {
 		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, 
-				MapCell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
+				(MapCell) Cell.NO_MAP_CELL, Location.NO_LOC, aCost, aState, aGovtRailway);
 	}
 
 	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, 
@@ -1302,9 +1303,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tAllBasesHaveTiles;
 		
 		tAllBasesHaveTiles = false;
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			if (hasTwoBases ()) {
-				if (homeCity2 != MapCell.NO_MAP_CELL) {
+				if (homeCity2 != Cell.NO_MAP_CELL) {
 					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
 						tAllBasesHaveTiles = true;
 					}
@@ -1322,9 +1323,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tBaseTileHasTracks;
 		
 		tBaseTileHasTracks = false;
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			if (hasTwoBases ()) {
-				if (homeCity2 != MapCell.NO_MAP_CELL) {
+				if (homeCity2 != Cell.NO_MAP_CELL) {
 					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
 						tBaseTileHasTracks = true;
 					}
@@ -2199,7 +2200,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Player tPlayer;
 		CertificateHolderI tCertificateHolder;
 		Bank tBank;
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 
 		tShareHolders = new ShareHolders ();
 		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
@@ -2235,7 +2236,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tTrainCompany  = (TrainCompany) tPortfolioHolder;
 					tBank.transferCashTo (tTrainCompany, tDividendForShares);
 					tTrainCompany.addCashToDividends (tDividendForShares, tOperatingRoundID);
-					tSelectedMapCell = MapCell.NO_MAP_CELL;
+					tSelectedMapCell = (Cell) Cell.NO_MAP_CELL;
 					tTrainCompany.updateCorporationFrame (tSelectedMapCell);
 					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
 										tDividendForShares, tOperatingRoundID);
@@ -2455,11 +2456,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tOperatingRoundID = getOperatingRoundID ();
 		
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-		if (aPreviousTile != Tile.NO_TILE) {
-			createAndAddRemoveTileAction (aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
-					aPreviousBases, tOperatingRoundID);
-			tLayTileAction.setChainToPrevious (true);
-		}
 		
 		tCostToLayTile = getCostForTile (aTile, aMapCell);
 		if (tCostToLayTile > 0) {
@@ -2467,10 +2463,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			transferCashTo (tBank, tCostToLayTile);
 			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
 		}
+		
+		if (aPreviousTile != Tile.NO_TILE) {
+			createAndAddRemoveTileAction (aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
+					aPreviousBases, tOperatingRoundID);
+			tLayTileAction.setChainToPrevious (true);
+		}
 
 		tFixedTile = aMapCell.isFixedTile ();
 		if (tFixedTile) {
-			tLayTileAction.addSetFixedTileEffect (this, aMapCell, ! tFixedTile, tFixedTile);
+			aMapCell.setFixedTileFlag (! tFixedTile);
+			tLayTileAction.addSetFixedTileEffect (this, aMapCell, ! tFixedTile);
 		}
 		
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
@@ -2495,14 +2498,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void createAndAddRemoveTileAction (MapCell aMapCell, Tile aPreviousTile, int aPreviousOrientation,
 			String aPreviousTokens, String aPreviousBases, String aOperatingRoundID) {
 		RemoveTileAction tRemoveTileAction;
-		boolean tFixedTile;
 		
 		tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
 				aOperatingRoundID, this);
 		tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
 				aPreviousTokens, aPreviousBases);
-		tFixedTile = aMapCell.isFixedTile ();
-		tRemoveTileAction.addSetFixedTileEffect (this, aMapCell, ! tFixedTile, tFixedTile);
 		addAction (tRemoveTileAction);
 	}
 
@@ -2553,9 +2553,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCost;
 	}
 	
-	public void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
-		MapCell tHomeMapCell1;
-		MapCell tHomeMapCell2;
+	public void addRemoveHomeEffect (LayTileAction aLayTileAction, Cell aSelectedMapCell) {
+		Cell tHomeMapCell1;
+		Cell tHomeMapCell2;
 		Location tHomeLocation1;
 		Location tHomeLocation2;
 		
@@ -2565,11 +2565,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tHomeLocation1 = getHomeLocation1 ();
 			tHomeLocation2 = getHomeLocation2 ();
 			if (aSelectedMapCell == tHomeMapCell1) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL,tHomeMapCell2, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), (Cell) Cell.NO_MAP_CELL,tHomeMapCell2, 
 						Location.NO_LOC, tHomeLocation2);
 			}
 			if (aSelectedMapCell == tHomeMapCell2) {
-				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, MapCell.NO_MAP_CELL, 
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, (Cell) Cell.NO_MAP_CELL, 
 						tHomeLocation1, Location.NO_LOC);
 			}
 		}
@@ -2818,7 +2818,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tRouteExtended;
 	}
 
-	public boolean removeRouteSegment (int aTrainIndex, MapCell aMapCell, int aSegmentIndex) {
+	public boolean removeRouteSegment (int aTrainIndex, Cell aMapCell, int aSegmentIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		boolean tRouteSegmentRemoved;
@@ -2977,7 +2977,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		return 0;
 	}
 }

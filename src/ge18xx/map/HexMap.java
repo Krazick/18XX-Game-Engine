@@ -53,6 +53,8 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
+import genericMap.Map;
 import geUtilities.GUI;
 
 public class HexMap extends GameMap implements MouseListener, 
@@ -71,7 +73,7 @@ public class HexMap extends GameMap implements MouseListener,
 	public static final AttributeName AN_COL_START = new AttributeName ("colStart");
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
-	public static final GameMap NO_HEX_MAP = null;
+	public static final Map NO_HEX_MAP = null;
 	public MouseEvent NO_MOUSE_EVENT = null;
 
 	MapFrame mapFrame;
@@ -166,6 +168,7 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 
 	public void clearAllSelected () {
+		MapCell tMapCell;
 		int rowIndex;
 		int colIndex;
 		int rowCount;
@@ -175,7 +178,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				mapCells [rowIndex] [colIndex].clearSelected ();
+				tMapCell = (MapCell) cells [rowIndex] [colIndex];
+				tMapCell.clearSelected ();
 			}
 		}
 		redrawMap ();
@@ -190,6 +194,7 @@ public class HexMap extends GameMap implements MouseListener,
 	 * @param aTrainNumber The Train Number to clear
 	 */
 	public void clearTrain (int aTrainNumber) {
+		MapCell tMapCell;
 		int rowIndex;
 		int colIndex;
 		int rowCount;
@@ -199,8 +204,9 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				mapCells [rowIndex] [colIndex].clearTrain (aTrainNumber);
-				mapCells [rowIndex] [colIndex].clearTrainUsingSides (aTrainNumber);
+				tMapCell = (MapCell) cells [rowIndex] [colIndex];
+				tMapCell.clearTrain (aTrainNumber);
+				tMapCell.clearTrainUsingSides (aTrainNumber);
 			}
 		}
 	}
@@ -211,6 +217,7 @@ public class HexMap extends GameMap implements MouseListener,
 	 *
 	 */
 	public void clearAllTrains () {
+		MapCell tMapCell;
 		int rowIndex;
 		int colIndex;
 		int rowCount;
@@ -220,14 +227,16 @@ public class HexMap extends GameMap implements MouseListener,
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
-				mapCells [rowIndex] [colIndex].clearAllTrains ();
-				mapCells [rowIndex] [colIndex].clearAllTrainsUsingSides ();
+				tMapCell = (MapCell) cells [rowIndex] [colIndex];
+				tMapCell.clearAllTrains ();
+				tMapCell.clearAllTrainsUsingSides ();
 			}
 		}
 	}
 
 	public void collectNonHomeMapCellIDs (int aCorpID, String aAbbrev, List<String> aHomeMapCellIDs, 
 					List<String> aNonHomeMapCellIDs) {
+		MapCell tMapCell;
 		int tRowIndex;
 		int tColIndex;
 		int tRowCount;
@@ -240,9 +249,10 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount); tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].hasStation (aCorpID)) {
-					tMapCellID = mapCells [tRowIndex] [tColIndex].getID ();
-					tLocation = mapCells [tRowIndex] [tColIndex].getLocationWithStation (aCorpID);
+				tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+				if (tMapCell.hasStation (aCorpID)) {
+					tMapCellID = tMapCell.getID ();
+					tLocation = tMapCell.getLocationWithStation (aCorpID);
 					tTokenLocation = buildTokenLocation (aCorpID, aAbbrev, tMapCellID, tLocation);
 					if (! aHomeMapCellIDs.contains (tTokenLocation)) {
 						aNonHomeMapCellIDs.add (tTokenLocation);
@@ -280,6 +290,7 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 	
 	public boolean hasStation (int aCorpID) {
+		MapCell tMapCell;
 		int tRowIndex;
 		int tColIndex;
 		int tRowCount;
@@ -291,7 +302,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && !tHasStation; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; (tColIndex < tColCount) && !tHasStation; tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].hasStation (aCorpID)) {
+				tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+				if (tMapCell.hasStation (aCorpID)) {
 					tHasStation = true;
 				}
 			}
@@ -371,10 +383,10 @@ public class HexMap extends GameMap implements MouseListener,
 	public MapCell getMapCell (int aRow, int aCol) {
 		MapCell tMapCell;
 
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tMapCell = mapCells [aRow] [aCol];
+				tMapCell = (MapCell) cells [aRow] [aCol];
 			}
 		}
 
@@ -417,8 +429,8 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell = mapCells [tRowIndex] [tColIndex];
-				if (tMapCell != MapCell.NO_MAP_CELL) {
+				tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+				if (tMapCell != Cell.NO_MAP_CELL) {
 					tXMLMapCellElement = tMapCell.getMapCellState (aXMLDocument);
 					if (tXMLMapCellElement != XMLElement.NO_XML_ELEMENT) {
 						tXMLMapCellElement.setAttribute (AN_ROW, tRowIndex);
@@ -439,14 +451,16 @@ public class HexMap extends GameMap implements MouseListener,
 		int tRowCount;
 		int tColCount;
 		MapCell tFoundMapCell;
+		MapCell tMapCell;
 		
-		tFoundMapCell = MapCell.NO_MAP_CELL;
+		tFoundMapCell = (MapCell) Cell.NO_MAP_CELL;
 		tRowCount = getRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == Cell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-				if (mapCells [tRowIndex] [tColIndex].containingPoint (aPoint, hex)) {
-					tFoundMapCell = mapCells [tRowIndex] [tColIndex];
+			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMapCell == Cell.NO_MAP_CELL); tColIndex++) {
+				tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+				if (tMapCell.containingPoint (aPoint, hex)) {
+					tFoundMapCell = tMapCell;
 				}
 			}
 		}
@@ -460,19 +474,21 @@ public class HexMap extends GameMap implements MouseListener,
 		int tRowCount;
 		int tColCount;
 		MapCell tFoundMapCell;
+		MapCell tMapCell;
 		
-		tFoundMapCell = MapCell.NO_MAP_CELL;
+		tFoundMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (aID != null) {
 			if (!aID.equals (GUI.EMPTY_STRING)) {
 				tRowCount = getRowCount ();
 				for (tRowIndex = 0; (tRowIndex < tRowCount) 
-					&& (tFoundMapCell == MapCell.NO_MAP_CELL); 
+					&& (tFoundMapCell == Cell.NO_MAP_CELL); 
 						tRowIndex++) {
 					tColCount = getColCount (tRowIndex);
 					for (tColIndex = 0; (tColIndex < tColCount)
-							&& (tFoundMapCell == MapCell.NO_MAP_CELL); tColIndex++) {
-						if (mapCells [tRowIndex] [tColIndex].forID (aID)) {
-							tFoundMapCell = mapCells [tRowIndex] [tColIndex];
+							&& (tFoundMapCell == Cell.NO_MAP_CELL); tColIndex++) {
+						tMapCell = (MapCell) cells [tRowIndex] [tColIndex];
+						if (tMapCell.forID (aID)) {
+							tFoundMapCell = tMapCell;
 						}
 					}
 				}
@@ -516,11 +532,13 @@ public class HexMap extends GameMap implements MouseListener,
 
 	public int getRevenueCenterID (int aRow, int aCol) {
 		int tRevenueCenterID;
+		MapCell tMapCell;
 
 		tRevenueCenterID = RevenueCenter.NO_ID;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tRevenueCenterID = mapCells [aRow] [aCol].getRevenueCenterID ();
+				tMapCell = (MapCell) cells [aRow] [aCol];
+				tRevenueCenterID = tMapCell.getRevenueCenterID ();
 			}
 		}
 
@@ -541,16 +559,22 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 
 	public Terrain getTerrain () {
-		return mapCells [0] [0].getBaseTerrain ();
+		MapCell tMapCell;
+		
+		tMapCell = (MapCell) cells [0] [0];
+		
+		return tMapCell.getBaseTerrain ();
 	}
 
 	public int getTileNumber (int aRow, int aCol) {
 		int tTileNumber;
+		MapCell tMapCell;
 
 		tTileNumber = 0;
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tTileNumber = mapCells [aRow] [aCol].getTileNumber ();
+				tMapCell = (MapCell) cells [aRow] [aCol];
+				tTileNumber = tMapCell.getTileNumber ();
 			}
 		}
 
@@ -569,10 +593,10 @@ public class HexMap extends GameMap implements MouseListener,
 
 		tSelectedCity = City.NO_CITY;
 		tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
-		if (aPreviousSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (aPreviousSelectedMapCell != Cell.NO_MAP_CELL) {
 			aPreviousSelectedMapCell.clearSelected ();
 		}
-		if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (aSelectedMapCell != Cell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				aSelectedMapCell.handleSelectRevenueCenter (aPoint);
 				tSelectedRevenueCenter = aSelectedMapCell.getSelectedRevenueCenter ();
@@ -598,11 +622,11 @@ public class HexMap extends GameMap implements MouseListener,
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, 
 							MouseEvent aMouseEvent) {
 
-		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (aPreviousSelectedMapCell == Cell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
-				if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+				if (aSelectedMapCell == Cell.NO_MAP_CELL) {
 					System.err.println ("No Selected Map Cell provided");
 				} else {
 					System.err.println ("The Map Cell " + aSelectedMapCell.getID () 
@@ -610,7 +634,7 @@ public class HexMap extends GameMap implements MouseListener,
 				}
 			}
 		} else {
-			if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+			if (aSelectedMapCell == Cell.NO_MAP_CELL) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
 				if (aPreviousSelectedMapCell == aSelectedMapCell) {
@@ -739,46 +763,53 @@ public class HexMap extends GameMap implements MouseListener,
 		int tDefaultTileNumber;
 		boolean tHasPort;
 		boolean tHasCattle;
+		boolean tFixedTile;
+		MapCell tMapCell;
 
 		tCol = aMapCellNode.getThisIntAttribute (AN_COL);
 		tRow = aMapCellNode.getThisIntAttribute (AN_ROW);
 		tTileOrientation = aMapCellNode.getThisIntAttribute (MapCell.AN_ORIENTATION);
 		tTileNumber = aMapCellNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
+		tFixedTile = aMapCellNode.getThisBooleanAttribute (MapCell.AN_FIXED);
 		tHasPort = aMapCellNode.getThisBooleanAttribute (MapCell.AN_PORT_TOKEN);
 		tHasCattle = aMapCellNode.getThisBooleanAttribute (MapCell.AN_CATTLE_TOKEN);
 		tBenefitValue = aMapCellNode.getThisIntAttribute (MapCell.AN_BENEFIT_VALUE);
 		if (inRowRange (tRow)) {
 			if (inColRange (tRow, tCol)) {
+				tMapCell = (MapCell) cells [tRow] [tCol];
 				if (isTileOnCell (tRow, tCol)) {
-					tDefaultTileNumber = mapCells [tRow] [tCol].getTileNumber ();
+					tDefaultTileNumber = tMapCell.getTileNumber ();
 					if (tDefaultTileNumber == tTileNumber) {
 						placeBenefitTokens (tCol, tRow, tBenefitValue, tHasPort, tHasCattle);
 					} else {
-						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
-									tHasPort, tHasCattle);
+						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tFixedTile, 
+									tBenefitValue, tHasPort, tHasCattle);
 					}
 				} else {
-					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
-									tHasPort, tHasCattle);
+					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tFixedTile,
+									tBenefitValue, tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
-					mapCells [tRow] [tCol].loadStationsStates (aMapCellNode);
-					mapCells [tRow] [tCol].loadBaseStates (aMapCellNode);
+					tMapCell.loadStationsStates (aMapCellNode);
+					tMapCell.loadBaseStates (aMapCellNode);
 				}
 			}
 		}
 	}
 
-	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, int aBenefitValue, 
-			boolean aHasPort, boolean aHasCattle) {
+	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, 
+			boolean aFixedTile, int aBenefitValue, boolean aHasPort, boolean aHasCattle) {
 		Tile tTile;
 		Tile tCurrentTile;
+		MapCell tMapCell;
 		
 		tTile = getTileFromTileSet (aTileNumber);
 		if (tTile != Tile.NO_TILE) {
-			tCurrentTile = mapCells [aRow] [aCol].getTile ();
-			mapCells [aRow] [aCol].putTile (tTile, aTileOrientation);
-			mapCells [aRow] [aCol].lockTileOrientation ();
+			tMapCell = (MapCell) cells [aRow] [aCol];
+
+			tCurrentTile = tMapCell.getTile ();
+			tMapCell.putTile (tTile, aTileOrientation, aFixedTile);
+			tMapCell.lockTileOrientation ();
 			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);
 		} else {
@@ -787,14 +818,17 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 	
 	private void placeBenefitTokens (int aCol, int aRow, int aBenefitValue, boolean aHasPort, 
-					boolean aHasCattle) {		
+					boolean aHasCattle) {
+		MapCell tMapCell;
+		
+		tMapCell = (MapCell) cells [aRow] [aCol];
 		if (aHasPort) {
-			mapCells [aRow] [aCol].layPortToken ();
+			tMapCell.layPortToken ();
 		}
 		if (aHasCattle) {
-			mapCells [aRow] [aCol].layCattleToken ();
+			tMapCell.layCattleToken ();
 		}
-		mapCells [aRow] [aCol].setBenefitValue (aBenefitValue);
+		tMapCell.setBenefitValue (aBenefitValue);
 	}
 
 	@Override
@@ -804,6 +838,7 @@ public class HexMap extends GameMap implements MouseListener,
 		XMLNode tTCChildNode;
 		NodeList tChildren;
 		NodeList tTerrainCostsChildren;
+		MapCell tFirstMapCell;
 		int tCols;
 		int tRows;
 		int tDefaultTerrainType;
@@ -823,6 +858,7 @@ public class HexMap extends GameMap implements MouseListener,
 		String theRowIDs [];
 		String theColIDs [];
 		boolean tLoadedRow;
+		boolean tMapDirection;
 		int tTerrainType [];
 		int tTerrainCost [];
 		int tHexScale;
@@ -853,10 +889,13 @@ public class HexMap extends GameMap implements MouseListener,
 		tRow = 0;
 		tCol = 0;
 		setMapCell (tRow, tCol, tDirection);
-		mapCells [0] [0].setTerrainFillColor (tFillColor);
+//		mapCells [0] [0].setTerrainFillColor (tFillColor);
+		tFirstMapCell = (MapCell) cells [0] [0];
+		tFirstMapCell.setTerrainFillColor (tFillColor);
+		tMapDirection = tFirstMapCell.getMapDirection ();
 		tHexScale = mapFrame.getDefaultHexScale ();
 //		hex = new Hex18XX (mapCells [0] [0].getMapDirection ());
-		hex = new Hex18XX (mapCells [0] [0].getMapDirection (), tHexScale);
+		hex = new Hex18XX (tMapDirection, tHexScale);
 		// TODO -- Need to get Hex Scales (Map and Tile Tray) and set them here.
 		// As well as redraw both.
 		
@@ -891,6 +930,8 @@ public class HexMap extends GameMap implements MouseListener,
 			}
 		}
 
+//		cells [2] [3].printNeighbors ();
+		
 		setSingleMapCellSelect (false);
 		setMapSize ();
 		mapFrame.setDefaultFrameInfo ();
@@ -917,7 +958,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 		Point tPoint = aMouseEvent.getPoint ();
 		tMapCell = getMapCellContainingPoint (tPoint);
-		if (tMapCell == MapCell.NO_MAP_CELL) {
+		if (tMapCell == Cell.NO_MAP_CELL) {
 			setToolTipText ("***");
 		} else {
 			setToolTipText (tMapCell.getToolTip ());
@@ -993,26 +1034,35 @@ public class HexMap extends GameMap implements MouseListener,
 	}
 
 	public void putTile (int aRow, int aCol, Tile aTile) {
+		MapCell tMapCell;
+
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
+				tMapCell = (MapCell) cells [aRow] [aCol];
+				tMapCell.placeTile (tileSet, aTile);
 			}
 		}
 	}
 
 	public void putFixedTile (int aRow, int aCol, Tile aTile) {
+		MapCell tMapCell;
+		
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				mapCells [aRow] [aCol].placeTile (tileSet, aTile);
-				mapCells [aRow] [aCol].setFixedTileFlag (true);
+				tMapCell = (MapCell) cells [aRow] [aCol];
+				tMapCell.placeTile (tileSet, aTile);
+				tMapCell.setFixedTileFlag (true);
 			}
 		}
 	}
 
 	public void setCityInfoXX (int aRow, int aCol, CityInfo aCityInfo) {
+		MapCell tMapCell;
+		
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				mapCells [aRow] [aCol].setCityInfo (aCityInfo);
+				tMapCell = (MapCell) cells [aRow] [aCol];
+				tMapCell.setCityInfo (aCityInfo);
 			}
 		}
 	}
@@ -1063,7 +1113,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
-		if (mapCells != MapCell.NO_MAP_CELLS) {
+		if (cells != Cell.NO_CELLS) {
 			CalcGridCenters ();
 			setMapSize ();
 			redrawMap ();
@@ -1089,7 +1139,7 @@ public class HexMap extends GameMap implements MouseListener,
 	@Override
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
 		if (!wasTilePlaced ()) { // If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
-			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+			if (aSelectedMapCell != Cell.NO_MAP_CELL) {
 				if (aSelectedMapCell.isSelectable ()) {
 					aSelectedMapCell.toggleSelected ();
 					if (placeTileMode) {
@@ -1121,7 +1171,7 @@ public class HexMap extends GameMap implements MouseListener,
 	
 	public void updateCorporationFrame () {
 		Corporation tOperatingCompany;
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 		
 		tOperatingCompany = getOperatingCompany ();
 		tSelectedMapCell = getSelectedMapCell ();
@@ -1190,7 +1240,7 @@ public class HexMap extends GameMap implements MouseListener,
 
 		tBaseCityName = aMapCell.getCityName ();
 		if (tBaseCityName == Centers.NO_CITY_NAME) {
-			tBaseCityName = "";
+			tBaseCityName = GUI.EMPTY_STRING;
 		}
 
 		return tBaseCityName;
@@ -1278,7 +1328,7 @@ public class HexMap extends GameMap implements MouseListener,
 		MapCell tSelectedMapCell;
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell == Cell.NO_MAP_CELL) {
 			System.err.println("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			removeAllSMC ();
@@ -1304,7 +1354,7 @@ public class HexMap extends GameMap implements MouseListener,
 		MapCell tSelectedMapCell;
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell == Cell.NO_MAP_CELL) {
 			System.err.println ("ERROR-- Trying to Lock Tile Orientation, can't Find Selected MapCell.");
 		} else {
 			tSelectedMapCell.lockTileOrientation ();
@@ -1360,7 +1410,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell =  mapCells [tRowIndex] [tColIndex];
+				tMapCell =  (MapCell) cells [tRowIndex] [tColIndex];
 				if (tMapCell.getRevenueCenterCount () > 0) {
 					tMapCell.removeMapTokens (aTokenCompany, aCloseCompanyAction);
 				}
@@ -1431,7 +1481,7 @@ public class HexMap extends GameMap implements MouseListener,
 		}
 	}
 
-	public boolean graphContainsMapCell (MapCell aMapCell) {
+	public boolean graphContainsMapCell (Cell aMapCell) {
 		boolean tGraphContainsMapCell;
 		
 		tGraphContainsMapCell = false;
@@ -1465,7 +1515,7 @@ public class HexMap extends GameMap implements MouseListener,
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-				tMapCell =  mapCells [tRowIndex] [tColIndex];
+				tMapCell =  (MapCell) cells [tRowIndex] [tColIndex];
 				tMapCell.fillMapGraph (mapGraph);
 			}
 		}

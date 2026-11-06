@@ -3,6 +3,8 @@ package ge18xx.map;
 import java.util.LinkedList;
 import java.util.List;
 
+import genericMap.Cell;
+
 public class SelectableMapCells {
 	List<MapCell> selectableMapCells;
 
@@ -29,7 +31,7 @@ public class SelectableMapCells {
 		if (tMapCellCount > 0) {
 			for (tMapCellIndex = 0; tMapCellIndex < tMapCellCount; tMapCellIndex++) {
 				tMapCell = aHexMap.getMapCellForID (tMapCellIDs [tMapCellIndex]);
-				if (tMapCell != MapCell.NO_MAP_CELL) {
+				if (tMapCell != Cell.NO_MAP_CELL) {
 					addMapCell (tMapCell);
 				}
 			}

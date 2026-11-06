@@ -21,6 +21,7 @@ import ge18xx.map.MapTestFactory;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
+import genericMap.Cell;
 
 class MapBenefitTests {
 	GameTestFactory gameTestFactory;
@@ -38,7 +39,7 @@ class MapBenefitTests {
 	HexMap hexMap;
 	HexMap mHexMap;
 	MapCell mapCell1;
-	MapCell mapCell2;
+	Cell mapCell2;
 	MapCell mMapCell1;
 
 	@BeforeEach

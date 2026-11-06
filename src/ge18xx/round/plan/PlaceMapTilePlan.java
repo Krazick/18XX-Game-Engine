@@ -14,6 +14,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.LayTileAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import genericMap.Cell;
 
 public class PlaceMapTilePlan extends MapPlan {
 	Tile tile;
@@ -34,7 +35,7 @@ public class PlaceMapTilePlan extends MapPlan {
 
 	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName, 
 			Corporation aCorporation) {
-		this (aPlayerName, aGameName, aName, aCorporation, MapCell.NO_MAP_CELL);
+		this (aPlayerName, aGameName, aName, aCorporation, (MapCell) Cell.NO_MAP_CELL);
 	}
 
 	public PlaceMapTilePlan (String aPlayerName, String aGameName, String aName, 

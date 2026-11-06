@@ -3,11 +3,11 @@ package ge18xx.round.action.effects;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
-import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class RemoveTokenEffect extends LayTokenEffect {
 	public static final String NAME = "Remove Token";
@@ -21,7 +21,7 @@ public class RemoveTokenEffect extends LayTokenEffect {
 		setName (NAME);
 	}
 
-	public RemoveTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+	public RemoveTokenEffect (ActorI aActor, Cell aMapCell, Tile aTile, int aRevenueCenterIndex,
 			TokenType aTokenType, int aTokenIndex) {
 		super (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, Benefit.NO_BENEFIT);
 		setName (NAME);

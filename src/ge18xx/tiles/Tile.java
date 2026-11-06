@@ -45,6 +45,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public class Tile implements Comparable<Object>, Cloneable {
 	public static final ElementName EN_TILE = new ElementName ("Tile");
@@ -1190,8 +1191,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tMapCell = aVertex.getMapCell ();
 			tLocation = aVertex.getLocation ();
 			if (! tMapCell.isBlockedSide (tLocation.getLocation ())) {
-				tNeighborMapCell = tMapCell.getNeighbor (tLocation.getLocation ());
-				if (tNeighborMapCell != MapCell.NO_MAP_CELL) {
+				tNeighborMapCell = (MapCell) tMapCell.getNeighbor (tLocation.getLocation ());
+				if (tNeighborMapCell != Cell.NO_MAP_CELL) {
 					if (tNeighborMapCell.isSelectable ()) {
 						tNeighborLoc = tMapCell.getSideFromNeighbor (tNeighborMapCell);
 						tNeighborLocation = new Location (tNeighborLoc);
@@ -1251,7 +1252,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
 	}
 	
-	public void removeDestination (Location aDestinationLocation, MapCell aMapCell, ShareCompany aShareCompany, 
+	public void removeDestination (Location aDestinationLocation, Cell aMapCell, ShareCompany aShareCompany, 
 						RemoveDestinationsAction aRemoveDestinationsAction) {
 		centers.removeDestination (aDestinationLocation, aMapCell, aShareCompany, aRemoveDestinationsAction);
 	}

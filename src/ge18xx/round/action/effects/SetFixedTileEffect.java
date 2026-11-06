@@ -9,24 +9,21 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 	public static final String NAME = "Set Fixed Tile";
-	final static AttributeName AN_PREVIOUS_STATE = new AttributeName ("previousState");
 	final static AttributeName AN_TILE = new AttributeName ("fixedTile");
 	final static AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
 	String mapCellID;
-	boolean previousState;
 	
-	public SetFixedTileEffect (ActorI aActor, MapCell aMapCell, boolean aFixedTile, 
-			boolean aPreviousState) {
+	public SetFixedTileEffect (ActorI aActor, Cell aMapCell, boolean aFixedTile) {
 		this (NAME, aActor, aFixedTile);
 		
 		String tMapCellID;
 		
 		tMapCellID = aMapCell.getID ();
 		setMapCellID (tMapCellID);
-		setPreviousState (aPreviousState);
 	}
 
 	public SetFixedTileEffect (String aName, ActorI aActor, boolean aBooleanFlag) {
@@ -37,17 +34,9 @@ public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 		super (aEffectNode, aGameManager, AN_TILE);
 		
 		String tMapCellID;
-		boolean tPreviousState;
 		
 		tMapCellID = aEffectNode.getThisAttribute (AN_MAP_CELL_ID);
 		setMapCellID (tMapCellID);
-		
-		tPreviousState = aEffectNode.getThisBooleanAttribute (AN_PREVIOUS_STATE);
-		setPreviousState (tPreviousState);
-	}
-	
-	public void setPreviousState (boolean aPreviousState) {
-		previousState = aPreviousState;
 	}
 	
 	@Override
@@ -67,7 +56,7 @@ public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for (" + mapCellID + ") to " + getBooleanFlag () + 
-				". Previous State " + previousState + ".");
+				". Previous State " + (! getBooleanFlag ()) + ".");
 	}
 
 	@Override
@@ -98,7 +87,7 @@ public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 		tGameManager = aRoundManager.getGameManager ();
 		tHexMap = tGameManager.getGameMap ();
 		tMapCell = tHexMap.getMapCellForID (mapCellID);
-		tMapCell.setFixedTileFlag (previousState);
+		tMapCell.setFixedTileFlag (! booleanFlag);
 		tEffectApplied = true;
 		
 		return tEffectApplied;

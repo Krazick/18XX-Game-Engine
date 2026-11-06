@@ -13,6 +13,7 @@ import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.round.action.effects.SetCorporationBaseEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayTileAction extends ChangeMapAction {
 	public static final String NAME = "Lay Tile";
@@ -46,8 +47,8 @@ public class LayTileAction extends ChangeMapAction {
 		addEffect (tSetCorporationBaseEffect);
 	}
 	
-	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, 
-			MapCell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
+	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, 
+			Cell aHomeCity2, Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
 
 		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, 
@@ -88,9 +89,9 @@ public class LayTileAction extends ChangeMapAction {
 	public String getMapCellID () {
 		String tMapCellID;
 
-		tMapCellID = MapCell.NO_ID;
+		tMapCellID = Cell.NO_ID;
 		for (Effect tEffect : effects) {
-			if (tMapCellID == MapCell.NO_ID) {
+			if (tMapCellID == Cell.NO_ID) {
 				if (tEffect instanceof LayTileEffect) {
 					tMapCellID = ((LayTileEffect) tEffect).getMapCellID ();
 				}

@@ -16,6 +16,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 public class PortPlacementBenefit extends MapBenefit {
@@ -98,7 +99,7 @@ public class PortPlacementBenefit extends MapBenefit {
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell != Cell.NO_MAP_CELL) {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
@@ -150,7 +151,7 @@ public class PortPlacementBenefit extends MapBenefit {
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+		if (tSelectedMapCell != Cell.NO_MAP_CELL) {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {

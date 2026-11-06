@@ -50,6 +50,8 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.GUI;
 import geUtilities.xml.GameEngineManager;
 import geUtilities.xml.XMLFrame;
+import genericMap.Cell;
+import genericMap.Map;
 import swingTweaks.KButton;
 
 public class PlanFrame extends XMLFrame implements ActionListener {
@@ -283,7 +285,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		
 		tMapCell = aPlaceMapTilePlan.getMapCell ();
 		emptyPlanTileSet ();
-		if (tMapCell != MapCell.NO_MAP_CELL) {
+		if (tMapCell != Cell.NO_MAP_CELL) {
 			tMapCellInfo = new JLabel ("MapCell ID is " + tMapCell.getID ());
 			infoAndActionPanel.add (tMapCellInfo);
 			infoAndActionPanel.add (Box.createVerticalStrut (10));
@@ -470,7 +472,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 		if (mapPlan != MapPlan.NO_MAP_PLAN) {
 			mapPlan.setPlanningMap (tPlanningMap);
 			mapPlan.setPlanningMapCell (tPlanningMapCell);
-			if (mapPlan.getMapCell () != MapCell.NO_MAP_CELL) {
+			if (mapPlan.getMapCell () != Cell.NO_MAP_CELL) {
 				tVerticalPercent = (mapPlan.getMapCellYc () - 200.0f)/tImageHeight;
 				setScrollBarValue (scrollPane, ScrollPaneConstants.VERTICAL_SCROLLBAR, tVerticalPercent);
 				tHorizontalPercent = (mapPlan.getMapCellXc () - 150.0f)/tImageWidth;
@@ -823,7 +825,7 @@ public class PlanFrame extends XMLFrame implements ActionListener {
 	
 	@SuppressWarnings ("unchecked")
 	private void changeSelectedPlan (Object tEventSource) {
-		GameMap tPlanningMap;
+		Map tPlanningMap;
 		JComboBox<String> tPlanChoice;
 		String tSelectedPlanName;
 		MapPlan tSelectedMapPlan;

@@ -41,6 +41,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 //
 //  ShareCompany.java
@@ -168,14 +169,14 @@ public class ShareCompany extends TokenCompany {
 		String tHomeVertexID;
 		Location tLocation;
 		MapCell tHomeMapCell;
-		MapCell tDestinationMapCell;
+		Cell tDestinationMapCell;
 		boolean tContainsHomeMapCell;
 		boolean tContainsDestinationMapCell;
 		boolean tFoundInBFS;
 		int tCorpID;
 		
 		tHomeMapCell = getHomeCity1 ();
-		if (tHomeMapCell != MapCell.NO_MAP_CELL) {
+		if (tHomeMapCell != Cell.NO_MAP_CELL) {
 			tCorpID = getID ();
 			tLocation = tHomeMapCell.getLocationWithStation (tCorpID);
 			tHomeVertexID = Vertex.buildID (tHomeMapCell, tLocation);
@@ -778,7 +779,7 @@ public class ShareCompany extends TokenCompany {
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 
-				corporationFrame.updateInfo (MapCell.NO_MAP_CELL);
+				corporationFrame.updateInfo ((Cell) Cell.NO_MAP_CELL);
 			} else {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanRedemptionAmount) +
 						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");
@@ -1321,7 +1322,7 @@ public class ShareCompany extends TokenCompany {
 		Tile tTile;
 		Centers tCenters;
 		
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			if (aMapCell.isTileOnCell ()) {
 				tTile = aMapCell.getTile ();
 				tCenters = tTile.getCenters ();

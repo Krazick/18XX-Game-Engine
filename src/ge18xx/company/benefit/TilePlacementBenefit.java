@@ -13,6 +13,7 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 import swingTweaks.KButton;
 
 public class TilePlacementBenefit extends MapBenefit {
@@ -154,11 +155,11 @@ public class TilePlacementBenefit extends MapBenefit {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		MapCell tSelectedMapCell;
+		Cell tSelectedMapCell;
 		
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_TILE_PRIVATE.equals (tActionCommand)) {
-			tSelectedMapCell = MapCell.NO_MAP_CELL;
+			tSelectedMapCell = (Cell) Cell.NO_MAP_CELL;
 			handlePlaceTile (tSelectedMapCell);
 		}
 	}
@@ -168,7 +169,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		return extraTilePlacement;
 	}
 
-	private void handlePlaceTile (MapCell aMapCell) {
+	private void handlePlaceTile (Cell aMapCell) {
 		HexMap tMap;
 		MapCell tMapCell;
 		Corporation tOwningCompany;
@@ -181,7 +182,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		tMap.clearAllSelected ();
 		tMap.removeAllSMC ();
 		tMapCell = getMapCell ();
-		if (tMapCell == MapCell.NO_MAP_CELL) {
+		if (tMapCell == Cell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
 			tMap.addMapCellSMC (tMapCell);

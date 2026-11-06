@@ -2,10 +2,10 @@ package ge18xx.round.action;
 
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
-import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.LayBenefitTokenEffect;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayBenefitTokenAction extends ChangeMapAction {
 	public static final String NAME = "Lay Benefit Token";
@@ -20,7 +20,7 @@ public class LayBenefitTokenAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, 
+	public void addLayBenefitTokenEffect (ActorI aActor, Cell aMapCell, String aTokenType, 
 											Benefit aBenefitInUse, int aTokenBonus) {
 		LayBenefitTokenEffect tLayBenefitTokenEffect;
 

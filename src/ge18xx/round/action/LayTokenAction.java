@@ -4,7 +4,6 @@ import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
-import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTokenEffect;
@@ -12,6 +11,7 @@ import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.tiles.Tile;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class LayTokenAction extends ChangeMapAction {
 	public static final String NAME = "Lay Token";
@@ -31,12 +31,12 @@ public class LayTokenAction extends ChangeMapAction {
 		setName (NAME);
 	}
 	
-	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void addLayTokenEffect (ActorI aActor, Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 			TokenType aTokenType, int aTokenIndex) {
 		addLayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, Benefit.NO_BENEFIT);
 	}
 	
-	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void addLayTokenEffect (ActorI aActor, Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 									TokenType aTokenType, int aTokenIndex, Benefit aBenefitInUse) {
 		LayTokenEffect tLayTokenEffect;
 
@@ -45,7 +45,7 @@ public class LayTokenAction extends ChangeMapAction {
 		addEffect (tLayTokenEffect);
 	}
 
-	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2,
+	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, Cell aHomeCity2,
 									Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
 

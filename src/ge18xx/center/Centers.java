@@ -34,6 +34,7 @@ import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;
@@ -809,7 +810,7 @@ public class Centers implements Cloneable {
 		}
 	}
 
-	public void removeMapToken (TokenCompany aFoldingCompany, MapCell aMapCell, Tile aTile,
+	public void removeMapToken (TokenCompany aFoldingCompany, Cell aMapCell, Tile aTile,
 					ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
 		int tTokenIndex;
 		MapToken tMapToken;
@@ -858,7 +859,7 @@ public class Centers implements Cloneable {
 		return tCleared;
 	}
 			
-	public void layMapToken (TokenCompany aFoldingCompany, MapToken aMapToken, MapCell aMapCell, Tile aTile,
+	public void layMapToken (TokenCompany aFoldingCompany, MapToken aMapToken, Cell aMapCell, Tile aTile,
 			ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
 		TokenType tTokenType;
 		int tTokenIndex;
@@ -920,7 +921,7 @@ public class Centers implements Cloneable {
 	 * @param aDestinationLocation The Location that needs to have the Destination removed
 	 * @param aAbbrev The abbreviation of the company that has the destination to be removed
 	 */
-	public void removeDestination (Location aDestinationLocation, MapCell aMapCell, ShareCompany aShareCompany, 
+	public void removeDestination (Location aDestinationLocation, Cell aMapCell, ShareCompany aShareCompany, 
 						RemoveDestinationsAction aRemoveDestinationsAction) {
 		int tRevenueCenterCount;
 		int tRevenueCenterIndex;

@@ -371,5 +371,4 @@ class MapCellBuildCostTests extends MapTester {
 		tTileBuildCost = tMapCell.getCostToLayTile (tTile);
 		assertEquals (50, tTileBuildCost);
 	}
-
 }

@@ -16,6 +16,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class RouteSegment {
 	public static final ElementName EN_ROUTE_SEGMENT = new ElementName ("RouteSegment");
@@ -352,7 +353,7 @@ public class RouteSegment {
 	public void printDetail () {
 		String tMapCellDetail;
 
-		if (mapCell != MapCell.NO_MAP_CELL) {
+		if (mapCell != Cell.NO_MAP_CELL) {
 			tMapCellDetail = mapCell.getDetail ();
 		} else {
 			tMapCellDetail = "ID " + mapCellID + " Tile Number " + tileNumber;
@@ -842,7 +843,7 @@ public class RouteSegment {
 		MapCell tMapCell;
 
 		tMapCell = aMapFrame.getMapCellForID (mapCellID);
-		if (tMapCell != MapCell.NO_MAP_CELL) {
+		if (tMapCell != Cell.NO_MAP_CELL) {
 			setMapCell (tMapCell);
 			fixTile (tMapCell);
 		} else {

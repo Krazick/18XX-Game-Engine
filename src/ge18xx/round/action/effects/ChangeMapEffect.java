@@ -11,6 +11,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class ChangeMapEffect extends Effect {
 	public static final String NAME = "Change Map";
@@ -24,11 +25,11 @@ public class ChangeMapEffect extends Effect {
 		super (aName);
 	}
 
-	public ChangeMapEffect (ActorI aActor, MapCell aMapCell) {
+	public ChangeMapEffect (ActorI aActor, Cell aMapCell) {
 		this (aActor, aMapCell, NO_BENEFIT_IN_USE);
 	}
 
-	public ChangeMapEffect (ActorI aActor, MapCell aMapCell, Benefit aBenefitInUse) {
+	public ChangeMapEffect (ActorI aActor, Cell aMapCell, Benefit aBenefitInUse) {
 		super (NAME, aActor, aBenefitInUse);
 		setMapCellID (aMapCell);
 	}
@@ -37,7 +38,7 @@ public class ChangeMapEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		String tMapCellID;
 
-		tMapCellID = aEffectNode.getThisAttribute (MapCell.AN_MAP_CELL_ID);
+		tMapCellID = aEffectNode.getThisAttribute (Cell.AN_MAP_CELL_ID);
 		setMapCellID (tMapCellID);
 	}
 
@@ -46,7 +47,7 @@ public class ChangeMapEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (MapCell.AN_MAP_CELL_ID, mapCellID);
+		tEffectElement.setAttribute (Cell.AN_MAP_CELL_ID, mapCellID);
 
 		return tEffectElement;
 	}
@@ -77,7 +78,7 @@ public class ChangeMapEffect extends Effect {
 		System.out.println (getEffectReport (aRoundManager));
 	}
 
-	public void setMapCellID (MapCell aMapCell) {
+	public void setMapCellID (Cell aMapCell) {
 		mapCellID = aMapCell.getCellID ();
 	}
 

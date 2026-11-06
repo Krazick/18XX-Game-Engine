@@ -38,6 +38,7 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 
 public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
@@ -120,7 +121,7 @@ public class City extends RevenueCenter implements Cloneable {
 				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, tAbbrev);
 				tXMLTokenState.setAttribute (AN_STATION_INDEX, tIndex);
 				tXMLTokenState.setAttribute (Location.AN_LOCATION, location.getLocation ());
-				tXMLTokenState.setAttribute (MapCell.AN_MAP_CELL_ID, tMapCellID);
+				tXMLTokenState.setAttribute (Cell.AN_MAP_CELL_ID, tMapCellID);
 				tXMLTokenState.setAttribute (Tokens.AN_TOKEN_INDEX, tTokenIndex);
 				tLabel = tTokenCompany.getIDToString ();
 				aMapCellElement.appendChild (tXMLTokenState, tLabel);

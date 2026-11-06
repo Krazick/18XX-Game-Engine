@@ -266,6 +266,8 @@ public class UserPreferencesFrame extends XMLFrame {
 		ShowEscrowPreference tShowEscrowPreference;
 		ShowPSGChecksumPreference tShowPSGChecksumPreference;
 		HexScalesSynchronizedPreference tHexScalesSynchronizedPreference;
+		HideMapScaleSliderPreference tHideMapScaleSliderPreference;
+		HideTileTrayScaleSliderPreference tHideTileTrayScaleSliderPreference;
 		
 		tChildren = aPreferencesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
@@ -309,6 +311,14 @@ public class UserPreferencesFrame extends XMLFrame {
 				if (HexScalesSynchronizedPreference.EN_HEX_SCALES.equals (tNodeName)) {
 					tHexScalesSynchronizedPreference = (HexScalesSynchronizedPreference) userPreferences.get (HexScalesSynchronized);
 					tHexScalesSynchronizedPreference.parsePreference (tChildNode);
+				}
+				if (HideMapScaleSliderPreference.EN_MAP_SCALE_SLIDER.equals (tNodeName)) {
+					tHideMapScaleSliderPreference = (HideMapScaleSliderPreference) userPreferences.get (HideMapScaleSlider);
+					tHideMapScaleSliderPreference.parsePreference (tChildNode);
+				}
+				if (HideTileTrayScaleSliderPreference.EN_TILE_TRAY_SCALE_SLIDER.equals (tNodeName)) {
+					tHideTileTrayScaleSliderPreference = (HideTileTrayScaleSliderPreference) userPreferences.get (HideTileTraySlider);
+					tHideTileTrayScaleSliderPreference.parsePreference (tChildNode);
 				}
 			}
 		} catch (Exception tException) {

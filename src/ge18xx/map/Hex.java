@@ -22,10 +22,12 @@ import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
+import genericMap.Cell;
+
 public class Hex {
 	public static final Hex NO_HEX = null;
-	public static final String DIRECTION_NS = "NS";
-	public static final String DIRECTION_EW = "EW";
+	public static final String DIRECTION_NS = Cell.DIRECTION_NS;
+	public static final String DIRECTION_EW = Cell.DIRECTION_EW;
 	public static final int NOT_VALID_SLICE = -9999;
 	public static final int NOT_VALID_POINT = -9998;
 	public static final int DEFAULT_SCALE = 8;
@@ -151,12 +153,9 @@ public class Hex {
 		int tXp [];
 		int tYp [];
 		int tPointCount;
-		int index;
 		Polygon tClipPolygon;
 		Area tNewClip;
 		Area tHexClip;
-		Stroke tCurrentStroke;
-		BasicStroke tBlockedStroke;
 		Shape tPreviousClip;
 
 		tPointCount = x.length;
@@ -169,23 +168,32 @@ public class Hex {
 		tHexClip = new Area (tClipPolygon);
 		tNewClip.intersect (tHexClip);
 		aGraphics2D.setClip (tNewClip);
-		if (aBlockedSides != null) {
-			aGraphics2D.setColor (Color.blue);
-			tCurrentStroke = aGraphics2D.getStroke ();
-			tBlockedStroke = new BasicStroke (trackWidth * 2);
-			aGraphics2D.setStroke (tBlockedStroke);
-			for (index = 0; index < tPointCount - 1; index++) {
-				if (aBlockedSides [index]) {
-					aGraphics2D.drawLine (tXp [index], tYp [index], tXp [index + 1], tYp [index + 1]);
-				}
-			}
-			aGraphics2D.setStroke (tCurrentStroke);
-		}
+		drawBlockedSides (aGraphics2D, aBlockedSides, tXp, tYp, tPointCount);
 		if (aDrawBorder) {
 			aGraphics2D.setColor (Color.black);
 			aGraphics2D.drawPolygon (tClipPolygon);
 		}
 		aGraphics2D.setClip (tPreviousClip);
+	}
+
+	public void drawBlockedSides (Graphics2D aGraphics2D, boolean [] aBlockedSides, int [] aXp, int [] aYp,
+			int aPointCount) {
+		int index;
+		Stroke tCurrentStroke;
+		BasicStroke tBlockedStroke;
+		
+		if (aBlockedSides != null) {
+			aGraphics2D.setColor (Color.blue);
+			tCurrentStroke = aGraphics2D.getStroke ();
+			tBlockedStroke = new BasicStroke (trackWidth * 2);
+			aGraphics2D.setStroke (tBlockedStroke);
+			for (index = 0; index < aPointCount - 1; index++) {
+				if (aBlockedSides [index]) {
+					aGraphics2D.drawLine (aXp [index], aYp [index], aXp [index + 1], aYp [index + 1]);
+				}
+			}
+			aGraphics2D.setStroke (tCurrentStroke);
+		}
 	}
 
 	public void drawNeighborHighlight (Graphics aGraphics, int aSide, int aXOffset, int aYOffset) {

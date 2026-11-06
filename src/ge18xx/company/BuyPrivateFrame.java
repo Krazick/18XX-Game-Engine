@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ge18xx.bank.Bank;
-import ge18xx.map.MapCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
+import genericMap.Cell;
 
 public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -171,7 +171,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
 		trainCompany.addAction (tBuyStockAction);
 		tCorporationFrame = trainCompany.getCorporationFrame ();
-		tCorporationFrame.updateInfo (MapCell.NO_MAP_CELL);
+		tCorporationFrame.updateInfo ((Cell) Cell.NO_MAP_CELL);
 	}
 
 	private void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,

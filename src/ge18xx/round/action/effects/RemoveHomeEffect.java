@@ -13,6 +13,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class RemoveHomeEffect extends Effect {
 	public static final String NAME = "Remove Home";
@@ -39,22 +40,22 @@ public class RemoveHomeEffect extends Effect {
 		super (aName, aActor);
 	}
 
-	public RemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2, 
+	public RemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, Cell aHomeCity2, 
 			Location aHomeLocation1, Location aHomeLocation2) {
 		this (NAME, aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, aHomeLocation1, aHomeLocation2);
 	}
 	
-	public RemoveHomeEffect (String aName, ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2, 
+	public RemoveHomeEffect (String aName, ActorI aActor, String aCorporationAbbrev, Cell aHomeCity1, Cell aHomeCity2, 
 							Location aHomeLocation1, Location aHomeLocation2) {
 		super (aName, aActor);
 		setCompanyAbbrev (aCorporationAbbrev);
-		if (aHomeCity1 != MapCell.NO_MAP_CELL) {
+		if (aHomeCity1 != Cell.NO_MAP_CELL) {
 			setHomeCity1ID (aHomeCity1.getCellID ());
 			setHomeLocation1 (aHomeLocation1.getLocation ());
-			setHomeCity2ID (MapCell.NO_ID);
+			setHomeCity2ID (Cell.NO_ID);
 			setHomeLocation2 (Location.NO_LOCATION);
-		} else if (aHomeCity2 != MapCell.NO_MAP_CELL) {
-			setHomeCity1ID (MapCell.NO_ID);
+		} else if (aHomeCity2 != Cell.NO_MAP_CELL) {
+			setHomeCity1ID (Cell.NO_ID);
 			setHomeLocation1 (Location.NO_LOCATION);
 			setHomeCity2ID (aHomeCity2.getCellID ());
 			setHomeLocation2 (aHomeLocation2.getLocation ());
@@ -160,7 +161,7 @@ public class RemoveHomeEffect extends Effect {
 		tHomeCityID1 = getHomeCity1ID ();
 		if (tHomeCityID1 == null) {
 			tIsHomeCity1Set = false;
-		} else if (tHomeCityID1.equals (MapCell.NO_ID)) {
+		} else if (tHomeCityID1.equals (Cell.NO_ID)) {
 			tIsHomeCity1Set = false;			
 		} else {
 			tIsHomeCity1Set = true;
@@ -176,7 +177,7 @@ public class RemoveHomeEffect extends Effect {
 		tHomeCityID2 = getHomeCity2ID ();
 		if (tHomeCityID2 == null) {
 			tIsHomeCity2Set = false;
-		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+		} else if (tHomeCityID2.equals (Cell.NO_ID)) {
 			tIsHomeCity2Set = false;			
 		} else {
 			tIsHomeCity2Set = true;
@@ -222,12 +223,12 @@ public class RemoveHomeEffect extends Effect {
 		if (isHomeCity2Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID2);
 			tLocation = new Location (homeLocation2);
-			tShareCompany.setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			tShareCompany.setHome1 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
 		} else if (isHomeCity1Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID1);
 			tLocation = new Location (homeLocation1);
-			tShareCompany.setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			tShareCompany.setHome2 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
 		}
 		tGameMap.revalidate ();

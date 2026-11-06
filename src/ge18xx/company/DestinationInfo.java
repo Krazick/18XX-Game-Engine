@@ -9,6 +9,7 @@ import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class DestinationInfo {
 	public static final DestinationInfo NO_DESTINATION_INFO = null;
@@ -119,7 +120,7 @@ public class DestinationInfo {
 	public String getCityName () {
 		String tCityName;
 		
-		if (mapCell == MapCell.NO_MAP_CELL) {
+		if (mapCell == Cell.NO_MAP_CELL) {
 			tCityName = GUI.NULL_STRING;
 		} else {
 			tCityName = mapCell.getCityName ();

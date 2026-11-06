@@ -48,7 +48,6 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.company.formation.FormCompany;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
-import ge18xx.map.GameMap;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
@@ -117,6 +116,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
+import genericMap.Map;
 import swingTweaks.KButton;
 
 // TODO -- Create an abstract 'GameEngineManager' Super Class that holds non-specific Game information like:
@@ -692,7 +692,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
-		GameMap tHexMap;
+		Map tHexMap;
 		
 		if (gameIsStarted ()) {
 			tType = "Map";
@@ -1536,7 +1536,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public boolean gameHasRoundType (String aName) {
 		boolean tGameHasRoundType;
 		
-		tGameHasRoundType = activeGame.gameHasRoundType (aName);
+		if (activeGame != GameInfo.NO_GAME_INFO) {
+			tGameHasRoundType = activeGame.gameHasRoundType (aName);
+		} else {
+			tGameHasRoundType = false;
+		}
 		
 		return tGameHasRoundType;
 	}

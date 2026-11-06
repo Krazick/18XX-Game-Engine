@@ -12,6 +12,7 @@ import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class RemoveDestinationEffect extends ChangeMapEffect {
 	public static final String NAME = "Remove Destination";
@@ -24,7 +25,7 @@ public class RemoveDestinationEffect extends ChangeMapEffect {
 		super (aName);
 	}
 
-	public RemoveDestinationEffect (ActorI aActor, MapCell aMapCell, Location aLocation) {
+	public RemoveDestinationEffect (ActorI aActor, Cell aMapCell, Location aLocation) {
 		super (aActor, aMapCell);
 		setName (NAME);
 		setLocation (aLocation);

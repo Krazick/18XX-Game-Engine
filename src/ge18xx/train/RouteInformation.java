@@ -10,7 +10,6 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.map.GameMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.CashHolderI;
@@ -28,6 +27,8 @@ import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
+import genericMap.Map;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
@@ -207,7 +208,7 @@ public class RouteInformation {
 		}
 	};
 
-	public void highlightRouteSegments (GameMap aMap) {
+	public void highlightRouteSegments (Map aMap) {
 		int tSegmentCount;
 		int tSegmentIndex;
 		RouteSegment tRouteSegment;
@@ -480,9 +481,9 @@ public class RouteInformation {
 		train.setCurrentRouteInformation (this);
 	}
 
-	public boolean lastMapCellIs (MapCell aSelectedMapCell) {
+	public boolean lastMapCellIs (Cell aSelectedMapCell) {
 		boolean tLastMapCellMatches = false;
-		MapCell tLastMapCell;
+		Cell tLastMapCell;
 
 		if (getSegmentCount () > 0) {
 			tLastMapCell = getLastMapCell ();
@@ -502,8 +503,8 @@ public class RouteInformation {
 		return tLastRouteSegment;
 	}
 
-	private MapCell getLastMapCell () {
-		MapCell tLastMapCell;
+	private Cell getLastMapCell () {
+		Cell tLastMapCell;
 		RouteSegment tLastRouteSegment;
 
 		tLastRouteSegment = getLastRouteSegment ();
@@ -787,7 +788,7 @@ public class RouteInformation {
 		// Route Segment has Valid End Point
 		boolean tContinueWork = true;
 		int tInitialSegmentCount;
-		MapCell tNewMapCell;
+		Cell tNewMapCell;
 
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
@@ -1140,7 +1141,7 @@ public class RouteInformation {
 		int tLastRouteSegmentIndex;
 		boolean tRouteSegmentsRemoved;
 		String tOperatingRoundID;
-		MapCell tLastMapCell;
+		Cell tLastMapCell;
 		RemoveRouteSegmentsAction tRemoveRouteSegmentsAction;
 		GameManager tGameManager;
 		

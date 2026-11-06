@@ -1,11 +1,11 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeMapEffect;
 import ge18xx.round.action.effects.SetFixedTileEffect;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public class ChangeMapAction extends CashTransferAction {
 	public static final String NAME = "Change Map";
@@ -28,7 +28,7 @@ public class ChangeMapAction extends CashTransferAction {
 		setName (NAME);
 	}
 
-	public void addChangeMapEffect (ActorI aActor, MapCell aMapCell) {
+	public void addChangeMapEffect (ActorI aActor, Cell aMapCell) {
 		ChangeMapEffect tChangeMapEffect;
 
 		tChangeMapEffect = new ChangeMapEffect (aActor, aMapCell);
@@ -46,12 +46,10 @@ public class ChangeMapAction extends CashTransferAction {
 		}
 	}
 	
-	public void addSetFixedTileEffect (ActorI aActor, MapCell aMapCell, boolean aFixedTile,
-					boolean aPreivousState) {
+	public void addSetFixedTileEffect (ActorI aActor, Cell aMapCell, boolean aFixedTile) {
 		SetFixedTileEffect tSetFixedTileEffect;
 
-		tSetFixedTileEffect = new SetFixedTileEffect (aActor, aMapCell, aFixedTile, 
-				aPreivousState);
+		tSetFixedTileEffect = new SetFixedTileEffect (aActor, aMapCell, aFixedTile);
 		addEffect (tSetFixedTileEffect);
 	}
 }

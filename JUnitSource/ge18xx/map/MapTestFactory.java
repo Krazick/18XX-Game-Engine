@@ -8,6 +8,8 @@ import ge18xx.toplevel.MapFrame;
 import geUtilities.utilites.xml.UtilitiesTestFactory;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
+import genericMap.Map;
 
 public class MapTestFactory {
 	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
@@ -61,8 +63,8 @@ public class MapTestFactory {
 		return tHexMap;
 	}
 
-	public GameMap buildHexMap (String aMapFrameName, GameManager aGameManager) {
-		GameMap tHexMap;
+	public Map buildHexMap (String aMapFrameName, GameManager aGameManager) {
+		Map tHexMap;
 		MapFrame tMapFrame;
 		
 		tMapFrame = buildMapFrame (aMapFrameName, aGameManager);
@@ -106,9 +108,9 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
-	public MapCell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
+	public Cell buildMapCell (XMLNode aChildNode, int [] aTerrainCost, int [] aTerrainType, String aChildName) {
 		
-		MapCell tMapCell;
+		Cell tMapCell;
 		GameMap mHexMap;
 		String tMapDirection;
 		
@@ -139,8 +141,8 @@ public class MapTestFactory {
 		return mMapCell;
 	}
 	
-	public MapCell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
-		MapCell mMapCell;
+	public Cell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
+		Cell mMapCell;
 		
 		mMapCell = Mockito.mock (MapCell.class);
 		Mockito.when (mMapCell.getID ()).thenReturn (aID);
@@ -151,7 +153,7 @@ public class MapTestFactory {
 	}
 
 	public void setMockAllowedRotation (MapCell mMapCell, int aIndex, boolean aAllowed) {
-		if (mMapCell != MapCell.NO_MAP_CELL) {
+		if (mMapCell != Cell.NO_CELL) {
 			Mockito.when (mMapCell.getAllowedRotation (aIndex)).thenReturn (aAllowed);
 		}
 	}
@@ -258,9 +260,9 @@ public class MapTestFactory {
 				+ "		<Terrain category=\"optional\" location=\"50\" type=\"River\" />\n"
 				+ "	</MapCell>\n"
 				+ "";
-		MapCell tMapCell;
+		Cell tMapCell;
 		
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = Cell.NO_CELL;
 
 		if (tMapCellXMLIndex == 1) {
 			tMapCell = buildMapCellFromXML (tMapCell1TestXML, aMapCellID);
@@ -276,17 +278,17 @@ public class MapTestFactory {
 			tMapCell = buildMapCellFromXML (tMapCell6TestXML, aMapCellID);
 		}
 		
-		return tMapCell;
+		return (MapCell) tMapCell;
 	}
 
-	private MapCell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
+	private Cell buildMapCellFromXML (String aMapCellTextXML, String aMapCellID) {
 		XMLNode tMapCellNode;
 		int tTerrainCost [];
 		int tTerrainType [];
 		MapCell tMapCell;
 		
 		tMapCellNode = utilitiesTestFactory.buildXMLNode (aMapCellTextXML);
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = (MapCell) Cell.NO_MAP_CELL;
 		if (tMapCellNode != XMLNode.NO_NODE) {
 			tMapCell = buildMapCell ();
 			tTerrainType = new int [Terrain.MAX_TERRAIN_TYPES];

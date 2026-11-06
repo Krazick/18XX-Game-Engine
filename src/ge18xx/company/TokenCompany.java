@@ -33,6 +33,7 @@ import geUtilities.xml.ElementName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLNode;
+import genericMap.Cell;
 
 public abstract class TokenCompany extends TrainCompany {
 	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
@@ -201,12 +202,12 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		int tDistance;
 		int tDistanceCost;
 		MapToken tMapToken;
 		
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			tMapToken = tokens.getMapToken ();
 			if (tMapToken == MapToken.NO_MAP_TOKEN) {
 				tMapToken = tokens.getUsedMapToken ();
@@ -258,17 +259,17 @@ public abstract class TokenCompany extends TrainCompany {
 		return tCurrentColumn;
 	}
 
-	public void removeOtherHome (MapCell aMapCell, Location aHomeLocation) {
+	public void removeOtherHome (Cell aMapCell, Location aHomeLocation) {
 		if (aMapCell == homeCity1) {
-			if (homeCity2 != MapCell.NO_MAP_CELL) {
+			if (homeCity2 != Cell.NO_MAP_CELL) {
 				if (homeCity2.removeHome (this, homeLocation2)) {
-					setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+					setHome2 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 				}
 			}
 		} else if (aMapCell == homeCity2) {
-			if (homeCity1 != MapCell.NO_MAP_CELL) {
+			if (homeCity1 != Cell.NO_MAP_CELL) {
 				if (homeCity1.removeHome (this, homeLocation1)) {
-					setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+					setHome1 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 				}
 			}
 		}
@@ -341,18 +342,18 @@ public abstract class TokenCompany extends TrainCompany {
 
 	public int getTokenCost () {
 		MapToken tMapToken;
-		MapCell tMapCell;
+		Cell tMapCell;
 		int tTokenCost;
 		
 		tMapToken = getMapTokenOnly ();
-		tMapCell = MapCell.NO_MAP_CELL;
+		tMapCell = (Cell) Cell.NO_MAP_CELL;
 		tTokenCost = getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
 		
 		return tTokenCost;
 	}
 	
 	@Override
-	public String reasonForNoTokenLay (MapCell aMapCell) {
+	public String reasonForNoTokenLay (Cell aMapCell) {
 		String tReason;
 
 		tReason = NO_REASON;
@@ -660,7 +661,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public boolean haveMoneyForToken (MapCell aMapCell) {
+	public boolean haveMoneyForToken (Cell aMapCell) {
 		boolean tHaveMoneyForToken;
 		MapToken tMapToken;
 		int tTokenCost;
@@ -679,7 +680,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public boolean haveLaidThisBaseToken (MapCell aMapCell) {
 		boolean tHaveLaidThisBaseToken;
 
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			tHaveLaidThisBaseToken = aMapCell.haveLaidBaseTokenFor (this);
 		} else { // Note, if MapCell is NO_MAP_CELL, treat as Token Laid
 			tHaveLaidThisBaseToken = true;
@@ -692,7 +693,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public boolean choiceForBaseToken () {
 		boolean tChoiceForBaseToken;
 
-		if (homeCity1 == MapCell.NO_MAP_CELL) {
+		if (homeCity1 == Cell.NO_MAP_CELL) {
 			tChoiceForBaseToken = false;
 		} else if (homeCity1.sameID (homeCity2)) {
 			tChoiceForBaseToken = true;
@@ -750,7 +751,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
+	public void tokenWasPlaced (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
 								int aTokenIndex, boolean aAddLayTokenAction) {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus;
@@ -781,7 +782,7 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-	public void addLayTokenAction (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void addLayTokenAction (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 									MapToken aMapToken, int aTokenIndex, 
 									ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
 		LayTokenAction tLayTokenAction;
@@ -817,20 +818,20 @@ public abstract class TokenCompany extends TrainCompany {
 		addAction (tLayTokenAction);
 	}
 
-	public void addRemoveHomeEffect (MapCell aMapCell, LayTokenAction aLayTokenAction) {
+	public void addRemoveHomeEffect (Cell aMapCell, LayTokenAction aLayTokenAction) {
 		if (isHomeTypeChoice ()) {
 			if (aMapCell == homeCity1) {
-				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL, getHomeCity2 (), 
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), (Cell) Cell.NO_MAP_CELL, getHomeCity2 (), 
 													Location.NO_LOC, getHomeLocation2 ());
 			} else if (aMapCell == homeCity2) {
-				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), getHomeCity1 (), MapCell.NO_MAP_CELL, 
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), getHomeCity1 (), (Cell) Cell.NO_MAP_CELL, 
 						 							getHomeLocation1 (), Location.NO_LOC);
 			}
 		}
 	}
 	
 	@Override
-	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell aMapCell) {
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, Cell aMapCell) {
 		int tTokenCost;
 		String tMapCellID;
 
@@ -843,7 +844,7 @@ public abstract class TokenCompany extends TrainCompany {
 		// -- If Calculated on Distance from Base -- $X * # of Hexes
 
 		tTokenCost = NO_COST_CALCULATED;
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			tMapCellID = aMapCell.getID ();
 			if (aTokenType == TokenType.HOME1) {
 				tTokenCost = getHomeBaseCost (homeCity1, tMapCellID);
@@ -866,7 +867,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenCost;
 	}
 
-	public int getNonHomeTokenCost (MapToken aMapToken, MapCell aMapCell) {
+	public int getNonHomeTokenCost (MapToken aMapToken, Cell aMapCell) {
 		int tTokenCost;
 
 		tTokenCost = NO_COST;
@@ -881,12 +882,12 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenCost;
 	}
 
-	private int getHomeBaseCost (MapCell aHomeMapCell, String aMapCellID) {
+	private int getHomeBaseCost (Cell aHomeMapCell, String aMapCellID) {
 		int tHomeTokenCost;
 		
 		// TODO: non-1830 Games, need to determine if cost is based on Distance
 		tHomeTokenCost = NO_COST_CALCULATED;
-		if (aHomeMapCell != MapCell.NO_MAP_CELL) {
+		if (aHomeMapCell != Cell.NO_MAP_CELL) {
 			if (aHomeMapCell.getID () == aMapCellID) {
 				tHomeTokenCost = 0;
 			}

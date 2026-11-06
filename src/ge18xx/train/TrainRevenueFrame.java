@@ -28,13 +28,13 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
-import ge18xx.map.GameMap;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 
 import geUtilities.xml.XMLFrame;
+import genericMap.Map;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 
@@ -473,7 +473,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		RouteInformation tRouteInformation;
 		GameManager tGameManager;
 		MapFrame tMapFrame;
-		GameMap tMap;
+		Map tMap;
 
 		tGameManager = trainCompany.getGameManager ();
 		tMapFrame = tGameManager.getMapFrame ();

@@ -64,6 +64,7 @@ import geUtilities.xml.XMLElement;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLNodeList;
+import genericMap.Cell;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.MessageBean;
@@ -146,7 +147,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public Corporation (int aID, String aName) {
-		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, 
+		this (aID, aName, NO_ABBREV, (MapCell) Cell.NO_MAP_CELL, Location.NO_LOC, (MapCell) Cell.NO_MAP_CELL, 
 				Location.NO_LOC, ActorI.ActionStates.Unowned, false);
 	}
 
@@ -278,15 +279,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		MapCell tMapCell;
 
 		tMapCell = getHomeCity1 ();
-		if (tMapCell != MapCell.NO_MAP_CELL) {
+		if (tMapCell != Cell.NO_MAP_CELL) {
 			tMapCell.clearCorporation (this);
-			setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			setHome1 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 		}
 		setHomeCityGrid1 (NO_HOME_GRID);
 		tMapCell = getHomeCity2 ();
-		if (tMapCell != MapCell.NO_MAP_CELL) {
+		if (tMapCell != Cell.NO_MAP_CELL) {
 			tMapCell.clearCorporation (this);
-			setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			setHome2 ((MapCell) Cell.NO_MAP_CELL, Location.NO_LOC);
 		}
 		setHomeCityGrid2 (NO_HOME_GRID);
 	}
@@ -980,7 +981,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+	public void tokenWasPlaced (Cell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 								MapToken aMapToken, int aTokenIndex, boolean aAddLayTokenAction) {
 		System.err.println ("Trying to Verify Place Token as Corporation - WRONG");
 	}
@@ -1095,13 +1096,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		aXMLCorporationState.setAttribute (AN_ID, getID ());
 		aXMLCorporationState.setAttribute (AN_ABBREV, getAbbrev ());
 		aXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			aXMLCorporationState.setAttribute (AN_HOMECELL1, homeCity1.getCellID ());
 			tHomeLocation1 = getHomeLocation1 ();
 			tHomeLocation1Int = tHomeLocation1.getLocation ();
 			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION1, tHomeLocation1Int);
 		}
-		if (homeCity2 != MapCell.NO_MAP_CELL) {
+		if (homeCity2 != Cell.NO_MAP_CELL) {
 			aXMLCorporationState.setAttribute (AN_HOMECELL2, homeCity2.getCellID ());
 			tHomeLocation2 = getHomeLocation2 ();
 			tHomeLocation2Int = tHomeLocation2.getLocation ();
@@ -1257,19 +1258,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else if (aHomeID == 2) {
 			tMapCellID = getCorpHome2MapID ();
 		} else {
-			tMapCellID = MapCell.NO_ID;
+			tMapCellID = Cell.NO_ID;
 		}
 		
 		return tMapCellID;
 	}
 
-	private String getMapCellID (MapCell aMapCell) {
+	private String getMapCellID (Cell aMapCell) {
 		String tMapCellID;
 
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			tMapCellID = aMapCell.getID ();
 		} else {
-			tMapCellID = MapCell.NO_ID;
+			tMapCellID = Cell.NO_ID;
 		}
 		
 		return tMapCellID;
@@ -1283,10 +1284,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tHomeMapCell1 = getCorpHome1MapID ();
 		tHomeMapCell2 = getCorpHome2MapID ();
 		
-		if (tHomeMapCell1 != MapCell.NO_ID) { 
+		if (tHomeMapCell1 != Cell.NO_ID) { 
 			tHomeLocations = "Home MapCell ID:  " + tHomeMapCell1;
 			if (tHomeMapCell1 != tHomeMapCell2) {
-				if (tHomeMapCell2 != MapCell.NO_ID) {
+				if (tHomeMapCell2 != Cell.NO_ID) {
 					tHomeLocations += "  ID2:  " + tHomeMapCell2;
 				}
 			}
@@ -1298,7 +1299,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 	
 	public String getCorpHome1MapID () {
-		MapCell tMapCell;
+		Cell tMapCell;
 		String tMapCellID;
 
 		tMapCell = getHomeCity1 ();
@@ -1308,7 +1309,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public String getCorpHome2MapID () {
-		MapCell tMapCell;
+		Cell tMapCell;
 		String tMapCellID;
 
 		tMapCell = getHomeCity2 ();
@@ -1414,8 +1415,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public boolean hasTwoBases () {
 		boolean tHasTwoBases;
 		 
-		if ((homeCity1 != MapCell.NO_MAP_CELL) &&
-			(homeCity2  != MapCell.NO_MAP_CELL)) {
+		if ((homeCity1 != Cell.NO_MAP_CELL) &&
+			(homeCity2  != Cell.NO_MAP_CELL)) {
 			if (homeCity1.getID ().equals (homeCity2.getID ())) {
 				tHasTwoBases = false;
 			} else {
@@ -1688,7 +1689,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will Override
-	public boolean haveMoneyForToken (MapCell aMapCell) {
+	public boolean haveMoneyForToken (Cell aMapCell) {
 		return false;
 	}
 
@@ -1856,7 +1857,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will override
-	public String reasonForNoTokenLay (MapCell aMapCell) {
+	public String reasonForNoTokenLay (Cell aMapCell) {
 		return "Corporation cannot lay Token - Only Token Companies";
 	}
 
@@ -1912,7 +1913,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	@Override
 	public void updateInfo () {
 		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
-			corporationFrame.updateInfo (MapCell.NO_MAP_CELL);
+			corporationFrame.updateInfo ((Cell) Cell.NO_MAP_CELL);
 		}
 	}
 
@@ -1948,12 +1949,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		parseHomeCities (aXMLNode);
 		if (homeCityGrid1 == GUI.NULL_STRING) {
-			if (tDefaultHome1 != MapCell.NO_MAP_CELL) {
+			if (tDefaultHome1 != Cell.NO_MAP_CELL) {
 				tDefaultHome1.removeHome (this, tDefaultLocation1);
 			}
 		}
 		if (homeCityGrid2 == GUI.NULL_STRING) {
-			if (tDefaultHome2 != MapCell.NO_MAP_CELL) {
+			if (tDefaultHome2 != Cell.NO_MAP_CELL) {
 				tDefaultHome2.removeHome (this, tDefaultLocation2);
 			}
 		}
@@ -2969,7 +2970,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public boolean homeMapCell () {
 		boolean tHomeMapCell;
 		
-		if (homeCity1 == MapCell.NO_MAP_CELL) {
+		if (homeCity1 == Cell.NO_MAP_CELL) {
 			tHomeMapCell = false;
 		} else {
 			tHomeMapCell = true;
@@ -2982,9 +2983,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		boolean tHomeMapCellHasTile;
 
 		tHomeMapCellHasTile = false;
-		if (homeCity1 != MapCell.NO_MAP_CELL) {
+		if (homeCity1 != Cell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity1.isTileWithTrackOnCell ();
-		} else if (homeCity2 != MapCell.NO_MAP_CELL) {
+		} else if (homeCity2 != Cell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = true;
 		}
 
@@ -2995,7 +2996,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		boolean tHomeMapCellHasTile;
 
 		tHomeMapCellHasTile = false;
-		if (homeCity2 != MapCell.NO_MAP_CELL) {
+		if (homeCity2 != Cell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity2.isTileWithTrackOnCell ();
 		} else {
 			tHomeMapCellHasTile = true;
@@ -3046,7 +3047,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return 0;
 	}
 	
-	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell tMapCell) {
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, Cell tMapCell) {
 		// Override in Token Company Class
 		return 0;
 	}
@@ -3064,7 +3065,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tCashHolder;
 	}
 
-	public void handlePlaceTile (MapCell aMapCell) {
+	public void handlePlaceTile (Cell aMapCell) {
 		corporationFrame.handlePlaceTile (aMapCell);
 	}
 
@@ -3222,7 +3223,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 	
-	public void updateCorporationFrame (MapCell aMapCell) {
+	public void updateCorporationFrame (Cell aMapCell) {
 		corporationFrame.updateCFButtons (aMapCell);
 	}
 
@@ -3264,7 +3265,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return false;
 	}
 
-	public int getRangeCost (MapCell aMapCell) {
+	public int getRangeCost (Cell aMapCell) {
 		return 0;
 	}
 

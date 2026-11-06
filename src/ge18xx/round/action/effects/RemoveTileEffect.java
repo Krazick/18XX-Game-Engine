@@ -65,6 +65,7 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		boolean tFixedTile;
 		Tile tTile;
 		MapCell tMapCell;
 		HexMap tGameMap;
@@ -81,7 +82,9 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		tGameTile = tTileSet.getGameTile (tTileNumber);
 		tGameTile.clearPlayable ();
 		tMapCell = getMapCell (tGameMap);
-		tMapCell.putTile (tTile, orientation);
+		// Do not change the FixedTileFlag, leave that for the setFixedTileEffect to handle
+		tFixedTile = tMapCell.isFixedTile ();
+		tMapCell.putTile (tTile, orientation, tFixedTile);
 		tMapCell.lockTileOrientation ();
 		applyBases (aRoundManager, tMapCell);
 		tTokens = getTokens ();

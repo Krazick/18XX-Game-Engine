@@ -42,6 +42,7 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 import geUtilities.xml.XMLFrame;
+import genericMap.Cell;
 import swingTweaks.KButton;
 import geUtilities.GUI;
 import geUtilities.WrapLayout;
@@ -381,7 +382,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	public void handlePlaceBaseTile (String aSourceTitle, MapCell aMapCell) {
+	public void handlePlaceBaseTile (String aSourceTitle, Cell aMapCell) {
 		handlePlaceTile (aMapCell);
 		updateSelectableMapCell (aSourceTitle);
 	}
@@ -409,27 +410,27 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addBaseMapCellToSMC (tMapCell1, tMap);
 		tMapCell2 = corporation.getHomeCity2 ();
 		addBaseMapCellToSMC (tMapCell2, tMap);
-		if ((tMapCell1 != MapCell.NO_DESTINATION) &&
+		if ((tMapCell1 != Cell.NO_DESTINATION) &&
 			(tMapCell2 == tMapCell1)) {
 			tMap.toggleSelectedMapCell (tMapCell1);
 		}
 	}
 
 	public void addBaseMapCellToSMC (MapCell aMapCell, HexMap aMap) {
-		if (aMapCell != MapCell.NO_MAP_CELL) {
+		if (aMapCell != Cell.NO_MAP_CELL) {
 			aMap.addMapCellSMC (aMapCell);
 			aMap.toggleSelectedMapCell (aMapCell);
 		}
 	}
 
-	public void handlePlaceTile (MapCell aMapCell) {
+	public void handlePlaceTile (Cell aMapCell) {
 		corporation.showTileTray ();
 		corporation.enterPlaceTileMode ();
 		corporation.showMap ();
 		updateTTODButtons (aMapCell);
 	}
 
-	public void handlePlaceToken (String aSourceTitle, MapCell aMapCell) {
+	public void handlePlaceToken (String aSourceTitle, Cell aMapCell) {
 		HexMap tMap;
 
 		corporation.showTileTray ();
@@ -503,7 +504,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (ButtonsInfoFrame.EXPLAIN.equals (tCommand)) {
 			handleExplainButtons ();
 		}
-		updateInfo (MapCell.NO_MAP_CELL);
+		updateInfo ((Cell) Cell.NO_MAP_CELL);
 		tRoundManager = gameManager.getRoundManager ();
 		tInterrupted = tRoundManager.checkAndHandleInterruption ();
 		// Should check if the Interrupting Round is in a "Started" state, if so, 
@@ -579,7 +580,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	protected boolean handleMapActions (String aCommand, String aSourceTitle) {
-		MapCell tMapCell;
+		Cell tMapCell;
 		GameMap tMap;
 		boolean tHandledMapAction;
 		
@@ -1004,7 +1005,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporation.configurePrivateBenefitButtons (buttonsJPanel);
 	}
 	
-	public void updateCFButtons (MapCell aMapCell) {
+	public void updateCFButtons (Cell aMapCell) {
 		if (corporation.mapVisible ()) {
 			showMapButton.setEnabled (false);
 			showMapButton.setToolTipText ("The Map is already visible.");
@@ -1023,7 +1024,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		revalidate ();
 	}
 
-	public void updateTTODButtons (MapCell aMapCell) {
+	public void updateTTODButtons (Cell aMapCell) {
 		int tTrainCount;
 
 		tTrainCount = corporation.getTrainCount ();
@@ -1550,7 +1551,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTokenLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		if (tMapCellID == MapCell.NO_ID) {
+		if (tMapCellID == Cell.NO_ID) {
 			tBaseTokenLabel = GUI.EMPTY_STRING;
 		} else {
 			tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
@@ -1564,7 +1565,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tBaseTileLabel;
 
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		if (tMapCellID == MapCell.NO_ID) {
+		if (tMapCellID == Cell.NO_ID) {
 			tBaseTileLabel = GUI.EMPTY_STRING;
 		} else {
 			tBaseTileLabel = createBaseLabel (aBaseTitle, tMapCellID);
@@ -1605,7 +1606,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tFoundMapCellID;
 	}
 
-	private void updatePlaceTokenButton (MapCell aMapCell) {
+	private void updatePlaceTokenButton (Cell aMapCell) {
 		TokenCompany tTokenCompany;
 		String tDisableToolTipReason;
 		String tPlaceTokenText;
@@ -1987,7 +1988,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tButtonLabel;
 	}
 
-	public void updateInfo (MapCell aMapCell) {
+	public void updateInfo (Cell aMapCell) {
 		updateCorpInfoBorder ();
 		setStatusLabel ();
 		setPhaseInfo ();
