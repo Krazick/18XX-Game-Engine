@@ -2511,7 +2511,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 
 	public int getCostToLayTile (Tile aTile) {
 		TileType tTileType;
-//		TileName tTileName;
+		TileName tTileName;
 		int tCostToLay;
 		int tTileTypeInt;
 		int tTotalTerrainCost;
@@ -2526,25 +2526,23 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 			tTileTypeInt = tTileType.getType ();
 			if (tTileTypeInt == TileType.YELLOW) {
 				tCostToLay = tTotalTerrainCost;
-			} else {
-				if (fixedTile) {
-					tCostToLay = tTotalTerrainCost;
+			} else if (fixedTile) {
+				tCostToLay = tTotalTerrainCost;
+			} else if (tTileTypeInt == TileType.GREEN) {
+				tTileName = aTile.getTileName ();
+				if (tTileName != TileName.NO_TILE_NAME) {
+					if (tTileName.isOOTile () || tTileName.isNYTile ()
+						|| tTileName.isXXTile () || tTileName.isYTile ()) {
+						tCostToLay = tTotalTerrainCost;
+					}
 				}
-//			} else if (tTileTypeInt == TileType.GREEN) {
-//				tTileName = aTile.getTileName ();
-//				if (tTileName != TileName.NO_TILE_NAME) {
-//					if (tTileName.isOOTile () || tTileName.isNYTile ()
-//						|| tTileName.isXXTile () || tTileName.isYTile ()) {
-//						tCostToLay = tTotalTerrainCost;
-//					}
-//				}
-//			} else if (tTileTypeInt == TileType.BROWN) {
-//				tTileName = aTile.getTileName ();
-//				if (tTileName != TileName.NO_TILE_NAME) {
-//					if ( tTileName.isHHTile ()) {
-//						tCostToLay = tTotalTerrainCost;
-//					}
-//				}
+			} else if (tTileTypeInt == TileType.BROWN) {
+				tTileName = aTile.getTileName ();
+				if (tTileName != TileName.NO_TILE_NAME) {
+					if ( tTileName.isHHTile ()) {
+						tCostToLay = tTotalTerrainCost;
+					}
+				}
 			}
 		}
 
