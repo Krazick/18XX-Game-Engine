@@ -46,12 +46,10 @@ public class ChangeMapAction extends CashTransferAction {
 		}
 	}
 	
-	public void addSetFixedTileEffect (ActorI aActor, Cell aMapCell, boolean aFixedTile,
-					boolean aPreivousState) {
+	public void addSetFixedTileEffect (ActorI aActor, Cell aMapCell, boolean aFixedTile) {
 		SetFixedTileEffect tSetFixedTileEffect;
 
-		tSetFixedTileEffect = new SetFixedTileEffect (aActor, aMapCell, aFixedTile, 
-				aPreivousState);
+		tSetFixedTileEffect = new SetFixedTileEffect (aActor, aMapCell, aFixedTile);
 		addEffect (tSetFixedTileEffect);
 	}
 }

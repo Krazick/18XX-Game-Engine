@@ -763,12 +763,14 @@ public class HexMap extends GameMap implements MouseListener,
 		int tDefaultTileNumber;
 		boolean tHasPort;
 		boolean tHasCattle;
+		boolean tFixedTile;
 		MapCell tMapCell;
 
 		tCol = aMapCellNode.getThisIntAttribute (AN_COL);
 		tRow = aMapCellNode.getThisIntAttribute (AN_ROW);
 		tTileOrientation = aMapCellNode.getThisIntAttribute (MapCell.AN_ORIENTATION);
 		tTileNumber = aMapCellNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
+		tFixedTile = aMapCellNode.getThisBooleanAttribute (MapCell.AN_FIXED);
 		tHasPort = aMapCellNode.getThisBooleanAttribute (MapCell.AN_PORT_TOKEN);
 		tHasCattle = aMapCellNode.getThisBooleanAttribute (MapCell.AN_CATTLE_TOKEN);
 		tBenefitValue = aMapCellNode.getThisIntAttribute (MapCell.AN_BENEFIT_VALUE);
@@ -780,12 +782,12 @@ public class HexMap extends GameMap implements MouseListener,
 					if (tDefaultTileNumber == tTileNumber) {
 						placeBenefitTokens (tCol, tRow, tBenefitValue, tHasPort, tHasCattle);
 					} else {
-						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
-									tHasPort, tHasCattle);
+						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tFixedTile, 
+									tBenefitValue, tHasPort, tHasCattle);
 					}
 				} else {
-					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, 
-									tHasPort, tHasCattle);
+					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tFixedTile,
+									tBenefitValue, tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
 					tMapCell.loadStationsStates (aMapCellNode);
@@ -795,8 +797,8 @@ public class HexMap extends GameMap implements MouseListener,
 		}
 	}
 
-	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, int aBenefitValue, 
-			boolean aHasPort, boolean aHasCattle) {
+	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, 
+			boolean aFixedTile, int aBenefitValue, boolean aHasPort, boolean aHasCattle) {
 		Tile tTile;
 		Tile tCurrentTile;
 		MapCell tMapCell;
@@ -806,7 +808,7 @@ public class HexMap extends GameMap implements MouseListener,
 			tMapCell = (MapCell) cells [aRow] [aCol];
 
 			tCurrentTile = tMapCell.getTile ();
-			tMapCell.putTile (tTile, aTileOrientation);
+			tMapCell.putTile (tTile, aTileOrientation, aFixedTile);
 			tMapCell.lockTileOrientation ();
 			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);

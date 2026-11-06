@@ -1964,7 +1964,7 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		putTile (aTile, aTileOrient);
 		clearSelected ();
 		fixedTileNumber = Tile.NOT_A_TILE;
-		fixedTile = false;
+//		fixedTile = false;		// CALL FIXED TILE FLAG METHOD
 		setRebate (Rebate.NO_REBATE);
 		clearAllTrainsUsingSides ();
 	}
@@ -2146,17 +2146,14 @@ public class MapCell extends Cell implements Cloneable, Comparator<Object> {
 		}
 
 		// Set the new Tile onto the MapCell so that when MoveMapToken is called, it can
-		// properly set the Connected Sides
-		// using the new Tile.
+		// properly set the Connected Sides using the new Tile.
+		// Note, do NOT toggle the fixedTile Flag at this point. Wait till LayTileAction
+		// in TrainCompany, and toggle it there (after Cost is calculated)
 
 		setTile (aNewTile);
 		lockTileOrientation ();
 		tTileNumber = aNewTile.getNumber ();
-		setTileInfo (tTileNumber, tFirstPossibleRotation, false);	
-		
-		// BUG Need to Capture current Tile's Fixed Flag (to be reset), and used
-		// TO Calculate the Cost of the Tile Lay.
-					
+		setTileInfo (tTileNumber, tFirstPossibleRotation, fixedTile);	
 		aNewTile.setMapCell (this);
 
 		// For the Tile on Map, find Revenue Centers, and Tokens on them. Place them
