@@ -14,7 +14,8 @@ public class Timers {
 	public static final AttributeName AN_TOTAL_TIME_USED = new AttributeName ("totalTimeUsed");
 	public static final AttributeName AD_ACTION_START_TIME = new AttributeName ("actionStartTime");
 	public static final AttributeName AN_ACTION_END_TIME = new AttributeName ("actionEndTime");
-	private static final LocalDateTime CLEAR_ACTION_TIME = LocalDateTime.now ();
+	private static final LocalDateTime CLEAR_ACTION_TIME = null;
+//	private static final String NO_ACTION_TIME = GUI.EMPTY_STRING;
 	
 	// Timers Fields
 	boolean addTimeBudget;
@@ -33,13 +34,16 @@ public class Timers {
 	}
 
 	public void addTimeFields (XMLElement aXMLElement) {
-		// TODO Auto-generated method stub
 		aXMLElement.setAttribute (AN_ADD_TIME_BUDGET, addTimeBudget);
 		aXMLElement.setAttribute (AN_START_TIMED_EVENTS, startTimedEvents);
 		aXMLElement.setAttribute (AN_TIME_BUDGET, timeBudget.toString ());
 		aXMLElement.setAttribute (AN_TOTAL_TIME_USED, totalTimeUsed.toString ());
-		aXMLElement.setAttribute (AD_ACTION_START_TIME, actionStartTime.toString ());
-		aXMLElement.setAttribute (AN_ACTION_END_TIME, actionEndTime.toString ());
+		if (actionStartTime != null) {
+			aXMLElement.setAttribute (AD_ACTION_START_TIME, actionStartTime.toString ());
+		}
+		if (actionEndTime != null) {
+			aXMLElement.setAttribute (AN_ACTION_END_TIME, actionEndTime.toString ());
+		}
 	}
 
 	public void loadTimeFields (XMLNode aPlayerNode) {
@@ -54,8 +58,8 @@ public class Timers {
 		tStartTimedEvents = aPlayerNode.getThisBooleanAttribute (AN_START_TIMED_EVENTS);
 		tTimeBudget = aPlayerNode.getThisDurationAttribute (AN_TIME_BUDGET);
 		tTotalTimeUsed = aPlayerNode.getThisDurationAttribute (AN_TOTAL_TIME_USED);
-		tActionStartTime = aPlayerNode.getThisLocalDateTimeAttribute (AD_ACTION_START_TIME);
-		tActionEndTime = aPlayerNode.getThisLocalDateTimeAttribute (AN_ACTION_END_TIME);
+		tActionStartTime = aPlayerNode.getThisLocalDateTimeAttribute (AD_ACTION_START_TIME, null);
+		tActionEndTime = aPlayerNode.getThisLocalDateTimeAttribute (AN_ACTION_END_TIME, null);
 
 		setAddTimeBudget (tAddTimeBudget);
 		setStartTimedEvents (tStartTimedEvents);
@@ -118,7 +122,13 @@ public class Timers {
 		Duration tDuration;
 		Duration tTotalDuration;
 		
-		tDuration = Duration.between (actionStartTime, actionEndTime);
+		if (actionStartTime == CLEAR_ACTION_TIME) {
+			tDuration = Duration.ZERO;
+		} else if (actionEndTime == CLEAR_ACTION_TIME) {
+			tDuration = Duration.ZERO;
+		} else {
+			tDuration = Duration.between (actionStartTime, actionEndTime);
+		}
 		tTotalDuration = totalTimeUsed.plus (tDuration);
 		setTotalTimeUsed (tTotalDuration);
 		

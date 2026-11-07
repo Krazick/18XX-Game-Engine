@@ -7,6 +7,7 @@ import ge18xx.game.GameManager;
 //import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.effects.Effect;
+import geUtilities.GUI;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -32,12 +33,16 @@ public class GameTimeEffect extends Effect {
 		LocalDateTime tGameDateTime;
 		
 		tStringDateTime = aEffectNode.getThisAttribute (AN_PREVIOUS_TIME);
-		tGameDateTime = LocalDateTime.parse (tStringDateTime);
-		setPreviousGameTime (tGameDateTime);
+		if (tStringDateTime != GUI.NULL_STRING) {
+			tGameDateTime = LocalDateTime.parse (tStringDateTime);
+			setPreviousGameTime (tGameDateTime);
+		}
 		
 		tStringDateTime = aEffectNode.getThisAttribute (AN_NEW_TIME);
-		tGameDateTime = LocalDateTime.parse (tStringDateTime);
-		setNewGameTime (tGameDateTime);
+		if (tStringDateTime != GUI.NULL_STRING) {
+			tGameDateTime = LocalDateTime.parse (tStringDateTime);
+			setNewGameTime (tGameDateTime);
+		}
 	}
 
 	public void setPreviousGameTime (LocalDateTime aPreviousTime) {
@@ -61,8 +66,12 @@ public class GameTimeEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (AN_PREVIOUS_TIME, previousDateTime.toString ());
-		tEffectElement.setAttribute (AN_NEW_TIME, newDateTime.toString ());
+		if (previousDateTime != null) {
+			tEffectElement.setAttribute (AN_PREVIOUS_TIME, previousDateTime.toString ());
+		}
+		if (newDateTime != null) {
+			tEffectElement.setAttribute (AN_NEW_TIME, newDateTime.toString ());
+		}
 
 		return tEffectElement;
 	}

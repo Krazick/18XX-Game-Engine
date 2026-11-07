@@ -54,8 +54,11 @@ public class CaptureStartTimeEffect extends GameTimeEffect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
 
-		tEffectReport = REPORT_PREFIX + name + " from " + previousDateTime.toString () +
-				" to " + newDateTime.toString () + ".";
+		if (newDateTime == null) {
+			tEffectReport = REPORT_PREFIX + name + " New Date Time has not been set.";
+		} else {
+			tEffectReport = REPORT_PREFIX + name + " of " + newDateTime.toString () + " for the Action.";
+		}
 
 		return tEffectReport;
 	}
