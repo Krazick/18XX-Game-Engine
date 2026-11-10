@@ -517,6 +517,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
 		RoundManager tRoundManager;
+//		AuctionRound tAuctionRound;
 
 		List<Certificate> tCertificatesToBuy;
 		Certificate tFreeCertificate;
@@ -540,17 +541,23 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBidders = aCertificateToBuy.getBidders ();
 		aCertificateToBuy.removeAllBidders ();
 		tWinAuctionAction.addRemoveBiddersEffect (this, aCertificateToBuy, tBidders);
-		
-		tWinAuctionAction.addFinishAuctionEffect (this);
+
 		if (mustSetParPrice (tFreeCertificate)) {
 			setAllWaitStateEffects (tWinAuctionAction);
 		}
 		
+		tRoundManager = playerManager.getRoundManager ();
+//		tAuctionRound = tRoundManager.getAuctionRound ();
+//		tAuctionRound.setInterruptionStarted (false);		
+//		tWinAuctionAction.addSetInterruptionRoundStartedEffect (tAuctionRound, 
+//					tAuctionRound.interruptionStarted ());
+//		tWinAuctionAction.addFinishAuctionEffect (this);
+		
 		playerManager.addAction (tWinAuctionAction);
 		playerManager.updateAllPlayerFrames ();
-		tRoundManager = playerManager.getRoundManager ();
-		tRoundManager.finishCurrentRound ();
 		
+		tRoundManager.finishCurrentRound ();
+
 		return tNextShareHasBids;
 	}
 	
