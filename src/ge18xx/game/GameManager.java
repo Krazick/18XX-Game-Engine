@@ -102,6 +102,7 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
+import geUtilities.ButtonPause;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
 import geUtilities.FrameInfoSupport;
@@ -2738,7 +2739,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
+		ButtonPause tButtonPause;
+		XMLFrame tRoundFrame;
+		String tActionInfo;
+		
 		autoSaveGame (ADD_CHECKSUM, false);
+		
+		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
+			tActionInfo = "<html>Player " + getClientUserName () + 
+					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
+			tRoundFrame = roundManager.getRoundFrame ();
+			tButtonPause = new ButtonPause (tRoundFrame, tActionInfo);
+		}
 	}
 	
 	public void autoSaveGame (boolean aAddChecksum, boolean aUndidLastActions) {
