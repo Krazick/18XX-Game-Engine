@@ -102,7 +102,6 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.game.GameManager;
 import geUtilities.GameFrameConfig;
-import geUtilities.ButtonPause;
 import geUtilities.FileGEFilter;
 import geUtilities.FileUtils;
 import geUtilities.FrameInfoSupport;
@@ -118,6 +117,7 @@ import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 import geUtilities.xml.XMLSaveGameI;
 import genericMap.Map;
+import swingTweaks.ButtonPause;
 import swingTweaks.KButton;
 
 // TODO -- Create an abstract 'GameEngineManager' Super Class that holds non-specific Game information like:
@@ -204,6 +204,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	TileDefinitionFrame tileDefinitionFrame;
 	TileTrayFrame tileTrayFrame;
 	ContractBidFrame contractBidFrame;
+	ButtonPause buttonPause;
 
 	// Other Frames include:
 		// RoundFrame 				-- held by RoundManager
@@ -2739,28 +2740,28 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
-		XMLFrame tRoundFrame;
-		String tActionInfo;
-		
 		autoSaveGame (ADD_CHECKSUM, false);
 		
-		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
-			tActionInfo = "<html>Player " + getClientUserName () + 
-					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
-			tRoundFrame = roundManager.getRoundFrame ();
-			new ButtonPause (tRoundFrame, tActionInfo);
-		}
 	}
 	
 	public void autoSaveGame (boolean aAddChecksum, boolean aUndidLastActions) {
 		File tPriorSave;
-
+		XMLFrame tRoundFrame;
+		String tActionInfo;
+		
 		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
 		if (gameStarted) {
 			saveGame (aAddChecksum, aUndidLastActions);
 		}
 		saveFile = tPriorSave;
+		
+		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
+			tActionInfo = "<html>Player " + getClientUserName () + 
+					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
+			tRoundFrame = roundManager.getRoundFrame ();
+			buttonPause = new ButtonPause (tRoundFrame, tActionInfo);
+		}
 	}
 
 	public void saveAGame (boolean aOverwriteFile) {
