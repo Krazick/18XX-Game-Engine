@@ -265,8 +265,9 @@ public class RoundManager implements ActionListener, XMLSaveGameI {
 		if (tEffectCount > 0) {
 			if (! applyingAction ()) {
 				actionManager.addAction (aAction);
+				gameManager.autoSaveGame ();
 			}
-			gameManager.autoSaveGame ();
+
 			gameManager.setGameChanged (true);
 		} else {
 			System.out.println ("Action # " + aAction.getNumber () + " Name " + aAction.getName () +
