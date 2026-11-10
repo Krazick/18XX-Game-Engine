@@ -198,9 +198,13 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			hideAuctionFrame ();
 		} else {
 			tPlayer = getHighestBidder ();
-	
-			setBidderJPanelColor (tPlayer.getName (), false);
-			tPlayer.finishAuction (certificateToAuction, this, true);
+
+			if (tPlayer != Player.NO_PLAYER) {
+				setBidderJPanelColor (tPlayer.getName (), false);
+				tPlayer.finishAuction (certificateToAuction, this, true);
+			} else {
+				System.out.println ("No player found for Highest Bidder in Auction");
+			}
 		}
 	}
 
