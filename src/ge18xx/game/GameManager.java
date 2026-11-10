@@ -2463,11 +2463,11 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		}
 		tSavedPreviousChecksum = getLastPrevious2Checksum ();
 		setPreviousChecksumValue (GUI.EMPTY_STRING);
-
+		
 		addAllElements (tXMLDocument, tSaveGameElement);
 		setPreviousChecksumValue (tSavedPreviousChecksum);
 
-// Append Save Game Element to Document just before outputing it.
+// Append Save Game Element to Document just before saving it.
 		tXMLDocument.appendChild (tSaveGameElement);
 		tGameChecksum = addChecksum (EN_GAME, tXMLDocument);
 		if (aUndidLastActions) {
@@ -2739,7 +2739,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	}
 
 	public void autoSaveGame () {
-		ButtonPause tButtonPause;
 		XMLFrame tRoundFrame;
 		String tActionInfo;
 		
@@ -2749,7 +2748,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			tActionInfo = "<html>Player " + getClientUserName () + 
 					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
 			tRoundFrame = roundManager.getRoundFrame ();
-			tButtonPause = new ButtonPause (tRoundFrame, tActionInfo);
+			new ButtonPause (tRoundFrame, tActionInfo);
 		}
 	}
 	
