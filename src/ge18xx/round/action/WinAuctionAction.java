@@ -15,7 +15,6 @@ import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
 import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
-import ge18xx.round.action.effects.auction.FinishAuctionEffect;
 import ge18xx.round.action.effects.auction.RemoveAllBidsEffect;
 import ge18xx.round.action.effects.auction.RemoveBiddersEffect;
 import geUtilities.GUI;
@@ -81,13 +80,6 @@ public class WinAuctionAction extends BuyStockAction {
 			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
 			addEffect (tStateChangeEffect);
 		}
-	}
-
-	public void addFinishAuctionEffect (ActorI aActor) {
-		FinishAuctionEffect tFinishAuctionEffect;
-
-		tFinishAuctionEffect = new FinishAuctionEffect (aActor);
-		addEffect (tFinishAuctionEffect);
 	}
 
 	@Override

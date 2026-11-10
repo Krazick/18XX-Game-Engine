@@ -6,16 +6,12 @@ import ge18xx.round.action.effects.ChangeRoundIDEffect;
 import ge18xx.round.action.effects.ClearSoldCompanyEffect;
 import ge18xx.round.action.effects.HideFrameEffect;
 import ge18xx.round.action.effects.SetInterruptionStartedEffect;
+import ge18xx.round.action.effects.auction.FinishAuctionEffect;
 import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class ChangeRoundAction extends ChangeStateAction {
 	public static final String NAME = "Change Round";
-
-	public ChangeRoundAction () {
-		super ();
-		setName (NAME);
-	}
 
 	public ChangeRoundAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
@@ -60,6 +56,13 @@ public class ChangeRoundAction extends ChangeStateAction {
 
 		tSetInterruptionStartedEffect = new SetInterruptionStartedEffect (aActor, aSetInterruptionStarted);
 		addEffect (tSetInterruptionStartedEffect);
+	}
+
+	public void addFinishAuctionEffect (ActorI aActor) {
+		FinishAuctionEffect tFinishAuctionEffect;
+
+		tFinishAuctionEffect = new FinishAuctionEffect (aActor);
+		addEffect (tFinishAuctionEffect);
 	}
 
 	@Override

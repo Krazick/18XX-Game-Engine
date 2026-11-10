@@ -10,14 +10,6 @@ import geUtilities.xml.XMLNode;
 public class FinishAuctionEffect extends Effect {
 	public static final String NAME = "Finish Auction";
 
-	public FinishAuctionEffect () {
-		this (NAME);
-	}
-
-	public FinishAuctionEffect (String aName) {
-		super (aName);
-	}
-
 	public FinishAuctionEffect (ActorI aActor) {
 		this (NAME, aActor);
 	}

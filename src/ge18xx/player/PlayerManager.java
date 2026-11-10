@@ -1602,6 +1602,7 @@ public class PlayerManager implements XMLSaveGameI {
 				tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 				tCurrentPlayer = getCurrentPlayer ();
 				tPassAction.addChangeCurrentPlayerEffect (tCurrentPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
+				stockRound.setCurrentPlayerIndex (tNextPlayerIndex);
 			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 			}

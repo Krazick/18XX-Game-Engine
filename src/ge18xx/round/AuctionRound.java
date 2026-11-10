@@ -144,22 +144,29 @@ public class AuctionRound extends InterruptionRound {
 			addAction (tStartAuctionAction);
 		}
 	}
-	
+
 	@Override
-	public void returnTo (Round aInterruptedRound) {
-		StartAuctionAction tStartAuctionAction;
-		ActorI.ActionStates tRoundType;
-		String tRoundID;
-
-		tRoundType = interruptedRound.getRoundState ();
-		tRoundID = interruptedRound.getID ();
-
-		super.returnTo (aInterruptedRound);
-		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
-		tStartAuctionAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
-		setRoundToThis (tStartAuctionAction, false);
-		showAuctionFrame ();
+	public void addSpecificEffects (ChangeRoundAction aChangeRoundAction) {
+		setInterruptionStarted (false);		
+		aChangeRoundAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted ());
+		aChangeRoundAction.addFinishAuctionEffect (this);
 	}
+
+//	@Override
+//	public void returnTo (Round aInterruptedRound) {
+//		StartAuctionAction tStartAuctionAction;
+//		ActorI.ActionStates tRoundType;
+//		String tRoundID;
+//
+//		tRoundType = interruptedRound.getRoundState ();
+//		tRoundID = interruptedRound.getID ();
+
+//		super.returnTo (aInterruptedRound);
+//		tStartAuctionAction = new StartAuctionAction (tRoundType, tRoundID, interruptedRound);
+//		tStartAuctionAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
+//		setRoundToThis (tStartAuctionAction, false);
+//		showAuctionFrame ();
+//	}
 	
 	public void setRoundToThis (ChangeRoundAction aChangeRoundAction, boolean aIncrementRoundID) {
 		String tOldRoundID;

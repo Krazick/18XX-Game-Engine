@@ -93,13 +93,10 @@ public class InterruptionRound extends Round {
 	public void setRoundAttributes (XMLElement aXMLElement) {
 		super.setRoundAttributes (aXMLElement);
 		if (interruptedRound != InterruptionRound.NO_ROUND) {
+//			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRoundName);
 			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRound.getName ());
-			if (interruptionStarted ()) {
-				aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, true);
-			}
-			if (interruptedAtStartOfRound ()) {
-				aXMLElement.setAttribute (AN_AT_START_OF_ROUND, true);
-			}
+			aXMLElement.setAttribute (AN_INTERRUPTION_STARTED, interruptionStarted);
+			aXMLElement.setAttribute (AN_AT_START_OF_ROUND, atStartOfRound);
 		} else {
 			aXMLElement.setAttribute (AN_INTERRUPTED_ROUND_NAME, interruptedRoundName);
 		}
@@ -142,8 +139,6 @@ public class InterruptionRound extends Round {
 
 	@Override
 	public void finish (XMLFrame aInterruptionFrame) {
-		setInterruptionStarted (false);		
-		
 		ActorI.ActionStates tRoundState;
 		ActorI.ActionStates tInterruptedRoundState;
 		ChangeRoundAction tChangeRoundAction;
@@ -156,20 +151,25 @@ public class InterruptionRound extends Round {
 		tCurrentRoundID = getID ();
 
 		tChangeRoundAction = new ChangeRoundAction (tRoundState, tCurrentRoundID, this);
-		addSpecificEffects (tChangeRoundAction);
 		tChangeRoundAction.setChainToPrevious (true);
-		tChangeRoundAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
+		addSpecificEffects (tChangeRoundAction);
+		
+		if (! roundManager.applyingAction ()) {
+			setInterruptionStarted (false);		
+			tChangeRoundAction.addSetInterruptionRoundStartedEffect (this, interruptionStarted);
+		}
+	
 		if (aInterruptionFrame != XMLFrame.NO_XML_FRAME) {
-			tChangeRoundAction.addHideFrameEffect (this, aInterruptionFrame);
 			aInterruptionFrame.hideFrame ();
+			tChangeRoundAction.addHideFrameEffect (this, aInterruptionFrame);
 		}
 		roundManager.changeRound (this, tInterruptedRoundState, interruptedRound, tCurrentRoundID, 
 								tNewRoundID, tChangeRoundAction);
-		roundManager.addAction (tChangeRoundAction);
-		roundManager.updateRoundFrame ();
 		if (! interruptedAtStartOfRound ()) {
 			roundManager.checkAndHandleRoundEnds ();
 		}
+		roundManager.addAction (tChangeRoundAction);
+		roundManager.updateRoundFrame ();
 	}
 
 	public void addSpecificEffects (ChangeRoundAction aChangeRoundAction) {

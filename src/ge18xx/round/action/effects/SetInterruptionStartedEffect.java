@@ -49,7 +49,7 @@ public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
 		tEffectApplied = false;
 		if (actor.isAInterruptionRound ()) {
 			tInterruptionRound = (InterruptionRound) actor;
-			tInterruptionRound.setInterruptionStarted (getBooleanFlag ());
+			tInterruptionRound.setInterruptionStarted (booleanFlag);
 			tEffectApplied = true;
 		} else {
 			setApplyFailureReason ("The provided Actor " + actor.getName () + 
@@ -67,7 +67,7 @@ public class SetInterruptionStartedEffect extends ChangeBooleanFlagEffect {
 		tEffectUndone = false;
 		if (actor.isAInterruptionRound ()) {
 			tInterruptionRound = (InterruptionRound) actor;
-			tInterruptionRound.setInterruptionStarted (! getBooleanFlag ());
+			tInterruptionRound.setInterruptionStarted (! booleanFlag);
 			tEffectUndone = true;
 		} else {
 			setUndoFailureReason ("The provided Actor " + actor.getName () + 
