@@ -5,16 +5,18 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ExchangePrezShareEffect;
+import ge18xx.round.action.effects.HideFrameEffect;
 import ge18xx.round.action.effects.NewPriorityPlayerEffect;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class DonePlayerAction extends ChangeStateAction {
 	public static final String NAME = "Done Player";
 
-	public DonePlayerAction () {
-		super ();
-		setName (NAME);
-	}
+//	public DonePlayerAction () {
+//		super ();
+//		setName (NAME);
+//	}
 
 	public DonePlayerAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
@@ -38,6 +40,13 @@ public class DonePlayerAction extends ChangeStateAction {
 
 		tExchangePrezShareEffect = new ExchangePrezShareEffect (getActor (), aCorporationAbbrev);
 		addEffect (tExchangePrezShareEffect);
+	}
+	
+	public void addHideFrameEffect (ActorI aActor, XMLFrame aXMLAuctionFrame) {
+		HideFrameEffect tHideFrameEffect;
+		
+		tHideFrameEffect = new HideFrameEffect (aActor, aXMLAuctionFrame);
+		addEffect (tHideFrameEffect);
 	}
 
 	@Override
