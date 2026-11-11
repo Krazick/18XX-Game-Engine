@@ -1272,6 +1272,7 @@ public class PlayerManager implements XMLSaveGameI {
 		stockRound.setPriorityPlayerIndex (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
 		moveToNextPlayer (tNextPlayerIndex, tDonePlayerAction);
+		tDonePlayerAction.addHideFrameEffect (aPlayer, aPlayer.getPlayerFrame ());
 		
 		addAction (tDonePlayerAction);
 		gameManager.resetRoundFrameBackgrounds ();
