@@ -108,6 +108,7 @@ import geUtilities.FrameInfoSupport;
 import geUtilities.GUI;
 import geUtilities.JFileMChooser;
 import geUtilities.MessageBean;
+import geUtilities.SnapCopyFile;
 import geUtilities.xml.AttributeName;
 import geUtilities.xml.ElementName;
 import geUtilities.xml.GameEngineManager;
@@ -2741,29 +2742,43 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void autoSaveGame () {
 		autoSaveGame (ADD_CHECKSUM, false);
-		
 	}
 	
 	public void autoSaveGame (boolean aAddChecksum, boolean aUndidLastActions) {
 		File tPriorSave;
-		XMLFrame tRoundFrame;
-		String tActionInfo;
+//		XMLFrame tRoundFrame;
+//		String tActionInfo;
 		
 		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
 		if (gameStarted) {
 			saveGame (aAddChecksum, aUndidLastActions);
+			snapAutoSaveFile ();
 		}
+		
 		saveFile = tPriorSave;
 		
-		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
-			tActionInfo = "<html>Player " + getClientUserName () + 
-					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
-			tRoundFrame = roundManager.getRoundFrame ();
-			buttonPause = new ButtonPause (tRoundFrame, tActionInfo);
-		}
+//		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
+//			tActionInfo = "<html>Player " + getClientUserName () + 
+//					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
+//			tRoundFrame = roundManager.getRoundFrame ();
+//			buttonPause = new ButtonPause (tRoundFrame, tActionInfo);
+//		}
 	}
-
+	
+	@SuppressWarnings ("unused")
+	public void snapAutoSaveFile () {
+		int tActionNumber;
+		SnapCopyFile tSnapCopyFile;
+		File tDestinationDir;
+		String tDestination = "/Users/marksmith/eclipse-workspace/18XX-Game-Engine/autoSaves/network/snaps";
+		
+		tDestinationDir = new File (tDestination);
+		
+		tActionNumber = getActionNumber ();
+		tSnapCopyFile = new SnapCopyFile (autoSaveFile, tDestinationDir, tActionNumber);
+	}
+	
 	public void saveAGame (boolean aOverwriteFile) {
 		File tSaveDirectory;
 		String tFileName;
