@@ -317,12 +317,6 @@ public class RoundFrame extends XMLFrame {
 		fastBuyJPanel = new JPanel ();
 		fastBuyJPanel.setLayout (new BoxLayout (fastBuyJPanel, BoxLayout.X_AXIS));
 
-		tGameManager = (GameManager) getGameManager ();
-		if (tGameManager != null) {
-			if (tGameManager.isNetworkGame ()) {
-				addButtonAndSpace (buttonsJPanel, afkButton);
-			}
-		}
 
 		doButton = setupButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
@@ -331,7 +325,14 @@ public class RoundFrame extends XMLFrame {
 		addButtonAndSpace (buttonsJPanel, passButton);
 		
 		buttonsJPanel.add (fastBuyJPanel);
-		updateDoButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION);
+		updateDoButton (DO_NO_PLAYER_ACTION, PLAYER_ACTION, false, "No Player specified to take Action");
+		
+		tGameManager = (GameManager) getGameManager ();
+		if (tGameManager != GameManager.NO_GAME_MANAGER) {
+			if (tGameManager.isNetworkGame ()) {
+				addButtonAndSpace (buttonsJPanel, afkButton);
+			}
+		}
 	}
 
 	private void fillFastBuyPanel () {
@@ -480,7 +481,7 @@ public class RoundFrame extends XMLFrame {
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setCurrentRoundOf (aCurrentOR, aMaxOR);
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
-		updateDoButton (COMPANY_DO_ACTION, CORPORATION_ACTION);
+		updateDoButton (COMPANY_DO_ACTION, CORPORATION_ACTION, false, "No Company specified to take Action");
 		updateTotalCashLabel ();
 		updatePassButton ();
 		fastBuyJPanel.removeAll ();
@@ -579,8 +580,16 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
+		updateDoButton (aButtonLabel, aActionCommand, true, GUI.EMPTY_STRING);
+	}
+	
+	private void updateDoButton (String aButtonLabel, String aActionCommand, 
+			boolean aEnabled, String aToolTip) {
+
 		updateDoButtonText (aButtonLabel);
 		doButton.setActionCommand (aActionCommand);
+		doButton.setEnabled (aEnabled);
+		doButton.setToolTipText (aToolTip);
 	}
 
 	public void updateDoButton () {
