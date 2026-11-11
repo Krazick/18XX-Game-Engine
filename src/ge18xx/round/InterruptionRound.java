@@ -160,11 +160,11 @@ public class InterruptionRound extends Round {
 		}
 		roundManager.changeRound (this, tInterruptedRoundState, interruptedRound, tCurrentRoundID, 
 								tNewRoundID, tChangeRoundAction);
+		roundManager.addAction (tChangeRoundAction);
+		roundManager.updateRoundFrame ();
 		if (! interruptedAtStartOfRound ()) {
 			roundManager.checkAndHandleRoundEnds ();
 		}
-		roundManager.addAction (tChangeRoundAction);
-		roundManager.updateRoundFrame ();
 	}
 
 	public void addSpecificEffects (ChangeRoundAction aChangeRoundAction) {
