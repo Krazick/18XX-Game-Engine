@@ -447,20 +447,20 @@ public class OperatingRound extends Round {
 
 		setRoundToOperatingRound (aCurrentRound, tOldRoundID, tIDPart1, tIDPart2);
 
-		if (tIDPart2 == calcFirstORID ()) {
-			aPlayerManager.clearAllPercentBought ();
-			aPlayerManager.clearAllPlayerDividends (tOldRoundID);
-		}
 		if (! roundManager.applyingAction ()) {
+			if (tIDPart2 == calcFirstORID ()) {
+				aPlayerManager.clearAllPercentBought ();
+				aPlayerManager.clearAllPlayerDividends (tOldRoundID);
+			}
 			if (getPrivateCompanyCount () > 0) {
 				payRevenues ();
 				handleQueryBenefits ();
 			}
-		}
-		if (anyFloatedCompanies ()) {
-			minorCompanies.clearOperatedStatus ();
-			shareCompanies.clearOperatedStatus ();
-			updateActionLabel ();
+			if (anyFloatedCompanies ()) {
+				minorCompanies.clearOperatedStatus ();
+				shareCompanies.clearOperatedStatus ();
+				updateActionLabel ();
+			}
 		}
 		roundManager.updateRoundFrame ();
 	}
