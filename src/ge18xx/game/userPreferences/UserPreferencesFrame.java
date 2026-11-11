@@ -34,7 +34,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int HexScalesSynchronized = 7;
 	private static final int HideMapScaleSlider = 8;
 	private static final int HideTileTraySlider = 9;
-	private static final int PauseAfterAutoSave = 10;
+//	private static final int PauseAfterAutoSave = 10;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -121,8 +121,8 @@ public class UserPreferencesFrame extends XMLFrame {
 		tUserPreference = new HideTileTrayScaleSliderPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 		
-		tUserPreference = new PauseAfterAutoSavePreference (aGameManager);
-		buildUserPreferences (tUserPreference);
+//		tUserPreference = new PauseAfterAutoSavePreference (aGameManager);
+//		buildUserPreferences (tUserPreference);
 	}
 	
 	public void buildUserPreferences (UserPreference aUserPreference) {
@@ -234,15 +234,15 @@ public class UserPreferencesFrame extends XMLFrame {
 		return tHideMapSlider;
 	}
 
-	public boolean getPauseAfterAutoSave () {
-		PauseAfterAutoSavePreference tPauseAfterAutoSavePreference;
-		boolean tPauseAfterAutoSave;
-		
-		tPauseAfterAutoSavePreference = (PauseAfterAutoSavePreference) userPreferences.get (PauseAfterAutoSave);
-		tPauseAfterAutoSave = tPauseAfterAutoSavePreference.pauseAfterAutoSave ();
-		
-		return tPauseAfterAutoSave;
-	}
+//	public boolean getPauseAfterAutoSave () {
+//		PauseAfterAutoSavePreference tPauseAfterAutoSavePreference;
+//		boolean tPauseAfterAutoSave;
+//		
+//		tPauseAfterAutoSavePreference = (PauseAfterAutoSavePreference) userPreferences.get (PauseAfterAutoSave);
+//		tPauseAfterAutoSave = tPauseAfterAutoSavePreference.pauseAfterAutoSave ();
+//		
+//		return tPauseAfterAutoSave;
+//	}
 
 	public boolean getHideTileTraySlider () {
 		HideTileTrayScaleSliderPreference tHideTileTraySliderPreference;
@@ -282,7 +282,7 @@ public class UserPreferencesFrame extends XMLFrame {
 		HexScalesSynchronizedPreference tHexScalesSynchronizedPreference;
 		HideMapScaleSliderPreference tHideMapScaleSliderPreference;
 		HideTileTrayScaleSliderPreference tHideTileTrayScaleSliderPreference;
-		PauseAfterAutoSavePreference tPauseAfterAutoSavePreference;
+//		PauseAfterAutoSavePreference tPauseAfterAutoSavePreference;
 		
 		tChildren = aPreferencesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
@@ -335,10 +335,10 @@ public class UserPreferencesFrame extends XMLFrame {
 					tHideTileTrayScaleSliderPreference = (HideTileTrayScaleSliderPreference) userPreferences.get (HideTileTraySlider);
 					tHideTileTrayScaleSliderPreference.parsePreference (tChildNode);
 				}
-				if (PauseAfterAutoSavePreference.EN_PAUSE_AFTER_AUTO_SAVE.equals (tNodeName)) {
-					tPauseAfterAutoSavePreference = (PauseAfterAutoSavePreference) userPreferences.get (PauseAfterAutoSave);
-					tPauseAfterAutoSavePreference.parsePreference (tChildNode);
-				}
+//				if (PauseAfterAutoSavePreference.EN_PAUSE_AFTER_AUTO_SAVE.equals (tNodeName)) {
+//					tPauseAfterAutoSavePreference = (PauseAfterAutoSavePreference) userPreferences.get (PauseAfterAutoSave);
+//					tPauseAfterAutoSavePreference.parsePreference (tChildNode);
+//				}
 			}
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception with message ");
