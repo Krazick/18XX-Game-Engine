@@ -555,7 +555,7 @@ public class Certificate implements Comparable<Certificate> {
 	private void updateSellCheckBox (String aCheckBoxLabel, ItemListener aItemListener, GameManager aGameManager,
 			JPanel aCertificateInfoJPanel) {
 		String tGroupName;
-		String tNoSaleToolTip;
+		String tToolTip;
 		boolean tCanBeSold;
 
 		if (! isAPrivateCompany ()) {
@@ -568,11 +568,11 @@ public class Certificate implements Comparable<Certificate> {
 			} else {
 				tCanBeSold = canBeSold (aGameManager);
 				if (! tCanBeSold) {
-					tNoSaleToolTip = getReasonForNoSale (aGameManager);
+					tToolTip = getReasonForNoSale (aGameManager);
 				} else {
-					tNoSaleToolTip = "Can Sell Stock";
+					tToolTip = "Can Sell Stock Certificate";
 				}
-				checkBox = setupCheckedButton (aCheckBoxLabel, tCanBeSold, tNoSaleToolTip, aItemListener);
+				checkBox = setupCheckedButton (aCheckBoxLabel, tCanBeSold, tToolTip, aItemListener);
 			}
 			if (checkBox != GUI.NO_CHECK_BOX) {
 				setFrameButton (checkBox, tGroupName);
@@ -623,9 +623,11 @@ public class Certificate implements Comparable<Certificate> {
 			if (tMinorCompany.canFormUpgrade ()) {
 				tCalcCheckBoxState = true;
 			} else {
-				// TODO Test if the company being exchanged into has been formed (ask Game Manager)
+				// TODO: Test if the company being exchanged into has been formed (ask Game Manager)
 				// if has formed state is TRUE
 			}
+		} else {
+			tCalcCheckBoxState = true;
 		}
 		
 		return tCalcCheckBoxState;
