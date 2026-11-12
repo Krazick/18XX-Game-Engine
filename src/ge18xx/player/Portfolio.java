@@ -1846,6 +1846,19 @@ public class Portfolio implements CertificateHolderI {
 		return tHasSelectedStocksToSell;
 	}
 
+	public int getSelectedStocksValue () {
+		int tSelectedStocksValue;
+		
+		tSelectedStocksValue = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToSell ()) {
+				tSelectedStocksValue += tCertificate.getValue ();
+			}
+		}
+		
+		return tSelectedStocksValue;
+	}
+	
 	public boolean AreAllSelectedStocksSameCorporation () {
 		boolean tAreAllSelectedStocksSameCorporation;
 		Corporation tCorporation;

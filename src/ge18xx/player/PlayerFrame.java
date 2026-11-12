@@ -365,9 +365,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public boolean hasSelectedStocksToBuy () {
-		boolean tSelectedStocksToBuy = false;
+		boolean tSelectedStocksToBuy;
 		Bank tBank;
 
+		tSelectedStocksToBuy = false;
 		tBank = player.getBank ();
 		if (tBank != Bank.NO_BANK) {
 			tSelectedStocksToBuy = player.hasSelectedStockToBuy ();
@@ -582,6 +583,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		boolean tMustBuy;
 		boolean tHasSelectedOneToExchange;
 		boolean tCanSellSelectedStocks;
+		int tSelectedStocksValue;
 
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
@@ -592,10 +594,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
 		tCanSellSelectedStocks = canSellSelectedStocks ();
+		tSelectedStocksValue = player.getSelectedStocksValue ();
 		
 		updatePassButton (tCanCompleteTurn, tMustBuy);
 		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, 
-						tPrezToExchange, tCanSellSelectedStocks);
+						tPrezToExchange, tCanSellSelectedStocks, tSelectedStocksValue);
 		updateBuyButton (canBuy);
 		updateExchangeButton (tPrezToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
@@ -675,7 +678,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
-			boolean aPrezToExchange, boolean aCanSellSelectedStocks) {
+			boolean aPrezToExchange, boolean aCanSellSelectedStocks, int aSelectedStocksValue) {
+		String tSellLabel;
+		
+		tSellLabel = Player.SELL_LABEL;
+		
 		if (! handledWaiting (sellButton)) {
 			if (aStocksToSell) {
 				if (aPrezToExchange) {
@@ -686,6 +693,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					sellButton.setToolTipText (WILL_OVERFILL);
 				} else if (aStocksToSellSame) {
 					if (aCanSellSelectedStocks) {
+						tSellLabel += " for " + Bank.formatCash (aSelectedStocksValue);
 						sellButton.setEnabled (aStocksToSell);
 						sellButton.setToolTipText (CERTIFICATE_SELECTED_FOR_SALE);
 					} else {
@@ -693,6 +701,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 						sellButton.setToolTipText (NO_TOUCH_PASS);
 					}
 				} else {
+					tSellLabel += " for " + Bank.formatCash (aSelectedStocksValue);
+					sellButton.setEnabled (aStocksToSell);
 					sellButton.setEnabled (aStocksToSellSame);
 					sellButton.setToolTipText (DIFFERENT_COMPANIES);
 				}
@@ -701,27 +711,32 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				sellButton.setToolTipText (NO_CERTIFICATE_SELECTED_FOR_SALE);
 			}
 		}
+		sellButton.setText (tSellLabel);
 	}
 
-	private void updateExchangeButton (boolean aPrezToExchange, boolean tHasSelectedOneToExchange) {
-		boolean tCanBankHoldStock = false;
+	private void updateExchangeButton (boolean aPrezToExchange, boolean aHasSelectedOneToExchange) {
+		boolean tCanBankHoldStock;
 
+		tCanBankHoldStock = false;
 		if (! handledWaiting (exchangeButton)) {
-			if (tHasSelectedOneToExchange) {
+			if (aHasSelectedOneToExchange) {
 				if (aPrezToExchange) {
 					tCanBankHoldStock = canBankHoldStock ();
 				}
 
-				exchangeButton.setEnabled (tCanBankHoldStock);
+//				exchangeButton.setEnabled (tCanBankHoldStock);
 				if (!tCanBankHoldStock) {
+					exchangeButton.setEnabled (false);
 					exchangeButton
 							.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");
 				} else if (aPrezToExchange) {
+					exchangeButton.setEnabled (true);
 					exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
 				} else {
+					exchangeButton.setEnabled (false);
 					exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 				}
-			} if (! hasSelectedPrezToExchange ()) {
+			} else if (! hasSelectedPrezToExchange ()) {
 				exchangeButton.setEnabled (false);
 				exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 			} else {
