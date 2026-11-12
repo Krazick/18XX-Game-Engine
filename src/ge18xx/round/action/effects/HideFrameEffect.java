@@ -45,7 +45,8 @@ public class HideFrameEffect extends ShowFrameEffect {
 		boolean tEffectApplied;
 
 		tEffectApplied = super.applyEffect (aRoundManager);
-
+		xmlFrame.toFront ();
+		
 		return tEffectApplied;
 	}
 }
