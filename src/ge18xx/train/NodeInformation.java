@@ -108,6 +108,12 @@ public class NodeInformation {
 		if (isSide ()) {
 			setOpenFlow (true);
 			setCorpStation (false); // If this is a Side, there is -NEVER- a Corp Station
+		} else if (location == Location.NO_LOC) {
+			setOpenFlow (false);
+			setCorpStation (false);
+		} else if (location.isDeadEnd ()) {
+			setOpenFlow (false);
+			setCorpStation (false);
 		}
 		// Or if there is a Corporate Station, it is -ALWAYS OPEN-
 		if (corpStation) {
