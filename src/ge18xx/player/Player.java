@@ -1184,6 +1184,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasSelectedSameStocksToSell;
 	}
 
+	public int getSelectedStocksValue () {
+		int tSelectedStocksValue;
+		
+		tSelectedStocksValue = portfolio.getSelectedStocksValue ();
+		
+		return tSelectedStocksValue;
+	}
+	
 	public boolean canSellSelectedStocks () {
 		boolean tCanSellSelectedStocks;
 		String tSelectedAbbrev;
@@ -1292,7 +1300,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public int getCountSelectedCosToBuy () {
 		Bank tBank;
 		BankPool tBankPool;
-		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		Portfolio tBankPortfolio;
+		Portfolio tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
 		int tCountSelectedCosToBuy;
 
@@ -1314,7 +1323,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public int getCountSelectedCosToBid () {
 		Bank tBank;
 		BankPool tBankPool;
-		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		Portfolio tBankPortfolio;
+		Portfolio tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
 		int tCountSelectedCosToBid;
 
