@@ -1274,7 +1274,11 @@ public class RouteInformation {
 			tCorpStation = aRevenueCenter.cityHasStation (aCorpID);
 			tOpenFlow = determineOpenFlow (aRevenueCenter, tCorpStation);
 			tRevenue = aRevenueCenter.getRevenue (aPhase);
-			tLocation = aRevenueCenter.getLocation ();
+			if (aLocation.isDeadEnd ()) {
+				tLocation = aLocation;
+			} else {
+				tLocation = aRevenueCenter.getLocation ();
+			}
 		}
 
 		tBonus = 0; // TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that
