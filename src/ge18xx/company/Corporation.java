@@ -2312,8 +2312,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tOperatingRoundID = getOperatingRoundID ();
 			tDoneAction = new DoneCorpAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tDoneAction.addNewActingCorpEffect (this);
+			tDoneAction.addEndActingCorpEffect (this);
 			tDoneAction.addClearTrainsFromMapEffect (this);
+			tDoneAction.addHideFrameEffect (this, corporationFrame);
 			// If we need to do a Formation Round, add effect here to the Done Action to set the new 
 			// Round State to the Formation Round State. 
 			
