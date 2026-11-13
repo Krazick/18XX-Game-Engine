@@ -7,9 +7,11 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
 import ge18xx.round.action.effects.EndCorpActionsEffect;
+import ge18xx.round.action.effects.HideFrameEffect;
 import ge18xx.round.action.effects.SetFormationStateEffect;
 import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.round.action.effects.StartFormationEffect;
+import geUtilities.xml.XMLFrame;
 import geUtilities.xml.XMLNode;
 
 public class DoneCorpAction extends Action {
@@ -25,7 +27,7 @@ public class DoneCorpAction extends Action {
 		setName (NAME);
 	}
 
-	public void addNewActingCorpEffect (Corporation aCorporation) {
+	public void addEndActingCorpEffect (Corporation aCorporation) {
 		EndCorpActionsEffect tEndCorpActionsEffect;
 
 		tEndCorpActionsEffect = new EndCorpActionsEffect (aCorporation);
@@ -56,6 +58,13 @@ public class DoneCorpAction extends Action {
 		return tSimpleActionReport;
 	}
 	
+	public void addHideFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
+		HideFrameEffect tHideFrameEffect;
+		
+		tHideFrameEffect = new HideFrameEffect (aActor, aXMLFrame);
+		addEffect (tHideFrameEffect);
+	}
+
 	public void addShowFormationPanelEffect (ActorI aFromActor) {
 		ShowFormationPanelEffect tShowFormationPanelEffect;
 		
