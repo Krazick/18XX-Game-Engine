@@ -34,10 +34,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 	}
 
 	public void addTransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
-		TransferTrainEffect tBoughtTrainEffect;
+		TransferTrainEffect tTransferTrainEffect;
 	
-		tBoughtTrainEffect = new TransferTrainEffect (aFromActor, aTrain, aToActor);
-		addEffect (tBoughtTrainEffect);
+		tTransferTrainEffect = new TransferTrainEffect (aFromActor, aTrain, aToActor);
+		addEffect (tTransferTrainEffect);
 	}
 
 	public void addCloseCorporationEffect (Corporation aCorporation, ActorI.ActionStates aOldState,
