@@ -1711,6 +1711,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	 * @param aTrainID The ID of the Train to find
 	 * @return The Train with the specified Train ID.
 	 */
+	@Override
 	public Train getTrainByID (int aTrainID) {
 		return trainPortfolio.getTrainByID (aTrainID);
 	}

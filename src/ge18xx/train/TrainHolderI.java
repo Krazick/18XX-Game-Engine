@@ -30,6 +30,9 @@ public interface TrainHolderI extends ActorI {
 
 	/* Get the a Train Object with this Name */
 	public Coupon getTrain (String aName);
+	
+	/* Get the a Train Object with this Name */
+	public Coupon getTrainByID (int aID);
 
 	public TrainPortfolio getTrainPortfolio ();
 

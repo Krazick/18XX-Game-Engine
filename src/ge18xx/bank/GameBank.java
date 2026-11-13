@@ -279,6 +279,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGa
 	}
 
 	@Override
+	public Train getTrainByID (int aTrainID) {
+		return trainPortfolio.getTrainByID (aTrainID);
+	}
+
+	@Override
 	public int getTrainLimit () {
 		return 0;
 	}
