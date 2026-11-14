@@ -10,10 +10,6 @@ import geUtilities.xml.XMLNode;
 public class ChangePlayerAction extends SetWaitStateAction {
 	public static final String NAME = "Change Player";
 
-	public ChangePlayerAction () {
-		this (NAME);
-	}
-
 	public ChangePlayerAction (String aName) {
 		super (aName);
 	}

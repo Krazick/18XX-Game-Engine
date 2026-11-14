@@ -11,10 +11,6 @@ import geUtilities.xml.XMLNode;
 public class CashTransferAction extends ChangeStateAction {
 	public static final String NAME = "Cash Transfer";
 
-	public CashTransferAction () {
-		this (NAME);
-	}
-
 	public CashTransferAction (String aName) {
 		super (aName);
 	}

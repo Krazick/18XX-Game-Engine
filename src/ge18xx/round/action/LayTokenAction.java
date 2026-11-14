@@ -16,11 +16,6 @@ import genericMap.Cell;
 public class LayTokenAction extends ChangeMapAction {
 	public static final String NAME = "Lay Token";
 
-	public LayTokenAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public LayTokenAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

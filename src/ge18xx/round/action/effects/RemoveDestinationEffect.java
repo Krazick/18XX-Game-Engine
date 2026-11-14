@@ -18,13 +18,6 @@ public class RemoveDestinationEffect extends ChangeMapEffect {
 	public static final String NAME = "Remove Destination";
 	Location location;
 
-	public RemoveDestinationEffect () {
-	}
-
-	public RemoveDestinationEffect (String aName) {
-		super (aName);
-	}
-
 	public RemoveDestinationEffect (ActorI aActor, Cell aMapCell, Location aLocation) {
 		super (aActor, aMapCell);
 		setName (NAME);

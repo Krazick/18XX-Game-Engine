@@ -10,11 +10,6 @@ import geUtilities.xml.XMLNode;
 public class PassAction extends ChangeStateAction {
 	public static final String NAME = "Pass";
 
-	public PassAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public PassAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
@@ -24,20 +19,6 @@ public class PassAction extends ChangeStateAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-
-//	public void addChangeRoundIDEffect (ActorI aActor, String aOldRoundID, String aNewRoundID) {
-//		ChangeRoundIDEffect tChangeRoundIDEffect;
-//
-//		tChangeRoundIDEffect = new ChangeRoundIDEffect (aActor, aOldRoundID, aNewRoundID);
-//		addEffect (tChangeRoundIDEffect);
-//	}
-//
-//	public void addApplyDiscountEffect (ActorI aActor, String aCertificateName, int aOldDiscount, int aNewDiscount) {
-//		ApplyDiscountEffect tApplyDiscountEffect;
-//
-//		tApplyDiscountEffect = new ApplyDiscountEffect (aActor, aCertificateName, aOldDiscount, aNewDiscount);
-//		addEffect (tApplyDiscountEffect);
-//	}
 
 	@Override
 	public String getSimpleActionReport () {

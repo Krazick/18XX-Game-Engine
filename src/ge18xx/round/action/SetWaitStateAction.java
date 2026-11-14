@@ -11,11 +11,6 @@ import geUtilities.xml.XMLNode;
 public class SetWaitStateAction extends Action {
 	public static final String NAME = "Set Wait State";
 
-	public SetWaitStateAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public SetWaitStateAction (Action aAction) {
 		super (aAction);
 		setName (NAME);

@@ -24,10 +24,6 @@ public class ChangeStateAction extends ChangePlayerAction {
 	public static final String NAME = "Change State";
 	public static final ChangeStateAction NO_CHANGE_STATE_ACTION = null;
 
-	public ChangeStateAction () {
-		this (NAME);
-	}
-
 	public ChangeStateAction (String aName) {
 		super (aName);
 	}
