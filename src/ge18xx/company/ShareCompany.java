@@ -1283,24 +1283,7 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public void removeBenefitButtons () {
 	}
-	
-//	public void addSpecialButton (KButton aSpecialButton) {
-//		specialButtons.add (aSpecialButton);
-//	}
-//	
-//	public boolean hasSpecialButton (KButton aSpecialButton) {
-//		boolean tHasSpecialButton;
-//		
-//		tHasSpecialButton = false;
-//		for (KButton tSpecialButton : specialButtons) {
-//			if (tSpecialButton == aSpecialButton) {
-//				tHasSpecialButton = true;
-//			}
-//		}
-//		
-//		return tHasSpecialButton;
-//	}
-	
+		
 	public void clearClosed () {		
 		MapCell tDestinationMapCell;
 		RemoveDestinationsAction tRemoveDestinationsAction;
