@@ -214,8 +214,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationJPanel.add (otherCorpsJPanel);
 			corporationJPanel.add (Box.createVerticalStrut (5));
 		}
-		
-		add (corporationJPanel);
+		buildScrollPane (corporationJPanel);
+//		add (corporationJPanel);
 	}
 
 	private JPanel buildTopBoxes () {
