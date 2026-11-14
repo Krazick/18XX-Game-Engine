@@ -9,14 +9,6 @@ import geUtilities.xml.XMLNode;
 public class HideFrameEffect extends ShowFrameEffect {
 	public static final String NAME = "Hide Frame";
 
-//	public HideFrameEffect () {
-//		this (NAME, ActorI.NO_ACTOR);
-//	}
-
-//	public HideFrameEffect (String aName, ActorI aActor) {
-//		this (aName, aActor, XMLFrame.NO_XML_FRAME);
-//	}
-
 	public HideFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
 		this (NAME, aActor, aXMLFrame);
 	}
