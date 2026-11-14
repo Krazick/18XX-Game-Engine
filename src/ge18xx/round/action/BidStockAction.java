@@ -17,11 +17,6 @@ import geUtilities.xml.XMLNode;
 public class BidStockAction extends CashTransferAction {
 	public static final String NAME = "Bid on Stock";
 
-	public BidStockAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public BidStockAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

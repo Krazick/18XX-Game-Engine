@@ -9,11 +9,6 @@ import geUtilities.xml.XMLNode;
 public class PayRevenueAction extends CashTransferAction {
 	public static final String NAME = "Pay Revenue";
 
-	public PayRevenueAction () {
-		super ();
-		setName (NAME);
-	}
-
 	public PayRevenueAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);

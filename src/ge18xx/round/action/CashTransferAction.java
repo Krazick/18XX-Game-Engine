@@ -75,7 +75,7 @@ public class CashTransferAction extends ChangeStateAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
 
-		tSimpleActionReport = NAME + " Action from " + actor.getName () + " to " + getToActorName ();
+		tSimpleActionReport = name + " Action from " + actor.getName () + " to " + getToActorName ();
 
 		return tSimpleActionReport;
 	}
