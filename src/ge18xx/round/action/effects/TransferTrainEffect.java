@@ -21,11 +21,13 @@ public class TransferTrainEffect extends ToEffect {
 	public static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	public static final String NAME = "Transfer Train";
 	Train train;
+	int trainID;
 	String trainName;	// Need to save in case the Train is not found where expected
 
 	public TransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (NAME, aFromActor, aToActor);
 		setTrain (aTrain);
+		setTrainID (aTrain.getID ());
 		setToActor (aToActor);
 	}
 
@@ -35,48 +37,90 @@ public class TransferTrainEffect extends ToEffect {
 		String tFromActorName;
 		ActorI tFromActor;
 		String tTrainName;
-		Train tTrain;
-		Corporation tCorporation;
-		TrainCompany tTrainCompany;
-
+		int tTrainID;
+		
 		tFromActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
 		tFromActor = aGameManager.getActor (tFromActorName);
 		setActor (tFromActor);
 
-		tTrainName = aEffectNode.getThisAttribute (AN_TRAIN_NAME);
-		trainName = tTrainName;			// Save it for Post Parse if needed
-		setTrain (null);
+		tTrainName = aEffectNode.getThisAttribute (Train.AN_NAME);
+		setTrainName (tTrainName);
+//		trainName = tTrainName;			// Save it for Post Parse if needed
+		setTrain (Train.NO_TRAIN);
+		tTrainID = aEffectNode.getThisIntAttribute (Train.AN_ID);
+		setTrainID (tTrainID);
 		if (tFromActor.isABankPool ()) {
-			tTrain = aGameManager.getBankPoolTrain (tTrainName);
-			if (tTrain == Train.NO_TRAIN) {
-				tTrain = aGameManager.getTrain (tTrainName);
-			}
-			setTrain (tTrain);
+			getTrainFromBankPool (aGameManager, tTrainName, trainID);
 		} else if (tFromActor.isABank ()) {
-			tTrain = aGameManager.getTrain (tTrainName);
-			setTrain (tTrain);
+			getTrainFromBank (aGameManager, tTrainName, trainID);
 		} else if (tFromActor.isACorporation ()) {
-			tCorporation = (Corporation) tFromActor;
-			if (tCorporation.isATrainCompany ()) {
-				tTrainCompany = (TrainCompany) tCorporation;
-				tTrain = tTrainCompany.getTrain (tTrainName);
-				if (tTrain != Train.NO_TRAIN) {
-					setTrain (tTrain);
-				} else {
-					tTrain = aGameManager.getTrain (tTrainName);
-					if (tTrain != Train.NO_TRAIN) {
-						setTrain (tTrain);
-					} else {
-						System.err.println (
-								"Can't find [" + tTrainName + "] in Train Portfolio for " + tTrainCompany.getAbbrev ());
-					}
-				}
-			} else {
-				System.err.println ("From Actor " + tFromActorName + " is not a Train Company");
-			}
+			getTrainFromCorporation (aGameManager, 
+//					tFromActorName,
+					tFromActor, tTrainName, trainID);
 		} else {
 			System.err.println ("From Actor " + tFromActorName + " is not a Corporation");
 		}
+	}
+
+	public void getTrainFromCorporation (GameManager aGameManager, 
+//			String aFromActorName, 
+			ActorI aFromActor, String aTrainName, int aTrainID) {
+		Train tTrain;
+		Corporation tCorporation;
+		TrainCompany tTrainCompany;
+		String tCorporationName;
+		
+		tCorporation = (Corporation) aFromActor;
+		tCorporationName = tCorporation.getName ();
+		if (tCorporation.isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) tCorporation;
+//			tTrain = tTrainCompany.getTrain (aTrainName);
+			tTrain = tTrainCompany.getTrainByID (aTrainID);
+			if (tTrain != Train.NO_TRAIN) {
+				setTrain (tTrain);
+			} else {
+//				if (tTrain != Train.NO_TRAIN) {
+//					setTrain (tTrain);
+//				} else {
+					getTrainFromBank (aGameManager, aTrainName, aTrainID);
+//					tTrain = aGameManager.getTrainByID (trainID);
+//					if (tTrain != Train.NO_TRAIN) {
+//						setTrain (tTrain);
+//					} else {
+//						System.err.println (
+//								"Can't find [" + aTrainName + "] in Train Portfolio for " + tTrainCompany.getAbbrev ());
+//					}
+//				}
+			}
+		} else {
+			System.err.println ("From Actor " + tCorporationName + " is not a Train Company");
+		}
+	}
+
+	public void getTrainFromBank (GameManager aGameManager, String aTrainName, int aTrainID) {
+		Train tTrain;
+		
+//		tTrain = aGameManager.getTrain (aTrainName);
+		tTrain = aGameManager.getTrainByID (aTrainID);
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrain = aGameManager.getTrainByID (aTrainID);
+//		}
+		
+		setTrain (tTrain);
+	}
+
+	public void getTrainFromBankPool (GameManager aGameManager, String tTrainName, int aTrainID) {
+		Train tTrain;
+		
+//		tTrain = aGameManager.getBankPoolTrain (tTrainName);
+		tTrain = aGameManager.getBankPoolTrainByID (aTrainID);
+//		if (tTrain == Train.NO_TRAIN) {
+//			tTrain = aGameManager.getBankPoolTrainByID (aTrainID);
+//			if (tTrain == Train.NO_TRAIN) {
+//				tTrain = aGameManager.getTrain (tTrainName);
+//			}
+//		}
+		setTrain (tTrain);
 	}
 
 	@Override
@@ -84,15 +128,16 @@ public class TransferTrainEffect extends ToEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-		tEffectElement.setAttribute (AN_TRAIN_NAME, getTrainName ());
+		tEffectElement.setAttribute (Train.AN_NAME, trainName);
+		tEffectElement.setAttribute (Train.AN_ID, trainID);
 
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " named " + getTrainName () + " from " + getActorName () + " to "
-				+ getToActorName () + ".");
+		return (REPORT_PREFIX + NAME + " named " + getTrainName () + " (" + trainID + ")" +
+				" from " + getActorName () + " to " + getToActorName () + ".");
 	}
 
 	@Override
@@ -105,8 +150,9 @@ public class TransferTrainEffect extends ToEffect {
 	}
 
 	public String getTrainName () {
-		String tTrainName = Train.NO_TRAIN_NAME;
+		String tTrainName;
 
+		tTrainName = Train.NO_TRAIN_NAME;
 		if (train != Train.NO_TRAIN) {
 			tTrainName = train.getName ();
 		}
@@ -118,6 +164,18 @@ public class TransferTrainEffect extends ToEffect {
 		train = aTrain;
 	}
 
+	public void setTrainName (String aTrainName) {
+		trainName = aTrainName;
+	}
+	
+	public void setTrainID (int aTrainID) {
+		trainID = aTrainID;
+	}
+	
+	public int getTrainID () {
+		return trainID;
+	}
+	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
