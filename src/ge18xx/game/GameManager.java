@@ -143,6 +143,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
+	public static final String NETWORK_DIR = "network";
+	public static final String SNAP_COPY_DIR = "snaps";
 	public static final String EMPTY_GAME_ID = GUI.EMPTY_STRING;
 
 	// Generic (non-game specific objects)
@@ -1607,9 +1609,17 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public Train getBankPoolTrain (String aTrainName) {
 		return bankPool.getTrain (aTrainName);
 	}
+	
+	public Train getBankPoolTrainByID (int aTrainID) {
+		return bankPool.getTrainByID (aTrainID);
+	}
 
 	public Train getTrain (String aTrainName) {
 		return bank.getTrain (aTrainName);
+	}
+
+	public Train getTrainByID (int aTrainID) {
+		return bank.getTrainByID (aTrainID);
 	}
 
 	@Override
@@ -2746,8 +2756,6 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	
 	public void autoSaveGame (boolean aAddChecksum, boolean aUndidLastActions) {
 		File tPriorSave;
-//		XMLFrame tRoundFrame;
-//		String tActionInfo;
 		
 		tPriorSave = saveFile;
 		saveFile = autoSaveFile;
@@ -2756,14 +2764,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			snapAutoSaveFile ();
 		}
 		
-		saveFile = tPriorSave;
-		
-//		if (userPreferencesFrame.getPauseAfterAutoSave ()) {
-//			tActionInfo = "<html>Player " + getClientUserName () + 
-//					" Action # " + getActionNumber () + " <br> AutoSave done - Pausing</html>";
-//			tRoundFrame = roundManager.getRoundFrame ();
-//			buttonPause = new ButtonPause (tRoundFrame, tActionInfo);
-//		}
+		saveFile = tPriorSave;	
 	}
 	
 	@SuppressWarnings ("unused")
@@ -2771,12 +2772,19 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		int tActionNumber;
 		SnapCopyFile tSnapCopyFile;
 		File tDestinationDir;
-		String tDestination = "/Users/marksmith/eclipse-workspace/18XX-Game-Engine/autoSaves/network/snaps";
+		String tDestination;
 		
+		tDestination = AUTO_SAVES_DIR + File.separator + NETWORK_DIR + File.separator +
+						SNAP_COPY_DIR + File.separator;
 		tDestinationDir = new File (tDestination);
-		
-		tActionNumber = getActionNumber ();
-		tSnapCopyFile = new SnapCopyFile (autoSaveFile, tDestinationDir, tActionNumber);
+		System.out.println ("Destination directory [" + tDestinationDir.getPath () + "]");
+
+		if (tDestinationDir.exists ()) {
+			tActionNumber = getActionNumber ();
+			tSnapCopyFile = new SnapCopyFile (autoSaveFile, tDestinationDir, tActionNumber);
+		} else {
+			System.out.println ("Destination directory [" + tDestinationDir.getPath () + "] Does not exist.");
+		}
 	}
 	
 	public void saveAGame (boolean aOverwriteFile) {
