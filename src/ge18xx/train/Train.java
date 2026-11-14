@@ -83,7 +83,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	JCheckBox actionCheckbox;
 
 	public Train () {
-		this ("", NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE, 0);
+		this (GUI.EMPTY_STRING, NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE, 0);
 	}
 
 	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aPrice, int aTrainID) {
