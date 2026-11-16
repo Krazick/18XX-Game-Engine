@@ -2812,7 +2812,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
 				if (!tFileName.endsWith (fileUtils.xml)) {
-					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
+//					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
+					saveFile = new File (saveFile.getAbsoluteFile () + fileUtils.xml);
 				}
 				saveGame ();
 				setGameChanged (false);

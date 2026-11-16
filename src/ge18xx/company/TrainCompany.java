@@ -2436,14 +2436,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
 		String tNewTileTokens;
-		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tOldStatus;
 		ActorI.ActionStates tNewStatus;
 		Tile tNewTile;
 		int tCostToLayTile;
 		boolean tFixedTile;
 		Bank tBank;
 
-		tCurrentStatus = status;
+		tOldStatus = status;
 		if (! benefitInUse.isRealBenefit ()) {
 			updateStatusWithTile (aPreviousTile);
 		} else if (benefitInUse.changeState ()) {
@@ -2466,9 +2466,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		
 		if (aPreviousTile != Tile.NO_TILE) {
-			createAndAddRemoveTileAction (aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
-					aPreviousBases, tOperatingRoundID);
-			tLayTileAction.setChainToPrevious (true);
+//			createAndAddRemoveTileAction (aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
+//					aPreviousBases, tOperatingRoundID, tOldStatus, tNewStatus);
+			tLayTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
+					aPreviousTokens, aPreviousBases);
+
+//			tLayTileAction.setChainToPrevious (true);
+//			tOldStatus = tNewStatus;
 		}
 
 		tFixedTile = aMapCell.isFixedTile ();
@@ -2480,8 +2484,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, 
 					aPreviousTokens, aPreviousBases, tNewTileTokens);
 		addRemoveHomeEffect (tLayTileAction, aMapCell);
-		if (tCurrentStatus != tNewStatus) {
-			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+		if (tOldStatus != tNewStatus) {
+			tLayTileAction.addChangeCorporationStatusEffect (this, tOldStatus, tNewStatus);
 		}
 		if (benefitInUse.isRealBenefit ()) {
 			tLayTileAction.addBenefitUsedEffect (this, benefitInUse);
@@ -2497,13 +2501,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void createAndAddRemoveTileAction (MapCell aMapCell, Tile aPreviousTile, int aPreviousOrientation,
-			String aPreviousTokens, String aPreviousBases, String aOperatingRoundID) {
+			String aPreviousTokens, String aPreviousBases, String aOperatingRoundID, 
+			ActorI.ActionStates aOldStatus, ActorI.ActionStates aNewStatus) {
 		RemoveTileAction tRemoveTileAction;
-		
+
+		// Pass in the LayTileAction, and add the AddRemoveTileEffect -- or 
 		tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, 
 				aOperatingRoundID, this);
 		tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation,
 				aPreviousTokens, aPreviousBases);
+		if (aOldStatus != aNewStatus) {
+			tRemoveTileAction.addChangeCorporationStatusEffect (this, aOldStatus, aNewStatus);
+		}
+
 		addAction (tRemoveTileAction);
 	}
 

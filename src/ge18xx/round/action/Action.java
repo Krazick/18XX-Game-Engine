@@ -516,11 +516,16 @@ public class Action {
 		String tUndoFailureReason;
 		int tErrorCount;
 		int tEffectsUndoneCount;
+		int tEffectIndex;
+		int tEffectCount;
+		Effect tEffect;
 
 		tActionUndone = true;
 		tErrorCount = 0;
 		tEffectsUndoneCount = 0;
-		for (Effect tEffect : effects) {
+		tEffectCount = effects.size ();
+		for (tEffectIndex = tEffectCount - 1; tEffectIndex >= 0; tEffectIndex--) {
+			tEffect = effects.get (tEffectIndex);
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
 			if (tEffectUndone) {
 				tEffectsUndoneCount++;

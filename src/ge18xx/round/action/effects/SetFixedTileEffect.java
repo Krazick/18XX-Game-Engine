@@ -37,6 +37,7 @@ public class SetFixedTileEffect extends ChangeBooleanFlagEffect {
 		
 		tMapCellID = aEffectNode.getThisAttribute (AN_MAP_CELL_ID);
 		setMapCellID (tMapCellID);
+		setName (NAME);
 	}
 	
 	@Override

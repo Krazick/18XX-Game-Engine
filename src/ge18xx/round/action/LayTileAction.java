@@ -6,9 +6,11 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.BenefitUsedEffect;
+import ge18xx.round.action.effects.ChangeTileEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.round.action.effects.RemoveHomeEffect;
+import ge18xx.round.action.effects.RemoveTileEffect;
 import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.round.action.effects.SetCorporationBaseEffect;
 import ge18xx.tiles.Tile;
@@ -36,6 +38,15 @@ public class LayTileAction extends ChangeMapAction {
 		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, 
 				aBases, aNewTileTokens);
 		addEffect (tTileLayEffect);
+	}
+
+	public void addRemoveTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation,
+			String aPreviousTokens, String aPreviousBases) {
+		ChangeTileEffect tTileRemoveEffect;
+
+		tTileRemoveEffect = new RemoveTileEffect (aActor, aMapCell, aTile, aOrientation, aPreviousTokens,
+				aPreviousBases);
+		addEffect (tTileRemoveEffect);
 	}
 
 	public void SetCorporationBaseEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
