@@ -225,7 +225,7 @@ public class PlaceMapTilePlan extends MapPlan {
 		Round tCurrentRound;
 		String tNewTokens;
 		String tRoundID;
-		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tOldStatus;
 		ActorI.ActionStates tNewStatus;
 
 		tRoundManager = aGameManager.getRoundManager ();
@@ -236,13 +236,17 @@ public class PlaceMapTilePlan extends MapPlan {
 			
 		tLayTileAction.addLayTileEffect (corporation, mapCell, tile, tileOrient, previousTokens, previousBases, 
 				tNewTokens);
+		tOldStatus = corporation.getStatus ();
+		tNewStatus = corporation.getNewStatusWithTile (previousTile);
 		if (corporation instanceof TrainCompany) {
 			tTrainCompany = (TrainCompany) corporation;
 			tTrainCompany.addRemoveHomeEffect (tLayTileAction, mapCell);
 			
 			if (previousTile != Tile.NO_TILE) {
-				tTrainCompany.createAndAddRemoveTileAction (mapCell, previousTile, previousOrientation, 
-						previousTokens, previousBases, tRoundID);
+//		FIX THIS		
+//				tLayTileAction.addRemoveTileEffect (this, mapCell, previousTile, previousOrientation,
+//						previousTokens, previousBases);
+
 				tLayTileAction.setChainToPrevious (true);
 			}
 			if (buildCost > 0) {
@@ -250,9 +254,7 @@ public class PlaceMapTilePlan extends MapPlan {
 				tLayTileAction.addCashTransferEffect (tTrainCompany, tBank, buildCost);
 			}
 		}
-		tCurrentStatus = corporation.getStatus ();
-		tNewStatus = corporation.getNewStatusWithTile (previousTile);
-		tLayTileAction.addChangeCorporationStatusEffect (corporation, tCurrentStatus, tNewStatus);
+		tLayTileAction.addChangeCorporationStatusEffect (corporation, tOldStatus, tNewStatus);
 		tLayTileAction.addSetHasLaidTileEffect (corporation, true);
 		setAction (tLayTileAction);
 		planActions.add (tLayTileAction);
