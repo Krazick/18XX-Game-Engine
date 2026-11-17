@@ -2057,8 +2057,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tStatusUpdated;
 		boolean tMovementStock;
 		int tRevenueGenerated;
-		int tOldPreviousRevenue;
-		int tOldThisRevenue;
+		int tPreviousRevenue;
+		int tThisRevenue;
 		int tTrainCount;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
@@ -2069,15 +2069,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		PayNoDividendAction tPayNoDividendAction;
 		
 		tRevenueGenerated = thisRevenue;
-		tOldThisRevenue = thisRevenue;
+		tThisRevenue = thisRevenue;
 		tCurrentStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
 		if (tStatusUpdated) {
 			tNewStatus = status;
 			tOperatingRoundID = getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
-			tPayNoDividendAction = new PayNoDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-					this);
+			tPayNoDividendAction = new PayNoDividendAction (ActorI.ActionStates.OperatingRound, 
+					tOperatingRoundID, this);
 			if (tRevenueGenerated > 0) {
 				tBank = corporationList.getBank ();
 				// Pay the Dividend to the TrainCompany (this) and not the players
@@ -2088,11 +2088,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tRevenueGenerated = 0;
 				}
 			}
-			tOldPreviousRevenue = getPreviousRevenue ();
-			tTrainCount = getTrainCount ();
-			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, tRevenueGenerated);
+			tPreviousRevenue = getPreviousRevenue ();
+			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tPreviousRevenue, tRevenueGenerated);
 
-			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tOldThisRevenue, tRevenueGenerated, tTrainCount);
+			tTrainCount = getTrainCount ();
+			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tThisRevenue, tRevenueGenerated, tTrainCount);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
 				returnBorrowedTrain (tPayNoDividendAction);
