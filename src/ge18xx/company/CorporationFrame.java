@@ -690,9 +690,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tPlaceBaseTileLabel;
 		String tPlaceBaseTokenLabel;
 		CorporationList tPrivateCompanies;
-
+		
 		buttonsJPanel = new JPanel (new WrapLayout ());
-
+		
 		doneButton = setupButton (DONE, DONE);
 		undoButton = setupButton (UNDO, UNDO);
 		tPlaceBaseTileLabel = createBaseTileLabel (PLACE_BASE_TILE, 1);
@@ -739,6 +739,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		buttonsJPanel.removeAll ();
 
+		// Map, Tile and Token Buttons
 		addButton (showMapButton);
 		addButton (placeBaseTileButton1);
 		addButton (skipBaseTileButton1, false);
@@ -749,6 +750,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeBaseTokenButton1);
 		addButton (placeBaseTokenButton2);
 		addButton (placeTokenButton);
+		
+		// Train Buttons
 		if (corporation.canBorrowTrainNow ()) {
 			tVisible = true;
 			addButton (borrowTrainButton, tVisible);
@@ -769,6 +772,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButtonsSubPanel (buyTrainButtonsJPanel, buyTrainButton);
 		addButtonsSubPanel (buyTrainButtonsJPanel, buyTrainForceButton);
 		addButtonsSubPanel (buyTrainButtonsJPanel);
+		
+		// Corporation Only Buttons
 		if (corporation.gameHasPrivates ()) {
 			addButton (buyPrivateButton);
 		}
@@ -1020,6 +1025,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateDoneButton ();
 		updateShowPlansButton ();
 		updatePrivateBenefitButtons ();
+//		updateButtonPanelSize ();
 		repaint ();
 		revalidate ();
 	}
