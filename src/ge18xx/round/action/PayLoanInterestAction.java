@@ -9,14 +9,6 @@ import geUtilities.xml.XMLNode;
 public class PayLoanInterestAction extends CashTransferAction {
 	public static final String NAME = "Pay Loan Interest";
 
-	public PayLoanInterestAction () {
-		super (NAME);
-	}
-
-	public PayLoanInterestAction (String aName) {
-		super (aName);
-	}
-
 	public PayLoanInterestAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
