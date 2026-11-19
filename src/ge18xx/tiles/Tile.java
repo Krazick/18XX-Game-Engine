@@ -113,6 +113,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 						RevenueCenter.EN_REVENUE_CENTER);
 		setValues (tNumber, tTileTypeID);
 		centers.setTileType (type);
+		centers.setEndOfTracks (tracks);
 		type.setFixed (tFixed);
 	}
 

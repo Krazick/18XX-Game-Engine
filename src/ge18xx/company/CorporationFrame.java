@@ -18,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -180,7 +181,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void buildCorporationJPanel () {
 		JPanel tTopBoxes;
-
+		JPanel tLowerBoxes;
+		JScrollPane tScrollPane;
+		
 		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
 		// Companies
 		bankJPanel = new JPanel ();
@@ -196,26 +199,32 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationJPanel.add (buttonsJPanel);
 		corporationJPanel.add (Box.createVerticalStrut (5));
 		
-		corporationJPanel.add (bankJPanel);
-		corporationJPanel.add (Box.createVerticalStrut (5));
+		tLowerBoxes = new JPanel ();
+		tLowerBoxes.setLayout (new BoxLayout (tLowerBoxes, BoxLayout.Y_AXIS));
+		tLowerBoxes.add (bankJPanel);
+		tLowerBoxes.add (Box.createVerticalStrut (5));
 
 		if (corporation.gameHasPrivates ()) {
 			if (corporation.isAShareCompany ()) {
 				privatesPanel = new JPanel ();
 				privatesPanel.setLayout (new BoxLayout (privatesPanel, BoxLayout.Y_AXIS));
-				corporationJPanel.add (privatesPanel);
-				corporationJPanel.add (Box.createVerticalStrut (5));
+				tLowerBoxes.add (privatesPanel);
+				tLowerBoxes.add (Box.createVerticalStrut (5));
 			}
 		}
 
 		if (corporation.isATrainCompany ()) {
 			otherCorpsJPanel = new JPanel ();
 			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
-			corporationJPanel.add (otherCorpsJPanel);
-			corporationJPanel.add (Box.createVerticalStrut (5));
+			tLowerBoxes.add (otherCorpsJPanel);
+			tLowerBoxes.add (Box.createVerticalStrut (5));
 		}
-		buildScrollPane (corporationJPanel);
-//		add (corporationJPanel);
+		tScrollPane = new JScrollPane ();
+		tScrollPane.setViewportView (tLowerBoxes);
+		corporationJPanel.add (tScrollPane);
+
+//		buildScrollPane (corporationJPanel);
+		add (corporationJPanel);
 	}
 
 	private JPanel buildTopBoxes () {
@@ -348,8 +357,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private MapFrame getMapFrame () {
 		MapFrame tMapFrame;
 		GameManager tGameManager;
+		
 		tGameManager = corporation.getGameManager ();
 		tMapFrame = tGameManager.getMapFrame ();
+		
 		return tMapFrame;
 	}
 

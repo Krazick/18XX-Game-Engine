@@ -29,7 +29,7 @@ import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileType;
-
+import ge18xx.tiles.Tracks;
 import geUtilities.GUI;
 import geUtilities.xml.XMLDocument;
 import geUtilities.xml.XMLElement;
@@ -954,5 +954,29 @@ public class Centers implements Cloneable {
 				RevenueCenter.NO_NAME, RevenueCenter.NO_VALUE, TileType.NO_TILE_TYPE);
 		tDestinationCity.setMapCell (aMapCell);
 		add (tDestinationCity);
+	}
+
+	public void setEndOfTracks (Tracks aTracks) {
+		RevenueCenter tRevenueCenter;
+		int tRevenueCenterIndex;
+		int tRevenueCenterCount;
+		int tTrackCount;
+		Location tLocation;
+		boolean tEndOfTrack;
+		
+		tRevenueCenterCount = centers.size ();
+		tEndOfTrack = false;
+		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
+			tRevenueCenter = centers.get (tRevenueCenterIndex);
+			tLocation = tRevenueCenter.getLocation ();
+			tTrackCount = aTracks.getTrackCountToLocation (tLocation);
+			if (tTrackCount < 2) {
+				tEndOfTrack = true;
+			} else {
+				tEndOfTrack = false;
+			}
+			tRevenueCenter.setEndOfTrack (tEndOfTrack);
+		}
+		
 	}
 }

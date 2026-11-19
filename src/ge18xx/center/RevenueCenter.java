@@ -51,14 +51,15 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	TileType tileType;
 	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
 	boolean temporary;
+	boolean endOfTrack;
 
 	public RevenueCenter () {
-		TileType noTileType;
+		TileType tNoTileType;
 
-		noTileType = new TileType ();
+		tNoTileType = new TileType ();
 
 		setValues (RevenueCenterType.NO_REVENUE_CENTER, NO_ID, Location.NO_LOCATION, NO_NAME, NO_VALUE);
-		setTileType (noTileType);
+		setTileType (tNoTileType);
 	}
 
 	public RevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
@@ -124,6 +125,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		}
 	}
 
+	public void setEndOfTrack (boolean aEndOfTrack) {
+		endOfTrack = aEndOfTrack;
+	}
+	
+	public boolean endOfTrack () {
+		return endOfTrack;
+	}
+	
 	public void addRevenue (int aValue, int aPhase) {
 		revenues.addRevenue (aValue, aPhase);
 	}

@@ -620,6 +620,10 @@ public class Location implements Cloneable {
 			return false;
 		}
 	}
+	
+	public boolean isLocation (int aLocationInt) {
+		return (location == aLocationInt);
+	}
 
 	public void printlog () {
 		System.out.println ("Location is " + location);		// PRINTLOG

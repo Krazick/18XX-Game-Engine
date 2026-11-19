@@ -418,6 +418,8 @@ class LocationTests {
 	@Test
 	public void LocationMiscTests () {
 		assertEquals ("50", centerLocation.toString (), "Test String Conversion");
+		assertTrue (centerLocation.isLocation (50));
+		assertFalse (centerLocation.isLocation (5));
 	}
 
 	@Test

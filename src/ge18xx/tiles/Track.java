@@ -852,6 +852,19 @@ public class Track implements Cloneable {
 		}
 	}
 
+	public boolean isTrackToLocation (int aLocationInt) {
+		boolean tIsEnterLocation;
+		boolean tIsExitLocation;
+
+		tIsEnterLocation = enter.isLocation (aLocationInt);
+		if (tIsEnterLocation) {
+			return true;
+		} else {
+			tIsExitLocation = exit.isLocation (aLocationInt);
+			return tIsExitLocation;
+		}
+	}
+
 	public void printlog () {
 		System.out.print ("Enter ");			// PRINTLOG
 		enter.printlog ();

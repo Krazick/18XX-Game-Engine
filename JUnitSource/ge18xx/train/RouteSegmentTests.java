@@ -27,12 +27,18 @@ class RouteSegmentTests {
 	RouteSegment routeSegmentWithRCCity;
 	RouteSegment routeSegmentWithRCTown;
 	RouteSegment routeSegmentWithNoRC;
-	NodeInformation mNodeRCCity, mNodeRCTown, mNodeSide1, mNodeSide3;
-	Location mLocationRC, mLocationSide1, mLocationSide3;
+	NodeInformation mNodeRCCity;
+	NodeInformation mNodeRCTown;
+	NodeInformation mNodeSide1;
+	NodeInformation mNodeSide3;
+	Location mLocationRC;
+	Location mLocationSide1;
+	Location mLocationSide3;
 	RevenueCenter mRCCity;
 	RevenueCenter mRCTown;
 	RevenueCenter mNoRevenueCenter;
-	Track mTrackSideToSide, mTrackSideToRC;
+	Track mTrackSideToSide;
+	Track mTrackSideToRC;
 
 	/**
 	 * @throws java.lang.Exception

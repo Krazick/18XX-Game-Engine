@@ -261,6 +261,21 @@ public class Tracks implements Cloneable {
 		return tTrackCount;
 	}
 
+	public int getTrackCountToLocation (Location aLocation) {
+		int tTrackCount;
+		int tLocationInt;
+
+		tTrackCount = 0;
+		tLocationInt = aLocation.getLocation ();
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackToLocation (tLocationInt)) {
+				tTrackCount++;
+			}
+		}
+
+		return tTrackCount;
+	}
+
 	public int getTrackIndexBetween (Location aStartLocation, Location aEndLocation) {
 		int tTrackIndex = 0;
 		int tCounter = 0;
