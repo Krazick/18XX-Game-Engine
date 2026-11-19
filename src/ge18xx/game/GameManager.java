@@ -2777,13 +2777,12 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 		tDestination = AUTO_SAVES_DIR + File.separator + NETWORK_DIR + File.separator +
 						SNAP_COPY_DIR + File.separator;
 		tDestinationDir = new File (tDestination);
-		System.out.println ("Destination directory [" + tDestinationDir.getPath () + "]");
 
 		if (tDestinationDir.exists ()) {
 			tActionNumber = getActionNumber ();
 			tSnapCopyFile = new SnapCopyFile (autoSaveFile, tDestinationDir, tActionNumber);
 		} else {
-			System.out.println ("Destination directory [" + tDestinationDir.getPath () + "] Does not exist.");
+			System.err.println ("Destination directory [" + tDestinationDir.getPath () + "] Does not exist.");
 		}
 	}
 	
