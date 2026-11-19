@@ -20,6 +20,15 @@ public class PayRevenueAction extends CashTransferAction {
 		setName (NAME);
 	}
 
+	public void addPayCashRevenueEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
+						String aCompanyAbbrev, int aCashAmount, String aOperatingRoundID) {
+		PayCashRevenueEffect tPayCashRevenueEffect;
+
+		tPayCashRevenueEffect = new PayCashRevenueEffect (aFromCashHolder, aToCashHolder, 
+						aCompanyAbbrev, aCashAmount, aOperatingRoundID);
+		addEffect (tPayCashRevenueEffect);
+	}
+	
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport;
@@ -28,14 +37,5 @@ public class PayRevenueAction extends CashTransferAction {
 				+ getToActorName () + ".";
 
 		return tSimpleActionReport;
-	}
-
-	public void addPayCashRevenueEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
-						String aCompanyAbbrev, int aCashAmount, String aOperatingRoundID) {
-		PayCashRevenueEffect tPayCashRevenueEffect;
-
-		tPayCashRevenueEffect = new PayCashRevenueEffect (aFromCashHolder, aToCashHolder, 
-						aCompanyAbbrev, aCashAmount, aOperatingRoundID);
-		addEffect (tPayCashRevenueEffect);
 	}
 }

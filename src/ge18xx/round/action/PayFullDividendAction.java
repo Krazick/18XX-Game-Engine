@@ -7,10 +7,10 @@ import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.CashTransferEffect;
-import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
+//import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
-import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
+//import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
 
@@ -36,21 +36,21 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		addEffect (tPayCashDividendEffect);
 	}
 	
-	@Override
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
-			ActorI.ActionStates aNewState) {
-		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
-
-		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
-		addEffect (tChangeCorporationStatusEffect);
-	}
-	
-	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aNewPreviousRevenue, int aOldPreviousRevenue) {
-		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
-
-		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aNewPreviousRevenue, aOldPreviousRevenue);
-		addEffect (tUpdatePreviousRevenueEffect);
-	}
+//	@Override
+//	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+//			ActorI.ActionStates aNewState) {
+//		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
+//
+//		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
+//		addEffect (tChangeCorporationStatusEffect);
+//	}
+//	
+//	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aOldPreviousRevenue, int aNewPreviousRevenue) {
+//		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
+//
+//		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aOldPreviousRevenue, aNewPreviousRevenue);
+//		addEffect (tUpdatePreviousRevenueEffect);
+//	}
 
 	@Override
 	public String getSimpleActionReport () {
