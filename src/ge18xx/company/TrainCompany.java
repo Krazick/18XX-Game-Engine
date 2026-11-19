@@ -2057,20 +2057,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tStatusUpdated;
 		boolean tMovementStock;
 		int tRevenueGenerated;
-		int tPreviousRevenue;
-		int tThisRevenue;
+		int tOldRevenue;
+		int tNewRevenue;
+		int tOldPreviousRevenue;
+		int tNewPreviousRevenue;
 		int tTrainCount;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		Bank tBank;
 		OperatingRound tOperatingRound;
-		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tOldStatus;
 		ActorI.ActionStates tNewStatus;
 		PayNoDividendAction tPayNoDividendAction;
 		
+		tOldRevenue = previousRevenue;
 		tRevenueGenerated = thisRevenue;
-		tThisRevenue = thisRevenue;
-		tCurrentStatus = status;
+		tNewRevenue = thisRevenue;
+		tOldStatus = status;
+		tOldPreviousRevenue = getPreviousRevenue ();
 		tStatusUpdated = updateStatus (ActorI.ActionStates.HoldDividend);
 		if (tStatusUpdated) {
 			tNewStatus = status;
@@ -2088,11 +2092,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tRevenueGenerated = 0;
 				}
 			}
-			tPreviousRevenue = getPreviousRevenue ();
-			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tPreviousRevenue, tRevenueGenerated);
+			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tOldStatus, tNewStatus);
+			
+			setPreviousRevenue (thisRevenue);
+			tNewPreviousRevenue = previousRevenue;
+			tPayNoDividendAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, tNewPreviousRevenue);
 
 			tTrainCount = getTrainCount ();
-			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tThisRevenue, tRevenueGenerated, tTrainCount);
+			tPayNoDividendAction.addGeneratedThisRevenueEffect (this, tOldRevenue, tNewRevenue, tTrainCount);
 			tMovementStock = true;
 			if (isGovtRailway ()) {
 				returnBorrowedTrain (tPayNoDividendAction);
@@ -2111,7 +2118,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tShareCompany.payNoDividendAdjustment (tPayNoDividendAction);
 				}
 			} 
-			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tOldStatus, tNewStatus);
 			tOperatingRound.addAction (tPayNoDividendAction);
 			setPreviousRevenue (thisRevenue);
 			updateInfo ();
@@ -2142,20 +2149,25 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	@Override
 	public void payFullDividend () {
-		int tRevenueGenerated;
+//		int tRevenueGenerated;
+//		int tThisRevenue;
+		int tOldPreviousRevenue;
+		int tNewPreviousRevenue;
+//		int tTrainCount;
 		boolean tStatusUpdated;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		OperatingRound tOperatingRound;
 		PayFullDividendAction tPayFullDividendAction;
-		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tOldStatus;
 		ActorI.ActionStates tNewStatus;
 
-		tRevenueGenerated = 0;
+		tNewPreviousRevenue = 0;
+		tOldPreviousRevenue = previousRevenue;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
-			tRevenueGenerated = thisRevenue;
+			tNewPreviousRevenue = thisRevenue;
 		}
-		tCurrentStatus = status;
+		tOldStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.FullDividend);
 		if (tStatusUpdated) {
 			tNewStatus = status;
@@ -2163,7 +2175,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tOperatingRound = corporationList.getOperatingRound ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
-			if (tRevenueGenerated > 0) {
+			if (tNewPreviousRevenue > 0) {
 				// Pay the Dividend to the Stock Holders not the TrainCompany (this)
 				payShareHolders (tPayFullDividendAction, tOperatingRoundID);
 			}
@@ -2176,9 +2188,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tShareCompany = (ShareCompany) this;
 				tShareCompany.payFullDividendAdjustment (tPayFullDividendAction);
 			}
-			tPayFullDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tPayFullDividendAction.addUpdatePreviousRevenueEffect (this, previousRevenue, thisRevenue);
+			tPayFullDividendAction.addChangeCorporationStatusEffect (this, tOldStatus, tNewStatus);
+			
 			setPreviousRevenue (thisRevenue);
+			tPayFullDividendAction.addUpdatePreviousRevenueEffect (this, tOldPreviousRevenue, tNewPreviousRevenue);
+			
+//			tTrainCount = getTrainCount ();
+//
+//			tPayFullDividendAction.addGeneratedThisRevenueEffect (this, tOldPreviousRevenue, tNewPreviousRevenue, tTrainCount);
+
 			tOperatingRound.addAction (tPayFullDividendAction);
 			updateInfo ();
 		} else {
