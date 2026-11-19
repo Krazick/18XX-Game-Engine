@@ -6,7 +6,9 @@ import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.effects.ChangeMarketCellEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.GeneratedRevenueEffect;
 import ge18xx.round.action.effects.ReturnTrainEffect;
+import ge18xx.round.action.effects.UpdatePreviousRevenueEffect;
 import ge18xx.train.Train;
 import geUtilities.GUI;
 import geUtilities.xml.XMLNode;
@@ -33,12 +35,25 @@ public class ChangeMarketCellAction extends TransferOwnershipAction {
 		addEffect (tChangeMarketCellEffect);
 	}
 
-
 	public void addReturnTrainEffect (TrainCompany aTrainCompany, Train aTrain, Bank aBank) {
 		ReturnTrainEffect tReturnTrainEffect;
 		
 		tReturnTrainEffect = new ReturnTrainEffect (aTrainCompany, aTrain, aBank);
 		addEffect (tReturnTrainEffect);
+	}
+
+	public void addGeneratedThisRevenueEffect (ActorI aActor, int aOldThisRevenue, int aNewThisRevenue, int aTrainCount) {
+		GeneratedRevenueEffect tGeneratedRevenueEffect;
+
+		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aOldThisRevenue, aNewThisRevenue, aTrainCount);
+		addEffect (tGeneratedRevenueEffect);
+	}
+	
+	public void addUpdatePreviousRevenueEffect (ActorI aActor, int aOldPreviousRevenue, int aNewPreviousRevenue) {
+		UpdatePreviousRevenueEffect tUpdatePreviousRevenueEffect;
+
+		tUpdatePreviousRevenueEffect = new UpdatePreviousRevenueEffect (aActor, aOldPreviousRevenue, aNewPreviousRevenue);
+		addEffect (tUpdatePreviousRevenueEffect);
 	}
 
 	public String getNewCellCoordinates () {
