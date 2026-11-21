@@ -37,7 +37,9 @@ public class HideFrameEffect extends ShowFrameEffect {
 		boolean tEffectApplied;
 
 		tEffectApplied = super.applyEffect (aRoundManager);
-		xmlFrame.toFront ();
+		if (xmlFrame != XMLFrame.NO_XML_FRAME) {
+			xmlFrame.toFront ();
+		}
 		
 		return tEffectApplied;
 	}
