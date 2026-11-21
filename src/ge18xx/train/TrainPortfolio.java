@@ -177,7 +177,7 @@ public class TrainPortfolio implements TrainHolderI {
 			tPortfolioJPanel.add (tLabel);
 			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		} else {
-			tPortfolioJPanel.add (Box.createHorizontalGlue ());
+			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 			tTrainCount = getTrainCount ();
 			tOperatingCompany = getOperatingCompany (aCorporation);
 			if (tOperatingCompany != Corporation.NO_CORPORATION) {
@@ -294,7 +294,7 @@ public class TrainPortfolio implements TrainHolderI {
 						}
 		
 						tPortfolioJPanel.add (tTrainInfoJPanel);
-						tPortfolioJPanel.add (Box.createHorizontalGlue ());
+//						tPortfolioJPanel.add (Box.createHorizontalGlue ());
 						tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 					}
 				}

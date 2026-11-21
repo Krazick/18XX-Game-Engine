@@ -181,13 +181,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void buildCorporationJPanel () {
 		JPanel tTopBoxes;
-		JPanel tLowerBoxes;
-		JScrollPane tScrollPane;
-		
-		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
-		// Companies
-		bankJPanel = new JPanel ();
-		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
 		tTopBoxes = buildTopBoxes ();
 
 		corporationJPanel = new JPanel ();
@@ -199,29 +192,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationJPanel.add (buttonsJPanel);
 		corporationJPanel.add (Box.createVerticalStrut (5));
 		
-		tLowerBoxes = new JPanel ();
-		tLowerBoxes.setLayout (new BoxLayout (tLowerBoxes, BoxLayout.Y_AXIS));
-		tLowerBoxes.add (bankJPanel);
-		tLowerBoxes.add (Box.createVerticalStrut (5));
-
-		if (corporation.gameHasPrivates ()) {
-			if (corporation.isAShareCompany ()) {
-				privatesPanel = new JPanel ();
-				privatesPanel.setLayout (new BoxLayout (privatesPanel, BoxLayout.Y_AXIS));
-				tLowerBoxes.add (privatesPanel);
-				tLowerBoxes.add (Box.createVerticalStrut (5));
-			}
-		}
-
-		if (corporation.isATrainCompany ()) {
-			otherCorpsJPanel = new JPanel ();
-			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
-			tLowerBoxes.add (otherCorpsJPanel);
-			tLowerBoxes.add (Box.createVerticalStrut (5));
-		}
-		tScrollPane = new JScrollPane ();
-		tScrollPane.setViewportView (tLowerBoxes);
-		corporationJPanel.add (tScrollPane);
+		buildLowerBoxes ();
 
 //		buildScrollPane (corporationJPanel);
 		add (corporationJPanel);
@@ -243,12 +214,50 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tTopBoxes;
 	}
 
+	public void buildLowerBoxes () {
+		JPanel tLowerBoxes;
+		JScrollPane tScrollPane;
+		
+		tLowerBoxes = new JPanel ();
+		tLowerBoxes.setLayout (new BoxLayout (tLowerBoxes, BoxLayout.PAGE_AXIS));
+		
+		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
+		// Companies
+		bankJPanel = new JPanel ();
+		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.LINE_AXIS));
+		bankJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
+		tLowerBoxes.add (Box.createVerticalStrut (5));
+		tLowerBoxes.add (bankJPanel);
+		tLowerBoxes.add (Box.createVerticalStrut (5));
+
+		if (corporation.gameHasPrivates ()) {
+			if (corporation.isAShareCompany ()) {
+				privatesPanel = new JPanel ();
+				privatesPanel.setLayout (new BoxLayout (privatesPanel, BoxLayout.LINE_AXIS));
+				privatesPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
+				tLowerBoxes.add (privatesPanel);
+				tLowerBoxes.add (Box.createVerticalStrut (5));
+			}
+		}
+
+		if (corporation.isATrainCompany ()) {
+			otherCorpsJPanel = new JPanel ();
+			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.LINE_AXIS));
+			otherCorpsJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
+			tLowerBoxes.add (otherCorpsJPanel);
+			tLowerBoxes.add (Box.createVerticalStrut (5));
+		}
+		tScrollPane = new JScrollPane ();
+		tScrollPane.setViewportView (tLowerBoxes);
+		corporationJPanel.add (tScrollPane);
+	}
+
 	private void buildCorporationAllInfoJPanel () {
 		Dimension tMinSize;
 		
 		corporationAllInfoJPanel = new JPanel ();
-		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
-		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
+		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.PAGE_AXIS));
+		corporationAllInfoJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		updateCorpInfoBorder ();
 		
 		tMinSize = new Dimension (10, 5);
@@ -275,13 +284,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void buildCorporationInfoJPanel (Dimension aMinSize) {
 		corporationInfoJPanel = new JPanel ();
-		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
-		corporationInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
+		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.LINE_AXIS));
+		corporationInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		statusLabel = new JLabel (GUI.EMPTY_STRING);
 		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		corporationInfoJPanel.add (statusLabel);
 		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		setStatusLabel ();
+		
 		presidentLabel = new JLabel (GUI.EMPTY_STRING);
 		treasuryLabel = new JLabel (GUI.EMPTY_STRING);
 		lastRevenueLabel = new JLabel (GUI.EMPTY_STRING);
@@ -315,7 +325,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		JPanel tPhaseInfoPanel;
 
 		tPhaseInfoPanel = new JPanel ();
-		tPhaseInfoPanel.setLayout (new BoxLayout (tPhaseInfoPanel, BoxLayout.Y_AXIS));
+		tPhaseInfoPanel.setLayout (new BoxLayout (tPhaseInfoPanel, BoxLayout.PAGE_AXIS));
 		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		phaseNameLabel = new JLabel ("Current Phase Name ");
 		tPhaseInfoPanel.add (phaseNameLabel);
@@ -897,15 +907,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				if (tBankPool != BankPool.NO_BANK_POOL) {
 					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.FULL_TRAIN_PORTFOLIO);
-					bankJPanel.add (Box.createHorizontalGlue ());
+					bankJPanel.add (Box.createHorizontalStrut (20));
 					bankJPanel.add (tBPPortfolioJPanel);
-					bankJPanel.add (Box.createHorizontalGlue ());
+					bankJPanel.add (Box.createHorizontalStrut (20));
 				}
 				if (tBank != Bank.NO_BANK) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO);
 					bankJPanel.add (tBankPortfolioJPanel);
-					bankJPanel.add (Box.createHorizontalGlue ());
+					bankJPanel.add (Box.createHorizontalStrut (20));
 				}
 				bankJPanel.repaint ();
 				bankJPanel.revalidate ();
