@@ -448,7 +448,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		return tAtCertLimit;
 	}
-
+	
 	public boolean canCompleteTurn () {
 		boolean tCanCompleteTurn;
 		String tShareCompanyThatExceeds;
