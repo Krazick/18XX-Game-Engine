@@ -206,6 +206,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI, XMLSaveGa
 		return tCertificateToBuy;
 	}
 
+	public int countBuyCheckboxesSelected () {
+		int tCountBuyCheckboxesSelected;
+		
+		tCountBuyCheckboxesSelected = portfolio.countBuyCheckboxesSelected ();
+		
+		return tCountBuyCheckboxesSelected;
+	}
+	
 	public Coupon getCheapestTrain () {
 		return trainPortfolio.getCheapestTrain ();
 	}
