@@ -286,7 +286,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public boolean isBuyAction () {
 		boolean tIsBuyAction;
 
-		tIsBuyAction = buyBidButton.getText ().equals (Player.BUY_LABEL);
+		tIsBuyAction = buyBidButton.getText ().startsWith (Player.BUY_LABEL);
 
 		return tIsBuyAction;
 	}

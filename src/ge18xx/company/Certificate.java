@@ -89,6 +89,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String NO_SALE_FIRST_STOCK_ROUND = "Can't sell Stock in First Stock Round";
 	public static final String SELECT_PAR_PRICE = "Select Par Price for Purchase";
 	public static final String CERTIFICATE_NOT_SELECTED = "Certificate not Selected for Purchase";
+	public static final String ANOTHER_CERT_SELECTED_FOR_BUY = "Another Certificate is Selected to be Bought or Bid";
 	public static final String NO_PAR_PRICE = "???";
 	public static final String BANK_POOL_AT_LIMIT = " at Share Limit";
 	public static final String BANK_POOL_OWNER = "Bank";
@@ -362,17 +363,21 @@ public class Certificate implements Comparable<Certificate> {
 		String tToolTip;
 		String tGroupName;
 		int tDiscount;
+		int tCountBuyCheckboxesSelected;
 
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
 			tPlayerHasSoldThisCompany = aPlayer.hasSoldCompany (tCompanyAbbrev);
 			tPlayerHasMaxShares = aPlayer.hasMaxShares (tCompanyAbbrev);
 			tPlayerAtCertLimit = aPlayer.atCertLimit ();
+			
+			tCountBuyCheckboxesSelected = aGameManager.countBuyCheckboxesSelected ();
 		} else {
 			tCompanyAbbrev = "NONE";
 			tPlayerHasSoldThisCompany = false;
 			tPlayerHasMaxShares = false;
 			tPlayerAtCertLimit = false;
+			tCountBuyCheckboxesSelected = 0;
 		}
 		
 		tCertificateFlags = new CertificateFlags (this, aPlayer);
@@ -414,6 +419,9 @@ public class Certificate implements Comparable<Certificate> {
 					tToolTip = ALREADY_HAVE_MAX;
 				} else if (tPlayerAtCertLimit) {
 					tToolTip = AT_CERT_LIMIT;
+				} else if (tCountBuyCheckboxesSelected > 1) {
+					tCertificateFlags.setEnabled (false);
+					tToolTip = ANOTHER_CERT_SELECTED_FOR_BUY;
 				} else {
 					tCertificateFlags.setEnabled (true);
 				}
@@ -426,7 +434,7 @@ public class Certificate implements Comparable<Certificate> {
 					}
 					setFrameButton (checkBox, tGroupName);
 				} else {
-					updateCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
+					updateCheckBox (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
 				}
 				tCertificateInfoJPanel.add (checkBox);
 			} else {
@@ -704,8 +712,15 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertificateInfoJPanel;
 	}
 
-	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip,
+	public void updateCheckBox (String aLabel, boolean aEnabledState, String aToolTip,
 			ItemListener aItemListener) {
+		ItemListener tAllItemListeners [] = checkBox.getItemListeners ();
+		
+		System.out.println ("For Checkboxes there are " + tAllItemListeners.length);
+		
+		for (ItemListener tItemListener : tAllItemListeners) {
+			checkBox.removeItemListener (tItemListener);
+		}
 		checkBox.setText (aLabel);
 		checkBox.setEnabled (aEnabledState);
 		checkBox.setToolTipText (aToolTip);
@@ -1986,7 +2001,9 @@ public class Certificate implements Comparable<Certificate> {
 
 		tMinPrice = 1000;
 		tEnoughForCheapest = false;
-		fillParValueComboBox (aParValuesCombo, aParValues);
+		if (aParValuesCombo != null) {
+			fillParValueComboBox (aParValuesCombo, aParValues);
+		}
 		if (aParValues != null) {
 			tSize = aParValues.length;
 			for (tIndex = 0; tIndex < tSize; tIndex++) {
@@ -2009,9 +2026,11 @@ public class Certificate implements Comparable<Certificate> {
 
 		if (aParValuesCombo != null) {
 			if (aParValues != null) {
-				aParValuesCombo.addItem (NO_PAR_PRICE);
-				for (tIndex = 0; tIndex < aParValues.length; tIndex++) {
-					aParValuesCombo.addItem (aParValues [tIndex] + "");
+				if (aParValuesCombo.getItemCount () == 0) {
+					aParValuesCombo.addItem (NO_PAR_PRICE);
+					for (tIndex = 0; tIndex < aParValues.length; tIndex++) {
+						aParValuesCombo.addItem (aParValues [tIndex] + "");
+					}
 				}
 			} else {
 				System.err.println ("***No Par Values to fill into Combo Box ***");

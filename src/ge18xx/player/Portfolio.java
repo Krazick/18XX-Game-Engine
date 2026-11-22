@@ -927,6 +927,19 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertificatesToBuy;
 	}
+	
+	public int countBuyCheckboxesSelected () {
+		int tCountBuyCheckboxesSelected;
+		
+		tCountBuyCheckboxesSelected = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBuy ()) {
+				tCountBuyCheckboxesSelected++;
+			}
+		}
+
+		return tCountBuyCheckboxesSelected;
+	}
 
 	public List<Certificate> getCertificatesCanBeSold () {
 		List<Certificate> tCertificatesToSell;
@@ -2179,6 +2192,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
+	// Triggered when Checkboxes for Bank, BankPool are Selected/UnSelected
 	public boolean itemStateChanged (ItemEvent aItemEvent, PlayerFrame aPlayerFrame) {
 		Object tSourceButton;
 		JCheckBox tCheckedButton;
@@ -2206,9 +2220,9 @@ public class Portfolio implements CertificateHolderI {
 						tHandled = true;
 					} else if (tSourceButton == tComboBox) {
 						tParPrice = tCertificate.getComboParValue ();
-//						tCostToBuy = tCertificate.calcCertificateValue (tParPrice);
 						tCostToBuy = calcCertificateValue (tCertificate);
-						aPlayerFrame.updateBuyButton ((tParPrice > 0), tCostToBuy);
+						tIsSelected = (tParPrice > 0);
+						aPlayerFrame.updateBuyButton (tIsSelected, tCostToBuy);
 						tHandled = true;
 					}
 				}
