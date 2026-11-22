@@ -454,7 +454,7 @@ public class OperatingRound extends Round {
 			}
 			if (getPrivateCompanyCount () > 0) {
 				payRevenues ();
-				handleQueryBenefits ();
+//				handleQueryBenefits ();
 			}
 			if (anyFloatedCompanies ()) {
 				minorCompanies.clearOperatedStatus ();
