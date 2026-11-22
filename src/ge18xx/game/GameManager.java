@@ -2811,8 +2811,8 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
 				if (!tFileName.endsWith (fileUtils.xml)) {
-//					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
-					saveFile = new File (saveFile.getAbsoluteFile () + fileUtils.xml);
+					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
+//					saveFile = new File (saveFile.getAbsoluteFile () + fileUtils.xml);
 				}
 				saveGame ();
 				setGameChanged (false);
@@ -2852,6 +2852,18 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 
 	public void setGameChanged (boolean aFlag) {
 		gameChangedSinceSave = aFlag;
+	}
+
+	public int countBuyCheckboxesSelected () {
+		int tCountBuyCheckboxesSelected;
+		int tCountOfSelectedBankCerts;
+		int tCountOfSelectedBankPoolCerts;
+		
+		tCountOfSelectedBankCerts = bank.countBuyCheckboxesSelected ();
+		tCountOfSelectedBankPoolCerts = bankPool.countBuyCheckboxesSelected ();
+		tCountBuyCheckboxesSelected = tCountOfSelectedBankCerts + tCountOfSelectedBankPoolCerts;
+
+		return tCountBuyCheckboxesSelected;
 	}
 
 	public boolean marketHasTokenFor (ShareCompany aShareCompany) {
