@@ -731,7 +731,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tGameManager = auctionRound.getGameManager ();
 
 		tParValues = tGameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox<> ();
+		parValuesCombo = new JComboBox<String> ();
 		tParValueSize = new Dimension (75, 20);
 		parValuesCombo.setPreferredSize (tParValueSize);
 		parValuesCombo.setMaximumSize (tParValueSize);
