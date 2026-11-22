@@ -767,7 +767,8 @@ public class JGameClient extends XMLFrame implements XMLSaveGameI {
 		gameActivityScrollPane.setAutoscrolls (true);
 		gameActivityScrollPane.setMinimumSize (new Dimension (0, 50));
 
-		gameSplitPane = new JSplitPane (JSplitPane.VERTICAL_SPLIT, fullGameInfoPanel, chatTextScrollPane);
+		gameSplitPane = new JSplitPane (JSplitPane.VERTICAL_SPLIT, true, fullGameInfoPanel, 
+							chatTextScrollPane);
 
 		playerList = new JList<NetworkPlayer> (networkPlayers.getPlayerList ());
 		playerList.setFocusable (false);

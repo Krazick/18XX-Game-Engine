@@ -474,8 +474,8 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	}
 
 	private void showDescriptionAndVariants (int aIndex) {
-		Dimension tVSPPreferredSize;
-		Dimension tGIPPreferredSize;
+//		Dimension tVSPPreferredSize;
+//		Dimension tGIPPreferredSize;
 		
 		if (descAndVariantsJPanel == GUI.NO_PANEL) {
 			descAndVariantsJPanel = new JPanel ();
@@ -484,8 +484,8 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		descAndVariantsJPanel.removeAll ();
 		variantsScrollPane = new JScrollPane (descAndVariantsJPanel);
 		
-		tVSPPreferredSize = new Dimension (500, 350);
-		variantsScrollPane.setPreferredSize (tVSPPreferredSize);
+//		tVSPPreferredSize = new Dimension (500, 350);
+//		variantsScrollPane.setPreferredSize (tVSPPreferredSize);
 		variantsScrollPane.setMinimumSize (new Dimension (0, 100));
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == GUI.NO_LABEL) {
@@ -501,8 +501,8 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		gameInfoJPanel.removeAll ();
 		gameInfoJPanel.add (variantsScrollPane);
 		
-		tGIPPreferredSize = new Dimension (510, 350);
-		gameInfoJPanel.setPreferredSize (tGIPPreferredSize);
+//		tGIPPreferredSize = new Dimension (510, 350);
+//		gameInfoJPanel.setPreferredSize (tGIPPreferredSize);
 		gameInfoJPanel.setMinimumSize (new Dimension (0, 100));
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
