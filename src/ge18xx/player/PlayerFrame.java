@@ -252,7 +252,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return tBuyBidLabel;
 	}
 	
-	private void updateBankJPanel (GameManager aGameManager) {
+	public void updateBankJPanel (GameManager aGameManager) {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
@@ -562,6 +562,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 	
+	public void updatePlayerInfo () {
+		GameManager tGameManager;
+		
+		tGameManager = (GameManager) getGameManager ();
+		updatePlayerInfo (tGameManager);
+	}
+	
 	public void updatePlayerInfo (GameManager aGameManager) {
 		updatePanelBorder ();
 		setCashLabel ();
@@ -814,11 +821,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			}
 		}
 		if (tNormalBuy) {
-			updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
+			updateBuyBidButton (tStocksToBuy, tPrivateToBidOn, aCostToBuy);
 		}
 	}
 
-	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
+	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn, int aCostToBuy) {
 		int tCountSelectedCosToBuy;
 		int tCountSelectedCosToBid;
 		int tCountSharesToBuy;
@@ -840,7 +847,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					tCertificate = player.getSelectedCertificateToBuy ();
 					if (tCertificate != Certificate.NO_CERTIFICATE) {
 						if (tCertificate.canBuyMultiple ()) {
-
 							buyBidButton.setEnabled (aStocksToBuy);
 							buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
 							buyBidButton.setText (Player.BUY_LABEL);
@@ -855,13 +861,16 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					} else {
 						buyBidButton.setEnabled (aStocksToBuy);
 						buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
-						buyBidButton.setText (Player.BUY_LABEL);
+						tBuyBidLabel = Player.BUY_LABEL + " " + tCountSharesToBuy + " Shares for " + 
+										Bank.formatCash (aCostToBuy);
+						buyBidButton.setText (tBuyBidLabel);
 						enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 					}
 				} else {
 					buyBidButton.setEnabled (aStocksToBuy);
 					buyBidButton.setToolTipText (CERTIFICATE_SELECTED_FOR_BUY);
-					buyBidButton.setText (Player.BUY_LABEL);
+					tBuyBidLabel = Player.BUY_LABEL + " for " + Bank.formatCash (aCostToBuy);
+					buyBidButton.setText (tBuyBidLabel);
 					enableSelectedButton (CERTIFICATE_SELECTED_FOR_BUY);
 				}
 			}
