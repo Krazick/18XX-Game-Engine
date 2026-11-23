@@ -338,6 +338,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		String tActorName;
 		Bank tBank;
 		GameManager tGameManager;
+		ItemListener tAllItemListeners [] = actorsCombo.getItemListeners ();
 		
 		tGameManager = (GameManager) gameEngineManager;
 		tPlayerManager = tGameManager.getPlayerManager ();
@@ -387,6 +388,11 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 		tBank = tGameManager.getBank ();
 		actorsCombo.addItem (tBank.getName ());
+		
+		for (ItemListener tItemListener : tAllItemListeners) {
+			actorsCombo.removeItemListener (tItemListener);
+		}
+
 		actorsCombo.addItemListener (this);
 	}
 

@@ -169,6 +169,7 @@ public class Train extends Coupon implements Comparable<Object> {
 	public JPanel buildTrainInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
 			String aActionToolTip) {
 		JPanel tTrainInfoPanel;
+		ItemListener tAllItemListeners [];
 
 		tTrainInfoPanel = buildCouponInfoPanel (isBorrowed ());
 		if (aActionLabel != GUI.NULL_STRING) {
@@ -179,6 +180,11 @@ public class Train extends Coupon implements Comparable<Object> {
 				} else {
 					actionCheckbox.setText (aActionLabel);
 				}
+				tAllItemListeners = actionCheckbox.getItemListeners ();
+				for (ItemListener tItemListener : tAllItemListeners) {
+					actionCheckbox.removeItemListener (tItemListener);
+				}
+
 				actionCheckbox.addItemListener (aItemListener);
 				actionCheckbox.setEnabled (aActionEnabled);
 				actionCheckbox.setToolTipText (aActionToolTip);
