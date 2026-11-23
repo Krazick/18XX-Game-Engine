@@ -716,8 +716,6 @@ public class Certificate implements Comparable<Certificate> {
 			ItemListener aItemListener) {
 		ItemListener tAllItemListeners [] = checkBox.getItemListeners ();
 		
-		System.out.println ("For Checkboxes there are " + tAllItemListeners.length);
-		
 		for (ItemListener tItemListener : tAllItemListeners) {
 			checkBox.removeItemListener (tItemListener);
 		}
