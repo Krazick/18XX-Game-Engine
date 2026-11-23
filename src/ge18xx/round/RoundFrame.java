@@ -258,16 +258,19 @@ public class RoundFrame extends XMLFrame {
 		PhaseInfo tCurrentPhaseInfo;
 		String tPhaseInfoName;
 		String tPhaseInfoText;
+		String tRounds;
 
 		tPhaseManager = roundManager.getPhaseManager ();
 		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
 
 		if (tCurrentPhaseInfo == PhaseInfo.NO_PHASE_INFO) {
 			tPhaseInfoName = "NONE SPECIFIED";
+			tRounds = GUI.EMPTY_STRING;
 		} else {
 			tPhaseInfoName = tCurrentPhaseInfo.getFullName ();
+			tRounds = " (" + tCurrentPhaseInfo.getOperatingRoundsCount () + " ORs)";
 		}
-		tPhaseInfoText = "Current Game Phase is " + tPhaseInfoName;
+		tPhaseInfoText = "Current Game Phase is " + tPhaseInfoName + tRounds;
 		if (phaseLabel == GUI.NO_LABEL) {
 			phaseLabel = new JLabel (tPhaseInfoText);
 		} else {
