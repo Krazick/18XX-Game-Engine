@@ -110,13 +110,13 @@ public class LoggerLookup implements StrLookup {
 	
 	public void writeToSimpleLogger (String aLogData) {
 		if (logFileWriter != null) {
-		try {
-			logFileWriter.append (aLogData + GUI.NEWLINE);
-			logFileWriter.flush ();
-		} catch (IOException eIOException) {
-			System.err.println ("Failed to append to logFileWriter");
-			eIOException.printStackTrace();
-		}
+			try {
+				logFileWriter.append (aLogData + GUI.NEWLINE);
+				logFileWriter.flush ();
+			} catch (IOException eIOException) {
+				System.err.println ("Failed to append to logFileWriter");
+				eIOException.printStackTrace();
+			}
 		}
 	}
 	
