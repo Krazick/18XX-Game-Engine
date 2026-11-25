@@ -62,9 +62,10 @@ public class GameSupportHandler {
 		ServerHandler tServerHandler;
 		boolean tWaitForResponse;
 
-//		tWaitForResponse = true;
-//		holdRequestTillReady ();
-//		setWaitingForResponse (tWaitForResponse);
+		// These 3 lines were disabled - Don't recall why I did that.
+		tWaitForResponse = true;
+		holdRequestTillReady ();
+		setWaitingForResponse (tWaitForResponse);
 		tServerHandler = jGameClient.getServerHandler ();
 		tWaitForResponse = tServerHandler.sendGameSupport (aRequest);
 		setWaitingForResponse (tWaitForResponse);
