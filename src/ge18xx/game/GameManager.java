@@ -4061,7 +4061,7 @@ public class GameManager extends GameEngineManager implements NetworkGameSupport
 	public void fillAuditFrame (String aActorName) {
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
-
+	
 	public void showChatClient () {
 		if (networkJGameClient != JGameClient.NO_JGAME_CLIENT) {
 			networkJGameClient.setVisible (true);

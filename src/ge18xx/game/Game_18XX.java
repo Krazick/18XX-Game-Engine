@@ -93,13 +93,14 @@ public class Game_18XX extends XMLFrame {
 	// Game18XX Specific Menu Actions
 	protected Action showMapAction;
 	protected Action showMarketAction;
-	protected Action showCitiesAction;
-	protected Action showPrivatesAction;
 	protected Action showTileTrayAction;
-	protected Action showMinorCompaniesAction;
+	protected Action showPlayerFrameAction;
+//	protected Action showCitiesAction;
+//	protected Action showPrivatesAction;
+//	protected Action showMinorCompaniesAction;
+//	protected Action showShareCompaniesAction;
 	protected Action showChatClientAction;
 	protected Action showRoundFrameAction;
-	protected Action showShareCompaniesAction;
 	protected Action showAuditFrameAction;
 	protected Action showChecksumAuditFrameAction;
 	protected Action showFormationFrameAction;
@@ -592,9 +593,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = 0;
 		tMenuIndex = addGameMenu (tMenuIndex, showMapAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showMarketAction);
-		tMenuIndex = addGameMenu (tMenuIndex, showCitiesAction);
-		tMenuIndex = addGameMenu (tMenuIndex, showPrivatesAction);
-		tMenuIndex = addGameMenu (tMenuIndex, showShareCompaniesAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showPlayerFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
@@ -634,13 +633,9 @@ public class Game_18XX extends XMLFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_M, aShortcutKeyMask));
 		showMarketAction = new showMarketActionClass (resourceBundle.getString ("showMarketItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_K, aShortcutKeyMask));
-		showCitiesAction = new showCitiesActionClass (resourceBundle.getString ("showCitiesItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_L, aShortcutKeyMask));
 		showTileTrayAction = new showTileTrayActionClass (resourceBundle.getString ("showTileTrayItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_T, aShortcutKeyMask));
-		showPrivatesAction = new showPrivatesActionClass (resourceBundle.getString ("showPrivatesItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_P, aShortcutKeyMask));
-		showShareCompaniesAction = new showShareCompaniesActionClass (resourceBundle.getString ("showShareCompaniesItem"),
+		showPlayerFrameAction = new showPlayerFrameActionClass (resourceBundle.getString ("showPlayerFrame"),
 				null);
 		showChatClientAction = new showChatClientActionClass (resourceBundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resourceBundle.getString ("showRoundFrameItem"), null);
@@ -778,8 +773,7 @@ public class Game_18XX extends XMLFrame {
 	public void enableGameMenuItems () {
 		int tMenuItemIndex;
 		int tMenuItemCount;
-		String tMinorMenuText = resourceBundle.getString ("showMinorsItem");
-		String tPrivateMenuText = resourceBundle.getString ("showPrivatesItem");
+		String tShowPlayerFrameText = resourceBundle.getString ("showPlayerFrame");
 		String tChatClientText = resourceBundle.getString ("showChatClientItem");
 		String tResendLastActionsText = resourceBundle.getString ("resendLastActions");
 		String tShowFormationFrameText = resourceBundle.getString ("showFormationFrameItem");
@@ -790,18 +784,8 @@ public class Game_18XX extends XMLFrame {
 		tMenuItemCount = gameMenuItems.length;
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			tMenuText = gameMenuItems [tMenuItemIndex].getText ();
-			if (tMenuText.equals (tMinorMenuText)) {
-				if (gameManager.getCountOfMinors () > 0) {
-					tEnableMenuItem = true;
-				} else {
-					tEnableMenuItem = false;
-				}
-			} else if (tMenuText.equals (tPrivateMenuText)) {
-				if (gameManager.getCountOfPrivates () > 0) {
-					tEnableMenuItem = true;
-				} else {
-					tEnableMenuItem = false;
-				}
+			if (tMenuText.equals (tShowPlayerFrameText)) {
+				tEnableMenuItem = true;
 			} else if (tMenuText.equals (tChatClientText)) {
 				if (gameManager.isNetworkGame ()) {
 					tEnableMenuItem = true;
@@ -943,20 +927,6 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public class showCitiesActionClass extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public showCitiesActionClass (String text, KeyStroke shortcut) {
-			super (text);
-			putValue (ACCELERATOR_KEY, shortcut);
-		}
-
-		@Override
-		public void actionPerformed (ActionEvent e) {
-			gameManager.showCities ();
-		}
-	}
-
 	public class showTileTrayActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -971,45 +941,17 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public class showPrivatesActionClass extends AbstractAction {
+	public class showPlayerFrameActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
-		public showPrivatesActionClass (String text, KeyStroke shortcut) {
+		public showPlayerFrameActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-
+	
 		@Override
 		public void actionPerformed (ActionEvent e) {
-			gameManager.showPrivateCompanies ();
-		}
-	}
-
-	public class showMinorsActionClass extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public showMinorsActionClass (String text, KeyStroke shortcut) {
-			super (text);
-			putValue (ACCELERATOR_KEY, shortcut);
-		}
-
-		@Override
-		public void actionPerformed (ActionEvent e) {
-			gameManager.showMinorCompanies ();
-		}
-	}
-
-	public class showShareCompaniesActionClass extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public showShareCompaniesActionClass (String text, KeyStroke shortcut) {
-			super (text);
-			putValue (ACCELERATOR_KEY, shortcut);
-		}
-
-		@Override
-		public void actionPerformed (ActionEvent e) {
-			gameManager.showShareCompanies ();
+			gameManager.bringPlayerFrameToFront ();
 		}
 	}
 

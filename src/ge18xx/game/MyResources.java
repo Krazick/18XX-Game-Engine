@@ -27,15 +27,16 @@ public class MyResources extends ListResourceBundle {
 			{ "clearItem", "Clear" }, { "selectAllItem", "Select All" }, { "gameMenu", "Game" },
 			
 			// Game Specific Resources
-			{ "MenuItemCount", "14"},
+			{ "MenuItemCount", "12"},
 			{ "message", "18xx Game Engine" },
 			{ "showMapItem", "Show Map" },
 			{ "showMarketItem", "Show Market" },
-			{ "showCitiesItem", "Show City List" },
+			{ "showPlayerFrame", "Show Player Frame" },
+//			{ "showCitiesItem", "Show City List" },
 			{ "showTileTrayItem", "Show Tile Tray" },
-			{ "showPrivatesItem", "Show Privates List" },
-			{ "showMinorsItem", "Show Minor Companies List" },
-			{ "showShareCompaniesItem", "Show Share Companies List" },
+//			{ "showPrivatesItem", "Show Privates List" },
+//			{ "showMinorsItem", "Show Minor Companies List" },
+//			{ "showShareCompaniesItem", "Show Share Companies List" },
 			{ "showRoundFrameItem", "Show Round Frame" },
 			{ "showAuditFrameItem", "Show Audit Frame" },
 			{ "showChecksumAuditFrameItem", "Show Checksum Audit Frame" },
@@ -51,5 +52,5 @@ public class MyResources extends ListResourceBundle {
 			{ "GameSetXMLFile", "18xx Games.xml" },
 			{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
 			{ "GameSetURLFile", "18xx-Games.xml" },
-			{ "version", "0.8.14.0 Beta" } };
+			{ "version", "0.8.14.1 Beta" } };
 }
